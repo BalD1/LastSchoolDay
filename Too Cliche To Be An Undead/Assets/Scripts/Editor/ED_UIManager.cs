@@ -21,10 +21,12 @@ public class ED_UIManager : Editor
         showDefaultInspector = EditorGUILayout.Toggle("Show Default Inspector", showDefaultInspector);
         if (showDefaultInspector)
         {
+            ReadOnlyDraws.EditorScriptDraw(typeof(ED_UIManager), this);
             base.OnInspectorGUI();
             return;
         }
 
+        ReadOnlyDraws.EditorScriptDraw(typeof(ED_UIManager), this);
         ReadOnlyDraws.ScriptDraw(typeof(UIManager), targetScript, true);
 
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))

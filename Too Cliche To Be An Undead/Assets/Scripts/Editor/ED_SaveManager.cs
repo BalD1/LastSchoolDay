@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity;
 using UnityEngine;
 using UnityEditor;
+using BalDUtilities.EditorUtils;
 
 [CustomEditor(typeof(SaveManager))]
 public class ED_SaveManager : Editor
@@ -24,6 +25,7 @@ public class ED_SaveManager : Editor
 
     public override void OnInspectorGUI()
     {
+        ReadOnlyDraws.EditorScriptDraw(typeof(ED_SaveManager), this);
         base.OnInspectorGUI();
 
         DrawDeleteKey();

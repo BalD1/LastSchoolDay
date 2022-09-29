@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using BalDUtilities.EditorUtils;
 
 [CustomEditor(typeof(SoundManager))]
 public class ED_SoundManager : Editor
@@ -12,6 +13,7 @@ public class ED_SoundManager : Editor
 
     public override void OnInspectorGUI()
     {
+        ReadOnlyDraws.EditorScriptDraw(typeof(ED_SoundManager), this);
         base.OnInspectorGUI();
 
         EditorGUILayout.Space(10);

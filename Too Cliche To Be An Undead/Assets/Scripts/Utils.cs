@@ -236,6 +236,13 @@ namespace BalDUtilities
                 EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour(mono), scriptType, false);
                 GUI.enabled = true;
             }
+
+            public static void EditorScriptDraw(Type scriptType, ScriptableObject sO, bool allowSceneObject = false)
+            {
+                GUI.enabled = false;
+                EditorGUILayout.ObjectField("Editor Script", MonoScript.FromScriptableObject(sO), scriptType, allowSceneObject);
+                GUI.enabled = true;
+            }
         }
 
         public static class MixedDraws
