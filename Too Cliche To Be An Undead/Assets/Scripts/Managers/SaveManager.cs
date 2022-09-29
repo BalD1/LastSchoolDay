@@ -33,6 +33,19 @@ public class SaveManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        InitiateKeys();
+    }
+
+    private void InitiateKeys()
+    {
+        if (!PlayerPrefs.HasKey(EnumsExtension.EnumToString(E_SaveKeys.F_MasterVolume)))
+            SetSavedKey(E_SaveKeys.F_MasterVolume, .5f);
+
+        if (!PlayerPrefs.HasKey(EnumsExtension.EnumToString(E_SaveKeys.F_MusicVolume)))
+            SetSavedKey(E_SaveKeys.F_MusicVolume, .5f);
+
+        if (!PlayerPrefs.HasKey(EnumsExtension.EnumToString(E_SaveKeys.F_SFXVolume)))
+            SetSavedKey(E_SaveKeys.F_SFXVolume, .5f);
     }
 
     /*
@@ -58,4 +71,6 @@ public class SaveManager : MonoBehaviour
     public static bool GetSavedBoolKey(E_SaveKeys key) => PlayerPrefs.GetInt(EnumsExtension.EnumToString(key)) == 1 ? true : false;
     public static float GetSavedFloatKey(E_SaveKeys key) => PlayerPrefs.GetFloat(EnumsExtension.EnumToString(key));
     public static string GetSavedStringKey(E_SaveKeys key) => PlayerPrefs.GetString(EnumsExtension.EnumToString(key));
+
+    public static void DeleteKey(E_SaveKeys key) => PlayerPrefs.DeleteKey(EnumsExtension.EnumToString(key));
 }

@@ -24,9 +24,8 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private AudioMixer mainMixer;
 
-    [Header("Groups Names")]
     public const string masterVolParam = "MasterVol";
-    public const string musicVolParam = "MasterVol";
+    public const string musicVolParam = "MusicVol";
     public const string sfxVolparam = "SFXVol";
 
     [Header("Sliders")]

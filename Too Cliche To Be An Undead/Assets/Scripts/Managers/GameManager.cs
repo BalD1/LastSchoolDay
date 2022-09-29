@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Changes the scene to <paramref name="newScene"/>
+    /// Changes the scene to <paramref name="newScene"/>.
     /// </summary>
     /// <param name="newScene"></param>
     public static void ChangeScene(E_ScenesNames newScene, bool async = false)
