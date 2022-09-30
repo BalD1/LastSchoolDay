@@ -20,7 +20,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] private EventSystem eventSystem;
 
     [SerializeField] private Button firstSelectedButton_MainMenu;
+    [SerializeField] private Button firstSelectedButton_Pause;
     [SerializeField] private Slider firstSelectedButton_Options;
+
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject mainMenu_mainPanel;
+
+    private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
+    public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
+
+#if UNITY_EDITOR
+    [SerializeField] private List<GameObject> EDITOR_openMenusQueues;
+#endif
 
     private GameObject lastSelected;
 
@@ -34,9 +45,11 @@ public class UIManager : MonoBehaviour
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) SelectButton("MainMenu");
     }
 
-    /// <summary>
-    /// Handles the selection of buttons on menu changes. <paramref name="context"/> is used to decided which button should be selected.
-    /// </summary>
+    /// <summary> <para>
+    /// Handles the selection of buttons on menu changes. <paramref name="context"/> is used to decided which button should be selected. 
+    /// </para> <para>
+    /// <paramref name="context"/> Should be formated like "Context"
+    /// </para> </summary>
     /// <param name="context"></param>
     public void SelectButton(string context)
     {
@@ -52,8 +65,14 @@ public class UIManager : MonoBehaviour
                 firstSelectedButton_Options?.Select();
                 break;
 
+            case "Pause":
+                Debug.Log(firstSelectedButton_Pause);
+                firstSelectedButton_Pause?.Select();
+                break;
+
             case "Last":
-                eventSystem.SetSelectedGameObject(lastSelected);
+                if (lastSelected != null)
+                    eventSystem.SetSelectedGameObject(lastSelected);
                 break;
 
             default:
@@ -79,6 +98,8 @@ public class UIManager : MonoBehaviour
                 break;
 
             case GameManager.E_GameState.Pause:
+                OpenMenuInQueue(pauseMenu);
+                SelectButton("Pause");
                 break;
 
             case GameManager.E_GameState.GameOver:
@@ -89,4 +110,46 @@ public class UIManager : MonoBehaviour
                 break;
         }
     }
+
+    public void OpenMenuInQueue(GameObject newMenu)
+    {
+        newMenu.SetActive(true);
+        openMenusQueues.Push(newMenu);
+    }
+    public void CloseYoungerMenu()
+    {
+        if (openMenusQueues.Count > 0)
+            openMenusQueues.Pop().SetActive(false);
+
+        if (openMenusQueues.Count > 0)
+            openMenusQueues.Peek().SetActive(true);
+        else
+        {
+            switch (GameManager.Instance.GameState)
+            {
+                case GameManager.E_GameState.Pause:
+                    GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+                    break;
+
+                case GameManager.E_GameState.MainMenu:
+                    mainMenu_mainPanel.SetActive(true);
+                    break;
+            }
+        }
+
+        SelectButton("Last");
+    }
+
+#if UNITY_EDITOR
+
+    public void EDITOR_PopulateInspectorOpenedMenus()
+    {
+        EDITOR_openMenusQueues.Clear();
+        foreach (var item in openMenusQueues)
+        {
+            EDITOR_openMenusQueues.Add(item);
+        }
+    }
+
+#endif
 }

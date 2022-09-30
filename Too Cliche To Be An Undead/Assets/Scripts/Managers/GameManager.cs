@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
         get => gameState;
         set
         {
+            gameState = value;
+
             ProcessStateChange(value);
 
             if (UIManager.Instance)
@@ -48,12 +50,15 @@ public class GameManager : MonoBehaviour
                 break;
 
             case E_GameState.InGame:
+                Time.timeScale = 1;
                 break;
 
             case E_GameState.Pause:
+                Time.timeScale = 0;
                 break;
 
             case E_GameState.GameOver:
+                Time.timeScale = 0;
                 break;
 
             default:
@@ -77,6 +82,33 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        InitState();
+    }
+
+    private void InitState()
+    {
+        if (CompareCurrentScene(E_ScenesNames.MainMenu)) GameState = E_GameState.MainMenu;
+        else if (CompareCurrentScene(E_ScenesNames.MainScene)) GameState = E_GameState.InGame;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) HandlePause();
+    }
+
+    public void HandlePause()
+    {
+        if (GameState.Equals(E_GameState.InGame))
+        {
+            GameState = E_GameState.Pause;
+            return;
+        }
+
+        UIManager.Instance.CloseYoungerMenu();
+    }
+
     /// <summary> <para>
     /// Returns true if the current scene is <paramref name="sceneName"/>. </para>
     /// <para> Uses <seealso cref="BalDUtilities.Misc.EnumsExtension"/> from <seealso cref="BalDUtilities.Misc"/>
@@ -96,14 +128,17 @@ public class GameManager : MonoBehaviour
     /// Changes the scene to <paramref name="newScene"/>.
     /// </summary>
     /// <param name="newScene"></param>
-    public static void ChangeScene(E_ScenesNames newScene, bool async = false)
+    public static void ChangeScene(E_ScenesNames newScene, bool allowReload = false, bool async = false)
     {
         string sceneName = EnumsExtension.EnumToString(newScene);
 
-        if (CompareCurrentScene(sceneName))
+        if (!allowReload)
         {
-            Debug.LogError(sceneName + " is already the current scene.");
-            return;
+            if (CompareCurrentScene(sceneName))
+            {
+                Debug.LogError(sceneName + " is already the current scene.");
+                return;
+            }
         }
 
         if (async) SceneManager.LoadSceneAsync(sceneName);
