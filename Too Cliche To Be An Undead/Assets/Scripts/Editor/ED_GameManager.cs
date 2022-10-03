@@ -44,12 +44,26 @@ public class ED_GameManager : Editor
 
     private void DrawGeneralInspector()
     {
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("General", EditorStyles.boldLabel);
+
         if (Application.isPlaying && GameManager.Instance)
             currentState = GameManager.Instance.GameState;
 
         GUI.enabled = false;
         EditorGUILayout.TextField("Current GameState", EnumsExtension.EnumToString(currentState));
         GUI.enabled = true;
+
+        EditorGUILayout.BeginHorizontal();                                          // S Hori 1
+
+        GameManager.gameTimeSpeed = EditorGUILayout.FloatField("Gametime Speed", GameManager.gameTimeSpeed);
+        EditorAssetsHolder.IconWithSize icon = EditorAssetsHolder.Instance.GetIconData(EditorAssetsHolder.E_IconNames.Back);
+        if (GUILayout.Button(icon.image, GUILayout.MaxWidth(icon.maxWidth), GUILayout.MaxHeight(icon.maxHeight)))
+        {
+            GameManager.gameTimeSpeed = 1;
+        }
+
+        EditorGUILayout.EndHorizontal();                                            // E Hori 1
     }
 
     private void DrawMainMenuInspector()

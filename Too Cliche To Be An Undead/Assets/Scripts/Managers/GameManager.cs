@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
         MainMenu,
         InGame,
         Pause,
+        Win,
         GameOver
     }
 
@@ -57,6 +58,10 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 0;
                 break;
 
+            case E_GameState.Win:
+                Time.timeScale = 0;
+                break;
+
             case E_GameState.GameOver:
                 Time.timeScale = 0;
                 break;
@@ -76,6 +81,8 @@ public class GameManager : MonoBehaviour
         T_flo,
         T_qua
     }
+
+    public static float gameTimeSpeed = 1f;
 
     private void Awake()
     {
@@ -108,6 +115,8 @@ public class GameManager : MonoBehaviour
 
         UIManager.Instance.CloseYoungerMenu();
     }
+
+    #region Scenes
 
     /// <summary> <para>
     /// Returns true if the current scene is <paramref name="sceneName"/>. </para>
@@ -144,4 +153,6 @@ public class GameManager : MonoBehaviour
         if (async) SceneManager.LoadSceneAsync(sceneName);
         else SceneManager.LoadScene(sceneName);
     }
+
+    #endregion
 }

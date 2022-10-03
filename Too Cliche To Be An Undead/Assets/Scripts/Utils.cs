@@ -343,6 +343,38 @@ namespace BalDUtilities
                 Array.Resize(ref array, newSize);
             }
         }
+
+        public static class OpenWindow
+        {
+            private const string _inspectorWindowTypeName = "UnityEditor.InspectorWindow";
+            private const string _browserWindowTypeName = "UnityEditor.ProjectBrowser";
+            private const string _hierarchyWindowTypeName = "UnityEditor.SceneHierarchyWindow";
+            private const string _gameViewWindowTypeName = "UnityEditor.GameView";
+            private const string _consoleViewWindowTypeName = "UnityEditor.ConsoleWindow";
+            private const string _sceneWindowTypeName = "UnityEditor.SceneWindow";
+
+            public static void OpenCurrentInspectorInNewWindow(bool locked) => OpenInNewWindow(_inspectorWindowTypeName, locked);
+            public static void OpenCurrentBrowserInNewWindow(bool locked) => OpenInNewWindow(_browserWindowTypeName, locked);
+            public static void OpenCurrentHierarchyInNewWindow(bool locked) => OpenInNewWindow(_hierarchyWindowTypeName, locked);
+            public static void OpenCurrentGameViewInNewWindow() => OpenInNewWindow(_gameViewWindowTypeName);
+            public static void OpenCurrentConsoleInNewWindow() => OpenInNewWindow(_consoleViewWindowTypeName);
+            public static void OpenCurrentSceneInNewWindow() => OpenInNewWindow(_sceneWindowTypeName);
+
+            public static void OpenInNewWindow(string windowTypeName)
+            {
+                var inspectorWindowType = typeof(Editor).Assembly.GetType(windowTypeName);
+
+                System.Reflection.MethodInfo method = typeof(EditorWindow).GetMethod(nameof(EditorWindow.CreateWindow), new[] { typeof(Type[]) });
+                System.Reflection.MethodInfo generic = method.MakeGenericMethod(inspectorWindowType);
+
+                generic.Invoke(null, new object[] { new Type[] { } });
+            }
+            public static void OpenInNewWindow(string windowTypeName, bool locked)
+            {
+                OpenInNewWindow(windowTypeName);
+                ActiveEditorTracker.sharedTracker.isLocked = locked;
+            }
+        }
     }
 #endif
 

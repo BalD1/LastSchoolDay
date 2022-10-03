@@ -102,6 +102,9 @@ public class UIManager : MonoBehaviour
                 SelectButton("Pause");
                 break;
 
+            case GameManager.E_GameState.Win:
+                break;
+
             case GameManager.E_GameState.GameOver:
                 break;
 
