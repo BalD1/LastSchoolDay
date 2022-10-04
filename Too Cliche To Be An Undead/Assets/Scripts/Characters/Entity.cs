@@ -21,7 +21,7 @@ public abstract class Entity : MonoBehaviour
     public SCRPT_EntityStats GetStats { get => stats; }
 
     [SerializeField] [ReadOnly] protected float currentHP;
-    public float CurrentHP;
+    public float CurrentHP { get => currentHP; }
 
 
 
@@ -40,20 +40,24 @@ public abstract class Entity : MonoBehaviour
 
     }
 
-    public void OnTakeDamages(float amount)
+    public void OnTakeDamages(float amount, bool isCrit = false)
     {
+        if (isCrit) amount *= 1.5f;
+
         currentHP -= amount;
 
         if (currentHP <= 0) OnDeath();
     }
-    public void OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam)
+    public void OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false)
     {
         if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return;
-        OnTakeDamages(amount);
+        OnTakeDamages(amount, isCrit);
     }
 
-    public void OnHeal(float amount)
+    public void OnHeal(float amount, bool isCrit = false)
     {
+        if (isCrit) amount *= 1.5f;
+
         currentHP += amount;
     }
 

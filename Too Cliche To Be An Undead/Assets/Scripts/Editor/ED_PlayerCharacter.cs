@@ -14,8 +14,10 @@ public class ED_PlayerCharacter : Editor
 
     private bool showStats;
 
-    private float damagesAmount;
-    private float healAmount;
+    private float damagesAmount = 50;
+    private bool critDamages;
+    private float healAmount = 50;
+    private bool critHeal;
 
     private void OnEnable()
     {
@@ -105,17 +107,19 @@ public class ED_PlayerCharacter : Editor
 
         EditorGUILayout.BeginHorizontal();
 
-        if (GUILayout.Button("Inflict Damages")) 
-            targetScript.OnTakeDamages(damagesAmount);
-        damagesAmount = EditorGUILayout.FloatField(damagesAmount);
+        if (GUILayout.Button("Damage", GUILayout.MaxWidth(70))) 
+            targetScript.OnTakeDamages(damagesAmount, critDamages);
+        damagesAmount = EditorGUILayout.FloatField(damagesAmount, GUILayout.MaxWidth(200));
+        critDamages = EditorGUILayout.Toggle(critDamages);
 
         EditorGUILayout.EndVertical();
 
         EditorGUILayout.BeginHorizontal();
 
-        if (GUILayout.Button("Heal"))
-            targetScript.OnHeal(healAmount);
-        healAmount = EditorGUILayout.FloatField(healAmount);
+        if (GUILayout.Button("Heal", GUILayout.MaxWidth(70)))
+            targetScript.OnHeal(healAmount, critHeal);
+        healAmount = EditorGUILayout.FloatField(healAmount, GUILayout.MaxWidth(200));
+        critHeal = EditorGUILayout.Toggle(critHeal);
 
         EditorGUILayout.EndHorizontal();
 
