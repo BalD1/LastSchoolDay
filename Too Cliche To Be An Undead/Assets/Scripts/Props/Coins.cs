@@ -8,8 +8,6 @@ public class Coins : MonoBehaviour
     private float dist;
     private float stepp;
     public float drawdistance = 3;
-    private Rigidbody2D rigidBody2D;
-    private BoxCollider2D boxCollider;
     public AnimationCurve animationCurve;
 
     // Start is called before the first frame update
@@ -39,11 +37,6 @@ public class Coins : MonoBehaviour
         }
         
 
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
