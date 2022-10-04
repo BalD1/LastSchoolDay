@@ -14,6 +14,9 @@ public class ED_PlayerCharacter : Editor
 
     private bool showStats;
 
+    private float damagesAmount;
+    private float healAmount;
+
     private void OnEnable()
     {
         targetScript = (PlayerCharacter)target;
@@ -35,6 +38,7 @@ public class ED_PlayerCharacter : Editor
 
         DrawComponents();
         DrawStats();
+        DrawMisc();
     }
 
     private void DrawComponents()
@@ -56,8 +60,13 @@ public class ED_PlayerCharacter : Editor
     {
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Stats", EditorStyles.boldLabel);
+
         SerializedProperty stats = serializedObject.FindProperty("stats");
         EditorGUILayout.PropertyField(stats);
+
+        GUI.enabled = false;
+
+        EditorGUILayout.LabelField("Current HP : " + targetScript.CurrentHP + " / " + targetScript.GetStats.MaxHP + "(" + targetScript.CurrentHP / targetScript.GetStats.MaxHP * 100 + "%)");
 
         GUIStyle style = new GUIStyle(EditorStyles.foldout);
         style.fixedWidth = 0;
@@ -69,7 +78,6 @@ public class ED_PlayerCharacter : Editor
         {
             SCRPT_EntityStats playerStats = targetScript.GetStats;
 
-            GUI.enabled = false;
             EditorGUI.indentLevel++;
             EditorGUILayout.BeginVertical("GroupBox");
 
@@ -85,7 +93,31 @@ public class ED_PlayerCharacter : Editor
 
             EditorGUILayout.EndHorizontal();
             EditorGUI.indentLevel--;
-            GUI.enabled = true;
         }
+
+        GUI.enabled = true;
+    }
+
+    private void DrawMisc()
+    {
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Misc", EditorStyles.boldLabel);
+
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Inflict Damages")) 
+            targetScript.OnTakeDamages(damagesAmount);
+        damagesAmount = EditorGUILayout.FloatField(damagesAmount);
+
+        EditorGUILayout.EndVertical();
+
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Heal"))
+            targetScript.OnHeal(healAmount);
+        healAmount = EditorGUILayout.FloatField(healAmount);
+
+        EditorGUILayout.EndHorizontal();
+
     }
 }
