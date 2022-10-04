@@ -14,6 +14,11 @@ public class ED_PlayerCharacter : Editor
 
     private bool showStats;
 
+    private float damagesAmount = 50;
+    private bool critDamages;
+    private float healAmount = 50;
+    private bool critHeal;
+
     private void OnEnable()
     {
         targetScript = (PlayerCharacter)target;
@@ -35,6 +40,7 @@ public class ED_PlayerCharacter : Editor
 
         DrawComponents();
         DrawStats();
+        DrawMisc();
     }
 
     private void DrawComponents()
@@ -56,8 +62,13 @@ public class ED_PlayerCharacter : Editor
     {
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Stats", EditorStyles.boldLabel);
+
         SerializedProperty stats = serializedObject.FindProperty("stats");
         EditorGUILayout.PropertyField(stats);
+
+        GUI.enabled = false;
+
+        EditorGUILayout.LabelField("Current HP : " + targetScript.CurrentHP + " / " + targetScript.GetStats.MaxHP + "(" + targetScript.CurrentHP / targetScript.GetStats.MaxHP * 100 + "%)");
 
         GUIStyle style = new GUIStyle(EditorStyles.foldout);
         style.fixedWidth = 0;
@@ -69,7 +80,6 @@ public class ED_PlayerCharacter : Editor
         {
             SCRPT_EntityStats playerStats = targetScript.GetStats;
 
-            GUI.enabled = false;
             EditorGUI.indentLevel++;
             EditorGUILayout.BeginVertical("GroupBox");
 
@@ -85,7 +95,33 @@ public class ED_PlayerCharacter : Editor
 
             EditorGUILayout.EndHorizontal();
             EditorGUI.indentLevel--;
-            GUI.enabled = true;
         }
+
+        GUI.enabled = true;
+    }
+
+    private void DrawMisc()
+    {
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Misc", EditorStyles.boldLabel);
+
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Damage", GUILayout.MaxWidth(70))) 
+            targetScript.OnTakeDamages(damagesAmount, critDamages);
+        damagesAmount = EditorGUILayout.FloatField(damagesAmount, GUILayout.MaxWidth(200));
+        critDamages = EditorGUILayout.Toggle(critDamages);
+
+        EditorGUILayout.EndVertical();
+
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Heal", GUILayout.MaxWidth(70)))
+            targetScript.OnHeal(healAmount, critHeal);
+        healAmount = EditorGUILayout.FloatField(healAmount, GUILayout.MaxWidth(200));
+        critHeal = EditorGUILayout.Toggle(critHeal);
+
+        EditorGUILayout.EndHorizontal();
+
     }
 }

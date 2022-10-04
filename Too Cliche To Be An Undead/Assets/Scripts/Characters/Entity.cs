@@ -20,11 +20,14 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] protected SCRPT_EntityStats stats;
     public SCRPT_EntityStats GetStats { get => stats; }
 
+    [SerializeField] [ReadOnly] protected float currentHP;
+    public float CurrentHP { get => currentHP; }
+
 
 
     protected virtual void Start()
     {
-
+        currentHP = GetStats.MaxHP;
     }
     
     protected virtual void Update()
@@ -35,6 +38,32 @@ public abstract class Entity : MonoBehaviour
     protected virtual void FixedUpdate()
     {
 
+    }
+
+    public void OnTakeDamages(float amount, bool isCrit = false)
+    {
+        if (isCrit) amount *= 1.5f;
+
+        currentHP -= amount;
+
+        if (currentHP <= 0) OnDeath();
+    }
+    public void OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false)
+    {
+        if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return;
+        OnTakeDamages(amount, isCrit);
+    }
+
+    public void OnHeal(float amount, bool isCrit = false)
+    {
+        if (isCrit) amount *= 1.5f;
+
+        currentHP += amount;
+    }
+
+    protected void OnDeath()
+    {
+        Debug.Log(this.gameObject.name + " is dead lol", this.gameObject);
     }
 
     public bool RollCrit() => Random.Range(0, 100) >= GetStats.CritChances ? true : false;
