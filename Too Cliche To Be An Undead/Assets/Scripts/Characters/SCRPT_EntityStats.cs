@@ -22,7 +22,7 @@ public class SCRPT_EntityStats : ScriptableObject
         Neutral,
     }
 
-    public string EntityName { get => name; }
+    public string EntityType { get => name; }
     public float MaxHP { get => maxHP; }
     public float BaseDamages { get => baseDamages; }
     public float AttackRange { get => attackRange; }
@@ -39,8 +39,16 @@ public class SCRPT_EntityStats : ScriptableObject
 
     public void Log(GameObject owner = null)
     {
+        string col = GetMarkdownColor();
+
+        Debug.LogFormat("Entity of type <b>\"{0}\"</b> : MaxHP = {1}       Speed = {2}       Team = <color={3}>{4}</color>", entityName, maxHP, speed, col, team, owner);
+    }
+
+    public string GetMarkdownColor()
+    {
         string col = "white";
-        switch(team)
+
+        switch (team)
         {
             case E_Team.Players:
                 col = "blue";
@@ -51,8 +59,10 @@ public class SCRPT_EntityStats : ScriptableObject
                 break;
 
             case E_Team.Neutral:
+                col = "grey";
                 break;
         }
-        Debug.LogFormat("Entity of type <b>\"{0}\"</b> : MaxHP = {1}       Speed = {2}       Team = <color={3}>{4}</color>", entityName, maxHP, speed, col, team, owner);
+
+        return col;
     }
 }
