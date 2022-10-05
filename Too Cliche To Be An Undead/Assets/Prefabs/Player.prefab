@@ -121,6 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8823656354733599273}
   - component: {fileID: 8823656354733599271}
+  - component: {fileID: 5207945969965588748}
   - component: {fileID: 8823656354733599272}
   - component: {fileID: 8823656354733599270}
   m_Layer: 6
@@ -163,8 +164,21 @@ MonoBehaviour:
   hitMaterial: {fileID: 0}
   animator: {fileID: 0}
   stats: {fileID: 11400000, guid: 641691dcbebbce04793993d719e9f9fe, type: 2}
-  currentHP: 1600
-  CurrentHP: 0
+  currentHP: 100
+  stateManager: {fileID: 5207945969965588748}
+--- !u!114 &5207945969965588748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823656354733599274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f035ed668889a4418fc1f3ed988c68c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 8823656354733599271}
 --- !u!50 &8823656354733599272
 Rigidbody2D:
   serializedVersion: 4

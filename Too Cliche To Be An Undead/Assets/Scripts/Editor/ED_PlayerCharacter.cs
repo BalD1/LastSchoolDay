@@ -11,13 +11,24 @@ public class ED_PlayerCharacter : Editor
     private PlayerCharacter targetScript;
 
     private bool showDefaultInspector;
+    private bool showComponents = true;
+    private bool showState = true;
+    private bool showStats = true;
+    private bool showMisc = true;
 
-    private bool showStats;
+    private bool showSrptStats;
 
     private float damagesAmount = 50;
     private bool critDamages;
     private float healAmount = 50;
     private bool critHeal;
+
+    private enum E_PlayerStates
+    {
+        Idle,
+        Moving,
+    }
+    private E_PlayerStates stateToForce;
 
     private void OnEnable()
     {
@@ -39,12 +50,21 @@ public class ED_PlayerCharacter : Editor
         ReadOnlyDraws.ScriptDraw(typeof(PlayerCharacter), targetScript, true);
 
         DrawComponents();
+        DrawState();
         DrawStats();
         DrawMisc();
+
+        serializedObject.ApplyModifiedProperties();
     }
 
     private void DrawComponents()
     {
+        EditorGUILayout.Space(5);
+        if (GUILayout.Button("Components", ButtonToLabelStyle())) showComponents = !showComponents;
+        if (!showComponents) return;
+
+        EditorGUILayout.BeginVertical("GroupBox");
+
         SerializedProperty rb = serializedObject.FindProperty("rb");
         EditorGUILayout.PropertyField(rb);
 
@@ -56,12 +76,55 @@ public class ED_PlayerCharacter : Editor
 
         SerializedProperty animator = serializedObject.FindProperty("animator");
         EditorGUILayout.PropertyField(animator);
+
+        EditorGUILayout.EndVertical();
+    }
+
+    private void DrawState()
+    {
+        EditorGUILayout.Space(5);
+
+        if (GUILayout.Button("State", ButtonToLabelStyle())) showState = !showState;
+        if (!showState) return;
+
+        EditorGUILayout.BeginVertical("GroupBox");
+
+        SerializedProperty stateManager = serializedObject.FindProperty("stateManager");
+        EditorGUILayout.PropertyField(stateManager);
+
+        EditorGUILayout.LabelField("Current State", targetScript.StateManager.ToString());
+
+
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Force new state", GUILayout.MaxWidth(150)))
+        {
+            FSM_Player_Manager playerManager = targetScript.StateManager;
+            switch (stateToForce)
+            {
+                case E_PlayerStates.Idle:
+                    playerManager.SwitchState(playerManager.idleState);
+                    break;
+
+                case E_PlayerStates.Moving:
+                    playerManager.SwitchState(playerManager.movingState);
+                    break;
+            }
+        }
+        stateToForce = (E_PlayerStates)EditorGUILayout.EnumPopup(stateToForce, GUILayout.MaxWidth(100));
+
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.EndVertical();
     }
 
     private void DrawStats()
     {
-        EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("Stats", EditorStyles.boldLabel);
+        EditorGUILayout.Space(5);
+
+        if (GUILayout.Button("Stats", ButtonToLabelStyle())) showStats = !showStats;
+        if (!showStats) return;
+
+        EditorGUILayout.BeginVertical("GroupBox");
 
         SerializedProperty stats = serializedObject.FindProperty("stats");
         EditorGUILayout.PropertyField(stats);
@@ -73,10 +136,10 @@ public class ED_PlayerCharacter : Editor
         GUIStyle style = new GUIStyle(EditorStyles.foldout);
         style.fixedWidth = 0;
         EditorGUI.indentLevel++;
-        showStats = EditorGUILayout.Foldout(showStats, "", style);
+        showSrptStats = EditorGUILayout.Foldout(showSrptStats, "", style);
         EditorGUI.indentLevel--;
 
-        if (showStats)
+        if (showSrptStats)
         {
             SCRPT_EntityStats playerStats = targetScript.GetStats;
 
@@ -98,16 +161,22 @@ public class ED_PlayerCharacter : Editor
         }
 
         GUI.enabled = true;
+
+        EditorGUILayout.EndVertical();
     }
 
     private void DrawMisc()
     {
-        EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("Misc", EditorStyles.boldLabel);
+        EditorGUILayout.Space(5);
+
+        if (GUILayout.Button("Misc", ButtonToLabelStyle())) showMisc = !showMisc;
+        if (!showMisc) return;
+
+        EditorGUILayout.BeginVertical("GroupBox");
 
         EditorGUILayout.BeginHorizontal();
 
-        if (GUILayout.Button("Damage", GUILayout.MaxWidth(70))) 
+        if (GUILayout.Button("Damage", GUILayout.MaxWidth(70)))
             targetScript.OnTakeDamages(damagesAmount, critDamages);
         damagesAmount = EditorGUILayout.FloatField(damagesAmount, GUILayout.MaxWidth(200));
         critDamages = EditorGUILayout.Toggle(critDamages);
@@ -123,5 +192,25 @@ public class ED_PlayerCharacter : Editor
 
         EditorGUILayout.EndHorizontal();
 
+        GUI.enabled = false;
+        EditorGUILayout.Space(5);
+        EditorGUILayout.Vector2Field("Input Velocity", targetScript.Velocity);
+        EditorGUILayout.Vector2Field("RB Velocity", targetScript.GetRb.velocity);
+        GUI.enabled = true;
+
+        EditorGUILayout.EndVertical();
+    }
+
+    private GUIStyle ButtonToLabelStyle()
+    {
+        var s = new GUIStyle();
+        var b = s.border;
+        b.left = 0;
+        b.top = 0;
+        b.right = 0;
+        b.bottom = 0;
+        s.fontStyle = FontStyle.Bold;
+        s.normal.textColor = Color.white;
+        return s;
     }
 }

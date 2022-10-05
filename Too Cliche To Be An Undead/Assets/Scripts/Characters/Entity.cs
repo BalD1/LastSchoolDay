@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
-    [Header("Components")]
     [SerializeField] protected Rigidbody2D rb;
     public Rigidbody2D GetRb { get => rb; }
 
@@ -29,7 +28,7 @@ public abstract class Entity : MonoBehaviour
     {
         currentHP = GetStats.MaxHP;
     }
-    
+
     protected virtual void Update()
     {
 
