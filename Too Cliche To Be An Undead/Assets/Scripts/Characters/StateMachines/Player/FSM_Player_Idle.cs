@@ -23,6 +23,7 @@ public class FSM_Player_Idle : FSM_Base<FSM_Player_Manager>
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
+        // Si la vélocité du personnage n'est pas à 0, on le passe en Moving
         if (stateManager.Owner.GetRb.velocity != Vector2.zero ||
             stateManager.Owner.Velocity != Vector2.zero)
         {

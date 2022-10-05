@@ -49,7 +49,9 @@ public abstract class Entity : MonoBehaviour
     }
     public void OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false)
     {
+        // si la team de l'attaquant est la même que la nôtre, on ne subit pas de dégâts
         if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return;
+
         OnTakeDamages(amount, isCrit);
     }
 

@@ -23,9 +23,8 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
+        // Si la velocité du personnage est à 0, on le passe en Idle
         if (stateManager.Owner.Velocity.Equals(Vector2.zero))
-        {
             stateManager.SwitchState(stateManager.idleState);
-        }
     }
 }
