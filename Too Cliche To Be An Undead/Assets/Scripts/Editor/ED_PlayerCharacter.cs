@@ -134,8 +134,11 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty source = serializedObject.FindProperty("source");
         EditorGUILayout.PropertyField(source);
 
+        EditorGUILayout.BeginHorizontal();
         SerializedProperty audioClips = serializedObject.FindProperty("audioClips");
         EditorGUILayout.PropertyField(audioClips);
+        if (GUILayout.Button("Edit")) PopUpAssetInspector.Create(targetScript.GetAudioClips);
+        EditorGUILayout.EndHorizontal();
 
         GUIStyle style = new GUIStyle(EditorStyles.foldout);
         style.fixedWidth = 0;
@@ -157,25 +160,31 @@ public class ED_PlayerCharacter : Editor
 
             GUI.enabled = false;
             EditorGUILayout.LabelField("Attack Clips");
+            EditorGUI.indentLevel++;
             for (int i = 0; i < playerAudio.AttackClips.Length; i++)
             {
                 EditorGUILayout.ObjectField("Clip " + i, playerAudio.AttackClips[i], typeof(AudioClip), false);
             }
+            EditorGUI.indentLevel--;
 
             EditorGUILayout.Space(3);
             EditorGUILayout.LabelField("Hurt Clips");
+            EditorGUI.indentLevel++;
             for (int i = 0; i < playerAudio.HurtClips.Length; i++)
             {
                 EditorGUILayout.ObjectField("Clip " + i, playerAudio.HurtClips[i], typeof(AudioClip), false);
             }
+            EditorGUI.indentLevel--;
 
             EditorGUILayout.Space(3);
             EditorGUILayout.LabelField("Death Clips");
+            EditorGUI.indentLevel++;
             for (int i = 0; i < playerAudio.DeathClips.Length; i++)
             {
                 EditorGUILayout.ObjectField("Clip " + i, playerAudio.DeathClips[i], typeof(AudioClip), false);
             }
             GUI.enabled = true;
+            EditorGUI.indentLevel--;
 
             EditorGUILayout.EndVertical();
             EditorGUI.indentLevel--;
@@ -193,8 +202,11 @@ public class ED_PlayerCharacter : Editor
 
         EditorGUILayout.BeginVertical("GroupBox");
 
+        EditorGUILayout.BeginHorizontal();
         SerializedProperty stats = serializedObject.FindProperty("stats");
         EditorGUILayout.PropertyField(stats);
+        if (GUILayout.Button("Edit")) PopUpAssetInspector.Create(targetScript.GetStats);
+        EditorGUILayout.EndHorizontal();
 
         GUI.enabled = false;
 
