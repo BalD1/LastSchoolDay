@@ -13,10 +13,15 @@ public class ED_PlayerCharacter : Editor
     private bool showDefaultInspector;
     private bool showComponents = true;
     private bool showState = true;
+    private bool showAudio = true;
     private bool showStats = true;
     private bool showMisc = true;
 
     private bool showSrptStats;
+    private bool showScrptAudio;
+    private bool showHurtAudio;
+    private bool showDeathAudio;
+    private bool showAttackAudio;
 
     private float damagesAmount = 50;
     private bool critDamages;
@@ -51,6 +56,7 @@ public class ED_PlayerCharacter : Editor
 
         DrawComponents();
         DrawState();
+        DrawAudio();
         DrawStats();
         DrawMisc();
 
@@ -117,6 +123,67 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.EndVertical();
     }
 
+    private void DrawAudio()
+    {
+        EditorGUILayout.Space(5);
+        if (GUILayout.Button("Audio", ButtonToLabelStyle())) showAudio = !showAudio;
+        if (!showAudio) return;
+
+        EditorGUILayout.BeginVertical("GroupBox");
+
+        SerializedProperty source = serializedObject.FindProperty("source");
+        EditorGUILayout.PropertyField(source);
+
+        SerializedProperty audioClips = serializedObject.FindProperty("audioClips");
+        EditorGUILayout.PropertyField(audioClips);
+
+        GUIStyle style = new GUIStyle(EditorStyles.foldout);
+        style.fixedWidth = 0;
+        style.hover.textColor = Color.blue;
+        EditorGUI.indentLevel++;
+        showScrptAudio = EditorGUILayout.Foldout(showScrptAudio, "", style);
+        EditorGUI.indentLevel--;
+
+        if (showScrptAudio)
+        {
+            SCRPT_EntityAudio playerAudio = targetScript.GetAudioClips;
+
+            EditorGUI.indentLevel++;
+            EditorGUILayout.BeginVertical("GroupBox");
+
+            GUIStyle labelStyle = new GUIStyle();
+            style.normal.textColor = Color.white;
+            style.fontStyle = FontStyle.Bold;
+
+            GUI.enabled = false;
+            EditorGUILayout.LabelField("Attack Clips");
+            for (int i = 0; i < playerAudio.AttackClips.Length; i++)
+            {
+                EditorGUILayout.ObjectField("Clip " + i, playerAudio.AttackClips[i], typeof(AudioClip), false);
+            }
+
+            EditorGUILayout.Space(3);
+            EditorGUILayout.LabelField("Hurt Clips");
+            for (int i = 0; i < playerAudio.HurtClips.Length; i++)
+            {
+                EditorGUILayout.ObjectField("Clip " + i, playerAudio.HurtClips[i], typeof(AudioClip), false);
+            }
+
+            EditorGUILayout.Space(3);
+            EditorGUILayout.LabelField("Death Clips");
+            for (int i = 0; i < playerAudio.DeathClips.Length; i++)
+            {
+                EditorGUILayout.ObjectField("Clip " + i, playerAudio.DeathClips[i], typeof(AudioClip), false);
+            }
+            GUI.enabled = true;
+
+            EditorGUILayout.EndVertical();
+            EditorGUI.indentLevel--;
+        }
+
+        EditorGUILayout.EndVertical();
+    }
+
     private void DrawStats()
     {
         EditorGUILayout.Space(5);
@@ -135,6 +202,7 @@ public class ED_PlayerCharacter : Editor
 
         GUIStyle style = new GUIStyle(EditorStyles.foldout);
         style.fixedWidth = 0;
+        style.hover.textColor = Color.blue;
         EditorGUI.indentLevel++;
         showSrptStats = EditorGUILayout.Foldout(showSrptStats, "", style);
         EditorGUI.indentLevel--;
@@ -156,7 +224,7 @@ public class ED_PlayerCharacter : Editor
             EditorGUILayout.IntField("Crit Chances", playerStats.CritChances);
             EditorGUILayout.TextField("Team", EnumsExtension.EnumToString(playerStats.Team));
 
-            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
             EditorGUI.indentLevel--;
         }
 

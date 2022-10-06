@@ -4,6 +4,10 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
+    //*************************************
+    //*********** COMPONENTS **************
+    //*************************************
+
     [SerializeField] protected Rigidbody2D rb;
     public Rigidbody2D GetRb { get => rb; }
 
@@ -15,6 +19,19 @@ public abstract class Entity : MonoBehaviour
 
     [SerializeField] protected Animator animator;
     public Animator GetAnimator { get => animator; }
+
+    //************************************
+    //************* AUDIO ****************
+    //************************************
+
+    [SerializeField] protected SCRPT_EntityAudio audioClips;
+    public SCRPT_EntityAudio GetAudioClips { get => audioClips; }
+
+    [SerializeField] protected AudioSource source;
+
+    //************************************
+    //************* STATS ****************
+    //************************************
 
     [SerializeField] protected SCRPT_EntityStats stats;
     public SCRPT_EntityStats GetStats { get => stats; }
@@ -45,7 +62,9 @@ public abstract class Entity : MonoBehaviour
 
         currentHP -= amount;
 
+        // Si les pv sont <= à 0, on meurt, sinon on joue un son de Hurt
         if (currentHP <= 0) OnDeath();
+        else source.PlayOneShot(audioClips.GetRandomHurtClip());
     }
     public void OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false)
     {
@@ -65,6 +84,7 @@ public abstract class Entity : MonoBehaviour
     protected void OnDeath()
     {
         Debug.Log(this.gameObject.name + " is dead lol", this.gameObject);
+        source.PlayOneShot(audioClips.GetRandomDeathClip());
     }
 
     public bool RollCrit() => Random.Range(0, 100) >= GetStats.CritChances ? true : false;
