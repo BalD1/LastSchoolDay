@@ -83,6 +83,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty animator = serializedObject.FindProperty("animator");
         EditorGUILayout.PropertyField(animator);
 
+        SerializedProperty input = serializedObject.FindProperty("input");
+        EditorGUILayout.PropertyField(input);
+
         EditorGUILayout.EndVertical();
     }
 

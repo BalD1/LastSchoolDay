@@ -10,6 +10,7 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
+        stateManager.Owner.ReadMovementsInputs();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)

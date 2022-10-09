@@ -39,7 +39,10 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] [ReadOnly] protected float currentHP;
     public float CurrentHP { get => currentHP; }
 
+    protected virtual void Awake()
+    {
 
+    }
 
     protected virtual void Start()
     {

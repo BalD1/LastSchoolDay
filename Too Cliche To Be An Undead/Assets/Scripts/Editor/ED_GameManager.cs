@@ -73,6 +73,15 @@ public class ED_GameManager : Editor
 
     private void DrawInGameInspector()
     {
+        DrawIGReferences();
+    }
 
+    private void DrawIGReferences()
+    {
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("References", EditorStyles.boldLabel);
+
+        SerializedProperty playerRef = serializedObject.FindProperty("playerRef");
+        EditorGUILayout.PropertyField(playerRef);
     }
 }

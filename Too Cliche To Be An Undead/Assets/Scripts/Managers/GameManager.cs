@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private PlayerCharacter playerRef;
+    public PlayerCharacter PlayerRef { get => playerRef; }
+
     #region GameStates
 
     public enum E_GameState
