@@ -24,10 +24,10 @@ public class DebugConsole : MonoBehaviour
     private Vector2 helpScroll;
     private Vector2 suggestionsScroll;
 
-    private List<string> suggestions;
-    private List<Rect> suggestionsRect;
+    private List<string> suggestions = new List<string>();
+    private List<Rect> suggestionsRect = new List<Rect>();
 
-    private List<object> commandList;
+    private List<object> commandList = new List<object>();
 
     public GUIStyle suggestionSkin;
     public GUIStyle greyedText;
@@ -151,6 +151,8 @@ public class DebugConsole : MonoBehaviour
         }
     }
 
+
+
     private void OnGUI()
     {
         if (!showConsole) return;
@@ -253,7 +255,7 @@ public class DebugConsole : MonoBehaviour
         if (Event.current.isKey && Event.current.keyCode == KeyCode.UpArrow)
         {
             currentSelectedSuggestion -= 1;
-            if (currentSelectedSuggestion > suggestions.Count - 1) currentSelectedSuggestion = 0;
+            if (currentSelectedSuggestion < 0) currentSelectedSuggestion = suggestions.Count - 1;
             GUI.ScrollTo(suggestionsRect[currentSelectedSuggestion]);
         }
 
