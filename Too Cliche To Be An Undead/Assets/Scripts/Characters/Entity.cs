@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour
+public class Entity : MonoBehaviour, IDamageable
 {
     //*************************************
     //*********** COMPONENTS **************
@@ -41,7 +41,6 @@ public abstract class Entity : MonoBehaviour
 
     protected virtual void Awake()
     {
-
     }
 
     protected virtual void Start()
@@ -51,33 +50,34 @@ public abstract class Entity : MonoBehaviour
 
     protected virtual void Update()
     {
-
     }
 
     protected virtual void FixedUpdate()
     {
-
     }
 
-    public void OnTakeDamages(float amount, bool isCrit = false)
+    public virtual bool OnTakeDamages(float amount, bool isCrit = false)
     {
         if (isCrit) amount *= 1.5f;
 
         currentHP -= amount;
 
+        return true;
         // Si les pv sont <= à 0, on meurt, sinon on joue un son de Hurt
-        if (currentHP <= 0) OnDeath();
-        else source.PlayOneShot(audioClips.GetRandomHurtClip());
+        //if (currentHP <= 0) OnDeath();
+        //else source.PlayOneShot(audioClips.GetRandomHurtClip());
     }
-    public void OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false)
+    public virtual bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false)
     {
         // si la team de l'attaquant est la même que la nôtre, on ne subit pas de dégâts
-        if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return;
+        if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return false;
 
         OnTakeDamages(amount, isCrit);
+
+        return true;
     }
 
-    public void OnHeal(float amount, bool isCrit = false)
+    public virtual void OnHeal(float amount, bool isCrit = false)
     {
         if (isCrit) amount *= 1.5f;
 
@@ -85,11 +85,28 @@ public abstract class Entity : MonoBehaviour
         Debug.Log(currentHP);
     }
 
-    protected void OnDeath()
+    public virtual void OnDeath(bool forceDeath = false)
     {
+        if (!forceDeath && IsAlive()) return;
+
         Debug.Log(this.gameObject.name + " iz dead lol x)", this.gameObject);
         source.PlayOneShot(audioClips.GetRandomDeathClip());
     }
 
+    public bool IsAlive() => currentHP > 0;
+
     public bool RollCrit() => Random.Range(0, 100) >= GetStats.CritChances ? true : false;
+
+    public virtual void Flip(bool lookAtLeft) => this.sprite.flipX = lookAtLeft;
+    public virtual bool IsFacingLeft() => !this.sprite.flipX;
+
+    public void LogHP()
+    {
+#if UNITY_EDITOR
+        string col = GetStats.GetMarkdownColor();
+        Debug.Log("<b><color=" + col + ">" + this.gameObject.name + "</color></b> : " + currentHP + " / " + GetStats.MaxHP + " (" + (currentHP / GetStats.MaxHP * 100) + " ) ", this.gameObject);
+#endif
+    }
+
+    public void LogEntity() => GetStats.Log(this.gameObject);
 }

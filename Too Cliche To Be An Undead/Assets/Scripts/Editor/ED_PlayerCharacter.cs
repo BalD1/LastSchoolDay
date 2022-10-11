@@ -83,6 +83,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty animator = serializedObject.FindProperty("animator");
         EditorGUILayout.PropertyField(animator);
 
+        SerializedProperty weapon = serializedObject.FindProperty("weapon");
+        EditorGUILayout.PropertyField(weapon);
+
         EditorGUILayout.EndVertical();
     }
 
@@ -253,6 +256,9 @@ public class ED_PlayerCharacter : Editor
         if (!showMisc) return;
 
         EditorGUILayout.BeginVertical("GroupBox");
+
+        SerializedProperty damageablesLayer = serializedObject.FindProperty("damageablesLayer");
+        EditorGUILayout.PropertyField(damageablesLayer);
 
         EditorGUILayout.BeginHorizontal();
 

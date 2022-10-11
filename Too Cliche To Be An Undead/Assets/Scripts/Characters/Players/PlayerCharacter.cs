@@ -12,6 +12,11 @@ public class PlayerCharacter : Entity
     [SerializeField] private FSM_Player_Manager stateManager;
     public FSM_Player_Manager StateManager { get => stateManager; }
 
+    [SerializeField] private PlayerWeapon weapon;
+
+    [SerializeField] private LayerMask damageablesLayer;
+    private Collider2D[] hitEntities;
+
     //private PlayerControls playerControls;
 
     protected override void Awake()
@@ -39,6 +44,26 @@ public class PlayerCharacter : Entity
         base.FixedUpdate();
     }
 
+    public void StartAttack()
+    {
+        hitEntities = Physics2D.OverlapCircleAll(weapon.transform.position, GetStats.AttackRange, ~damageablesLayer);
+        foreach (var item in hitEntities)
+        {
+            var damageable = item.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                if (damageable.OnTakeDamages(GetStats.BaseDamages, GetStats.Team, RollCrit()) == false)
+                    continue;
+
+                float dist = Vector2.Distance(this.transform.position, item.transform.position) / 2;
+                Vector2 dir = (item.transform.position - this.transform.position).normalized;
+                // Instantiate(hitParticles, this.transform.position + (dir * dist), Quaternion.identity);
+
+                // Screen shake
+            }
+        }
+    }
+
     public void SetInGameControlsState(bool state)
     {
         /*
@@ -61,4 +86,5 @@ public class PlayerCharacter : Entity
         velocity = Vector2.ClampMagnitude(velocity, GetStats.Speed);
         this.rb.MovePosition(this.rb.position + velocity * GetStats.Speed * Time.fixedDeltaTime);
     }
+
 }

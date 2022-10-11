@@ -39,9 +39,11 @@ public class SCRPT_EntityStats : ScriptableObject
 
     public void Log(GameObject owner = null)
     {
+#if UNITY_EDITOR
         string col = GetMarkdownColor();
 
         Debug.LogFormat("Entity of type <b>\"{0}\"</b> : MaxHP = {1}       Speed = {2}       Team = <color={3}>{4}</color>", entityName, maxHP, speed, col, team, owner);
+#endif
     }
 
     public string GetMarkdownColor()
