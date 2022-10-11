@@ -9,6 +9,7 @@ public class Coins : MonoBehaviour
     private float stepp;
     public float drawdistance = 3;
     public AnimationCurve animationCurve;
+    public ParticleSystem particle;
 
     // Start is called before the first frame update
     void Start()
@@ -40,10 +41,18 @@ public class Coins : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //spawn particle
-        //play sound
-        //add coin
-        Destroy(this.gameObject);
+        if (collision.tag == "Player")
+        {
+            //spawn particle
+            Instantiate(particle, this.transform.position, Quaternion.identity);
+
+            //play sound
+
+            //add coin
+
+
+            Destroy(this.gameObject);
+        }
     }
 
 }
