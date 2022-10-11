@@ -86,5 +86,8 @@ public class ED_GameManager : Editor
 
         SerializedProperty playerRef = serializedObject.FindProperty("playerRef");
         EditorGUILayout.PropertyField(playerRef);
+
+        SerializedProperty coinCount = serializedObject.FindProperty("coinCount");
+        EditorGUILayout.PropertyField(coinCount);
     }
 }

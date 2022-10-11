@@ -6,6 +6,7 @@ using BalDUtilities.Misc;
 
 public class GameManager : MonoBehaviour
 {
+
     private static GameManager instance;
     public static GameManager Instance
     {
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+
+    [SerializeField] private int coinCount = 0;
 
     [SerializeField] private PlayerCharacter playerRef;
     public static PlayerCharacter PlayerRef { get => Instance.playerRef; }
@@ -117,6 +120,11 @@ public class GameManager : MonoBehaviour
         }
 
         UIManager.Instance.CloseYoungerMenu();
+    }
+
+    public void addCoin(int val)
+    {
+        coinCount += val;
     }
 
     #region Scenes

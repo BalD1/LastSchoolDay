@@ -10,6 +10,7 @@ public class Coins : MonoBehaviour
     public float drawdistance = 3;
     public AnimationCurve animationCurve;
     public ParticleSystem particle;
+    public int coinValue = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +50,7 @@ public class Coins : MonoBehaviour
             //play sound
 
             //add coin
-
+            GameManager.Instance.addCoin(coinValue);
 
             Destroy(this.gameObject);
         }
