@@ -64,6 +64,7 @@ public abstract class Entity : MonoBehaviour
         if (isCrit) amount *= 1.5f;
 
         currentHP -= amount;
+        Debug.Log(currentHP);
 
         // Si les pv sont <= à 0, on meurt, sinon on joue un son de Hurt
         if (currentHP <= 0) OnDeath();
@@ -82,6 +83,7 @@ public abstract class Entity : MonoBehaviour
         if (isCrit) amount *= 1.5f;
 
         currentHP += amount;
+        Debug.Log(currentHP);
     }
 
     protected void OnDeath()

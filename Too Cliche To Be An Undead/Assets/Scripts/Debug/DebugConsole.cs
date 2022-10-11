@@ -13,12 +13,15 @@ public class DebugConsole : MonoBehaviour
     private int currentSelectedSuggestion;
 
     private DebugCommand HELP;
+
     private DebugCommand KILLSELF;
-    private DebugCommand TEST_1;
-    private DebugCommand TEST_2;
-    private DebugCommand TEST_3;
-    private DebugCommand TEST_4;
-    private DebugCommand TEST_5;
+
+    private DebugCommand<float> HEAL_SELF;
+    private DebugCommand<float, bool> HEAL_SELF_C;
+
+    private DebugCommand<float> DAMAGE_SELF;
+    private DebugCommand<float, bool> DAMAGE_SELF_C;
+
     private DebugCommand<int> TEST_INT;
 
     private Vector2 helpScroll;
@@ -48,52 +51,78 @@ public class DebugConsole : MonoBehaviour
             Debug.Log("Test");
         });
 
-        TEST_1 = new DebugCommand("TEST_1", "Shows all commands", "TEST_1", () =>
-        {
-            Debug.Log("Test 1");
-        });
-
-        TEST_2 = new DebugCommand("TEST_2", "Shows all commands", "TEST_2", () =>
-        {
-            Debug.Log("Test 2");
-        });
-
-        TEST_3 = new DebugCommand("TEST_3", "Shows all commands", "TEST_3", () =>
-        {
-            Debug.Log("Test 3");
-        });
-
-        TEST_4 = new DebugCommand("TEST_4", "Shows all commands", "TEST_4", () =>
-        {
-            Debug.Log("Test 4");
-        });
-
-        TEST_5 = new DebugCommand("TEST_5", "Shows all commands", "TEST_5", () =>
-        {
-            Debug.Log("Test 5");
-        });
-
         // INT COMMANDS
 
 
-        TEST_INT = new DebugCommand<int>("TEST_INT", "Test int DESCR", "TEST_INT <int>", (val) =>
+
+        // FLOAT COMMANDS
+
+        HEAL_SELF = new DebugCommand<float>("HEAL_SELF", "Heals the currently played character", "HEAL_SELF <float>", (val) =>
         {
-            Debug.Log("Test int" + val);
+            Debug.Log("c : " + val);
+            GameManager.PlayerRef.OnHeal(val);
+        });
+
+        HEAL_SELF_C = new DebugCommand<float, bool>("HEAL_SELF1", "Heals the currently played character", "HEAL_SELF <float> <bool>", (val_1, val_2) =>
+        {
+            GameManager.PlayerRef.OnHeal(val_1, val_2);
+        });
+
+        DAMAGE_SELF = new DebugCommand<float>("DAMAGE_SELF", "Damages the currently played character", "DAMAGE_SELF <float>", (val) =>
+        {
+            GameManager.PlayerRef.OnTakeDamages(val);
+        });
+
+        DAMAGE_SELF_C = new DebugCommand<float, bool>("DAMAGE_SELF", "Damages the currently played character", "DAMAGE_SELF <float> <bool>", (val_1, val_2) =>
+        {
+            GameManager.PlayerRef.OnTakeDamages(val_1, val_2);
         });
 
         commandList = new List<object>()
         {
             HELP,
             KILLSELF,
-            TEST_INT,
-            TEST_1,
-            TEST_2,
-            TEST_3,
-            TEST_4,
-            TEST_5,
+            HEAL_SELF,
+            HEAL_SELF_C,
+            DAMAGE_SELF,
+            DAMAGE_SELF_C,
         };
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Quote))
+            OnToggleConsole();
+        if (Input.GetKeyDown(KeyCode.Return))
+            OnReturn();
+    }
+
+    public void OnToggleConsole()
+    {
+        showConsole = !showConsole;
+
+        if (showConsole)
+        {
+            ResetField();
+            GameManager.PlayerRef.SetInGameControlsState(false);
+        }
+        else
+        {
+            GameManager.PlayerRef.SetInGameControlsState(true);
+        }
+    }
+
+    public void OnReturn()
+    {
+        // if the command field is displayed, check the input and reset
+        if (showConsole)
+        {
+            HandleInput();
+            input = "";
+        }
+    }
+
+    /*
     public void OnToggleConsole(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
@@ -103,14 +132,15 @@ public class DebugConsole : MonoBehaviour
         if (showConsole)
         {
             ResetField();
-            GameManager.Instance.PlayerRef.SetInGameControlsState(false);
+            GameManager.PlayerRef.SetInGameControlsState(false);
         }
         else
         {
-            GameManager.Instance.PlayerRef.SetInGameControlsState(true);
+            GameManager.PlayerRef.SetInGameControlsState(true);
         }
     }
-
+    */
+    /*
     public void OnReturn(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
@@ -122,6 +152,7 @@ public class DebugConsole : MonoBehaviour
             input = "";
         }
     }
+    */
 
     private void ResetField()
     {
@@ -144,14 +175,40 @@ public class DebugConsole : MonoBehaviour
             {
                 // check the command type
                 if (command as DebugCommand != null)
+                {
                     (command as DebugCommand).Invoke();
+                    return;
+                }
+
                 else if (command as DebugCommand<int> != null)
+                {
                     (command as DebugCommand<int>).Invoke(int.Parse(proprieties[1]));
+                    return;
+                }
+
+                else if (command as DebugCommand<float, bool> != null)
+                {
+                    (command as DebugCommand<float, bool>).Invoke(float.Parse(proprieties[1]), ParseBool(proprieties[2]));
+                    return;
+                }
+
+                else if (command as DebugCommand<float> != null)
+                {
+                    (command as DebugCommand<float>).Invoke(float.Parse(proprieties[1]));
+                    return;
+                }
             }
         }
     }
 
+    private bool ParseBool(string propriety)
+    {
+        bool res = false;
 
+        if (res.Equals("1") || res.Equals("TRUE")) res = true;
+
+        return res;
+    }
 
     private void OnGUI()
     {

@@ -16,6 +16,7 @@ public class EditorAssetsHolder : MonoBehaviour
             return instance;
         }
     }
+    public static bool exist => instance != null;
 
     private void OnEnable()
     {

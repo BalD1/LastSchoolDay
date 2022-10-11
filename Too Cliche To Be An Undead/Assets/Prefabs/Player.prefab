@@ -190,7 +190,7 @@ MonoBehaviour:
     m_ActionId: 036fc84f-6123-4b02-9335-7ce9988f9688
     m_ActionName: InGame/Movements[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: InGame
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -385,7 +385,6 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 641691dcbebbce04793993d719e9f9fe, type: 2}
   currentHP: 100
   stateManager: {fileID: 5207945969965588748}
-  input: {fileID: 0}
 --- !u!114 &5207945969965588748
 MonoBehaviour:
   m_ObjectHideFlags: 0

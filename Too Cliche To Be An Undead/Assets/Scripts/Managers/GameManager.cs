@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     }
 
     [SerializeField] private PlayerCharacter playerRef;
-    public PlayerCharacter PlayerRef { get => playerRef; }
+    public static PlayerCharacter PlayerRef { get => Instance.playerRef; }
 
     #region GameStates
 
