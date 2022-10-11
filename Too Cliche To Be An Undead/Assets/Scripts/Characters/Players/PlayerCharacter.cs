@@ -37,6 +37,15 @@ public class PlayerCharacter : Entity
     protected override void Update()
     {
         base.Update();
+
+        if (Input.GetKeyDown(KeyCode.U))
+            HealthPopup.Create(this.transform.position, 25, true);
+        if (Input.GetKeyDown(KeyCode.I))
+            HealthPopup.Create(this.transform.position, 25, true, true);
+        if (Input.GetKeyDown(KeyCode.O))
+            HealthPopup.Create(this.transform.position, 25, false);
+        if (Input.GetKeyDown(KeyCode.P))
+            HealthPopup.Create(this.transform.position, 25, false, true);
     }
 
     protected override void FixedUpdate()

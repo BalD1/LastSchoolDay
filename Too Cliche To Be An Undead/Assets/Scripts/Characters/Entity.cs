@@ -39,6 +39,9 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] [ReadOnly] protected float currentHP;
     public float CurrentHP { get => currentHP; }
 
+    protected float invincibility_TIMER;
+    protected float attack_TIMER;
+
     protected virtual void Awake()
     {
     }
@@ -50,6 +53,8 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected virtual void Update()
     {
+        if (invincibility_TIMER > 0) invincibility_TIMER -= Time.deltaTime;
+        if (attack_TIMER > 0) attack_TIMER -= Time.deltaTime;
     }
 
     protected virtual void FixedUpdate()
@@ -58,6 +63,8 @@ public class Entity : MonoBehaviour, IDamageable
 
     public virtual bool OnTakeDamages(float amount, bool isCrit = false)
     {
+        if (invincibility_TIMER > 0) return false;
+
         if (isCrit) amount *= 1.5f;
 
         currentHP -= amount;
@@ -69,6 +76,8 @@ public class Entity : MonoBehaviour, IDamageable
     }
     public virtual bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false)
     {
+        if (invincibility_TIMER > 0) return false;
+
         // si la team de l'attaquant est la même que la nôtre, on ne subit pas de dégâts
         if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return false;
 
@@ -104,7 +113,7 @@ public class Entity : MonoBehaviour, IDamageable
     {
 #if UNITY_EDITOR
         string col = GetStats.GetMarkdownColor();
-        Debug.Log("<b><color=" + col + ">" + this.gameObject.name + "</color></b> : " + currentHP + " / " + GetStats.MaxHP + " (" + (currentHP / GetStats.MaxHP * 100) + " ) ", this.gameObject);
+        Debug.Log("<b><color=" + col + ">" + this.gameObject.name + "</color></b> : " + currentHP + " / " + GetStats.MaxHP + " (" + (currentHP / GetStats.MaxHP * 100) + "% ) ", this.gameObject);
 #endif
     }
 
