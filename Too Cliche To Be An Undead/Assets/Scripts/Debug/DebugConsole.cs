@@ -48,7 +48,7 @@ public class DebugConsole : MonoBehaviour
 
         KILLSELF = new DebugCommand("KILL_SELF", "Kills the currently controlled character", "KILL_SELF", () =>
         {
-            Debug.Log("Test");
+            GameManager.PlayerRef.OnTakeDamages(GameManager.PlayerRef.GetStats.MaxHP);
         });
 
         // INT COMMANDS
@@ -59,11 +59,10 @@ public class DebugConsole : MonoBehaviour
 
         HEAL_SELF = new DebugCommand<float>("HEAL_SELF", "Heals the currently played character", "HEAL_SELF <float>", (val) =>
         {
-            Debug.Log("c : " + val);
             GameManager.PlayerRef.OnHeal(val);
         });
 
-        HEAL_SELF_C = new DebugCommand<float, bool>("HEAL_SELF1", "Heals the currently played character", "HEAL_SELF <float> <bool>", (val_1, val_2) =>
+        HEAL_SELF_C = new DebugCommand<float, bool>("HEAL_SELF", "Heals the currently played character", "HEAL_SELF <float> <bool>", (val_1, val_2) =>
         {
             GameManager.PlayerRef.OnHeal(val_1, val_2);
         });
@@ -115,6 +114,7 @@ public class DebugConsole : MonoBehaviour
     public void OnReturn()
     {
         // if the command field is displayed, check the input and reset
+        Debug.Log(showConsole);
         if (showConsole)
         {
             HandleInput();
@@ -171,28 +171,28 @@ public class DebugConsole : MonoBehaviour
             command = item as DebugCommandBase;
 
             // check if the input is the current checked command
-            if (input.Contains(command.CommandID))
+            if (proprieties[0].Equals(command.CommandID))
             {
                 // check the command type
-                if (command as DebugCommand != null)
+                if (command as DebugCommand != null && proprieties.Length == 1)
                 {
                     (command as DebugCommand).Invoke();
                     return;
                 }
 
-                else if (command as DebugCommand<int> != null)
+                else if (command as DebugCommand<int> != null && proprieties.Length == 2)
                 {
                     (command as DebugCommand<int>).Invoke(int.Parse(proprieties[1]));
                     return;
                 }
 
-                else if (command as DebugCommand<float, bool> != null)
+                else if (command as DebugCommand<float, bool> != null && proprieties.Length == 3)
                 {
                     (command as DebugCommand<float, bool>).Invoke(float.Parse(proprieties[1]), ParseBool(proprieties[2]));
                     return;
                 }
 
-                else if (command as DebugCommand<float> != null)
+                else if (command as DebugCommand<float> != null && proprieties.Length == 2)
                 {
                     (command as DebugCommand<float>).Invoke(float.Parse(proprieties[1]));
                     return;
@@ -205,7 +205,7 @@ public class DebugConsole : MonoBehaviour
     {
         bool res = false;
 
-        if (res.Equals("1") || res.Equals("TRUE")) res = true;
+        if (propriety.Equals("1") || propriety.Equals("TRUE")) res = true;
 
         return res;
     }
