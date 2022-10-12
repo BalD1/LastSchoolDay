@@ -3525,6 +3525,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9036201050885389503, guid: aceff475332b94643ac055a35739790b, type: 3}
+      propertyPath: normalHit.fontSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9036201050885389503, guid: aceff475332b94643ac055a35739790b, type: 3}
+      propertyPath: normalHit.lifetime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9036201050885389503, guid: aceff475332b94643ac055a35739790b, type: 3}
+      propertyPath: normalHit.speedMovements.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9036201050885389503, guid: aceff475332b94643ac055a35739790b, type: 3}
+      propertyPath: normalHit.decreaseScaleAmount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9036201050885389503, guid: aceff475332b94643ac055a35739790b, type: 3}
+      propertyPath: normalHit.increaseScaleAmount
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9036201050885389507, guid: aceff475332b94643ac055a35739790b, type: 3}
       propertyPath: m_Name
       value: DamagesPopup
