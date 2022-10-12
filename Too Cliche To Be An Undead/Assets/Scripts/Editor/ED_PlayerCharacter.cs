@@ -86,6 +86,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty weapon = serializedObject.FindProperty("weapon");
         EditorGUILayout.PropertyField(weapon);
 
+        SerializedProperty healthPopupOffset = serializedObject.FindProperty("healthPopupOffset");
+        EditorGUILayout.PropertyField(healthPopupOffset);
+
         EditorGUILayout.EndVertical();
     }
 
@@ -257,9 +260,6 @@ public class ED_PlayerCharacter : Editor
 
         EditorGUILayout.BeginVertical("GroupBox");
 
-        SerializedProperty damageablesLayer = serializedObject.FindProperty("damageablesLayer");
-        EditorGUILayout.PropertyField(damageablesLayer);
-
         EditorGUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Damage", GUILayout.MaxWidth(70)))
@@ -277,6 +277,9 @@ public class ED_PlayerCharacter : Editor
         critHeal = EditorGUILayout.Toggle(critHeal);
 
         EditorGUILayout.EndHorizontal();
+
+        SerializedProperty debugMode = serializedObject.FindProperty("debugMode");
+        EditorGUILayout.PropertyField(debugMode);
 
         GUI.enabled = false;
         EditorGUILayout.Space(5);

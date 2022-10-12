@@ -5,10 +5,15 @@ using UnityEngine;
 public class TrainingDummy : Entity
 {
     [SerializeField] private float regen_TIME;
+    private float regen_TIMER;
 
-        protected override void Update()
+    private bool isInCombat;
+
+    protected override void Update()
     {
         base.Update();
+        if (regen_TIMER > 0) regen_TIMER -= Time.deltaTime;
+        else if (regen_TIMER <= 0 && isInCombat) Regen();
     }
 
     public override bool OnTakeDamages(float amount, bool isCrit = false)
@@ -16,8 +21,8 @@ public class TrainingDummy : Entity
         bool res = base.OnTakeDamages(amount, isCrit);
         if (!res) return res;
 
-        StopCoroutine(Regen());
-        StartCoroutine(Regen());
+        regen_TIMER = regen_TIME;
+        isInCombat = true;
 
         return true;
     }
@@ -27,10 +32,9 @@ public class TrainingDummy : Entity
         this.OnHeal(this.GetStats.MaxHP);
     }
 
-    private IEnumerator Regen()
+    private void Regen()
     {
-        yield return new WaitForSeconds(regen_TIME);
-
+        isInCombat = false;
         this.OnHeal(this.GetStats.MaxHP);
     }
 

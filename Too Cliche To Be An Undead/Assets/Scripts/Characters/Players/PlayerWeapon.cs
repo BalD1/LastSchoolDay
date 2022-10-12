@@ -12,6 +12,10 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private bool debugMode;
 #endif
 
+    [SerializeField] private LayerMask damageablesLayer;
+
+    private Collider2D[] hitEntities;
+
     private Vector2 initialPosition;
     private Vector2 targetPosition;
 
@@ -32,7 +36,28 @@ public class PlayerWeapon : MonoBehaviour
 
         if (targetPosition.x < 0 && !owner.IsFacingLeft()) owner.Flip(false);
         else if (targetPosition.x > 0 && owner.IsFacingLeft()) owner.Flip(true);
+    }
 
+    public void DamageEnemiesInRange()
+    {
+        hitEntities = Physics2D.OverlapCircleAll(this.transform.position, owner.GetStats.AttackRange, damageablesLayer);
+        foreach (var item in hitEntities)
+        {
+            Debug.Log(item);
+            var damageable = item.GetComponentInParent<IDamageable>();
+            if (damageable != null)
+            {
+                Debug.Log(damageable);
+                if (damageable.OnTakeDamages(owner.GetStats.BaseDamages, owner.GetStats.Team, owner.RollCrit()) == false)
+                    continue;
+
+                float dist = Vector2.Distance(this.transform.position, item.transform.position) / 2;
+                Vector2 dir = (item.transform.position - this.transform.position).normalized;
+                // Instantiate(hitParticles, this.transform.position + (dir * dist), Quaternion.identity);
+
+                // Screen shake
+            }
+        }
     }
 
     private void OnDrawGizmos()

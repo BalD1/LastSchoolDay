@@ -20,6 +20,9 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected Animator animator;
     public Animator GetAnimator { get => animator; }
 
+    [SerializeField] protected Vector2 healthPopupOffset;
+    public Vector2 GetHealthPopupOffset { get => healthPopupOffset; }
+
     //************************************
     //************* AUDIO ****************
     //************************************
@@ -41,6 +44,14 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected float invincibility_TIMER;
     protected float attack_TIMER;
+
+    //***********************************
+    //************* MISC ****************
+    //***********************************
+
+#if UNITY_EDITOR
+    [SerializeField] protected bool debugMode;
+#endif
 
     protected virtual void Awake()
     {
@@ -69,10 +80,14 @@ public class Entity : MonoBehaviour, IDamageable
 
         currentHP -= amount;
 
-        return true;
+        HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: false, isCrit);
+
         // Si les pv sont <= à 0, on meurt, sinon on joue un son de Hurt
-        //if (currentHP <= 0) OnDeath();
-        //else source.PlayOneShot(audioClips.GetRandomHurtClip());
+
+        if (currentHP <= 0) OnDeath();
+        else source.PlayOneShot(audioClips.GetRandomHurtClip());
+
+        return true;
     }
     public virtual bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false)
     {
@@ -86,12 +101,14 @@ public class Entity : MonoBehaviour, IDamageable
         return true;
     }
 
-    public virtual void OnHeal(float amount, bool isCrit = false)
+    public virtual void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false)
     {
         if (isCrit) amount *= 1.5f;
 
-        currentHP += amount;
-        Debug.Log(currentHP);
+        if (canExceedMaxHP) currentHP += amount;
+        else currentHP = Mathf.Clamp(currentHP += amount, 0, GetStats.MaxHP);
+
+        HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: true, isCrit);
     }
 
     public virtual void OnDeath(bool forceDeath = false)
@@ -104,7 +121,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     public bool IsAlive() => currentHP > 0;
 
-    public bool RollCrit() => Random.Range(0, 100) >= GetStats.CritChances ? true : false;
+    public bool RollCrit() => Random.Range(0, 100) <= GetStats.CritChances ? true : false;
 
     public virtual void Flip(bool lookAtLeft) => this.sprite.flipX = lookAtLeft;
     public virtual bool IsFacingLeft() => !this.sprite.flipX;
@@ -118,4 +135,33 @@ public class Entity : MonoBehaviour, IDamageable
     }
 
     public void LogEntity() => GetStats.Log(this.gameObject);
+
+    private void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
+        if (!debugMode) return;
+
+        Vector2 healthBordersSize = new Vector2(0.75f, 0.5f);
+        Gizmos.DrawWireCube((Vector2)this.transform.position + healthPopupOffset, healthBordersSize);
+
+        Color c = UnityEditor.Handles.color;
+        UnityEditor.Handles.color = Color.red;
+
+        Vector2 centeredPosition = (Vector2)this.transform.position + healthPopupOffset;
+
+        var view = UnityEditor.SceneView.currentDrawingSceneView;
+        Vector3 screenPos = view.camera.WorldToScreenPoint(centeredPosition);
+
+
+        Vector2 textOffset = new Vector2(-36, 7.5f);
+        Camera cam = UnityEditor.SceneView.currentDrawingSceneView.camera;
+        if (cam)
+            centeredPosition = cam.ScreenToWorldPoint((Vector2)cam.WorldToScreenPoint(centeredPosition) + textOffset);
+
+
+        UnityEditor.Handles.Label(centeredPosition, "Health Popup");
+
+        UnityEditor.Handles.color = c;
+#endif
+    }
 }

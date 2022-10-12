@@ -47,6 +47,9 @@ MonoBehaviour:
   owner: {fileID: 8823656354733599271}
   maxRange: 2
   debugMode: 1
+  damageablesLayer:
+    serializedVersion: 2
+    m_Bits: 320
 --- !u!1 &1289302489
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,15 +483,14 @@ MonoBehaviour:
   sprite: {fileID: 8823656353503972633}
   hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 3934805327378046947}
+  healthPopupOffset: {x: 0, y: 2}
   audioClips: {fileID: 11400000, guid: 16996d08a168bd545875040b1188965a, type: 2}
   source: {fileID: 5349493360846741203}
   stats: {fileID: 11400000, guid: 641691dcbebbce04793993d719e9f9fe, type: 2}
   currentHP: 100
+  debugMode: 0
   stateManager: {fileID: 5207945969965588748}
   weapon: {fileID: 9124492574544249200}
-  damageablesLayer:
-    serializedVersion: 2
-    m_Bits: 320
 --- !u!114 &5207945969965588748
 MonoBehaviour:
   m_ObjectHideFlags: 0

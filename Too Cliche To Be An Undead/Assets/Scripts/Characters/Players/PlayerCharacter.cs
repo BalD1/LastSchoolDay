@@ -14,9 +14,6 @@ public class PlayerCharacter : Entity
 
     [SerializeField] private PlayerWeapon weapon;
 
-    [SerializeField] private LayerMask damageablesLayer;
-    private Collider2D[] hitEntities;
-
     //private PlayerControls playerControls;
 
     protected override void Awake()
@@ -38,14 +35,7 @@ public class PlayerCharacter : Entity
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.U))
-            HealthPopup.Create(this.transform.position, 25, true);
-        if (Input.GetKeyDown(KeyCode.I))
-            HealthPopup.Create(this.transform.position, 25, true, true);
-        if (Input.GetKeyDown(KeyCode.O))
-            HealthPopup.Create(this.transform.position, 25, false);
-        if (Input.GetKeyDown(KeyCode.P))
-            HealthPopup.Create(this.transform.position, 25, false, true);
+        if (Input.GetMouseButtonDown(0)) StartAttack();
     }
 
     protected override void FixedUpdate()
@@ -55,22 +45,10 @@ public class PlayerCharacter : Entity
 
     public void StartAttack()
     {
-        hitEntities = Physics2D.OverlapCircleAll(weapon.transform.position, GetStats.AttackRange, ~damageablesLayer);
-        foreach (var item in hitEntities)
-        {
-            var damageable = item.GetComponent<IDamageable>();
-            if (damageable != null)
-            {
-                if (damageable.OnTakeDamages(GetStats.BaseDamages, GetStats.Team, RollCrit()) == false)
-                    continue;
+        if (attack_TIMER > 0) return;
 
-                float dist = Vector2.Distance(this.transform.position, item.transform.position) / 2;
-                Vector2 dir = (item.transform.position - this.transform.position).normalized;
-                // Instantiate(hitParticles, this.transform.position + (dir * dist), Quaternion.identity);
-
-                // Screen shake
-            }
-        }
+        attack_TIMER = GetStats.Attack_COOLDOWN;
+        weapon.DamageEnemiesInRange();
     }
 
     public void SetInGameControlsState(bool state)
