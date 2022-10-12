@@ -43,11 +43,9 @@ public class PlayerWeapon : MonoBehaviour
         hitEntities = Physics2D.OverlapCircleAll(this.transform.position, owner.GetStats.AttackRange, damageablesLayer);
         foreach (var item in hitEntities)
         {
-            Debug.Log(item);
             var damageable = item.GetComponentInParent<IDamageable>();
             if (damageable != null)
             {
-                Debug.Log(damageable);
                 if (damageable.OnTakeDamages(owner.GetStats.BaseDamages, owner.GetStats.Team, owner.RollCrit()) == false)
                     continue;
 
