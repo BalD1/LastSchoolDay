@@ -47,7 +47,8 @@ public class ED_DebugSpawnables : Editor
         for (int i = 0; i < targetScript.spawnableByKey.Count; i++)
         {
             current = targetScript.spawnableByKey[i];
-            current.showInEditor = EditorGUILayout.Foldout(current.showInEditor, $"Element {i}");
+            string logScriptType = current.scriptType.ToString();
+            current.showInEditor = EditorGUILayout.Foldout(current.showInEditor, $"Element {i} ({logScriptType})");
 
             if (!current.showInEditor)
             {
