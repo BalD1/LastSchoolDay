@@ -13,6 +13,7 @@ public class PlayerCharacter : Entity
     public FSM_Player_Manager StateManager { get => stateManager; }
 
     [SerializeField] private PlayerWeapon weapon;
+    public PlayerWeapon Weapon { get => weapon; }
 
     //private PlayerControls playerControls;
 
@@ -45,10 +46,13 @@ public class PlayerCharacter : Entity
 
     public void StartAttack()
     {
-        if (attack_TIMER > 0) return;
+        //if (attack_TIMER > 0) return;
 
-        attack_TIMER = GetStats.Attack_COOLDOWN;
-        weapon.DamageEnemiesInRange();
+        //attack_TIMER = GetStats.Attack_COOLDOWN;
+        //weapon.DamageEnemiesInRange();
+
+        if (!weapon.prepareNextAttack) weapon.prepareNextAttack = true;
+        else weapon.inputStored = true;
     }
 
     public void SetInGameControlsState(bool state)
@@ -73,5 +77,4 @@ public class PlayerCharacter : Entity
         velocity = Vector2.ClampMagnitude(velocity, GetStats.Speed);
         this.rb.MovePosition(this.rb.position + velocity * GetStats.Speed * Time.fixedDeltaTime);
     }
-
 }

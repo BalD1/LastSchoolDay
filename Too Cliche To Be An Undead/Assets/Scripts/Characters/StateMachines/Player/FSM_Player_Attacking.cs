@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
+public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 {
     public override void EnterState(FSM_Player_Manager stateManager)
     {
@@ -10,13 +10,10 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
-        stateManager.Owner.ReadMovementsInputs();
-        stateManager.OwnerWeapon.FollowMouse();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
     {
-        stateManager.Owner.Movements();
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)
@@ -25,11 +22,7 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
-        // Si la velocité du personnage est à 0, on le passe en Idle
-        if (stateManager.Owner.Velocity.Equals(Vector2.zero))
+        if (!stateManager.Owner.Weapon.isAttacking)
             stateManager.SwitchState(stateManager.idleState);
-
-        if (stateManager.OwnerWeapon.isAttacking)
-            stateManager.SwitchState(stateManager.attackingState);
     }
 }

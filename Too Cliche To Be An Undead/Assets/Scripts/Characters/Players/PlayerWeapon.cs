@@ -6,6 +6,7 @@ using BalDUtilities.MouseUtils;
 public class PlayerWeapon : MonoBehaviour
 {
     [SerializeField] private PlayerCharacter owner;
+    public PlayerCharacter Owner { get => owner; }
     [SerializeField] private float maxRange = 2f;
 
 #if UNITY_EDITOR
@@ -14,6 +15,8 @@ public class PlayerWeapon : MonoBehaviour
 
     [SerializeField] private LayerMask damageablesLayer;
 
+    [SerializeField] private Animator effectAnimator;
+
     private Collider2D[] hitEntities;
 
     private Vector2 initialPosition;
@@ -21,10 +24,11 @@ public class PlayerWeapon : MonoBehaviour
 
     private float lookAngle;
 
-    private void Update()
-    {
-        FollowMouse();
-    }
+    public bool isAttacking;
+    public bool attackEnded;
+
+    public bool prepareNextAttack;
+    public bool inputStored;
 
     public void FollowMouse()
     {
@@ -33,6 +37,17 @@ public class PlayerWeapon : MonoBehaviour
         targetPosition = Vector2.ClampMagnitude(targetPosition, maxRange);
 
         this.transform.position = owner.transform.position + (Vector3)targetPosition;
+
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 5f;
+
+        Vector3 selfPosByCam = Camera.main.WorldToScreenPoint(Owner.transform.position);
+
+        mousePos.x -= selfPosByCam.x;
+        mousePos.y -= selfPosByCam.y;
+
+        lookAngle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+        this.transform.rotation = Quaternion.AngleAxis(lookAngle - 90, Vector3.forward);
 
         if (targetPosition.x < 0 && !owner.IsFacingLeft()) owner.Flip(false);
         else if (targetPosition.x > 0 && owner.IsFacingLeft()) owner.Flip(true);

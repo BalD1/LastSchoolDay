@@ -6,9 +6,12 @@ public class FSM_Player_Manager : FSM_ManagerBase
 {
     [SerializeField] private PlayerCharacter owner;
     public PlayerCharacter Owner { get => owner; }
+    [SerializeField] private PlayerWeapon ownerWeapon;
+    public PlayerWeapon OwnerWeapon { get => ownerWeapon; }
 
     public FSM_Player_Idle idleState = new FSM_Player_Idle();
     public FSM_Player_Moving movingState = new FSM_Player_Moving();
+    public FSM_Player_Attacking attackingState = new FSM_Player_Attacking();
 
     private FSM_Base<FSM_Player_Manager> currentState;
     public FSM_Base<FSM_Player_Manager> CurrentState { get => currentState; }
@@ -43,6 +46,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
         if (currentState == null) return "N/A";
         if (currentState.Equals(idleState)) return "Idle";
         if (currentState.Equals(movingState)) return "Moving";
+        if (currentState.Equals(attackingState)) return "Attacking";
 
         return "N/A";
     }
