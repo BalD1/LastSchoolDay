@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class PlayerCharacter : Entity
@@ -14,6 +15,9 @@ public class PlayerCharacter : Entity
 
     [SerializeField] private PlayerWeapon weapon;
     public PlayerWeapon Weapon { get => weapon; }
+
+    [SerializeField] private Image hpBar;
+    [SerializeField] private Image skillIcon;
 
     //private PlayerControls playerControls;
 
@@ -76,5 +80,24 @@ public class PlayerCharacter : Entity
     {
         velocity = Vector2.ClampMagnitude(velocity, GetStats.Speed);
         this.rb.MovePosition(this.rb.position + velocity * GetStats.Speed * Time.fixedDeltaTime);
+    }
+
+    public override bool OnTakeDamages(float amount, bool isCrit = false)
+    {
+        bool res;
+        res = base.OnTakeDamages(amount, isCrit);
+
+        if (hpBar != null)
+            hpBar.fillAmount = (currentHP / GetStats.MaxHP);
+
+        return res;
+    }
+
+    public override void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false)
+    {
+        base.OnHeal(amount, isCrit, canExceedMaxHP);
+
+        if (hpBar != null)
+            hpBar.fillAmount = (currentHP / GetStats.MaxHP);
     }
 }

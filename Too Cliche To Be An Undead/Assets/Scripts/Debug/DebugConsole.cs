@@ -258,8 +258,16 @@ public class DebugConsole : MonoBehaviour
         if (char.IsLower(input[input.Length - 1]))
             input = input.ToUpper();
 
-        if (Event.current.isKey && Event.current.keyCode == KeyCode.Return)
-            HandleInput();
+        if (Event.current.isKey)
+        {
+            if (Event.current.keyCode == KeyCode.Return)
+                HandleInput();
+            if (Event.current.keyCode == KeyCode.BackQuote)
+            {
+                showConsole = false;
+                ResetField();
+            }
+        }
 
         // draw the box
         GUI.backgroundColor = baseColor;

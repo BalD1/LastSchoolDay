@@ -92,6 +92,12 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty healthPopupOffset = serializedObject.FindProperty("healthPopupOffset");
         EditorGUILayout.PropertyField(healthPopupOffset);
 
+        SerializedProperty hpBar = serializedObject.FindProperty("hpBar");
+        EditorGUILayout.PropertyField(hpBar);
+
+        SerializedProperty skillIcon = serializedObject.FindProperty("skillIcon");
+        EditorGUILayout.PropertyField(skillIcon);
+
         EditorGUILayout.EndVertical();
     }
 
