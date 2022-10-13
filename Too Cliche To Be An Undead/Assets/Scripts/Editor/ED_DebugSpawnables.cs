@@ -85,6 +85,11 @@ public class ED_DebugSpawnables : Editor
                 current.customPrefab = (GameObject)EditorGUILayout.ObjectField("Prefab", current.customPrefab, typeof(GameObject), false);
             }
 
+            if (current.spawnPos == DebugSpawnables.E_SpawnPos.CustomPosition)
+            {
+                current.customPosition = EditorGUILayout.Vector2Field("Custom Position", current.customPosition);
+            }
+
             EditorGUI.indentLevel--;
 
             EditorGUILayout.BeginHorizontal();

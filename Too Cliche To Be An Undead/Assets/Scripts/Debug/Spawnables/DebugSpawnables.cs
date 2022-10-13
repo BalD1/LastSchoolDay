@@ -19,6 +19,7 @@ public class DebugSpawnables : MonoBehaviour
         public bool showArgsInEditor;
 
         public GameObject customPrefab;
+        public Vector2 customPosition;
     }
 
     public enum E_ScriptType
@@ -33,6 +34,7 @@ public class DebugSpawnables : MonoBehaviour
     {
         MousePosition,
         SelfPosition,
+        CustomPosition,
     }
 
     public List<SpawnableByKey> spawnableByKey;
@@ -110,9 +112,15 @@ public class DebugSpawnables : MonoBehaviour
             case E_SpawnPos.MousePosition:
                 pos = MousePosition.GetMouseWorldPosition();
                 break;
+
             case E_SpawnPos.SelfPosition:
                 pos = GameManager.PlayerRef.transform.position;
                 break;
+
+            case E_SpawnPos.CustomPosition:
+                pos = s.customPosition;
+                break;
+
             default:
                 break;
         }

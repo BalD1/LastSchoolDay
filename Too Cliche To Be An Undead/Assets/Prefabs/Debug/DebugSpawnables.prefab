@@ -50,11 +50,12 @@ MonoBehaviour:
     key: 282
     varsArgs:
     - 100
-    - False
+    - True
     - False
     showInEditor: 1
     showArgsInEditor: 1
     customPrefab: {fileID: 0}
+    customPosition: {x: 0, y: 0}
   - scriptType: 2
     spawnPos: 0
     key: 283
@@ -63,6 +64,7 @@ MonoBehaviour:
     showInEditor: 1
     showArgsInEditor: 1
     customPrefab: {fileID: 569784898369819771, guid: 5e14202c12d6120469dc0284984da077, type: 3}
+    customPosition: {x: 0, y: 0}
   - scriptType: 3
     spawnPos: 0
     key: 284
@@ -71,10 +73,4 @@ MonoBehaviour:
     showInEditor: 1
     showArgsInEditor: 1
     customPrefab: {fileID: 0}
-  - scriptType: 0
-    spawnPos: 0
-    key: 285
-    varsArgs: []
-    showInEditor: 1
-    showArgsInEditor: 0
-    customPrefab: {fileID: 0}
+    customPosition: {x: 0, y: 0}
