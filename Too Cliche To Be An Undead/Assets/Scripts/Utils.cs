@@ -219,6 +219,11 @@ namespace BalDUtilities
 
                 EditorGUILayout.EndHorizontal();
             }
+
+            public static void GameObjectField(string label, ref GameObject gO, bool allowSceneObjects = true)
+            {
+                gO = (GameObject)EditorGUILayout.ObjectField(label, gO, typeof(GameObject), allowSceneObjects);
+            }
         }
 
         public static class ReadOnlyDraws

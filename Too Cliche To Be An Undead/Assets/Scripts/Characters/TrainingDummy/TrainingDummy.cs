@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class TrainingDummy : Entity
+public class TrainingDummy : EnemyBase
 {
     [SerializeField] private TextMeshPro damagesText;
     [SerializeField] private TextMeshPro timeText;
@@ -18,6 +18,16 @@ public class TrainingDummy : Entity
     private float receivedDPS;
 
     private int receivedAttacks;
+
+    public static TrainingDummy Create(Vector2 pos, float _regen_TIME)
+    {
+        GameObject gO = Instantiate(GameAssets.Instance.TrainingDummyPF, pos, Quaternion.identity);
+
+        TrainingDummy tD = gO.GetComponent<TrainingDummy>();
+        tD.regen_TIME = _regen_TIME;
+
+        return tD;
+    }
 
     protected override void Update()
     {

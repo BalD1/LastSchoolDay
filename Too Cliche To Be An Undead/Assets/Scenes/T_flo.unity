@@ -168,23 +168,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnableByKey:
-  - scriptType: 0
+  - scriptType: 1
     spawnPos: 0
     key: 32
-    varsArgs:
-    - 50
-    - true
-    showInEditor: 1
-    showArgsInEditor: 0
-  - scriptType: 0
-    spawnPos: 0
-    key: 0
     varsArgs:
     - 100
     - False
     - False
     showInEditor: 1
     showArgsInEditor: 1
+    customPrefab: {fileID: 0}
+  - scriptType: 2
+    spawnPos: 0
+    key: 282
+    varsArgs:
+    - 5
+    showInEditor: 1
+    showArgsInEditor: 1
+    customPrefab: {fileID: 569784898369819771, guid: 5e14202c12d6120469dc0284984da077, type: 3}
+  - scriptType: 3
+    spawnPos: 0
+    key: 283
+    varsArgs:
+    - 100
+    showInEditor: 1
+    showArgsInEditor: 1
+    customPrefab: {fileID: 0}
 --- !u!1 &165098791
 GameObject:
   m_ObjectHideFlags: 0

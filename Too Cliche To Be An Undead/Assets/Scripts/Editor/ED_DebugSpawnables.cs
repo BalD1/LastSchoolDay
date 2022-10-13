@@ -32,18 +32,6 @@ public class ED_DebugSpawnables : Editor
 
         DrawSpawnableByKeyList();
 
-        // foreach trucs
-        // switch type
-        // case healthpopup
-        // draw tout
-        // args = 
-        // 1 : amount
-        // 2 : isheal
-        // ...
-        // case dummy
-        // ...
-
-
     }
 
     private void DrawSpawnableByKeyList()
@@ -75,23 +63,26 @@ public class ED_DebugSpawnables : Editor
             if (current.scriptType != pastType)
             {
                 ModifyArgsByType(ref current);
+                current = DebugSpawnables.CreateActionBasedOnType(current);
             }
 
             current.key = (KeyCode)EditorGUILayout.EnumPopup("Key", current.key);
             current.spawnPos = (DebugSpawnables.E_SpawnPos)EditorGUILayout.EnumPopup("Spawn Position", current.spawnPos);
 
-
-            EditorGUILayout.BeginVertical("GroupBox");
-
-            MixedDraws.ListFoldoutWithEditableSize<string>(ref current.showArgsInEditor, "VarArgs", current.varsArgs);
-            EditorGUILayout.Space(5);
-
-            if (current.showArgsInEditor)
+            if (current.scriptType != DebugSpawnables.E_ScriptType.Custom)
             {
-                DrawArgsByType(ref current);
-            }
+                current.showArgsInEditor = EditorGUILayout.Foldout(current.showArgsInEditor, "Var Args");
+                EditorGUILayout.Space(5);
 
-            EditorGUILayout.EndVertical();
+                if (current.showArgsInEditor)
+                {
+                    DrawArgsByType(ref current);
+                }
+            }
+            else
+            {
+                current.customPrefab = (GameObject)EditorGUILayout.ObjectField("Prefab", current.customPrefab, typeof(GameObject), false);
+            }
 
             EditorGUI.indentLevel--;
 
@@ -100,18 +91,21 @@ public class ED_DebugSpawnables : Editor
             if (GUILayout.Button("+", GUILayout.MaxWidth(20)))
             {
                 DebugSpawnables.SpawnableByKey s = new DebugSpawnables.SpawnableByKey();
-                s.varsArgs = new List<string>() { "" };
+                ModifyArgsByType(ref s);
                 targetScript.spawnableByKey.Add(s);
             }
+
+            bool deleted = false;
             if (GUILayout.Button("-", GUILayout.MaxWidth(20)))
             {
                 targetScript.spawnableByKey.RemoveAt(i);
+                deleted = true;
             }
 
             EditorGUILayout.EndHorizontal();
 
-            if (i > targetScript.spawnableByKey.Count) continue;
-            targetScript.spawnableByKey[i] = current;
+            if (!deleted)
+                targetScript.spawnableByKey[i] = current;
         }
         EditorGUI.indentLevel--;
 
@@ -123,12 +117,15 @@ public class ED_DebugSpawnables : Editor
         switch (current.scriptType)
         {
             case DebugSpawnables.E_ScriptType.HealthPopup:
-
                 current.varsArgs = new List<string>(3) { "0.0", "False", "False" };
-
                 break;
 
             case DebugSpawnables.E_ScriptType.TrainingDummy:
+                current.varsArgs = new List<string>(1) { "5.0" };
+                break;
+
+            case DebugSpawnables.E_ScriptType.Coin:
+                current.varsArgs = new List<string>(1) { "1" };
                 break;
         }
     }
@@ -156,6 +153,15 @@ public class ED_DebugSpawnables : Editor
                 break;
 
             case DebugSpawnables.E_ScriptType.TrainingDummy:
+                if (current.varsArgs[0] == "") current.varsArgs[0] = "0.0";
+                float regenTime = Convert.ToSingle(current.varsArgs[0], CultureInfo.InvariantCulture);
+                current.varsArgs[0] = Convert.ToString(EditorGUILayout.FloatField("Regen Time", regenTime));
+                break;
+
+            case DebugSpawnables.E_ScriptType.Coin:
+                if (current.varsArgs[0] == "") current.varsArgs[0] = "1";
+                int coinValue = Convert.ToInt32(current.varsArgs[0], CultureInfo.InvariantCulture);
+                current.varsArgs[0] = Convert.ToString(EditorGUILayout.IntField("Coin Value", coinValue));
                 break;
 
             default:
