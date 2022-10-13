@@ -47,7 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 8823656354733599271}
   maxRange: 2
-  debugMode: 1
+  lastAttackDamagesMultiplier: 1.5
+  debugMode: 0
   damageablesLayer:
     serializedVersion: 2
     m_Bits: 320
@@ -599,6 +600,7 @@ MonoBehaviour:
   source: {fileID: 5349493360846741203}
   stats: {fileID: 11400000, guid: 641691dcbebbce04793993d719e9f9fe, type: 2}
   currentHP: 100
+  flashOnHitTime: 0.1
   debugMode: 0
   stateManager: {fileID: 5207945969965588748}
   weapon: {fileID: 9124492574544249200}

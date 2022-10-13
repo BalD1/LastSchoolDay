@@ -23,6 +23,8 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected Vector2 healthPopupOffset;
     public Vector2 GetHealthPopupOffset { get => healthPopupOffset; }
 
+    protected Material baseMaterial;
+
     //************************************
     //************* AUDIO ****************
     //************************************
@@ -42,6 +44,8 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] [ReadOnly] protected float currentHP;
     public float CurrentHP { get => currentHP; }
 
+    [SerializeField] protected float flashOnHitTime = .1f;
+
     protected float invincibility_TIMER;
     protected float attack_TIMER;
 
@@ -55,6 +59,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected virtual void Awake()
     {
+        baseMaterial = this.sprite.material;
     }
 
     protected virtual void Start()
@@ -81,6 +86,7 @@ public class Entity : MonoBehaviour, IDamageable
         currentHP -= amount;
 
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: false, isCrit);
+        StartCoroutine(FlashOnHit());
 
         // Si les pv sont <= à 0, on meurt, sinon on joue un son de Hurt
 
@@ -125,6 +131,13 @@ public class Entity : MonoBehaviour, IDamageable
 
     public virtual void Flip(bool lookAtLeft) => this.sprite.flipX = lookAtLeft;
     public virtual bool IsFacingLeft() => !this.sprite.flipX;
+
+    protected virtual IEnumerator FlashOnHit()
+    {
+        this.sprite.material = hitMaterial;
+        yield return new WaitForSeconds(flashOnHitTime);
+        this.sprite.material = baseMaterial;
+    }
 
     public void LogHP()
     {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class SlashBehaviourBase : StateMachineBehaviour
 {
     [SerializeField] protected int attackIndex;
+    [SerializeField] protected bool isLastAttack;
     protected PlayerWeapon weapon;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -12,7 +13,7 @@ public class SlashBehaviourBase : StateMachineBehaviour
         if (weapon == null) weapon = animator.GetComponentInParent<PlayerWeapon>();
         weapon.isAttacking = true;
 
-        weapon.DamageEnemiesInRange();
+        weapon.DamageEnemiesInRange(isLastAttack);
         // Play attack sound based on attack index
     }
 

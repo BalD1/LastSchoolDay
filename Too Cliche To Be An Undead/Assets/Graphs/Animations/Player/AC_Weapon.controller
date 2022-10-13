@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackIndex: 2
+  isLastAttack: 1
 --- !u!114 &3157953196867651169
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -278,6 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackIndex: 0
+  isLastAttack: 0
 --- !u!114 &3793656215242848906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -445,6 +447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackIndex: 1
+  isLastAttack: 0
 --- !u!114 &8822401546890025404
 MonoBehaviour:
   m_ObjectHideFlags: 1

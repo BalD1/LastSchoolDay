@@ -76,8 +76,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1390826911
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1164084421
@@ -248,8 +248,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1390826911
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1402209183
@@ -535,6 +535,7 @@ MonoBehaviour:
   source: {fileID: 7646825704558209991}
   stats: {fileID: 11400000, guid: 10fc24fac3686414a815f20d9147390e, type: 2}
   currentHP: 0
+  flashOnHitTime: 0.1
   debugMode: 0
   damagesText: {fileID: 1402209183}
   timeText: {fileID: 1164084421}

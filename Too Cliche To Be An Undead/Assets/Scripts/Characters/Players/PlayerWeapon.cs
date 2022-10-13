@@ -7,7 +7,9 @@ public class PlayerWeapon : MonoBehaviour
 {
     [SerializeField] private PlayerCharacter owner;
     public PlayerCharacter Owner { get => owner; }
+
     [SerializeField] private float maxRange = 2f;
+    [SerializeField] private float lastAttackDamagesMultiplier = 1.5f;
 
 #if UNITY_EDITOR
     [SerializeField] private bool debugMode;
@@ -53,7 +55,7 @@ public class PlayerWeapon : MonoBehaviour
         else if (targetPosition.x > 0 && owner.IsFacingLeft()) owner.Flip(true);
     }
 
-    public void DamageEnemiesInRange()
+    public void DamageEnemiesInRange(bool isLastAttack)
     {
         hitEntities = Physics2D.OverlapCircleAll(this.transform.position, owner.GetStats.AttackRange, damageablesLayer);
         foreach (var item in hitEntities)
@@ -61,11 +63,16 @@ public class PlayerWeapon : MonoBehaviour
             var damageable = item.GetComponentInParent<IDamageable>();
             if (damageable != null)
             {
-                if (damageable.OnTakeDamages(owner.GetStats.BaseDamages, owner.GetStats.Team, owner.RollCrit()) == false)
+                float damages = owner.GetStats.BaseDamages;
+
+                if (isLastAttack) damages *= lastAttackDamagesMultiplier;
+
+                if (damageable.OnTakeDamages(damages, owner.GetStats.Team, owner.RollCrit()) == false)
                     continue;
 
                 float dist = Vector2.Distance(this.transform.position, item.transform.position) / 2;
                 Vector2 dir = (item.transform.position - this.transform.position).normalized;
+
                 // Instantiate(hitParticles, this.transform.position + (dir * dist), Quaternion.identity);
 
                 // Screen shake

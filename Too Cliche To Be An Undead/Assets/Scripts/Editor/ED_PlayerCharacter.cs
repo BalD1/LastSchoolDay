@@ -80,6 +80,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty hitMaterial = serializedObject.FindProperty("hitMaterial");
         EditorGUILayout.PropertyField(hitMaterial);
 
+        SerializedProperty flashOnHitTime = serializedObject.FindProperty("flashOnHitTime");
+        EditorGUILayout.PropertyField(flashOnHitTime);
+
         SerializedProperty animator = serializedObject.FindProperty("animator");
         EditorGUILayout.PropertyField(animator);
 
