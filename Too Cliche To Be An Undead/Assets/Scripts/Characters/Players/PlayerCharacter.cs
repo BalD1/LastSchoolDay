@@ -7,11 +7,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerCharacter : Entity
 {
+    #region Animator args
+
     public const string ANIMATOR_ARGS_VELOCITY = "Velocity";
     public const string ANIMATOR_ARGS_HORIZONTAL = "Horizontal";
     public const string ANIMATOR_ARGS_VERTICAL = "Vertical";
     public const string ANIMATOR_ARGS_ATTACKING = "Attacking";
     public const string ANIMATOR_ARGS_ATTACKINDEX = "AttackIndex";
+
+    #endregion
 
     private Vector2 velocity;
     public Vector2 Velocity { get => velocity; }
@@ -22,13 +26,16 @@ public class PlayerCharacter : Entity
     [SerializeField] private PlayerWeapon weapon;
     public PlayerWeapon Weapon { get => weapon; }
 
-    [SerializeField] private SkillBase skill;
-    public SkillBase Skill { get => skill; }
+    [SerializeField] private SkillHolder skillHolder;
+    public SkillHolder GetSkillHolder { get => skillHolder; }
 
     [SerializeField] private Image hpBar;
     [SerializeField] private Image skillIcon;
 
     //private PlayerControls playerControls;
+
+
+    #region A/S/U/F
 
     protected override void Awake()
     {
@@ -57,16 +64,10 @@ public class PlayerCharacter : Entity
         base.FixedUpdate();
     }
 
-    public void StartAttack()
-    {
-        //if (attack_TIMER > 0) return;
+    #endregion
 
-        //attack_TIMER = GetStats.Attack_COOLDOWN;
-        //weapon.DamageEnemiesInRange();
 
-        if (!weapon.prepareNextAttack) weapon.prepareNextAttack = true;
-        else weapon.inputStored = true;
-    }
+    #region Controls / Movements
 
     public void SetInGameControlsState(bool state)
     {
@@ -91,6 +92,21 @@ public class PlayerCharacter : Entity
         this.rb.MovePosition(this.rb.position + velocity * GetStats.Speed * Time.fixedDeltaTime);
     }
 
+    #endregion
+
+    #region Attack / Damages / Heal
+
+    public void StartAttack()
+    {
+        //if (attack_TIMER > 0) return;
+
+        //attack_TIMER = GetStats.Attack_COOLDOWN;
+        //weapon.DamageEnemiesInRange();
+
+        if (!weapon.prepareNextAttack) weapon.prepareNextAttack = true;
+        else weapon.inputStored = true;
+    }
+
     public override bool OnTakeDamages(float amount, bool isCrit = false)
     {
         bool res;
@@ -110,8 +126,22 @@ public class PlayerCharacter : Entity
             hpBar.fillAmount = (currentHP / GetStats.MaxHP);
     }
 
+    #endregion
+
+    public void SetSkillThumbnail(Sprite image) => skillIcon.sprite = image;
+    public void UpdateSkillThumbnailFill(float fill) => skillIcon.fillAmount = fill;
+
+    public void OffsetSkillHolder(float offset)
+    {
+        skillHolder.transform.localPosition += (Vector3)weapon.GetDirectionOfMouse() * offset;
+    }
+
+    #region Set animators
+
     public void SetAnimatorTrigger(string trigger) => animator.SetTrigger(trigger);
     public void SetAnimatorArgs(string args, int value) => animator.SetInteger(args, value);
     public void SetAnimatorArgs(string args, float value) => animator.SetFloat(args, value);
     public void SetAnimatorArgs(string args, bool value) => animator.SetBool(args, value);
+
+    #endregion
 }

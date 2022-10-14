@@ -57,6 +57,8 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected bool debugMode;
 #endif
 
+    #region Awake / Start / Update
+
     protected virtual void Awake()
     {
         baseMaterial = this.sprite.material;
@@ -76,6 +78,16 @@ public class Entity : MonoBehaviour, IDamageable
     protected virtual void FixedUpdate()
     {
     }
+
+    #endregion
+
+    #region Status
+
+    public virtual void Stun(float duration) { }
+
+    #endregion
+
+    #region Damages / Heal
 
     public virtual bool OnTakeDamages(float amount, bool isCrit = false)
     {
@@ -127,17 +139,22 @@ public class Entity : MonoBehaviour, IDamageable
 
     public bool IsAlive() => currentHP > 0;
 
-    public bool RollCrit() => Random.Range(0, 100) <= GetStats.CritChances ? true : false;
-
-    public virtual void Flip(bool lookAtLeft) => this.sprite.flipX = lookAtLeft;
-    public virtual bool IsFacingLeft() => !this.sprite.flipX;
-
     protected virtual IEnumerator FlashOnHit()
     {
         this.sprite.material = hitMaterial;
         yield return new WaitForSeconds(flashOnHitTime);
         this.sprite.material = baseMaterial;
     }
+
+    #endregion
+
+
+    public bool RollCrit() => Random.Range(0, 100) <= GetStats.CritChances ? true : false;
+
+    public virtual void Flip(bool lookAtLeft) => this.sprite.flipX = lookAtLeft;
+    public virtual bool IsFacingLeft() => !this.sprite.flipX;
+
+    #region Debug
 
     public void LogHP()
     {
@@ -177,4 +194,6 @@ public class Entity : MonoBehaviour, IDamageable
         UnityEditor.Handles.color = c;
 #endif
     }
+
+    #endregion
 }

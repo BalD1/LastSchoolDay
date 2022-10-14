@@ -5,8 +5,11 @@ using TMPro;
 
 public class TrainingDummy : EnemyBase
 {
+    [SerializeField] private FSM_TD_Manager stateManager;
+
     [SerializeField] private TextMeshPro damagesText;
     [SerializeField] private TextMeshPro timeText;
+    [SerializeField] private TextMeshPro statusText;
 
     [SerializeField] private float regen_TIME;
     private float regen_TIMER;
@@ -18,6 +21,10 @@ public class TrainingDummy : EnemyBase
     private float receivedDPS;
 
     private int receivedAttacks;
+
+#if UNITY_EDITOR
+    [ReadOnly] [SerializeField] private string state = "N/A";
+#endif
 
     public static TrainingDummy Create(Vector2 pos, float _regen_TIME)
     {
@@ -40,6 +47,10 @@ public class TrainingDummy : EnemyBase
             UpdateTimeText();
         }
         else if (regen_TIMER <= 0 && isInCombat) Regen();
+
+#if UNITY_EDITOR
+        if (debugMode) state = stateManager.ToString();
+#endif
     }
 
     public override bool OnTakeDamages(float amount, bool isCrit = false)
@@ -94,4 +105,14 @@ public class TrainingDummy : EnemyBase
                         "Total : " + totalReceived + "\n" +
                         "Attacks : " + receivedAttacks + "\n";
     }
+
+    public override void Stun(float duration)
+    {
+        base.Stun(duration);
+        stateManager.SwitchState(stateManager.stunState.SetDuration(duration));
+        statusText.text = "STUN";
+        statusText.enabled = true;
+    }
+
+    public void HideStatusText() => statusText.enabled = false;
 }
