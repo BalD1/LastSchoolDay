@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 {
+    public PlayerCharacter owner;
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
+        Vector2 mouseDir = stateManager.Owner.Weapon.GetDirectionOfMouse();
+
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, true);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
@@ -18,11 +25,18 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
-        if (!stateManager.Owner.Weapon.isAttacking)
+        if (!owner.Weapon.isAttacking)
             stateManager.SwitchState(stateManager.idleState);
+    }
+
+    public void NextAttack(int currentAttackIndex)
+    {
+        Debug.Log(currentAttackIndex);
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKINDEX, currentAttackIndex);
     }
 }

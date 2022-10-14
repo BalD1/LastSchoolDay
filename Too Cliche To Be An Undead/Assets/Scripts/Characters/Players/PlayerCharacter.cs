@@ -7,6 +7,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerCharacter : Entity
 {
+    public const string ANIMATOR_ARGS_VELOCITY = "Velocity";
+    public const string ANIMATOR_ARGS_HORIZONTAL = "Horizontal";
+    public const string ANIMATOR_ARGS_VERTICAL = "Vertical";
+    public const string ANIMATOR_ARGS_ATTACKING = "Attacking";
+    public const string ANIMATOR_ARGS_ATTACKINDEX = "AttackIndex";
+
     private Vector2 velocity;
     public Vector2 Velocity { get => velocity; }
 
@@ -15,6 +21,9 @@ public class PlayerCharacter : Entity
 
     [SerializeField] private PlayerWeapon weapon;
     public PlayerWeapon Weapon { get => weapon; }
+
+    [SerializeField] private SkillBase skill;
+    public SkillBase Skill { get => skill; }
 
     [SerializeField] private Image hpBar;
     [SerializeField] private Image skillIcon;
@@ -100,4 +109,9 @@ public class PlayerCharacter : Entity
         if (hpBar != null)
             hpBar.fillAmount = (currentHP / GetStats.MaxHP);
     }
+
+    public void SetAnimatorTrigger(string trigger) => animator.SetTrigger(trigger);
+    public void SetAnimatorArgs(string args, int value) => animator.SetInteger(args, value);
+    public void SetAnimatorArgs(string args, float value) => animator.SetFloat(args, value);
+    public void SetAnimatorArgs(string args, bool value) => animator.SetBool(args, value);
 }

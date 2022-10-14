@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationToPlay: AN_Slash03
+  currentAttackIndex: 3
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -293,6 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationToPlay: AN_Slash01
+  currentAttackIndex: 1
 --- !u!1101 &5594049890929191528
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -328,6 +330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationToPlay: AN_Slash02
+  currentAttackIndex: 2
 --- !u!1102 &7094782535399096135
 AnimatorState:
   serializedVersion: 6
@@ -461,6 +464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationToPlay: 
+  currentAttackIndex: 3
 --- !u!1101 &8950982599102983017
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

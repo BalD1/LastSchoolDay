@@ -18,6 +18,8 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
     protected override void Start()
     {
+        attackingState.owner = this.owner;
+        owner.Weapon.D_nextAttack += attackingState.NextAttack;
         currentState = idleState;
         currentState.EnterState(this);
     }

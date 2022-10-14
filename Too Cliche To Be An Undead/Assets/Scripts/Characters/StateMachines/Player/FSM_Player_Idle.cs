@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class FSM_Player_Idle : FSM_Base<FSM_Player_Manager>
 {
+    private PlayerCharacter owner;
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
-        stateManager.Owner.GetRb.velocity = Vector2.zero;
+        owner ??= stateManager.Owner;
+
+        owner.GetRb.velocity = Vector2.zero;
+        owner.GetAnimator.SetFloat("Velocity", 0);
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VELOCITY, 0f);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
-        stateManager.Owner.ReadMovementsInputs();
+        owner.ReadMovementsInputs();
         stateManager.OwnerWeapon.FollowMouse();
     }
 
@@ -26,8 +32,8 @@ public class FSM_Player_Idle : FSM_Base<FSM_Player_Manager>
     public override void Conditions(FSM_Player_Manager stateManager)
     {
         // Si la vélocité du personnage n'est pas à 0, on le passe en Moving
-        if (stateManager.Owner.GetRb.velocity != Vector2.zero ||
-            stateManager.Owner.Velocity != Vector2.zero)
+        if (owner.GetRb.velocity != Vector2.zero ||
+            owner.Velocity != Vector2.zero)
         {
             stateManager.SwitchState(stateManager.movingState);
         }

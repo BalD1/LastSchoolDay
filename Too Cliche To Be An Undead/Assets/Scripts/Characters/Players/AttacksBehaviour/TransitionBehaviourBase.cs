@@ -6,6 +6,7 @@ using UnityEngine.Animations;
 public class TransitionBehaviourBase : StateMachineBehaviour
 {
     [SerializeField] protected string animationToPlay;
+    [SerializeField] protected int currentAttackIndex;
     protected PlayerWeapon weapon;
     private bool switchToNextAttack;
 
@@ -20,6 +21,7 @@ public class TransitionBehaviourBase : StateMachineBehaviour
         if (weapon.prepareNextAttack || weapon.inputStored)
         {
             switchToNextAttack = true;
+            weapon.D_nextAttack?.Invoke(currentAttackIndex);
 
             if (animationToPlay != null && animationToPlay != "")
                 animator.Play(animationToPlay);

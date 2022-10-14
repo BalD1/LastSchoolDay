@@ -89,6 +89,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty weapon = serializedObject.FindProperty("weapon");
         EditorGUILayout.PropertyField(weapon);
 
+        SerializedProperty skill = serializedObject.FindProperty("skill");
+        EditorGUILayout.PropertyField(skill);
+
         SerializedProperty healthPopupOffset = serializedObject.FindProperty("healthPopupOffset");
         EditorGUILayout.PropertyField(healthPopupOffset);
 

@@ -32,6 +32,9 @@ public class PlayerWeapon : MonoBehaviour
     public bool prepareNextAttack;
     public bool inputStored;
 
+    public delegate void NextAttack(int attackIdx);
+    public NextAttack D_nextAttack;
+
     public void FollowMouse()
     {
         targetPosition.x = MousePosition.GetMouseWorldPosition().x - owner.transform.position.x;
@@ -50,9 +53,6 @@ public class PlayerWeapon : MonoBehaviour
 
         lookAngle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
         this.transform.rotation = Quaternion.AngleAxis(lookAngle - 90, Vector3.forward);
-
-        if (targetPosition.x < 0 && !owner.IsFacingLeft()) owner.Flip(false);
-        else if (targetPosition.x > 0 && owner.IsFacingLeft()) owner.Flip(true);
     }
 
     public void DamageEnemiesInRange(bool isLastAttack)
@@ -78,6 +78,16 @@ public class PlayerWeapon : MonoBehaviour
                 // Screen shake
             }
         }
+    }
+
+    public Vector2 GetDirectionOfMouse()
+    {
+        float rot = this.transform.rotation.eulerAngles.z;
+
+        if (rot > 45 && rot <= 135) return Vector2.left;           //left
+        else if (rot > 135 && rot <= 225) return Vector2.down;     //down
+        else if (rot > 225 && rot <= 315) return Vector2.right;    //right
+        else return Vector2.up;                                    //up
     }
 
     private void OnDrawGizmos()
