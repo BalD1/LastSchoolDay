@@ -10,11 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b786939fc161ac849b4addcd625792b0, type: 3}
-  m_Name: DROP_NormalZombie
+  m_Name: Test_table
   m_EditorClassIdentifier: 
   dropTable:
-  - objectToDrop: {fileID: 1955882196971672288, guid: 504ab5120f9911143901a813cd0424ac, type: 3}
+  - objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
     weight: 100
     amount: 1
-  totalWeight: 100
-  totalDrops: 1
+  - objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+    weight: 100
+    amount: 5
+  - objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+    weight: 100
+    amount: 10
+  totalWeight: 400
+  totalDrops: 4

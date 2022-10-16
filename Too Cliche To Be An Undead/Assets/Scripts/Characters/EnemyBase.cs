@@ -22,11 +22,7 @@ public abstract class EnemyBase : Entity
 
         if (dropTable != null)
         {
-            GameObject drop = dropTable.GetRandomDrop();
-            if (drop != null)
-            {
-                Instantiate(drop, transform.position, Quaternion.identity);
-            }
+            dropTable.DropRandom(this.transform.position);
         }
     }
 }
