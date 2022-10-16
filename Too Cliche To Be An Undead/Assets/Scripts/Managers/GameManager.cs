@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerCharacter playerRef;
     public static PlayerCharacter PlayerRef { get => Instance.playerRef; }
 
+    public bool hasKey;
+
     #region GameStates
 
     public enum E_GameState

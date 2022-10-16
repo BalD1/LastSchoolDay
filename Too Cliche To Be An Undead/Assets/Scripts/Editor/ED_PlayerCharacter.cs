@@ -260,6 +260,15 @@ public class ED_PlayerCharacter : Editor
 
         GUI.enabled = true;
 
+        SerializedProperty dash_COOLDOWN = serializedObject.FindProperty("dash_COOLDOWN");
+        EditorGUILayout.PropertyField(dash_COOLDOWN);
+
+        SerializedProperty dash_DURATION = serializedObject.FindProperty("dash_DURATION");
+        EditorGUILayout.PropertyField(dash_DURATION);
+        
+        SerializedProperty dashForce = serializedObject.FindProperty("dashForce");
+        EditorGUILayout.PropertyField(dashForce);
+
         EditorGUILayout.EndVertical();
     }
 

@@ -36,7 +36,6 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     public void NextAttack(int currentAttackIndex)
     {
-        Debug.Log(currentAttackIndex);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKINDEX, currentAttackIndex);
     }
 }

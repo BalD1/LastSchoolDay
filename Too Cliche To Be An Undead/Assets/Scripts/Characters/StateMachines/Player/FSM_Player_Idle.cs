@@ -40,5 +40,7 @@ public class FSM_Player_Idle : FSM_Base<FSM_Player_Manager>
 
         if (stateManager.OwnerWeapon.isAttacking)
             stateManager.SwitchState(stateManager.attackingState);
+
+        if (owner.isDashing) stateManager.SwitchState(stateManager.dashingState);
     }
 }

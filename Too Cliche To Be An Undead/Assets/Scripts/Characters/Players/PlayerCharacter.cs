@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using BalDUtilities.MouseUtils;
 
 public class PlayerCharacter : Entity
 {
@@ -29,11 +30,22 @@ public class PlayerCharacter : Entity
     [SerializeField] private SkillHolder skillHolder;
     public SkillHolder GetSkillHolder { get => skillHolder; }
 
+    [SerializeField] private float dash_COOLDOWN;
+    public float Dash_COOLDOWN { get => dash_COOLDOWN; }
+
+    [SerializeField] private float dashForce;
+    public float DashForce { get => dashForce; }
+    
+    [SerializeField] private float dash_DURATION;
+    public float Dash_DURATION { get => dash_DURATION; }
+
     [SerializeField] private Image hpBar;
     [SerializeField] private Image skillIcon;
 
-    //private PlayerControls playerControls;
+    private float dash_CD_TIMER;
+    public bool isDashing;
 
+    //private PlayerControls playerControls;
 
     #region A/S/U/F
 
@@ -57,6 +69,9 @@ public class PlayerCharacter : Entity
         base.Update();
 
         if (Input.GetMouseButtonDown(0)) StartAttack();
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dash_CD_TIMER <= 0) StartDash();
+
+        if (dash_CD_TIMER > 0) dash_CD_TIMER -= Time.deltaTime;
     }
 
     protected override void FixedUpdate()
@@ -66,8 +81,9 @@ public class PlayerCharacter : Entity
 
     #endregion
 
-
     #region Controls / Movements
+
+    public void SetVelocity(Vector2 _velocity) => velocity = _velocity;
 
     public void SetInGameControlsState(bool state)
     {
@@ -81,7 +97,6 @@ public class PlayerCharacter : Entity
     {
         //this.velocity.x = playerControls.InGame.Movements.ReadValue<Vector2>().x;
         //this.velocity.y = playerControls.InGame.Movements.ReadValue<Vector2>().y;
-
         this.velocity.x = Input.GetAxis("Horizontal");
         this.velocity.y = Input.GetAxis("Vertical");
     }
@@ -127,6 +142,12 @@ public class PlayerCharacter : Entity
     }
 
     #endregion
+
+    private void StartDash()
+    {
+        isDashing = true;
+        dash_CD_TIMER = dash_COOLDOWN;
+    }
 
     public void SetSkillThumbnail(Sprite image) => skillIcon.sprite = image;
     public void UpdateSkillThumbnailFill(float fill) => skillIcon.fillAmount = fill;

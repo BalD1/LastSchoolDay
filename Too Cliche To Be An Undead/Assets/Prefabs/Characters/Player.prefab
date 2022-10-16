@@ -915,8 +915,12 @@ MonoBehaviour:
   stateManager: {fileID: 5207945969965588748}
   weapon: {fileID: 9124492574544249200}
   skillHolder: {fileID: 426001256322179506}
+  dash_COOLDOWN: 2
+  dashForce: 30
+  dash_DURATION: 0.2
   hpBar: {fileID: 0}
   skillIcon: {fileID: 0}
+  isDashing: 0
 --- !u!114 &5207945969965588748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -951,7 +955,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &8823656354733599270
 BoxCollider2D:
   m_ObjectHideFlags: 0
