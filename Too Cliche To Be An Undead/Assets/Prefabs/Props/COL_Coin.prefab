@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 631906467031423343}
   - component: {fileID: 631906467031423342}
   - component: {fileID: -47018980758144650}
-  m_Layer: 11
+  m_Layer: 12
   m_Name: COL_Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &-47018980758144650
 CircleCollider2D:
   m_ObjectHideFlags: 0
