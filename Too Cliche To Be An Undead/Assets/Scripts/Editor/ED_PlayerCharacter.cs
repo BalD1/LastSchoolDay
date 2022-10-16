@@ -308,6 +308,12 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.Vector2Field("RB Velocity", targetScript.GetRb.velocity);
         GUI.enabled = true;
 
+        SerializedProperty money = serializedObject.FindProperty("money");
+        EditorGUILayout.PropertyField(money);
+
+        SerializedProperty playerIndex = serializedObject.FindProperty("playerIndex");
+        EditorGUILayout.PropertyField(playerIndex);
+
         EditorGUILayout.EndVertical();
     }
 

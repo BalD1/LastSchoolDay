@@ -82,6 +82,12 @@ public class ED_UIManager : Editor
         SerializedProperty pauseMenu = serializedObject.FindProperty("pauseMenu");
         EditorGUILayout.PropertyField(pauseMenu);
 
+        SerializedProperty winMenu = serializedObject.FindProperty("winMenu");
+        EditorGUILayout.PropertyField(winMenu);
+
+        SerializedProperty gameoverMenu = serializedObject.FindProperty("gameoverMenu");
+        EditorGUILayout.PropertyField(gameoverMenu);
+
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Buttons Selection", EditorStyles.boldLabel);
 
@@ -90,5 +96,11 @@ public class ED_UIManager : Editor
 
         SerializedProperty firstSelectedButton_Pause = serializedObject.FindProperty("firstSelectedButton_Pause");
         EditorGUILayout.PropertyField(firstSelectedButton_Pause);
+
+        SerializedProperty firstSelectedButton_Win = serializedObject.FindProperty("firstSelectedButton_Win");
+        EditorGUILayout.PropertyField(firstSelectedButton_Win);
+
+        SerializedProperty firstSelectedButton_Gameover = serializedObject.FindProperty("firstSelectedButton_Gameover");
+        EditorGUILayout.PropertyField(firstSelectedButton_Gameover);
     }
 }

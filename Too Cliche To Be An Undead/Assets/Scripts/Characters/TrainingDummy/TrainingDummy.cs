@@ -38,6 +38,7 @@ public class TrainingDummy : EnemyBase
 
     protected override void Update()
     {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         base.Update();
         if (regen_TIMER > 0)
         {

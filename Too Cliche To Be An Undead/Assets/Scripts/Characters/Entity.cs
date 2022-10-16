@@ -71,12 +71,15 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected virtual void Update()
     {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
+        
         if (invincibility_TIMER > 0) invincibility_TIMER -= Time.deltaTime;
         if (attack_TIMER > 0) attack_TIMER -= Time.deltaTime;
     }
 
     protected virtual void FixedUpdate()
     {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
     }
 
     #endregion

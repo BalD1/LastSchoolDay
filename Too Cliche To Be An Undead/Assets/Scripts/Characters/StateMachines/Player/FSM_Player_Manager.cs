@@ -27,6 +27,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
     protected override void Update()
     {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         currentState.UpdateState(this);
         currentState.Conditions(this);
 
@@ -34,6 +35,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
     protected override void FixedUpdate()
     {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         currentState.FixedUpdateState(this);
     }
 

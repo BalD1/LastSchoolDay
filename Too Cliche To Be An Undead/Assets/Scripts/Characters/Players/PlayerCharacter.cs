@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using BalDUtilities.MouseUtils;
+using Newtonsoft.Json.Serialization;
 
 public class PlayerCharacter : Entity
 {
@@ -45,6 +46,12 @@ public class PlayerCharacter : Entity
     private float dash_CD_TIMER;
     public bool isDashing;
 
+    [SerializeField] private int money;
+    public int Money { get => money; }
+
+    [SerializeField] private int playerIndex;
+    public int PlayerIndex { get => playerIndex; }  
+
     //private PlayerControls playerControls;
 
     #region A/S/U/F
@@ -52,7 +59,6 @@ public class PlayerCharacter : Entity
     protected override void Awake()
     {
         base.Awake();
-
         /*
         playerControls = new PlayerControls();
         playerControls.InGame.Enable();
@@ -62,10 +68,15 @@ public class PlayerCharacter : Entity
     protected override void Start()
     {
         base.Start();
+
+        GameManager.Instance._onSceneReload += OnSceneReload;
+
+        SetKeepedData();
     }
 
     protected override void Update()
     {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         base.Update();
 
         if (Input.GetMouseButtonDown(0)) StartAttack();
@@ -141,7 +152,24 @@ public class PlayerCharacter : Entity
             hpBar.fillAmount = (currentHP / GetStats.MaxHP);
     }
 
+    public override void OnDeath(bool forceDeath = false)
+    {
+        base.OnDeath(forceDeath);
+        GameManager.Instance.GameState = GameManager.E_GameState.GameOver;
+    }
+
     #endregion
+
+    public void AddMoney(int amount) => money += amount;
+    public void RemoveMoney(int amount, bool canGoInDebt)
+    {
+        if (!canGoInDebt && money < 0) return;
+
+        money -= amount;
+
+        if (!canGoInDebt && money < 0) money = 0;
+    }
+    public bool HasEnoughMoney(int price) => money > price ? true : false;
 
     private void StartDash()
     {
@@ -165,4 +193,15 @@ public class PlayerCharacter : Entity
     public void SetAnimatorArgs(string args, bool value) => animator.SetBool(args, value);
 
     #endregion
+
+    private void SetKeepedData()
+    {
+        this.playerIndex = GameManager.Instance.SetPlayerIndex(this);
+        this.money = DataKeeper.Instance.playersDataKeep[this.playerIndex].money;
+    }
+
+    private void OnSceneReload()
+    {
+        DataKeeper.Instance.playersDataKeep[this.playerIndex].money = this.money;
+    }
 }

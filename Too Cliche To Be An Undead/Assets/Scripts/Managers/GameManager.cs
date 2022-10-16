@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using BalDUtilities.Misc;
+using static GameManager;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,18 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private PlayerCharacter playerRef;
     public static PlayerCharacter PlayerRef { get => Instance.playerRef; }
+
+    [System.Serializable]
+    public class PlayersByName
+    {
+        public string playerName;
+        public PlayerCharacter playerScript;
+    }
+
+    public List<PlayersByName> playersByName;
+
+    public delegate void D_OnSceneReload();
+    public D_OnSceneReload _onSceneReload;
 
     public bool hasKey;
 
@@ -87,7 +100,7 @@ public class GameManager : MonoBehaviour
         MainMenu,
         MainScene,
         T_flo,
-        T_qua
+        Test_Kankan,
     }
 
     public static float gameTimeSpeed = 1f;
@@ -99,6 +112,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (DataKeeper.Instance.IsPlayerDataKeepSet())
+        {
+            foreach (var item in DataKeeper.Instance.playersDataKeep)
+            {
+                var p = new PlayersByName();
+                p.playerName = item.playerName;
+                playersByName.Add(p);
+            }
+        }    
         InitState();
     }
 
@@ -106,11 +128,16 @@ public class GameManager : MonoBehaviour
     {
         if (CompareCurrentScene(E_ScenesNames.MainMenu)) GameState = E_GameState.MainMenu;
         else if (CompareCurrentScene(E_ScenesNames.MainScene)) GameState = E_GameState.InGame;
+#if UNITY_EDITOR
+        else if (CompareCurrentScene(E_ScenesNames.T_flo)) GameState = E_GameState.InGame;
+        else if (CompareCurrentScene(E_ScenesNames.Test_Kankan)) GameState = E_GameState.InGame;
+#endif
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) HandlePause();
+        if (Input.GetKeyDown(KeyCode.M)) ReloadScene();
     }
 
     public void HandlePause()
@@ -127,6 +154,27 @@ public class GameManager : MonoBehaviour
     public void addCoin(int val)
     {
         coinCount += val;
+    }
+
+    
+    public int SetPlayerIndex(PlayerCharacter newPlayer)
+    {
+        foreach (var item in playersByName)
+        {
+            if (item.playerName.Equals(newPlayer.name))
+            {
+                item.playerScript = newPlayer;
+                return playersByName.IndexOf(item);
+            }
+        }
+
+        var p = new PlayersByName();
+        p.playerName = newPlayer.name;
+        p.playerScript = newPlayer;
+
+        playersByName.Add(p);
+        DataKeeper.Instance.playersDataKeep.Add(new DataKeeper.PlayerDataKeep(newPlayer.name));
+        return playersByName.Count - 1;
     }
 
     #region Scenes
@@ -165,6 +213,12 @@ public class GameManager : MonoBehaviour
 
         if (async) SceneManager.LoadSceneAsync(sceneName);
         else SceneManager.LoadScene(sceneName);
+    }
+
+    public void ReloadScene()
+    {
+        _onSceneReload?.Invoke();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     #endregion

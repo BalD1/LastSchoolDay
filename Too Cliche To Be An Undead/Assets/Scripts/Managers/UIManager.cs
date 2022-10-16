@@ -21,9 +21,13 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Button firstSelectedButton_MainMenu;
     [SerializeField] private Button firstSelectedButton_Pause;
+    [SerializeField] private Button firstSelectedButton_Win;
+    [SerializeField] private Button firstSelectedButton_Gameover;
     [SerializeField] private Slider firstSelectedButton_Options;
 
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject winMenu;
+    [SerializeField] private GameObject gameoverMenu;
     [SerializeField] private GameObject mainMenu_mainPanel;
 
     private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
@@ -66,8 +70,15 @@ public class UIManager : MonoBehaviour
                 break;
 
             case "Pause":
-                Debug.Log(firstSelectedButton_Pause);
                 firstSelectedButton_Pause?.Select();
+                break;
+
+            case "Win":
+                firstSelectedButton_Win?.Select();
+                break;
+
+            case "Gameover":
+                firstSelectedButton_Gameover?.Select();
                 break;
 
             case "Last":
@@ -103,9 +114,13 @@ public class UIManager : MonoBehaviour
                 break;
 
             case GameManager.E_GameState.Win:
+                winMenu.SetActive(true);
+                SelectButton("Win");
                 break;
 
             case GameManager.E_GameState.GameOver:
+                gameoverMenu.SetActive(true);
+                SelectButton("Gameover");
                 break;
 
             default:

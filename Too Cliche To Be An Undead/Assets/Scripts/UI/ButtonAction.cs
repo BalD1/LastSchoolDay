@@ -8,5 +8,7 @@ public class ButtonAction : MonoBehaviour
 
     public void ChangeScene(ButtonArgs_Scene buttonArgs) => GameManager.ChangeScene(buttonArgs.GetArgs);
 
+    public void ReloadScene() => GameManager.Instance.ReloadScene();
+
     public void Quit() => Application.Quit();
 }
