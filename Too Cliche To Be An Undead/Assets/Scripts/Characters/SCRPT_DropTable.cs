@@ -8,6 +8,11 @@ public class SCRPT_DropTable : ScriptableObject
     [SerializeField] private DropWithWeight[] dropTable;
     public DropWithWeight[] DropTable { get => dropTable; }
 
+#if UNITY_EDITOR
+    [HideInInspector] public float totalWeight;
+    [HideInInspector] public int totalDrops;
+#endif
+
     [System.Serializable]
     public struct DropWithWeight
     {

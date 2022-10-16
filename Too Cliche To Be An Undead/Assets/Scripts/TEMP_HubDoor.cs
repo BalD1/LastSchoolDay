@@ -14,7 +14,7 @@ public class TEMP_HubDoor : MonoBehaviour
         {
             boxCollider2D.isTrigger = false;
             spriteRenderer.color = Color.red;
-            collision.gameObject.transform.position = playerTPPos;
+            collision.gameObject.transform.parent.position = playerTPPos;
         }
     }
 
