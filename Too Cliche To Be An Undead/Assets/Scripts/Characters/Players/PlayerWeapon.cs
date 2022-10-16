@@ -92,10 +92,12 @@ public class PlayerWeapon : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         if (!debugMode || owner == null) return;
 
         Gizmos.DrawWireSphere(this.transform.position, owner.GetStats.AttackRange);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(owner.transform.position, maxRange);
+#endif
     }
 }
