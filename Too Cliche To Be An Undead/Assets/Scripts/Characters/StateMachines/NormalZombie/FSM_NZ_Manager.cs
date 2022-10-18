@@ -50,6 +50,11 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 #endif
     }
 
+    public void Movements(Vector2 goalPosition)
+    {
+        owner.GetRb.velocity = goalPosition * owner.GetStats.Speed * owner.SpeedMultiplier * Time.fixedDeltaTime;
+    }
+
     public override string ToString()
     {
         if (currentState == null) return "N/A";

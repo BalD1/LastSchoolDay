@@ -11,6 +11,12 @@ public class NormalZombie : EnemyBase
         Pathfinding.StartUpdatePath();
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        Debug.Log(this.GetRb.velocity);
+    }
+
     public override void OnDeath(bool forceDeath = false)
     {
         base.OnDeath(forceDeath);

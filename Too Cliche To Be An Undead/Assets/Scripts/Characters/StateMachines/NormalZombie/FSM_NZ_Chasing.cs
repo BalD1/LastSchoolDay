@@ -20,7 +20,7 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
     public override void FixedUpdateState(FSM_NZ_Manager stateManager)
     {
         //owner.GetRb.AddForce(owner.Pathfinding.CheckWayPoint() * owner.GetStats.Speed * owner.SpeedMultiplier * Time.fixedDeltaTime);
-        owner.GetRb.velocity = goalPosition * owner.GetStats.Speed * owner.SpeedMultiplier * Time.fixedDeltaTime;
+        stateManager.Movements(goalPosition);
     }
 
     public override void ExitState(FSM_NZ_Manager stateManager)

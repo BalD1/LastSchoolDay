@@ -58,7 +58,7 @@ public class EnemyPathfinding : MonoBehaviour
             targetPosition.y += Random.Range(-targetRandomOffset, targetRandomOffset);
         }
 
-        seeker.StartPath(owner.GetRb.position, targetPosition, OnPathComplete);
+        seeker.StartPath(this.transform.position, targetPosition, OnPathComplete);
     }
 
     private void OnPathComplete(Path p)
@@ -81,9 +81,9 @@ public class EnemyPathfinding : MonoBehaviour
         }
         else reachedEndOfPath = false;
 
-        Vector2 dir = (((Vector2)path.vectorPath[currentWaypoint] - owner.GetRb.position)).normalized;
+        Vector2 dir = (path.vectorPath[currentWaypoint] - this.transform.position).normalized;
 
-        float dist = Vector2.Distance(owner.GetRb.position, path.vectorPath[currentWaypoint]);
+        float dist = Vector2.Distance(this.transform.position, path.vectorPath[currentWaypoint]);
 
         if (dist < nextWaypointDistance) currentWaypoint++;
 
@@ -95,7 +95,7 @@ public class EnemyPathfinding : MonoBehaviour
 #if UNITY_EDITOR
         if (!debugMode) return;
 
-        Gizmos.DrawWireSphere(owner.transform.position, nextWaypointDistance); 
+        Gizmos.DrawWireSphere(this.transform.position, nextWaypointDistance); 
 #endif
     }
 

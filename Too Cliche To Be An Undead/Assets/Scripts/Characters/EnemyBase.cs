@@ -27,17 +27,26 @@ public abstract class EnemyBase : Entity
 
     public PlayerCharacter CurrentPlayerTarget { get => currentPlayerTarget; }
     public Transform CurrentTransformTarget { get => currentPlayerTarget == null ? currentTransformTarget : currentPlayerTarget.transform; }
-    public Vector2 CurrentPositionTarget { get => CurrentTransformTarget == null ? lastSeenPosition : CurrentTransformTarget.position; }
+    public Vector2 CurrentPositionTarget { get => CurrentTransformTarget == null ? storedTargetPosition : CurrentTransformTarget.position; }
 
     public List<PlayerCharacter> DetectedPlayers { get => detectedPlayers; }
-    public Vector2 lastSeenPosition;
+    public Vector2 storedTargetPosition;
+
+    private Vector2 basePosition;
+    public Vector2 BasePosition { get => basePosition; }
 
     public delegate void D_DetectedPlayer();
     public D_DetectedPlayer D_detectedPlayer;
 
     public delegate void D_LostPlayer();
     public D_LostPlayer D_lostPlayer;
-    
+
+    protected override void Awake()
+    {
+        base.Awake();
+        basePosition = this.transform.position;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -63,20 +72,24 @@ public abstract class EnemyBase : Entity
         if (detectedPlayers.Count > 0) SetTarget(detectedPlayers.Last());
         else ResetTarget();
 
-        lastSeenPosition = player.transform.position;
+        storedTargetPosition = player.transform.position;
         D_lostPlayer?.Invoke();
     }
 
-    private void SetTarget(Transform target)
+    public void SetTarget(Vector2 target)
+    {
+        storedTargetPosition = target;
+    }
+    public void SetTarget(Transform target)
     {
         currentTransformTarget = target;
     }
-    private void SetTarget(PlayerCharacter playerTarget)
+    public void SetTarget(PlayerCharacter playerTarget)
     {
         currentPlayerTarget = playerTarget;
         currentTransformTarget = playerTarget.transform;
     }
-    private void ResetTarget()
+    public void ResetTarget()
     {
         currentPlayerTarget = null;
         currentTransformTarget = null;
