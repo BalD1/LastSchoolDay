@@ -5,6 +5,10 @@ using UnityEngine;
 public abstract class EnemyBase : Entity
 {
     [SerializeField] private SCRPT_DropTable dropTable;
+
+    [SerializeField] private List<PlayerCharacter> detectedPlayers;
+    public List<PlayerCharacter> DetectedPlayers;
+    public Vector2 lastSeenPosition;
     
     protected override void Start()
     {

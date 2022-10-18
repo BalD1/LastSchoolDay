@@ -46,12 +46,8 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
     private void SetAnimator()
     {
         float x = owner.Velocity.x;
-        if (x > 0) x = 1;
-        else if (x < 0) x = -1;
 
         float y = owner.Velocity.y;
-        if (y > 0) y = 1;
-        else if (y < 0) y = -1;
 
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, y);

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NormalZombie : EnemyBase
 {
-    
     public override void OnDeath(bool forceDeath = false)
     {
         base.OnDeath(forceDeath);

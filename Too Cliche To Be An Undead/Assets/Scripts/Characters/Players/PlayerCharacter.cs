@@ -19,6 +19,8 @@ public class PlayerCharacter : Entity
 
     #endregion
 
+    #region vars
+
     private Vector2 velocity;
     public Vector2 Velocity { get => velocity; }
 
@@ -50,9 +52,11 @@ public class PlayerCharacter : Entity
     public int Money { get => money; }
 
     [SerializeField] private int playerIndex;
-    public int PlayerIndex { get => playerIndex; }  
+    public int PlayerIndex { get => playerIndex; }
 
     //private PlayerControls playerControls;
+
+    #endregion
 
     #region A/S/U/F
 
@@ -108,8 +112,19 @@ public class PlayerCharacter : Entity
     {
         //this.velocity.x = playerControls.InGame.Movements.ReadValue<Vector2>().x;
         //this.velocity.y = playerControls.InGame.Movements.ReadValue<Vector2>().y;
-        this.velocity.x = Input.GetAxis("Horizontal");
-        this.velocity.y = Input.GetAxis("Vertical");
+
+        this.velocity = Vector2.zero;
+
+        if (Input.GetKey(KeyCode.Z))
+            this.velocity.y = 1;
+        if (Input.GetKey(KeyCode.S))
+            this.velocity.y = -1;
+
+        if (Input.GetKey(KeyCode.D))
+            this.velocity.x = 1;
+        if (Input.GetKey(KeyCode.Q))
+            this.velocity.x = -1;
+
     }
 
     public void Movements()
@@ -160,6 +175,8 @@ public class PlayerCharacter : Entity
 
     #endregion
 
+    #region Money
+
     public void AddMoney(int amount) => money += amount;
     public void RemoveMoney(int amount, bool canGoInDebt)
     {
@@ -170,6 +187,8 @@ public class PlayerCharacter : Entity
         if (!canGoInDebt && money < 0) money = 0;
     }
     public bool HasEnoughMoney(int price) => money > price ? true : false;
+
+    #endregion
 
     private void StartDash()
     {

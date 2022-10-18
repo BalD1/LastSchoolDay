@@ -270,6 +270,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7821369719249530890}
   - component: {fileID: 7821369719249530884}
+  - component: {fileID: 133242913744623205}
   - component: {fileID: 7821369719249530891}
   - component: {fileID: 7821369719249530885}
   m_Layer: 9
@@ -320,6 +321,19 @@ MonoBehaviour:
   flashOnHitTime: 0.1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
+--- !u!114 &133242913744623205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7821369719249530889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f004239be9ece94cb689190ce2610b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 7821369719249530884}
 --- !u!50 &7821369719249530891
 Rigidbody2D:
   serializedVersion: 4
