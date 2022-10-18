@@ -114,7 +114,6 @@ public class DebugConsole : MonoBehaviour
     public void OnReturn()
     {
         // if the command field is displayed, check the input and reset
-        Debug.Log(showConsole);
         if (showConsole)
         {
             HandleInput();
@@ -199,6 +198,8 @@ public class DebugConsole : MonoBehaviour
                 }
             }
         }
+
+        input = "";
     }
 
     private bool ParseBool(string propriety)
@@ -257,6 +258,12 @@ public class DebugConsole : MonoBehaviour
 
         if (char.IsLower(input[input.Length - 1]))
             input = input.ToUpper();
+
+        if (input == "²")
+        {
+            showConsole = false;
+            ResetField();
+        }
 
         if (Event.current.isKey)
         {

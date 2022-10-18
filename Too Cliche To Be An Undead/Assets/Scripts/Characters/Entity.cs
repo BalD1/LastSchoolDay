@@ -182,6 +182,8 @@ public class Entity : MonoBehaviour, IDamageable
 
         Vector2 centeredPosition = (Vector2)this.transform.position + healthPopupOffset;
 
+        if (UnityEditor.SceneView.currentDrawingSceneView == null) return;
+
         var view = UnityEditor.SceneView.currentDrawingSceneView;
         Vector3 screenPos = view.camera.WorldToScreenPoint(centeredPosition);
 
