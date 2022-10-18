@@ -10,15 +10,33 @@ public class EnemyVision : MonoBehaviour
 
     [SerializeField] private CircleCollider2D detectionTrigger;
 
+    [SerializeField] private LayerMask detectionMask;
+
+#if UNITY_EDITOR
+    [SerializeField] private bool debugMode;
+#endif
+
+    private Vector3 dir;
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             PlayerCharacter player = collision.GetComponentInParent<PlayerCharacter>();
+            if (player == null) return;
+
             if (owner.DetectedPlayers.Contains(player) == false)
             {
-                RaycastHit2D hit = Physics2D.Raycast(owner.transform.position, (owner.transform.forward - collision.transform.position).normalized, detectionRange);
-                if (hit.collider.CompareTag("Player")) owner.DetectedPlayers.Add(player);
+                dir = (player.transform.position - owner.transform.position);
+                RaycastHit2D hit = Physics2D.Raycast(owner.transform.position, dir, detectionRange, detectionMask);
+#if UNITY_EDITOR
+                if (debugMode)
+                    Debug.DrawRay(owner.transform.position, dir, Color.red);
+#endif
+                if (hit)
+                {
+                    if (hit.collider.CompareTag("Player")) owner.AddDetectedPlayer(player);
+                }
             }
         }
     }
@@ -28,9 +46,9 @@ public class EnemyVision : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             PlayerCharacter player = collision.GetComponentInParent<PlayerCharacter>();
-            if (owner.DetectedPlayers.Contains(player) == false)
+            if (owner.DetectedPlayers.Contains(player))
             {
-                owner.lastSeenPosition = player.transform.position;
+                owner.RemoveDetectedPlayer(player);
             }
         }
     }
@@ -40,10 +58,6 @@ public class EnemyVision : MonoBehaviour
         if (detectionTrigger != null)
             detectionTrigger.radius = detectionRange;
     }
-
-#if UNITY_EDITOR
-    private bool debugMode;
-#endif
 
     private void OnDrawGizmos()
     {

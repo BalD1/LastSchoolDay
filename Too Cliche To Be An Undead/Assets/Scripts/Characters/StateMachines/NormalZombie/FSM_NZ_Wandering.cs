@@ -5,9 +5,11 @@ using UnityEngine;
 public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
 {
     private NormalZombie owner;
+    private bool canSwitchToChase = false;
 
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
+        canSwitchToChase = false;
         owner ??= stateManager.Owner;
     }
 
@@ -27,7 +29,8 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
 
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
-        // Si la velocité du personnage est à 0, on le passe en Idle
-
+        if (canSwitchToChase) stateManager.SwitchState(stateManager.chasingState);
     }
+
+    public void SawPlayer() => canSwitchToChase = true;
 }
