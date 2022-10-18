@@ -19,6 +19,10 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
         currentState = wanderingState;
         currentState.EnterState(this);
+
+#if UNITY_EDITOR
+        owner.currentStateDebug = this.ToString();
+#endif
     }
 
     protected override void Update()
@@ -40,6 +44,10 @@ public class FSM_NZ_Manager : FSM_ManagerBase
         currentState?.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
+
+#if UNITY_EDITOR
+        owner.currentStateDebug = this.ToString(); 
+#endif
     }
 
     public override string ToString()

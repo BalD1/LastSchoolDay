@@ -169,7 +169,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     public void LogEntity() => GetStats.Log(this.gameObject);
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
 #if UNITY_EDITOR
         if (!debugMode) return;

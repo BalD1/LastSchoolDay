@@ -7,6 +7,16 @@ public abstract class EnemyBase : Entity
 {
     [SerializeField] private SCRPT_DropTable dropTable;
 
+    [SerializeField] private EnemyPathfinding pathfinding;
+    public EnemyPathfinding Pathfinding { get => pathfinding; }
+
+#if UNITY_EDITOR
+    public string currentStateDebug = "N/A"; 
+#endif
+
+    [SerializeField] private float speedMultiplier;
+    public float SpeedMultiplier { get => speedMultiplier; }
+
     [SerializeField] private List<PlayerCharacter> detectedPlayers;
 
     [SerializeField] private PlayerCharacter currentPlayerTarget;
@@ -17,6 +27,7 @@ public abstract class EnemyBase : Entity
 
     public PlayerCharacter CurrentPlayerTarget { get => currentPlayerTarget; }
     public Transform CurrentTransformTarget { get => currentPlayerTarget == null ? currentTransformTarget : currentPlayerTarget.transform; }
+    public Vector2 CurrentPositionTarget { get => CurrentTransformTarget == null ? lastSeenPosition : CurrentTransformTarget.position; }
 
     public List<PlayerCharacter> DetectedPlayers { get => detectedPlayers; }
     public Vector2 lastSeenPosition;
@@ -79,5 +90,14 @@ public abstract class EnemyBase : Entity
         {
             dropTable.DropRandom(this.transform.position);
         }
+    }
+
+    protected override void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
+        base.OnDrawGizmos();
+
+        Gizmos.DrawWireSphere(this.transform.position, distanceBeforeStop);
+#endif
     }
 }

@@ -14,16 +14,18 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
 
     public override void UpdateState(FSM_NZ_Manager stateManager)
     {
-        goalPosition = owner.CurrentTransformTarget != null ? owner.CurrentTransformTarget.position : owner.lastSeenPosition;
-        owner.transform.position = Vector2.MoveTowards(owner.transform.position, goalPosition, owner.GetStats.Speed * Time.deltaTime);
+        goalPosition = owner.Pathfinding.CheckWayPoint();
     }
 
     public override void FixedUpdateState(FSM_NZ_Manager stateManager)
     {
+        //owner.GetRb.AddForce(owner.Pathfinding.CheckWayPoint() * owner.GetStats.Speed * owner.SpeedMultiplier * Time.fixedDeltaTime);
+        owner.GetRb.velocity = goalPosition * owner.GetStats.Speed * owner.SpeedMultiplier * Time.fixedDeltaTime;
     }
 
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
+        owner.GetRb.velocity = Vector2.zero;
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
@@ -33,5 +35,5 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
     }
 
     private bool WanderingConditions() => owner.DetectedPlayers.Count == 0 && 
-                                          Vector2.Distance(owner.transform.position, goalPosition) <= owner.DistanceBeforeStop;
+                                          Vector2.Distance(owner.transform.position, owner.CurrentPositionTarget) <= owner.DistanceBeforeStop;
 }
