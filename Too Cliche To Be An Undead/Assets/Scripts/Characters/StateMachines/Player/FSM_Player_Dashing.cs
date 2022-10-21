@@ -6,25 +6,38 @@ using UnityEngine;
 public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 {
     private PlayerCharacter owner;
+    private float max_DURATION;
     private float dash_dur_TIMER;
+
+    private Vector2 mouseDir;
+
+    private List<Collider2D> alreadyPushedEntities;
+
+    private Vector2 b;
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         owner ??= stateManager.Owner;
-        dash_dur_TIMER = owner.Dash_DURATION;
+        b = owner.transform.position;
+        owner.d_EnteredTrigger += TriggerEnter;
+        max_DURATION = owner.DashSpeedCurve[owner.DashSpeedCurve.length - 1].time;
+        dash_dur_TIMER = max_DURATION;
 
-        owner.GetRb.velocity = Vector2.zero;
-        owner.SetVelocity(Vector2.zero);
+        alreadyPushedEntities = new List<Collider2D>();
+
+        owner.SetAllVelocity(Vector2.zero);
 
         Vector2 mousePos = MousePosition.GetMouseWorldPosition();
-        Vector2 mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
+        mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
 
-        owner.SetVelocity(mouseDir * owner.DashForce);
+        owner.SetSelfVelocity(mouseDir * owner.DashSpeedCurve.Evaluate(0));
+
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
         dash_dur_TIMER -= Time.deltaTime;
+        owner.SetSelfVelocity(mouseDir * owner.DashSpeedCurve.Evaluate(-(dash_dur_TIMER - max_DURATION)));
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
@@ -35,12 +48,31 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         owner.isDashing = false;
-        owner.GetRb.velocity = Vector2.zero;
-        owner.SetVelocity(Vector2.zero);
+        owner.SetAllVelocity(Vector2.zero);
+        owner.d_EnteredTrigger -= TriggerEnter;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
         if (dash_dur_TIMER <= 0) stateManager.SwitchState(stateManager.idleState);
     }
+
+    private void TriggerEnter(Collider2D collider)
+    {
+        // Check if the hit object is an entity
+        Entity e =  collider.GetComponentInParent<Entity>();
+        if (e == null) return;
+
+        // Check if the entity as not already been pushed
+        if (alreadyPushedEntities.Contains(collider)) return;
+
+        alreadyPushedEntities.Add(collider);
+
+        // lessen the PushForce depending on the remaining push time
+        float remainingPushForce = owner.PushForce * GetRemainingTimeByMax();
+
+        e.Push(owner.transform.position, remainingPushForce);
+    }
+
+    public float GetRemainingTimeByMax() => dash_dur_TIMER / max_DURATION;
 }

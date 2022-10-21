@@ -5,41 +5,52 @@ using UnityEngine;
 
 public abstract class EnemyBase : Entity
 {
+
+    [Header("Base - Enemy")]
+
+    [Header("Components")]
+
     [SerializeField] private SCRPT_DropTable dropTable;
 
     [SerializeField] private EnemyPathfinding pathfinding;
     public EnemyPathfinding Pathfinding { get => pathfinding; }
 
-#if UNITY_EDITOR
-    public string currentStateDebug = "N/A"; 
-#endif
+
+    [Header("Stats", order = 0)]
 
     [SerializeField] private float speedMultiplier;
     public float SpeedMultiplier { get => speedMultiplier; }
+
+    [SerializeField] private float distanceBeforeStop = 1f;
+    public float DistanceBeforeStop { get => distanceBeforeStop; }
+
+    [Header("Player Related")]
 
     [SerializeField] private List<PlayerCharacter> detectedPlayers;
 
     [SerializeField] private PlayerCharacter currentPlayerTarget;
     [SerializeField] private Transform currentTransformTarget;
-
-    [SerializeField] private float distanceBeforeStop = 1f;
-    public float DistanceBeforeStop { get => distanceBeforeStop; }
-
     public PlayerCharacter CurrentPlayerTarget { get => currentPlayerTarget; }
     public Transform CurrentTransformTarget { get => currentPlayerTarget == null ? currentTransformTarget : currentPlayerTarget.transform; }
     public Vector2 CurrentPositionTarget { get => CurrentTransformTarget == null ? storedTargetPosition : CurrentTransformTarget.position; }
-
     public List<PlayerCharacter> DetectedPlayers { get => detectedPlayers; }
     public Vector2 storedTargetPosition;
-
-    private Vector2 basePosition;
-    public Vector2 BasePosition { get => basePosition; }
 
     public delegate void D_DetectedPlayer();
     public D_DetectedPlayer D_detectedPlayer;
 
     public delegate void D_LostPlayer();
     public D_LostPlayer D_lostPlayer;
+
+    [Header("Misc")]
+
+#if UNITY_EDITOR
+    public string currentStateDebug = "N/A";
+#endif
+
+    private Vector2 basePosition;
+    public Vector2 BasePosition { get => basePosition; }
+
 
     protected override void Awake()
     {

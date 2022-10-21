@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour, IDamageable
 {
+    #region Vars
+
     //*************************************
     //*********** COMPONENTS **************
     //*************************************
+
+    [Header("Base - Entity")]
+    [Header("Components")]
 
     [SerializeField] protected Rigidbody2D rb;
     public Rigidbody2D GetRb { get => rb; }
@@ -29,6 +34,8 @@ public class Entity : MonoBehaviour, IDamageable
     //************* AUDIO ****************
     //************************************
 
+    [Header("Audio")]
+
     [SerializeField] protected SCRPT_EntityAudio audioClips;
     public SCRPT_EntityAudio GetAudioClips { get => audioClips; }
 
@@ -38,10 +45,12 @@ public class Entity : MonoBehaviour, IDamageable
     //************* STATS ****************
     //************************************
 
+    [Header("Stats")]
+
     [SerializeField] protected SCRPT_EntityStats stats;
     public SCRPT_EntityStats GetStats { get => stats; }
 
-    [SerializeField] [ReadOnly] protected float currentHP;
+    [SerializeField][ReadOnly] protected float currentHP;
     public float CurrentHP { get => currentHP; }
 
     [SerializeField] protected float flashOnHitTime = .1f;
@@ -51,11 +60,15 @@ public class Entity : MonoBehaviour, IDamageable
 
     //***********************************
     //************* MISC ****************
-    //***********************************
+    //*********************************** 
+
+    [Header("Misc")]
 
 #if UNITY_EDITOR
     [SerializeField] protected bool debugMode;
 #endif
+
+    #endregion
 
     #region Awake / Start / Update
 
@@ -156,6 +169,16 @@ public class Entity : MonoBehaviour, IDamageable
 
     public virtual void Flip(bool lookAtLeft) => this.sprite.flipX = lookAtLeft;
     public virtual bool IsFacingLeft() => !this.sprite.flipX;
+
+    public void Push(Vector2 pusherPosition, float pusherForce)
+    {
+        Vector2 dir = ((Vector2)this.transform.position - pusherPosition).normalized;
+
+        float finalForce = pusherForce - this.GetStats.Weight;
+        if (finalForce <= 0) return; 
+
+        this.rb.AddForce(dir * finalForce, ForceMode2D.Impulse);
+    }
 
     #region Debug
 

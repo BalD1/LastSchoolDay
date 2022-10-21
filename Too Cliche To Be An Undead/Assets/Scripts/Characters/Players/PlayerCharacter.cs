@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using BalDUtilities.MouseUtils;
-using Newtonsoft.Json.Serialization;
+using TMPro;
+using UnityEngine.InputSystem.iOS;
 
 public class PlayerCharacter : Entity
 {
@@ -33,15 +34,6 @@ public class PlayerCharacter : Entity
     [SerializeField] private SkillHolder skillHolder;
     public SkillHolder GetSkillHolder { get => skillHolder; }
 
-    [SerializeField] private float dash_COOLDOWN;
-    public float Dash_COOLDOWN { get => dash_COOLDOWN; }
-
-    [SerializeField] private float dashForce;
-    public float DashForce { get => dashForce; }
-    
-    [SerializeField] private float dash_DURATION;
-    public float Dash_DURATION { get => dash_DURATION; }
-
     [SerializeField] private Image hpBar;
     [SerializeField] private Image skillIcon;
 
@@ -53,6 +45,23 @@ public class PlayerCharacter : Entity
 
     [SerializeField] private int playerIndex;
     public int PlayerIndex { get => playerIndex; }
+
+    [SerializeField] private AnimationCurve dashSpeedCurve;
+    public AnimationCurve DashSpeedCurve { get => dashSpeedCurve; }
+
+    [SerializeField] private float pushForce;
+    public float PushForce { get => pushForce; }
+
+    public delegate void D_enteredTrigger(Collider2D collider);
+    public D_enteredTrigger d_EnteredTrigger;
+
+#if UNITY_EDITOR
+    public bool debugPush;
+    private Vector2 gizmosMouseDir;
+    private Ray gizmosPushRay;
+    private float gizmosPushEnd;
+    private float gizmosPushDrag;
+#endif
 
     //private PlayerControls playerControls;
 
@@ -98,7 +107,12 @@ public class PlayerCharacter : Entity
 
     #region Controls / Movements
 
-    public void SetVelocity(Vector2 _velocity) => velocity = _velocity;
+    public void SetSelfVelocity(Vector2 _velocity) => velocity = _velocity;
+    public void SetAllVelocity(Vector2 _velocity)
+    {
+        this.velocity = _velocity;
+        this.rb.velocity = _velocity;
+    }
 
     public void SetInGameControlsState(bool state)
     {
@@ -193,7 +207,6 @@ public class PlayerCharacter : Entity
     private void StartDash()
     {
         isDashing = true;
-        dash_CD_TIMER = dash_COOLDOWN;
     }
 
     public void SetSkillThumbnail(Sprite image) => skillIcon.sprite = image;
@@ -223,4 +236,87 @@ public class PlayerCharacter : Entity
     {
         DataKeeper.Instance.playersDataKeep[this.playerIndex].money = this.money;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
+        d_EnteredTrigger?.Invoke(collision);
+    }
+
+    private float CalculateAllKeys()
+    {
+        float res = 0;
+        for (int i = 0; i < DashSpeedCurve.length; i++)
+        {
+            if (i + 1 < DashSpeedCurve.length)
+                res += CalculateSingleKey(i, i + 1);
+        }
+
+        return res;
+    }
+    private float CalculateSingleKey(int index1, int index2)
+    {
+        Keyframe startKey = DashSpeedCurve[index1];
+        Keyframe endKey = DashSpeedCurve[index2];
+
+        float res = ((startKey.value + endKey.value) / 2) * (endKey.time - startKey.time);
+
+        return res;
+    }
+
+    #region Gizmos
+
+    protected override void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
+        if (!debugMode) return;
+        base.OnDrawGizmos();
+        GizmosDrawDashPush();
+#endif
+    }
+
+    private void GizmosDrawDashPush()
+    {
+#if UNITY_EDITOR
+
+        if (stateManager.ToString().Equals("Dashing") == false)
+        {
+            gizmosMouseDir = Vector2.zero;
+            Vector2 mousPos = MousePosition.GetMouseWorldPosition();
+            gizmosMouseDir = (mousPos - (Vector2)this.transform.position).normalized;
+
+            gizmosPushEnd = 1;
+
+            gizmosPushEnd = CalculateAllKeys();
+            gizmosPushRay = new Ray(this.transform.position,gizmosMouseDir * gizmosPushEnd);
+        }
+
+        //if (stateManager.ToString().Equals("Dashing"))
+        ////    Gizmos.DrawLine(this.transform.position, mouseDir * pushForce * stateManager.dashingState.GetRemainingTimeByMax());
+        //else
+        Gizmos.DrawRay(this.transform.position, gizmosMouseDir * gizmosPushEnd);
+
+        RaycastHit2D[] rh = Physics2D.RaycastAll(this.transform.position, gizmosMouseDir * gizmosPushEnd);
+        foreach (var item in rh)
+        {
+            if (item.collider.CompareTag("Enemy") == false) continue;
+
+            Vector2 origin = ((Vector2)item.collider.transform.position - item.point).normalized;
+
+            // we take the time needed to travel to the Point with the Dash Velocity,
+            // then multiply it by the max time of the Dash Speed Curve.
+            // this roughly simulates how much Dash Time would remain if we actually dashed. (current time / max time)
+            float currentDistanceByMax = (gizmosPushEnd - Vector2.Distance(this.transform.position, item.point)) * 2;
+            float maxTime = DashSpeedCurve[DashSpeedCurve.length - 1].time;
+            float dashVel = DashSpeedCurve.Evaluate(0);
+
+            float remainingPushForce = this.pushForce * (currentDistanceByMax / dashVel * maxTime);
+
+            float finalForce = remainingPushForce - item.collider.GetComponentInParent<Entity>().GetStats.Weight;
+            Gizmos.DrawRay(item.point, (origin * finalForce));
+        }
+#endif
+    } 
+
+    #endregion
 }

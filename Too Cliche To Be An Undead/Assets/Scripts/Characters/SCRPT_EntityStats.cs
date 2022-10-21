@@ -13,6 +13,7 @@ public class SCRPT_EntityStats : ScriptableObject
     [SerializeField] private float invincibility_COOLDOWN;
     [SerializeField] private float speed;
     [SerializeField] private int critChances;
+    [SerializeField] private float weight;
     [SerializeField] private E_Team team;
 
     public enum E_Team
@@ -30,6 +31,7 @@ public class SCRPT_EntityStats : ScriptableObject
     public float Invincibility_COOLDOWN { get => invincibility_COOLDOWN; }
     public float Speed { get => speed; }
     public int CritChances { get => critChances; }
+    public float Weight { get => weight; }
     public E_Team Team { get => team; }
 
     public override string ToString()

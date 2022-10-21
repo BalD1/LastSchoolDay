@@ -252,6 +252,7 @@ public class ED_PlayerCharacter : Editor
             EditorGUILayout.FloatField("Invincibility Cooldown", playerStats.Invincibility_COOLDOWN);
             EditorGUILayout.FloatField("Speed", playerStats.Speed);
             EditorGUILayout.IntField("Crit Chances", playerStats.CritChances);
+            EditorGUILayout.FloatField("Weight", playerStats.Weight);
             EditorGUILayout.TextField("Team", EnumsExtension.EnumToString(playerStats.Team));
 
             EditorGUILayout.EndVertical();
@@ -260,14 +261,13 @@ public class ED_PlayerCharacter : Editor
 
         GUI.enabled = true;
 
-        SerializedProperty dash_COOLDOWN = serializedObject.FindProperty("dash_COOLDOWN");
-        EditorGUILayout.PropertyField(dash_COOLDOWN);
+        EditorGUILayout.LabelField("Dash", EditorStyles.boldLabel);
 
-        SerializedProperty dash_DURATION = serializedObject.FindProperty("dash_DURATION");
-        EditorGUILayout.PropertyField(dash_DURATION);
-        
-        SerializedProperty dashForce = serializedObject.FindProperty("dashForce");
-        EditorGUILayout.PropertyField(dashForce);
+        SerializedProperty dashSpeedCurve = serializedObject.FindProperty("dashSpeedCurve");
+        EditorGUILayout.PropertyField(dashSpeedCurve);
+
+        SerializedProperty pushForce = serializedObject.FindProperty("pushForce");
+        EditorGUILayout.PropertyField(pushForce);
 
         EditorGUILayout.EndVertical();
     }

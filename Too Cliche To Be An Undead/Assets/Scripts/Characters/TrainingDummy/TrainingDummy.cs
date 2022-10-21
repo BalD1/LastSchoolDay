@@ -5,11 +5,16 @@ using TMPro;
 
 public class TrainingDummy : EnemyBase
 {
+    [Header("Single")]
+    [Header("Components")]
+
     [SerializeField] private FSM_TD_Manager stateManager;
 
     [SerializeField] private TextMeshPro damagesText;
     [SerializeField] private TextMeshPro timeText;
     [SerializeField] private TextMeshPro statusText;
+
+    [Header("Stats", order = 0)]
 
     [SerializeField] private float regen_TIME;
     private float regen_TIMER;

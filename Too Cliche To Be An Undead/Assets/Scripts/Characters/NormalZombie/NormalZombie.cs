@@ -14,7 +14,6 @@ public class NormalZombie : EnemyBase
     protected override void Update()
     {
         base.Update();
-        Debug.Log(this.GetRb.velocity);
     }
 
     public override void OnDeath(bool forceDeath = false)

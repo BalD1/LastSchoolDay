@@ -37,8 +37,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public void FollowMouse()
     {
-        targetPosition.x = MousePosition.GetMouseWorldPosition().x - owner.transform.position.x;
-        targetPosition.y = MousePosition.GetMouseWorldPosition().y - owner.transform.position.y;
+        targetPosition = MousePosition.GetMouseWorldPosition() - owner.transform.position;
         targetPosition = Vector2.ClampMagnitude(targetPosition, maxRange);
 
         this.transform.position = owner.transform.position + (Vector3)targetPosition;

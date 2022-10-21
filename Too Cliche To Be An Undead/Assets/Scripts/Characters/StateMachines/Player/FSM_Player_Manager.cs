@@ -52,6 +52,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
         if (currentState.Equals(idleState)) return "Idle";
         if (currentState.Equals(movingState)) return "Moving";
         if (currentState.Equals(attackingState)) return "Attacking";
+        if (currentState.Equals(dashingState)) return "Dashing";
 
         return "N/A";
     }

@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 7821369719249530885}
   m_Layer: 9
   m_Name: NormalZombie
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -472,13 +472,13 @@ MonoBehaviour:
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   pathfinding: {fileID: 4564975985439888221}
-  currentStateDebug: N/A
   speedMultiplier: 100
+  distanceBeforeStop: 2.5
   detectedPlayers: []
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
-  distanceBeforeStop: 2.5
-  lastSeenPosition: {x: 0, y: 0}
+  storedTargetPosition: {x: 0, y: 0}
+  currentStateDebug: N/A
 --- !u!114 &133242913744623205
 MonoBehaviour:
   m_ObjectHideFlags: 0
