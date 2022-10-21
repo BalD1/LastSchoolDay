@@ -9,9 +9,15 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
     public FSM_NZ_Wandering wanderingState = new FSM_NZ_Wandering();
     public FSM_NZ_Chasing chasingState = new FSM_NZ_Chasing();
+    public FSM_NZ_Pushed pushedState = new FSM_NZ_Pushed();
 
     private FSM_Base<FSM_NZ_Manager> currentState;
     public FSM_Base<FSM_NZ_Manager> CurrentState { get => currentState; }
+
+    private void Awake()
+    {
+        pushedState.SetOwner(Owner);
+    }
 
     protected override void Start()
     {
@@ -30,7 +36,6 @@ public class FSM_NZ_Manager : FSM_ManagerBase
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         currentState.UpdateState(this);
         currentState.Conditions(this);
-
     }
 
     protected override void FixedUpdate()
@@ -60,6 +65,7 @@ public class FSM_NZ_Manager : FSM_ManagerBase
         if (currentState == null) return "N/A";
         if (currentState.Equals(wanderingState)) return "Wandering";
         if (currentState.Equals(chasingState)) return "Chasing";
+        if (currentState.Equals(pushedState)) return "Pushed";
 
         return "N/A";
     }

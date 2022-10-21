@@ -9,9 +9,15 @@ public class FSM_TD_Manager : FSM_ManagerBase
 
     public FSM_TD_Idle idleState = new FSM_TD_Idle();
     public FSM_TD_Stun stunState = new FSM_TD_Stun();
+    public FSM_TD_Pushed pushedState = new FSM_TD_Pushed(); 
 
     private FSM_Base<FSM_TD_Manager> currentState;
     public FSM_Base<FSM_TD_Manager> CurrentState { get => currentState; }
+
+    private void Awake()
+    {
+        pushedState.SetOwner(Owner);
+    }
 
     protected override void Start()
     {

@@ -22,7 +22,6 @@ public class EnemyPathfinding : MonoBehaviour
 #endif
 
     private bool fleeFromTarget = false;
-    private bool reachedEndOfPath = false;
 
     private Path path;
 
@@ -74,12 +73,7 @@ public class EnemyPathfinding : MonoBehaviour
     {
         if (path == null) return Vector2.zero;
 
-        if (currentWaypoint >= path.vectorPath.Count)
-        {
-            reachedEndOfPath = true;
-            return Vector2.zero;
-        }
-        else reachedEndOfPath = false;
+        if (currentWaypoint >= path.vectorPath.Count) return Vector2.zero;
 
         Vector2 dir = (path.vectorPath[currentWaypoint] - this.transform.position).normalized;
 

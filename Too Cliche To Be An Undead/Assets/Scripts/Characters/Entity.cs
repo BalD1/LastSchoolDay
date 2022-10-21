@@ -170,14 +170,15 @@ public class Entity : MonoBehaviour, IDamageable
     public virtual void Flip(bool lookAtLeft) => this.sprite.flipX = lookAtLeft;
     public virtual bool IsFacingLeft() => !this.sprite.flipX;
 
-    public void Push(Vector2 pusherPosition, float pusherForce)
+    public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce)
     {
         Vector2 dir = ((Vector2)this.transform.position - pusherPosition).normalized;
 
         float finalForce = pusherForce - this.GetStats.Weight;
-        if (finalForce <= 0) return; 
+        if (finalForce <= 0) return Vector2.zero;
 
-        this.rb.AddForce(dir * finalForce, ForceMode2D.Impulse);
+        Vector2 v = dir * finalForce;
+        return v;
     }
 
     #region Debug

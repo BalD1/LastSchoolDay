@@ -31,7 +31,6 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
 
         owner.SetSelfVelocity(mouseDir * owner.DashSpeedCurve.Evaluate(0));
-
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

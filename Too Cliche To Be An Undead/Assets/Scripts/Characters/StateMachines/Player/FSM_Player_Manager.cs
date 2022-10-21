@@ -13,9 +13,15 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public FSM_Player_Moving movingState = new FSM_Player_Moving();
     public FSM_Player_Attacking attackingState = new FSM_Player_Attacking();
     public FSM_Player_Dashing dashingState = new FSM_Player_Dashing();
+    public FSM_Player_Pushed pushedState = new FSM_Player_Pushed();
 
     private FSM_Base<FSM_Player_Manager> currentState;
     public FSM_Base<FSM_Player_Manager> CurrentState { get => currentState; }
+
+    private void Awake()
+    {
+        pushedState.SetOwner(Owner);
+    }
 
     protected override void Start()
     {

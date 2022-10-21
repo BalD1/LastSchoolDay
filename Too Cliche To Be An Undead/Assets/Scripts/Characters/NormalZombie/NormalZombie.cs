@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NormalZombie : EnemyBase
 {
+    [SerializeField] private FSM_NZ_Manager stateManager;
 
     protected override void Start()
     {
@@ -20,5 +21,13 @@ public class NormalZombie : EnemyBase
     {
         base.OnDeath(forceDeath);
         Destroy(this.gameObject);
+    }
+
+    public override Vector2 Push(Vector2 pusherPosition, float pusherForce)
+    {
+        Vector2 v = base.Push(pusherPosition, pusherForce);
+        stateManager.SwitchState(stateManager.pushedState.SetForce(v));
+
+        return v;
     }
 }

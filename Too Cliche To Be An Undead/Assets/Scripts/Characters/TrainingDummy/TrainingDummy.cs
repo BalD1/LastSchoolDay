@@ -120,5 +120,13 @@ public class TrainingDummy : EnemyBase
         statusText.enabled = true;
     }
 
+    public override Vector2 Push(Vector2 pusherPosition, float pusherForce)
+    {
+        Vector2 v = base.Push(pusherPosition, pusherForce);
+        stateManager.SwitchState(stateManager.pushedState.SetForce(v));
+
+        return v;
+    }
+
     public void HideStatusText() => statusText.enabled = false;
 }

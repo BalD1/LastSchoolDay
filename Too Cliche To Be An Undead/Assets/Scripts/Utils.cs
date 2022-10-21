@@ -63,6 +63,18 @@ namespace BalDUtilities
                 return vector;
             }
         }
+
+        public static class VectorMaths
+        {
+
+            public static bool Vector2ApproximatlyEquals(Vector2 a, Vector2 b, float approx)
+            {
+                if (b.x <= a.x + approx && b.y <= a.y + approx &&
+                    b.y >= a.y - approx && b.y >= a.y - approx) return true;
+
+                return false;
+            }
+        }
     }
 
     namespace MouseUtils
