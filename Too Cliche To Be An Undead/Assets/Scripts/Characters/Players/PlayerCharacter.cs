@@ -46,11 +46,8 @@ public class PlayerCharacter : Entity
     [SerializeField] private int playerIndex;
     public int PlayerIndex { get => playerIndex; }
 
-    [SerializeField] private AnimationCurve dashSpeedCurve;
-    public AnimationCurve DashSpeedCurve { get => dashSpeedCurve; }
-
-    [SerializeField] private float pushForce;
-    public float PushForce { get => pushForce; }
+    [SerializeField] private SCRPT_Dash playerDash;
+    public SCRPT_Dash PlayerDash { get => playerDash; }
 
     public delegate void D_enteredTrigger(Collider2D collider);
     public D_enteredTrigger d_EnteredTrigger;
@@ -143,8 +140,8 @@ public class PlayerCharacter : Entity
 
     public void Movements()
     {
-        velocity = Vector2.ClampMagnitude(velocity, GetStats.Speed);
-        this.rb.MovePosition(this.rb.position + velocity * GetStats.Speed * Time.fixedDeltaTime);
+        velocity = Vector2.ClampMagnitude(velocity, GetStats.Speed(StatsModifiers));
+        this.rb.MovePosition(this.rb.position + velocity * GetStats.Speed(StatsModifiers) * Time.fixedDeltaTime);
     }
 
     #endregion
@@ -168,7 +165,7 @@ public class PlayerCharacter : Entity
         res = base.OnTakeDamages(amount, isCrit);
 
         if (hpBar != null)
-            hpBar.fillAmount = (currentHP / GetStats.MaxHP);
+            hpBar.fillAmount = (currentHP / GetStats.MaxHP(StatsModifiers));
 
         return res;
     }
@@ -178,7 +175,7 @@ public class PlayerCharacter : Entity
         base.OnHeal(amount, isCrit, canExceedMaxHP);
 
         if (hpBar != null)
-            hpBar.fillAmount = (currentHP / GetStats.MaxHP);
+            hpBar.fillAmount = (currentHP / GetStats.MaxHP(StatsModifiers));
     }
 
     public override void OnDeath(bool forceDeath = false)
@@ -246,9 +243,9 @@ public class PlayerCharacter : Entity
     private float CalculateAllKeys()
     {
         float res = 0;
-        for (int i = 0; i < DashSpeedCurve.length; i++)
+        for (int i = 0; i < playerDash.DashSpeedCurve.length; i++)
         {
-            if (i + 1 < DashSpeedCurve.length)
+            if (i + 1 < playerDash.DashSpeedCurve.length)
                 res += CalculateSingleKey(i, i + 1);
         }
 
@@ -256,8 +253,8 @@ public class PlayerCharacter : Entity
     }
     private float CalculateSingleKey(int index1, int index2)
     {
-        Keyframe startKey = DashSpeedCurve[index1];
-        Keyframe endKey = DashSpeedCurve[index2];
+        Keyframe startKey = playerDash.DashSpeedCurve[index1];
+        Keyframe endKey = playerDash.DashSpeedCurve[index2];
 
         float res = ((startKey.value + endKey.value) / 2) * (endKey.time - startKey.time);
 
@@ -307,10 +304,10 @@ public class PlayerCharacter : Entity
             // then multiply it by the max time of the Dash Speed Curve.
             // this roughly simulates how much Dash Time would remain if we actually dashed. (current time / max time)
             float currentDistanceByMax = (gizmosPushEnd - Vector2.Distance(this.transform.position, item.point)) * 2;
-            float maxTime = DashSpeedCurve[DashSpeedCurve.length - 1].time;
-            float dashVel = DashSpeedCurve.Evaluate(0);
+            float maxTime = playerDash.DashSpeedCurve[playerDash.DashSpeedCurve.length - 1].time;
+            float dashVel = playerDash.DashSpeedCurve.Evaluate(0);
 
-            float remainingPushForce = this.pushForce * (currentDistanceByMax / dashVel * maxTime);
+            float remainingPushForce = playerDash.PushForce * (currentDistanceByMax / dashVel * maxTime);
 
             float finalForce = remainingPushForce - item.collider.GetComponentInParent<Entity>().GetStats.Weight;
             Gizmos.DrawRay(item.point, (origin * finalForce));

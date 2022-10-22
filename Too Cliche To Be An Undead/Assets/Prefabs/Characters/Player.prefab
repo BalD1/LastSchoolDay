@@ -224,7 +224,7 @@ MonoBehaviour:
   owner: {fileID: 8823656354733599271}
   skill: {fileID: 11400000, guid: fc23f6bb8164d644f88849b9b8912b85, type: 2}
   animator: {fileID: 1392137800}
-  debugMode: 1
+  debugMode: 0
 --- !u!212 &1392137801
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -911,6 +911,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 641691dcbebbce04793993d719e9f9fe, type: 2}
   currentHP: 100
   flashOnHitTime: 0.1
+  invincible: 0
   debugMode: 0
   stateManager: {fileID: 5207945969965588748}
   weapon: {fileID: 9124492574544249200}
@@ -920,40 +921,8 @@ MonoBehaviour:
   isDashing: 0
   money: 0
   playerIndex: 0
-  dashSpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 25
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.2
-      value: 25
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.3
-      value: 8
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  pushForce: 50
+  playerDash: {fileID: 11400000, guid: 5687414b9e30e6d499e7df1d67a5701d, type: 2}
+  debugPush: 0
 --- !u!114 &5207945969965588748
 MonoBehaviour:
   m_ObjectHideFlags: 0

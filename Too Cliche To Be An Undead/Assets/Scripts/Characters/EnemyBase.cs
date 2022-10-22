@@ -119,6 +119,7 @@ public abstract class EnemyBase : Entity
     protected override void OnDrawGizmos()
     {
 #if UNITY_EDITOR
+        if (!debugMode) return;
         base.OnDrawGizmos();
 
         Gizmos.DrawWireSphere(this.transform.position, distanceBeforeStop);

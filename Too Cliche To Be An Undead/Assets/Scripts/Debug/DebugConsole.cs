@@ -48,7 +48,7 @@ public class DebugConsole : MonoBehaviour
 
         KILLSELF = new DebugCommand("KILL_SELF", "Kills the currently controlled character", "KILL_SELF", () =>
         {
-            GameManager.PlayerRef.OnTakeDamages(GameManager.PlayerRef.GetStats.MaxHP);
+            GameManager.PlayerRef.OnTakeDamages(GameManager.PlayerRef.GetStats.MaxHP(GameManager.PlayerRef.StatsModifiers));
         });
 
         // INT COMMANDS

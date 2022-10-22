@@ -56,13 +56,13 @@ public class PlayerWeapon : MonoBehaviour
 
     public void DamageEnemiesInRange(bool isLastAttack)
     {
-        hitEntities = Physics2D.OverlapCircleAll(this.transform.position, owner.GetStats.AttackRange, damageablesLayer);
+        hitEntities = Physics2D.OverlapCircleAll(this.transform.position, owner.GetStats.AttackRange(owner.StatsModifiers), damageablesLayer);
         foreach (var item in hitEntities)
         {
             var damageable = item.GetComponentInParent<IDamageable>();
             if (damageable != null)
             {
-                float damages = owner.GetStats.BaseDamages;
+                float damages = owner.GetStats.BaseDamages(owner.StatsModifiers);
 
                 if (isLastAttack) damages *= lastAttackDamagesMultiplier;
 
@@ -94,7 +94,7 @@ public class PlayerWeapon : MonoBehaviour
 #if UNITY_EDITOR
         if (!debugMode || owner == null) return;
 
-        Gizmos.DrawWireSphere(this.transform.position, owner.GetStats.AttackRange);
+        Gizmos.DrawWireSphere(this.transform.position, owner.GetStats.AttackRange(owner.StatsModifiers));
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(owner.transform.position, maxRange);
 #endif

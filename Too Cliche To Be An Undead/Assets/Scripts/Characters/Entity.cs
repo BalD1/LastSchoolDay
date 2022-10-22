@@ -50,6 +50,10 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected SCRPT_EntityStats stats;
     public SCRPT_EntityStats GetStats { get => stats; }
 
+    [SerializeField] protected List<StatsModifier> statsModifiers = new List<StatsModifier>();
+    public List<StatsModifier> StatsModifiers { get => statsModifiers; }
+    private List<StatsModifier> modifiersToRemove = new List<StatsModifier>();
+
     [SerializeField][ReadOnly] protected float currentHP;
     public float CurrentHP { get => currentHP; }
 
@@ -63,6 +67,8 @@ public class Entity : MonoBehaviour, IDamageable
     //*********************************** 
 
     [Header("Misc")]
+
+    [SerializeField] protected bool invincible;
 
 #if UNITY_EDITOR
     [SerializeField] protected bool debugMode;
@@ -79,13 +85,20 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected virtual void Start()
     {
-        currentHP = GetStats.MaxHP;
+        currentHP = GetStats.MaxHP(StatsModifiers);
     }
 
     protected virtual void Update()
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
-        
+
+        modifiersToRemove = new List<StatsModifier>();
+        foreach (var item in StatsModifiers)
+        {
+            if (item.Update(Time.deltaTime)) modifiersToRemove.Add(item);
+        }
+        StatsModifiers.RemoveAll(x => modifiersToRemove.Contains(x));
+
         if (invincibility_TIMER > 0) invincibility_TIMER -= Time.deltaTime;
         if (attack_TIMER > 0) attack_TIMER -= Time.deltaTime;
     }
@@ -101,12 +114,19 @@ public class Entity : MonoBehaviour, IDamageable
 
     public virtual void Stun(float duration) { }
 
+    public void AddModifier(float time, float value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(time, value, type));
+    public void AddModifier(float value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(value, type));
+
+    public void AddModifier(float time, int value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(time, value, type));
+    public void AddModifier(int value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(value, type));
+
     #endregion
 
     #region Damages / Heal
 
     public virtual bool OnTakeDamages(float amount, bool isCrit = false)
     {
+        if (invincible) return false;
         if (invincibility_TIMER > 0) return false;
 
         if (isCrit) amount *= 1.5f;
@@ -125,6 +145,7 @@ public class Entity : MonoBehaviour, IDamageable
     }
     public virtual bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false)
     {
+        if (invincible) return false;
         if (invincibility_TIMER > 0) return false;
 
         // si la team de l'attaquant est la même que la nôtre, on ne subit pas de dégâts
@@ -140,13 +161,14 @@ public class Entity : MonoBehaviour, IDamageable
         if (isCrit) amount *= 1.5f;
 
         if (canExceedMaxHP) currentHP += amount;
-        else currentHP = Mathf.Clamp(currentHP += amount, 0, GetStats.MaxHP);
+        else currentHP = Mathf.Clamp(currentHP += amount, 0, GetStats.MaxHP(StatsModifiers));
 
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: true, isCrit);
     }
 
     public virtual void OnDeath(bool forceDeath = false)
     {
+        if (invincible) return;
         if (!forceDeath && IsAlive()) return;
 
         Debug.Log(this.gameObject.name + " iz dead lol x)", this.gameObject);
@@ -165,7 +187,7 @@ public class Entity : MonoBehaviour, IDamageable
     #endregion
 
 
-    public bool RollCrit() => Random.Range(0, 100) <= GetStats.CritChances ? true : false;
+    public bool RollCrit() => Random.Range(0, 100) <= GetStats.CritChances(StatsModifiers) ? true : false;
 
     public virtual void Flip(bool lookAtLeft) => this.sprite.flipX = lookAtLeft;
     public virtual bool IsFacingLeft() => !this.sprite.flipX;
@@ -187,7 +209,7 @@ public class Entity : MonoBehaviour, IDamageable
     {
 #if UNITY_EDITOR
         string col = GetStats.GetMarkdownColor();
-        Debug.Log("<b><color=" + col + ">" + this.gameObject.name + "</color></b> : " + currentHP + " / " + GetStats.MaxHP + " (" + (currentHP / GetStats.MaxHP * 100) + "% ) ", this.gameObject);
+        Debug.Log("<b><color=" + col + ">" + this.gameObject.name + "</color></b> : " + currentHP + " / " + GetStats.MaxHP(StatsModifiers) + " (" + (currentHP / GetStats.MaxHP(StatsModifiers) * 100) + "% ) ", this.gameObject);
 #endif
     }
 

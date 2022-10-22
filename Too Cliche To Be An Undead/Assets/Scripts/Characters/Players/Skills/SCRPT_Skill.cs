@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Skill", menuName = "Scriptable/Entity/Skills")]
 public abstract class SCRPT_Skill : ScriptableObject
 {
     [SerializeField] protected float cooldown;

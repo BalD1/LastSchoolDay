@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using BalDUtilities.EditorUtils;
 using BalDUtilities.Misc;
+using static UnityEditor.Progress;
 
 [CustomEditor(typeof(PlayerCharacter))]
 public class ED_PlayerCharacter : Editor
@@ -15,6 +16,7 @@ public class ED_PlayerCharacter : Editor
     private bool showState = true;
     private bool showAudio = true;
     private bool showStats = true;
+    private bool showModifiers = false;
     private bool showMisc = true;
 
     private bool showSrptStats;
@@ -228,7 +230,7 @@ public class ED_PlayerCharacter : Editor
 
         GUI.enabled = false;
 
-        EditorGUILayout.LabelField("Current HP : " + targetScript.CurrentHP + " / " + targetScript.GetStats.MaxHP + "(" + targetScript.CurrentHP / targetScript.GetStats.MaxHP * 100 + "%)");
+        EditorGUILayout.LabelField("Current HP : " + targetScript.CurrentHP + " / " + targetScript.GetStats.MaxHP(targetScript.StatsModifiers) + "(" + targetScript.CurrentHP / targetScript.GetStats.MaxHP(targetScript.StatsModifiers) * 100 + "%)");
 
         GUIStyle style = new GUIStyle(EditorStyles.foldout);
         style.fixedWidth = 0;
@@ -245,13 +247,13 @@ public class ED_PlayerCharacter : Editor
             EditorGUILayout.BeginVertical("GroupBox");
 
             EditorGUILayout.TextField("Entity Type", playerStats.EntityType);
-            EditorGUILayout.FloatField("Max HP", playerStats.MaxHP);
-            EditorGUILayout.FloatField("Base Damages", playerStats.BaseDamages);
-            EditorGUILayout.FloatField("Attack Range", playerStats.AttackRange);
-            EditorGUILayout.FloatField("Attack Cooldown", playerStats.Attack_COOLDOWN);
+            EditorGUILayout.FloatField("Max HP", playerStats.MaxHP(targetScript.StatsModifiers));
+            EditorGUILayout.FloatField("Base Damages", playerStats.BaseDamages(targetScript.StatsModifiers));
+            EditorGUILayout.FloatField("Attack Range", playerStats.AttackRange(targetScript.StatsModifiers));
+            EditorGUILayout.FloatField("Attack Cooldown", playerStats.Attack_COOLDOWN(targetScript.StatsModifiers));
             EditorGUILayout.FloatField("Invincibility Cooldown", playerStats.Invincibility_COOLDOWN);
-            EditorGUILayout.FloatField("Speed", playerStats.Speed);
-            EditorGUILayout.IntField("Crit Chances", playerStats.CritChances);
+            EditorGUILayout.FloatField("Speed", playerStats.Speed(targetScript.StatsModifiers));
+            EditorGUILayout.IntField("Crit Chances", playerStats.CritChances(targetScript.StatsModifiers));
             EditorGUILayout.FloatField("Weight", playerStats.Weight);
             EditorGUILayout.TextField("Team", EnumsExtension.EnumToString(playerStats.Team));
 
@@ -261,13 +263,41 @@ public class ED_PlayerCharacter : Editor
 
         GUI.enabled = true;
 
+        EditorGUI.indentLevel++;
+        showModifiers = EditorGUILayout.Foldout(showModifiers, "Modifiers");
+        if (showModifiers && targetScript.StatsModifiers.Count > 0)
+        {
+            EditorGUILayout.BeginVertical("GroupBox");
+
+            EditorGUI.indentLevel++;
+            StatsModifier stM;
+            for (int i = 0; i < targetScript.StatsModifiers.Count; i++)
+            {
+                stM = targetScript.StatsModifiers[i];
+
+                stM.showInEditor = EditorGUILayout.Foldout(stM.showInEditor, "Element " + i);
+                if (stM.showInEditor)
+                {
+                    GUI.enabled = false;
+
+                    EditorGUILayout.EnumPopup("Type", stM.StatType);
+                    if (stM.MaxDuration > 0) EditorGUILayout.TextField("Duration ", $"{stM.Timer} / {stM.MaxDuration}");
+                    else EditorGUILayout.TextField("Duration ", "Infinite");
+                    EditorGUILayout.FloatField("Modifier", stM.Modifier);
+
+                    GUI.enabled = true;
+                }
+            }
+            EditorGUI.indentLevel--;
+
+            EditorGUILayout.EndVertical();
+        }
+        EditorGUI.indentLevel--;
+
         EditorGUILayout.LabelField("Dash", EditorStyles.boldLabel);
 
-        SerializedProperty dashSpeedCurve = serializedObject.FindProperty("dashSpeedCurve");
-        EditorGUILayout.PropertyField(dashSpeedCurve);
-
-        SerializedProperty pushForce = serializedObject.FindProperty("pushForce");
-        EditorGUILayout.PropertyField(pushForce);
+        SerializedProperty playerDash = serializedObject.FindProperty("playerDash");
+        EditorGUILayout.PropertyField(playerDash);
 
         EditorGUILayout.EndVertical();
     }

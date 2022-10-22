@@ -24,15 +24,39 @@ public class SCRPT_EntityStats : ScriptableObject
     }
 
     public string EntityType { get => name; }
-    public float MaxHP { get => maxHP; }
-    public float BaseDamages { get => baseDamages; }
-    public float AttackRange { get => attackRange; }
-    public float Attack_COOLDOWN { get => attack_COOLDOWN; }
+    public float MaxHP(List<StatsModifier> modifiers) { return GetValueWithModifier(maxHP, StatsModifier.E_StatType.MaxHP, modifiers); } 
+
+    public float BaseDamages(List<StatsModifier> modifiers) { return GetValueWithModifier(baseDamages, StatsModifier.E_StatType.Damages, modifiers); }
+    public float AttackRange(List<StatsModifier> modifiers) { return GetValueWithModifier(attackRange, StatsModifier.E_StatType.AttackRange, modifiers); }
+    public float Attack_COOLDOWN(List<StatsModifier> modifiers) { return GetValueWithModifier(attack_COOLDOWN, StatsModifier.E_StatType.Attack_CD, modifiers); }
     public float Invincibility_COOLDOWN { get => invincibility_COOLDOWN; }
-    public float Speed { get => speed; }
-    public int CritChances { get => critChances; }
+    public float Speed(List<StatsModifier> modifiers) { return GetValueWithModifier(speed, StatsModifier.E_StatType.Speed, modifiers); }
+    public int CritChances(List<StatsModifier> modifiers) { return GetValueWithModifier(critChances, StatsModifier.E_StatType.CritChances, modifiers); }
     public float Weight { get => weight; }
     public E_Team Team { get => team; }
+
+    private float GetValueWithModifier(float baseVal, StatsModifier.E_StatType type, List<StatsModifier> modifiers)
+    {
+        float m = 0;
+        foreach (var item in modifiers)
+        {
+            if (item.StatType == type)
+                m += item.Modifier;
+        }
+
+        return baseVal + m;
+    }
+    private int GetValueWithModifier(int baseVal, StatsModifier.E_StatType type, List<StatsModifier> modifiers)
+    {
+        int m = 0;
+        foreach (var item in modifiers)
+        {
+            if (item.StatType == type)
+                m += (int)item.Modifier;
+        }
+
+        return baseVal + m;
+    }
 
     public override string ToString()
     {

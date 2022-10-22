@@ -20,7 +20,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         owner ??= stateManager.Owner;
         b = owner.transform.position;
         owner.d_EnteredTrigger += TriggerEnter;
-        max_DURATION = owner.DashSpeedCurve[owner.DashSpeedCurve.length - 1].time;
+        max_DURATION = owner.PlayerDash.DashSpeedCurve[owner.PlayerDash.DashSpeedCurve.length - 1].time;
         dash_dur_TIMER = max_DURATION;
 
         alreadyPushedEntities = new List<Collider2D>();
@@ -30,13 +30,16 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         Vector2 mousePos = MousePosition.GetMouseWorldPosition();
         mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
 
-        owner.SetSelfVelocity(mouseDir * owner.DashSpeedCurve.Evaluate(0));
+        owner.PlayerDash.OnDashStart(owner);
+
+        owner.SetSelfVelocity(mouseDir * owner.PlayerDash.DashSpeedCurve.Evaluate(0));
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
         dash_dur_TIMER -= Time.deltaTime;
-        owner.SetSelfVelocity(mouseDir * owner.DashSpeedCurve.Evaluate(-(dash_dur_TIMER - max_DURATION)));
+        owner.SetSelfVelocity(mouseDir * owner.PlayerDash.DashSpeedCurve.Evaluate(-(dash_dur_TIMER - max_DURATION)));
+        owner.PlayerDash.OnDashUpdate(owner);
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
@@ -48,6 +51,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     {
         owner.isDashing = false;
         owner.SetAllVelocity(Vector2.zero);
+        owner.PlayerDash.OnDashStop(owner);
         owner.d_EnteredTrigger -= TriggerEnter;
     }
 
@@ -68,7 +72,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         alreadyPushedEntities.Add(collider);
 
         // lessen the PushForce depending on the remaining push time
-        float remainingPushForce = owner.PushForce * GetRemainingTimeByMax();
+        float remainingPushForce = owner.PlayerDash.PushForce * GetRemainingTimeByMax();
 
         e.Push(owner.transform.position, remainingPushForce);
     }
