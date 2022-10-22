@@ -116,6 +116,12 @@ public abstract class EnemyBase : Entity
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
+            d_EnteredTrigger?.Invoke(collision);
+    }
+
     protected override void OnDrawGizmos()
     {
 #if UNITY_EDITOR

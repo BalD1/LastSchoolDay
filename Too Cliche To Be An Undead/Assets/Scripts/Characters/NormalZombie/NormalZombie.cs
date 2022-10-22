@@ -25,6 +25,8 @@ public class NormalZombie : EnemyBase
 
     public override Vector2 Push(Vector2 pusherPosition, float pusherForce)
     {
+        if (stateManager.ToString().Equals("Pushed")) return Vector2.zero;
+
         Vector2 v = base.Push(pusherPosition, pusherForce);
         stateManager.SwitchState(stateManager.pushedState.SetForce(v));
 

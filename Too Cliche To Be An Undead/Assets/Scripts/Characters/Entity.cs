@@ -70,6 +70,9 @@ public class Entity : MonoBehaviour, IDamageable
 
     [SerializeField] protected bool invincible;
 
+    public delegate void D_enteredTrigger(Collider2D collider);
+    public D_enteredTrigger d_EnteredTrigger;
+
 #if UNITY_EDITOR
     [SerializeField] protected bool debugMode;
 #endif

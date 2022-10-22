@@ -49,9 +49,6 @@ public class PlayerCharacter : Entity
     [SerializeField] private SCRPT_Dash playerDash;
     public SCRPT_Dash PlayerDash { get => playerDash; }
 
-    public delegate void D_enteredTrigger(Collider2D collider);
-    public D_enteredTrigger d_EnteredTrigger;
-
 #if UNITY_EDITOR
     public bool debugPush;
     private Vector2 gizmosMouseDir;

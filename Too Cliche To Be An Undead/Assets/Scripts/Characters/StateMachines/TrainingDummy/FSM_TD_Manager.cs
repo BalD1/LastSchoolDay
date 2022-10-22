@@ -49,6 +49,7 @@ public class FSM_TD_Manager : FSM_ManagerBase
         if (currentState == null) return "N/A";
         if (currentState.Equals(idleState)) return "Idle";
         if (currentState.Equals(stunState)) return "Stun";
+        if (currentState.Equals(pushedState)) return "Pushed";
 
         return "N/A";
     }
