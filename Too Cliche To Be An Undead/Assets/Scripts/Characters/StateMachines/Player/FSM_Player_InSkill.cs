@@ -2,41 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
+public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 {
-    public PlayerCharacter owner;
+    private PlayerCharacter owner;
+    private float timer;
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
+        owner ??= stateManager.Owner;
         Vector2 mouseDir = stateManager.Owner.Weapon.GetDirectionOfMouse();
 
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, true);
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
-        if (Input.GetMouseButtonDown(0)) owner.StartAttack();
+        timer -= Time.deltaTime;
+
+        if (owner.GetSkill.CanMove) owner.ReadMovementsInputs();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
     {
+        if (owner.GetSkill.CanMove) owner.Movements();
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, false);
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
-        if (!owner.Weapon.isAttacking)
-            stateManager.SwitchState(stateManager.idleState);
+        if (timer <= 0) stateManager.SwitchState(stateManager.idleState);
     }
 
-    public void NextAttack(int currentAttackIndex)
+    public FSM_Player_InSkill SetTimer(float _timer)
     {
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKINDEX, currentAttackIndex);
+        timer = _timer;
+        return this;
     }
 }

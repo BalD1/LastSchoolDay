@@ -19,6 +19,10 @@ public class FSM_Player_Idle : FSM_Base<FSM_Player_Manager>
     {
         owner.ReadMovementsInputs();
         stateManager.OwnerWeapon.FollowMouse();
+
+        if (Input.GetMouseButtonDown(0)) owner.StartAttack();
+        if (Input.GetMouseButtonDown(1)) owner.GetSkillHolder.UseSkill();
+        if (Input.GetKeyDown(KeyCode.LeftShift)) owner.StartDash();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)

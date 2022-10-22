@@ -95,6 +95,7 @@ public class Entity : MonoBehaviour, IDamageable
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
 
+        // update every modifiers timers, and remove the outdated ones
         modifiersToRemove = new List<StatsModifier>();
         foreach (var item in StatsModifiers)
         {

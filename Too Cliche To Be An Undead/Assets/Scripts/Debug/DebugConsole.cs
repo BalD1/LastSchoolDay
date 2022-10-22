@@ -22,6 +22,21 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand<float> DAMAGE_SELF;
     private DebugCommand<float, bool> DAMAGE_SELF_C;
 
+    private DebugCommand REMOVE_ALL_MODIFIERS;
+
+    private DebugCommand<float> ADDM_SELF_HP;
+    private DebugCommand<float, float> ADDM_SELF_HP_T;
+    private DebugCommand<float> ADDM_SELF_DAMAGES;
+    private DebugCommand<float,float> ADDM_SELF_DAMAGES_T;
+    private DebugCommand<float> ADDM_SELF_ATTRANGE;
+    private DebugCommand<float,float> ADDM_SELF_ATTRANGE_T;
+    private DebugCommand<float> ADDM_SELF_ATTCD;
+    private DebugCommand<float,float> ADDM_SELF_ATTCD_T;
+    private DebugCommand<float> ADDM_SELF_SPEED;
+    private DebugCommand<float,float> ADDM_SELF_SPEED_T;
+    private DebugCommand<int> ADDM_SELF_CRIT;
+    private DebugCommand<int, float> ADDM_SELF_CRIT_T;
+
     private DebugCommand<int> TEST_INT;
 
     private Vector2 helpScroll;
@@ -51,9 +66,23 @@ public class DebugConsole : MonoBehaviour
             GameManager.PlayerRef.OnTakeDamages(GameManager.PlayerRef.GetStats.MaxHP(GameManager.PlayerRef.StatsModifiers));
         });
 
+        REMOVE_ALL_MODIFIERS = new DebugCommand("REMOVE_ALL_MODIFIERS", "Removes every modifiers of self", "REMOVE_ALL_MODIFIERS", () =>
+        {
+            GameManager.PlayerRef.StatsModifiers.Clear();
+        });
+
+
         // INT COMMANDS
 
+        ADDM_SELF_CRIT = new DebugCommand<int>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self", "ADDM_SELF_CRIT <float>", (val) =>
+        {
+            GameManager.PlayerRef.AddModifier(val, StatsModifier.E_StatType.CritChances);
+        });
 
+        ADDM_SELF_CRIT_T = new DebugCommand<int, float>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self for <float>s", "ADDM_SELF_CRIT <int> <float>", (val_1, val_2) =>
+        {
+            GameManager.PlayerRef.AddModifier(val_2, val_1, StatsModifier.E_StatType.CritChances);
+        });
 
         // FLOAT COMMANDS
 
@@ -77,15 +106,88 @@ public class DebugConsole : MonoBehaviour
             GameManager.PlayerRef.OnTakeDamages(val_1, val_2);
         });
 
+        ADDM_SELF_HP = new DebugCommand<float>("ADDM_SELF_HP", "Adds a HP modifier of <float> to self", "ADDM_SELF_HP <float>", (val) =>
+        {
+            GameManager.PlayerRef.AddModifier(val, StatsModifier.E_StatType.MaxHP);
+        });
+
+        ADDM_SELF_HP_T = new DebugCommand<float, float>("ADDM_SELF_HP", "Adds a HP modifier of <float> to self for <float>s", "ADDM_SELF_HP <float> <float>", (val_1, val_2) =>
+        {
+            GameManager.PlayerRef.AddModifier(val_2, val_1, StatsModifier.E_StatType.MaxHP);
+        });
+
+        ADDM_SELF_DAMAGES = new DebugCommand<float>("ADDM_SELF_DAMAGES", "Adds a damages modifier of <float> to self", "ADDM_SELF_DAMAGES <float>", (val) =>
+        {
+            GameManager.PlayerRef.AddModifier(val, StatsModifier.E_StatType.Damages);
+        });
+
+        ADDM_SELF_DAMAGES_T = new DebugCommand<float, float>("ADDM_SELF_DAMAGES", "Adds a damages modifier of <float> to self for <float>s", "ADDM_SELF_DAMAGES <float> <float>", (val_1, val_2) =>
+        {
+            GameManager.PlayerRef.AddModifier(val_2, val_1, StatsModifier.E_StatType.Damages);
+        });
+
+        ADDM_SELF_ATTRANGE = new DebugCommand<float>("ADDM_SELF_ATTRANGE", "Adds a attack range modifier of <float> to self", "ADDM_SELF_ATTRANGE <float>", (val) =>
+        {
+            GameManager.PlayerRef.AddModifier(val, StatsModifier.E_StatType.AttackRange);
+        });
+
+        ADDM_SELF_ATTRANGE_T = new DebugCommand<float, float>("ADDM_SELF_ATTRANGE", "Adds a attack range modifier of <float> to self for <float>s", "ADDM_SELF_ATTRANGE <float> <float>", (val_1, val_2) =>
+        {
+            GameManager.PlayerRef.AddModifier(val_2, val_1, StatsModifier.E_StatType.AttackRange);
+        });
+
+        ADDM_SELF_ATTCD = new DebugCommand<float>("ADDM_SELF_ATTCD", "Adds a attack cooldown modifier of <float> to self", "ADDM_SELF_ATTCD <float>", (val) =>
+        {
+            GameManager.PlayerRef.AddModifier(val, StatsModifier.E_StatType.Attack_CD);
+        });
+
+        ADDM_SELF_ATTCD_T = new DebugCommand<float, float>("ADDM_SELF_ATTCD", "Adds a attack cooldown modifier of <float> to self for <float>s", "ADDM_SELF_ATTCD <float> <float>", (val_1, val_2) =>
+        {
+            GameManager.PlayerRef.AddModifier(val_2, val_1, StatsModifier.E_StatType.Attack_CD);
+        });
+
+        ADDM_SELF_SPEED = new DebugCommand<float>("ADDM_SELF_SPEED", "Adds a speed modifier of <float> to self", "ADDM_SELF_SPEED <float>", (val) =>
+        {
+            GameManager.PlayerRef.AddModifier(val, StatsModifier.E_StatType.Speed);
+        });
+
+        ADDM_SELF_SPEED_T = new DebugCommand<float, float>("ADDM_SELF_SPEED", "Adds a speed modifier of <float> to self for <float>s", "ADDM_SELF_SPEED <float> <float>", (val_1, val_2) =>
+        {
+            GameManager.PlayerRef.AddModifier(val_2, val_1, StatsModifier.E_StatType.Speed);
+        });
+
+
         commandList = new List<object>()
         {
             HELP,
             KILLSELF,
+
             HEAL_SELF,
             HEAL_SELF_C,
+
             DAMAGE_SELF,
             DAMAGE_SELF_C,
-        };
+
+            REMOVE_ALL_MODIFIERS,
+
+            ADDM_SELF_HP,
+            ADDM_SELF_HP_T,
+
+            ADDM_SELF_DAMAGES,
+            ADDM_SELF_DAMAGES_T,
+
+            ADDM_SELF_ATTRANGE,
+            ADDM_SELF_ATTRANGE_T,
+
+            ADDM_SELF_ATTCD,
+            ADDM_SELF_ATTCD_T,
+
+            ADDM_SELF_SPEED,
+            ADDM_SELF_SPEED_T,
+
+            ADDM_SELF_CRIT,
+            ADDM_SELF_CRIT_T,
+    };
     }
 
     private void Update()
@@ -118,6 +220,8 @@ public class DebugConsole : MonoBehaviour
         {
             HandleInput();
             input = "";
+            showConsole = false;
+            showHelp = false;
         }
     }
 
@@ -189,6 +293,11 @@ public class DebugConsole : MonoBehaviour
                 {
                     (command as DebugCommand<float, bool>).Invoke(float.Parse(proprieties[1]), ParseBool(proprieties[2]));
                     return;
+                }
+
+                else if (command as DebugCommand<float, float> != null && proprieties.Length == 3)
+                {
+                    (command as DebugCommand<float, float>).Invoke(float.Parse(proprieties[1]), float.Parse(proprieties[2]));
                 }
 
                 else if (command as DebugCommand<float> != null && proprieties.Length == 2)

@@ -7,6 +7,8 @@ public class SkillHolder : MonoBehaviour
     [SerializeField] private PlayerCharacter owner;
     [SerializeField] private SCRPT_Skill skill;
     [SerializeField] private Animator animator;
+
+    public SCRPT_Skill Skill { get => skill; }
     public Animator GetAnimator { get => animator; }
 
 #if UNITY_EDITOR
@@ -22,17 +24,19 @@ public class SkillHolder : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1) && timer <= 0) UseSkill();
-        else if (timer > 0)
+        if (timer > 0)
         {
             timer -= Time.deltaTime;
             owner.UpdateSkillThumbnailFill(-((timer / skill.Cooldown) - 1));
         }
     }
 
-    private void UseSkill()
+    public void UseSkill()
     {
+        if (timer > 0) return;
+
         skill.Use(owner);
+        owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimer(skill.Duration));
         owner.UpdateSkillThumbnailFill(-((timer / skill.Cooldown) - 1));
     }
 

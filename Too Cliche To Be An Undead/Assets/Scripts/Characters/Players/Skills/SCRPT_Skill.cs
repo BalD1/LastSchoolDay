@@ -7,6 +7,9 @@ public abstract class SCRPT_Skill : ScriptableObject
     [SerializeField] protected float cooldown;
     [SerializeField] protected float offset;
     [SerializeField] protected float range;
+    [SerializeField] protected float duration;
+
+    [SerializeField] protected bool canMove;
 
     [SerializeField] protected LayerMask entitiesToAffect;
 
@@ -16,6 +19,9 @@ public abstract class SCRPT_Skill : ScriptableObject
     public Sprite Thumbnail { get => thumbnail; }
     public float Cooldown { get => cooldown; }
     public float Range { get => range; }
+    public float Duration { get => duration; }
+
+    public bool CanMove { get => canMove; }
 
     public abstract void Use(PlayerCharacter owner);
 }

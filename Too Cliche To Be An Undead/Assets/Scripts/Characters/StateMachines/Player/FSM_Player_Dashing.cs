@@ -33,6 +33,11 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         owner.PlayerDash.OnDashStart(owner);
 
         owner.SetSelfVelocity(mouseDir * owner.PlayerDash.DashSpeedCurve.Evaluate(0));
+
+        Vector2 animatorMouseDir = stateManager.Owner.Weapon.GetDirectionOfMouse();
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, animatorMouseDir.x);
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, animatorMouseDir.y);
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, true);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
@@ -53,6 +58,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         owner.SetAllVelocity(Vector2.zero);
         owner.PlayerDash.OnDashStop(owner);
         owner.d_EnteredTrigger -= TriggerEnter;
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, false);
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

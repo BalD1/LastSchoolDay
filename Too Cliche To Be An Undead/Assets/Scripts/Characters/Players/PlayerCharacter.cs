@@ -17,6 +17,8 @@ public class PlayerCharacter : Entity
     public const string ANIMATOR_ARGS_VERTICAL = "Vertical";
     public const string ANIMATOR_ARGS_ATTACKING = "Attacking";
     public const string ANIMATOR_ARGS_ATTACKINDEX = "AttackIndex";
+    public const string ANIMATOR_ARGS_INSKILL = "InSkill";
+    public const string ANIMATOR_ARGS_DASHING = "Dashing";
 
     #endregion
 
@@ -33,6 +35,8 @@ public class PlayerCharacter : Entity
 
     [SerializeField] private SkillHolder skillHolder;
     public SkillHolder GetSkillHolder { get => skillHolder; }
+
+    public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
 
     [SerializeField] private Image hpBar;
     [SerializeField] private Image skillIcon;
@@ -85,9 +89,6 @@ public class PlayerCharacter : Entity
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         base.Update();
-
-        if (Input.GetMouseButtonDown(0)) StartAttack();
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dash_CD_TIMER <= 0) StartDash();
 
         if (dash_CD_TIMER > 0) dash_CD_TIMER -= Time.deltaTime;
     }
@@ -147,11 +148,6 @@ public class PlayerCharacter : Entity
 
     public void StartAttack()
     {
-        //if (attack_TIMER > 0) return;
-
-        //attack_TIMER = GetStats.Attack_COOLDOWN;
-        //weapon.DamageEnemiesInRange();
-
         if (!weapon.prepareNextAttack) weapon.prepareNextAttack = true;
         else weapon.inputStored = true;
     }
@@ -198,8 +194,10 @@ public class PlayerCharacter : Entity
 
     #endregion
 
-    private void StartDash()
+    public void StartDash()
     {
+        if (dash_CD_TIMER > 0) return;
+
         isDashing = true;
     }
 
