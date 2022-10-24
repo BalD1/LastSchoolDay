@@ -61,4 +61,6 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         force = _force;
         return this;
     }
+
+    public override string ToString() => "Pushed";
 }

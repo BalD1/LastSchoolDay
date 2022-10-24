@@ -11,7 +11,6 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
 
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
-        canSwitchToChase = false;
         owner ??= stateManager.Owner;
         moveToBasePos = Vector2.Distance(owner.BasePosition, owner.transform.position) > (owner.DistanceBeforeStop / 2);
         if (moveToBasePos)
@@ -40,6 +39,7 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
         owner.GetRb.velocity = Vector2.zero;
+        canSwitchToChase = false;
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
@@ -48,4 +48,5 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
     }
 
     public void SawPlayer() => canSwitchToChase = true;
+    public override string ToString() => "Wandering";
 }

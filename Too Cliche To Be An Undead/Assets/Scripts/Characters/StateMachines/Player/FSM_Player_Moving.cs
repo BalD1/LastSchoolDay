@@ -57,4 +57,5 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, y);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VELOCITY, owner.Velocity.magnitude);
     }
+    public override string ToString() => "Moving";
 }

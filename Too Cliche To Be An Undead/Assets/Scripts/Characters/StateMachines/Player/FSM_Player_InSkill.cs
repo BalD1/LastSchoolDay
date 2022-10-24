@@ -44,4 +44,5 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         timer = _timer;
         return this;
     }
+    public override string ToString() => "InSkill";
 }

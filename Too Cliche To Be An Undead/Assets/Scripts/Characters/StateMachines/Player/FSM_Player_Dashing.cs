@@ -84,4 +84,5 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     }
 
     public float GetRemainingTimeByMax() => dash_dur_TIMER / max_DURATION;
+    public override string ToString() => "Dashing";
 }

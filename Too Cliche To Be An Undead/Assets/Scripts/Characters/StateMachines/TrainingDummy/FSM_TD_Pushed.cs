@@ -9,4 +9,5 @@ public class FSM_TD_Pushed : FSM_Entity_Pushed<FSM_TD_Manager>
         base.Conditions(stateManager); 
         if (baseConditionChecked) stateManager.SwitchState(stateManager.idleState);
     }
+    public override string ToString() => "Pushed";
 }

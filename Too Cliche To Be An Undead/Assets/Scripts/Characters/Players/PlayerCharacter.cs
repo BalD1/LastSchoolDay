@@ -12,9 +12,6 @@ public class PlayerCharacter : Entity
 {
     #region Animator args
 
-    public const string ANIMATOR_ARGS_VELOCITY = "Velocity";
-    public const string ANIMATOR_ARGS_HORIZONTAL = "Horizontal";
-    public const string ANIMATOR_ARGS_VERTICAL = "Vertical";
     public const string ANIMATOR_ARGS_ATTACKING = "Attacking";
     public const string ANIMATOR_ARGS_ATTACKINDEX = "AttackIndex";
     public const string ANIMATOR_ARGS_INSKILL = "InSkill";
@@ -208,15 +205,6 @@ public class PlayerCharacter : Entity
     {
         skillHolder.transform.localPosition += (Vector3)weapon.GetDirectionOfMouse() * offset;
     }
-
-    #region Set animators
-
-    public void SetAnimatorTrigger(string trigger) => animator.SetTrigger(trigger);
-    public void SetAnimatorArgs(string args, int value) => animator.SetInteger(args, value);
-    public void SetAnimatorArgs(string args, float value) => animator.SetFloat(args, value);
-    public void SetAnimatorArgs(string args, bool value) => animator.SetBool(args, value);
-
-    #endregion
 
     private void SetKeepedData()
     {

@@ -154,7 +154,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4213046740015777111}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -175,11 +175,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 7821369719249530884}
   seeker: {fileID: 7491649661066783789}
-  nextWaypointDistance: 3
+  nextWaypointDistance: 0.5
   updatePathCooldown: 0.5
   targetRandomOffset: 0.5
   chaoticTargetPosition: 1
-  debugMode: 0
+  debugMode: 1
 --- !u!114 &7491649661066783789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,17 +469,21 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 5dbeb4889de8c4149afb3603f40a41ad, type: 2}
   currentHP: 0
   flashOnHitTime: 0.1
+  invincible: 0
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
+  attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 4564975985439888221}
   speedMultiplier: 100
-  distanceBeforeStop: 2.5
+  distanceBeforeStop: 4
+  durationBeforeAttack: 0.7
   detectedPlayers: []
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
   currentStateDebug: N/A
   stateManager: {fileID: 133242913744623205}
+  attack_DURATION: 1
 --- !u!114 &133242913744623205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,7 +531,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.13464701, y: -1.0254378}
+  m_Offset: {x: 0.0032776743, y: -0.90873337}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -538,5 +542,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.33574176, y: 0.29061604}
+  m_Size: {x: 0.49276367, y: 0.24393463}
   m_EdgeRadius: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FSM_NZ_Manager : FSM_ManagerBase
@@ -7,9 +8,12 @@ public class FSM_NZ_Manager : FSM_ManagerBase
     [SerializeField] private NormalZombie owner;
     public NormalZombie Owner { get => owner; }
 
+    public FSM_NZ_Idle idleState = new FSM_NZ_Idle();
     public FSM_NZ_Wandering wanderingState = new FSM_NZ_Wandering();
     public FSM_NZ_Chasing chasingState = new FSM_NZ_Chasing();
     public FSM_NZ_Pushed pushedState = new FSM_NZ_Pushed();
+    public FSM_NZ_Stun stunnedState = new FSM_NZ_Stun();
+    public FSM_NZ_Attacking attackingState = new FSM_NZ_Attacking();
 
     private FSM_Base<FSM_NZ_Manager> currentState;
     public FSM_Base<FSM_NZ_Manager> CurrentState { get => currentState; }
@@ -22,8 +26,9 @@ public class FSM_NZ_Manager : FSM_ManagerBase
     protected override void Start()
     {
         owner.D_detectedPlayer += wanderingState.SawPlayer;
+        owner.D_detectedPlayer += idleState.SawPlayer;
 
-        currentState = wanderingState;
+        currentState = idleState;
         currentState.EnterState(this);
 
 #if UNITY_EDITOR
@@ -63,10 +68,7 @@ public class FSM_NZ_Manager : FSM_ManagerBase
     public override string ToString()
     {
         if (currentState == null) return "N/A";
-        if (currentState.Equals(wanderingState)) return "Wandering";
-        if (currentState.Equals(chasingState)) return "Chasing";
-        if (currentState.Equals(pushedState)) return "Pushed";
 
-        return "N/A";
+        return currentState.ToString();
     }
 }

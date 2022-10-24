@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Entity : MonoBehaviour, IDamageable
@@ -61,10 +62,15 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected float invincibility_TIMER;
     protected float attack_TIMER;
+    public float Attack_TIMER { get => attack_TIMER; }
 
     //***********************************
     //************* MISC ****************
     //*********************************** 
+
+    public const string ANIMATOR_ARGS_VELOCITY = "Velocity";
+    public const string ANIMATOR_ARGS_HORIZONTAL = "Horizontal";
+    public const string ANIMATOR_ARGS_VERTICAL = "Vertical";
 
     [Header("Misc")]
 
@@ -116,7 +122,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     #region Status
 
-    public virtual void Stun(float duration) { }
+    public virtual void Stun(float duration) { throw new System.NotImplementedException(); }
 
     public void AddModifier(float time, float value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(time, value, type));
     public void AddModifier(float value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(value, type));
@@ -190,6 +196,14 @@ public class Entity : MonoBehaviour, IDamageable
 
     #endregion
 
+    #region Set Animator
+
+    public void SetAnimatorTrigger(string trigger) => animator.SetTrigger(trigger);
+    public void SetAnimatorArgs(string args, int value) => animator.SetInteger(args, value);
+    public void SetAnimatorArgs(string args, float value) => animator.SetFloat(args, value);
+    public void SetAnimatorArgs(string args, bool value) => animator.SetBool(args, value); 
+
+    #endregion
 
     public bool RollCrit() => Random.Range(0, 100) <= GetStats.CritChances(StatsModifiers) ? true : false;
 
@@ -206,6 +220,8 @@ public class Entity : MonoBehaviour, IDamageable
         Vector2 v = dir * finalForce;
         return v;
     }
+
+    public void StartAttackTimer(float durationModifier = 0) => attack_TIMER = GetStats.Attack_COOLDOWN(StatsModifiers) + durationModifier;
 
     #region Debug
 

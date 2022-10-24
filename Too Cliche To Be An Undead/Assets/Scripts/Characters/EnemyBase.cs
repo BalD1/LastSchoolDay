@@ -12,6 +12,9 @@ public abstract class EnemyBase : Entity
 
     [SerializeField] private SCRPT_DropTable dropTable;
 
+    [SerializeField] private SCRPT_NZ_Attack attack;
+    public SCRPT_NZ_Attack Attack { get => attack; }
+
     [SerializeField] private EnemyPathfinding pathfinding;
     public EnemyPathfinding Pathfinding { get => pathfinding; }
 
@@ -23,6 +26,10 @@ public abstract class EnemyBase : Entity
 
     [SerializeField] private float distanceBeforeStop = 1f;
     public float DistanceBeforeStop { get => distanceBeforeStop; }
+
+    [SerializeField] private float durationBeforeAttack = .3f;
+    public float DurationBeforeAttack { get => durationBeforeAttack; }
+    
 
     [Header("Player Related")]
 

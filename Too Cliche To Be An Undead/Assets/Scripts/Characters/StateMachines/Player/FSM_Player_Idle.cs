@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FSM_Player_Idle : FSM_Base<FSM_Player_Manager>
+public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
 {
-    private PlayerCharacter owner;
+    private new PlayerCharacter owner;
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         owner ??= stateManager.Owner;
+        base.owner = stateManager.Owner;
 
-        owner.GetRb.velocity = Vector2.zero;
-        owner.GetAnimator.SetFloat("Velocity", 0);
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VELOCITY, 0f);
+        owner.SetAllVelocity(Vector2.zero);
+        base.EnterState(stateManager);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
@@ -23,14 +23,6 @@ public class FSM_Player_Idle : FSM_Base<FSM_Player_Manager>
         if (Input.GetMouseButtonDown(0)) owner.StartAttack();
         if (Input.GetMouseButtonDown(1)) owner.GetSkillHolder.UseSkill();
         if (Input.GetKeyDown(KeyCode.LeftShift)) owner.StartDash();
-    }
-
-    public override void FixedUpdateState(FSM_Player_Manager stateManager)
-    {
-    }
-
-    public override void ExitState(FSM_Player_Manager stateManager)
-    {
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

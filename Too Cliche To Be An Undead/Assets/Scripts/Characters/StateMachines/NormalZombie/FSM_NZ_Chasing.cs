@@ -32,8 +32,16 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
     {
         if (WanderingConditions())
             stateManager.SwitchState(stateManager.wanderingState);
+
+        if (AttackConditions())
+            stateManager.SwitchState(stateManager.attackingState);
     }
 
     private bool WanderingConditions() => owner.DetectedPlayers.Count == 0 && 
                                           Vector2.Distance(owner.transform.position, owner.CurrentPositionTarget) <= owner.DistanceBeforeStop;
+
+    private bool AttackConditions() => Vector2.Distance(owner.transform.position, owner.CurrentPlayerTarget.transform.position) <= owner.DistanceBeforeStop &&
+                                        owner.Attack_TIMER <= 0;
+
+    public override string ToString() => "Chasing";
 }

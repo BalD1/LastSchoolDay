@@ -6,6 +6,9 @@ public class NormalZombie : EnemyBase
 {
     [SerializeField] private FSM_NZ_Manager stateManager;
 
+    [SerializeField] private float attack_DURATION = .3f;
+    public float Attack_DURATION { get => attack_DURATION; }
+
     protected override void Start()
     {
         base.Start();
@@ -21,6 +24,11 @@ public class NormalZombie : EnemyBase
     {
         base.OnDeath(forceDeath);
         Destroy(this.gameObject);
+    }
+
+    public override void Stun(float duration)
+    {
+        stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration));
     }
 
     public override Vector2 Push(Vector2 pusherPosition, float pusherForce)

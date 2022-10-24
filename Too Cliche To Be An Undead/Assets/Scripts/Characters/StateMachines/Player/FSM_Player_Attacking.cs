@@ -39,4 +39,5 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     {
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKINDEX, currentAttackIndex);
     }
+    public override string ToString() => "Attacking";
 }

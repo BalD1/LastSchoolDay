@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FSM_TD_Stun : FSM_Base<FSM_TD_Manager>
+public class FSM_TD_Stun : FSM_Entity_Stunned<FSM_TD_Manager>
 {
-    private TrainingDummy owner;
     private float stun_TIMER;
 
     public override void EnterState(FSM_TD_Manager stateManager)
     {
         owner ??= stateManager.Owner;
+        base.EnterState(stateManager);
     }
 
     public override void UpdateState(FSM_TD_Manager stateManager)
     {
-        if (stun_TIMER > 0) stun_TIMER -= Time.deltaTime;
+        base.UpdateState(stateManager);
     }
 
     public override void FixedUpdateState(FSM_TD_Manager stateManager)
@@ -23,16 +23,15 @@ public class FSM_TD_Stun : FSM_Base<FSM_TD_Manager>
 
     public override void ExitState(FSM_TD_Manager stateManager)
     {
-        owner.HideStatusText();
+        (owner as TrainingDummy).HideStatusText();
+        base.ExitState(stateManager);
     }
 
     public override void Conditions(FSM_TD_Manager stateManager)
     {
-        if (stun_TIMER <= 0) stateManager.SwitchState(stateManager.idleState);
+        base.Conditions(stateManager);
+        if (baseConditionChecked) stateManager.SwitchState(stateManager.idleState);
     }
-    public FSM_TD_Stun SetDuration(float duration)
-    {
-        stun_TIMER = duration;
-        return this;
-    }
+
+    public override string ToString() => "Stunned";
 }

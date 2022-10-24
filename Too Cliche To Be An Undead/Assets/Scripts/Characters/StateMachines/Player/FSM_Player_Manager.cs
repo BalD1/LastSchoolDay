@@ -56,13 +56,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public override string ToString()
     {
         if (currentState == null) return "N/A";
-        if (currentState.Equals(idleState)) return "Idle";
-        if (currentState.Equals(movingState)) return "Moving";
-        if (currentState.Equals(attackingState)) return "Attacking";
-        if (currentState.Equals(dashingState)) return "Dashing";
-        if (currentState.Equals(pushedState)) return "Pushed";
-        if (currentState.Equals(inSkillState)) return "InSkill";
 
-        return "N/A";
+        return currentState.ToString();
     }
 }

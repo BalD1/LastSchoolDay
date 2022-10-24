@@ -114,7 +114,6 @@ public class TrainingDummy : EnemyBase
 
     public override void Stun(float duration)
     {
-        base.Stun(duration);
         stateManager.SwitchState(stateManager.stunState.SetDuration(duration));
         statusText.text = "STUN";
         statusText.enabled = true;
