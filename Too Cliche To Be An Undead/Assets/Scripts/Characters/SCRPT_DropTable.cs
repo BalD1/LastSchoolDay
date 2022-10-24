@@ -12,9 +12,6 @@ public class SCRPT_DropTable : ScriptableObject
     [SerializeField] private MandatoryDrop[] mandatoryDrops;
     public MandatoryDrop[] MandatoryDrops { get => mandatoryDrops; }
 
-    public int minDropAmount = 1;
-    public int maxDropAmount = 1;
-
 #if UNITY_EDITOR
     [HideInInspector] public float totalWeight;
     [HideInInspector] public int totalDrops;
@@ -23,9 +20,21 @@ public class SCRPT_DropTable : ScriptableObject
     [System.Serializable]
     public struct DropWithWeight
     {
-        public GameObject objectToDrop;
+#if UNITY_EDITOR
+        public string editorName;
+#endif
+        public ObjectWithAmount[] objectsToDrop;
         public float weight;
-        public int amount;
+    }
+    [System.Serializable]
+    public struct ObjectWithAmount
+    {
+#if UNITY_EDITOR
+        public string editorName;
+#endif
+        public GameObject objectToDrop;
+        [Range(0, 50)] public int minAmount;
+        [Range(0, 50)] public int maxAmount;
     }
 
     [System.Serializable]
@@ -57,28 +66,25 @@ public class SCRPT_DropTable : ScriptableObject
         return new DropWithWeight();
     }
 
-    public GameObject DropRandom(Vector2 position)
+    public List<GameObject> DropRandom(Vector2 position)
     {
-        return DropRandomAll(position)[0];
-    }
-
-    public List<GameObject> DropRandomAll(Vector2 position)
-    {
-        int dropAmount = Random.Range(minDropAmount, maxDropAmount + 1);
         List<GameObject> table = new List<GameObject>();
-        for (int i = 0; i < dropAmount; i++)
+        SCRPT_DropTable.DropWithWeight drop = GetRandomDrop();
+        if (drop.objectsToDrop.Length > 0)
         {
-            SCRPT_DropTable.DropWithWeight drop = GetRandomDrop();
-            if (drop.objectToDrop != null)
+            foreach (var item in drop.objectsToDrop)
             {
-                for (int j = 0; j < drop.amount; j++)
+                int amount = Random.Range(item.minAmount, item.maxAmount + 1);
+                for (int i = 0; i < amount; i++)
                 {
-                    GameObject newDrop = Instantiate(drop.objectToDrop, position, Quaternion.identity);
+                    GameObject newDrop = Instantiate(item.objectToDrop, position, Quaternion.identity);
                     newDrop.GetComponent<Rigidbody2D>()?.AddForce(Vector2.up, ForceMode2D.Impulse);
                     table.Add(newDrop);
                 }
             }
         }
+
+        Debug.Log($"Dropping {drop.editorName}");
 
         foreach (var item in mandatoryDrops)
         {

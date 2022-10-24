@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class StatsModifier
 {
+    private string idName;
+
     private float maxDuration;
     private float timer;
     private float modifier;
@@ -25,20 +27,24 @@ public class StatsModifier
     }
     private E_StatType statType;
 
+    public string IDName { get => idName; }
+
     public float MaxDuration { get => maxDuration; }
     public float Timer { get => timer; }
     public float Modifier { get => modifier; }
     public E_StatType StatType { get => statType; }
 
-    public StatsModifier(float _maxDuration, float _modifier, E_StatType _statType)
+    public StatsModifier(string _idName, float _modifier, float _maxDuration, E_StatType _statType)
     {
+        this.idName = _idName;
         this.maxDuration = _maxDuration;
         this.timer = _maxDuration;
         modifier = _modifier;
         this.statType = _statType;
     }
-    public StatsModifier(float _modifier, E_StatType _statType)
+    public StatsModifier(string _idName, float _modifier, E_StatType _statType)
     {
+        idName = _idName;
         this.maxDuration = -1;
         modifier = _modifier;
         this.statType = _statType;

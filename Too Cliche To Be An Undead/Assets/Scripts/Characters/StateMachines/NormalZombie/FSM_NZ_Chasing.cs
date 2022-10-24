@@ -33,6 +33,8 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
         if (WanderingConditions())
             stateManager.SwitchState(stateManager.wanderingState);
 
+        if (owner.CurrentPlayerTarget == null) return;
+
         if (AttackConditions())
             stateManager.SwitchState(stateManager.attackingState);
     }

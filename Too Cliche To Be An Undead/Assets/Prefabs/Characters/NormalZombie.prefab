@@ -463,7 +463,7 @@ MonoBehaviour:
   sprite: {fileID: 7821369717731874618}
   hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 2333927270175999424}
-  healthPopupOffset: {x: 0, y: 0}
+  healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
   source: {fileID: 6684974879034983664}
   stats: {fileID: 11400000, guid: 5dbeb4889de8c4149afb3603f40a41ad, type: 2}
@@ -474,6 +474,7 @@ MonoBehaviour:
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 4564975985439888221}
+  attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7

@@ -107,10 +107,15 @@ public class Entity : MonoBehaviour, IDamageable
         {
             if (item.Update(Time.deltaTime)) modifiersToRemove.Add(item);
         }
-        StatsModifiers.RemoveAll(x => modifiersToRemove.Contains(x));
+        
 
         if (invincibility_TIMER > 0) invincibility_TIMER -= Time.deltaTime;
         if (attack_TIMER > 0) attack_TIMER -= Time.deltaTime;
+    }
+
+    private void LateUpdate()
+    {
+        StatsModifiers.RemoveAll(x => modifiersToRemove.Contains(x));
     }
 
     protected virtual void FixedUpdate()
@@ -124,11 +129,37 @@ public class Entity : MonoBehaviour, IDamageable
 
     public virtual void Stun(float duration) { throw new System.NotImplementedException(); }
 
-    public void AddModifier(float time, float value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(time, value, type));
-    public void AddModifier(float value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(value, type));
+    public void AddModifier(string id, float value, float time, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(id, value, time, type));
+    public void AddModifier(string id, float value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(id, value, type));
 
-    public void AddModifier(float time, int value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(time, value, type));
-    public void AddModifier(int value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(value, type));
+    public void AddModifier(string id, int value, float time, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(id, value, time, type));
+    public void AddModifier(string id, int value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(id, value, type));
+
+    public void RemoveModifier(string id)
+    {
+        StatsModifier m = new StatsModifier("NULL", -1, StatsModifier.E_StatType.MaxHP);
+
+        foreach (var item in StatsModifiers)
+        {
+            if (item.IDName.Equals(id))
+            {
+                m = item;
+                break;
+            }
+        }
+
+        if (m.IDName == "NULL") return;
+
+        StatsModifiers.Remove(m);
+    }
+    public void RemoveModifiersAll(string id)
+    {
+        foreach (var item in StatsModifiers)
+        {
+            if (item.IDName.Equals(id)) modifiersToRemove.Add(item);
+        }
+        StatsModifiers.RemoveAll(x => modifiersToRemove.Contains(x));
+    }
 
     #endregion
 
@@ -144,7 +175,7 @@ public class Entity : MonoBehaviour, IDamageable
         currentHP -= amount;
 
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: false, isCrit);
-        StartCoroutine(FlashOnHit());
+        StartCoroutine(MaterialFlash());
 
         // Si les pv sont <= à 0, on meurt, sinon on joue un son de Hurt
 
@@ -187,10 +218,18 @@ public class Entity : MonoBehaviour, IDamageable
 
     public bool IsAlive() => currentHP > 0;
 
-    protected virtual IEnumerator FlashOnHit()
+    public void StartMaterialFlash(Material m, float time) => StartCoroutine(MaterialFlash(m, time));
+
+    protected virtual IEnumerator MaterialFlash()
     {
         this.sprite.material = hitMaterial;
         yield return new WaitForSeconds(flashOnHitTime);
+        this.sprite.material = baseMaterial;
+    }
+    protected virtual IEnumerator MaterialFlash(Material m, float time)
+    {
+        this.sprite.material = m;
+        yield return new WaitForSeconds(time);
         this.sprite.material = baseMaterial;
     }
 

@@ -18,6 +18,8 @@ public abstract class EnemyBase : Entity
     [SerializeField] private EnemyPathfinding pathfinding;
     public EnemyPathfinding Pathfinding { get => pathfinding; }
 
+    [SerializeField] private Material attackMaterial;
+    public Material AttackMaterial { get => attackMaterial; }
 
     [Header("Stats", order = 0)]
 

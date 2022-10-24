@@ -15,6 +15,9 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     {
         owner ??= stateManager.Owner;
         owner.d_EnteredTrigger += OnTrigger;
+        owner.StartMaterialFlash(owner.AttackMaterial, .1f);
+
+        TextPopup.Create("!", (Vector2)owner.transform.position + owner.GetHealthPopupOffset);
 
         waitBeforeAttack_TIMER = owner.DurationBeforeAttack;
         attack_TIMER = owner.Attack_DURATION;

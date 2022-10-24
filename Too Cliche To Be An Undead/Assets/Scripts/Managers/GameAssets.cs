@@ -16,10 +16,12 @@ public class GameAssets : MonoBehaviour
     }
 
     [SerializeField] private GameObject damagesPopupPF;
+    [SerializeField] private GameObject textPopupPF;
     [SerializeField] private GameObject trainingDummyPF;
     [SerializeField] private GameObject coinPF;
 
     public GameObject DamagesPopupPF { get => damagesPopupPF; }
+    public GameObject TextPopupPF { get => textPopupPF; }
     public GameObject TrainingDummyPF { get => trainingDummyPF; }
     public GameObject CoinPF { get => coinPF; }
 
