@@ -42,7 +42,7 @@ public class PlayerInteractor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        IInteractable interactable = collision.transform.root.GetComponent<IInteractable>();
+        IInteractable interactable = collision.transform.parent.GetComponent<IInteractable>();
 
         if (interactable == null) return;
         if (interactable.CanBeInteractedWith() == false) return;
@@ -54,7 +54,7 @@ public class PlayerInteractor : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        IInteractable interactable = collision.transform.root.GetComponent<IInteractable>();
+        IInteractable interactable = collision.transform.parent.GetComponent<IInteractable>();
 
         if (interactable == null) return;
 

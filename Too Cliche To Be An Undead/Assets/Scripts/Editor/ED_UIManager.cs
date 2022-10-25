@@ -88,6 +88,9 @@ public class ED_UIManager : Editor
         SerializedProperty gameoverMenu = serializedObject.FindProperty("gameoverMenu");
         EditorGUILayout.PropertyField(gameoverMenu);
 
+        SerializedProperty pbContainer = serializedObject.FindProperty("pbContainer");
+        EditorGUILayout.PropertyField(pbContainer);
+
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Buttons Selection", EditorStyles.boldLabel);
 

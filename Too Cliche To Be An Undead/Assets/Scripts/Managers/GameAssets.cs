@@ -19,11 +19,13 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject textPopupPF;
     [SerializeField] private GameObject trainingDummyPF;
     [SerializeField] private GameObject coinPF;
+    [SerializeField] private GameObject pbThumbnailPF;
 
     public GameObject DamagesPopupPF { get => damagesPopupPF; }
     public GameObject TextPopupPF { get => textPopupPF; }
     public GameObject TrainingDummyPF { get => trainingDummyPF; }
     public GameObject CoinPF { get => coinPF; }
+    public GameObject PBThumbnailPF { get => pbThumbnailPF; }
 
     private void Awake()
     {

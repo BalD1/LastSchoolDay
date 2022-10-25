@@ -26,12 +26,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider firstSelectedButton_Options;
 
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject pbContainer;
     [SerializeField] private GameObject winMenu;
     [SerializeField] private GameObject gameoverMenu;
     [SerializeField] private GameObject mainMenu_mainPanel;
 
     private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
     public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
+
+    private List<PBThumbnail> pbThumbnails = new List<PBThumbnail>();
 
 #if UNITY_EDITOR
     [SerializeField] private List<GameObject> EDITOR_openMenusQueues;
@@ -156,6 +159,13 @@ public class UIManager : MonoBehaviour
         }
 
         SelectButton("Last");
+    }
+
+    public void AddPBToContainer(SCRPT_PB pb)
+    {
+        PBThumbnail gO = PBThumbnail.Create(pb);
+        gO.transform.parent = pbContainer.transform;
+        pbThumbnails.Add(gO);
     }
 
 #if UNITY_EDITOR

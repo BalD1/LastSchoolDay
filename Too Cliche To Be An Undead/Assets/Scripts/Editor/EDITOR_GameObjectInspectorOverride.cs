@@ -4,10 +4,10 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using BalDUtilities.EditorUtils;
 
-[CustomEditor(typeof(GameObject))]
+//[CustomEditor(typeof(GameObject))]
 public class EDITOR_GameObjectInspectorOverride : Editor
 {
-
+    /*
     private System.Type inspectorType;
     private Editor editorInstance;
     private _MethodInfo defaultHeaderGUI;
@@ -36,5 +36,5 @@ public class EDITOR_GameObjectInspectorOverride : Editor
     }
 
     public override void OnInspectorGUI() { }
-
+    */
 }

@@ -36,9 +36,4 @@ public class Chest : MonoBehaviour, IInteractable
     {
         return (isOpen == false);
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log(collision);
-    }
 }
