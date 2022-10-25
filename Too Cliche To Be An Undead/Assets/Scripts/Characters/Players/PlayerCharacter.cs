@@ -36,6 +36,7 @@ public class PlayerCharacter : Entity
     public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
 
     [SerializeField] private Image hpBar;
+    [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image skillIcon;
 
     private float dash_CD_TIMER;
@@ -156,6 +157,8 @@ public class PlayerCharacter : Entity
 
         if (hpBar != null)
             hpBar.fillAmount = (currentHP / GetStats.MaxHP(StatsModifiers));
+        if (hpText != null)
+            hpText.text = $"{currentHP} / {GetStats.MaxHP(StatsModifiers)}";
 
         return res;
     }
@@ -166,6 +169,8 @@ public class PlayerCharacter : Entity
 
         if (hpBar != null)
             hpBar.fillAmount = (currentHP / GetStats.MaxHP(StatsModifiers));
+        if (hpText != null)
+            hpText.text = $"{currentHP} / {GetStats.MaxHP(StatsModifiers)}";
     }
 
     public override void OnDeath(bool forceDeath = false)

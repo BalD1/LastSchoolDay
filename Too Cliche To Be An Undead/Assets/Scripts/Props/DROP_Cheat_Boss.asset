@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b786939fc161ac849b4addcd625792b0, type: 3}
-  m_Name: DROP_T
+  m_Name: DROP_Cheat_Boss
   m_EditorClassIdentifier: 
   dropTable:
-  - editorName: c
+  - editorName: Boss
     objectsToDrop:
-    - editorName: c
-      objectToDrop: {fileID: 7514491541404877946, guid: a7d404538241871479acc4d1cacdc171, type: 3}
-      minAmount: 2
-      maxAmount: 2
-    weight: 100
+    - editorName: Boss
+      objectToDrop: {fileID: 7032362504837700439, guid: a5d8b99ed3659dc4f8fbbc97dfdeeb79, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 1
   mandatoryDrops: []
-  totalWeight: 100
+  totalWeight: 0
   totalDrops: 1

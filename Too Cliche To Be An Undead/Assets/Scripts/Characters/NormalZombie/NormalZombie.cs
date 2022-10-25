@@ -12,7 +12,7 @@ public class NormalZombie : EnemyBase
     protected override void Start()
     {
         base.Start();
-        Pathfinding.StartUpdatePath();
+        Pathfinding?.StartUpdatePath();
     }
 
     protected override void Update()

@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class TEMP_Key : Collectable
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-        {
-            GameManager.Instance.hasKey = true;
-            Destroy(gameObject);
-        }
+        base.OnTriggerEnter2D(collision);
+        GameManager.Instance.GameState = GameManager.E_GameState.Win;
     }
 }

@@ -164,7 +164,7 @@ public class UIManager : MonoBehaviour
     public void AddPBToContainer(SCRPT_PB pb)
     {
         PBThumbnail gO = PBThumbnail.Create(pb);
-        gO.transform.parent = pbContainer.transform;
+        gO.transform.SetParent(pbContainer.transform);
         pbThumbnails.Add(gO);
     }
 

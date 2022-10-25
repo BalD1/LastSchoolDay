@@ -100,6 +100,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty hpBar = serializedObject.FindProperty("hpBar");
         EditorGUILayout.PropertyField(hpBar);
 
+        SerializedProperty hpText = serializedObject.FindProperty("hpText");
+        EditorGUILayout.PropertyField(hpText);
+
         SerializedProperty skillIcon = serializedObject.FindProperty("skillIcon");
         EditorGUILayout.PropertyField(skillIcon);
 

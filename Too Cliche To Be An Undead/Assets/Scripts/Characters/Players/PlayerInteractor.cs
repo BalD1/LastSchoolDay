@@ -20,7 +20,8 @@ public class PlayerInteractor : MonoBehaviour
         foreach (var item in interactablesInRange)
         {
             item.Interact();
-            interactablesToRemove.Add(item);
+            if (item.CanBeInteractedWith() == false)
+                interactablesToRemove.Add(item);
         }
         CleanListAll();
     }

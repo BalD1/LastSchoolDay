@@ -14,7 +14,8 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
 
     public override void UpdateState(FSM_NZ_Manager stateManager)
     {
-        goalPosition = owner.Pathfinding.CheckWayPoint();
+        if (owner.Pathfinding != null)
+            goalPosition = owner.Pathfinding.CheckWayPoint();
     }
 
     public override void FixedUpdateState(FSM_NZ_Manager stateManager)

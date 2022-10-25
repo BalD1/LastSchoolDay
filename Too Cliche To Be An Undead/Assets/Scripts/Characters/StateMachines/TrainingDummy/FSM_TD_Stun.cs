@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class FSM_TD_Stun : FSM_Entity_Stunned<FSM_TD_Manager>
 {
-    private float stun_TIMER;
-
     public override void EnterState(FSM_TD_Manager stateManager)
     {
         owner ??= stateManager.Owner;

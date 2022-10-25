@@ -132,11 +132,27 @@ public class Entity : MonoBehaviour, IDamageable
 
     public virtual void Stun(float duration) { throw new System.NotImplementedException(); }
 
-    public void AddModifier(string id, float value, float time, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(id, value, time, type));
-    public void AddModifier(string id, float value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(id, value, type));
+    public void AddModifier(string id, float value, float time, StatsModifier.E_StatType type)
+    {
+        StatsModifiers.Add(new StatsModifier(id, value, time, type));
+        if (type == StatsModifier.E_StatType.MaxHP) this.OnHeal(value);
+    }
+    public void AddModifier(string id, float value, StatsModifier.E_StatType type)
+    {
+        StatsModifiers.Add(new StatsModifier(id, value, type));
+        if (type == StatsModifier.E_StatType.MaxHP) this.OnHeal(value);
+    }
 
-    public void AddModifier(string id, int value, float time, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(id, value, time, type));
-    public void AddModifier(string id, int value, StatsModifier.E_StatType type) => StatsModifiers.Add(new StatsModifier(id, value, type));
+    public void AddModifier(string id, int value, float time, StatsModifier.E_StatType type)
+    {
+        StatsModifiers.Add(new StatsModifier(id, value, time, type));
+        if (type == StatsModifier.E_StatType.MaxHP) this.OnHeal(value);
+    }
+    public void AddModifier(string id, int value, StatsModifier.E_StatType type)
+    {
+        StatsModifiers.Add(new StatsModifier(id, value, type));
+        if (type == StatsModifier.E_StatType.MaxHP) this.OnHeal(value);
+    }
 
     public void RemoveModifier(string id)
     {
