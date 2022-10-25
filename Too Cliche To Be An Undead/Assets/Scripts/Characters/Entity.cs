@@ -115,7 +115,10 @@ public class Entity : MonoBehaviour, IDamageable
 
     private void LateUpdate()
     {
+        if (modifiersToRemove.Count <= 0) return;
+
         StatsModifiers.RemoveAll(x => modifiersToRemove.Contains(x));
+        modifiersToRemove.Clear();
     }
 
     protected virtual void FixedUpdate()

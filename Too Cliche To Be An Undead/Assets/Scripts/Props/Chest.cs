@@ -6,9 +6,9 @@ public class Chest : MonoBehaviour, IInteractable
 {
     [SerializeField] private SCRPT_DropTable dropTable;
 
-    private List<PlayerInteractor> interactors = new List<PlayerInteractor>();
+    [SerializeField] private List<PlayerInteractor> interactors = new List<PlayerInteractor>();
 
-    private bool isOpen = false;
+    [SerializeField] private bool isOpen = false;
 
     public void EnteredInRange(GameObject interactor)
     {
@@ -23,18 +23,13 @@ public class Chest : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (isOpen) return; 
+        isOpen = true;
 
         dropTable.DropRandom(this.transform.position);
 
         this.transform.GetComponentInChildren<SpriteRenderer>().color = Color.red;
-        foreach (var item in interactors)
-        {
-            item.RemoveInteractable(this);
-        }
 
         interactors.Clear();
-
-        isOpen = true;
     }
 
     public bool CanBeInteractedWith()

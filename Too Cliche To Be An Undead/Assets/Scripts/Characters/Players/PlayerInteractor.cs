@@ -7,7 +7,7 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private CircleCollider2D trigger;
     [SerializeField] private GameObject interactPrompt;
 
-    private List<IInteractable> interactablesInRange = new List<IInteractable>();
+    [SerializeField] private List<IInteractable> interactablesInRange = new List<IInteractable>();
     private List<IInteractable> interactablesToRemove = new List<IInteractable>();
 
     private void Update()
@@ -15,22 +15,28 @@ public class PlayerInteractor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E)) InvokeInteraction();
     }
 
-    private void LateUpdate()
-    {
-        if (interactablesToRemove.Count > 0) interactablesInRange.RemoveAll(x => interactablesToRemove.Contains(x));
-    }
-
     private void InvokeInteraction()
     {
         foreach (var item in interactablesInRange)
         {
             item.Interact();
+            interactablesToRemove.Add(item);
         }
+        CleanListAll();
     }
 
-    public void RemoveInteractable(IInteractable i)
+    public void CleanListSingle(IInteractable i)
     {
-        interactablesToRemove.Add(i);
+        interactablesInRange.Remove(i);
+        if (interactablesInRange.Count == 0) interactPrompt.SetActive(false);
+    }
+    public void CleanListAll()
+    {
+        if (interactablesToRemove.Count <= 0) return;
+
+        interactablesInRange.RemoveAll(x => interactablesToRemove.Contains(x));
+        interactablesToRemove.Clear();
+
         if (interactablesInRange.Count == 0) interactPrompt.SetActive(false);
     }
 
@@ -53,6 +59,6 @@ public class PlayerInteractor : MonoBehaviour
         if (interactable == null) return;
 
         interactable.ExitedRange(this.gameObject);
-        RemoveInteractable(interactable);
+        CleanListSingle(interactable);
     }
 }
