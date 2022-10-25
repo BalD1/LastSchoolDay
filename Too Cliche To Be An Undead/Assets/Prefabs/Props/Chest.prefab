@@ -46,6 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: e88ead0575d7f4341b9b87a8007b61df, type: 2}
+  interactors: []
+  openedSprite: {fileID: 21300000, guid: 5867c651bc90fed4a9a747948138757e, type: 3}
+  isOpen: 0
 --- !u!1 &8806019994859413086
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +124,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1e7dd7997aba75544b7731db3da9d377, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2d43abed1fed13f4fb4df100e7a54f78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -145,18 +148,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.06900978, y: -1.1808352}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4, y: 4}
+    oldSize: {x: 8.28, y: 7.82}
     newSize: {x: 4, y: 4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 4}
+  m_Size: {x: 7.8185463, y: 5.257514}
   m_EdgeRadius: 0
 --- !u!50 &8806019994859413058
 Rigidbody2D:

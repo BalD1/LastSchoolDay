@@ -20,7 +20,7 @@ public class EnemyVision : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("VisionTarget"))
         {
             PlayerCharacter player = collision.GetComponentInParent<PlayerCharacter>();
             if (player == null) return;
@@ -35,7 +35,7 @@ public class EnemyVision : MonoBehaviour
 #endif
                 if (hit)
                 {
-                    if (hit.collider.CompareTag("Player")) owner.AddDetectedPlayer(player);
+                    if (hit.collider.CompareTag("VisionTarget")) owner.AddDetectedPlayer(player);
                 }
             }
         }
@@ -43,7 +43,7 @@ public class EnemyVision : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("VisionTarget"))
         {
             PlayerCharacter player = collision.GetComponentInParent<PlayerCharacter>();
             if (owner.DetectedPlayers.Contains(player))

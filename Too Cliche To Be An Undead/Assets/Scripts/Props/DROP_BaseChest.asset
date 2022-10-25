@@ -13,27 +13,149 @@ MonoBehaviour:
   m_Name: DROP_BaseChest
   m_EditorClassIdentifier: 
   dropTable:
-  - editorName: Coins (little)
+  - editorName: Little - Apple
     objectsToDrop:
     - editorName: Coins
       objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
       minAmount: 2
       maxAmount: 5
+    - editorName: PB - Apple
+      objectToDrop: {fileID: 7396686981596486908, guid: d33c43242f0b0ba44bd576d53e74f69d, type: 3}
+      minAmount: 1
+      maxAmount: 1
     weight: 100
-  - editorName: Coins (medium)
+  - editorName: Little - Backpack
+    objectsToDrop:
+    - editorName: Coins
+      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+      minAmount: 2
+      maxAmount: 5
+    - editorName: PB - Backpack
+      objectToDrop: {fileID: 3497525231123131001, guid: 7d5de27558398c844b8e975be4fc29ef, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 100
+  - editorName: Little - Energy Bar
+    objectsToDrop:
+    - editorName: Coins
+      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+      minAmount: 2
+      maxAmount: 5
+    - editorName: PB - Energy Bar
+      objectToDrop: {fileID: 4413682595152166823, guid: 86beb8c63c7aa84409a4f361e1a61d48, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 100
+  - editorName: Little - Regular
+    objectsToDrop:
+    - editorName: Coins
+      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+      minAmount: 2
+      maxAmount: 5
+    - editorName: PB - Regular
+      objectToDrop: {fileID: 5775482531568391049, guid: 1683dc27526d41247a412e475eab6753, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 100
+  - editorName: Little - Coffee
+    objectsToDrop:
+    - editorName: Coins
+      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+      minAmount: 2
+      maxAmount: 5
+    - editorName: PB - Coffee
+      objectToDrop: {fileID: 8761992366823496066, guid: 0fb223c8136f2b441a0e325f0b83da05, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 100
+  - editorName: Medium - Healthpack
     objectsToDrop:
     - editorName: Coins
       objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
       minAmount: 5
       maxAmount: 10
+    - editorName: PB - Healthpack
+      objectToDrop: {fileID: 5931599837513873767, guid: 22af90cdc654ef54ab9e8c2a901bca5e, type: 3}
+      minAmount: 1
+      maxAmount: 1
     weight: 50
-  - editorName: Coins (large)
+  - editorName: Medium - American Flag
+    objectsToDrop:
+    - editorName: Coins
+      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+      minAmount: 5
+      maxAmount: 10
+    - editorName: PB - American Flag
+      objectToDrop: {fileID: 7514491541404877946, guid: a7d404538241871479acc4d1cacdc171, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 50
+  - editorName: Medium - SportShoes
+    objectsToDrop:
+    - editorName: Coins
+      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+      minAmount: 5
+      maxAmount: 10
+    - editorName: PB - SportShoes
+      objectToDrop: {fileID: 8599263571392868561, guid: 4995290d79dfe8d41b792761abfd798c, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 50
+  - editorName: Medium - EnergyDrink
+    objectsToDrop:
+    - editorName: Coins
+      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+      minAmount: 5
+      maxAmount: 10
+    - editorName: PB - EnergyDrink
+      objectToDrop: {fileID: 3024565253009458591, guid: 9c4fd768b23065d4cbe12c148122a870, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 50
+  - editorName: Large - Signed BaseballBat
     objectsToDrop:
     - editorName: Coins
       objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
       minAmount: 20
       maxAmount: 30
+    - editorName: PB - Signed BaseballBat
+      objectToDrop: {fileID: 6081199398602493211, guid: 344feb650f58537439d3ba6ee8673b6e, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 30
+  - editorName: Large - Pompons
+    objectsToDrop:
+    - editorName: Coins
+      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+      minAmount: 20
+      maxAmount: 30
+    - editorName: PB - Pompons
+      objectToDrop: {fileID: 4989661892116239126, guid: 702e43724ff29404bb71f4c597e6b8ea, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 30
+  - editorName: Large - SprayPaint
+    objectsToDrop:
+    - editorName: Coins
+      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+      minAmount: 20
+      maxAmount: 30
+    - editorName: PB - SprayPaint
+      objectToDrop: {fileID: 1817770353501794758, guid: efe218aa9ed8cc148a330f61de3600e8, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 30
+  - editorName: Large - GamingConsole
+    objectsToDrop:
+    - editorName: Coins
+      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+      minAmount: 20
+      maxAmount: 30
+    - editorName: PB - GamingConsole
+      objectToDrop: {fileID: 4081559203141921667, guid: 1d2ef2aee58db4143a8907e2ed858de7, type: 3}
+      minAmount: 1
+      maxAmount: 1
     weight: 30
   mandatoryDrops: []
-  totalWeight: 180
-  totalDrops: 3
+  totalWeight: 820
+  totalDrops: 13

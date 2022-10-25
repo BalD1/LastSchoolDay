@@ -32,7 +32,7 @@ public class ED_SCRPT_Droptable : Editor
             EditorGUI.indentLevel++;
             for (int i = 0; i < targetScript.DropTable.Length; i++)
             {
-                EditorGUILayout.TextField($"Element {i} : ", $"{targetScript.DropTable[i].weight / targetScript.totalWeight * 100:F0} % ");
+                EditorGUILayout.TextField($"{targetScript.DropTable[i].editorName} : ", $"{targetScript.DropTable[i].weight / targetScript.totalWeight * 100:F0} % ");
             }
             EditorGUI.indentLevel--;
         }

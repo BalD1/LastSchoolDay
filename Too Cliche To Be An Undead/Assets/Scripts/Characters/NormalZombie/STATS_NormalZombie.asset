@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityName: NormalZombie
   maxHP: 100
-  baseDamages: 10
+  baseDamages: 5
   attackRange: 0
   attack_COOLDOWN: 3
-  invincibility_COOLDOWN: 0
+  invincibility_COOLDOWN: 0.1
   speed: 1
   critChances: 0
   weight: 0

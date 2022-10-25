@@ -8,6 +8,8 @@ public class Chest : MonoBehaviour, IInteractable
 
     [SerializeField] private List<PlayerInteractor> interactors = new List<PlayerInteractor>();
 
+    [SerializeField] private Sprite openedSprite;
+
     [SerializeField] private bool isOpen = false;
 
     public void EnteredInRange(GameObject interactor)
@@ -27,7 +29,7 @@ public class Chest : MonoBehaviour, IInteractable
 
         dropTable.DropRandom(this.transform.position);
 
-        this.transform.GetComponentInChildren<SpriteRenderer>().color = Color.red;
+        this.transform.GetComponentInChildren<SpriteRenderer>().sprite = openedSprite;
 
         interactors.Clear();
     }
