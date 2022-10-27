@@ -142,6 +142,12 @@ public class GameManager : MonoBehaviour
 
     public void HandlePause()
     {
+        if (UIManager.Instance.OpenMenusQueues.Count > 0)
+        {
+            UIManager.Instance.CloseYoungerMenu();
+            return;
+        }
+
         if (GameState.Equals(E_GameState.InGame))
         {
             GameState = E_GameState.Pause;

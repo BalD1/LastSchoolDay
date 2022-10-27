@@ -45,6 +45,7 @@ public class Collectable : MonoBehaviour
         if (collision.tag == "Player")
         {
             //spawn particle
+            if (particle != null)
             Instantiate(particle, this.transform.position, Quaternion.identity);
 
             //play sound

@@ -91,6 +91,15 @@ public class ED_UIManager : Editor
         SerializedProperty pbContainer = serializedObject.FindProperty("pbContainer");
         EditorGUILayout.PropertyField(pbContainer);
 
+        SerializedProperty shopMenu = serializedObject.FindProperty("shopMenu");
+        EditorGUILayout.PropertyField(shopMenu);
+
+        SerializedProperty shopContentMenu = serializedObject.FindProperty("shopContentMenu");
+        EditorGUILayout.PropertyField(shopContentMenu);
+
+        SerializedProperty hud = serializedObject.FindProperty("hud");
+        EditorGUILayout.PropertyField(hud);
+
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Buttons Selection", EditorStyles.boldLabel);
 
@@ -105,5 +114,8 @@ public class ED_UIManager : Editor
 
         SerializedProperty firstSelectedButton_Gameover = serializedObject.FindProperty("firstSelectedButton_Gameover");
         EditorGUILayout.PropertyField(firstSelectedButton_Gameover);
+
+        SerializedProperty firstSelectedButton_Shop = serializedObject.FindProperty("firstSelectedButton_Shop");
+        EditorGUILayout.PropertyField(firstSelectedButton_Shop);
     }
 }

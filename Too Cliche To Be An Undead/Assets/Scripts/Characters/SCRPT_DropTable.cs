@@ -84,7 +84,7 @@ public class SCRPT_DropTable : ScriptableObject
             }
         }
 
-        Debug.Log($"Dropping {drop.editorName}");
+        //Debug.Log($"Dropping {drop.editorName}");
 
         foreach (var item in mandatoryDrops)
         {

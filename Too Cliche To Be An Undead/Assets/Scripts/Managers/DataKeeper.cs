@@ -31,11 +31,13 @@ public class DataKeeper : MonoBehaviour
     {
         public string playerName;
         public int money;
+        public int maxLevel;
 
-        public PlayerDataKeep(string _playerName, int _money = 0)
+        public PlayerDataKeep(string _playerName, int _money = 0, int _maxLevel = 0)
         {
             playerName = _playerName;
             money = _money;
+            maxLevel = _maxLevel;
         }
     }
     public List<PlayerDataKeep> playersDataKeep = new List<PlayerDataKeep>();

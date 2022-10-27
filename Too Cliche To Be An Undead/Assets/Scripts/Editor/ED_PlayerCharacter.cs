@@ -297,6 +297,9 @@ public class ED_PlayerCharacter : Editor
         }
         EditorGUI.indentLevel--;
 
+        SerializedProperty level = serializedObject.FindProperty("level");
+        EditorGUILayout.PropertyField(level);
+
         EditorGUILayout.LabelField("Dash", EditorStyles.boldLabel);
 
         SerializedProperty playerDash = serializedObject.FindProperty("playerDash");

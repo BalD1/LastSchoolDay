@@ -23,13 +23,19 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button firstSelectedButton_Pause;
     [SerializeField] private Button firstSelectedButton_Win;
     [SerializeField] private Button firstSelectedButton_Gameover;
+    [SerializeField] private Button firstSelectedButton_Shop;
     [SerializeField] private Slider firstSelectedButton_Options;
 
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject pbContainer;
     [SerializeField] private GameObject winMenu;
     [SerializeField] private GameObject gameoverMenu;
+    [SerializeField] private GameObject shopMenu;
+    [SerializeField] private GameObject shopContentMenu;
+    [SerializeField] private GameObject hud;
     [SerializeField] private GameObject mainMenu_mainPanel;
+
+    public GameObject ShopContentMenu { get => shopContentMenu; }
 
     private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
     public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
@@ -166,6 +172,18 @@ public class UIManager : MonoBehaviour
         PBThumbnail gO = PBThumbnail.Create(pb);
         gO.transform.SetParent(pbContainer.transform);
         pbThumbnails.Add(gO);
+    }
+
+    public void OpenShop()
+    {
+        OpenMenuInQueue(shopMenu);
+        hud.SetActive(false);
+    }
+
+    public void CloseShop()
+    {
+        CloseYoungerMenu();
+        hud.SetActive(true);
     }
 
 #if UNITY_EDITOR

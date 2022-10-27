@@ -48,6 +48,9 @@ public class PlayerCharacter : Entity
     [SerializeField] private int playerIndex;
     public int PlayerIndex { get => playerIndex; }
 
+    [SerializeField] private int level;
+    public int Level { get => level; }
+
     [SerializeField] private SCRPT_Dash playerDash;
     public SCRPT_Dash PlayerDash { get => playerDash; }
 
@@ -220,6 +223,7 @@ public class PlayerCharacter : Entity
     private void OnSceneReload()
     {
         DataKeeper.Instance.playersDataKeep[this.playerIndex].money = this.money;
+        DataKeeper.Instance.playersDataKeep[this.playerIndex].maxLevel = this.Level;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -248,6 +252,8 @@ public class PlayerCharacter : Entity
 
         return res;
     }
+
+    public void LevelUp() => level++;
 
     #region Gizmos
 
