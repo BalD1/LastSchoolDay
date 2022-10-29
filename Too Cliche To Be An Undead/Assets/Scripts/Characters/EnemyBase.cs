@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using BalDUtilities.VectorUtils;
 
 public abstract class EnemyBase : Entity
 {
@@ -25,6 +26,16 @@ public abstract class EnemyBase : Entity
 
     [SerializeField] private float speedMultiplier;
     public float SpeedMultiplier { get => speedMultiplier; }
+
+    [SerializeField] private float maxForce;
+    public float MaxForce { get => maxForce; }
+
+    [SerializeField] private float movementMass;
+    public float MovementMass { get => movementMass; }
+
+    private Vector2 velocity;
+
+    public float MaxSpeed { get => this.GetStats.Speed(this.StatsModifiers) * this.SpeedMultiplier; }
 
     [SerializeField] private float distanceBeforeStop = 1f;
     public float DistanceBeforeStop { get => distanceBeforeStop; }
@@ -63,6 +74,9 @@ public abstract class EnemyBase : Entity
     private Vector2 basePosition;
     public Vector2 BasePosition { get => basePosition; }
 
+    private Vector2 desiredVelocity;
+    private Vector2 steering;
+
     protected override void Awake()
     {
         base.Awake();
@@ -77,6 +91,27 @@ public abstract class EnemyBase : Entity
     protected override void Update()
     {
         base.Update();
+    }
+
+    public void Movements(Vector2 goalPosition)
+    {
+        desiredVelocity = goalPosition * MaxSpeed;
+
+        steering = desiredVelocity - velocity;
+        steering = Vector3.ClampMagnitude(steering, this.MaxForce);
+        steering /= this.MovementMass;
+
+        velocity = Vector3.ClampMagnitude(velocity + steering, MaxSpeed);
+        this.GetRb.velocity =  velocity * Time.fixedDeltaTime;
+        //this.GetRb.velocity = goalPosition * this.GetStats.Speed(this.StatsModifiers) * this.SpeedMultiplier * Time.fixedDeltaTime;
+
+        Debug.DrawRay(transform.position, this.GetRb.velocity.normalized * 2, Color.blue);
+        Debug.DrawRay(transform.position * 2, desiredVelocity.normalized * 2, Color.magenta);
+    }
+
+    public void ResetVelocity()
+    {
+        velocity = Vector2.zero;
     }
 
     public void SetAttackedPlayer(PlayerCharacter target)

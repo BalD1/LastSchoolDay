@@ -477,9 +477,12 @@ MonoBehaviour:
   pathfinding: {fileID: 4564975985439888221}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 100
+  movementMass: 30
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}

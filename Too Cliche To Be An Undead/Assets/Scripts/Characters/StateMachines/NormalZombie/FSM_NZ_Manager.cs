@@ -62,7 +62,7 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
     public void Movements(Vector2 goalPosition)
     {
-        owner.GetRb.velocity = goalPosition * owner.GetStats.Speed(owner.StatsModifiers) * owner.SpeedMultiplier * Time.fixedDeltaTime;
+        owner.Movements(goalPosition);
     }
 
     public override string ToString()

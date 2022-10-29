@@ -10,6 +10,7 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
         owner ??= stateManager.Owner;
+        owner.ResetVelocity();
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)

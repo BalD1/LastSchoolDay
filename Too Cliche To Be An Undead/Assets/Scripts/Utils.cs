@@ -74,6 +74,28 @@ namespace BalDUtilities
 
                 return false;
             }
+
+            public static Vector2 Truncate(Vector2 original, float max)
+            {
+                if (original.magnitude > max)
+                {
+                    original.Normalize();
+
+                    original *= max;
+
+                }
+                
+                return original;
+            }
+            public static void Truncate(ref Vector2 original, float max)
+            {
+                if (original.magnitude > max)
+                {
+                    original.Normalize();
+
+                    original *= max;
+                }
+            }
         }
     }
 
