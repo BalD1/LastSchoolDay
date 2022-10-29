@@ -91,5 +91,8 @@ public class ED_GameManager : Editor
 
         SerializedProperty playerRef = serializedObject.FindProperty("playerRef");
         EditorGUILayout.PropertyField(playerRef);
+
+        SerializedProperty shop = serializedObject.FindProperty("shop");
+        EditorGUILayout.PropertyField(shop);
     }
 }

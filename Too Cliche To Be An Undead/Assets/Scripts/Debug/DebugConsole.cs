@@ -249,8 +249,7 @@ public class DebugConsole : MonoBehaviour
             GameManager.PlayerRef.SetInGameControlsState(true);
         }
     }
-    */
-    /*
+
     public void OnReturn(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
@@ -287,29 +286,35 @@ public class DebugConsole : MonoBehaviour
                 if (command as DebugCommand != null && proprieties.Length == 1)
                 {
                     (command as DebugCommand).Invoke();
+                    input = "";
                     return;
                 }
 
                 else if (command as DebugCommand<int> != null && proprieties.Length == 2)
                 {
                     (command as DebugCommand<int>).Invoke(int.Parse(proprieties[1]));
+                    input = "";
                     return;
                 }
 
                 else if (command as DebugCommand<float, bool> != null && proprieties.Length == 3)
                 {
                     (command as DebugCommand<float, bool>).Invoke(float.Parse(proprieties[1]), ParseBool(proprieties[2]));
+                    input = "";
                     return;
                 }
 
                 else if (command as DebugCommand<float, float> != null && proprieties.Length == 3)
                 {
                     (command as DebugCommand<float, float>).Invoke(float.Parse(proprieties[1]), float.Parse(proprieties[2]));
+                    input = "";
+                    return;
                 }
 
                 else if (command as DebugCommand<float> != null && proprieties.Length == 2)
                 {
                     (command as DebugCommand<float>).Invoke(float.Parse(proprieties[1]));
+                    input = "";
                     return;
                 }
             }
@@ -375,22 +380,26 @@ public class DebugConsole : MonoBehaviour
         if (char.IsLower(input[input.Length - 1]))
             input = input.ToUpper();
 
+        
         if (input == "²")
         {
             showConsole = false;
             ResetField();
+            GameManager.PlayerRef.SetInGameControlsState(true);
         }
 
         if (Event.current.isKey)
         {
             if (Event.current.keyCode == KeyCode.Return)
                 HandleInput();
-            if (Event.current.keyCode == KeyCode.BackQuote)
+            if (Event.current.keyCode == KeyCode.Quote)
             {
                 showConsole = false;
                 ResetField();
+                GameManager.PlayerRef.SetInGameControlsState(true);
             }
         }
+        
 
         // draw the box
         GUI.backgroundColor = baseColor;

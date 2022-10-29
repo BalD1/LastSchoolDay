@@ -137,10 +137,14 @@ public class PlayerCharacter : Entity
         else playerControls.UI.Disable();
     }
 
+    public void SwitchControlMap(string map) => inputs.SwitchCurrentActionMap(map);
     public void SwitchControlMapToInGame() => inputs.SwitchCurrentActionMap("InGame");
+    public void SwitchControlMapToUI() => inputs.SwitchCurrentActionMap("UI");
 
     public void ReadMovementsInputs()
     {
+        if (inputs.currentActionMap.name.Equals("InGame") == false) return;
+        
         this.velocity = Vector2.zero;
         this.velocity.x = playerControls.InGame.Movements.ReadValue<Vector2>().x;
         this.velocity.y = playerControls.InGame.Movements.ReadValue<Vector2>().y;

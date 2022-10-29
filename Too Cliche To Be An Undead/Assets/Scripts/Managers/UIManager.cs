@@ -104,6 +104,10 @@ public class UIManager : MonoBehaviour
                     eventSystem.SetSelectedGameObject(lastSelected);
                 break;
 
+            case "Shop":
+                firstSelectedButton_Shop?.Select();
+                break;
+
             default:
                 Debug.LogError(context + " was not found in switch statement.");
                 break;
@@ -155,8 +159,21 @@ public class UIManager : MonoBehaviour
     public void CloseYoungerMenu()
     {
         D_closeMenu?.Invoke();
+
+        GameObject closedMenu = null;
         if (openMenusQueues.Count > 0)
-            openMenusQueues.Pop().SetActive(false);
+            closedMenu = openMenusQueues.Pop();
+        
+        if (closedMenu != null)
+        {
+            if (closedMenu.Equals(shopMenu))
+            {
+                hud.SetActive(true);
+                GameManager.PlayerRef.SwitchControlMapToInGame();
+                GameManager.Instance.GetShop.SetIsShopOpen(false);
+            }
+            closedMenu.SetActive(false);
+        }
 
         if (openMenusQueues.Count > 0)
             openMenusQueues.Peek().SetActive(true);
@@ -192,13 +209,16 @@ public class UIManager : MonoBehaviour
     public void OpenShop()
     {
         OpenMenuInQueue(shopMenu);
+        SelectButton("Shop");
         hud.SetActive(false);
+        GameManager.PlayerRef.SwitchControlMapToUI();
     }
 
     public void CloseShop()
     {
         CloseYoungerMenu();
         hud.SetActive(true);
+        GameManager.PlayerRef.SwitchControlMapToInGame();
     }
 
 #if UNITY_EDITOR

@@ -684,6 +684,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 874000493620210163, guid: 48c2497861520eb4ab036ba4c03020fc, type: 3}
+      propertyPath: shop
+      value: 
+      objectReference: {fileID: 1180750773}
+    - target: {fileID: 874000493620210163, guid: 48c2497861520eb4ab036ba4c03020fc, type: 3}
       propertyPath: playerRef
       value: 
       objectReference: {fileID: 1784546364}
@@ -4027,6 +4031,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 66760360, guid: d4929cc946bc3ba49befc3972b1c4240, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2875561435376785779, guid: d4929cc946bc3ba49befc3972b1c4240, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -4076,7 +4084,7 @@ PrefabInstance:
       value: DebugConsole
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 809654862, guid: d4929cc946bc3ba49befc3972b1c4240, type: 3}
+    - {fileID: 66760362, guid: d4929cc946bc3ba49befc3972b1c4240, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d4929cc946bc3ba49befc3972b1c4240, type: 3}
 --- !u!1 &1153582923
 GameObject:
@@ -4189,6 +4197,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1154813687 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 183552662, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
+  m_PrefabInstance: {fileID: 2112209719}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1165058406
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4422,7 +4435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc089da032f2f9428b66ac66aced22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shop: {fileID: 0}
+  shop: {fileID: 1154813687}
 --- !u!4 &1180750774
 Transform:
   m_ObjectHideFlags: 0
@@ -6827,6 +6840,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IG Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7832454955763403133, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1180750773}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
 --- !u!114 &2112209720 stripped

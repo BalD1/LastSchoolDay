@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteractor : MonoBehaviour
 {
@@ -10,13 +11,10 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private List<IInteractable> interactablesInRange = new List<IInteractable>();
     private List<IInteractable> interactablesToRemove = new List<IInteractable>();
 
-    private void Update()
+    public void InvokeInteraction(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyDown(KeyCode.E)) InvokeInteraction();
-    }
-
-    private void InvokeInteraction()
-    {
+        if (!context.performed) return;
+        
         foreach (var item in interactablesInRange)
         {
             item.Interact();

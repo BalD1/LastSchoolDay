@@ -29,23 +29,31 @@ public class Shop : MonoBehaviour, IInteractable
 
     public void ExitedRange(GameObject interactor)
     {
+        if (shopIsOpen) CloseShop();
     }
 
     public void Interact()
     {
-        if (shopIsOpen)
-        {
-            UIManager.Instance.CloseShop();
-            UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
-        }
-        else
-        {
-            UIManager.Instance.OpenShop();
-            UIManager.Instance.D_closeMenu += CheckIfClosedMenuIsShop;
-        }
-
-        shopIsOpen = !shopIsOpen;
+        if (shopIsOpen) CloseShop();
+        else OpenShop();
     }
+
+    private void OpenShop()
+    {
+        UIManager.Instance.OpenShop();
+        UIManager.Instance.D_closeMenu += CheckIfClosedMenuIsShop;
+        shopIsOpen = true;
+        GameManager.PlayerRef.SetAllVelocity(Vector2.zero);
+    }
+
+    private void CloseShop()
+    {
+        UIManager.Instance.CloseShop();
+        UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
+        shopIsOpen = false;
+    }
+
+    public void SetIsShopOpen(bool newState) => shopIsOpen = newState;
 
     private void CheckIfClosedMenuIsShop()
     {

@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerCharacter playerRef;
     public static PlayerCharacter PlayerRef { get => Instance.playerRef; }
 
+    [SerializeField] private Shop shop;
+    public Shop GetShop { get => shop; }
+
     [System.Serializable]
     public class PlayersByName
     {
