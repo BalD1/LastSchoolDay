@@ -134,12 +134,6 @@ public class GameManager : MonoBehaviour
 #endif
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape)) HandlePause();
-        if (Input.GetKeyDown(KeyCode.M)) ReloadScene();
-    }
-
     public void HandlePause()
     {
         if (UIManager.Instance.OpenMenusQueues.Count > 0)
@@ -151,10 +145,7 @@ public class GameManager : MonoBehaviour
         if (GameState.Equals(E_GameState.InGame))
         {
             GameState = E_GameState.Pause;
-            return;
         }
-
-        UIManager.Instance.CloseYoungerMenu();
     }
     
     public int SetPlayerIndex(PlayerCharacter newPlayer)

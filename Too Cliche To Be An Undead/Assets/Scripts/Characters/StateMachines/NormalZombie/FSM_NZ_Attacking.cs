@@ -19,7 +19,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
 
-        TextPopup.Create("!", (Vector2)owner.transform.position + owner.GetHealthPopupOffset);
+        TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
 
         waitBeforeAttack_TIMER = owner.DurationBeforeAttack;
         attack_TIMER = owner.Attack_DURATION;

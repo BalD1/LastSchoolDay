@@ -107,6 +107,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty skillIcon = serializedObject.FindProperty("skillIcon");
         EditorGUILayout.PropertyField(skillIcon);
 
+        SerializedProperty inputs = serializedObject.FindProperty("inputs");
+        EditorGUILayout.PropertyField(inputs);
+
         EditorGUILayout.EndVertical();
     }
 

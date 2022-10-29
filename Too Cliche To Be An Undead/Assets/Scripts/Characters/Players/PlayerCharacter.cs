@@ -34,6 +34,9 @@ public class PlayerCharacter : Entity
 
     public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
 
+    [SerializeField] private PlayerInput inputs;
+    public PlayerInput Inputs { get => inputs; }
+
     [SerializeField] private Image hpBar;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image skillIcon;
@@ -64,7 +67,16 @@ public class PlayerCharacter : Entity
     private float gizmosPushDrag;
 #endif
 
-    //private PlayerControls playerControls;
+    private PlayerControls playerControls;
+
+    public delegate void D_AttackInput();
+    public D_AttackInput D_attackInput;
+
+    public delegate void D_SkillInput();
+    public D_SkillInput D_skillInput;
+
+    public delegate void D_DashInput();
+    public D_DashInput D_dashInput;
 
     #endregion
 
@@ -73,10 +85,10 @@ public class PlayerCharacter : Entity
     protected override void Awake()
     {
         base.Awake();
-        /*
+        
         playerControls = new PlayerControls();
         playerControls.InGame.Enable();
-        */
+        
     }
 
     protected override void Start()
@@ -86,6 +98,8 @@ public class PlayerCharacter : Entity
         GameManager.Instance._onSceneReload += OnSceneReload;
 
         SetKeepedData();
+
+        UIManager.Instance.D_exitPause += SwitchControlMapToInGame;
     }
 
     protected override void Update()
@@ -114,19 +128,24 @@ public class PlayerCharacter : Entity
 
     public void SetInGameControlsState(bool state)
     {
-        /*
         if (state) playerControls.InGame.Enable();
         else playerControls.InGame.Disable();
-        */
     }
+    public void SetUIControlsState(bool state)
+    {
+        if (state) playerControls.UI.Enable();
+        else playerControls.UI.Disable();
+    }
+
+    public void SwitchControlMapToInGame() => inputs.SwitchCurrentActionMap("InGame");
 
     public void ReadMovementsInputs()
     {
-        //this.velocity.x = playerControls.InGame.Movements.ReadValue<Vector2>().x;
-        //this.velocity.y = playerControls.InGame.Movements.ReadValue<Vector2>().y;
-
         this.velocity = Vector2.zero;
+        this.velocity.x = playerControls.InGame.Movements.ReadValue<Vector2>().x;
+        this.velocity.y = playerControls.InGame.Movements.ReadValue<Vector2>().y;
 
+        /*
         if (Input.GetKey(KeyCode.Z))
             this.velocity.y = 1;
         if (Input.GetKey(KeyCode.S))
@@ -136,7 +155,7 @@ public class PlayerCharacter : Entity
             this.velocity.x = 1;
         if (Input.GetKey(KeyCode.Q))
             this.velocity.x = -1;
-
+        */
     }
 
     public void Movements()
@@ -198,6 +217,25 @@ public class PlayerCharacter : Entity
         if (!canGoInDebt && money < 0) money = 0;
     }
     public bool HasEnoughMoney(int price) => money > price ? true : false;
+
+    #endregion
+
+    #region Inputs
+    
+    public void AttackInput(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_attackInput?.Invoke();
+    }
+
+    public void SkillInput(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_skillInput?.Invoke();
+    }
+
+    public void DashInput(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_dashInput?.Invoke();
+    } 
 
     #endregion
 
@@ -276,6 +314,11 @@ public class PlayerCharacter : Entity
     public void RemoveAttacker(EnemyBase attacker)
     {
         attackers.Remove(attacker);
+    }
+
+    public void PauseInputRelay(InputAction.CallbackContext context)
+    {
+        if (context.started) GameManager.Instance.HandlePause();
     }
 
     #region Gizmos

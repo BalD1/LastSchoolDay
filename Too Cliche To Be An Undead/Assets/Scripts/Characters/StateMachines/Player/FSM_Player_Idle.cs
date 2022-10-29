@@ -13,16 +13,25 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
 
         owner.SetAllVelocity(Vector2.zero);
         base.EnterState(stateManager);
+
+        owner.D_attackInput += owner.StartAttack;
+        owner.D_skillInput += owner.GetSkillHolder.UseSkill;
+        owner.D_dashInput += owner.StartDash;
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
         owner.ReadMovementsInputs();
         stateManager.OwnerWeapon.FollowMouse();
+    }
 
-        if (Input.GetMouseButtonDown(0)) owner.StartAttack();
-        if (Input.GetMouseButtonDown(1)) owner.GetSkillHolder.UseSkill();
-        if (Input.GetKeyDown(KeyCode.LeftShift)) owner.StartDash();
+    public override void ExitState(FSM_Player_Manager stateManager)
+    {
+        base.ExitState(stateManager);
+
+        owner.D_attackInput -= owner.StartAttack;
+        owner.D_skillInput -= owner.GetSkillHolder.UseSkill;
+        owner.D_dashInput -= owner.StartDash;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

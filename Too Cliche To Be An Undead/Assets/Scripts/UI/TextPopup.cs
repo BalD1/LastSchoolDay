@@ -40,9 +40,29 @@ public class TextPopup : MonoBehaviour
 
         return txtPopup;
     }
+    public static TextPopup Create(string text, Transform parent)
+    {
+        GameObject txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, parent);
+
+        TextPopup txtPopup = txtPopupGo.GetComponent<TextPopup>();
+
+        txtPopup.Setup(text);
+
+        return txtPopup;
+    }
     public static TextPopup Create(string text, Vector2 pos, HitComponents components)
     {
         GameObject txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, pos, Quaternion.identity);
+
+        TextPopup txtPopup = txtPopupGo.GetComponent<TextPopup>();
+
+        txtPopup.Setup(text, components);
+
+        return txtPopup;
+    }
+    public static TextPopup Create(string text, Transform parent, HitComponents components)
+    {
+        GameObject txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, parent);
 
         TextPopup txtPopup = txtPopupGo.GetComponent<TextPopup>();
 

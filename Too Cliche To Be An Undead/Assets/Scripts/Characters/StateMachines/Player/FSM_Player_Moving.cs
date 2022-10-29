@@ -11,6 +11,10 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
         owner ??= stateManager.Owner;
 
         SetAnimator();
+
+        owner.D_attackInput += owner.StartAttack;
+        owner.D_skillInput += owner.GetSkillHolder.UseSkill;
+        owner.D_dashInput += owner.StartDash;
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
@@ -19,10 +23,6 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
         SetAnimator();
         stateManager.OwnerWeapon.FollowMouse();
-
-        if (Input.GetMouseButtonDown(0)) owner.StartAttack();
-        if (Input.GetMouseButtonDown(1)) owner.GetSkillHolder.UseSkill();
-        if (Input.GetKeyDown(KeyCode.LeftShift)) owner.StartDash();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
@@ -32,6 +32,9 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
+        owner.D_attackInput -= owner.StartAttack;
+        owner.D_skillInput -= owner.GetSkillHolder.UseSkill;
+        owner.D_dashInput -= owner.StartDash;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

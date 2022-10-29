@@ -13,12 +13,13 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, true);
+
+        owner.D_attackInput += owner.StartAttack;
+        owner.D_dashInput += owner.StartDash;
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
-        if (Input.GetMouseButtonDown(0)) owner.StartAttack();
-        if (Input.GetKeyDown(KeyCode.LeftShift)) owner.StartDash();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
@@ -28,6 +29,9 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);
+
+        owner.D_attackInput -= owner.StartAttack;
+        owner.D_dashInput -= owner.StartDash;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
