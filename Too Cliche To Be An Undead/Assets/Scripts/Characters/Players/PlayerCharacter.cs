@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using BalDUtilities.MouseUtils;
 using TMPro;
-using UnityEngine.InputSystem.iOS;
 
 public class PlayerCharacter : Entity
 {
@@ -53,6 +52,9 @@ public class PlayerCharacter : Entity
 
     [SerializeField] private SCRPT_Dash playerDash;
     public SCRPT_Dash PlayerDash { get => playerDash; }
+
+    [SerializeField] private List<EnemyBase> attackers = new List<EnemyBase>();
+    public List<EnemyBase> Attackers { get => attackers; }
 
 #if UNITY_EDITOR
     public bool debugPush;
@@ -199,6 +201,13 @@ public class PlayerCharacter : Entity
 
     #endregion
 
+    public void CancelAttackAnimation()
+    {
+        this.animator.Play("AN_Wh_Idle");
+        weapon.EffectAnimator.Play("Main State");
+        weapon.ResetAttack();
+    }
+
     public void StartDash()
     {
         if (dash_CD_TIMER > 0) return;
@@ -254,6 +263,20 @@ public class PlayerCharacter : Entity
     }
 
     public void LevelUp() => level++;
+
+    public bool AddAttacker(EnemyBase attacker)
+    {
+        if (attackers.Count >= GameManager.MaxAttackers) return false;
+        if (attackers.Contains(attacker)) return false;
+
+        attackers.Add(attacker);
+        return true;
+    }
+
+    public void RemoveAttacker(EnemyBase attacker)
+    {
+        attackers.Remove(attacker);
+    }
 
     #region Gizmos
 

@@ -18,6 +18,7 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
         if (Input.GetMouseButtonDown(0)) owner.StartAttack();
+        if (Input.GetKeyDown(KeyCode.LeftShift)) owner.StartDash();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
@@ -33,6 +34,14 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     {
         if (!owner.Weapon.isAttacking)
             stateManager.SwitchState(stateManager.idleState);
+
+        if (owner.isDashing)
+        {
+            owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);
+            owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKINDEX, 0);
+            owner.CancelAttackAnimation();
+            stateManager.SwitchState(stateManager.dashingState);
+        }
     }
 
     public void NextAttack(int currentAttackIndex)

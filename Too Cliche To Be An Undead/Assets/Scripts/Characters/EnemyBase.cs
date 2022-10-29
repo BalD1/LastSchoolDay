@@ -37,6 +37,9 @@ public abstract class EnemyBase : Entity
 
     [SerializeField] private List<PlayerCharacter> detectedPlayers;
 
+    [SerializeField] private PlayerCharacter attackedPlayer;
+    public PlayerCharacter AttackedPlayer { get => attackedPlayer; }
+
     [SerializeField] private PlayerCharacter currentPlayerTarget;
     [SerializeField] private Transform currentTransformTarget;
     public PlayerCharacter CurrentPlayerTarget { get => currentPlayerTarget; }
@@ -60,7 +63,6 @@ public abstract class EnemyBase : Entity
     private Vector2 basePosition;
     public Vector2 BasePosition { get => basePosition; }
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -75,6 +77,19 @@ public abstract class EnemyBase : Entity
     protected override void Update()
     {
         base.Update();
+    }
+
+    public void SetAttackedPlayer(PlayerCharacter target)
+    {
+        attackedPlayer = target;
+        attackedPlayer.AddAttacker(this);
+    }
+
+    public void UnsetAtteckedPlayer()
+    {
+        if (attackedPlayer == null) return;
+        attackedPlayer.RemoveAttacker(this);
+        attackedPlayer = null;
     }
 
     public void AddDetectedPlayer(PlayerCharacter newDetection)

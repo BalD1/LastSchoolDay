@@ -19,8 +19,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private int coinCount = 0;
-
     [SerializeField] private PlayerCharacter playerRef;
     public static PlayerCharacter PlayerRef { get => Instance.playerRef; }
 
@@ -37,6 +35,8 @@ public class GameManager : MonoBehaviour
     public D_OnSceneReload _onSceneReload;
 
     public bool hasKey;
+
+    public static int MaxAttackers = 5;
 
     #region GameStates
 
@@ -156,12 +156,6 @@ public class GameManager : MonoBehaviour
 
         UIManager.Instance.CloseYoungerMenu();
     }
-
-    public void addCoin(int val)
-    {
-        coinCount += val;
-    }
-
     
     public int SetPlayerIndex(PlayerCharacter newPlayer)
     {

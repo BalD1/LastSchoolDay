@@ -171,6 +171,12 @@ public class Entity : MonoBehaviour, IDamageable
 
         StatsModifiers.Remove(m);
     }
+
+    public void RemoveModifier(StatsModifier modifier)
+    {
+        if (StatsModifiers.Contains(modifier)) modifiersToRemove.Add(modifier);
+    }
+
     public void RemoveModifiersAll(string id)
     {
         foreach (var item in StatsModifiers)
@@ -178,6 +184,16 @@ public class Entity : MonoBehaviour, IDamageable
             if (item.IDName.Equals(id)) modifiersToRemove.Add(item);
         }
         StatsModifiers.RemoveAll(x => modifiersToRemove.Contains(x));
+    }
+
+    public StatsModifier SearchModifier(string id)
+    {
+        foreach (var item in StatsModifiers)
+        {
+            if (item.IDName.Equals(id)) return item;
+        }
+
+        return null;
     }
 
     #endregion

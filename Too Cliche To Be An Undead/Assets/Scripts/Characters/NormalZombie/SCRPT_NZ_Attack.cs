@@ -12,6 +12,7 @@ public class SCRPT_NZ_Attack : SCRPT_EnemyAttack
         Vector2 target = owner.CurrentPlayerTarget == null ? owner.storedTargetPosition : owner.CurrentPlayerTarget.transform.position;
         Vector2 dir = (target - (Vector2)owner.transform.position).normalized;
         owner.GetRb.AddForce(dir * attackForce, ForceMode2D.Impulse);
+        (owner as NormalZombie).attackStarted = true;
     }
 
     public override void OnUpdate(EnemyBase owner)
@@ -22,5 +23,6 @@ public class SCRPT_NZ_Attack : SCRPT_EnemyAttack
     {
         owner.GetRb.velocity = Vector2.zero;
         owner.StartAttackTimer();
+        (owner as NormalZombie).attackStarted = false;
     }
 }

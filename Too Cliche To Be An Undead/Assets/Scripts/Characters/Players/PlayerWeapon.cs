@@ -18,6 +18,7 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private LayerMask damageablesLayer;
 
     [SerializeField] private Animator effectAnimator;
+    public Animator EffectAnimator { get => effectAnimator; }
 
     private Collider2D[] hitEntities;
 
@@ -87,6 +88,14 @@ public class PlayerWeapon : MonoBehaviour
         else if (rot > 135 && rot <= 225) return Vector2.down;     //down
         else if (rot > 225 && rot <= 315) return Vector2.right;    //right
         else return Vector2.up;                                    //up
+    }
+
+    public void ResetAttack()
+    {
+        isAttacking = false;
+        attackEnded = false;
+        prepareNextAttack = false;
+        inputStored = false;
     }
 
     private void OnDrawGizmos()

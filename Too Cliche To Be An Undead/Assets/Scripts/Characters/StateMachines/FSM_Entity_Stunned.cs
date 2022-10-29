@@ -11,6 +11,7 @@ public class FSM_Entity_Stunned<T> : FSM_Base<T>
     public override void EnterState(T stateManager)
     {
         owner.GetRb.velocity = Vector3.zero;
+        owner.UnsetAtteckedPlayer();
     }
 
     public override void UpdateState(T stateManager)

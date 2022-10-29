@@ -71,4 +71,8 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
         return currentState.ToString();
     }
+
+    public bool AttackConditions() => Vector2.Distance(owner.transform.position, owner.CurrentPlayerTarget.transform.position) <= owner.DistanceBeforeStop &&
+                                    owner.Attack_TIMER <= 0 &&
+                                    owner.CurrentPlayerTarget?.Attackers.Count < GameManager.MaxAttackers;
 }

@@ -178,6 +178,7 @@ MonoBehaviour:
   nextWaypointDistance: 0.5
   updatePathCooldown: 0.5
   targetRandomOffset: 0.5
+  targetRandomOffsetAfterAttack: 3
   chaoticTargetPosition: 1
   debugMode: 1
 --- !u!114 &7491649661066783789
@@ -485,6 +486,7 @@ MonoBehaviour:
   currentStateDebug: N/A
   stateManager: {fileID: 133242913744623205}
   attack_DURATION: 1
+  attackStarted: 0
 --- !u!114 &133242913744623205
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -35,12 +36,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject hud;
     [SerializeField] private GameObject mainMenu_mainPanel;
 
+    public GameObject ShopMenu { get => shopMenu; }
+
     public GameObject ShopContentMenu { get => shopContentMenu; }
 
     private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
     public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
 
     private List<PBThumbnail> pbThumbnails = new List<PBThumbnail>();
+
+    public delegate void D_CloseMenu();
+    public D_CloseMenu D_closeMenu;
 
 #if UNITY_EDITOR
     [SerializeField] private List<GameObject> EDITOR_openMenusQueues;
@@ -145,6 +151,7 @@ public class UIManager : MonoBehaviour
     }
     public void CloseYoungerMenu()
     {
+        D_closeMenu?.Invoke();
         if (openMenusQueues.Count > 0)
             openMenusQueues.Pop().SetActive(false);
 
@@ -156,6 +163,10 @@ public class UIManager : MonoBehaviour
             {
                 case GameManager.E_GameState.Pause:
                     GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+                    break;
+
+                case GameManager.E_GameState.InGame:
+                    hud.SetActive(true);
                     break;
 
                 case GameManager.E_GameState.MainMenu:

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class StatsModifier
@@ -61,4 +60,42 @@ public class StatsModifier
         return false;
     }
 
+    public string TypeToString()
+    {
+        return TypeToString(StatType);
+    }
+
+    public static string TypeToString(E_StatType type)
+    {
+        string s = "";
+
+        switch (type)
+        {
+            case E_StatType.MaxHP:
+                s = "HEALTH";
+                break;
+
+            case E_StatType.Damages:
+                s = "DAMAGES";
+                break;
+
+            case E_StatType.AttackRange:
+                s = "ATTRANGE";
+                break;
+
+            case E_StatType.Attack_CD:
+                s = "ATTCD";
+                break;
+
+            case E_StatType.Speed:
+                s = "SPEED";
+                break;
+
+            case E_StatType.CritChances:
+                s = "CRIT";
+                break;
+        }
+
+        return s;
+    }
 }

@@ -17,6 +17,10 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         owner.GetRb.velocity = Vector2.zero;
         owner.GetRb.AddForce(force, ForceMode2D.Impulse);
         owner.d_EnteredTrigger += TriggerEnter;
+
+        if (owner as EnemyBase != null)
+            (owner as EnemyBase).UnsetAtteckedPlayer();
+        
     }
 
     public override void UpdateState(T stateManager)

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
-using UnityEditorInternal.VR;
 
 public class EnemyPathfinding : MonoBehaviour
 {
@@ -14,6 +13,7 @@ public class EnemyPathfinding : MonoBehaviour
     [SerializeField] private float updatePathCooldown = .5f;
 
     [SerializeField] private float targetRandomOffset = 0f;
+    [SerializeField] private float targetRandomOffsetAfterAttack = 0f;
 
     [SerializeField] private bool chaoticTargetPosition = false;
 
@@ -53,8 +53,9 @@ public class EnemyPathfinding : MonoBehaviour
     {
         if (chaoticTargetPosition)
         {
-            targetPosition.x += Random.Range(-targetRandomOffset, targetRandomOffset);
-            targetPosition.y += Random.Range(-targetRandomOffset, targetRandomOffset);
+            float offset = owner.Attack_TIMER > 0 ? targetRandomOffsetAfterAttack : targetRandomOffset;
+            targetPosition.x += Random.Range(-offset, offset);
+            targetPosition.y += Random.Range(-offset, offset);
         }
 
         seeker.StartPath(this.transform.position, targetPosition, OnPathComplete);

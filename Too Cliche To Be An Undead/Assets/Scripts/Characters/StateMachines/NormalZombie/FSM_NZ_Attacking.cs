@@ -17,6 +17,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         owner.d_EnteredTrigger += OnTrigger;
         owner.StartMaterialFlash(owner.AttackMaterial, .1f);
 
+        owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
+
         TextPopup.Create("!", (Vector2)owner.transform.position + owner.GetHealthPopupOffset);
 
         waitBeforeAttack_TIMER = owner.DurationBeforeAttack;
@@ -45,6 +47,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     {
         owner.Attack.OnExit(owner);
         owner.d_EnteredTrigger -= OnTrigger;
+
+        owner.UnsetAtteckedPlayer();
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
@@ -54,7 +58,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
     private void OnTrigger(Collider2D collider)
     {
-        PlayerCharacter p = collider.transform.root.GetComponent<PlayerCharacter>();
+        if (!owner.attackStarted) return;
+        PlayerCharacter p = collider.transform.parent.GetComponent<PlayerCharacter>();
         if (p == null) return;
 
         p.OnTakeDamages(owner.GetStats.BaseDamages(owner.StatsModifiers), owner.RollCrit());

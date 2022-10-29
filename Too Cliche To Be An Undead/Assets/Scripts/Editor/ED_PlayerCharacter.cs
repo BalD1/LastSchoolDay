@@ -5,6 +5,7 @@ using UnityEditor;
 using BalDUtilities.EditorUtils;
 using BalDUtilities.Misc;
 using static UnityEditor.Progress;
+using UnityEditor.Experimental.GraphView;
 
 [CustomEditor(typeof(PlayerCharacter))]
 public class ED_PlayerCharacter : Editor
@@ -349,6 +350,15 @@ public class ED_PlayerCharacter : Editor
 
         SerializedProperty playerIndex = serializedObject.FindProperty("playerIndex");
         EditorGUILayout.PropertyField(playerIndex);
+
+        GUI.enabled = false;
+        EditorGUI.indentLevel++;
+
+        SerializedProperty attackers = serializedObject.FindProperty("attackers");
+        EditorGUILayout.PropertyField(attackers);
+
+        EditorGUI.indentLevel--;
+        GUI.enabled = true;
 
         EditorGUILayout.EndVertical();
     }

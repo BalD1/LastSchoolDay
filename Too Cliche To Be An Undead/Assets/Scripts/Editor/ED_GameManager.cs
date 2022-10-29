@@ -65,8 +65,13 @@ public class ED_GameManager : Editor
                 GameManager.gameTimeSpeed = 1;
             }
         }
-
+        
         EditorGUILayout.EndHorizontal();                                            // E Hori 1
+        
+        if (!Application.isPlaying) GUI.enabled = false;
+        GameManager.MaxAttackers = EditorGUILayout.IntSlider("Max Attackers", GameManager.MaxAttackers, 0, 20);
+        if (!Application.isPlaying) GUI.enabled = true;
+        EditorGUILayout.HelpBox("Max Attackers étant static, il ne peut être modifié que dans le GameManager, les changements IG sont remis à 0 à chaque fois", MessageType.Warning);
     }
 
     private void DrawMainMenuInspector()
@@ -86,8 +91,5 @@ public class ED_GameManager : Editor
 
         SerializedProperty playerRef = serializedObject.FindProperty("playerRef");
         EditorGUILayout.PropertyField(playerRef);
-
-        SerializedProperty coinCount = serializedObject.FindProperty("coinCount");
-        EditorGUILayout.PropertyField(coinCount);
     }
 }

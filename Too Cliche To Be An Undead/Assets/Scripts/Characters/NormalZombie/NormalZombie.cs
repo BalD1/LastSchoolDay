@@ -9,6 +9,8 @@ public class NormalZombie : EnemyBase
     [SerializeField] private float attack_DURATION = .3f;
     public float Attack_DURATION { get => attack_DURATION; }
 
+    public bool attackStarted;
+
     protected override void Start()
     {
         base.Start();

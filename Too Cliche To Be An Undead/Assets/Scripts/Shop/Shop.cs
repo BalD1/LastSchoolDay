@@ -33,10 +33,28 @@ public class Shop : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (shopIsOpen) UIManager.Instance.CloseShop();
-        else UIManager.Instance.OpenShop();
+        if (shopIsOpen)
+        {
+            UIManager.Instance.CloseShop();
+            UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
+        }
+        else
+        {
+            UIManager.Instance.OpenShop();
+            UIManager.Instance.D_closeMenu += CheckIfClosedMenuIsShop;
+        }
 
         shopIsOpen = !shopIsOpen;
+    }
+
+    private void CheckIfClosedMenuIsShop()
+    {
+        // If the shop menu is still open, do nothing
+        foreach (var item in UIManager.Instance.OpenMenusQueues) if (item.Equals(UIManager.Instance.ShopMenu)) return;
+
+        // else, remember that it is closed
+        shopIsOpen = false;
+        UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
     }
 
     public bool CanBeInteractedWith()
