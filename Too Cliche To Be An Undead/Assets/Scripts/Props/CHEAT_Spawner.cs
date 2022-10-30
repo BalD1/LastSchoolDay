@@ -19,7 +19,7 @@ public class CHEAT_Spawner : MonoBehaviour, IInteractable
     {
     }
 
-    public void Interact()
+    public void Interact(GameObject interactor)
     {
         dropTable.DropRandom(this.transform.position);
     }

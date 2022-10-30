@@ -55,6 +55,15 @@ public class SkillHolder : MonoBehaviour
 
     public void AnimationEnded() => this.transform.localPosition = Vector2.zero;
 
+    public void ChangeSkill(SCRPT_Skill newSkill)
+    {
+        this.skill = newSkill;
+        this.Skill.ResetSkill();
+        timer = 0;
+        owner.UpdateSkillThumbnailFill(1);
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         collidersInTrigger.Add(collision);

@@ -32,7 +32,7 @@ public class Shop : MonoBehaviour, IInteractable
         if (shopIsOpen) CloseShop();
     }
 
-    public void Interact()
+    public void Interact(GameObject interactor)
     {
         if (shopIsOpen) CloseShop();
         else OpenShop();

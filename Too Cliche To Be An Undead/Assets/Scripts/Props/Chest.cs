@@ -22,7 +22,7 @@ public class Chest : MonoBehaviour, IInteractable
         interactors.Remove(interactor.GetComponent<PlayerInteractor>());
     }
 
-    public void Interact()
+    public void Interact(GameObject interactor)
     {
         if (isOpen) return; 
         isOpen = true;

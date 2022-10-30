@@ -6,6 +6,7 @@ using BalDUtilities.EditorUtils;
 using BalDUtilities.Misc;
 using static UnityEditor.Progress;
 using UnityEditor.Experimental.GraphView;
+using Unity.VisualScripting;
 
 [CustomEditor(typeof(PlayerCharacter))]
 public class ED_PlayerCharacter : Editor
@@ -22,6 +23,7 @@ public class ED_PlayerCharacter : Editor
 
     private bool showSrptStats;
     private bool showScrptAudio;
+    private bool showTickDamages;
     private bool showHurtAudio;
     private bool showDeathAudio;
     private bool showAttackAudio;
@@ -282,7 +284,7 @@ public class ED_PlayerCharacter : Editor
             {
                 stM = targetScript.StatsModifiers[i];
 
-                stM.showInEditor = EditorGUILayout.Foldout(stM.showInEditor, "Element " + i);
+                stM.showInEditor = EditorGUILayout.Foldout(stM.showInEditor, $"Element {i} : {stM.IDName}");
                 if (stM.showInEditor)
                 {
                     GUI.enabled = false;
@@ -291,6 +293,34 @@ public class ED_PlayerCharacter : Editor
                     if (stM.MaxDuration > 0) EditorGUILayout.TextField("Duration ", $"{stM.Timer} / {stM.MaxDuration}");
                     else EditorGUILayout.TextField("Duration ", "Infinite");
                     EditorGUILayout.FloatField("Modifier", stM.Modifier);
+
+                    GUI.enabled = true;
+                }
+            }
+            EditorGUI.indentLevel--;
+
+            EditorGUILayout.EndVertical();
+        }
+
+        showTickDamages = EditorGUILayout.Foldout(showTickDamages, "Tick Damages");
+        if (showTickDamages && targetScript.AppliedTickDamages.Count > 0)
+        {
+            EditorGUILayout.BeginVertical("GroupBox");
+
+            EditorGUI.indentLevel++;
+            TickDamages tD;
+            for (int i = 0; i < targetScript.AppliedTickDamages.Count; i++)
+            {
+                tD = targetScript.AppliedTickDamages[i];
+
+                tD.showInEditor = EditorGUILayout.Foldout(tD.showInEditor, $"Element {i} : {tD.ID}");
+                if (tD.showInEditor)
+                {
+                    GUI.enabled = false;
+
+                    EditorGUILayout.FloatField("Damages", tD.Damages);
+                    EditorGUILayout.FloatField("Time Between Damages", tD.TimeBetweenDamages);
+                    EditorGUILayout.TextField("Duration ", $"{tD.Lifetime_TIMER} / {tD.Lifetime_TIMER}");
 
                     GUI.enabled = true;
                 }

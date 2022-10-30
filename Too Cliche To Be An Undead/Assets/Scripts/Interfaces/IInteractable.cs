@@ -6,6 +6,6 @@ public interface IInteractable
 {
     public void EnteredInRange(GameObject interactor);
     public void ExitedRange(GameObject interactor);
-    public void Interact();
+    public void Interact(GameObject interactor);
     public bool CanBeInteractedWith();
 }

@@ -244,19 +244,7 @@ public class PlayerCharacter : Entity
 
     #endregion
 
-    public void CancelAttackAnimation()
-    {
-        this.animator.Play("AN_Wh_Idle");
-        weapon.EffectAnimator.Play("Main State");
-        weapon.ResetAttack();
-    }
-
-    public void StartDash()
-    {
-        if (dash_CD_TIMER > 0) return;
-
-        isDashing = true;
-    }
+    #region Skill
 
     public void SetSkillThumbnail(Sprite image) => skillIcon.sprite = image;
     public void UpdateSkillThumbnailFill(float fill) => skillIcon.fillAmount = fill;
@@ -286,6 +274,22 @@ public class PlayerCharacter : Entity
                 skillHolder.transform.eulerAngles = new Vector3(0, 0, 0);
                 break;
         }
+    } 
+
+    #endregion
+
+    public void CancelAttackAnimation()
+    {
+        this.animator.Play("AN_Wh_Idle");
+        weapon.EffectAnimator.Play("Main State");
+        weapon.ResetAttack();
+    }
+
+    public void StartDash()
+    {
+        if (dash_CD_TIMER > 0) return;
+
+        isDashing = true;
     }
 
     private void SetKeepedData()
@@ -298,12 +302,6 @@ public class PlayerCharacter : Entity
     {
         DataKeeper.Instance.playersDataKeep[this.playerIndex].money = this.money;
         DataKeeper.Instance.playersDataKeep[this.playerIndex].maxLevel = this.Level;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
-        d_EnteredTrigger?.Invoke(collision);
     }
 
     private float CalculateAllKeys()
@@ -346,6 +344,19 @@ public class PlayerCharacter : Entity
     public void PauseInputRelay(InputAction.CallbackContext context)
     {
         if (context.started) GameManager.Instance.HandlePause();
+    }
+
+    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, Sprite newSprite)
+    {
+        this.playerDash = newDash;
+        this.skillHolder.ChangeSkill(newSkill);
+        this.sprite.sprite = newSprite;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
+        d_EnteredTrigger?.Invoke(collision);
     }
 
     #region Gizmos

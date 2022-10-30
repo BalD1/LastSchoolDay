@@ -7,7 +7,6 @@ public class TickDamages
     private Entity owner;
 
     private string id;
-    public string ID { get => id; }
 
     private float damages;
 
@@ -16,6 +15,17 @@ public class TickDamages
 
     private float damages_TIMER;
     private float lifetime_TIMER;
+
+    public string ID { get => id; }
+    public float Damages { get => damages; }
+    public float TimeBetweenDamages { get => timeBetweenDamages; }
+    public float Lifetime_DURATION { get => lifetime_DURATION; }
+    public float Damages_TIMER { get => damages_TIMER; }
+    public float Lifetime_TIMER { get => lifetime_TIMER; }
+
+#if UNITY_EDITOR
+    public bool showInEditor;
+#endif
 
     public TickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime, Entity _owner)
     {

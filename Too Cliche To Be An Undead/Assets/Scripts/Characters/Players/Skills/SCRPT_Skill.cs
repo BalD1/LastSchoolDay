@@ -32,4 +32,6 @@ public abstract class SCRPT_Skill : ScriptableObject
     public abstract void StartSkill(PlayerCharacter owner);
     public abstract void UpdateSkill(PlayerCharacter owner);
     public abstract void StopSkill(PlayerCharacter owner);
+
+    public void ResetSkill() => isInUse = false;
 }
