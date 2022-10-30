@@ -10,17 +10,23 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         owner ??= stateManager.Owner;
+
         Vector2 mouseDir = stateManager.Owner.Weapon.GetDirectionOfMouse();
 
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
+
+        owner.GetSkill.StartSkill(owner);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
         timer -= Time.deltaTime;
 
+        stateManager.OwnerWeapon.FollowMouse();
+
+        owner.GetSkill.UpdateSkill(owner);
         if (owner.GetSkill.CanMove) owner.ReadMovementsInputs();
     }
 
@@ -31,6 +37,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
+        owner.GetSkill.StopSkill(owner);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, false);
     }
 

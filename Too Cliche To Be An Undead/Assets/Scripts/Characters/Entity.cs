@@ -79,6 +79,11 @@ public class Entity : MonoBehaviour, IDamageable
     public delegate void D_enteredTrigger(Collider2D collider);
     public D_enteredTrigger d_EnteredTrigger;
 
+    [SerializeField] private List<TickDamages> appliedTickDamages = new List<TickDamages>();
+    public List<TickDamages> AppliedTickDamages { get => appliedTickDamages; }
+
+    private List<TickDamages> tickDamagesToRemove = new List<TickDamages>();
+
 #if UNITY_EDITOR
     [SerializeField] protected bool debugMode;
 #endif
@@ -102,12 +107,16 @@ public class Entity : MonoBehaviour, IDamageable
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
 
         // update every modifiers timers, and remove the outdated ones
-        modifiersToRemove = new List<StatsModifier>();
         foreach (var item in StatsModifiers)
         {
             if (item.Update(Time.deltaTime)) modifiersToRemove.Add(item);
         }
-        
+
+        foreach (var item in AppliedTickDamages)
+        {
+            item.Update(Time.deltaTime);
+            if (item.IsFinished()) tickDamagesToRemove.Add(item);
+        }
 
         if (invincibility_TIMER > 0) invincibility_TIMER -= Time.deltaTime;
         if (attack_TIMER > 0) attack_TIMER -= Time.deltaTime;
@@ -115,10 +124,17 @@ public class Entity : MonoBehaviour, IDamageable
 
     private void LateUpdate()
     {
-        if (modifiersToRemove.Count <= 0) return;
+        if (modifiersToRemove.Count > 0)
+        {
+            StatsModifiers.RemoveAll(x => modifiersToRemove.Contains(x));
+            modifiersToRemove.Clear();
+        }
 
-        StatsModifiers.RemoveAll(x => modifiersToRemove.Contains(x));
-        modifiersToRemove.Clear();
+        if (tickDamagesToRemove.Count > 0)
+        {
+            AppliedTickDamages.RemoveAll(x => tickDamagesToRemove.Contains(x));
+            tickDamagesToRemove.Clear();
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -131,6 +147,25 @@ public class Entity : MonoBehaviour, IDamageable
     #region Status
 
     public virtual void Stun(float duration) { throw new System.NotImplementedException(); }
+
+    public void AddTickDamages(TickDamages tick)
+    {
+        foreach (var item in appliedTickDamages)
+        {
+            if (item.ID.Equals(tick.ID))
+            {
+                item.ResetLifetime();
+                return;
+            }
+        }
+
+        appliedTickDamages.Add(tick);
+    }
+    public void AddTickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime)
+    {
+        TickDamages t = new TickDamages(_id, _damages, _timeBetweenDamages, _lifetime, this);
+        AddTickDamages(t);
+    }
 
     public void AddModifier(string id, float value, float time, StatsModifier.E_StatType type)
     {

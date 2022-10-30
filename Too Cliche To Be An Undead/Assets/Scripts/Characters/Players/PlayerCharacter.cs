@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using BalDUtilities.MouseUtils;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerCharacter : Entity
 {
@@ -262,7 +263,29 @@ public class PlayerCharacter : Entity
 
     public void OffsetSkillHolder(float offset)
     {
-        skillHolder.transform.localPosition += (Vector3)weapon.GetDirectionOfMouse() * offset;
+        skillHolder.transform.localPosition = (Vector3)weapon.GetDirectionOfMouse() * offset;
+    }
+
+    public void RotateSkillHolder()
+    {
+        switch (weapon.GetDirectionOfMouse())
+        {
+            case Vector2 v when v.Equals(Vector2.left):
+                skillHolder.transform.eulerAngles = new Vector3(0, 0, -90);
+                break;
+
+            case Vector2 v when v.Equals(Vector2.right):
+                skillHolder.transform.eulerAngles = new Vector3(0, 0, 90);
+                break;
+
+            case Vector2 v when v.Equals(Vector2.up):
+                skillHolder.transform.eulerAngles = new Vector3(0, 0, -180);
+                break;
+
+            case Vector2 v when v.Equals(Vector2.down):
+                skillHolder.transform.eulerAngles = new Vector3(0, 0, 0);
+                break;
+        }
     }
 
     private void SetKeepedData()

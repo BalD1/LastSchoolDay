@@ -11,6 +11,14 @@ public class SkillHolder : MonoBehaviour
     public SCRPT_Skill Skill { get => skill; }
     public Animator GetAnimator { get => animator; }
 
+    public delegate void D_EnteredTrigger(Entity entity);
+    public delegate void D_ExitedTrigger(Entity entity);
+
+    public D_EnteredTrigger D_enteredTrigger;
+    public D_ExitedTrigger D_exitedTrigger;
+
+    private List<Collider2D> collidersInTrigger = new List<Collider2D>();
+
 #if UNITY_EDITOR
     [SerializeField] public bool debugMode;
 #endif
@@ -29,13 +37,14 @@ public class SkillHolder : MonoBehaviour
             timer -= Time.deltaTime;
             owner.UpdateSkillThumbnailFill(-((timer / skill.Cooldown) - 1));
         }
+
+        if (skill.IsInUse) skill.UpdateSkill(owner);
     }
 
-    public void UseSkill()
+    public void StartSkill()
     {
-        if (timer > 0) return;
+        if (Skill.IsInUse || timer > 0) return;
 
-        skill.Use(owner);
         owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimer(skill.Duration));
         owner.UpdateSkillThumbnailFill(-((timer / skill.Cooldown) - 1));
     }
@@ -45,6 +54,18 @@ public class SkillHolder : MonoBehaviour
     public void PlayAnimation(string id) => animator.Play(id);
 
     public void AnimationEnded() => this.transform.localPosition = Vector2.zero;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        collidersInTrigger.Add(collision);
+        D_enteredTrigger?.Invoke(collision.GetComponentInParent<Entity>());
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        collidersInTrigger.Remove(collision);
+        D_exitedTrigger?.Invoke(collision.GetComponentInParent<Entity>());
+    }
 
     private void OnDrawGizmos()
     {

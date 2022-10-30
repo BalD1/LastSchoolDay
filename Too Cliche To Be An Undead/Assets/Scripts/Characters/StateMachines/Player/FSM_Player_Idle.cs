@@ -15,7 +15,7 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
         base.EnterState(stateManager);
 
         owner.D_attackInput += owner.StartAttack;
-        owner.D_skillInput += owner.GetSkillHolder.UseSkill;
+        owner.D_skillInput += owner.GetSkillHolder.StartSkill;
         owner.D_dashInput += owner.StartDash;
     }
 
@@ -30,7 +30,7 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
         base.ExitState(stateManager);
 
         owner.D_attackInput -= owner.StartAttack;
-        owner.D_skillInput -= owner.GetSkillHolder.UseSkill;
+        owner.D_skillInput -= owner.GetSkillHolder.StartSkill;
         owner.D_dashInput -= owner.StartDash;
     }
 
