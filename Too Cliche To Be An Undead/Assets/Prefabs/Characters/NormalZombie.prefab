@@ -179,7 +179,7 @@ MonoBehaviour:
   updatePathCooldown: 0.5
   targetRandomOffset: 0.5
   targetRandomOffsetAfterAttack: 3
-  chaoticTargetPosition: 1
+  chaoticTargetPosition: 0
   debugMode: 1
 --- !u!114 &7491649661066783789
 MonoBehaviour:
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  drawGizmos: 1
+  drawGizmos: 0
   detailedGizmos: 1
   startEndModifier:
     addPoints: 0

@@ -33,7 +33,7 @@ public abstract class EnemyBase : Entity
     [SerializeField] private float movementMass;
     public float MovementMass { get => movementMass; }
 
-    private Vector2 velocity;
+    private Vector2 steeredVelocity;
 
     public float MaxSpeed { get => this.GetStats.Speed(this.StatsModifiers) * this.SpeedMultiplier; }
 
@@ -97,21 +97,23 @@ public abstract class EnemyBase : Entity
     {
         desiredVelocity = goalPosition * MaxSpeed;
 
-        steering = desiredVelocity - velocity;
+        steering = desiredVelocity - steeredVelocity;
         steering = Vector3.ClampMagnitude(steering, this.MaxForce);
         steering /= this.MovementMass;
-
-        velocity = Vector3.ClampMagnitude(velocity + steering, MaxSpeed);
-        this.GetRb.velocity =  velocity * Time.fixedDeltaTime;
+        float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
+        Debug.Log($"{distance} / {this.DistanceBeforeStop}");
+        if (distance < distanceBeforeStop) 
+            steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * (distance / distanceBeforeStop);
+        else 
+            steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed);
+        
+        this.GetRb.velocity =  steeredVelocity * Time.fixedDeltaTime;
         //this.GetRb.velocity = goalPosition * this.GetStats.Speed(this.StatsModifiers) * this.SpeedMultiplier * Time.fixedDeltaTime;
-
-        Debug.DrawRay(transform.position, this.GetRb.velocity.normalized * 2, Color.blue);
-        Debug.DrawRay(transform.position * 2, desiredVelocity.normalized * 2, Color.magenta);
     }
 
     public void ResetVelocity()
     {
-        velocity = Vector2.zero;
+        steeredVelocity = Vector2.zero;
     }
 
     public void SetAttackedPlayer(PlayerCharacter target)
