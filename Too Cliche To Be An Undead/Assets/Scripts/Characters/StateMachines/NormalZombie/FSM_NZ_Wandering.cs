@@ -6,45 +6,38 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
 {
     private NormalZombie owner;
     private bool canSwitchToChase = false;
-    private bool moveToBasePos = false;
     private Vector2 goalPosition;
 
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
         owner ??= stateManager.Owner;
-        moveToBasePos = Vector2.Distance(owner.BasePosition, owner.transform.position) > (owner.DistanceBeforeStop / 2);
-        if (moveToBasePos)
-            owner.SetTarget(owner.BasePosition);
+        owner.ResetVelocity();
+        owner.ChooseRandomPosition();
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)
     {
-        if (moveToBasePos)
-            goalPosition = owner.Pathfinding.CheckWayPoint();
-
-        if (moveToBasePos)
-        {
-            moveToBasePos = Vector2.Distance(owner.BasePosition, owner.transform.position) > (owner.DistanceBeforeStop / 2);
-            if (!moveToBasePos) owner.GetRb.velocity = Vector2.zero;
-        }
+        if (owner.Pathfinding == null) return;
+        
+        goalPosition = owner.Pathfinding.CheckWayPoint();
     }
 
     public override void FixedUpdateState(FSM_NZ_Manager stateManager)
     {
-        if (moveToBasePos)
-            stateManager.Movements(goalPosition);
-
+        stateManager.Movements(goalPosition);
     }
 
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
-        owner.GetRb.velocity = Vector2.zero;
         canSwitchToChase = false;
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
         if (canSwitchToChase) stateManager.SwitchState(stateManager.chasingState);
+
+        if (Vector2.Distance(owner.transform.position, owner.CurrentPositionTarget) < owner.DistanceBeforeStop * 0.6f)
+            stateManager.SwitchState(stateManager.idleState);
     }
 
     public void SawPlayer() => canSwitchToChase = true;

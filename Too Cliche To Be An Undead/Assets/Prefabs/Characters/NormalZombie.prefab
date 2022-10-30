@@ -479,6 +479,9 @@ MonoBehaviour:
   speedMultiplier: 100
   maxForce: 100
   movementMass: 30
+  randomWanderPositionRadius: 8
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 5
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []

@@ -28,7 +28,7 @@ public class FSM_NZ_Manager : FSM_ManagerBase
         owner.D_detectedPlayer += wanderingState.SawPlayer;
         owner.D_detectedPlayer += idleState.SawPlayer;
 
-        currentState = idleState;
+        currentState = wanderingState;
         currentState.EnterState(this);
 
 #if UNITY_EDITOR
@@ -60,9 +60,9 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 #endif
     }
 
-    public void Movements(Vector2 goalPosition)
+    public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)
     {
-        owner.Movements(goalPosition);
+        owner.Movements(goalPosition, slowdownOnApproach);
     }
 
     public override string ToString()

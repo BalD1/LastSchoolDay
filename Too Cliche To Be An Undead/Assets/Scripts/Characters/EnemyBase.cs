@@ -37,12 +37,21 @@ public abstract class EnemyBase : Entity
 
     public float MaxSpeed { get => this.GetStats.Speed(this.StatsModifiers) * this.SpeedMultiplier; }
 
+    [SerializeField] private float randomWanderPositionRadius = 5f;
+    public float RandomWanderPositionRadius { get => randomWanderPositionRadius; }
+
+    [SerializeField] private float minWaitBeforeNewWanderPoint = 1f;
+    public float MinWaitBeforeNewWanderPoint { get => minWaitBeforeNewWanderPoint; }
+
+    [SerializeField] private float maxWaitBeforeNewWanderPoint = 3f;
+    public float MaxWaitBeforeNewWanderPoint { get => maxWaitBeforeNewWanderPoint; }
+
     [SerializeField] private float distanceBeforeStop = 1f;
     public float DistanceBeforeStop { get => distanceBeforeStop; }
 
     [SerializeField] private float durationBeforeAttack = .3f;
     public float DurationBeforeAttack { get => durationBeforeAttack; }
-    
+
 
     [Header("Player Related")]
 
@@ -93,22 +102,33 @@ public abstract class EnemyBase : Entity
         base.Update();
     }
 
-    public void Movements(Vector2 goalPosition)
+    public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)
     {
         desiredVelocity = goalPosition * MaxSpeed;
 
         steering = desiredVelocity - steeredVelocity;
         steering = Vector3.ClampMagnitude(steering, this.MaxForce);
-        steering /= this.MovementMass;
+        if (this.MovementMass != 0)
+            steering /= this.MovementMass;
+        
         float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
-        Debug.Log($"{distance} / {this.DistanceBeforeStop}");
-        if (distance < distanceBeforeStop) 
+        if (distance < distanceBeforeStop && slowdownOnApproach) 
             steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * (distance / distanceBeforeStop);
         else 
             steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed);
         
         this.GetRb.velocity =  steeredVelocity * Time.fixedDeltaTime;
         //this.GetRb.velocity = goalPosition * this.GetStats.Speed(this.StatsModifiers) * this.SpeedMultiplier * Time.fixedDeltaTime;
+    }
+
+    public void ChooseRandomPosition()
+    {
+        Vector2 randDir = (Random.insideUnitCircle * this.transform.position).normalized;
+        float randDist = Random.Range(distanceBeforeStop, randomWanderPositionRadius);
+
+        Vector2 point = (Vector2)this.transform.position + randDir * randDist;
+
+        SetTarget(point);
     }
 
     public void ResetVelocity()
@@ -190,6 +210,9 @@ public abstract class EnemyBase : Entity
         base.OnDrawGizmos();
 
         Gizmos.DrawWireSphere(this.transform.position, distanceBeforeStop);
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(this.transform.position, randomWanderPositionRadius);
+        Gizmos.color = Color.white;
 #endif
     }
 }
