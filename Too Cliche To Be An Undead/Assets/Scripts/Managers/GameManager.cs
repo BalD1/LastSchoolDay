@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using BalDUtilities.Misc;
-using static GameManager;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +17,14 @@ public class GameManager : MonoBehaviour
 
             return instance;
         }
+    }
+
+    public enum E_CharactersNames
+    {
+        Shirley,
+        Whitney,
+        Jason,
+        Nelson,
     }
 
     [SerializeField] private PlayerCharacter playerRef;
@@ -149,26 +157,6 @@ public class GameManager : MonoBehaviour
         {
             GameState = E_GameState.Pause;
         }
-    }
-    
-    public int SetPlayerIndex(PlayerCharacter newPlayer)
-    {
-        foreach (var item in playersByName)
-        {
-            if (item.playerName.Equals(newPlayer.name))
-            {
-                item.playerScript = newPlayer;
-                return playersByName.IndexOf(item);
-            }
-        }
-
-        var p = new PlayersByName();
-        p.playerName = newPlayer.name;
-        p.playerScript = newPlayer;
-
-        playersByName.Add(p);
-        DataKeeper.Instance.playersDataKeep.Add(new DataKeeper.PlayerDataKeep(newPlayer.name));
-        return playersByName.Count - 1;
     }
 
     #region Scenes

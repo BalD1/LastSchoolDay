@@ -19,7 +19,7 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
-        owner.ReadMovementsInputs();
+        //owner.ReadMovementsInputs();
 
         SetAnimator();
         stateManager.OwnerWeapon.FollowMouse();

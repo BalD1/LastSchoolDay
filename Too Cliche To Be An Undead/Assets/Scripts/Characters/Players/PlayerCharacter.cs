@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using BalDUtilities.MouseUtils;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class PlayerCharacter : Entity
 {
@@ -79,9 +80,39 @@ public class PlayerCharacter : Entity
     public delegate void D_DashInput();
     public D_DashInput D_dashInput;
 
+    public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
+    public const string SCHEME_GAMEPAD = "Gamepad";
+
+    private Vector2 lastDirection;
+    public Vector2 LastDirection { get => lastDirection; }
+
     #endregion
 
     #region A/S/U/F
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
+
+        switch (DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character)
+        {
+            case GameManager.E_CharactersNames.Shirley:
+                Debug.Log("Shirley");
+                break;
+
+            case GameManager.E_CharactersNames.Whitney:
+                Debug.Log("Whitney");
+                break;
+
+            case GameManager.E_CharactersNames.Nelson:
+                Debug.Log("Nelson");
+                break;
+
+            case GameManager.E_CharactersNames.Jason:
+                Debug.Log("Jason");
+                break;
+        }
+    }
 
     protected override void Awake()
     {
@@ -89,11 +120,15 @@ public class PlayerCharacter : Entity
         
         playerControls = new PlayerControls();
         playerControls.InGame.Enable();
-        
+
+        this.transform.position = new Vector2(-60.5f, 37.75f);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     protected override void Start()
     {
+        DontDestroyOnLoad(this);
         base.Start();
 
         GameManager.Instance._onSceneReload += OnSceneReload;
@@ -142,13 +177,12 @@ public class PlayerCharacter : Entity
     public void SwitchControlMapToInGame() => inputs.SwitchCurrentActionMap("InGame");
     public void SwitchControlMapToUI() => inputs.SwitchCurrentActionMap("UI");
 
-    public void ReadMovementsInputs()
+    public void ReadMovementsInputs(InputAction.CallbackContext context)
     {
         if (inputs.currentActionMap.name.Equals("InGame") == false) return;
-        
-        this.velocity = Vector2.zero;
-        this.velocity.x = playerControls.InGame.Movements.ReadValue<Vector2>().x;
-        this.velocity.y = playerControls.InGame.Movements.ReadValue<Vector2>().y;
+
+        velocity = context.ReadValue<Vector2>();
+        if (velocity != Vector2.zero) lastDirection = velocity;
 
         /*
         if (Input.GetKey(KeyCode.Z))
@@ -246,7 +280,12 @@ public class PlayerCharacter : Entity
 
     #region Skill
 
-    public void SetSkillThumbnail(Sprite image) => skillIcon.sprite = image;
+    public void SetSkillThumbnail(Sprite image)
+    {
+        if (skillIcon == null) return;
+
+        skillIcon.sprite = image;
+    }
     public void UpdateSkillThumbnailFill(float fill) => skillIcon.fillAmount = fill;
 
     public void OffsetSkillHolder(float offset)
@@ -294,8 +333,10 @@ public class PlayerCharacter : Entity
 
     private void SetKeepedData()
     {
-        this.playerIndex = GameManager.Instance.SetPlayerIndex(this);
+        this.playerIndex = DataKeeper.Instance.CreateData(this);
         this.money = DataKeeper.Instance.playersDataKeep[this.playerIndex].money;
+
+        PlayersManager.Instance.SetupPanels(playerIndex);
     }
 
     private void OnSceneReload()

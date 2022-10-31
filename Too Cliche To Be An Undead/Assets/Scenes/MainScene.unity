@@ -546,9 +546,15 @@ MonoBehaviour:
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -696,7 +702,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &119879276
 GameObject:
@@ -988,17 +994,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &135720505 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1824184015, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
-  m_PrefabInstance: {fileID: 354182422}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &141124308
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,11 +1182,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7821369719249530890, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
   m_PrefabInstance: {fileID: 191709176}
-  m_PrefabAsset: {fileID: 0}
---- !u!20 &214830114 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 1289302492, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-  m_PrefabInstance: {fileID: 1711656269}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &228901830
 GameObject:
@@ -2104,7 +2094,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &352045826
 PrefabInstance:
@@ -2177,7 +2167,7 @@ PrefabInstance:
     - target: {fileID: 4647886569459204929, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 214830114}
+      objectReference: {fileID: 0}
     - target: {fileID: 4647886569459204930, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2268,28 +2258,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
---- !u!114 &354182424 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2021655826, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
-  m_PrefabInstance: {fileID: 354182422}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &354182425 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 940061944, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
-  m_PrefabInstance: {fileID: 354182422}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &355036047
 GameObject:
   m_ObjectHideFlags: 0
@@ -3753,7 +3721,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &462351371
 PrefabInstance:
@@ -4333,7 +4301,7 @@ Transform:
   m_Children:
   - {fileID: 589068598}
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &563602646
 MonoBehaviour:
@@ -6964,9 +6932,15 @@ MonoBehaviour:
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -7176,7 +7150,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &876118625
 GameObject:
@@ -7304,9 +7278,15 @@ MonoBehaviour:
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -7431,7 +7411,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &886018129
 GameObject:
@@ -9329,9 +9309,15 @@ MonoBehaviour:
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -11582,9 +11568,15 @@ MonoBehaviour:
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -11697,7 +11689,7 @@ Transform:
   - {fileID: 731055401}
   - {fileID: 982266676}
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1468739000
 GameObject:
@@ -12703,7 +12695,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1662240642
 GameObject:
@@ -12936,86 +12928,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 809654862, guid: d4929cc946bc3ba49befc3972b1c4240, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d4929cc946bc3ba49befc3972b1c4240, type: 3}
---- !u!1001 &1711656269
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8823656354733599271, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: hpBar
-      value: 
-      objectReference: {fileID: 354182425}
-    - target: {fileID: 8823656354733599271, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: hpText
-      value: 
-      objectReference: {fileID: 135720505}
-    - target: {fileID: 8823656354733599271, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: skillIcon
-      value: 
-      objectReference: {fileID: 354182424}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_RootOrder
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -60.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 37.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599273, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823656354733599274, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
---- !u!114 &1711656270 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8823656354733599271, guid: ad952bf283bc96f4a916bd638f7c8d61, type: 3}
-  m_PrefabInstance: {fileID: 1711656269}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 149ece23618c10c45b89db4c82e07c92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1718051374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13266,9 +13178,15 @@ MonoBehaviour:
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -13319,7 +13237,7 @@ Transform:
   - {fileID: 250121848}
   - {fileID: 2080863118}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1739651303
 GameObject:
@@ -13673,9 +13591,15 @@ MonoBehaviour:
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -14122,9 +14046,15 @@ MonoBehaviour:
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -14913,7 +14843,7 @@ PrefabInstance:
     - target: {fileID: 874000493620210163, guid: 48c2497861520eb4ab036ba4c03020fc, type: 3}
       propertyPath: playerRef
       value: 
-      objectReference: {fileID: 1711656270}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48c2497861520eb4ab036ba4c03020fc, type: 3}
 --- !u!4 &1975617976 stripped
@@ -15560,7 +15490,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2043834437
 GameObject:
@@ -15834,9 +15764,15 @@ MonoBehaviour:
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -16771,9 +16707,15 @@ MonoBehaviour:
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}

@@ -27,7 +27,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         stateManager.OwnerWeapon.FollowMouse();
 
         owner.GetSkill.UpdateSkill(owner);
-        if (owner.GetSkill.CanMove) owner.ReadMovementsInputs();
+        //if (owner.GetSkill.CanMove) owner.ReadMovementsInputs();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)

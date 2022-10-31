@@ -282,7 +282,6 @@ public class Entity : MonoBehaviour, IDamageable
         if (invincible) return;
         if (!forceDeath && IsAlive()) return;
 
-        Debug.Log(this.gameObject.name + " iz dead lol x)", this.gameObject);
         source.PlayOneShot(audioClips.GetRandomDeathClip());
     }
 

@@ -195,6 +195,8 @@ public abstract class EnemyBase : Entity
         {
             dropTable.DropRandom(this.transform.position);
         }
+
+        attackedPlayer?.RemoveAttacker(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

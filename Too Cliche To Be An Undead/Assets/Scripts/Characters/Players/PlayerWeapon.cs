@@ -8,6 +8,9 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private PlayerCharacter owner;
     public PlayerCharacter Owner { get => owner; }
 
+    [SerializeField] private GameObject effectObject;
+    public GameObject EffectObject { get => effectObject; }
+
     [SerializeField] private float maxRange = 2f;
     [SerializeField] private float lastAttackDamagesMultiplier = 1.5f;
 
@@ -38,26 +41,30 @@ public class PlayerWeapon : MonoBehaviour
 
     public void FollowMouse()
     {
-        targetPosition = MousePosition.GetMouseWorldPosition() - owner.transform.position;
-        targetPosition = Vector2.ClampMagnitude(targetPosition, maxRange);
+        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 5f;
 
-        this.transform.position = owner.transform.position + (Vector3)targetPosition;
+            Vector3 selfPosByCam = Camera.main.WorldToScreenPoint(Owner.transform.position);
 
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = 5f;
+            mousePos.x -= selfPosByCam.x;
+            mousePos.y -= selfPosByCam.y;
 
-        Vector3 selfPosByCam = Camera.main.WorldToScreenPoint(Owner.transform.position);
-
-        mousePos.x -= selfPosByCam.x;
-        mousePos.y -= selfPosByCam.y;
-
-        lookAngle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-        this.transform.rotation = Quaternion.AngleAxis(lookAngle - 90, Vector3.forward);
+            lookAngle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+            this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+        }
+        else
+        {
+            Vector2 c = owner.LastDirection.normalized;
+            lookAngle = Mathf.Atan2(c.y, c.x) * Mathf.Rad2Deg;
+            this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+        }
     }
 
     public void DamageEnemiesInRange(bool isLastAttack)
     {
-        hitEntities = Physics2D.OverlapCircleAll(this.transform.position, owner.GetStats.AttackRange(owner.StatsModifiers), damageablesLayer);
+        hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.GetStats.AttackRange(owner.StatsModifiers), damageablesLayer);
         foreach (var item in hitEntities)
         {
             var damageable = item.GetComponentInParent<IDamageable>();
@@ -70,8 +77,8 @@ public class PlayerWeapon : MonoBehaviour
                 if (damageable.OnTakeDamages(damages, owner.GetStats.Team, owner.RollCrit()) == false)
                     continue;
 
-                float dist = Vector2.Distance(this.transform.position, item.transform.position) / 2;
-                Vector2 dir = (item.transform.position - this.transform.position).normalized;
+                //float dist = Vector2.Distance(this.transform.position, item.transform.position) / 2;
+                //Vector2 dir = (item.transform.position - this.transform.position).normalized;
 
                 // Instantiate(hitParticles, this.transform.position + (dir * dist), Quaternion.identity);
 
@@ -84,10 +91,10 @@ public class PlayerWeapon : MonoBehaviour
     {
         float rot = this.transform.rotation.eulerAngles.z;
 
-        if (rot > 45 && rot <= 135) return Vector2.left;           //left
-        else if (rot > 135 && rot <= 225) return Vector2.down;     //down
-        else if (rot > 225 && rot <= 315) return Vector2.right;    //right
-        else return Vector2.up;                                    //up
+        if (rot > 45 && rot <= 135) return Vector2.down;
+        else if (rot > 135 && rot <= 225) return Vector2.right;
+        else if (rot > 225 && rot <= 315) return Vector2.up;
+        else return Vector2.left;
     }
 
     public void ResetAttack()
