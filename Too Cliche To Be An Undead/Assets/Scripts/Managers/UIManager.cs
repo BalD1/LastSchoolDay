@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -33,8 +35,29 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameoverMenu;
     [SerializeField] private GameObject shopMenu;
     [SerializeField] private GameObject shopContentMenu;
-    [SerializeField] private GameObject hud;
+    [SerializeField] private GameObject localHUD;
     [SerializeField] private GameObject mainMenu_mainPanel;
+    [SerializeField] private PlayerHUD[] playerHUDs;
+
+    [System.Serializable]
+    public struct PlayerHUD
+    {
+        public GameObject container;
+        public Image portrait;
+        public Image hpBar;
+        public TextMeshProUGUI hpText;
+        public Image skillThumbnail;
+    }
+
+    [SerializeField] private CharacterPortrait[] characterPortrait;
+    public CharacterPortrait[] CharacterPortraits { get => characterPortrait; }
+
+    [System.Serializable]
+    public struct CharacterPortrait
+    {
+        public GameManager.E_CharactersNames characterName;
+        public Sprite portrait;
+    }
 
     [SerializeField] private PlayerPanelsManager panelsManager;
 
@@ -46,6 +69,8 @@ public class UIManager : MonoBehaviour
 
     private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
     public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
+
+    public PlayerHUD[] PlayerHUDs { get => playerHUDs; }
 
     private List<PBThumbnail> pbThumbnails = new List<PBThumbnail>();
 
@@ -172,7 +197,7 @@ public class UIManager : MonoBehaviour
         {
             if (closedMenu.Equals(shopMenu))
             {
-                hud.SetActive(true);
+                localHUD.SetActive(true);
                 GameManager.Player1Ref.SwitchControlMapToInGame();
                 GameManager.Instance.GetShop.SetIsShopOpen(false);
             }
@@ -191,7 +216,7 @@ public class UIManager : MonoBehaviour
                     break;
 
                 case GameManager.E_GameState.InGame:
-                    hud.SetActive(true);
+                    localHUD.SetActive(true);
                     break;
 
                 case GameManager.E_GameState.MainMenu:
@@ -214,14 +239,14 @@ public class UIManager : MonoBehaviour
     {
         OpenMenuInQueue(shopMenu);
         SelectButton("Shop");
-        hud.SetActive(false);
+        localHUD.SetActive(false);
         GameManager.Player1Ref.SwitchControlMapToUI();
     }
 
     public void CloseShop()
     {
         CloseYoungerMenu();
-        hud.SetActive(true);
+        localHUD.SetActive(true);
         GameManager.Player1Ref.SwitchControlMapToInGame();
     }
 

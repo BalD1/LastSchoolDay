@@ -56,6 +56,9 @@ public class ED_UIManager : Editor
 
         SerializedProperty eventSystem = serializedObject.FindProperty("eventSystem");
         EditorGUILayout.PropertyField(eventSystem);
+
+        SerializedProperty characterPortrait = serializedObject.FindProperty("characterPortrait");
+        EditorGUILayout.PropertyField(characterPortrait);
     }
 
     private void DrawMainMenuInspector()
@@ -100,8 +103,11 @@ public class ED_UIManager : Editor
         SerializedProperty shopContentMenu = serializedObject.FindProperty("shopContentMenu");
         EditorGUILayout.PropertyField(shopContentMenu);
 
-        SerializedProperty hud = serializedObject.FindProperty("hud");
-        EditorGUILayout.PropertyField(hud);
+        SerializedProperty localHUD = serializedObject.FindProperty("localHUD");
+        EditorGUILayout.PropertyField(localHUD);
+
+        SerializedProperty playerHUDs = serializedObject.FindProperty("playerHUDs");
+        EditorGUILayout.PropertyField(playerHUDs);
 
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Buttons Selection", EditorStyles.boldLabel);

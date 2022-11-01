@@ -119,6 +119,13 @@ public class PlayerCharacter : Entity
             SwitchControlMapToInGame();
             if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
         }
+
+        UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
+
+        pHUD.container.SetActive(true);
+        this.hpBar = pHUD.hpBar;
+        this.hpText = pHUD.hpText;
+        this.skillIcon = pHUD.skillThumbnail;
     }
 
     protected override void Awake()
