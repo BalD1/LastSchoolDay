@@ -86,4 +86,15 @@ public class PlayersManager : MonoBehaviour
     private void LeaveAction(InputAction.CallbackContext context)
     {
     }
+
+    public void CleanInputs()
+    {
+        List<PlayerInput> inputsToRemove = new List<PlayerInput>();
+        foreach (var item in playerInputs)
+        {
+            if (item == null) inputsToRemove.Add(item);
+        }
+
+        playerInputs.RemoveAll(x => inputsToRemove.Contains(x));
+    }
 }

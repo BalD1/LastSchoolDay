@@ -43,7 +43,7 @@ public class Shop : MonoBehaviour, IInteractable
         UIManager.Instance.OpenShop();
         UIManager.Instance.D_closeMenu += CheckIfClosedMenuIsShop;
         shopIsOpen = true;
-        GameManager.PlayerRef.SetAllVelocity(Vector2.zero);
+        GameManager.Player1Ref.SetAllVelocity(Vector2.zero);
     }
 
     private void CloseShop()
@@ -77,7 +77,7 @@ public class Shop : MonoBehaviour, IInteractable
         int lvl = DataKeeper.Instance.playersDataKeep[0].maxLevel;
         for (int i = 0; i < lvl; i++)
         {
-            levels[i].Unlock(GameManager.PlayerRef);
+            levels[i].Unlock(GameManager.Player1Ref);
         }
     }
 }

@@ -112,6 +112,13 @@ public class PlayerCharacter : Entity
                 Debug.Log("Jason");
                 break;
         }
+
+        if (scene.Equals("MainMenu")) SwitchControlMapToUI();
+        else
+        {
+            SwitchControlMapToInGame();
+            if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
+        }
     }
 
     protected override void Awake()
@@ -122,6 +129,8 @@ public class PlayerCharacter : Entity
         playerControls.InGame.Enable();
 
         this.transform.position = new Vector2(-60.5f, 37.75f);
+
+        SwitchControlMapToUI();
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -276,6 +285,24 @@ public class PlayerCharacter : Entity
         if (context.performed) D_dashInput?.Invoke();
     } 
 
+    public void LeftArrowInput(InputAction.CallbackContext context)
+    {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
+        if (context.performed) UIManager.Instance.PlayerLeftArrowOnPanel(playerIndex);
+    }
+
+    public void RightArrowInput(InputAction.CallbackContext context)
+    {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
+        if (context.performed) UIManager.Instance.PlayerRightArrowOnPanel(playerIndex);
+    }
+
+    public void QuitLobby(InputAction.CallbackContext context)
+    {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
+        if (context.performed) GameManager.Instance.QuitLobby(PlayerIndex);
+    }
+
     #endregion
 
     #region Skill
@@ -337,6 +364,12 @@ public class PlayerCharacter : Entity
         this.money = DataKeeper.Instance.playersDataKeep[this.playerIndex].money;
 
         PlayersManager.Instance.SetupPanels(playerIndex);
+    }
+
+    public void ForceSetIndex(int idx)
+    {
+         this.playerIndex = idx;
+         this.gameObject.name = "Player " + idx;
     }
 
     private void OnSceneReload()

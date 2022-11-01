@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static GameManager;
+using static UnityEditor.Progress;
 
 public class DataKeeper : MonoBehaviour
 {
@@ -95,33 +96,35 @@ public class DataKeeper : MonoBehaviour
 
     public void RemoveData(string _playerName)
     {
-        PlayerDataKeep pdk = null;
-        foreach (var item in playersDataKeep)
+        for (int i = 0; i < playersDataKeep.Count; i++)
         {
-            if (item.playerName.Equals(_playerName))
-            {
-                pdk = item;
-                return;
-            }
+            if (playersDataKeep[i].playerName.Equals(_playerName)) RemoveData(i);
         }
-
-        if (pdk != null)
-            playersDataKeep.Remove(pdk);
     }
     public void RemoveData(PlayerInput _playerInput)
     {
-        PlayerDataKeep pdk = null;
-        foreach (var item in playersDataKeep)
+        for (int i = 0; i < playersDataKeep.Count; i++)
         {
-            if (item.playerInput.Equals(_playerInput))
-            {
-                pdk = item;
-                return;
-            }
+            if (playersDataKeep[i].playerInput.Equals(_playerInput)) RemoveData(i);
+        }
+    }
+    public void RemoveData(int idx)
+    {
+        if (idx < 0 && idx >= playersDataKeep.Count) return;
+
+        GameObject player = playersDataKeep[idx].playerInput.transform.parent.gameObject;
+        playersDataKeep.RemoveAt(idx);
+
+        Destroy(player);
+        PlayersManager.Instance.CleanInputs();
+
+        if (playersDataKeep.Count <= 0) return;
+
+        for (int i = 0; i < playersDataKeep.Count; i++)
+        {
+            playersDataKeep[i].playerInput.GetComponentInParent<PlayerCharacter>().ForceSetIndex(i);
         }
 
-        if (pdk != null)
-            playersDataKeep.Remove(pdk);
     }
 
     private void Awake()

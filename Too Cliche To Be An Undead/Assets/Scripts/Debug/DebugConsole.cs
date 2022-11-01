@@ -70,12 +70,12 @@ public class DebugConsole : MonoBehaviour
 
         KILLSELF = new DebugCommand("KILL_SELF", "Kills the currently controlled character", "KILL_SELF", () =>
         {
-            GameManager.PlayerRef.OnTakeDamages(GameManager.PlayerRef.GetStats.MaxHP(GameManager.PlayerRef.StatsModifiers));
+            GameManager.Player1Ref.OnTakeDamages(GameManager.Player1Ref.GetStats.MaxHP(GameManager.Player1Ref.StatsModifiers));
         });
 
         REMOVE_ALL_MODIFIERS = new DebugCommand("REMOVE_ALL_MODIFIERS", "Removes every modifiers of self", "REMOVE_ALL_MODIFIERS", () =>
         {
-            GameManager.PlayerRef.StatsModifiers.Clear();
+            GameManager.Player1Ref.StatsModifiers.Clear();
         });
 
 
@@ -83,84 +83,84 @@ public class DebugConsole : MonoBehaviour
 
         ADDM_SELF_CRIT = new DebugCommand<int>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self", "ADDM_SELF_CRIT <float>", (val) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_CRIT_ID, val, StatsModifier.E_StatType.CritChances);
+            GameManager.Player1Ref.AddModifier(MODIF_CRIT_ID, val, StatsModifier.E_StatType.CritChances);
         });
 
         ADDM_SELF_CRIT_T = new DebugCommand<int, float>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self for <float>s", "ADDM_SELF_CRIT <int> <float>", (val_1, val_2) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_CRIT_ID, val_1, val_2, StatsModifier.E_StatType.CritChances);
+            GameManager.Player1Ref.AddModifier(MODIF_CRIT_ID, val_1, val_2, StatsModifier.E_StatType.CritChances);
         });
 
         // FLOAT COMMANDS
 
         HEAL_SELF = new DebugCommand<float>("HEAL_SELF", "Heals the currently played character", "HEAL_SELF <float>", (val) =>
         {
-            GameManager.PlayerRef.OnHeal(val);
+            GameManager.Player1Ref.OnHeal(val);
         });
 
         HEAL_SELF_C = new DebugCommand<float, bool>("HEAL_SELF", "Heals the currently played character", "HEAL_SELF <float> <bool>", (val_1, val_2) =>
         {
-            GameManager.PlayerRef.OnHeal(val_1, val_2);
+            GameManager.Player1Ref.OnHeal(val_1, val_2);
         });
 
         DAMAGE_SELF = new DebugCommand<float>("DAMAGE_SELF", "Damages the currently played character", "DAMAGE_SELF <float>", (val) =>
         {
-            GameManager.PlayerRef.OnTakeDamages(val);
+            GameManager.Player1Ref.OnTakeDamages(val);
         });
 
         DAMAGE_SELF_C = new DebugCommand<float, bool>("DAMAGE_SELF", "Damages the currently played character", "DAMAGE_SELF <float> <bool>", (val_1, val_2) =>
         {
-            GameManager.PlayerRef.OnTakeDamages(val_1, val_2);
+            GameManager.Player1Ref.OnTakeDamages(val_1, val_2);
         });
 
         ADDM_SELF_HP = new DebugCommand<float>("ADDM_SELF_HP", "Adds a HP modifier of <float> to self", "ADDM_SELF_HP <float>", (val) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_HEALTH_ID ,val, StatsModifier.E_StatType.MaxHP);
+            GameManager.Player1Ref.AddModifier(MODIF_HEALTH_ID ,val, StatsModifier.E_StatType.MaxHP);
         });
 
         ADDM_SELF_HP_T = new DebugCommand<float, float>("ADDM_SELF_HP", "Adds a HP modifier of <float> to self for <float>s", "ADDM_SELF_HP <float> <float>", (val_1, val_2) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_HEALTH_ID, val_1, val_2, StatsModifier.E_StatType.MaxHP);
+            GameManager.Player1Ref.AddModifier(MODIF_HEALTH_ID, val_1, val_2, StatsModifier.E_StatType.MaxHP);
         });
 
         ADDM_SELF_DAMAGES = new DebugCommand<float>("ADDM_SELF_DAMAGES", "Adds a damages modifier of <float> to self", "ADDM_SELF_DAMAGES <float>", (val) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_DAMAGES_ID, val, StatsModifier.E_StatType.Damages);
+            GameManager.Player1Ref.AddModifier(MODIF_DAMAGES_ID, val, StatsModifier.E_StatType.Damages);
         });
 
         ADDM_SELF_DAMAGES_T = new DebugCommand<float, float>("ADDM_SELF_DAMAGES", "Adds a damages modifier of <float> to self for <float>s", "ADDM_SELF_DAMAGES <float> <float>", (val_1, val_2) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_DAMAGES_ID, val_1, val_2, StatsModifier.E_StatType.Damages);
+            GameManager.Player1Ref.AddModifier(MODIF_DAMAGES_ID, val_1, val_2, StatsModifier.E_StatType.Damages);
         });
 
         ADDM_SELF_ATTRANGE = new DebugCommand<float>("ADDM_SELF_ATTRANGE", "Adds a attack range modifier of <float> to self", "ADDM_SELF_ATTRANGE <float>", (val) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_RANGE_ID, val, StatsModifier.E_StatType.AttackRange);
+            GameManager.Player1Ref.AddModifier(MODIF_RANGE_ID, val, StatsModifier.E_StatType.AttackRange);
         });
 
         ADDM_SELF_ATTRANGE_T = new DebugCommand<float, float>("ADDM_SELF_ATTRANGE", "Adds a attack range modifier of <float> to self for <float>s", "ADDM_SELF_ATTRANGE <float> <float>", (val_1, val_2) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_RANGE_ID, val_1, val_2, StatsModifier.E_StatType.AttackRange);
+            GameManager.Player1Ref.AddModifier(MODIF_RANGE_ID, val_1, val_2, StatsModifier.E_StatType.AttackRange);
         });
 
         ADDM_SELF_ATTCD = new DebugCommand<float>("ADDM_SELF_ATTCD", "Adds a attack cooldown modifier of <float> to self", "ADDM_SELF_ATTCD <float>", (val) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_CD_ID, val, StatsModifier.E_StatType.Attack_CD);
+            GameManager.Player1Ref.AddModifier(MODIF_CD_ID, val, StatsModifier.E_StatType.Attack_CD);
         });
 
         ADDM_SELF_ATTCD_T = new DebugCommand<float, float>("ADDM_SELF_ATTCD", "Adds a attack cooldown modifier of <float> to self for <float>s", "ADDM_SELF_ATTCD <float> <float>", (val_1, val_2) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_CD_ID, val_1, val_2, StatsModifier.E_StatType.Attack_CD);
+            GameManager.Player1Ref.AddModifier(MODIF_CD_ID, val_1, val_2, StatsModifier.E_StatType.Attack_CD);
         });
 
         ADDM_SELF_SPEED = new DebugCommand<float>("ADDM_SELF_SPEED", "Adds a speed modifier of <float> to self", "ADDM_SELF_SPEED <float>", (val) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_SPEED_ID, val, StatsModifier.E_StatType.Speed);
+            GameManager.Player1Ref.AddModifier(MODIF_SPEED_ID, val, StatsModifier.E_StatType.Speed);
         });
 
         ADDM_SELF_SPEED_T = new DebugCommand<float, float>("ADDM_SELF_SPEED", "Adds a speed modifier of <float> to self for <float>s", "ADDM_SELF_SPEED <float> <float>", (val_1, val_2) =>
         {
-            GameManager.PlayerRef.AddModifier(MODIF_SPEED_ID, val_1, val_2, StatsModifier.E_StatType.Speed);
+            GameManager.Player1Ref.AddModifier(MODIF_SPEED_ID, val_1, val_2, StatsModifier.E_StatType.Speed);
         });
 
 
@@ -212,11 +212,11 @@ public class DebugConsole : MonoBehaviour
         if (showConsole)
         {
             ResetField();
-            GameManager.PlayerRef.SetInGameControlsState(false);
+            GameManager.Player1Ref.SetInGameControlsState(false);
         }
         else
         {
-            GameManager.PlayerRef.SetInGameControlsState(true);
+            GameManager.Player1Ref.SetInGameControlsState(true);
         }
     }
 
@@ -385,7 +385,7 @@ public class DebugConsole : MonoBehaviour
         {
             showConsole = false;
             ResetField();
-            GameManager.PlayerRef.SetInGameControlsState(true);
+            GameManager.Player1Ref.SetInGameControlsState(true);
         }
 
         if (Event.current.isKey)
@@ -396,7 +396,7 @@ public class DebugConsole : MonoBehaviour
             {
                 showConsole = false;
                 ResetField();
-                GameManager.PlayerRef.SetInGameControlsState(true);
+                GameManager.Player1Ref.SetInGameControlsState(true);
             }
         }
         

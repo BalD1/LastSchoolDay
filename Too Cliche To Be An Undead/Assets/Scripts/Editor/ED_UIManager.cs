@@ -65,6 +65,9 @@ public class ED_UIManager : Editor
         SerializedProperty mainMenu_mainPanel = serializedObject.FindProperty("mainMenu_mainPanel");
         EditorGUILayout.PropertyField(mainMenu_mainPanel);
 
+        SerializedProperty panelsManager = serializedObject.FindProperty("panelsManager");
+        EditorGUILayout.PropertyField(panelsManager);
+
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Buttons Selection", EditorStyles.boldLabel);
 

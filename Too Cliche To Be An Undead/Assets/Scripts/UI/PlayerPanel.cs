@@ -21,6 +21,9 @@ public class PlayerPanel : MonoBehaviour
 
     public PlayerPanelsManager panelsManager;
 
+    private bool isSetup;
+    public bool IsSetup { get => isSetup; }
+
     public void Enable()
     {
         SetImageOpacity(ref characterImage, 1);
@@ -38,6 +41,8 @@ public class PlayerPanel : MonoBehaviour
         playerID = id;
 
         Enable();
+
+        isSetup = true;
     }
 
     public void ChangePreset(bool left)
@@ -67,6 +72,9 @@ public class PlayerPanel : MonoBehaviour
 
         leftArrow.gameObject.SetActive(false);
         rightArrow.gameObject.SetActive(false);
+
+        this.characterImage.sprite = panelsManager.GetCharacterSprite(0);
+        isSetup = false;
     }
 
     private void SetImageOpacity(ref Image i, int opacity)

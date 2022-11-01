@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviour
         Nelson,
     }
 
-    [SerializeField] private PlayerCharacter playerRef;
-    public static PlayerCharacter PlayerRef { get => Instance.playerRef; }
+    [SerializeField] private PlayerCharacter player1Ref;
+    public static PlayerCharacter Player1Ref { get => Instance.player1Ref; }
 
     [SerializeField] private Shop shop;
     public Shop GetShop { get => shop; }
@@ -135,6 +135,12 @@ public class GameManager : MonoBehaviour
         InitState();
     }
 
+    public void QuitLobby(int id)
+    {
+        DataKeeper.Instance.RemoveData(id);
+        UIManager.Instance.PlayerQuitLobby(id);
+    }
+
     private void InitState()
     {
         if (CompareCurrentScene(E_ScenesNames.MainMenu)) GameState = E_GameState.MainMenu;
@@ -158,6 +164,8 @@ public class GameManager : MonoBehaviour
             GameState = E_GameState.Pause;
         }
     }
+
+    public void SetPlayer1(PlayerCharacter p1) => this.player1Ref = p1;
 
     #region Scenes
 

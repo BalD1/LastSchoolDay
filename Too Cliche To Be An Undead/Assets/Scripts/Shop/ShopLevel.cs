@@ -81,6 +81,6 @@ public class ShopLevel : MonoBehaviour
 
     public void OnClick()
     {
-        TryUnlock(GameManager.PlayerRef);
+        TryUnlock(GameManager.Player1Ref);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerPanelsManager : MonoBehaviour
 {
     [SerializeField] private PlayerPanel[] playerPanels;
+    public PlayerPanel[] GetPlayerPanels { get => playerPanels; }
 
     public void Begin()
     {
@@ -29,8 +30,29 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void ResetPanels()
     {
-        foreach (var item in playerPanels) item.ResetPanel();
+        for (int i = 1; i < playerPanels.Length; i++)
+        {
+            playerPanels[i].ResetPanel();
+        }
         PlayersManager.Instance.DisableActions();
+    }
+
+    public void RemovePanel(int idx)
+    {
+        if (idx < 1 || idx > 3) return;
+
+        playerPanels[idx].ResetPanel();
+
+        if (idx < 3)
+        {
+            if (playerPanels[idx + 1].IsSetup)
+            {
+                playerPanels[idx].Setup(idx);
+                playerPanels[idx].CharacterImage.sprite = playerPanels[idx + 1].CharacterImage.sprite;
+                playerPanels[idx + 1].ResetPanel();
+            }
+        }
+
     }
 
     public Sprite GetCharacterSprite(int idx)

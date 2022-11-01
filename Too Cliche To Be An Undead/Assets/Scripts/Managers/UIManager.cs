@@ -36,6 +36,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject hud;
     [SerializeField] private GameObject mainMenu_mainPanel;
 
+    [SerializeField] private PlayerPanelsManager panelsManager;
+
+    public PlayerPanelsManager PanelsManager { get => panelsManager; }
+
     public GameObject ShopMenu { get => shopMenu; }
 
     public GameObject ShopContentMenu { get => shopContentMenu; }
@@ -169,7 +173,7 @@ public class UIManager : MonoBehaviour
             if (closedMenu.Equals(shopMenu))
             {
                 hud.SetActive(true);
-                GameManager.PlayerRef.SwitchControlMapToInGame();
+                GameManager.Player1Ref.SwitchControlMapToInGame();
                 GameManager.Instance.GetShop.SetIsShopOpen(false);
             }
             closedMenu.SetActive(false);
@@ -211,14 +215,29 @@ public class UIManager : MonoBehaviour
         OpenMenuInQueue(shopMenu);
         SelectButton("Shop");
         hud.SetActive(false);
-        GameManager.PlayerRef.SwitchControlMapToUI();
+        GameManager.Player1Ref.SwitchControlMapToUI();
     }
 
     public void CloseShop()
     {
         CloseYoungerMenu();
         hud.SetActive(true);
-        GameManager.PlayerRef.SwitchControlMapToInGame();
+        GameManager.Player1Ref.SwitchControlMapToInGame();
+    }
+
+    public void PlayerLeftArrowOnPanel(int id)
+    {
+        panelsManager?.GetPlayerPanels[id].ChangePreset(true);
+    }
+
+    public void PlayerRightArrowOnPanel(int id)
+    {
+        panelsManager?.GetPlayerPanels[id].ChangePreset(false);
+    }
+
+    public void PlayerQuitLobby(int id)
+    {
+        panelsManager?.RemovePanel(id);
     }
 
 #if UNITY_EDITOR
