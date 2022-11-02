@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
         public PlayerCharacter playerScript;
     }
 
+    [SerializeField] private Transform[] spawnPoints;
+    public Transform[] SpawnPoints { get => spawnPoints; }
+
     public List<PlayersByName> playersByName;
 
     public delegate void D_OnSceneReload();
@@ -129,6 +132,7 @@ public class GameManager : MonoBehaviour
             {
                 var p = new PlayersByName();
                 p.playerName = item.playerName;
+                p.playerScript = item.playerInput.GetComponentInParent<PlayerCharacter>();
                 playersByName.Add(p);
             }
         }    

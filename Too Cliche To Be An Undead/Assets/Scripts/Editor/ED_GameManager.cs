@@ -89,10 +89,13 @@ public class ED_GameManager : Editor
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("References", EditorStyles.boldLabel);
 
-        SerializedProperty playerRef = serializedObject.FindProperty("playerRef");
-        EditorGUILayout.PropertyField(playerRef);
+        SerializedProperty player1Ref = serializedObject.FindProperty("player1Ref");
+        EditorGUILayout.PropertyField(player1Ref);
 
         SerializedProperty shop = serializedObject.FindProperty("shop");
         EditorGUILayout.PropertyField(shop);
+
+        SerializedProperty spawnPoints = serializedObject.FindProperty("spawnPoints");
+        EditorGUILayout.PropertyField(spawnPoints);
     }
 }

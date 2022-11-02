@@ -30,9 +30,35 @@ public class PlayersManager : MonoBehaviour
     public event Action<PlayerInput> PlayerJoined;
     public event Action<PlayerInput> PlayerLeft;
 
+    [SerializeField] private int alivePlayersCount;
+    public int AlivePlayersCount { get => alivePlayersCount; }
+
+    [System.Serializable]
+    public struct PlayerCharacterComponents
+    {
+        public GameManager.E_CharactersNames character;
+        public SCRPT_Dash dash;
+        public SCRPT_Skill skill;
+        public SCRPT_EntityStats stats;
+        public Sprite sprite;
+    }
+
+    [SerializeField] private PlayerCharacterComponents[] characterComponents;
+    public PlayerCharacterComponents[] CharacterComponents { get => characterComponents; }
+
     private void Awake()
     {
-        instance = this;
+        if (instance == null) 
+            instance = this;
+        else
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        PlayerCharacter p1 = Instantiate(GameAssets.Instance.PlayerPF).GetComponent<PlayerCharacter>();
+        player1 = p1;
+        GameManager.Instance.SetPlayer1(p1);
 
         joinAction.performed += context => JoinAction(context);
 
@@ -66,8 +92,6 @@ public class PlayersManager : MonoBehaviour
         playerInputs.Add(input);
 
         if (PlayerJoined != null) PlayerJoined(input);
-
-
     }
 
     private void OnPlayerLeft(PlayerInput input)
@@ -96,5 +120,27 @@ public class PlayersManager : MonoBehaviour
         }
 
         playerInputs.RemoveAll(x => inputsToRemove.Contains(x));
+    }
+
+    public PlayerCharacterComponents GetCharacterComponents(GameManager.E_CharactersNames _character)
+    {
+        foreach (var item in characterComponents)
+        {
+            if (item.character.Equals(_character)) return item;
+        }
+
+        return characterComponents[0];
+    }
+
+    public void AddAlivePlayer() => alivePlayersCount++;
+    public void RemoveAlivePlayer()
+    {
+        alivePlayersCount--;
+        if (alivePlayersCount <= 0) GameManager.Instance.GameState = GameManager.E_GameState.GameOver;
+    }
+
+    public void DefinitiveDeath(PlayerCharacter player)
+    {
+        Camera.main.GetComponent<CameraController>().RemovePlayerFromList(player.transform);
     }
 }

@@ -250,6 +250,16 @@ public class UIManager : MonoBehaviour
         GameManager.Player1Ref.SwitchControlMapToInGame();
     }
 
+    public Sprite GetPortrait(GameManager.E_CharactersNames character)
+    {
+        foreach (var item in characterPortrait)
+        {
+            if (item.characterName.Equals(character)) return item.portrait;
+        }
+
+        return characterPortrait[0].portrait;
+    }
+
     public void PlayerLeftArrowOnPanel(int id)
     {
         panelsManager?.GetPlayerPanels[id].ChangePreset(true);

@@ -6,6 +6,7 @@ public class CharacterSwitch : MonoBehaviour, IInteractable
 {
     [SerializeField] private SCRPT_Dash dashSwitch;
     [SerializeField] private SCRPT_Skill skillSwitch;
+    [SerializeField] private SCRPT_EntityStats statsSwitch;
     [SerializeField] private Sprite spriteSwitch;
 
 
@@ -19,7 +20,7 @@ public class CharacterSwitch : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        interactor.GetComponentInParent<PlayerCharacter>().SwitchCharacter(dashSwitch, skillSwitch, spriteSwitch);
+        interactor.GetComponentInParent<PlayerCharacter>().SwitchCharacter(dashSwitch, skillSwitch, statsSwitch, spriteSwitch);
     }
 
     public bool CanBeInteractedWith()

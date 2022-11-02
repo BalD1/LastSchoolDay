@@ -9,7 +9,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
-public class PlayerCharacter : Entity
+public class PlayerCharacter : Entity, IInteractable
 {
     #region Animator args
 
@@ -55,6 +55,11 @@ public class PlayerCharacter : Entity
     [SerializeField] private int level;
     public int Level { get => level; }
 
+    [SerializeField] private float dyingState_DURATION = 20f;
+    public float DyingState_DURATION { get => dyingState_DURATION; }
+
+    [SerializeField] [Range(0,1)] private float reviveHealPercentage = 0.25f;
+
     [SerializeField] private SCRPT_Dash playerDash;
     public SCRPT_Dash PlayerDash { get => playerDash; }
 
@@ -94,24 +99,24 @@ public class PlayerCharacter : Entity
     {
         if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
 
-        switch (DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character)
-        {
-            case GameManager.E_CharactersNames.Shirley:
-                Debug.Log("Shirley");
-                break;
+        PlayersManager.Instance.AddAlivePlayer();
 
-            case GameManager.E_CharactersNames.Whitney:
-                Debug.Log("Whitney");
-                break;
+        this.transform.position = GameManager.Instance.SpawnPoints[this.playerIndex].position;
 
-            case GameManager.E_CharactersNames.Nelson:
-                Debug.Log("Nelson");
-                break;
+        GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
 
-            case GameManager.E_CharactersNames.Jason:
-                Debug.Log("Jason");
-                break;
-        }
+        UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
+
+        pHUD.container.SetActive(true);
+        this.hpBar = pHUD.hpBar;
+        this.hpText = pHUD.hpText;
+        this.skillIcon = pHUD.skillThumbnail;
+
+        pHUD.portrait.sprite = UIManager.Instance.GetPortrait(character);
+
+        PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
+
+        SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite);
 
         if (scene.Equals("MainMenu")) SwitchControlMapToUI();
         else
@@ -120,12 +125,7 @@ public class PlayerCharacter : Entity
             if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
         }
 
-        UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
 
-        pHUD.container.SetActive(true);
-        this.hpBar = pHUD.hpBar;
-        this.hpText = pHUD.hpText;
-        this.skillIcon = pHUD.skillThumbnail;
     }
 
     protected override void Awake()
@@ -135,9 +135,10 @@ public class PlayerCharacter : Entity
         playerControls = new PlayerControls();
         playerControls.InGame.Enable();
 
-        this.transform.position = new Vector2(-60.5f, 37.75f);
-
-        SwitchControlMapToUI();
+        if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
+            SwitchControlMapToUI();
+        else
+            SwitchControlMapToInGame();
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -160,6 +161,14 @@ public class PlayerCharacter : Entity
         base.Update();
 
         if (dash_CD_TIMER > 0) dash_CD_TIMER -= Time.deltaTime;
+    }
+
+    private void LateUpdate()
+    {
+        Vector3 minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, minScreenBounds.x + 1, maxScreenBounds.x - 1), Mathf.Clamp(transform.position.y, minScreenBounds.y + 1, maxScreenBounds.y - 1), transform.position.z);
     }
 
     protected override void FixedUpdate()
@@ -231,6 +240,8 @@ public class PlayerCharacter : Entity
 
     public override bool OnTakeDamages(float amount, bool isCrit = false)
     {
+        if (!IsAlive()) return false;
+
         bool res;
         res = base.OnTakeDamages(amount, isCrit);
 
@@ -254,8 +265,24 @@ public class PlayerCharacter : Entity
 
     public override void OnDeath(bool forceDeath = false)
     {
+        if (this.stateManager.ToString().Equals("Dying")) return;
+        
         base.OnDeath(forceDeath);
-        GameManager.Instance.GameState = GameManager.E_GameState.GameOver;
+        PlayersManager.Instance.RemoveAlivePlayer();
+        this.stateManager.SwitchState(stateManager.dyingState);
+    }
+
+    public void Revive()
+    {
+        this.OnHeal(this.GetStats.MaxHP(StatsModifiers) * .25f);
+        this.stateManager.SwitchState(stateManager.idleState);
+    }
+
+    public void DefinitiveDeath()
+    {
+        PlayersManager.Instance.DefinitiveDeath(this);
+
+        this.gameObject.SetActive(false);
     }
 
     #endregion
@@ -427,12 +454,27 @@ public class PlayerCharacter : Entity
         if (context.started) GameManager.Instance.HandlePause();
     }
 
-    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, Sprite newSprite)
+    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite)
     {
         this.playerDash = newDash;
         this.skillHolder.ChangeSkill(newSkill);
+        this.stats = newStats;
         this.sprite.sprite = newSprite;
     }
+
+    public void EnteredInRange(GameObject interactor)
+    {
+    }
+
+    public void ExitedRange(GameObject interactor)
+    {
+    }
+
+    public void Interact(GameObject interactor)
+    {
+    }
+
+    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -492,7 +534,7 @@ public class PlayerCharacter : Entity
             Gizmos.DrawRay(item.point, (origin * finalForce));
         }
 #endif
-    } 
+    }
 
     #endregion
 }

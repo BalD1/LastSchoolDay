@@ -49,11 +49,13 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
     public void EnteredTrigger(Entity entity)
     {
-        entitiesInTrigger.Add(entity);
+        if (entity as EnemyBase != null)
+            entitiesInTrigger.Add(entity);
     }
 
     public void ExitedTrigger(Entity entity)
     {
-        entitiesInTrigger.Remove(entity);
+        if (entity as EnemyBase != null)
+            entitiesInTrigger.Remove(entity);
     }
 }

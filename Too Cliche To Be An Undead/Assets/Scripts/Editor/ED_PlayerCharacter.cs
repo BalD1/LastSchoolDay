@@ -339,6 +339,12 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty playerDash = serializedObject.FindProperty("playerDash");
         EditorGUILayout.PropertyField(playerDash);
 
+        SerializedProperty dyingState_DURATION = serializedObject.FindProperty("dyingState_DURATION");
+        EditorGUILayout.PropertyField(dyingState_DURATION);
+
+        SerializedProperty reviveHealPercentage = serializedObject.FindProperty("reviveHealPercentage");
+        EditorGUILayout.PropertyField(reviveHealPercentage);
+
         EditorGUILayout.EndVertical();
     }
 
