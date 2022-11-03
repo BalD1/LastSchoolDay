@@ -300,6 +300,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""f258000d-4f3b-4a15-bfcd-ccc13b33a3b2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -401,6 +410,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""QuitLoby"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bd41d321-12aa-44b4-bcf1-f796d6db9951"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -482,6 +502,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_UI_ArrowsLeft = m_UI.FindAction("ArrowsLeft", throwIfNotFound: true);
         m_UI_ArrowsRight = m_UI.FindAction("ArrowsRight", throwIfNotFound: true);
         m_UI_QuitLoby = m_UI.FindAction("QuitLoby", throwIfNotFound: true);
+        m_UI_Select = m_UI.FindAction("Select", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -618,6 +639,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_ArrowsLeft;
     private readonly InputAction m_UI_ArrowsRight;
     private readonly InputAction m_UI_QuitLoby;
+    private readonly InputAction m_UI_Select;
     public struct UIActions
     {
         private @PlayerControls m_Wrapper;
@@ -626,6 +648,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @ArrowsLeft => m_Wrapper.m_UI_ArrowsLeft;
         public InputAction @ArrowsRight => m_Wrapper.m_UI_ArrowsRight;
         public InputAction @QuitLoby => m_Wrapper.m_UI_QuitLoby;
+        public InputAction @Select => m_Wrapper.m_UI_Select;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -647,6 +670,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @QuitLoby.started -= m_Wrapper.m_UIActionsCallbackInterface.OnQuitLoby;
                 @QuitLoby.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnQuitLoby;
                 @QuitLoby.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnQuitLoby;
+                @Select.started -= m_Wrapper.m_UIActionsCallbackInterface.OnSelect;
+                @Select.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnSelect;
+                @Select.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnSelect;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -663,6 +689,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @QuitLoby.started += instance.OnQuitLoby;
                 @QuitLoby.performed += instance.OnQuitLoby;
                 @QuitLoby.canceled += instance.OnQuitLoby;
+                @Select.started += instance.OnSelect;
+                @Select.performed += instance.OnSelect;
+                @Select.canceled += instance.OnSelect;
             }
         }
     }
@@ -727,5 +756,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnArrowsLeft(InputAction.CallbackContext context);
         void OnArrowsRight(InputAction.CallbackContext context);
         void OnQuitLoby(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
     }
 }

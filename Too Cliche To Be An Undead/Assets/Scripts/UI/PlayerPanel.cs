@@ -47,6 +47,8 @@ public class PlayerPanel : MonoBehaviour
 
     public void ChangePreset(bool left)
     {
+        if (characterImage.isActiveAndEnabled == false) return;
+
         if (left)
         {
             characterIdx--;

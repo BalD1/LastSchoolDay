@@ -101,31 +101,41 @@ public class PlayerCharacter : Entity, IInteractable
 
         PlayersManager.Instance.AddAlivePlayer();
 
-        this.transform.position = GameManager.Instance.SpawnPoints[this.playerIndex].position;
-
-        GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
-
-        UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
-
-        pHUD.container.SetActive(true);
-        this.hpBar = pHUD.hpBar;
-        this.hpText = pHUD.hpText;
-        this.skillIcon = pHUD.skillThumbnail;
-
-        pHUD.portrait.sprite = UIManager.Instance.GetPortrait(character);
-
-        PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
-
-        SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite);
-
-        if (scene.Equals("MainMenu")) SwitchControlMapToUI();
+        if (scene.name.Equals("MainMenu"))
+        {
+            if (this.playerIndex > 0)
+            {
+                DataKeeper.Instance.RemoveData(this.playerIndex);
+                Destroy(this.gameObject);
+                return;
+            }
+            SwitchControlMapToInGame();
+        }
         else
         {
+            this.transform.position = GameManager.Instance.SpawnPoints[this.playerIndex].position;
             SwitchControlMapToInGame();
-            if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
+
+            GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
+
+            UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
+
+            if (pHUD.container != null)
+            {
+                pHUD.container.SetActive(true);
+                this.hpBar = pHUD.hpBar;
+                this.hpText = pHUD.hpText;
+                this.skillIcon = pHUD.skillThumbnail;
+
+                pHUD.portrait.sprite = UIManager.Instance.GetPortrait(character);
+            }
+
+            PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
+
+            SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite);
         }
 
-
+        if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
     }
 
     protected override void Awake()
@@ -151,6 +161,8 @@ public class PlayerCharacter : Entity, IInteractable
         GameManager.Instance._onSceneReload += OnSceneReload;
 
         SetKeepedData();
+
+        inputs.neverAutoSwitchControlSchemes = this.playerIndex != 0;
 
         UIManager.Instance.D_exitPause += SwitchControlMapToInGame;
     }
@@ -318,6 +330,14 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (context.performed) D_dashInput?.Invoke();
     } 
+
+    public void SelectInput(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            //PlayersManager.Instance.JoinAction(context);
+        }
+    }
 
     public void LeftArrowInput(InputAction.CallbackContext context)
     {

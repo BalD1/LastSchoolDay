@@ -287,6 +287,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1b599b56-e996-4d42-8c79-a244986140df
     m_ActionName: UI/QuitLoby[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8823656354733599271}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: SelectInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f258000d-4f3b-4a15-bfcd-ccc13b33a3b2
+    m_ActionName: UI/Select[/XInputControllerWindows/select,/XInputControllerWindows1/select]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: InGame
@@ -1344,6 +1360,8 @@ MonoBehaviour:
   money: 0
   playerIndex: 0
   level: 0
+  dyingState_DURATION: 20
+  reviveHealPercentage: 0.25
   playerDash: {fileID: 11400000, guid: 5687414b9e30e6d499e7df1d67a5701d, type: 2}
   attackers: []
   debugPush: 0

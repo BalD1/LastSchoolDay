@@ -1,9 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
+using UnityEngine.InputSystem.Users;
+using static UnityEditor.Progress;
 
 public class PlayersManager : MonoBehaviour
 {
@@ -81,10 +82,8 @@ public class PlayersManager : MonoBehaviour
 
     public void SetupPanels(int idx)
     {
-        if (panelsManager != null)
-        {
-            panelsManager.SetupPanel(idx);
-        }
+        if (panelsManager == null) panelsManager = UIManager.Instance.PanelsManager;
+        if (panelsManager != null) panelsManager.SetupPanel(idx);
     }
 
     private void OnPlayerJoined(PlayerInput input)
@@ -102,12 +101,43 @@ public class PlayersManager : MonoBehaviour
         if (PlayerLeft != null) PlayerLeft(input);
     }
 
-    private void JoinAction(InputAction.CallbackContext context)
+    public void JoinAction(InputAction.CallbackContext context)
     {
-        PlayerInputManager.instance.JoinPlayerFromActionIfNotAlreadyJoined(context);
+        //PlayerInputManager.instance.JoinPlayerFromActionIfNotAlreadyJoined(context);
+
+        var d = context.control.device;
+
+        GameManager.Player1Ref.Inputs.user.UnpairDevices();
+        for (int i = 1; i < PlayerInput.all.Count; i++)
+        {
+            if (PlayerInput.all[i].devices.Contains(d)) return;
+        }
+
+        PlayerInputManager.instance.JoinPlayerFromAction(context);
+
+        bool hasGamepad = false;
+        List<InputDevice> unpairedDevices = new List<InputDevice>();
+
+        foreach (var item in InputUser.GetUnpairedInputDevices())
+        {
+            unpairedDevices.Add(item);
+            if (item as Gamepad != null) hasGamepad = true;
+        }
+
+        if (!hasGamepad) GameManager.Player1Ref.Inputs.SwitchCurrentControlScheme("Keyboard&Mouse");
+
+        foreach (var item in unpairedDevices)
+        {
+            Debug.Log(item);
+            InputUser.PerformPairingWithDevice(item, GameManager.Player1Ref.Inputs.user);
+        }
+
+        //GameManager.Player1Ref.Inputs.neverAutoSwitchControlSchemes = true;
+        //GameManager.Player1Ref.Inputs.user.UnpairDevice(d);
+
     }
 
-    private void LeaveAction(InputAction.CallbackContext context)
+    public void LeaveAction(InputAction.CallbackContext context)
     {
     }
 
