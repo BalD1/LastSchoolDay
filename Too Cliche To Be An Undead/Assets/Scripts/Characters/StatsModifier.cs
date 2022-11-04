@@ -60,6 +60,9 @@ public class StatsModifier
         return false;
     }
 
+    public void ResetTimer() => timer = maxDuration;
+
+
     public string TypeToString()
     {
         return TypeToString(StatType);

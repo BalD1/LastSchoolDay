@@ -10,6 +10,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     private float dash_dur_TIMER;
 
     private Vector2 mouseDir;
+    private Vector2 pastVelocity;
 
     private List<Collider2D> alreadyPushedEntities;
 
@@ -25,6 +26,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
         alreadyPushedEntities = new List<Collider2D>();
 
+        pastVelocity = owner.Velocity;
         owner.SetAllVelocity(Vector2.zero);
 
         if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
@@ -32,7 +34,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
             Vector2 mousePos = MousePosition.GetMouseWorldPosition();
             mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
         }
-        else mouseDir = owner.LastDirection;
+        else mouseDir = (owner.LastDirection).normalized;
 
         owner.PlayerDash.OnDashStart(owner);
 
@@ -59,15 +61,20 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         owner.isDashing = false;
+
         owner.SetAllVelocity(Vector2.zero);
+        owner.ForceUpdateMovementsInput();
+
         owner.PlayerDash.OnDashStop(owner);
+
         owner.d_EnteredTrigger -= TriggerEnter;
+
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, false);
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
-        if (dash_dur_TIMER <= 0) stateManager.SwitchState(stateManager.idleState);
+        if (dash_dur_TIMER <= 0) stateManager.SwitchState(stateManager.movingState);
     }
 
     private void TriggerEnter(Collider2D collider)

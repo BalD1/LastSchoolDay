@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Entity : MonoBehaviour, IDamageable
 {
@@ -185,8 +186,23 @@ public class Entity : MonoBehaviour, IDamageable
     }
     public void AddModifier(string id, int value, StatsModifier.E_StatType type)
     {
-        StatsModifiers.Add(new StatsModifier(id, value, type));
-        if (type == StatsModifier.E_StatType.MaxHP) this.OnHeal(value);
+        AddModifier(id, value, -1, type);
+    }
+
+    public void AddModifierUnique(string id, int value, float time, StatsModifier.E_StatType type)
+    {
+        StatsModifier sM = SearchModifier(id);
+        if (sM != null)
+        {
+            sM.ResetTimer();
+            return;
+        }
+
+        AddModifier(id, value, time, type);
+    }
+    public void AddModifierUnique(string id, int value, StatsModifier.E_StatType type)
+    {
+        AddModifierUnique(id, value, -1, type);
     }
 
     public void RemoveModifier(string id)
@@ -317,6 +333,8 @@ public class Entity : MonoBehaviour, IDamageable
 
     public virtual void Flip(bool lookAtLeft) => this.sprite.flipX = lookAtLeft;
     public virtual bool IsFacingLeft() => !this.sprite.flipX;
+
+    public virtual bool CanBePushed(FSM_ManagerBase stateManager) => (stateManager.ToString() != "Pushed" && stateManager.ToString() != "Dashing");
 
     public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce)
     {

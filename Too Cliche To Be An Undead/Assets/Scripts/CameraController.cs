@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -22,11 +24,19 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        targets = new List<Transform>();
-
-        for (int i = 0; i < GameManager.Instance.playersByName.Count; i++)
+        if (GameManager.Instance.playersByName.Count > 0)
         {
-            targets.Add(GameManager.Instance.playersByName[i].playerScript.transform);
+            for (int i = 0; i < GameManager.Instance.playersByName.Count; i++)
+            {
+                targets.Add(GameManager.Instance.playersByName[i].playerScript.transform);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < DataKeeper.Instance.playersDataKeep.Count ; i++)
+            {
+                targets.Add(DataKeeper.Instance.playersDataKeep[i].playerInput.transform);
+            }
         }
     }
 

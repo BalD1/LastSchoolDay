@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button firstSelectedButton_Win;
     [SerializeField] private Button firstSelectedButton_Gameover;
     [SerializeField] private Button firstSelectedButton_Shop;
+    [SerializeField] private Button firstSelectedButton_Lobby;
     [SerializeField] private Slider firstSelectedButton_Options;
 
     [SerializeField] private GameObject pauseMenu;
@@ -135,6 +136,10 @@ public class UIManager : MonoBehaviour
 
             case "Shop":
                 firstSelectedButton_Shop?.Select();
+                break;
+
+            case "Lobby":
+                firstSelectedButton_Lobby?.Select();
                 break;
 
             default:

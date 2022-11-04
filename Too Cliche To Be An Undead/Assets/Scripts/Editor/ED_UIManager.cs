@@ -79,6 +79,9 @@ public class ED_UIManager : Editor
 
         SerializedProperty firstSelectedButton_Options = serializedObject.FindProperty("firstSelectedButton_Options");
         EditorGUILayout.PropertyField(firstSelectedButton_Options);
+
+        SerializedProperty firstSelectedButton_Lobby = serializedObject.FindProperty("firstSelectedButton_Lobby");
+        EditorGUILayout.PropertyField(firstSelectedButton_Lobby);
     }
 
     private void DrawInGameInspector()

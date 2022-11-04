@@ -128,7 +128,6 @@ public class PlayersManager : MonoBehaviour
 
         foreach (var item in unpairedDevices)
         {
-            Debug.Log(item);
             InputUser.PerformPairingWithDevice(item, GameManager.Player1Ref.Inputs.user);
         }
 

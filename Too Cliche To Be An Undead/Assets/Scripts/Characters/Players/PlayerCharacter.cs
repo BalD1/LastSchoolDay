@@ -8,6 +8,10 @@ using BalDUtilities.MouseUtils;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.Users;
+using System.Linq;
+using UnityEngine.TextCore.Text;
+using UnityEngine.InputSystem.LowLevel;
 
 public class PlayerCharacter : Entity, IInteractable
 {
@@ -75,6 +79,8 @@ public class PlayerCharacter : Entity, IInteractable
 #endif
 
     private PlayerControls playerControls;
+
+    private InputAction movementsAction;
 
     public delegate void D_AttackInput();
     public D_AttackInput D_attackInput;
@@ -158,6 +164,8 @@ public class PlayerCharacter : Entity, IInteractable
         DontDestroyOnLoad(this);
         base.Start();
 
+        movementsAction = inputs.actions.FindAction("Movements");
+
         GameManager.Instance._onSceneReload += OnSceneReload;
 
         SetKeepedData();
@@ -165,6 +173,21 @@ public class PlayerCharacter : Entity, IInteractable
         inputs.neverAutoSwitchControlSchemes = this.playerIndex != 0;
 
         UIManager.Instance.D_exitPause += SwitchControlMapToInGame;
+
+        if (this.hpBar == null)
+        {
+            UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[0];
+
+            if (pHUD.container != null)
+            {
+                pHUD.container.SetActive(true);
+                this.hpBar = pHUD.hpBar;
+                this.hpText = pHUD.hpText;
+                this.skillIcon = pHUD.skillThumbnail;
+
+                pHUD.portrait.sprite = UIManager.Instance.GetPortrait(GameManager.E_CharactersNames.Whitney);
+            }
+        }
     }
 
     protected override void Update()
@@ -217,7 +240,6 @@ public class PlayerCharacter : Entity, IInteractable
     public void ReadMovementsInputs(InputAction.CallbackContext context)
     {
         if (inputs.currentActionMap.name.Equals("InGame") == false) return;
-
         velocity = context.ReadValue<Vector2>();
         if (velocity != Vector2.zero) lastDirection = velocity;
 
@@ -232,6 +254,25 @@ public class PlayerCharacter : Entity, IInteractable
         if (Input.GetKey(KeyCode.Q))
             this.velocity.x = -1;
         */
+    }
+
+    public void ForceUpdateMovementsInput()
+    {
+        movementsAction.Disable();
+        movementsAction.Enable();
+    }
+
+    public void StartAction(InputAction.CallbackContext context)
+    {
+        Debug.Log(context);
+        if (!context.performed) return;
+
+        InputDevice d = context.control.device;
+
+        Debug.Log(d);
+        if (!InputUser.all[0].pairedDevices.Contains(d)) return;
+
+        GameManager.ChangeScene(GameManager.E_ScenesNames.MainScene);
     }
 
     public void Movements()
@@ -410,6 +451,16 @@ public class PlayerCharacter : Entity, IInteractable
         if (dash_CD_TIMER > 0) return;
 
         isDashing = true;
+    }
+
+    public override Vector2 Push(Vector2 pusherPosition, float pusherForce)
+    {
+        if (!CanBePushed(stateManager)) return Vector2.zero;
+
+        Vector2 v = base.Push(pusherPosition, pusherForce);
+        stateManager.SwitchState(stateManager.pushedState.SetForce(v));
+
+        return v;
     }
 
     private void SetKeepedData()
