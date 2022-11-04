@@ -8,7 +8,11 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
+        owner ??= stateManager.Owner;
+
         Vector2 mouseDir = stateManager.Owner.Weapon.GetDirectionOfMouse();
+
+        owner.canBePushed = true;
 
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);

@@ -14,6 +14,8 @@ public class FSM_NZ_Idle : FSM_Entity_Idle<FSM_NZ_Manager>
         base.EnterState(stateManager);
 
         waitBeforeNewPoint = Random.Range((owner as NormalZombie).MinWaitBeforeNewWanderPoint, (owner as NormalZombie).MaxWaitBeforeNewWanderPoint);
+
+        owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)

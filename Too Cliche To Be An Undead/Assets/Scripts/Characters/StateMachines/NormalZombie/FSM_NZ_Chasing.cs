@@ -11,6 +11,8 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
     {
         owner ??= stateManager.Owner;
         owner.ResetVelocity();
+
+        owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)

@@ -7,6 +7,8 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
         base.EnterState(stateManager);
+
+        owner.canBePushed = false;
     }
 
     public override void ExitState(FSM_NZ_Manager stateManager)

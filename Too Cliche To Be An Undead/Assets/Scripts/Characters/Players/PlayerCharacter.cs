@@ -291,6 +291,13 @@ public class PlayerCharacter : Entity, IInteractable
         else weapon.inputStored = true;
     }
 
+    public void CancelAttackAnimation()
+    {
+        this.animator.Play("AN_Wh_Idle");
+        weapon.EffectAnimator.Play("Main State");
+        weapon.ResetAttack();
+    }
+
     public override bool OnTakeDamages(float amount, bool isCrit = false)
     {
         if (!IsAlive()) return false;
@@ -321,7 +328,6 @@ public class PlayerCharacter : Entity, IInteractable
         if (this.stateManager.ToString().Equals("Dying")) return;
         
         base.OnDeath(forceDeath);
-        PlayersManager.Instance.RemoveAlivePlayer();
         this.stateManager.SwitchState(stateManager.dyingState);
     }
 
@@ -334,8 +340,23 @@ public class PlayerCharacter : Entity, IInteractable
     public void DefinitiveDeath()
     {
         PlayersManager.Instance.DefinitiveDeath(this);
+        PlayersManager.Instance.RemoveAlivePlayer();
 
         this.gameObject.SetActive(false);
+    }
+
+    public bool AddAttacker(EnemyBase attacker)
+    {
+        if (attackers.Count >= GameManager.MaxAttackers) return false;
+        if (attackers.Contains(attacker)) return false;
+
+        attackers.Add(attacker);
+        return true;
+    }
+
+    public void RemoveAttacker(EnemyBase attacker)
+    {
+        attackers.Remove(attacker);
     }
 
     #endregion
@@ -398,6 +419,11 @@ public class PlayerCharacter : Entity, IInteractable
         if (context.performed) GameManager.Instance.QuitLobby(PlayerIndex);
     }
 
+    public void PauseInputRelay(InputAction.CallbackContext context)
+    {
+        if (context.started) GameManager.Instance.HandlePause();
+    }
+
     #endregion
 
     #region Skill
@@ -435,16 +461,11 @@ public class PlayerCharacter : Entity, IInteractable
                 skillHolder.transform.eulerAngles = new Vector3(0, 0, 0);
                 break;
         }
-    } 
+    }
 
     #endregion
 
-    public void CancelAttackAnimation()
-    {
-        this.animator.Play("AN_Wh_Idle");
-        weapon.EffectAnimator.Play("Main State");
-        weapon.ResetAttack();
-    }
+    #region Dash / Push
 
     public void StartDash()
     {
@@ -455,32 +476,12 @@ public class PlayerCharacter : Entity, IInteractable
 
     public override Vector2 Push(Vector2 pusherPosition, float pusherForce)
     {
-        if (!CanBePushed(stateManager)) return Vector2.zero;
+        if (!canBePushed) return Vector2.zero;
 
         Vector2 v = base.Push(pusherPosition, pusherForce);
         stateManager.SwitchState(stateManager.pushedState.SetForce(v));
 
         return v;
-    }
-
-    private void SetKeepedData()
-    {
-        this.playerIndex = DataKeeper.Instance.CreateData(this);
-        this.money = DataKeeper.Instance.playersDataKeep[this.playerIndex].money;
-
-        PlayersManager.Instance.SetupPanels(playerIndex);
-    }
-
-    public void ForceSetIndex(int idx)
-    {
-         this.playerIndex = idx;
-         this.gameObject.name = "Player " + idx;
-    }
-
-    private void OnSceneReload()
-    {
-        DataKeeper.Instance.playersDataKeep[this.playerIndex].money = this.money;
-        DataKeeper.Instance.playersDataKeep[this.playerIndex].maxLevel = this.Level;
     }
 
     private float CalculateAllKeys()
@@ -504,34 +505,41 @@ public class PlayerCharacter : Entity, IInteractable
         return res;
     }
 
-    public void LevelUp() => level++;
+    #endregion
 
-    public bool AddAttacker(EnemyBase attacker)
+    #region Keep Data / Scene Reload
+
+    private void SetKeepedData()
     {
-        if (attackers.Count >= GameManager.MaxAttackers) return false;
-        if (attackers.Contains(attacker)) return false;
+        this.playerIndex = DataKeeper.Instance.CreateData(this);
+        this.money = DataKeeper.Instance.playersDataKeep[this.playerIndex].money;
 
-        attackers.Add(attacker);
-        return true;
+        PlayersManager.Instance.SetupPanels(playerIndex);
     }
 
-    public void RemoveAttacker(EnemyBase attacker)
+    public void ForceSetIndex(int idx)
     {
-        attackers.Remove(attacker);
+        this.playerIndex = idx;
+        this.gameObject.name = "Player " + idx;
     }
 
-    public void PauseInputRelay(InputAction.CallbackContext context)
+    private void OnSceneReload()
     {
-        if (context.started) GameManager.Instance.HandlePause();
-    }
+        this.StatsModifiers.Clear();
+        this.attackers.Clear();
 
-    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite)
-    {
-        this.playerDash = newDash;
-        this.skillHolder.ChangeSkill(newSkill);
-        this.stats = newStats;
-        this.sprite.sprite = newSprite;
-    }
+        this.currentHP = stats.MaxHP(StatsModifiers);
+        this.hpBar.fillAmount = 1;
+
+        this.stateManager.ResetAll();
+
+        DataKeeper.Instance.playersDataKeep[this.playerIndex].money = this.money;
+        DataKeeper.Instance.playersDataKeep[this.playerIndex].maxLevel = this.Level;
+    } 
+
+    #endregion
+
+    #region Interactions 
 
     public void EnteredInRange(GameObject interactor)
     {
@@ -543,9 +551,23 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void Interact(GameObject interactor)
     {
+        this.OnHeal(this.stats.MaxHP(statsModifiers) * reviveHealPercentage);
     }
 
-    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");
+    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying"); 
+
+    #endregion
+
+    public void LevelUp() => level++;
+
+    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite)
+    {
+        this.playerDash = newDash;
+        this.skillHolder.ChangeSkill(newSkill);
+        this.stats = newStats;
+        this.sprite.sprite = newSprite;
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

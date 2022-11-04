@@ -24,6 +24,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         waitBeforeAttack_TIMER = owner.DurationBeforeAttack;
         attack_TIMER = owner.Attack_DURATION;
         attack_flag = false;
+
+        owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)

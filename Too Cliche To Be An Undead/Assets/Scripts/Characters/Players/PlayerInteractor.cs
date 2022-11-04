@@ -41,6 +41,7 @@ public class PlayerInteractor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision);
         IInteractable interactable = collision.transform.parent.GetComponent<IInteractable>();
 
         if (interactable == null) return;

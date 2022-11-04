@@ -8,6 +8,8 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
     {
         base.Conditions(stateManager);
         if (baseConditionChecked) stateManager.SwitchState(stateManager.idleState);
+
+        owner.canBePushed = false;
     }
 
     public override string ToString() => "Pushed";

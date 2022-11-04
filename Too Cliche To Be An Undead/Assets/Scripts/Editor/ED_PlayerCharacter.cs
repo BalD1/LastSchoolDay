@@ -345,6 +345,10 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty reviveHealPercentage = serializedObject.FindProperty("reviveHealPercentage");
         EditorGUILayout.PropertyField(reviveHealPercentage);
 
+        GUI.enabled = false;
+        EditorGUILayout.TextField("Dying Timer", $"{targetScript.StateManager.dyingState.DyingState_TIMER} / {targetScript.DyingState_DURATION}");
+        GUI.enabled = true;
+
         EditorGUILayout.EndVertical();
     }
 

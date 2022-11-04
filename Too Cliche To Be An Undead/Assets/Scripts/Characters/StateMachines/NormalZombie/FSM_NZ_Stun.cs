@@ -8,6 +8,8 @@ public class FSM_NZ_Stun : FSM_Entity_Stunned<FSM_NZ_Manager>
     {
         owner ??= stateManager.Owner;
         base.EnterState(stateManager);
+
+        owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)

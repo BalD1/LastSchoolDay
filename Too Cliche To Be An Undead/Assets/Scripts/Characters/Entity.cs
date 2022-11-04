@@ -85,6 +85,8 @@ public class Entity : MonoBehaviour, IDamageable
 
     private List<TickDamages> tickDamagesToRemove = new List<TickDamages>();
 
+    public bool canBePushed = true;
+
 #if UNITY_EDITOR
     [SerializeField] protected bool debugMode;
 #endif
@@ -265,7 +267,11 @@ public class Entity : MonoBehaviour, IDamageable
 
         // Si les pv sont <= à 0, on meurt, sinon on joue un son de Hurt
 
-        if (currentHP <= 0) OnDeath();
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+            OnDeath();
+        }
         else source.PlayOneShot(audioClips.GetRandomHurtClip());
 
         return true;
@@ -331,13 +337,10 @@ public class Entity : MonoBehaviour, IDamageable
 
     public bool RollCrit() => Random.Range(0, 100) <= GetStats.CritChances(StatsModifiers) ? true : false;
 
-    public virtual void Flip(bool lookAtLeft) => this.sprite.flipX = lookAtLeft;
-    public virtual bool IsFacingLeft() => !this.sprite.flipX;
-
-    public virtual bool CanBePushed(FSM_ManagerBase stateManager) => (stateManager.ToString() != "Pushed" && stateManager.ToString() != "Dashing");
-
     public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce)
     {
+        if (!canBePushed) return Vector2.zero;
+
         Vector2 dir = ((Vector2)this.transform.position - pusherPosition).normalized;
 
         float finalForce = pusherForce - this.GetStats.Weight;

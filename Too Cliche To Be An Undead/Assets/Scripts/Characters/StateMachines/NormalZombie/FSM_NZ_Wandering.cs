@@ -13,6 +13,8 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
         owner ??= stateManager.Owner;
         owner.ResetVelocity();
         owner.ChooseRandomPosition();
+
+        owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)

@@ -19,6 +19,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         owner ??= stateManager.Owner;
+        owner.canBePushed = false;
         b = owner.transform.position;
         owner.d_EnteredTrigger += TriggerEnter;
         max_DURATION = owner.PlayerDash.DashSpeedCurve[owner.PlayerDash.DashSpeedCurve.length - 1].time;
@@ -44,6 +45,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, animatorMouseDir.x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, animatorMouseDir.y);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, true);
+
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

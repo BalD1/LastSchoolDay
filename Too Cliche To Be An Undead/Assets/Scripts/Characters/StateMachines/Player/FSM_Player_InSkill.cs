@@ -18,6 +18,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
 
         owner.GetSkill.StartSkill(owner);
+
+        owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

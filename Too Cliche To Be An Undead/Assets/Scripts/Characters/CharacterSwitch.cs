@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class CharacterSwitch : MonoBehaviour, IInteractable
 {
-    [SerializeField] private SCRPT_Dash dashSwitch;
-    [SerializeField] private SCRPT_Skill skillSwitch;
-    [SerializeField] private SCRPT_EntityStats statsSwitch;
-    [SerializeField] private Sprite spriteSwitch;
-
+    [SerializeField] private GameManager.E_CharactersNames character;
 
     public void EnteredInRange(GameObject interactor)
     {
@@ -20,7 +16,22 @@ public class CharacterSwitch : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        interactor.GetComponentInParent<PlayerCharacter>().SwitchCharacter(dashSwitch, skillSwitch, statsSwitch, spriteSwitch);
+        PlayersManager.PlayerCharacterComponents pcc = new PlayersManager.PlayerCharacterComponents();
+        bool pccIsSet = false;
+
+        foreach (var item in PlayersManager.Instance.CharacterComponents)
+        {
+            if (item.character == character)
+            {
+                pcc = item;
+                pccIsSet = true;
+                break;
+            }
+        }
+
+        if (!pccIsSet) return;
+
+        interactor.GetComponentInParent<PlayerCharacter>().SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite);
     }
 
     public bool CanBeInteractedWith()

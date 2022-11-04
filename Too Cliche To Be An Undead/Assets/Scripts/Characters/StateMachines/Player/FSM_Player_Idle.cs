@@ -17,6 +17,8 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
         owner.D_attackInput += owner.StartAttack;
         owner.D_skillInput += owner.GetSkillHolder.StartSkill;
         owner.D_dashInput += owner.StartDash;
+
+        owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

@@ -60,4 +60,9 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
         return currentState.ToString();
     }
+
+    public void ResetAll()
+    {
+
+    }
 }

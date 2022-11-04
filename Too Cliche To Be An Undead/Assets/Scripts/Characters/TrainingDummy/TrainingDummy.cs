@@ -41,6 +41,12 @@ public class TrainingDummy : EnemyBase
         return tD;
     }
 
+    protected override void Start()
+    {
+        canBePushed = false;
+        base.Start();
+    }
+
     protected override void Update()
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
