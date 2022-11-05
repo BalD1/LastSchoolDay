@@ -12,6 +12,7 @@ public class ShopLevel : MonoBehaviour
     [SerializeField] private ShopLevel[] neighbours;
 
     [SerializeField] private int id;
+    public int ID { get => id; }
     [SerializeField] private int cost;
 
     [SerializeField] private Modifier[] modifiers;
@@ -54,20 +55,27 @@ public class ShopLevel : MonoBehaviour
         button.interactable = isActive;
     }
 
-    public bool TryUnlock(PlayerCharacter player)
+    public bool TryUnlock()
     {
-        if (!player.HasEnoughMoney(cost)) return false;
+        if (!PlayerCharacter.HasEnoughMoney(cost)) return false;
 
-        player.RemoveMoney(cost, false);
-        Unlock(player);
+        PlayerCharacter.RemoveMoney(cost, false);
+        Unlock();
 
         return true;
     }
 
-    public void Unlock(PlayerCharacter player)
+    public void Unlock(bool reloadUnlock = false)
     {
+
         if (modifiers != null)
-            foreach (var item in modifiers) player.AddModifier(item.idName, item.amount, item.stat);
+        {
+            foreach (var item in GameManager.Instance.playersByName)
+            {
+                foreach (var modif in modifiers) item.playerScript.AddModifier(modif.idName, modif.amount, modif.stat);
+
+            }
+        }
 
         if (neighbours != null)
             foreach (var item in neighbours) item.SetActive(true);
@@ -76,11 +84,14 @@ public class ShopLevel : MonoBehaviour
         this.button.interactable = false;
         this.button.image.color = unlockedColor;
 
-        player.LevelUp();
+        if (!reloadUnlock)
+            DataKeeper.Instance.unlockedLevels.Add(this.id);
+
+        PlayerCharacter.LevelUp();
     }
 
     public void OnClick()
     {
-        TryUnlock(GameManager.Player1Ref);
+        TryUnlock();
     }
 }

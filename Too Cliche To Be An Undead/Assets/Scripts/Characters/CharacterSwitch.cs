@@ -6,12 +6,16 @@ public class CharacterSwitch : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameManager.E_CharactersNames character;
 
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
     public void EnteredInRange(GameObject interactor)
     {
+        spriteRenderer.material = GameAssets.Instance.OutlineMaterial;
     }
 
     public void ExitedRange(GameObject interactor)
     {
+        spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public void Interact(GameObject interactor)
@@ -32,6 +36,8 @@ public class CharacterSwitch : MonoBehaviour, IInteractable
         if (!pccIsSet) return;
 
         interactor.GetComponentInParent<PlayerCharacter>().SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite);
+
+        if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public bool CanBeInteractedWith()

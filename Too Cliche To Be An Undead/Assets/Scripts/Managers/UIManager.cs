@@ -68,6 +68,7 @@ public class UIManager : MonoBehaviour
 
     public GameObject ShopContentMenu { get => shopContentMenu; }
 
+
     private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
     public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
 
@@ -167,6 +168,9 @@ public class UIManager : MonoBehaviour
             case GameManager.E_GameState.Pause:
                 OpenMenuInQueue(pauseMenu);
                 SelectButton("Pause");
+                break;
+
+            case GameManager.E_GameState.Restricted:
                 break;
 
             case GameManager.E_GameState.Win:

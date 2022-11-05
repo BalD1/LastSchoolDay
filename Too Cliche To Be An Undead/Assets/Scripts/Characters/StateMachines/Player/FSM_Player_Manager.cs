@@ -16,6 +16,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public FSM_Player_Pushed pushedState = new FSM_Player_Pushed();
     public FSM_Player_InSkill inSkillState = new FSM_Player_InSkill();
     public FSM_Player_Dying dyingState = new FSM_Player_Dying();
+    public FSM_Player_Dead deadState = new FSM_Player_Dead();
 
     private FSM_Base<FSM_Player_Manager> currentState;
     public FSM_Base<FSM_Player_Manager> CurrentState { get => currentState; }

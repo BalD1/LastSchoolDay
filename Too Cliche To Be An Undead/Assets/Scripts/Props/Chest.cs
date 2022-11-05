@@ -12,14 +12,18 @@ public class Chest : MonoBehaviour, IInteractable
 
     [SerializeField] private bool isOpen = false;
 
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
     public void EnteredInRange(GameObject interactor)
     {
         interactors.Add(interactor.GetComponent<PlayerInteractor>());
+        spriteRenderer.material = GameAssets.Instance.OutlineMaterial;
     }
 
     public void ExitedRange(GameObject interactor)
     {
         interactors.Remove(interactor.GetComponent<PlayerInteractor>());
+        spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public void Interact(GameObject interactor)
@@ -32,6 +36,8 @@ public class Chest : MonoBehaviour, IInteractable
         this.transform.GetComponentInChildren<SpriteRenderer>().sprite = openedSprite;
 
         interactors.Clear();
+
+        if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public bool CanBeInteractedWith()

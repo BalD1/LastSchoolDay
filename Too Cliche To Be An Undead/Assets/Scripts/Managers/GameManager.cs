@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
         MainMenu,
         InGame,
         Pause,
+        Restricted,
         Win,
         GameOver
     }
@@ -91,6 +92,9 @@ public class GameManager : MonoBehaviour
 
             case E_GameState.Pause:
                 Time.timeScale = 0;
+                break;
+
+            case E_GameState.Restricted:
                 break;
 
             case E_GameState.Win:

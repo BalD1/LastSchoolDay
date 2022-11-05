@@ -6,6 +6,8 @@ public class CHEAT_Spawner : MonoBehaviour, IInteractable
 {
     [SerializeField] private SCRPT_DropTable dropTable;
 
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
     public bool CanBeInteractedWith()
     {
         return true;
@@ -13,14 +15,18 @@ public class CHEAT_Spawner : MonoBehaviour, IInteractable
 
     public void EnteredInRange(GameObject interactor)
     {
+        spriteRenderer.material = GameAssets.Instance.OutlineMaterial;
     }
 
     public void ExitedRange(GameObject interactor)
     {
+        spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public void Interact(GameObject interactor)
     {
         dropTable.DropRandom(this.transform.position);
+
+        if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 }

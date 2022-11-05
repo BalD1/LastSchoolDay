@@ -559,6 +559,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger: {fileID: 8515162924226576472}
   interactPrompt: {fileID: 5052486791281474153}
+  promptText: {fileID: 8935539856130395754}
+  owner: {fileID: 8823656354733599271}
 --- !u!58 &8515162924226576472
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1364,22 +1366,25 @@ MonoBehaviour:
   currentHP: 100
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
+  playerIndex: 0
   stateManager: {fileID: 5207945969965588748}
   weapon: {fileID: 9124492574544249200}
   skillHolder: {fileID: 426001256322179506}
-  inputs: {fileID: 616387204}
+  playerDash: {fileID: 11400000, guid: 5687414b9e30e6d499e7df1d67a5701d, type: 2}
+  attackers: []
+  outlineMaterial: {fileID: 2100000, guid: 24e8dde08e8293446b016dd4e14158f9, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   hpBar: {fileID: 0}
   hpText: {fileID: 0}
   skillIcon: {fileID: 0}
-  isDashing: 0
   money: 0
-  playerIndex: 0
   level: 0
-  dyingState_DURATION: 20
+  dyingState_DURATION: 1
   reviveHealPercentage: 0.25
-  playerDash: {fileID: 11400000, guid: 5687414b9e30e6d499e7df1d67a5701d, type: 2}
-  attackers: []
+  isDashing: 0
+  inputs: {fileID: 616387204}
   debugPush: 0
 --- !u!114 &5207945969965588748
 MonoBehaviour:

@@ -540,6 +540,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
@@ -1422,6 +1423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: 3bcefe2e4dea59c46bbdbb3d62b1f5c7, type: 2}
+  spriteRenderer: {fileID: 1662240645}
 --- !u!4 &252760554
 Transform:
   m_ObjectHideFlags: 0
@@ -2196,10 +2198,6 @@ PrefabInstance:
       propertyPath: eventSystem
       value: 
       objectReference: {fileID: 133882605}
-    - target: {fileID: 4647886569459204929, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4647886569459204930, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2288,8 +2286,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: IG Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7832454955763403133, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 563602646}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
+--- !u!1 &354182423 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1653417784, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
+  m_PrefabInstance: {fileID: 354182422}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &355036047
 GameObject:
   m_ObjectHideFlags: 0
@@ -4144,6 +4151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: 2b52739f2bf730741a4d7b2adf30d7f1, type: 2}
+  spriteRenderer: {fileID: 2005379061}
 --- !u!4 &551408659
 Transform:
   m_ObjectHideFlags: 0
@@ -4378,7 +4386,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc089da032f2f9428b66ac66aced22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shop: {fileID: 0}
+  shop: {fileID: 354182423}
+  spriteRenderer: {fileID: 589068599}
 --- !u!1 &571857730
 GameObject:
   m_ObjectHideFlags: 0
@@ -7051,6 +7060,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
@@ -7397,6 +7407,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
@@ -9428,6 +9439,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
@@ -10080,6 +10092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: 83bd95123f7d1ec4998d899f7198c266, type: 2}
+  spriteRenderer: {fileID: 588338387}
 --- !u!4 &1186456574
 Transform:
   m_ObjectHideFlags: 0
@@ -11722,6 +11735,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
@@ -13363,6 +13377,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
@@ -13776,6 +13791,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
@@ -14231,6 +14247,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
@@ -14990,6 +15007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: cdc85d4b778179a4b99ad04c6264ad63, type: 2}
+  spriteRenderer: {fileID: 706002576}
 --- !u!4 &1945758253
 Transform:
   m_ObjectHideFlags: 0
@@ -15127,6 +15145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: fa89c1dca0af7574782db4a5ef6ff322, type: 2}
+  spriteRenderer: {fileID: 1251345289}
 --- !u!4 &1979844577
 Transform:
   m_ObjectHideFlags: 0
@@ -16004,6 +16023,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
@@ -16260,6 +16280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: cf15a09db3c43a9439996720e7205bcb, type: 2}
+  spriteRenderer: {fileID: 890495065}
 --- !u!1001 &2127323631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17004,6 +17025,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}

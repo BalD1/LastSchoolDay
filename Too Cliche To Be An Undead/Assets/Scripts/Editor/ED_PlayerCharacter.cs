@@ -85,6 +85,12 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty hitMaterial = serializedObject.FindProperty("hitMaterial");
         EditorGUILayout.PropertyField(hitMaterial);
 
+        SerializedProperty outlineMaterial = serializedObject.FindProperty("outlineMaterial");
+        EditorGUILayout.PropertyField(outlineMaterial);
+
+        SerializedProperty defaultMaterial = serializedObject.FindProperty("defaultMaterial");
+        EditorGUILayout.PropertyField(defaultMaterial);
+
         SerializedProperty flashOnHitTime = serializedObject.FindProperty("flashOnHitTime");
         EditorGUILayout.PropertyField(flashOnHitTime);
 
@@ -331,8 +337,8 @@ public class ED_PlayerCharacter : Editor
         }
         EditorGUI.indentLevel--;
 
-        SerializedProperty level = serializedObject.FindProperty("level");
-        EditorGUILayout.PropertyField(level);
+        int newLevel = EditorGUILayout.DelayedIntField("Level", PlayerCharacter.GetLevel);
+        PlayerCharacter.SetLevel(newLevel);
 
         EditorGUILayout.LabelField("Dash", EditorStyles.boldLabel);
 
@@ -388,8 +394,8 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.Vector2Field("RB Velocity", targetScript.GetRb.velocity);
         GUI.enabled = true;
 
-        SerializedProperty money = serializedObject.FindProperty("money");
-        EditorGUILayout.PropertyField(money);
+        int newMoney = EditorGUILayout.DelayedIntField("Money", PlayerCharacter.GetMoney());
+        PlayerCharacter.SetMoney(newMoney);
 
         SerializedProperty playerIndex = serializedObject.FindProperty("playerIndex");
         EditorGUILayout.PropertyField(playerIndex);

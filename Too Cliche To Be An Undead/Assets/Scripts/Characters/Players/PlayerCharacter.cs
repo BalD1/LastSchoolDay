@@ -26,61 +26,39 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region vars
 
-    private Vector2 velocity;
-    public Vector2 Velocity { get => velocity; }
+    [SerializeField] private int playerIndex;
 
     [SerializeField] private FSM_Player_Manager stateManager;
-    public FSM_Player_Manager StateManager { get => stateManager; }
 
     [SerializeField] private PlayerWeapon weapon;
-    public PlayerWeapon Weapon { get => weapon; }
-
     [SerializeField] private SkillHolder skillHolder;
-    public SkillHolder GetSkillHolder { get => skillHolder; }
+    [SerializeField] private SCRPT_Dash playerDash;
 
-    public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
+    [SerializeField] private List<EnemyBase> attackers = new List<EnemyBase>();
 
-    [SerializeField] private PlayerInput inputs;
-    public PlayerInput Inputs { get => inputs; }
+    [SerializeField] private Material outlineMaterial;
+    [SerializeField] private Material defaultMaterial;
 
     [SerializeField] private Image hpBar;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image skillIcon;
 
+    [SerializeField] private static int money;
+    [SerializeField] private static int level;
+
+    [SerializeField] private float dyingState_DURATION = 20f;
+    [SerializeField][Range(0, 1)] private float reviveHealPercentage = 0.25f;
+
     private float dash_CD_TIMER;
     public bool isDashing;
 
-    [SerializeField] private int money;
-    public int Money { get => money; }
+    private Vector2 velocity;
 
-    [SerializeField] private int playerIndex;
-    public int PlayerIndex { get => playerIndex; }
+    private Vector2 lastDirection;
 
-    [SerializeField] private int level;
-    public int Level { get => level; }
-
-    [SerializeField] private float dyingState_DURATION = 20f;
-    public float DyingState_DURATION { get => dyingState_DURATION; }
-
-    [SerializeField] [Range(0,1)] private float reviveHealPercentage = 0.25f;
-
-    [SerializeField] private SCRPT_Dash playerDash;
-    public SCRPT_Dash PlayerDash { get => playerDash; }
-
-    [SerializeField] private List<EnemyBase> attackers = new List<EnemyBase>();
-    public List<EnemyBase> Attackers { get => attackers; }
-
-#if UNITY_EDITOR
-    public bool debugPush;
-    private Vector2 gizmosMouseDir;
-    private Ray gizmosPushRay;
-    private float gizmosPushEnd;
-    private float gizmosPushDrag;
-#endif
+    [SerializeField] private PlayerInput inputs;
 
     private PlayerControls playerControls;
-
-    private InputAction movementsAction;
 
     public delegate void D_AttackInput();
     public D_AttackInput D_attackInput;
@@ -91,11 +69,33 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_DashInput();
     public D_DashInput D_dashInput;
 
+    private InputAction movementsAction;
+
+
+    public FSM_Player_Manager StateManager { get => stateManager; }
+    public PlayerWeapon Weapon { get => weapon; }
+    public SkillHolder GetSkillHolder { get => skillHolder; }
+    public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
+    public Vector2 Velocity { get => velocity; }
+    public PlayerInput Inputs { get => inputs; }
+    public int Money { get => money; }
+    public int PlayerIndex { get => playerIndex; }
+    public int Level { get => level; }
+    public float DyingState_DURATION { get => dyingState_DURATION; }
+    public SCRPT_Dash PlayerDash { get => playerDash; }
+    public List<EnemyBase> Attackers { get => attackers; }
+    public Vector2 LastDirection { get => lastDirection; }
+
     public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
     public const string SCHEME_GAMEPAD = "Gamepad";
 
-    private Vector2 lastDirection;
-    public Vector2 LastDirection { get => lastDirection; }
+#if UNITY_EDITOR
+    public bool debugPush;
+    private Vector2 gizmosMouseDir;
+    private Ray gizmosPushRay;
+    private float gizmosPushEnd;
+    private float gizmosPushDrag;
+#endif
 
     #endregion
 
@@ -139,9 +139,13 @@ public class PlayerCharacter : Entity, IInteractable
             PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
 
             SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite);
+
+            this.currentHP = GetStats.MaxHP(StatsModifiers);
         }
 
         if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
+
+        this.stateManager.SwitchState(stateManager.idleState);
     }
 
     protected override void Awake()
@@ -333,16 +337,16 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void Revive()
     {
-        this.OnHeal(this.GetStats.MaxHP(StatsModifiers) * .25f);
-        this.stateManager.SwitchState(stateManager.idleState);
+        this.OnHeal(this.stats.MaxHP(statsModifiers) * reviveHealPercentage);
+        stateManager.SwitchState(stateManager.idleState);
     }
 
     public void DefinitiveDeath()
     {
+        stateManager.SwitchState(stateManager.deadState);
+
         PlayersManager.Instance.DefinitiveDeath(this);
         PlayersManager.Instance.RemoveAlivePlayer();
-
-        this.gameObject.SetActive(false);
     }
 
     public bool AddAttacker(EnemyBase attacker)
@@ -363,8 +367,8 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Money
 
-    public void AddMoney(int amount) => money += amount;
-    public void RemoveMoney(int amount, bool canGoInDebt)
+    public static void AddMoney(int amount) => money += amount;
+    public static void RemoveMoney(int amount, bool canGoInDebt)
     {
         if (!canGoInDebt && money < 0) return;
 
@@ -372,7 +376,9 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (!canGoInDebt && money < 0) money = 0;
     }
-    public bool HasEnoughMoney(int price) => money > price ? true : false;
+    public static void SetMoney(int newMoney) => money = newMoney;
+    public static int GetMoney() => money;
+    public static bool HasEnoughMoney(int price) => money > price ? true : false;
 
     #endregion
 
@@ -512,7 +518,7 @@ public class PlayerCharacter : Entity, IInteractable
     private void SetKeepedData()
     {
         this.playerIndex = DataKeeper.Instance.CreateData(this);
-        this.money = DataKeeper.Instance.playersDataKeep[this.playerIndex].money;
+        PlayerCharacter.money = DataKeeper.Instance.money;
 
         PlayersManager.Instance.SetupPanels(playerIndex);
     }
@@ -533,9 +539,9 @@ public class PlayerCharacter : Entity, IInteractable
 
         this.stateManager.ResetAll();
 
-        DataKeeper.Instance.playersDataKeep[this.playerIndex].money = this.money;
-        DataKeeper.Instance.playersDataKeep[this.playerIndex].maxLevel = this.Level;
-    } 
+        DataKeeper.Instance.money = PlayerCharacter.money;
+        DataKeeper.Instance.maxLevel = this.Level;
+    }
 
     #endregion
 
@@ -543,22 +549,28 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void EnteredInRange(GameObject interactor)
     {
+        sprite.material = outlineMaterial;
     }
 
     public void ExitedRange(GameObject interactor)
     {
+        sprite.material = defaultMaterial;
     }
 
     public void Interact(GameObject interactor)
     {
-        this.OnHeal(this.stats.MaxHP(statsModifiers) * reviveHealPercentage);
+        Revive();
+
+        sprite.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying"); 
 
     #endregion
 
-    public void LevelUp() => level++;
+    public static void LevelUp() => level++;
+    public static void SetLevel(int newLevel) => level = newLevel;
+    public static int GetLevel => PlayerCharacter.level;
 
     public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite)
     {
@@ -567,7 +579,6 @@ public class PlayerCharacter : Entity, IInteractable
         this.stats = newStats;
         this.sprite.sprite = newSprite;
     }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

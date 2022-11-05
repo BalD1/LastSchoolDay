@@ -1015,15 +1015,22 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -2134,15 +2141,22 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -2614,15 +2628,22 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -2865,6 +2886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: cf15a09db3c43a9439996720e7205bcb, type: 2}
+  spriteRenderer: {fileID: 6354826899454687533}
 --- !u!1 &6354826899105361826
 GameObject:
   m_ObjectHideFlags: 0
@@ -3044,6 +3066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: fa89c1dca0af7574782db4a5ef6ff322, type: 2}
+  spriteRenderer: {fileID: 6354826898428383475}
 --- !u!1 &6354826899129799611
 GameObject:
   m_ObjectHideFlags: 0
@@ -3607,15 +3630,22 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -4142,15 +4172,22 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -4389,15 +4426,22 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -4525,15 +4569,22 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -4793,15 +4844,22 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -4916,6 +4974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: cdc85d4b778179a4b99ad04c6264ad63, type: 2}
+  spriteRenderer: {fileID: 6354826899434797877}
 --- !u!1 &6354826899800931511
 GameObject:
   m_ObjectHideFlags: 0
@@ -4976,15 +5035,22 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -5355,6 +5421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: 2b52739f2bf730741a4d7b2adf30d7f1, type: 2}
+  spriteRenderer: {fileID: 6354826899285494752}
 --- !u!1 &6354826900016866804
 GameObject:
   m_ObjectHideFlags: 0
@@ -5574,6 +5641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: 83bd95123f7d1ec4998d899f7198c266, type: 2}
+  spriteRenderer: {fileID: 6354826899538186815}
 --- !u!1 &6354826900161013145
 GameObject:
   m_ObjectHideFlags: 0
@@ -5634,15 +5702,22 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
@@ -6057,6 +6132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable: {fileID: 11400000, guid: 3bcefe2e4dea59c46bbdbb3d62b1f5c7, type: 2}
+  spriteRenderer: {fileID: 6354826898500250099}
 --- !u!1001 &6354826898230283771
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -138,6 +138,8 @@ public abstract class EnemyBase : Entity
 
     public void SetAttackedPlayer(PlayerCharacter target)
     {
+        if (target.IsAlive() == false) return;
+
         attackedPlayer = target;
         attackedPlayer.AddAttacker(this);
     }
@@ -151,6 +153,8 @@ public abstract class EnemyBase : Entity
 
     public void AddDetectedPlayer(PlayerCharacter newDetection)
     {
+        if (newDetection.IsAlive() == false) return;
+
         if (detectedPlayers.Count == 0) SetTarget(newDetection);
 
         detectedPlayers.Add(newDetection);

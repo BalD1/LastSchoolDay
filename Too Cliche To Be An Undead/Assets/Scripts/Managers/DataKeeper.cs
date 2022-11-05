@@ -43,21 +43,20 @@ public class DataKeeper : MonoBehaviour
     public class PlayerDataKeep
     {
         public string playerName;
-        public int money;
-        public int maxLevel;
         public PlayerInput playerInput;
         public E_CharactersNames character;
 
-        public PlayerDataKeep(string _playerName, PlayerInput _playerInput, E_CharactersNames _character, int _money = 0, int _maxLevel = 0)
+        public PlayerDataKeep(string _playerName, PlayerInput _playerInput, E_CharactersNames _character)
         {
             playerName = _playerName;
-            money = _money;
-            maxLevel = _maxLevel;
             playerInput = _playerInput;
             character = _character;
         }
     }
     public List<PlayerDataKeep> playersDataKeep = new List<PlayerDataKeep>();
+    public List<int> unlockedLevels = new List<int>();
+    public int money;
+    public int maxLevel;
 
     public int CreateData(PlayerCharacter newPlayer)
     {
@@ -67,7 +66,7 @@ public class DataKeeper : MonoBehaviour
         }
         newPlayer.name = $"Player {playersDataKeep.Count}";
 
-        PlayerDataKeep pdk = new PlayerDataKeep(newPlayer.name, newPlayer.Inputs, E_CharactersNames.Shirley, newPlayer.Money, newPlayer.Level);
+        PlayerDataKeep pdk = new PlayerDataKeep(newPlayer.name, newPlayer.Inputs, E_CharactersNames.Shirley);
         playersDataKeep.Add(pdk);
 
         return playersDataKeep.Count - 1;

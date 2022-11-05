@@ -7,7 +7,7 @@ public class Coins : Collectable
     protected override void TouchedPlayer(PlayerCharacter player)
     {
         base.TouchedPlayer(player);
-        player.AddMoney(coinValue);
+        PlayerCharacter.AddMoney(coinValue);
     }
 
 }

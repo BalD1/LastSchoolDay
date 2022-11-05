@@ -6,6 +6,10 @@ public class Shop : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject shop;
 
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
+    private List<GameObject> currentInteractors = new List<GameObject>();
+
     private ShopLevel[] levels;
 
     private bool shopIsOpen = false;
@@ -25,21 +29,38 @@ public class Shop : MonoBehaviour, IInteractable
     }
     public void EnteredInRange(GameObject interactor)
     {
+        spriteRenderer.material = GameAssets.Instance.OutlineMaterial;
+        currentInteractors.Add(interactor);
     }
 
     public void ExitedRange(GameObject interactor)
     {
+        currentInteractors.Remove(interactor);
+        if (currentInteractors.Count > 0) return;
+
         if (shopIsOpen) CloseShop();
+        spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public void Interact(GameObject interactor)
     {
         if (shopIsOpen) CloseShop();
         else OpenShop();
+
+        if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
+    }
+
+    public void UIInteract()
+    {
+        if (shopIsOpen) CloseShop();
+        else OpenShop();
+
+        if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
     private void OpenShop()
     {
+        GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
         UIManager.Instance.OpenShop();
         UIManager.Instance.D_closeMenu += CheckIfClosedMenuIsShop;
         shopIsOpen = true;
@@ -48,6 +69,7 @@ public class Shop : MonoBehaviour, IInteractable
 
     private void CloseShop()
     {
+        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         UIManager.Instance.CloseShop();
         UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
         shopIsOpen = false;
@@ -72,12 +94,11 @@ public class Shop : MonoBehaviour, IInteractable
 
     private void SetData()
     {
-        if (DataKeeper.Instance.IsPlayerDataKeepSet() == false) return;
+        if (DataKeeper.Instance.unlockedLevels == null || DataKeeper.Instance.unlockedLevels.Count <= 0) return;
 
-        int lvl = DataKeeper.Instance.playersDataKeep[0].maxLevel;
-        for (int i = 0; i < lvl; i++)
+        foreach (var item in levels)
         {
-            levels[i].Unlock(GameManager.Player1Ref);
+            if (DataKeeper.Instance.unlockedLevels.Contains(item.ID)) item.Unlock(reloadUnlock: true);
         }
     }
 }
