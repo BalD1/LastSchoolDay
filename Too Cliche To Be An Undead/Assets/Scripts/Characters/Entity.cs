@@ -80,6 +80,9 @@ public class Entity : MonoBehaviour, IDamageable
     public delegate void D_enteredTrigger(Collider2D collider);
     public D_enteredTrigger d_EnteredTrigger;
 
+    public delegate void D_exitedTrigger(Collider2D collider);
+    public D_exitedTrigger d_ExitedTrigger;
+
     [SerializeField] private List<TickDamages> appliedTickDamages = new List<TickDamages>();
     public List<TickDamages> AppliedTickDamages { get => appliedTickDamages; }
 
@@ -331,9 +334,11 @@ public class Entity : MonoBehaviour, IDamageable
     public void SetAnimatorTrigger(string trigger) => animator.SetTrigger(trigger);
     public void SetAnimatorArgs(string args, int value) => animator.SetInteger(args, value);
     public void SetAnimatorArgs(string args, float value) => animator.SetFloat(args, value);
-    public void SetAnimatorArgs(string args, bool value) => animator.SetBool(args, value); 
+    public void SetAnimatorArgs(string args, bool value) => animator.SetBool(args, value);
 
     #endregion
+
+    public void SetInvincibility(bool _i) => invincible = _i;
 
     public bool RollCrit() => Random.Range(0, 100) <= GetStats.CritChances(StatsModifiers) ? true : false;
 

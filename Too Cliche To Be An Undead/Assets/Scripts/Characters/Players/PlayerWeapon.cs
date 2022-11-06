@@ -5,28 +5,19 @@ using BalDUtilities.MouseUtils;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    [SerializeField] private PlayerCharacter owner;
+    [SerializeField] protected PlayerCharacter owner;
     public PlayerCharacter Owner { get => owner; }
 
-    [SerializeField] private GameObject effectObject;
-    public GameObject EffectObject { get => effectObject; }
-
-    [SerializeField] private float maxRange = 2f;
-    [SerializeField] private float lastAttackDamagesMultiplier = 1.5f;
-
 #if UNITY_EDITOR
-    [SerializeField] private bool debugMode;
+    [SerializeField] protected bool debugMode;
 #endif
 
-    [SerializeField] private LayerMask damageablesLayer;
+    [SerializeField] protected LayerMask damageablesLayer;
 
-    [SerializeField] private Animator effectAnimator;
+    [SerializeField] protected Animator effectAnimator;
     public Animator EffectAnimator { get => effectAnimator; }
 
-    private Collider2D[] hitEntities;
-
-    private Vector2 initialPosition;
-    private Vector2 targetPosition;
+    protected Collider2D[] hitEntities;
 
     private float lookAngle;
 
@@ -39,7 +30,18 @@ public class PlayerWeapon : MonoBehaviour
     public delegate void NextAttack(int attackIdx);
     public NextAttack D_nextAttack;
 
+    protected virtual void Awake()
+    {
+        owner ??= this.transform.GetComponentInParent<PlayerCharacter>();
+        effectAnimator ??= this.transform.GetComponentInChildren<Animator>();
+    }
+
     public void FollowMouse()
+    {
+        this.transform.rotation = GetRotationOnMouseOrGamepad();
+    }
+
+    public Quaternion GetRotationOnMouseOrGamepad()
     {
         if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
         {
@@ -52,42 +54,46 @@ public class PlayerWeapon : MonoBehaviour
             mousePos.y -= selfPosByCam.y;
 
             lookAngle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-            this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+            return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
         }
         else
         {
             Vector2 c = owner.LastDirection.normalized;
             lookAngle = Mathf.Atan2(c.y, c.x) * Mathf.Rad2Deg;
-            this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+            return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
         }
     }
 
-    public void DamageEnemiesInRange(bool isLastAttack)
+    public Vector2 GetPreciseDirectionOfMouseOrGamepad()
     {
-        hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.GetStats.AttackRange(owner.StatsModifiers), damageablesLayer);
-        foreach (var item in hitEntities)
+        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
         {
-            var damageable = item.GetComponentInParent<IDamageable>();
-            if (damageable != null)
-            {
-                float damages = owner.GetStats.BaseDamages(owner.StatsModifiers);
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 5f;
 
-                if (isLastAttack) damages *= lastAttackDamagesMultiplier;
+            Vector3 selfPosByCam = Camera.main.WorldToScreenPoint(Owner.transform.position);
 
-                if (damageable.OnTakeDamages(damages, owner.GetStats.Team, owner.RollCrit()) == false)
-                    continue;
+            mousePos.x -= selfPosByCam.x;
+            mousePos.y -= selfPosByCam.y;
 
-                //float dist = Vector2.Distance(this.transform.position, item.transform.position) / 2;
-                //Vector2 dir = (item.transform.position - this.transform.position).normalized;
-
-                // Instantiate(hitParticles, this.transform.position + (dir * dist), Quaternion.identity);
-
-                // Screen shake
-            }
+            return mousePos;
         }
+        else return owner.LastDirection.normalized;
     }
 
-    public Vector2 GetDirectionOfMouse()
+    public virtual void StartWeaponAttack(bool isLastAttack) { }
+
+    public void SuccessfulHit(Vector3 hitPosition)
+    {
+        float dist = Vector2.Distance(this.transform.position, hitPosition) / 2;
+        Vector2 dir = (hitPosition - this.transform.position).normalized;
+
+        //Instantiate(hitParticles, this.transform.position + (dir * dist), Quaternion.identity);
+
+        // Screen shake
+    }
+
+    public Vector2 GetGeneralDirectionOfMouseOrGamepad()
     {
         float rot = this.transform.rotation.eulerAngles.z;
 
@@ -103,16 +109,5 @@ public class PlayerWeapon : MonoBehaviour
         attackEnded = false;
         prepareNextAttack = false;
         inputStored = false;
-    }
-
-    private void OnDrawGizmos()
-    {
-#if UNITY_EDITOR
-        if (!debugMode || owner == null) return;
-
-        Gizmos.DrawWireSphere(this.transform.position, owner.GetStats.AttackRange(owner.StatsModifiers));
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(owner.transform.position, maxRange);
-#endif
     }
 }

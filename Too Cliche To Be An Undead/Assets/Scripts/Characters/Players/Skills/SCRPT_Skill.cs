@@ -4,6 +4,15 @@ using UnityEngine;
 
 public abstract class SCRPT_Skill : ScriptableObject
 {
+    [SerializeField] protected E_SortlingLayers layerName;
+
+    public enum E_SortlingLayers
+    {
+        Background,
+        Default,
+        Foreground
+    }
+
     [SerializeField] protected float cooldown;
     [SerializeField] protected float offset;
     [SerializeField] protected float range;

@@ -11,6 +11,7 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
     {
         isInUse = true;
         owner.OffsetSkillHolder(offset);
+        owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
         owner.GetSkillHolder.StartTimer(cooldown);
 

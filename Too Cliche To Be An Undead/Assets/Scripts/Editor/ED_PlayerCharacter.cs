@@ -243,6 +243,9 @@ public class ED_PlayerCharacter : Editor
         if (GUILayout.Button("Edit")) PopUpAssetInspector.Create(targetScript.GetStats);
         EditorGUILayout.EndHorizontal();
 
+        SerializedProperty invincible = serializedObject.FindProperty("invincible");
+        EditorGUILayout.PropertyField(invincible);
+
         GUI.enabled = false;
 
         EditorGUILayout.LabelField("Current HP : " + targetScript.CurrentHP + " / " + targetScript.GetStats.MaxHP(targetScript.StatsModifiers) + "(" + targetScript.CurrentHP / targetScript.GetStats.MaxHP(targetScript.StatsModifiers) * 100 + "%)");

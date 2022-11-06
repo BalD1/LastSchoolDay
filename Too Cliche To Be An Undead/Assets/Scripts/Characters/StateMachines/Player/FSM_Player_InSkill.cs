@@ -11,12 +11,13 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     {
         owner ??= stateManager.Owner;
 
-        Vector2 mouseDir = stateManager.Owner.Weapon.GetDirectionOfMouse();
+        Vector2 mouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();
 
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
 
+        owner.GetSkillHolder.Trigger.enabled = true;
         owner.GetSkill.StartSkill(owner);
 
         owner.canBePushed = true;
@@ -40,6 +41,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         owner.GetSkill.StopSkill(owner);
+        owner.GetSkillHolder.Trigger.enabled = false;
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, false);
     }
 

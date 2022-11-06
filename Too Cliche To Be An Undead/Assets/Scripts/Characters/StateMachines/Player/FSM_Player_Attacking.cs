@@ -10,7 +10,7 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     {
         owner ??= stateManager.Owner;
 
-        Vector2 mouseDir = stateManager.Owner.Weapon.GetDirectionOfMouse();
+        Vector2 mouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();
 
         owner.canBePushed = true;
 

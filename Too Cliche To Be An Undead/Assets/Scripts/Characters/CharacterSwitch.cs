@@ -8,6 +8,22 @@ public class CharacterSwitch : MonoBehaviour, IInteractable
 
     [SerializeField] private SpriteRenderer spriteRenderer;
 
+    PlayersManager.PlayerCharacterComponents pcc = new PlayersManager.PlayerCharacterComponents();
+
+    private void Awake()
+    {
+        foreach (var item in PlayersManager.Instance.CharacterComponents)
+        {
+            if (item.character == character)
+            {
+                pcc = item;
+                break;
+            }
+        }
+
+        spriteRenderer.sprite = pcc.sprite;
+    }
+
     public void EnteredInRange(GameObject interactor)
     {
         spriteRenderer.material = GameAssets.Instance.OutlineMaterial;
@@ -20,21 +36,6 @@ public class CharacterSwitch : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        PlayersManager.PlayerCharacterComponents pcc = new PlayersManager.PlayerCharacterComponents();
-        bool pccIsSet = false;
-
-        foreach (var item in PlayersManager.Instance.CharacterComponents)
-        {
-            if (item.character == character)
-            {
-                pcc = item;
-                pccIsSet = true;
-                break;
-            }
-        }
-
-        if (!pccIsSet) return;
-
         interactor.GetComponentInParent<PlayerCharacter>().SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite);
 
         if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;

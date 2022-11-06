@@ -17,9 +17,8 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.D_enteredTrigger += EnteredTrigger;
         owner.GetSkillHolder.D_exitedTrigger += ExitedTrigger;
 
+        owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
-
-        isInUse = true;
 
         finalDamages = damages;
         foreach (var modif in owner.StatsModifiers)

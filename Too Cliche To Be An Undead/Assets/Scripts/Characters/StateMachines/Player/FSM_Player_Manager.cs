@@ -7,7 +7,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
     [SerializeField] private PlayerCharacter owner;
     public PlayerCharacter Owner { get => owner; }
     [SerializeField] private PlayerWeapon ownerWeapon;
-    public PlayerWeapon OwnerWeapon { get => ownerWeapon; }
+    public PlayerWeapon OwnerWeapon { get => ownerWeapon; set => ownerWeapon = value; }
 
     public FSM_Player_Idle idleState = new FSM_Player_Idle();
     public FSM_Player_Moving movingState = new FSM_Player_Moving();

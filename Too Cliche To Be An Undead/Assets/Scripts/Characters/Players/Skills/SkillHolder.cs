@@ -7,9 +7,11 @@ public class SkillHolder : MonoBehaviour
     [SerializeField] private PlayerCharacter owner;
     [SerializeField] private SCRPT_Skill skill;
     [SerializeField] private Animator animator;
+    [SerializeField] private CircleCollider2D trigger;
 
     public SCRPT_Skill Skill { get => skill; }
     public Animator GetAnimator { get => animator; }
+    public CircleCollider2D Trigger { get => trigger; }
 
     public delegate void D_EnteredTrigger(Entity entity);
     public delegate void D_ExitedTrigger(Entity entity);

@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b406c01c11570d84495827c7f239c8d2, type: 3}
-  m_Name: Smokescreen
+  m_Script: {fileID: 11500000, guid: bd8c7d5b8ad4372429db46b38f542dad, type: 3}
+  m_Name: ProtectionZone
   m_EditorClassIdentifier: 
-  layerName: 2
-  cooldown: 3
-  offset: 2
-  range: 1
-  duration: 0.5
+  layerName: 0
+  cooldown: 5
+  offset: 0
+  range: 10
+  duration: 2
   damages: 0
   canMove: 0
   entitiesToAffect:
     serializedVersion: 2
-    m_Bits: 256
-  animationToPlay: Smokescreen
-  thumbnail: {fileID: 21300000, guid: 02011934115cbde448efbc776a154be5, type: 3}
-  stunDuration: 2
+    m_Bits: 320
+  animationToPlay: ProtectionZone
+  thumbnail: {fileID: 21300000, guid: 4a20f08f35ec2454bb2053154d9b6373, type: 3}
+  playersInRange: []

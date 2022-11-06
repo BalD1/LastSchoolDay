@@ -63,6 +63,12 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_AttackInput();
     public D_AttackInput D_attackInput;
 
+    public delegate void D_StartHoldAttackInput();
+    public D_StartHoldAttackInput D_startHoldAttackInput;
+
+    public delegate void D_EndHoldAttackInput();
+    public D_EndHoldAttackInput D_endHoldAttackInput;
+
     public delegate void D_SkillInput();
     public D_SkillInput D_skillInput;
 
@@ -389,6 +395,12 @@ public class PlayerCharacter : Entity, IInteractable
         if (context.performed) D_attackInput?.Invoke();
     }
 
+    public void MaintainedAttackIpunt(InputAction.CallbackContext context)
+    {
+        if (context.started) D_startHoldAttackInput?.Invoke();
+        else if (context.canceled) D_endHoldAttackInput?.Invoke();
+    }
+
     public void SkillInput(InputAction.CallbackContext context)
     {
         if (context.performed) D_skillInput?.Invoke();
@@ -444,12 +456,12 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void OffsetSkillHolder(float offset)
     {
-        skillHolder.transform.localPosition = (Vector3)weapon.GetDirectionOfMouse() * offset;
+        skillHolder.transform.localPosition = (Vector3)weapon.GetGeneralDirectionOfMouseOrGamepad() * offset;
     }
 
     public void RotateSkillHolder()
     {
-        switch (weapon.GetDirectionOfMouse())
+        switch (weapon.GetGeneralDirectionOfMouseOrGamepad())
         {
             case Vector2 v when v.Equals(Vector2.left):
                 skillHolder.transform.eulerAngles = new Vector3(0, 0, -90);
@@ -545,7 +557,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     #endregion
 
-    #region Interactions 
 
     public void EnteredInRange(GameObject interactor)
     {
@@ -564,9 +575,17 @@ public class PlayerCharacter : Entity, IInteractable
         sprite.material = GameAssets.Instance.DefaultMaterial;
     }
 
-    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying"); 
+    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");
 
-    #endregion
+
+    public void SetAttack(GameObject newWeapon)
+    {
+        weapon.ResetAttack();
+        Destroy(weapon.gameObject);
+        GameObject gO = Instantiate(newWeapon, this.transform);
+        weapon = gO.GetComponent<PlayerWeapon>();
+        stateManager.OwnerWeapon = weapon;
+    }
 
     public static void LevelUp() => level++;
     public static void SetLevel(int newLevel) => level = newLevel;
@@ -583,7 +602,13 @@ public class PlayerCharacter : Entity, IInteractable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
-        d_EnteredTrigger?.Invoke(collision);
+            d_EnteredTrigger?.Invoke(collision);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
+            d_ExitedTrigger?.Invoke(collision);
     }
 
     #region Gizmos
