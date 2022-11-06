@@ -12,6 +12,8 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
     [SerializeField] private float fire_COOLDOWN;
     private float fire_TIMER;
 
+    private int finalCrit;
+
     private Transform skillHolderTransform;
 
     private PlayerCharacter _owner;
@@ -25,6 +27,9 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
         owner.OffsetSkillHolder(offset);
+
+        finalDamages = _owner.GetStats.BaseDamages(_owner.StatsModifiers) * damagesPercentageModifier;
+        finalCrit = (int)(_owner.GetStats.CritChances(_owner.StatsModifiers) * critModifier);
 
         owner.D_startHoldAttackInput += PressInput;
         owner.D_endHoldAttackInput += ReleaseInput;
@@ -60,9 +65,6 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         if (fire_TIMER > 0 || !inputPressed) return;
 
         fire_TIMER = fire_COOLDOWN;
-
-        float finalDamages = _owner.GetStats.BaseDamages(_owner.StatsModifiers) * damages;
-        int finalCrit = (int)(_owner.GetStats.CritChances(_owner.StatsModifiers) * critModifier);
 
         Quaternion q = _owner.Weapon.GetRotationOnMouseOrGamepad();
         Vector3 v = q.eulerAngles;

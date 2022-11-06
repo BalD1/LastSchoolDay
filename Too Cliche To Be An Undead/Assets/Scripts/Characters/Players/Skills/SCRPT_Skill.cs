@@ -18,7 +18,7 @@ public abstract class SCRPT_Skill : ScriptableObject
     [SerializeField] protected float range;
     [SerializeField] protected float duration;
 
-    [SerializeField] protected float damages;
+    [SerializeField] protected float damagesPercentageModifier;
     protected float finalDamages;
 
     [SerializeField] protected bool canMove;

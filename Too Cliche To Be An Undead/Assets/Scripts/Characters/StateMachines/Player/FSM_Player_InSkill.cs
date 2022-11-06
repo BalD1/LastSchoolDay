@@ -42,6 +42,9 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     {
         owner.GetSkill.StopSkill(owner);
         owner.GetSkillHolder.Trigger.enabled = false;
+
+        owner.ForceUpdateMovementsInput();
+
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, false);
     }
 

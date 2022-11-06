@@ -9,8 +9,6 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
     private List<Entity> entitiesInTrigger = new List<Entity>();
 
-    private TickDamages tickDamages;
-
     public override void StartSkill(PlayerCharacter owner)
     {
         isInUse = true; 
@@ -20,11 +18,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
 
-        finalDamages = damages;
-        foreach (var modif in owner.StatsModifiers)
-        {
-            if (modif.StatType.Equals(StatsModifier.E_StatType.Damages)) finalDamages += modif.Modifier;
-        }
+        finalDamages = owner.GetStats.BaseDamages(owner.StatsModifiers) * damagesPercentageModifier;
     }
 
     public override void UpdateSkill(PlayerCharacter owner)
