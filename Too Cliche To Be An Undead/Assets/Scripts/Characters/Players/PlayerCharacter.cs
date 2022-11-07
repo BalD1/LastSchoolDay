@@ -10,9 +10,6 @@ using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.Users;
 using System.Linq;
-using UnityEngine.TextCore.Text;
-using UnityEngine.InputSystem.LowLevel;
-using UnityEditor.Experimental.GraphView;
 
 public class PlayerCharacter : Entity, IInteractable
 {
