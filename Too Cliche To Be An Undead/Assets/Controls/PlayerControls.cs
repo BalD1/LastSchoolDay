@@ -80,6 +80,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StayStatic"",
+                    ""type"": ""Button"",
+                    ""id"": ""84da051c-0830-4ea4-a498-b254fd33640d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -256,6 +265,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a8d49151-6ebb-44d3-b67b-111e1e84fac1"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StayStatic"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""736fcb4d-ea55-4dde-a05f-e678599196c4"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StayStatic"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -980,6 +1011,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_InGame_Skill = m_InGame.FindAction("Skill", throwIfNotFound: true);
         m_InGame_Interact = m_InGame.FindAction("Interact", throwIfNotFound: true);
         m_InGame_Pause = m_InGame.FindAction("Pause", throwIfNotFound: true);
+        m_InGame_StayStatic = m_InGame.FindAction("StayStatic", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
@@ -1063,6 +1095,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_Skill;
     private readonly InputAction m_InGame_Interact;
     private readonly InputAction m_InGame_Pause;
+    private readonly InputAction m_InGame_StayStatic;
     public struct InGameActions
     {
         private @PlayerControls m_Wrapper;
@@ -1073,6 +1106,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Skill => m_Wrapper.m_InGame_Skill;
         public InputAction @Interact => m_Wrapper.m_InGame_Interact;
         public InputAction @Pause => m_Wrapper.m_InGame_Pause;
+        public InputAction @StayStatic => m_Wrapper.m_InGame_StayStatic;
         public InputActionMap Get() { return m_Wrapper.m_InGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1100,6 +1134,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnPause;
+                @StayStatic.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnStayStatic;
+                @StayStatic.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnStayStatic;
+                @StayStatic.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnStayStatic;
             }
             m_Wrapper.m_InGameActionsCallbackInterface = instance;
             if (instance != null)
@@ -1122,6 +1159,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @StayStatic.started += instance.OnStayStatic;
+                @StayStatic.performed += instance.OnStayStatic;
+                @StayStatic.canceled += instance.OnStayStatic;
             }
         }
     }
@@ -1332,6 +1372,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnSkill(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnStayStatic(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

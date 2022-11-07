@@ -72,6 +72,8 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         owner.d_EnteredTrigger -= TriggerEnter;
 
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, false);
+
+        owner.StartDashTimer();
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

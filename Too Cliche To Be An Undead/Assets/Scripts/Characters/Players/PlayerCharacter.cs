@@ -12,6 +12,7 @@ using UnityEngine.InputSystem.Users;
 using System.Linq;
 using UnityEngine.TextCore.Text;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEditor.Experimental.GraphView;
 
 public class PlayerCharacter : Entity, IInteractable
 {
@@ -39,9 +40,11 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private Material defaultMaterial;
 
+    [SerializeField] private Image portrait;
     [SerializeField] private Image hpBar;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image skillIcon;
+    [SerializeField] private Image dashIcon;
 
     [SerializeField] private static int money;
     [SerializeField] private static int level;
@@ -51,6 +54,8 @@ public class PlayerCharacter : Entity, IInteractable
 
     private float dash_CD_TIMER;
     public bool isDashing;
+
+    private bool stayStatic;
 
     private Vector2 velocity;
 
@@ -137,16 +142,17 @@ public class PlayerCharacter : Entity, IInteractable
             if (pHUD.container != null)
             {
                 pHUD.container.SetActive(true);
+
+                this.portrait = pHUD.portrait;
                 this.hpBar = pHUD.hpBar;
                 this.hpText = pHUD.hpText;
                 this.skillIcon = pHUD.skillThumbnail;
-
-                pHUD.portrait.sprite = UIManager.Instance.GetPortrait(character);
+                this.dashIcon = pHUD.dashThumbnail;
             }
 
             PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
 
-            SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite);
+            SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character);
 
             this.currentHP = GetStats.MaxHP(StatsModifiers);
         }
@@ -205,6 +211,8 @@ public class PlayerCharacter : Entity, IInteractable
                 pHUD.portrait.sprite = UIManager.Instance.GetPortrait(GameManager.E_CharactersNames.Whitney);
             }
         }
+
+        SetDashThumbnail(playerDash.Thumbnail);
     }
 
     protected override void Update()
@@ -212,7 +220,12 @@ public class PlayerCharacter : Entity, IInteractable
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         base.Update();
 
-        if (dash_CD_TIMER > 0) dash_CD_TIMER -= Time.deltaTime;
+        if (dash_CD_TIMER > 0)
+        {
+            dash_CD_TIMER -= Time.deltaTime;
+            if (dashIcon != null)
+                dashIcon.fillAmount = -((dash_CD_TIMER / playerDash.Dash_COOLDOWN) - 1);
+        }
     }
 
     private void LateUpdate()
@@ -295,6 +308,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void Movements()
     {
+        if (stayStatic) return;
         velocity = Vector2.ClampMagnitude(velocity, GetStats.Speed(StatsModifiers));
         this.rb.MovePosition(this.rb.position + velocity * GetStats.Speed(StatsModifiers) * Time.fixedDeltaTime);
     }
@@ -450,6 +464,12 @@ public class PlayerCharacter : Entity, IInteractable
         if (context.started) GameManager.Instance.HandlePause();
     }
 
+    public void StayStaticInput(InputAction.CallbackContext context)
+    {
+        if (context.started) stayStatic = true;
+        else if (context.canceled) stayStatic = false;
+    }
+
     #endregion
 
     #region Skill
@@ -494,12 +514,21 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Dash / Push
 
+    public void SetDashThumbnail(Sprite image)
+    {
+        if (dashIcon == null) return;
+
+        dashIcon.sprite = image;
+    }
+
     public void StartDash()
     {
         if (dash_CD_TIMER > 0) return;
 
         isDashing = true;
     }
+
+    public void StartDashTimer() => dash_CD_TIMER = playerDash.Dash_COOLDOWN;
 
     public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
     {
@@ -584,7 +613,7 @@ public class PlayerCharacter : Entity, IInteractable
         sprite.material = GameAssets.Instance.DefaultMaterial;
     }
 
-    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");
+    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying"); 
 
 
     public void SetAttack(GameObject newWeapon)
@@ -600,12 +629,17 @@ public class PlayerCharacter : Entity, IInteractable
     public static void SetLevel(int newLevel) => level = newLevel;
     public static int GetLevel => PlayerCharacter.level;
 
-    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite)
+    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite, GameManager.E_CharactersNames character)
     {
         this.playerDash = newDash;
+        if (dashIcon != null)
+            this.dashIcon.sprite = newDash.Thumbnail;
+
         this.skillHolder.ChangeSkill(newSkill);
         this.stats = newStats;
         this.sprite.sprite = newSprite;
+
+        this.portrait.sprite = UIManager.Instance.GetPortrait(character);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

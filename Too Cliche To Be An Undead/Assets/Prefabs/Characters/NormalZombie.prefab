@@ -471,6 +471,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 243c3de91fac1da4c9c7fd6708d419e2, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
@@ -491,7 +492,7 @@ MonoBehaviour:
   storedTargetPosition: {x: 0, y: 0}
   currentStateDebug: N/A
   stateManager: {fileID: 133242913744623205}
-  attack_DURATION: 1
+  attack_DURATION: 0.75
   attackStarted: 0
 --- !u!114 &133242913744623205
 MonoBehaviour:

@@ -27,11 +27,6 @@ public class SkillHolder : MonoBehaviour
 
     private float timer;
 
-    private void Awake()
-    {
-        owner.SetSkillThumbnail(skill.Thumbnail);
-    }
-
     private void Update()
     {
         if (timer > 0)
@@ -62,6 +57,7 @@ public class SkillHolder : MonoBehaviour
         this.skill = newSkill;
         this.Skill.ResetSkill();
         timer = 0;
+        owner.SetSkillThumbnail(newSkill.Thumbnail);
         owner.UpdateSkillThumbnailFill(1);
     }
 

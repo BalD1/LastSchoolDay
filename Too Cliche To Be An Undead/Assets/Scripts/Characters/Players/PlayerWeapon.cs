@@ -8,6 +8,8 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] protected PlayerCharacter owner;
     public PlayerCharacter Owner { get => owner; }
 
+    [SerializeField] private GameObject indicatorHolder;
+
 #if UNITY_EDITOR
     [SerializeField] protected bool debugMode;
 #endif
@@ -39,6 +41,7 @@ public class PlayerWeapon : MonoBehaviour
     public void FollowMouse()
     {
         this.transform.rotation = GetRotationOnMouseOrGamepad();
+        indicatorHolder.transform.rotation = this.transform.rotation;
     }
 
     public Quaternion GetRotationOnMouseOrGamepad()

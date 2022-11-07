@@ -48,6 +48,7 @@ public class UIManager : MonoBehaviour
         public Image hpBar;
         public TextMeshProUGUI hpText;
         public Image skillThumbnail;
+        public Image dashThumbnail;
     }
 
     [SerializeField] private CharacterPortrait[] characterPortrait;
