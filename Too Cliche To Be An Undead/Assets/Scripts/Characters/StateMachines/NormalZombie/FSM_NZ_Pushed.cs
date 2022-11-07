@@ -20,5 +20,12 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
         base.Conditions(stateManager);
         if (baseConditionChecked) stateManager.SwitchState(stateManager.chasingState);
     }
+
+    protected override void TriggerEnter(Collider2D collider)
+    {
+        //if (collider.GetComponentInParent<PlayerCharacter>() != null) return;
+        
+        base.TriggerEnter(collider);
+    }
     public override string ToString() => "Pushed";
 }

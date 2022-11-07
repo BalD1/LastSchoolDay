@@ -11,6 +11,15 @@ public class NormalZombie : EnemyBase
 
     public bool attackStarted;
 
+    public static NormalZombie Create(Vector2 pos)
+    {
+        GameObject gO = Instantiate(GameAssets.Instance.NormalZombiePF, pos, Quaternion.identity);
+
+        NormalZombie nZ = gO.GetComponent<NormalZombie>();
+
+        return nZ;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -33,12 +42,12 @@ public class NormalZombie : EnemyBase
         stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration));
     }
 
-    public override Vector2 Push(Vector2 pusherPosition, float pusherForce)
+    public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
     {
         if (!canBePushed) return Vector2.zero;
 
-        Vector2 v = base.Push(pusherPosition, pusherForce);
-        stateManager.SwitchState(stateManager.pushedState.SetForce(v));
+        Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher);
+        stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher));
 
         return v;
     }

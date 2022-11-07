@@ -8,6 +8,8 @@ public class TEMP_HubDoor : MonoBehaviour
     [SerializeField] private Vector2 playerTPPos;
     [SerializeField] private BoxCollider2D boxCollider2D;
 
+    [SerializeField] private FightArena fightArena;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -16,6 +18,8 @@ public class TEMP_HubDoor : MonoBehaviour
             spriteRenderer.color = Color.red;
             if (collision.gameObject.transform.parent != null)
                 collision.gameObject.transform.parent.position = playerTPPos;
+
+            if (fightArena != null && !fightArena.started) fightArena.SpawnNext(0);
         }
     }
 

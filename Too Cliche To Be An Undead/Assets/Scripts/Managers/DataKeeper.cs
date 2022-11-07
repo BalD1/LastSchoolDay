@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static GameManager;
-using static UnityEditor.Progress;
 
 public class DataKeeper : MonoBehaviour
 {
@@ -44,9 +42,9 @@ public class DataKeeper : MonoBehaviour
     {
         public string playerName;
         public PlayerInput playerInput;
-        public E_CharactersNames character;
+        public GameManager.E_CharactersNames character;
 
-        public PlayerDataKeep(string _playerName, PlayerInput _playerInput, E_CharactersNames _character)
+        public PlayerDataKeep(string _playerName, PlayerInput _playerInput, GameManager.E_CharactersNames _character)
         {
             playerName = _playerName;
             playerInput = _playerInput;
@@ -66,7 +64,7 @@ public class DataKeeper : MonoBehaviour
         }
         newPlayer.name = $"Player {playersDataKeep.Count}";
 
-        PlayerDataKeep pdk = new PlayerDataKeep(newPlayer.name, newPlayer.Inputs, E_CharactersNames.Shirley);
+        PlayerDataKeep pdk = new PlayerDataKeep(newPlayer.name, newPlayer.Inputs, GameManager.E_CharactersNames.Shirley);
         playersDataKeep.Add(pdk);
 
         return playersDataKeep.Count - 1;

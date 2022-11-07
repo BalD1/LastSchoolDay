@@ -9,7 +9,8 @@ public class ProjectileBase : MonoBehaviour
 
     [SerializeField] private float force;
 
-    SCRPT_EntityStats.E_Team team;
+    private SCRPT_EntityStats.E_Team team;
+    public SCRPT_EntityStats.E_Team Team { get => team; }
 
     private float damages;
     private int critChances;
@@ -30,6 +31,10 @@ public class ProjectileBase : MonoBehaviour
 
         if (damageable == null)
         {
+            ProjectileBase proj = collision.GetComponent<ProjectileBase>();
+            if (proj != null)
+                if (proj.Team.Equals(this.team)) return;
+
             Destroy(this.gameObject);
             return;
         }

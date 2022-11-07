@@ -9,8 +9,11 @@ public class FSM_Entity_Idle<T> : FSM_Base<T>
 
     public override void EnterState(T stateManager)
     {
-        owner.GetRb.velocity = Vector2.zero;
-        owner.SetAnimatorArgs(Entity.ANIMATOR_ARGS_VELOCITY, 0f);
+        if (owner.GetRb != null)
+            owner.GetRb.velocity = Vector2.zero;
+
+        if (owner.GetAnimator != null)
+            owner.SetAnimatorArgs(Entity.ANIMATOR_ARGS_VELOCITY, 0f);
     }
 
     public override void UpdateState(T stateManager)
@@ -28,7 +31,7 @@ public class FSM_Entity_Idle<T> : FSM_Base<T>
 
     public override void Conditions(T stateManager)
     {
-        if (owner.GetRb.velocity != Vector2.zero) baseConditionChecked = true;
+        if (owner.GetRb?.velocity != Vector2.zero) baseConditionChecked = true;
     }
 
     public void SetOwner(Entity _owner) => owner = _owner;

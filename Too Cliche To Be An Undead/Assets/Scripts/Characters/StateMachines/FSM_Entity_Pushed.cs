@@ -5,6 +5,7 @@ using UnityEngine;
 public class FSM_Entity_Pushed<T> : FSM_Base<T>
 {
     protected Entity owner;
+    private Entity originalPusher;
     protected bool baseConditionChecked;
     private Vector2 force;
 
@@ -34,7 +35,10 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
     public override void ExitState(T stateManager)
     {
         owner.d_EnteredTrigger -= TriggerEnter;
+        alreadyPushedEntities.Clear();
         baseConditionChecked = false;
+
+        originalPusher = null;
     }
 
     public override void Conditions(T stateManager)
@@ -42,27 +46,27 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         if (owner.GetRb.velocity.Equals(Vector2.zero)) baseConditionChecked = true;
     }
 
-    private void TriggerEnter(Collider2D collider)
+    protected virtual void TriggerEnter(Collider2D collider)
     {
         // Check if the hit object is an entity
         Entity e = collider.GetComponentInParent<Entity>();
         if (e == null) return;
 
         // Check if the entity as not already been pushed
-        if (alreadyPushedEntities.Contains(collider)) return;
-
+        if (alreadyPushedEntities.Contains(collider) || e.Equals(originalPusher)) return;
         alreadyPushedEntities.Add(collider);
 
         // lessen the PushForce depending on the remaining push time
         float appliedForce = owner.GetRb.velocity.magnitude + owner.GetStats.Weight;
 
-        e.Push(owner.transform.position, appliedForce);
+        e.Push(owner.transform.position, appliedForce, originalPusher);
     }
 
     public void SetOwner(Entity _owner) => owner = _owner;
-    public FSM_Entity_Pushed<T> SetForce(Vector2 _force)
+    public FSM_Entity_Pushed<T> SetForce(Vector2 _force, Entity _originalPusher)
     {
         force = _force;
+        originalPusher = _originalPusher;
         return this;
     }
 

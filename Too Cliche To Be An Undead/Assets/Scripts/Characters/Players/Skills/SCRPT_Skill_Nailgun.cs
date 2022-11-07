@@ -49,6 +49,9 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
     public override void StopSkill(PlayerCharacter owner)
     {
         isInUse = false;
+
+        inputPressed = false;
+
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();
         owner.GetSkillHolder.StartTimer(cooldown);

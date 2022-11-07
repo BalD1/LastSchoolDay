@@ -34,6 +34,8 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     {
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);
 
+        owner.ForceUpdateMovementsInput();
+
         owner.D_attackInput -= owner.StartAttack;
         owner.D_dashInput -= owner.StartDash;
     }

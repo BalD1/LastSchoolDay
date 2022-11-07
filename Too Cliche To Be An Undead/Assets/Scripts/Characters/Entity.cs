@@ -331,10 +331,10 @@ public class Entity : MonoBehaviour, IDamageable
 
     #region Set Animator
 
-    public void SetAnimatorTrigger(string trigger) => animator.SetTrigger(trigger);
-    public void SetAnimatorArgs(string args, int value) => animator.SetInteger(args, value);
-    public void SetAnimatorArgs(string args, float value) => animator.SetFloat(args, value);
-    public void SetAnimatorArgs(string args, bool value) => animator.SetBool(args, value);
+    public void SetAnimatorTrigger(string trigger) => animator?.SetTrigger(trigger);
+    public void SetAnimatorArgs(string args, int value) => animator?.SetInteger(args, value);
+    public void SetAnimatorArgs(string args, float value) => animator?.SetFloat(args, value);
+    public void SetAnimatorArgs(string args, bool value) => animator?.SetBool(args, value);
 
     #endregion
 
@@ -342,7 +342,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     public bool RollCrit() => Random.Range(0, 100) <= GetStats.CritChances(StatsModifiers) ? true : false;
 
-    public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce)
+    public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
     {
         if (!canBePushed) return Vector2.zero;
 

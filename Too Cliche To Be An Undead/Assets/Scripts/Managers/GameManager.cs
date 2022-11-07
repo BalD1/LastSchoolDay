@@ -88,10 +88,12 @@ public class GameManager : MonoBehaviour
 
             case E_GameState.InGame:
                 Time.timeScale = 1;
+                PlayersManager.Instance.SetAllPlayersControlMapToInGame();
                 break;
 
             case E_GameState.Pause:
                 Time.timeScale = 0;
+                PlayersManager.Instance.SetAllPlayersControlMapToUI();
                 break;
 
             case E_GameState.Restricted:

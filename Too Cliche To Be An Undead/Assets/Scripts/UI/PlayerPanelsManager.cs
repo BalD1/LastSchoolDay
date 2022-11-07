@@ -33,6 +33,12 @@ public class PlayerPanelsManager : MonoBehaviour
         playerPanels[idx].Setup(idx);
     }
 
+    public void RemoveAllJoined()
+    {
+        while (DataKeeper.Instance.playersDataKeep.Count > 1) DataKeeper.Instance.RemoveData(1);
+        ResetPanels();
+    }
+
     public void ResetPanels()
     {
         for (int i = 1; i < playerPanels.Length; i++)

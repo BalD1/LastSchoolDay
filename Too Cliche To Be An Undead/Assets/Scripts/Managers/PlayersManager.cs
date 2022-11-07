@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-using static UnityEditor.Progress;
 
 public class PlayersManager : MonoBehaviour
 {
@@ -47,6 +47,19 @@ public class PlayersManager : MonoBehaviour
     [SerializeField] private PlayerCharacterComponents[] characterComponents;
     public PlayerCharacterComponents[] CharacterComponents { get => characterComponents; }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        alivePlayersCount = DataKeeper.Instance.playersDataKeep.Count;
+
+        if (scene.name.Equals(GameManager.E_ScenesNames.MainScene)) 
+            DisableActions();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void Awake()
     {
         if (instance == null) 
@@ -65,7 +78,31 @@ public class PlayersManager : MonoBehaviour
 
         leaveAction.performed += context => LeaveAction(context);
 
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         DontDestroyOnLoad(this);
+    }
+
+    public void SetAllPlayersControlMapToInGame()
+    {
+        foreach (var item in playerInputs)
+        {
+            item.SwitchCurrentActionMap("InGame");
+        }
+    }
+    public void SetAllPlayersControlMapToUI()
+    {
+        foreach (var item in playerInputs)
+        {
+            item.SwitchCurrentActionMap("UI");
+        }
+    }
+    public void SetAllPlayersControlMap(string map)
+    {
+        foreach (var item in playerInputs)
+        {
+            item.SwitchCurrentActionMap(map);
+        }
     }
 
     public void EnableActions()
@@ -103,7 +140,10 @@ public class PlayersManager : MonoBehaviour
 
     public void JoinAction(InputAction.CallbackContext context)
     {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
+
         //PlayerInputManager.instance.JoinPlayerFromActionIfNotAlreadyJoined(context);
+
 
         var d = context.control.device;
 

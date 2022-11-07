@@ -93,7 +93,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         // lessen the PushForce depending on the remaining push time
         float remainingPushForce = owner.PlayerDash.PushForce * GetRemainingTimeByMax();
 
-        e.Push(owner.transform.position, remainingPushForce);
+        e.Push(owner.transform.position, remainingPushForce, owner);
     }
 
     public float GetRemainingTimeByMax() => dash_dur_TIMER / max_DURATION;

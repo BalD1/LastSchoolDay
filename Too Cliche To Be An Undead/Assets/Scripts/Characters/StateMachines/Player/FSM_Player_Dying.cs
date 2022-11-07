@@ -33,6 +33,7 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         owner.SetAnimatorArgs("Dying", false);
+        owner.ForceUpdateMovementsInput();
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

@@ -111,7 +111,8 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
 
-        PlayersManager.Instance.AddAlivePlayer();
+
+        stateManager.SwitchState(stateManager.idleState);
 
         if (scene.name.Equals("MainMenu"))
         {
@@ -121,10 +122,11 @@ public class PlayerCharacter : Entity, IInteractable
                 Destroy(this.gameObject);
                 return;
             }
-            SwitchControlMapToInGame();
+            SwitchControlMapToUI();
         }
         else
         {
+            //PlayersManager.Instance.AddAlivePlayer();
             this.transform.position = GameManager.Instance.SpawnPoints[this.playerIndex].position;
             SwitchControlMapToInGame();
 
@@ -152,6 +154,11 @@ public class PlayerCharacter : Entity, IInteractable
         if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
 
         this.stateManager.SwitchState(stateManager.idleState);
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     protected override void Awake()
@@ -229,7 +236,8 @@ public class PlayerCharacter : Entity, IInteractable
     public void SetAllVelocity(Vector2 _velocity)
     {
         this.velocity = _velocity;
-        this.rb.velocity = _velocity;
+        if (this.rb != null)
+            this.rb.velocity = _velocity;
     }
 
     public void SetInGameControlsState(bool state)
@@ -249,7 +257,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void ReadMovementsInputs(InputAction.CallbackContext context)
     {
-        if (inputs.currentActionMap.name.Equals("InGame") == false) return;
+        if (inputs.currentActionMap?.name.Equals("InGame") == false) return;
         velocity = context.ReadValue<Vector2>();
         if (velocity != Vector2.zero) lastDirection = velocity;
 
@@ -483,6 +491,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     #endregion
 
+
     #region Dash / Push
 
     public void StartDash()
@@ -492,12 +501,12 @@ public class PlayerCharacter : Entity, IInteractable
         isDashing = true;
     }
 
-    public override Vector2 Push(Vector2 pusherPosition, float pusherForce)
+    public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
     {
         if (!canBePushed) return Vector2.zero;
 
-        Vector2 v = base.Push(pusherPosition, pusherForce);
-        stateManager.SwitchState(stateManager.pushedState.SetForce(v));
+        Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher);
+        stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher));
 
         return v;
     }

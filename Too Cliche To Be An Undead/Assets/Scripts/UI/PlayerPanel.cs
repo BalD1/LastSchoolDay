@@ -66,7 +66,7 @@ public class PlayerPanel : MonoBehaviour
 
     public void ResetPanel()
     {
-        playerIdxText.text = "Press select to join";
+        playerIdxText.text = "Press \"select\" to join";
 
         SetImageOpacity(ref characterImage, 0);
         SetImageOpacity(ref leftArrow, 0);
@@ -74,6 +74,9 @@ public class PlayerPanel : MonoBehaviour
 
         leftArrow.gameObject.SetActive(false);
         rightArrow.gameObject.SetActive(false);
+
+        this.playerID = 0;
+        this.characterIdx = 0;
 
         this.characterImage.sprite = panelsManager.GetCharacterSprite(0);
         isSetup = false;

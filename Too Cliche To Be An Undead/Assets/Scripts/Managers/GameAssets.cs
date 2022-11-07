@@ -19,6 +19,7 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject damagesPopupPF;
     [SerializeField] private GameObject textPopupPF;
     [SerializeField] private GameObject trainingDummyPF;
+    [SerializeField] private GameObject normalZombiePF;
     [SerializeField] private GameObject coinPF;
     [SerializeField] private GameObject pbThumbnailPF;
 
@@ -29,6 +30,7 @@ public class GameAssets : MonoBehaviour
     public GameObject DamagesPopupPF { get => damagesPopupPF; }
     public GameObject TextPopupPF { get => textPopupPF; }
     public GameObject TrainingDummyPF { get => trainingDummyPF; }
+    public GameObject NormalZombiePF { get => normalZombiePF; }
     public GameObject CoinPF { get => coinPF; }
     public GameObject PBThumbnailPF { get => pbThumbnailPF; }
 

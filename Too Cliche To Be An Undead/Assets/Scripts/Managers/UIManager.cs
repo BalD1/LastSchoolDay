@@ -207,8 +207,11 @@ public class UIManager : MonoBehaviour
             if (closedMenu.Equals(shopMenu))
             {
                 localHUD.SetActive(true);
-                GameManager.Player1Ref.SwitchControlMapToInGame();
+                PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+
                 GameManager.Instance.GetShop.SetIsShopOpen(false);
+
+                GameManager.Instance.GameState = GameManager.E_GameState.InGame;
             }
             closedMenu.SetActive(false);
         }
@@ -249,14 +252,16 @@ public class UIManager : MonoBehaviour
         OpenMenuInQueue(shopMenu);
         SelectButton("Shop");
         localHUD.SetActive(false);
-        GameManager.Player1Ref.SwitchControlMapToUI();
+        PlayersManager.Instance.SetAllPlayersControlMapToUI();
     }
 
     public void CloseShop()
     {
         CloseYoungerMenu();
         localHUD.SetActive(true);
-        GameManager.Player1Ref.SwitchControlMapToInGame();
+        PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+
+        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
     }
 
     public Sprite GetPortrait(GameManager.E_CharactersNames character)
