@@ -462,6 +462,15 @@ public class PlayerCharacter : Entity, IInteractable
         if (context.performed) D_aimInput?.Invoke(context.ReadValue<Vector2>());
     }
 
+    public void ScrollCurrentBarDown(InputAction.CallbackContext context)
+    {
+        UIManager.Instance.ScrollCurrentBarDown(context);
+    }
+    public void ScrollCurrentBarUp(InputAction.CallbackContext context)
+    {
+        UIManager.Instance.ScrollCurrentBarUp(context);
+    }
+
     #endregion
 
     #region Skill

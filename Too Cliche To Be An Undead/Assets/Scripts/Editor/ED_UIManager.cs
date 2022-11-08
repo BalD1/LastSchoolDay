@@ -106,6 +106,9 @@ public class ED_UIManager : Editor
         SerializedProperty shopContentMenu = serializedObject.FindProperty("shopContentMenu");
         EditorGUILayout.PropertyField(shopContentMenu);
 
+        SerializedProperty shopBar = serializedObject.FindProperty("shopBar");
+        EditorGUILayout.PropertyField(shopBar);
+
         SerializedProperty localHUD = serializedObject.FindProperty("localHUD");
         EditorGUILayout.PropertyField(localHUD);
 

@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -38,6 +36,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopContentMenu;
     [SerializeField] private GameObject localHUD;
     [SerializeField] private GameObject mainMenu_mainPanel;
+    [SerializeField] private Scrollbar shopBar;
     [SerializeField] private PlayerHUD[] playerHUDs;
 
     [System.Serializable]
@@ -88,6 +87,8 @@ public class UIManager : MonoBehaviour
 #endif
 
     private GameObject lastSelected;
+
+    private Scrollbar currentScrollbar;
 
     private void Awake()
     {
@@ -190,6 +191,18 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void SetCurrentScrollbar(Scrollbar bar) => currentScrollbar = bar;
+    public void UnsetCurrentScrollbar() => currentScrollbar = null;
+
+    public void ScrollCurrentBarDown(InputAction.CallbackContext context)
+    {
+        if (context.performed && currentScrollbar != null) currentScrollbar.value = 0;
+    }
+    public void ScrollCurrentBarUp(InputAction.CallbackContext context)
+    {
+        if (context.performed && currentScrollbar != null) currentScrollbar.value = 1;
+    }
+
     public void OpenMenuInQueue(GameObject newMenu)
     {
         newMenu.SetActive(true);
@@ -253,6 +266,7 @@ public class UIManager : MonoBehaviour
         OpenMenuInQueue(shopMenu);
         SelectButton("Shop");
         localHUD.SetActive(false);
+        SetCurrentScrollbar(shopBar);
         PlayersManager.Instance.SetAllPlayersControlMapToUI();
     }
 
@@ -261,6 +275,7 @@ public class UIManager : MonoBehaviour
         CloseYoungerMenu();
         localHUD.SetActive(true);
         PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+        UnsetCurrentScrollbar();
 
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
     }
