@@ -19,7 +19,7 @@ public class SCRPT_Dash_Nelson : SCRPT_Dash
 
         float finalDamages = owner.GetStats.BaseDamages(owner.StatsModifiers) * damagesPercentageModifier;
 
-        tb.Setup(finalDamages, 5, SCRPT_EntityStats.E_Team.Players, destroyTrapOnTrigger);
+        tb.Setup(finalDamages, trapsDuration, SCRPT_EntityStats.E_Team.Players, destroyTrapOnTrigger);
     }
 
     public override void OnDashUpdate(PlayerCharacter owner)

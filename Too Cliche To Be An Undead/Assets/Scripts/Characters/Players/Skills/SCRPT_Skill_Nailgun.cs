@@ -18,8 +18,6 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
     private PlayerCharacter _owner;
 
-    private bool inputPressed = false;
-
     public override void StartSkill(PlayerCharacter owner)
     {
         _owner = owner;
@@ -31,10 +29,9 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         finalDamages = _owner.GetStats.BaseDamages(_owner.StatsModifiers) * damagesPercentageModifier;
         finalCrit = (int)(_owner.GetStats.CritChances(_owner.StatsModifiers) * critModifier);
 
-        owner.D_startHoldAttackInput += PressInput;
-        owner.D_endHoldAttackInput += ReleaseInput;
-
         fire_TIMER = 0;
+
+        owner.D_aimInput += owner.Weapon.SetAimGoal;
 
         skillHolderTransform = owner.GetSkillHolder.transform;
     }
@@ -44,37 +41,35 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         if (fire_TIMER > 0) fire_TIMER -= Time.deltaTime;
 
         Fire();
+
+        owner.Weapon.RotateOnAim();
     }
 
     public override void StopSkill(PlayerCharacter owner)
     {
         isInUse = false;
 
-        inputPressed = false;
+        owner.D_aimInput -= owner.Weapon.SetAimGoal;
 
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();
         owner.GetSkillHolder.StartTimer(cooldown);
-
-        owner.D_startHoldAttackInput -= PressInput;
-        owner.D_endHoldAttackInput -= ReleaseInput;
     }
-
-    private void PressInput() => inputPressed = true;
-    private void ReleaseInput() => inputPressed = false;
 
     private void Fire()
     {
-        if (fire_TIMER > 0 || !inputPressed) return;
+        if (fire_TIMER > 0) return;
 
         fire_TIMER = fire_COOLDOWN;
 
-        Quaternion q = _owner.Weapon.GetRotationOnMouseOrGamepad();
+        Quaternion q = _owner.Weapon.transform.rotation;
         Vector3 v = q.eulerAngles;
         v.z += 90f;
         q.eulerAngles = v;
 
-        Vector2 dir = _owner.Weapon.GetPreciseDirectionOfMouseOrGamepad().normalized;
+        // Vector2 dir = _owner.Weapon.GetPreciseDirectionOfMouseOrGamepad().normalized;
+         Vector2 dir = (_owner.Weapon.IndicatorHolder.transform.GetChild(0).position - _owner.transform.position).normalized;
+
 
         ProjectileBase proj = Instantiate(projectile, skillHolderTransform.position, q).GetComponent<ProjectileBase>();
         proj.Fire(dir, finalDamages, finalCrit, _owner.GetStats.Team);

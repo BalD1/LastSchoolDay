@@ -77,6 +77,9 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_DashInput();
     public D_DashInput D_dashInput;
 
+    public delegate void D_AimInput(Vector2 val);
+    public D_AimInput D_aimInput;
+
     private InputAction movementsAction;
 
 
@@ -465,6 +468,11 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (context.started) stayStatic = true;
         else if (context.canceled) stayStatic = false;
+    }
+
+    public void AimInput(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_aimInput?.Invoke(context.ReadValue<Vector2>());
     }
 
     #endregion

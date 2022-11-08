@@ -89,6 +89,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""e8d6b3b7-986c-4cda-88e6-b80a1f9bc3bb"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -287,6 +296,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""StayStatic"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1b44227-7a46-4a2f-935c-d072b166c33a"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1012,6 +1032,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_InGame_Interact = m_InGame.FindAction("Interact", throwIfNotFound: true);
         m_InGame_Pause = m_InGame.FindAction("Pause", throwIfNotFound: true);
         m_InGame_StayStatic = m_InGame.FindAction("StayStatic", throwIfNotFound: true);
+        m_InGame_Aim = m_InGame.FindAction("Aim", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
@@ -1096,6 +1117,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_Interact;
     private readonly InputAction m_InGame_Pause;
     private readonly InputAction m_InGame_StayStatic;
+    private readonly InputAction m_InGame_Aim;
     public struct InGameActions
     {
         private @PlayerControls m_Wrapper;
@@ -1107,6 +1129,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_InGame_Interact;
         public InputAction @Pause => m_Wrapper.m_InGame_Pause;
         public InputAction @StayStatic => m_Wrapper.m_InGame_StayStatic;
+        public InputAction @Aim => m_Wrapper.m_InGame_Aim;
         public InputActionMap Get() { return m_Wrapper.m_InGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1137,6 +1160,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @StayStatic.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnStayStatic;
                 @StayStatic.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnStayStatic;
                 @StayStatic.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnStayStatic;
+                @Aim.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnAim;
             }
             m_Wrapper.m_InGameActionsCallbackInterface = instance;
             if (instance != null)
@@ -1162,6 +1188,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @StayStatic.started += instance.OnStayStatic;
                 @StayStatic.performed += instance.OnStayStatic;
                 @StayStatic.canceled += instance.OnStayStatic;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
             }
         }
     }
@@ -1373,6 +1402,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnStayStatic(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

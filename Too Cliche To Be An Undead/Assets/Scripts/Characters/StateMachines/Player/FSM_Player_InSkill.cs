@@ -27,10 +27,9 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     {
         timer -= Time.deltaTime;
 
-        stateManager.OwnerWeapon.FollowMouse();
+        stateManager.OwnerWeapon.FollowMouse(owner.GetSkill.AimAtMovements);
 
         owner.GetSkill.UpdateSkill(owner);
-        //if (owner.GetSkill.CanMove) owner.ReadMovementsInputs();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)

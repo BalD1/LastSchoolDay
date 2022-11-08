@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Nailgun
   m_EditorClassIdentifier: 
   layerName: 2
+  aimAtMovements: 0
   cooldown: 10
   offset: 0
   range: 0
-  duration: 5
-  damagesPercentageModifier: 0.5
+  duration: 10
+  damagesPercentageModifier: 0.2
   canMove: 1
   entitiesToAffect:
     serializedVersion: 2
@@ -26,4 +27,4 @@ MonoBehaviour:
   thumbnail: {fileID: 21300000, guid: 00d0f97f7a757be4a9e7a5071c1a7ffd, type: 3}
   projectile: {fileID: 2370581798129389374, guid: ab67f2fad5863b84dbe37f4eb13b2838, type: 3}
   critModifier: 0.5
-  fire_COOLDOWN: 0.5
+  fire_COOLDOWN: 0.3

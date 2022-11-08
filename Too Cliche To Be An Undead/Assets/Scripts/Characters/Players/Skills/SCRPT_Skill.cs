@@ -6,6 +6,10 @@ public abstract class SCRPT_Skill : ScriptableObject
 {
     [SerializeField] protected E_SortlingLayers layerName;
 
+    [SerializeField] protected bool aimAtMovements = true;
+
+    public bool AimAtMovements { get => aimAtMovements; }
+
     public enum E_SortlingLayers
     {
         Background,

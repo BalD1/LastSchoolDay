@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BalDUtilities.MouseUtils;
+using BalDUtilities.VectorUtils;
 
 public class PlayerWeapon : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class PlayerWeapon : MonoBehaviour
     public PlayerCharacter Owner { get => owner; }
 
     [SerializeField] private GameObject indicatorHolder;
+    public GameObject IndicatorHolder { get => indicatorHolder; }
+
+    [SerializeField] private float slerpSpeed = 10f;
 
 #if UNITY_EDITOR
     [SerializeField] protected bool debugMode;
@@ -32,32 +36,68 @@ public class PlayerWeapon : MonoBehaviour
     public delegate void NextAttack(int attackIdx);
     public NextAttack D_nextAttack;
 
+    private Vector2 aimGoal;
+
     protected virtual void Awake()
     {
         owner ??= this.transform.GetComponentInParent<PlayerCharacter>();
         effectAnimator ??= this.transform.GetComponentInChildren<Animator>();
     }
 
-    public void FollowMouse()
+    public void FollowMouse(bool aimAtMovements = true)
     {
-        this.transform.rotation = GetRotationOnMouseOrGamepad();
+        if (aimAtMovements) this.transform.rotation = GetRotationOnMouseOrGamepad();
+        else  RotateOnMouse();
+
         indicatorHolder.transform.rotation = this.transform.rotation;
+    }
+
+    public void RotateOnMouse()
+    {
+        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
+            this.transform.rotation = GetRotationOnMouse();
+    }
+
+    public Quaternion GetRotationOnMouse()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 5f;
+
+        Vector3 selfPosByCam = Camera.main.WorldToScreenPoint(Owner.transform.position);
+
+        mousePos.x -= selfPosByCam.x;
+        mousePos.y -= selfPosByCam.y;
+
+        lookAngle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+        return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+    }
+
+    public void SetAimGoal(Vector2 goal)
+    {
+        if (VectorMaths.Vector2ApproximatlyEquals(goal, Vector2.zero, .05f)) return;
+
+        aimGoal = goal;
+    }
+
+    public void RotateOnAim()
+    {
+        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_GAMEPAD))
+        {
+            //cus.x -= owner.transform.position.x;
+            //cus.y -= owner.transform.position.y;
+
+            lookAngle = Mathf.Atan2(aimGoal.y, aimGoal.x) * Mathf.Rad2Deg;
+            //this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * slerpSpeed);
+        }
+        else RotateOnMouse();
     }
 
     public Quaternion GetRotationOnMouseOrGamepad()
     {
         if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
         {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = 5f;
-
-            Vector3 selfPosByCam = Camera.main.WorldToScreenPoint(Owner.transform.position);
-
-            mousePos.x -= selfPosByCam.x;
-            mousePos.y -= selfPosByCam.y;
-
-            lookAngle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-            return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+            return GetRotationOnMouse();
         }
         else
         {
