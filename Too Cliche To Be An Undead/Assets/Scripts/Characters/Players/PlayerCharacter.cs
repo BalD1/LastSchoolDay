@@ -273,18 +273,6 @@ public class PlayerCharacter : Entity, IInteractable
         if (inputs.currentActionMap?.name.Equals("InGame") == false) return;
         velocity = context.ReadValue<Vector2>();
         if (velocity != Vector2.zero) lastDirection = velocity;
-
-        /*
-        if (Input.GetKey(KeyCode.Z))
-            this.velocity.y = 1;
-        if (Input.GetKey(KeyCode.S))
-            this.velocity.y = -1;
-
-        if (Input.GetKey(KeyCode.D))
-            this.velocity.x = 1;
-        if (Input.GetKey(KeyCode.Q))
-            this.velocity.x = -1;
-        */
     }
 
     public void ForceUpdateMovementsInput()

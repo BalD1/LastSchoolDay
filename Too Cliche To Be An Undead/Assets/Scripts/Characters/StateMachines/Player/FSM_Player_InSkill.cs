@@ -20,6 +20,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         owner.GetSkillHolder.Trigger.enabled = true;
         owner.GetSkill.StartSkill(owner);
 
+        owner.D_skillInput += StopSkill;
+
         owner.canBePushed = true;
     }
 
@@ -44,7 +46,14 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
         owner.ForceUpdateMovementsInput();
 
+        owner.D_skillInput -= StopSkill;
+
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, false);
+    }
+
+    private void StopSkill()
+    {
+        this.timer = 0;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
