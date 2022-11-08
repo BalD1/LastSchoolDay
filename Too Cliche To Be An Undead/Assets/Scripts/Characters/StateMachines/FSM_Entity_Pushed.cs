@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BalDUtilities.VectorUtils;
 
 public class FSM_Entity_Pushed<T> : FSM_Base<T>
 {
@@ -11,13 +12,19 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
 
     private List<Collider2D> alreadyPushedEntities;
 
+    private int wallLayer;
+
+    private static float wallHitDamagesModifier = .4f;
 
     public override void EnterState(T stateManager)
     {
+        wallLayer = LayerMask.NameToLayer("Wall");
         alreadyPushedEntities = new List<Collider2D>();
         owner.GetRb.velocity = Vector2.zero;
         owner.GetRb.AddForce(force, ForceMode2D.Impulse);
+
         owner.d_EnteredTrigger += TriggerEnter;
+        owner.d_EnteredCollider += ColliderEnter;
 
         if (owner as EnemyBase != null)
             (owner as EnemyBase).UnsetAtteckedPlayer();
@@ -35,6 +42,8 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
     public override void ExitState(T stateManager)
     {
         owner.d_EnteredTrigger -= TriggerEnter;
+        owner.d_EnteredCollider -= ColliderEnter;
+
         alreadyPushedEntities.Clear();
         baseConditionChecked = false;
 
@@ -43,11 +52,21 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
 
     public override void Conditions(T stateManager)
     {
-        if (owner.GetRb.velocity.Equals(Vector2.zero)) baseConditionChecked = true;
+        if (VectorMaths.Vector2ApproximatlyEquals(owner.GetRb.velocity, Vector2.zero, 0.08f)) baseConditionChecked = true;
+    }
+
+    protected virtual void ColliderEnter(Collision2D collision)
+    {
+        float damages = (owner.LastVelocity.magnitude + owner.GetStats.Weight) * wallHitDamagesModifier;
+        damages = Mathf.Round(damages);
+
+        owner.OnTakeDamages(damages);
     }
 
     protected virtual void TriggerEnter(Collider2D collider)
     {
+        // Check if the hit object is a wall
+
         // Check if the hit object is an entity
         Entity e = collider.GetComponentInParent<Entity>();
         if (e == null) return;

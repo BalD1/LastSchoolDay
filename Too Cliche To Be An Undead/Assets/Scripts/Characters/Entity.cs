@@ -65,6 +65,9 @@ public class Entity : MonoBehaviour, IDamageable
     protected float attack_TIMER;
     public float Attack_TIMER { get => attack_TIMER; }
 
+    private Vector2 lastVelocity;
+    public Vector2 LastVelocity { get => lastVelocity; }
+
     //***********************************
     //************* MISC ****************
     //*********************************** 
@@ -82,6 +85,9 @@ public class Entity : MonoBehaviour, IDamageable
 
     public delegate void D_exitedTrigger(Collider2D collider);
     public D_exitedTrigger d_ExitedTrigger;
+
+    public delegate void D_enteredCollider(Collision2D collision);
+    public D_enteredCollider d_EnteredCollider;
 
     [SerializeField] private List<TickDamages> appliedTickDamages = new List<TickDamages>();
     public List<TickDamages> AppliedTickDamages { get => appliedTickDamages; }
@@ -146,6 +152,7 @@ public class Entity : MonoBehaviour, IDamageable
     protected virtual void FixedUpdate()
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
+        lastVelocity = this.GetRb.velocity;
     }
 
     #endregion

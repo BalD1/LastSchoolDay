@@ -47,6 +47,9 @@ public class NormalZombie : EnemyBase
         if (!canBePushed) return Vector2.zero;
 
         Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher);
+
+        if (v.magnitude <= Vector2.zero.magnitude) return Vector2.zero;
+
         stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher));
 
         return v;

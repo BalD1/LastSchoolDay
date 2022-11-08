@@ -155,16 +155,16 @@ public class PlayersManager : MonoBehaviour
 
         PlayerInputManager.instance.JoinPlayerFromAction(context);
 
-        //bool hasGamepad = false;
+        bool hasGamepad = false;
         List<InputDevice> unpairedDevices = new List<InputDevice>();
 
         foreach (var item in InputUser.GetUnpairedInputDevices())
         {
             unpairedDevices.Add(item);
-            //if (item as Gamepad != null) hasGamepad = true;
+            if (item as Gamepad != null) hasGamepad = true;
         }
 
-        //if (!hasGamepad) GameManager.Player1Ref.Inputs.SwitchCurrentControlScheme("Keyboard&Mouse");
+        if (!hasGamepad) GameManager.Player1Ref.Inputs.SwitchCurrentControlScheme("Keyboard&Mouse");
 
         foreach (var item in unpairedDevices)
         {

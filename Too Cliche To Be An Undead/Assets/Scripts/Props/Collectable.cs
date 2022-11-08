@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    public GameObject player;
     private float dist;
     private float stepp;
     public float drawdistance = 3;
@@ -12,10 +11,14 @@ public class Collectable : MonoBehaviour
     public ParticleSystem particle;
     public int coinValue = 1;
 
+    [SerializeField] private float pickupDistance = 1f;
+
+    [SerializeField] private List<PlayerCharacter> detectedPlayers = new List<PlayerCharacter>();
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     // Update is called once per frame
@@ -25,7 +28,9 @@ public class Collectable : MonoBehaviour
         //actuellement la pièce ne se dirige que vers un seul joueur
         //potentiellement faire une draw distance sur le joueur et que ce soit lui qui attire les pièces
 
-        dist = Vector2.Distance(this.transform.position, player.transform.position);
+        if (detectedPlayers.Count == 0) return;
+
+        dist = Vector2.Distance(this.transform.position, detectedPlayers[0].transform.position);
 
         //Draw Coin toward Player
         if (dist <= drawdistance)
@@ -34,26 +39,45 @@ public class Collectable : MonoBehaviour
 
             stepp = animationCurve.Evaluate(1 - dist / drawdistance) / 90;
 
-            this.transform.position = Vector2.MoveTowards(transform.position, player.transform.position, stepp);
+            this.transform.position = Vector2.MoveTowards(transform.position, detectedPlayers[0].transform.position, stepp);
 
+        }
+
+        foreach (var item in detectedPlayers)
+        {
+            dist = Vector2.Distance(this.transform.position, item.transform.position);
+
+            if (dist <= pickupDistance)
+            {
+                //spawn particle
+                if (particle != null)
+                    Instantiate(particle, this.transform.position, Quaternion.identity);
+
+                //play sound
+
+                //add coin
+                TouchedPlayer(item);
+
+                Destroy(this.gameObject);
+                return;
+            }
         }
 
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag.Equals("Player"))
         {
-            //spawn particle
-            if (particle != null)
-            Instantiate(particle, this.transform.position, Quaternion.identity);
+            detectedPlayers.Add(collision.GetComponentInParent<PlayerCharacter>());
+        }
+    }
 
-            //play sound
-
-            //add coin
-            TouchedPlayer(collision.transform.root.GetComponent<PlayerCharacter>());
-
-            Destroy(this.gameObject);
+    protected virtual void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag.Equals("Player"))
+        {
+            detectedPlayers.Remove(collision.GetComponentInParent<PlayerCharacter>());
         }
     }
 

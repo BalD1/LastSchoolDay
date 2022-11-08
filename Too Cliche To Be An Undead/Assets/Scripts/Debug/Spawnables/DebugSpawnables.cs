@@ -27,6 +27,7 @@ public class DebugSpawnables : MonoBehaviour
         Custom,
         HealthPopup,
         TrainingDummy,
+        NormalZombie,
         Coin,
     }
 
@@ -85,6 +86,14 @@ public class DebugSpawnables : MonoBehaviour
                 {
                     Vector2 pos = GetPosBySpawnType(s);
                     TrainingDummy.Create(pos, Convert.ToSingle(s.varsArgs[0]));
+                });
+                break;
+
+            case E_ScriptType.NormalZombie:
+                s.action = new Action(() =>
+                {
+                    Vector2 pos = GetPosBySpawnType(s);
+                    NormalZombie.Create(pos);
                 });
                 break;
 
