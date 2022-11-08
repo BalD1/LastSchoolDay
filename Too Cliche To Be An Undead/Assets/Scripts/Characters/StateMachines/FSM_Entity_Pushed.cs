@@ -27,7 +27,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         owner.d_EnteredCollider += ColliderEnter;
 
         if (owner as EnemyBase != null)
-            (owner as EnemyBase).UnsetAtteckedPlayer();
+            (owner as EnemyBase).UnsetAttackedPlayer();
         
     }
 

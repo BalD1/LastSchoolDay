@@ -140,11 +140,11 @@ public abstract class EnemyBase : Entity
     {
         if (target.IsAlive() == false) return;
 
-        attackedPlayer = target;
-        attackedPlayer.AddAttacker(this);
+        if (target.AddAttacker(this))
+            attackedPlayer = target;
     }
 
-    public void UnsetAtteckedPlayer()
+    public void UnsetAttackedPlayer()
     {
         if (attackedPlayer == null) return;
         attackedPlayer.RemoveAttacker(this);

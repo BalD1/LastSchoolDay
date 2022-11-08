@@ -50,7 +50,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         owner.Attack.OnExit(owner);
         owner.d_EnteredTrigger -= OnTrigger;
 
-        owner.UnsetAtteckedPlayer();
+        owner.UnsetAttackedPlayer();
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
