@@ -11,6 +11,7 @@ public class FSM_Player_Dead : FSM_Base<FSM_Player_Manager>
         owner ??= stateManager.Owner;
 
         owner.GetSprite.enabled = false;
+        PlayersManager.Instance.RemoveAlivePlayer();
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

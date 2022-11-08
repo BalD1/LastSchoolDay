@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitLobby(int id)
     {
+        if (id <= 0) return;
         DataKeeper.Instance.RemoveData(id);
         UIManager.Instance.PlayerQuitLobby(id);
     }

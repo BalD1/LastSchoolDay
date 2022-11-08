@@ -17,6 +17,7 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs("Dying", true);
 
         owner.canBePushed = false;
+        PlayersManager.Instance.RemoveAlivePlayer();
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
@@ -34,6 +35,7 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
     {
         owner.SetAnimatorArgs("Dying", false);
         owner.ForceUpdateMovementsInput();
+        PlayersManager.Instance.AddAlivePlayer();
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
