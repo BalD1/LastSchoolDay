@@ -5,8 +5,24 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Shirley", menuName = "Scriptable/Entity/Dash/Shirley")]
 public class SCRPT_Dash_Shirley : SCRPT_Dash
 {
+    [SerializeField] private float damagesPercentageModifier = .75f;
+
+    private List<Entity> hitEntities;
+
+    private SCRPT_EntityStats.E_Team team;
+
+    private float finalDamages;
+    private int critChances;
+
     public override void OnDashStart(PlayerCharacter owner)
     {
+        finalDamages = owner.GetStats.BaseDamages(owner.StatsModifiers) * damagesPercentageModifier;
+        critChances = owner.GetStats.CritChances(owner.StatsModifiers);
+        team = owner.GetStats.Team;
+
+        hitEntities = new List<Entity>();
+
+        owner.d_EnteredTrigger += EnteredTrigger;
     }
 
     public override void OnDashUpdate(PlayerCharacter owner)
@@ -15,6 +31,19 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
 
     public override void OnDashStop(PlayerCharacter owner)
     {
+        owner.d_EnteredTrigger -= EnteredTrigger;
+    }
 
+    private void EnteredTrigger(Collider2D c)
+    {
+        Entity e = c.GetComponentInParent<Entity>();
+
+        if (e == null) return;
+
+        if (!hitEntities.Contains(e))
+        {
+            e.OnTakeDamages(finalDamages, team, Random.Range(0, 100) <= critChances);
+            hitEntities.Add(e);
+        }
     }
 }
