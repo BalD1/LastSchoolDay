@@ -413,6 +413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 57275633438009835}
   - component: {fileID: 57275633438009828}
+  - component: {fileID: 2404432340462306315}
   - component: {fileID: 57275633438009829}
   - component: {fileID: 57275633438009834}
   m_Layer: 5
@@ -451,6 +452,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 57275633438009832}
   m_CullTransparentMesh: 1
+--- !u!114 &2404432340462306315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57275633438009832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9e73a3aa7ed6342b2b58ff00dd2648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 0}
+  maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  scaleTime: 0.4
+  inType: 14
+  outType: 16
 --- !u!114 &57275633438009829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,6 +816,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 57275633883736642}
+  - component: {fileID: 8530014441970708662}
   - component: {fileID: 57275633883736701}
   m_Layer: 5
   m_Name: MainSlider
@@ -829,6 +848,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000030517578, y: -0.00025177002}
   m_SizeDelta: {x: 0.000061035, y: -0.00054932}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8530014441970708662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57275633883736643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9e73a3aa7ed6342b2b58ff00dd2648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 57275634823443947}
+  maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  scaleTime: 0.4
+  inType: 14
+  outType: 16
 --- !u!114 &57275633883736701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -938,6 +974,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 57275634233043650}
+  - component: {fileID: 8544673438466822492}
   - component: {fileID: 57275634233043709}
   m_Layer: 5
   m_Name: SFXSlider
@@ -969,6 +1006,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0.0010070801, y: 0}
   m_SizeDelta: {x: -0.0019531, y: -0.000061035}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8544673438466822492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57275634233043651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9e73a3aa7ed6342b2b58ff00dd2648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 57275634894996234}
+  maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  scaleTime: 0.4
+  inType: 14
+  outType: 16
 --- !u!114 &57275634233043709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1176,6 +1230,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 57275634261374823}
+  - component: {fileID: 3372992288288412232}
   - component: {fileID: 57275634261374822}
   m_Layer: 5
   m_Name: MusicSlider
@@ -1207,6 +1262,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0.0005187988, y: 0.000030517578}
   m_SizeDelta: {x: -0.00097656, y: 0.000030518}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3372992288288412232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57275634261374820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9e73a3aa7ed6342b2b58ff00dd2648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 57275633060838172}
+  maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  scaleTime: 0.4
+  inType: 14
+  outType: 16
 --- !u!114 &57275634261374822
 MonoBehaviour:
   m_ObjectHideFlags: 0
