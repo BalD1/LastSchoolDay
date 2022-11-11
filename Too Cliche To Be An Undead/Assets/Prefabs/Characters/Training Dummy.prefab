@@ -710,12 +710,23 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 10fc24fac3686414a815f20d9147390e, type: 2}
   currentHP: 0
   flashOnHitTime: 0.1
+  invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 0}
+  attack: {fileID: 0}
   pathfinding: {fileID: 0}
+  attackMaterial: {fileID: 0}
   speedMultiplier: 0
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 1
+  durationBeforeAttack: 0.3
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}

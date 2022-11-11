@@ -178,6 +178,7 @@ MonoBehaviour:
   nextWaypointDistance: 0.5
   updatePathCooldown: 0.5
   targetRandomOffset: 0.5
+  targetRandomOffsetAfterAttack: 0
   chaoticTargetPosition: 1
   debugMode: 1
 --- !u!114 &7704323661560432499
@@ -402,21 +403,29 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 24b1884c867a10746ae2b9457faf1185, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 3622832923271018499}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   speedMultiplier: 100
+  maxForce: 0
+  movementMass: 0
+  randomWanderPositionRadius: 5
+  minWaitBeforeNewWanderPoint: 1
+  maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 4
   durationBeforeAttack: 0.7
   detectedPlayers: []
+  attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
   currentStateDebug: N/A
   stateManager: {fileID: 920336968664743227}
   attack_DURATION: 1
+  attackStarted: 0
 --- !u!114 &920336968664743227
 MonoBehaviour:
   m_ObjectHideFlags: 0

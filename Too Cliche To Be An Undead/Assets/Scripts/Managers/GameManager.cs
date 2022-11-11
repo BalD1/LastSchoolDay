@@ -43,6 +43,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints;
     public Transform[] SpawnPoints { get => spawnPoints; }
 
+    [SerializeField] private bool allowEnemies = true;
+    public bool AllowEnemies
+    {
+        get => allowEnemies;
+        set
+        {
+            allowEnemies = value;
+            SetActiveEveryEnemies(value);
+        }
+    }
+
     public List<PlayersByName> playersByName;
 
     public delegate void D_OnSceneReload();
@@ -177,6 +188,24 @@ public class GameManager : MonoBehaviour
     }
 
     public void SetPlayer1(PlayerCharacter p1) => this.player1Ref = p1;
+
+    public void SetActiveEveryEnemies(bool active)
+    {
+        if (active)
+        {
+            foreach (var item in Resources.FindObjectsOfTypeAll<EnemyBase>())
+            {
+                item.gameObject.SetActive(active);
+            }
+        }
+        else
+        {
+            foreach (var item in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                item.SetActive(active);
+            }
+        }
+    }
 
     #region Scenes
 

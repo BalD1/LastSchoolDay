@@ -97,5 +97,8 @@ public class ED_GameManager : Editor
 
         SerializedProperty spawnPoints = serializedObject.FindProperty("spawnPoints");
         EditorGUILayout.PropertyField(spawnPoints);
+
+        bool checkAllow = EditorGUILayout.Toggle("Allow Enemies", targetScript.AllowEnemies);
+        if (checkAllow != targetScript.AllowEnemies) targetScript.AllowEnemies = checkAllow;
     }
 }
