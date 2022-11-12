@@ -38,7 +38,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.08357268}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.49987793, y: -0.3369751}
+  m_AnchoredPosition: {x: -0.49987793, y: -0.33691406}
   m_SizeDelta: {x: -0.3, y: -0.55799866}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &18486401
@@ -299,8 +299,8 @@ RectTransform:
   m_Father: {fileID: 1533322433}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.05493794}
-  m_AnchorMax: {x: 1, y: 0.7591665}
+  m_AnchorMin: {x: 0, y: 0.061731342}
+  m_AnchorMax: {x: 0, y: 0.7293858}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -694,7 +694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -29.477}
   m_AnchorMin: {x: 0.019188024, y: 0.012655058}
   m_AnchorMax: {x: 0.45881194, y: 0.31965503}
-  m_AnchoredPosition: {x: -0.80003357, y: -0.5}
+  m_AnchoredPosition: {x: -0.8000488, y: -0.5}
   m_SizeDelta: {x: 1.7285004, y: -64.0186}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1824184016
@@ -906,9 +906,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -45.199352, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &2133257729
 CanvasRenderer:
@@ -997,8 +997,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.051000003, y: 0.0424848}
   m_AnchorMax: {x: 0.951318, y: 0.9544992}
-  m_AnchoredPosition: {x: 313.42017, y: 1.1056519}
-  m_SizeDelta: {x: 706.5671, y: 1.6129}
+  m_AnchoredPosition: {x: 315.2581, y: 1.1056519}
+  m_SizeDelta: {x: 706.5162, y: 1.6129}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3445852194258636091
 CanvasRenderer:
@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 200, y: 200}
-  m_Spacing: {x: 10, y: 10}
+  m_Spacing: {x: 15, y: 15}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &242688833468482718
@@ -2521,7 +2521,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3969100700766362116}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.5542378
+  m_Size: 0.5542377
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3249,7 +3249,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -29.477}
   m_AnchorMin: {x: 0.019188024, y: 0.012655058}
   m_AnchorMax: {x: 0.45881194, y: 0.31965503}
-  m_AnchoredPosition: {x: -0.80003357, y: -0.5}
+  m_AnchoredPosition: {x: -0.8000183, y: -0.5}
   m_SizeDelta: {x: 1.7285004, y: -64.0186}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3316139013962459110
@@ -6152,7 +6152,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -29.477}
   m_AnchorMin: {x: 0.019188024, y: 0.012655058}
   m_AnchorMax: {x: 0.45881194, y: 0.31965503}
-  m_AnchoredPosition: {x: -0.80000305, y: -0.49996948}
+  m_AnchoredPosition: {x: -0.8000183, y: -0.49996948}
   m_SizeDelta: {x: 1.7285004, y: -64.0186}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3786528589767694549
@@ -7488,9 +7488,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7011413855059190667}
     - target: {fileID: 1297398526916696451, guid: b73ba4b4f864b824a9ca6719ef7fd364, type: 3}
+      propertyPath: pbContainerBar
+      value: 
+      objectReference: {fileID: 3271026254349833830}
+    - target: {fileID: 1297398526916696451, guid: b73ba4b4f864b824a9ca6719ef7fd364, type: 3}
       propertyPath: shopContentMenu
       value: 
       objectReference: {fileID: 1653417784}
+    - target: {fileID: 1297398526916696451, guid: b73ba4b4f864b824a9ca6719ef7fd364, type: 3}
+      propertyPath: optionButton_Pause
+      value: 
+      objectReference: {fileID: 4647886569879235637}
+    - target: {fileID: 1297398526916696451, guid: b73ba4b4f864b824a9ca6719ef7fd364, type: 3}
+      propertyPath: mainMenuButton_Pause
+      value: 
+      objectReference: {fileID: 4647886570567811696}
     - target: {fileID: 1297398526916696451, guid: b73ba4b4f864b824a9ca6719ef7fd364, type: 3}
       propertyPath: firstSelectedButton_Win
       value: 

@@ -72,6 +72,9 @@ public class ED_GameManager : Editor
         GameManager.MaxAttackers = EditorGUILayout.IntSlider("Max Attackers", GameManager.MaxAttackers, 0, 20);
         if (!Application.isPlaying) GUI.enabled = true;
         EditorGUILayout.HelpBox("Max Attackers étant static, il ne peut être modifié que dans le GameManager, les changements IG sont remis à 0 à chaque fois", MessageType.Warning);
+
+        SerializedProperty spawnPoints = serializedObject.FindProperty("spawnPoints");
+        EditorGUILayout.PropertyField(spawnPoints);
     }
 
     private void DrawMainMenuInspector()
@@ -94,9 +97,6 @@ public class ED_GameManager : Editor
 
         SerializedProperty shop = serializedObject.FindProperty("shop");
         EditorGUILayout.PropertyField(shop);
-
-        SerializedProperty spawnPoints = serializedObject.FindProperty("spawnPoints");
-        EditorGUILayout.PropertyField(spawnPoints);
 
         bool checkAllow = EditorGUILayout.Toggle("Allow Enemies", targetScript.AllowEnemies);
         if (checkAllow != targetScript.AllowEnemies) targetScript.AllowEnemies = checkAllow;

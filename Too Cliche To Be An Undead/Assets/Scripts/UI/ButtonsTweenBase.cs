@@ -45,6 +45,6 @@ public class ButtonsTweenBase : MonoBehaviour, ISelectHandler, IDeselectHandler,
     private LTDescr ScaleSelf(LeanTweenType leanType, Vector3 goal, float time)
     {
         if (rectTransform == null) rectTransform = this.GetComponent<RectTransform>();
-        return LeanTween.scale(rectTransform, goal, time).setEase(leanType);
+        return LeanTween.scale(rectTransform, goal, time).setEase(leanType).setIgnoreTimeScale(true);
     }
 }

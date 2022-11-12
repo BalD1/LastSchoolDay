@@ -462,13 +462,22 @@ public class PlayerCharacter : Entity, IInteractable
         if (context.performed) D_aimInput?.Invoke(context.ReadValue<Vector2>());
     }
 
-    public void ScrollCurrentBarDown(InputAction.CallbackContext context)
+    public void ScrollCurrentVerticalBarDown(InputAction.CallbackContext context)
     {
-        UIManager.Instance.ScrollCurrentBarDown(context);
+        UIManager.Instance.ScrollCurrentVerticalBarDown(context);
     }
-    public void ScrollCurrentBarUp(InputAction.CallbackContext context)
+    public void ScrollCurrentVerticalBarUp(InputAction.CallbackContext context)
     {
-        UIManager.Instance.ScrollCurrentBarUp(context);
+        UIManager.Instance.ScrollCurrentVerticalBarUp(context);
+    }
+
+    public void ScrollCurrentHorizontalBarLeft(InputAction.CallbackContext context)
+    {
+        UIManager.Instance.ScrollCurrentHorizontalBarLeft(context);
+    }
+    public void ScrollCurrentHorizontalBarRight(InputAction.CallbackContext context)
+    {
+        UIManager.Instance.ScrollCurrentHorizontalBarRight(context);
     }
 
     #endregion

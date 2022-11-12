@@ -477,6 +477,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ScrollLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""3047020a-748d-4449-86c6-4ab4ff5c2a41"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ScrollRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""b302ca83-c151-4121-b6b8-92ce9730d43a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -974,6 +992,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""ScrollUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2defb143-b517-47b3-bb74-6e6d8b4cd990"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ScrollLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9b2417eb-7731-412a-9e1e-658af6b4bc76"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ScrollRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1071,6 +1111,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_ScrollDown = m_UI.FindAction("ScrollDown", throwIfNotFound: true);
         m_UI_ScrollUp = m_UI.FindAction("ScrollUp", throwIfNotFound: true);
+        m_UI_ScrollLeft = m_UI.FindAction("ScrollLeft", throwIfNotFound: true);
+        m_UI_ScrollRight = m_UI.FindAction("ScrollRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1237,6 +1279,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_ScrollDown;
     private readonly InputAction m_UI_ScrollUp;
+    private readonly InputAction m_UI_ScrollLeft;
+    private readonly InputAction m_UI_ScrollRight;
     public struct UIActions
     {
         private @PlayerControls m_Wrapper;
@@ -1259,6 +1303,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @ScrollDown => m_Wrapper.m_UI_ScrollDown;
         public InputAction @ScrollUp => m_Wrapper.m_UI_ScrollUp;
+        public InputAction @ScrollLeft => m_Wrapper.m_UI_ScrollLeft;
+        public InputAction @ScrollRight => m_Wrapper.m_UI_ScrollRight;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1322,6 +1368,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ScrollUp.started -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollUp;
                 @ScrollUp.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollUp;
                 @ScrollUp.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollUp;
+                @ScrollLeft.started -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollLeft;
+                @ScrollLeft.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollLeft;
+                @ScrollLeft.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollLeft;
+                @ScrollRight.started -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollRight;
+                @ScrollRight.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollRight;
+                @ScrollRight.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollRight;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1380,6 +1432,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ScrollUp.started += instance.OnScrollUp;
                 @ScrollUp.performed += instance.OnScrollUp;
                 @ScrollUp.canceled += instance.OnScrollUp;
+                @ScrollLeft.started += instance.OnScrollLeft;
+                @ScrollLeft.performed += instance.OnScrollLeft;
+                @ScrollLeft.canceled += instance.OnScrollLeft;
+                @ScrollRight.started += instance.OnScrollRight;
+                @ScrollRight.performed += instance.OnScrollRight;
+                @ScrollRight.canceled += instance.OnScrollRight;
             }
         }
     }
@@ -1460,5 +1518,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnScrollDown(InputAction.CallbackContext context);
         void OnScrollUp(InputAction.CallbackContext context);
+        void OnScrollLeft(InputAction.CallbackContext context);
+        void OnScrollRight(InputAction.CallbackContext context);
     }
 }

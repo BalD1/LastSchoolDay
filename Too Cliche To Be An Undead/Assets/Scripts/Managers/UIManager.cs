@@ -36,8 +36,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopContentMenu;
     [SerializeField] private GameObject localHUD;
     [SerializeField] private GameObject mainMenu_mainPanel;
+
+    [SerializeField] private Scrollbar pbContainerBar;
     [SerializeField] private Scrollbar shopBar;
+
+    [SerializeField] private Button optionButton_Pause;
+    [SerializeField] private Button mainMenuButton_Pause;
+
     [SerializeField] private PlayerHUD[] playerHUDs;
+
+    public const int maxPBImagesByRows = 6;
 
     [System.Serializable]
     public struct PlayerHUD
@@ -68,6 +76,7 @@ public class UIManager : MonoBehaviour
 
     public GameObject ShopContentMenu { get => shopContentMenu; }
 
+    public GameObject PbContainer { get => pbContainer; }
 
     private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
     public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
@@ -88,7 +97,13 @@ public class UIManager : MonoBehaviour
 
     private GameObject lastSelected;
 
-    private Scrollbar currentScrollbar;
+    private Scrollbar currentVerticalScrollbar;
+    public Scrollbar CurrentVerticalScrollbar { get => currentVerticalScrollbar; }
+
+    private Scrollbar currentHorizontalScrollbar;
+    public Scrollbar CurrentHorizontalScrollbar { get => currentHorizontalScrollbar; }
+
+    public const float scrollbarSensibility = .1f;
 
     private void Awake()
     {
@@ -165,11 +180,13 @@ public class UIManager : MonoBehaviour
                 break;
 
             case GameManager.E_GameState.InGame:
+                if (currentHorizontalScrollbar != null) UnsetCurrentHorizontalScrollbar();
                 break;
 
             case GameManager.E_GameState.Pause:
                 OpenMenuInQueue(pauseMenu);
                 SelectButton("Pause");
+                SetCurrentHorizontalScrollbar(pbContainerBar);
                 break;
 
             case GameManager.E_GameState.Restricted:
@@ -191,16 +208,28 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void SetCurrentScrollbar(Scrollbar bar) => currentScrollbar = bar;
-    public void UnsetCurrentScrollbar() => currentScrollbar = null;
+    public void SetCurrentVerticalScrollbar(Scrollbar bar) => currentVerticalScrollbar = bar;
+    public void UnsetCurrentVerticalScrollbar() => currentVerticalScrollbar = null;
 
-    public void ScrollCurrentBarDown(InputAction.CallbackContext context)
+    public void SetCurrentHorizontalScrollbar(Scrollbar bar) => currentHorizontalScrollbar = bar;
+    public void UnsetCurrentHorizontalScrollbar() => currentHorizontalScrollbar = null;
+
+    public void ScrollCurrentVerticalBarDown(InputAction.CallbackContext context)
     {
-        if (context.performed && currentScrollbar != null) currentScrollbar.value = 0;
+        if (context.performed && currentVerticalScrollbar != null) currentVerticalScrollbar.value -= scrollbarSensibility;
     }
-    public void ScrollCurrentBarUp(InputAction.CallbackContext context)
+    public void ScrollCurrentVerticalBarUp(InputAction.CallbackContext context)
     {
-        if (context.performed && currentScrollbar != null) currentScrollbar.value = 1;
+        if (context.performed && currentVerticalScrollbar != null) currentVerticalScrollbar.value += scrollbarSensibility;
+    }
+
+    public void ScrollCurrentHorizontalBarLeft(InputAction.CallbackContext context)
+    {
+        if (context.performed && currentHorizontalScrollbar != null) currentHorizontalScrollbar.value -= scrollbarSensibility;
+    }
+    public void ScrollCurrentHorizontalBarRight(InputAction.CallbackContext context)
+    {
+        if (context.performed && currentHorizontalScrollbar != null) currentHorizontalScrollbar.value += scrollbarSensibility;
     }
 
     public void OpenMenuInQueue(GameObject newMenu)
@@ -256,8 +285,70 @@ public class UIManager : MonoBehaviour
 
     public void AddPBToContainer(SCRPT_PB pb)
     {
-        PBThumbnail gO = PBThumbnail.Create(pb);
+        // create the PB and add it to the container
+        PBThumbnail gO = PBThumbnail.Create(pb, pbContainer.transform.childCount);
         gO.transform.SetParent(pbContainer.transform);
+
+        int childIdx = pbContainer.transform.childCount;
+
+        // Get the navigation component of the new PB
+        Button addedPB = gO.GetComponent<Button>();
+        Navigation nav = addedPB.navigation;
+
+        nav.selectOnRight = firstSelectedButton_Pause;
+
+        // if the added PB is the first, set the navigation with the pause button
+        if (pbContainer.transform.childCount <= 1)
+        {
+            nav.selectOnLeft = firstSelectedButton_Pause;
+
+            Navigation fsbNav = firstSelectedButton_Pause.navigation;
+            fsbNav.selectOnLeft = addedPB;
+            fsbNav.selectOnRight = addedPB;
+            firstSelectedButton_Pause.navigation = fsbNav;
+
+            Navigation obpNav = optionButton_Pause.navigation;
+            obpNav.selectOnLeft = addedPB;
+            obpNav.selectOnRight = addedPB;
+            firstSelectedButton_Pause.navigation = obpNav;
+
+            Navigation mmbp = mainMenuButton_Pause.navigation;
+            mmbp.selectOnLeft = addedPB;
+            mmbp.selectOnRight = addedPB;
+            firstSelectedButton_Pause.navigation = mmbp;
+        }
+        else // set the navigation with the neighbours
+        {
+            // Get the left neighbour of the new PB
+            Button leftNeighbour = pbContainer.transform.GetChild(childIdx - 2).GetComponent<Button>();
+
+            // Add the new PB as the right nav of neighbour
+            Navigation neighbourNav = leftNeighbour.navigation;
+
+            // if neighbour is not last of row
+            if ((childIdx - 1) % maxPBImagesByRows != 0 || childIdx - 2 <= 0)
+                neighbourNav.selectOnRight = addedPB;
+            else 
+                neighbourNav.selectOnRight = firstSelectedButton_Pause;
+
+            leftNeighbour.navigation = neighbourNav;
+
+            nav.selectOnLeft = leftNeighbour;
+        }
+
+        // set the vertical navigation if there is more than one row
+        if (childIdx > maxPBImagesByRows)
+        {
+            Button upNeighbour = pbContainer.transform.GetChild(childIdx - (maxPBImagesByRows + 1)).GetComponent<Button>();
+
+            Navigation neighbourNav = upNeighbour.navigation;
+            neighbourNav.selectOnDown = addedPB;
+            upNeighbour.navigation = neighbourNav;
+
+            nav.selectOnUp = upNeighbour;
+        }
+        addedPB.navigation = nav;
+
         pbThumbnails.Add(gO);
     }
 
@@ -266,7 +357,7 @@ public class UIManager : MonoBehaviour
         OpenMenuInQueue(shopMenu);
         SelectButton("Shop");
         localHUD.SetActive(false);
-        SetCurrentScrollbar(shopBar);
+        SetCurrentVerticalScrollbar(shopBar);
         PlayersManager.Instance.SetAllPlayersControlMapToUI();
     }
 
@@ -275,7 +366,7 @@ public class UIManager : MonoBehaviour
         CloseYoungerMenu();
         localHUD.SetActive(true);
         PlayersManager.Instance.SetAllPlayersControlMapToInGame();
-        UnsetCurrentScrollbar();
+        UnsetCurrentVerticalScrollbar();
 
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
     }

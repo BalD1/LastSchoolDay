@@ -109,6 +109,9 @@ public class ED_UIManager : Editor
         SerializedProperty shopBar = serializedObject.FindProperty("shopBar");
         EditorGUILayout.PropertyField(shopBar);
 
+        SerializedProperty pbContainerBar = serializedObject.FindProperty("pbContainerBar");
+        EditorGUILayout.PropertyField(pbContainerBar);
+
         SerializedProperty localHUD = serializedObject.FindProperty("localHUD");
         EditorGUILayout.PropertyField(localHUD);
 
@@ -132,5 +135,14 @@ public class ED_UIManager : Editor
 
         SerializedProperty firstSelectedButton_Shop = serializedObject.FindProperty("firstSelectedButton_Shop");
         EditorGUILayout.PropertyField(firstSelectedButton_Shop);
+
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Misc Buttons", EditorStyles.boldLabel);
+
+        SerializedProperty optionButton_Pause = serializedObject.FindProperty("optionButton_Pause");
+        EditorGUILayout.PropertyField(optionButton_Pause);
+
+        SerializedProperty mainMenuButton_Pause = serializedObject.FindProperty("mainMenuButton_Pause");
+        EditorGUILayout.PropertyField(mainMenuButton_Pause);
     }
 }
