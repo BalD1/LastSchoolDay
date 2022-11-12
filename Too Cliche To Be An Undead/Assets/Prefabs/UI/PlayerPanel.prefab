@@ -240,7 +240,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4279800994545012031}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.046676822, y: 0.901}
   m_AnchorMax: {x: 0.95332325, y: 0.98347247}
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10.55
+  m_fontSize: 34.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -375,8 +375,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4279800995392965694}
   - {fileID: 4279800994286072931}
+  - {fileID: 4279800995392965694}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -406,9 +406,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerIdxText: {fileID: 4279800994286072928}
+  panel: {fileID: 4279800995392965694}
   characterImage: {fileID: 4279800994230716362}
   leftArrow: {fileID: 4279800995091103889}
   rightArrow: {fileID: 4279800993989287900}
+  arrowsDependingOfDevices:
+  - device: 0
+    leftArrow: {fileID: 21300000, guid: 8e77994fca3c70444859302e41fb1a3d, type: 3}
+    rightArrow: {fileID: 21300000, guid: 45ab7b36a9f12724d83be06c54b93634, type: 3}
+  - device: 1
+    leftArrow: {fileID: 21300000, guid: 0b6c0c60b1a15b849871643259b9ef0f, type: 3}
+    rightArrow: {fileID: 21300000, guid: db59209328b7e424a8554501fdd365a2, type: 3}
+  - device: 2
+    leftArrow: {fileID: 21300000, guid: 0b6c0c60b1a15b849871643259b9ef0f, type: 3}
+    rightArrow: {fileID: 21300000, guid: db59209328b7e424a8554501fdd365a2, type: 3}
+  - device: 3
+    leftArrow: {fileID: 21300000, guid: 0b6c0c60b1a15b849871643259b9ef0f, type: 3}
+    rightArrow: {fileID: 21300000, guid: db59209328b7e424a8554501fdd365a2, type: 3}
+  inType: 14
+  outType: 15
+  scaleGoal: {x: 1.2, y: 1.2, z: 1.2}
+  scaleTime: 0.4
   panelsManager: {fileID: 0}
 --- !u!114 &4279800994545012028
 MonoBehaviour:
@@ -607,7 +625,7 @@ RectTransform:
   - {fileID: 4279800995091103888}
   - {fileID: 4279800993989287903}
   m_Father: {fileID: 4279800994545012031}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.046676822, y: 0.04947242}
   m_AnchorMax: {x: 0.95332325, y: 0.901}
