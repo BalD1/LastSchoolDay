@@ -310,12 +310,12 @@ public class UIManager : MonoBehaviour
             Navigation obpNav = optionButton_Pause.navigation;
             obpNav.selectOnLeft = addedPB;
             obpNav.selectOnRight = addedPB;
-            firstSelectedButton_Pause.navigation = obpNav;
+            optionButton_Pause.navigation = obpNav;
 
-            Navigation mmbp = mainMenuButton_Pause.navigation;
-            mmbp.selectOnLeft = addedPB;
-            mmbp.selectOnRight = addedPB;
-            firstSelectedButton_Pause.navigation = mmbp;
+            Navigation mmbpNav = mainMenuButton_Pause.navigation;
+            mmbpNav.selectOnLeft = addedPB;
+            mmbpNav.selectOnRight = addedPB;
+            mainMenuButton_Pause.navigation = mmbpNav;
         }
         else // set the navigation with the neighbours
         {
