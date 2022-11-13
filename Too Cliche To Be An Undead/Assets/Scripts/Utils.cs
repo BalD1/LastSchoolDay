@@ -512,11 +512,11 @@ namespace BalDUtilities
         {
             public static int GetFPSRounded()
             {
-                return (int)(1.0 / Time.deltaTime);
+                return (int)(1.0 / Time.unscaledDeltaTime);
             }
             public static double GetFPS()
             {
-                return (1.0 / Time.deltaTime);
+                return (1.0 / Time.unscaledDeltaTime);
             }
         }
     }

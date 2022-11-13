@@ -112,10 +112,12 @@ public class GameManager : MonoBehaviour
 
             case E_GameState.Win:
                 Time.timeScale = 0;
+                PlayersManager.Instance.SetAllPlayersControlMapToUI();
                 break;
 
             case E_GameState.GameOver:
                 Time.timeScale = 0;
+                PlayersManager.Instance.SetAllPlayersControlMapToUI();
                 break;
 
             default:
@@ -196,6 +198,7 @@ public class GameManager : MonoBehaviour
             foreach (var item in Resources.FindObjectsOfTypeAll<EnemyBase>())
             {
                 item.gameObject.SetActive(active);
+                item.transform.GetChild(0).gameObject.SetActive(active);
             }
         }
         else

@@ -28,6 +28,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private FSM_Player_Manager stateManager;
 
+    [SerializeField] private PlayerInteractor selfInteractor;
     [SerializeField] private PlayerWeapon weapon;
     [SerializeField] private SkillHolder skillHolder;
     [SerializeField] private SCRPT_Dash playerDash;
@@ -348,6 +349,7 @@ public class PlayerCharacter : Entity, IInteractable
         if (this.stateManager.ToString().Equals("Dying")) return;
         
         base.OnDeath(forceDeath);
+        this.selfInteractor.ResetCollider();
         this.stateManager.SwitchState(stateManager.dyingState);
     }
 
@@ -451,6 +453,17 @@ public class PlayerCharacter : Entity, IInteractable
         if (context.started) GameManager.Instance.HandlePause();
     }
 
+    public void CancelMenu(InputAction.CallbackContext context)
+    {
+        if (context.performed == false) return;
+
+        if (UIManager.Instance.OpenMenusQueues.Count > 0)
+        {
+            UIManager.Instance.CloseYoungerMenu();
+            return;
+        }
+    }
+
     public void StayStaticInput(InputAction.CallbackContext context)
     {
         if (context.started) stayStatic = true;
@@ -520,7 +533,6 @@ public class PlayerCharacter : Entity, IInteractable
     }
 
     #endregion
-
 
     #region Dash / Push
 
@@ -652,7 +664,8 @@ public class PlayerCharacter : Entity, IInteractable
         this.stats = newStats;
         this.sprite.sprite = newSprite;
 
-        this.portrait.sprite = UIManager.Instance.GetPortrait(character);
+        if (this.portrait != null)
+            this.portrait.sprite = UIManager.Instance.GetPortrait(character);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

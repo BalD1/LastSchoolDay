@@ -6,8 +6,10 @@ public class PlayerBaseWeapon : PlayerWeapon
 {
     [SerializeField] private float maxRange = 2f;
     [SerializeField] private float lastAttackDamagesMultiplier = 1.5f;
+    [SerializeField] private float lastAttackPushPercentage = .3f;
 
     [SerializeField] private GameObject effectObject;
+
 
     protected override void Awake()
     {
@@ -26,7 +28,11 @@ public class PlayerBaseWeapon : PlayerWeapon
             {
                 float damages = owner.GetStats.BaseDamages(owner.StatsModifiers);
 
-                if (isLastAttack) damages *= lastAttackDamagesMultiplier;
+                if (isLastAttack)
+                {
+                    damages *= lastAttackDamagesMultiplier;
+                    item.GetComponentInParent<Entity>().Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage, owner);
+                }
 
                 if (damageable.OnTakeDamages(damages, owner.GetStats.Team, owner.RollCrit()) == false)
                     continue;

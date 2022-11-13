@@ -43,7 +43,7 @@ public class PlayerPanelsManager : MonoBehaviour
     {
         for (int i = 1; i < playerPanels.Length; i++)
         {
-            playerPanels[i].ResetPanel();
+            playerPanels[i].ResetPanel(false);
         }
         PlayersManager.Instance.DisableActions();
     }

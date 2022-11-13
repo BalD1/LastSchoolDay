@@ -216,20 +216,20 @@ public class UIManager : MonoBehaviour
 
     public void ScrollCurrentVerticalBarDown(InputAction.CallbackContext context)
     {
-        if (context.performed && currentVerticalScrollbar != null) currentVerticalScrollbar.value -= scrollbarSensibility;
+        if (/*context.performed && */currentVerticalScrollbar != null) currentVerticalScrollbar.value -= scrollbarSensibility;
     }
     public void ScrollCurrentVerticalBarUp(InputAction.CallbackContext context)
     {
-        if (context.performed && currentVerticalScrollbar != null) currentVerticalScrollbar.value += scrollbarSensibility;
+        if (/*context.performed && */currentVerticalScrollbar != null) currentVerticalScrollbar.value += scrollbarSensibility;
     }
 
     public void ScrollCurrentHorizontalBarLeft(InputAction.CallbackContext context)
     {
-        if (context.performed && currentHorizontalScrollbar != null) currentHorizontalScrollbar.value -= scrollbarSensibility;
+        if (/*context.performed && */currentHorizontalScrollbar != null) currentHorizontalScrollbar.value -= scrollbarSensibility;
     }
     public void ScrollCurrentHorizontalBarRight(InputAction.CallbackContext context)
     {
-        if (context.performed && currentHorizontalScrollbar != null) currentHorizontalScrollbar.value += scrollbarSensibility;
+        if (/*context.performed && */currentHorizontalScrollbar != null) currentHorizontalScrollbar.value += scrollbarSensibility;
     }
 
     public void OpenMenuInQueue(GameObject newMenu)
@@ -297,7 +297,7 @@ public class UIManager : MonoBehaviour
 
         nav.selectOnRight = firstSelectedButton_Pause;
 
-        // if the added PB is the first, set the navigation with the pause button
+        // if the added PB is the first, set the navigation with the pause buttons
         if (pbContainer.transform.childCount <= 1)
         {
             nav.selectOnLeft = firstSelectedButton_Pause;

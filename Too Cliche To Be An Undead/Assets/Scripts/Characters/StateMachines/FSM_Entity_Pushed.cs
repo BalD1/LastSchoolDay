@@ -16,6 +16,8 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
 
     private static float wallHitDamagesModifier = .4f;
 
+    private const float forcePushTransmissionPercentage = .9f;
+
     public override void EnterState(T stateManager)
     {
         wallLayer = LayerMask.NameToLayer("Wall");
@@ -76,6 +78,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         alreadyPushedEntities.Add(collider);
 
         // lessen the PushForce depending on the remaining push time
+        owner.GetRb.velocity *= forcePushTransmissionPercentage;
         float appliedForce = owner.GetRb.velocity.magnitude + owner.GetStats.Weight;
 
         e.Push(owner.transform.position, appliedForce, originalPusher);

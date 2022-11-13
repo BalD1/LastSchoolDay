@@ -7,9 +7,14 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     private PlayerCharacter owner;
     private float timer;
 
+    private const float cooldownForCancel = .75f;
+    private float timerForCancel;
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         owner ??= stateManager.Owner;
+
+        timerForCancel = cooldownForCancel;
 
         Vector2 mouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();
 
@@ -28,6 +33,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
         timer -= Time.deltaTime;
+
+        if (timerForCancel > 0) timerForCancel -= Time.deltaTime;
 
         stateManager.OwnerWeapon.FollowMouse(owner.GetSkill.AimAtMovements);
 
@@ -53,6 +60,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
     private void StopSkill()
     {
+        if (timerForCancel > 0) return;
+
         this.timer = 0;
     }
 

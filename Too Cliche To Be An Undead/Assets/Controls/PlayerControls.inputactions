@@ -304,6 +304,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "CancelMenu",
+                    "type": "Button",
+                    "id": "996ddc83-def2-4da8-a00d-88748852f43c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ArrowsLeft",
                     "type": "Button",
                     "id": "d31df38c-f567-45e6-8617-ff6625259765",
@@ -990,6 +999,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "ScrollRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9c379136-dce0-4932-9541-97375a9130f8",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CancelMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

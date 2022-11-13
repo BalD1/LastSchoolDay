@@ -202,7 +202,10 @@ public class PlayersManager : MonoBehaviour
         return characterComponents[0];
     }
 
-    public void AddAlivePlayer() => alivePlayersCount++;
+    public void AddAlivePlayer()
+    {
+        alivePlayersCount = Mathf.Clamp(alivePlayersCount + 1, 0, DataKeeper.Instance.playersDataKeep.Count);
+    }
     public void RemoveAlivePlayer()
     {
         alivePlayersCount--;
@@ -211,6 +214,6 @@ public class PlayersManager : MonoBehaviour
 
     public void DefinitiveDeath(PlayerCharacter player)
     {
-        Camera.main.GetComponent<CameraController>().RemovePlayerFromList(player.transform);
+        CameraManager.Instance.TG_Players.RemoveMember(player.transform);
     }
 }

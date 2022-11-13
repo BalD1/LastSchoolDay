@@ -97,14 +97,33 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty animator = serializedObject.FindProperty("animator");
         EditorGUILayout.PropertyField(animator);
 
+        SerializedProperty selfInteractor = serializedObject.FindProperty("selfInteractor");
+        EditorGUILayout.PropertyField(selfInteractor);
+
         SerializedProperty weapon = serializedObject.FindProperty("weapon");
         EditorGUILayout.PropertyField(weapon);
 
         SerializedProperty skillHolder = serializedObject.FindProperty("skillHolder");
         EditorGUILayout.PropertyField(skillHolder);
 
+        SerializedProperty inputs = serializedObject.FindProperty("inputs");
+        EditorGUILayout.PropertyField(inputs);
+
         SerializedProperty healthPopupOffset = serializedObject.FindProperty("healthPopupOffset");
         EditorGUILayout.PropertyField(healthPopupOffset);
+
+        EditorGUILayout.Space();
+
+        SimpleDraws.HorizontalLine();
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("UI refs", EditorStyles.boldLabel);
+        EditorGUILayout.Space();
+
+        GUI.enabled = false;
+
+        SerializedProperty portrait = serializedObject.FindProperty("portrait");
+        EditorGUILayout.PropertyField(portrait);
 
         SerializedProperty hpBar = serializedObject.FindProperty("hpBar");
         EditorGUILayout.PropertyField(hpBar);
@@ -115,8 +134,10 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty skillIcon = serializedObject.FindProperty("skillIcon");
         EditorGUILayout.PropertyField(skillIcon);
 
-        SerializedProperty inputs = serializedObject.FindProperty("inputs");
-        EditorGUILayout.PropertyField(inputs);
+        SerializedProperty dashIcon = serializedObject.FindProperty("dashIcon");
+        EditorGUILayout.PropertyField(dashIcon);
+
+        GUI.enabled = true;
 
         EditorGUILayout.EndVertical();
     }
@@ -248,7 +269,9 @@ public class ED_PlayerCharacter : Editor
 
         GUI.enabled = false;
 
-        EditorGUILayout.LabelField("Current HP : " + targetScript.CurrentHP + " / " + targetScript.GetStats.MaxHP(targetScript.StatsModifiers) + "(" + targetScript.CurrentHP / targetScript.GetStats.MaxHP(targetScript.StatsModifiers) * 100 + "%)");
+        EditorGUILayout.LabelField("Current HP : " + targetScript.CurrentHP + " / " + 
+                                   targetScript.GetStats.MaxHP(targetScript.StatsModifiers) + 
+                                   "(" + targetScript.CurrentHP / targetScript.GetStats.MaxHP(targetScript.StatsModifiers) * 100 + "%)");
 
         GUIStyle style = new GUIStyle(EditorStyles.foldout);
         style.fixedWidth = 0;

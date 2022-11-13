@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -270,6 +271,8 @@ public class Entity : MonoBehaviour, IDamageable
 
         if (isCrit) amount *= 1.5f;
 
+        amount = MathF.Round(amount);
+
         currentHP -= amount;
 
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: false, isCrit);
@@ -347,7 +350,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     public void SetInvincibility(bool _i) => invincible = _i;
 
-    public bool RollCrit() => Random.Range(0, 100) <= GetStats.CritChances(StatsModifiers) ? true : false;
+    public bool RollCrit() => UnityEngine.Random.Range(0, 100) <= GetStats.CritChances(StatsModifiers) ? true : false;
 
     public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
     {

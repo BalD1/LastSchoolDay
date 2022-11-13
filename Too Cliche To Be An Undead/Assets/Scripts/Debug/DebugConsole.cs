@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Progress;
 
 public class DebugConsole : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand HELP;
 
     private DebugCommand KILLSELF;
+    private DebugCommand KILLALL;
+    private DebugCommand<int> KILL;
+
+    private DebugCommand FORCEWIN;
 
     private DebugCommand<float> HEAL_SELF;
     private DebugCommand<float, bool> HEAL_SELF_C;
@@ -61,7 +66,7 @@ public class DebugConsole : MonoBehaviour
     {
         // Create commands
 
-        // SIMPLE COMMANDS
+        #region Simple commands
 
         HELP = new DebugCommand("HELP", "Shows all commands", "HELP", () =>
         {
@@ -73,13 +78,34 @@ public class DebugConsole : MonoBehaviour
             GameManager.Player1Ref.OnTakeDamages(GameManager.Player1Ref.GetStats.MaxHP(GameManager.Player1Ref.StatsModifiers));
         });
 
+        KILLALL = new DebugCommand("KILL_ALL", "Kills every players", "KILL_ALL", () =>
+        {
+            foreach (var item in DataKeeper.Instance.playersDataKeep)
+            {
+                PlayerCharacter pc = item.playerInput.GetComponentInParent<PlayerCharacter>();
+                pc.OnTakeDamages(pc.GetStats.MaxHP(pc.StatsModifiers));
+            }
+        });
+
+        FORCEWIN = new DebugCommand("FORCE_WIN", "Forces the win conditions", "FORCE_WIN", () =>
+        {
+            GameManager.Instance.GameState = GameManager.E_GameState.Win;
+        });
+
         REMOVE_ALL_MODIFIERS = new DebugCommand("REMOVE_ALL_MODIFIERS", "Removes every modifiers of self", "REMOVE_ALL_MODIFIERS", () =>
         {
             GameManager.Player1Ref.StatsModifiers.Clear();
         });
 
+        #endregion
 
-        // INT COMMANDS
+        #region Int commands
+
+        KILL = new DebugCommand<int>("KILL", "Kills the given player index", "KILL <int>", (val) =>
+        {
+            PlayerCharacter pc = DataKeeper.Instance.playersDataKeep[val].playerInput.GetComponentInParent<PlayerCharacter>();
+            pc.OnTakeDamages(pc.GetStats.MaxHP(pc.StatsModifiers));
+        });
 
         ADDM_SELF_CRIT = new DebugCommand<int>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self", "ADDM_SELF_CRIT <float>", (val) =>
         {
@@ -91,7 +117,9 @@ public class DebugConsole : MonoBehaviour
             GameManager.Player1Ref.AddModifier(MODIF_CRIT_ID, val_1, val_2, StatsModifier.E_StatType.CritChances);
         });
 
-        // FLOAT COMMANDS
+        #endregion
+
+        #region Float commands
 
         HEAL_SELF = new DebugCommand<float>("HEAL_SELF", "Heals the currently played character", "HEAL_SELF <float>", (val) =>
         {
@@ -115,7 +143,7 @@ public class DebugConsole : MonoBehaviour
 
         ADDM_SELF_HP = new DebugCommand<float>("ADDM_SELF_HP", "Adds a HP modifier of <float> to self", "ADDM_SELF_HP <float>", (val) =>
         {
-            GameManager.Player1Ref.AddModifier(MODIF_HEALTH_ID ,val, StatsModifier.E_StatType.MaxHP);
+            GameManager.Player1Ref.AddModifier(MODIF_HEALTH_ID, val, StatsModifier.E_StatType.MaxHP);
         });
 
         ADDM_SELF_HP_T = new DebugCommand<float, float>("ADDM_SELF_HP", "Adds a HP modifier of <float> to self for <float>s", "ADDM_SELF_HP <float> <float>", (val_1, val_2) =>
@@ -161,13 +189,18 @@ public class DebugConsole : MonoBehaviour
         ADDM_SELF_SPEED_T = new DebugCommand<float, float>("ADDM_SELF_SPEED", "Adds a speed modifier of <float> to self for <float>s", "ADDM_SELF_SPEED <float> <float>", (val_1, val_2) =>
         {
             GameManager.Player1Ref.AddModifier(MODIF_SPEED_ID, val_1, val_2, StatsModifier.E_StatType.Speed);
-        });
+        }); 
 
+        #endregion
 
         commandList = new List<object>()
         {
             HELP,
             KILLSELF,
+            KILLALL,
+            KILL,
+
+            FORCEWIN,
 
             HEAL_SELF,
             HEAL_SELF_C,

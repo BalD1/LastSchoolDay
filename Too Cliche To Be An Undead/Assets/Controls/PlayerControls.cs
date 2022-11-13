@@ -326,6 +326,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""CancelMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""996ddc83-def2-4da8-a00d-88748852f43c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""ArrowsLeft"",
                     ""type"": ""Button"",
                     ""id"": ""d31df38c-f567-45e6-8617-ff6625259765"",
@@ -1014,6 +1023,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""ScrollRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c379136-dce0-4932-9541-97375a9130f8"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""CancelMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1094,6 +1114,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
+        m_UI_CancelMenu = m_UI.FindAction("CancelMenu", throwIfNotFound: true);
         m_UI_ArrowsLeft = m_UI.FindAction("ArrowsLeft", throwIfNotFound: true);
         m_UI_ArrowsRight = m_UI.FindAction("ArrowsRight", throwIfNotFound: true);
         m_UI_QuitLoby = m_UI.FindAction("QuitLoby", throwIfNotFound: true);
@@ -1262,6 +1283,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private IUIActions m_UIActionsCallbackInterface;
     private readonly InputAction m_UI_Pause;
+    private readonly InputAction m_UI_CancelMenu;
     private readonly InputAction m_UI_ArrowsLeft;
     private readonly InputAction m_UI_ArrowsRight;
     private readonly InputAction m_UI_QuitLoby;
@@ -1286,6 +1308,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         private @PlayerControls m_Wrapper;
         public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Pause => m_Wrapper.m_UI_Pause;
+        public InputAction @CancelMenu => m_Wrapper.m_UI_CancelMenu;
         public InputAction @ArrowsLeft => m_Wrapper.m_UI_ArrowsLeft;
         public InputAction @ArrowsRight => m_Wrapper.m_UI_ArrowsRight;
         public InputAction @QuitLoby => m_Wrapper.m_UI_QuitLoby;
@@ -1317,6 +1340,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
+                @CancelMenu.started -= m_Wrapper.m_UIActionsCallbackInterface.OnCancelMenu;
+                @CancelMenu.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnCancelMenu;
+                @CancelMenu.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnCancelMenu;
                 @ArrowsLeft.started -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsLeft;
                 @ArrowsLeft.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsLeft;
                 @ArrowsLeft.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsLeft;
@@ -1381,6 +1407,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @CancelMenu.started += instance.OnCancelMenu;
+                @CancelMenu.performed += instance.OnCancelMenu;
+                @CancelMenu.canceled += instance.OnCancelMenu;
                 @ArrowsLeft.started += instance.OnArrowsLeft;
                 @ArrowsLeft.performed += instance.OnArrowsLeft;
                 @ArrowsLeft.canceled += instance.OnArrowsLeft;
@@ -1501,6 +1530,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnPause(InputAction.CallbackContext context);
+        void OnCancelMenu(InputAction.CallbackContext context);
         void OnArrowsLeft(InputAction.CallbackContext context);
         void OnArrowsRight(InputAction.CallbackContext context);
         void OnQuitLoby(InputAction.CallbackContext context);

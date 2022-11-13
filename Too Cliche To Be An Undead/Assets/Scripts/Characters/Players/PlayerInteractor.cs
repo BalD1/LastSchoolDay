@@ -63,6 +63,12 @@ public class PlayerInteractor : MonoBehaviour
         promptText.text = $"Press {res} to interact";
     }
 
+    public void ResetCollider()
+    {
+        this.trigger.enabled = false;
+        this.trigger.enabled = true;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IInteractable interactable = collision.transform.parent.GetComponent<IInteractable>();

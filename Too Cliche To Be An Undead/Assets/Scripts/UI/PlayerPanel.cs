@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class PlayerPanel : MonoBehaviour
 {
@@ -104,7 +105,7 @@ public class PlayerPanel : MonoBehaviour
         DataKeeper.Instance.playersDataKeep[playerID].character = (GameManager.E_CharactersNames)characterIdx;
     }
 
-    public void ResetPanel()
+    public void ResetPanel(bool tweenScale = true)
     {
         playerIdxText.text = "Press \"select\" to join";
 
@@ -121,7 +122,8 @@ public class PlayerPanel : MonoBehaviour
         this.characterImage.sprite = panelsManager.GetCharacterSprite(0);
         isSetup = false;
 
-        ScaleUpAndDown();
+        if (tweenScale)
+            ScaleUpAndDown();
     }
 
     private void ScaleUpAndDown()
