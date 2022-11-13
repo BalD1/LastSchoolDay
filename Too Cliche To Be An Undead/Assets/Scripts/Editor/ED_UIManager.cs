@@ -115,6 +115,12 @@ public class ED_UIManager : Editor
         SerializedProperty localHUD = serializedObject.FindProperty("localHUD");
         EditorGUILayout.PropertyField(localHUD);
 
+        SerializedProperty hudTransparencyValue = serializedObject.FindProperty("hudTransparencyValue");
+        EditorGUILayout.PropertyField(hudTransparencyValue);
+
+        SerializedProperty hudTransparencyTime = serializedObject.FindProperty("hudTransparencyTime");
+        EditorGUILayout.PropertyField(hudTransparencyTime);
+
         SerializedProperty playerHUDs = serializedObject.FindProperty("playerHUDs");
         EditorGUILayout.PropertyField(playerHUDs);
 

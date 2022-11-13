@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerCharacter player1Ref;
     public static PlayerCharacter Player1Ref { get => Instance.player1Ref; }
 
+    [SerializeField] private int playersCount;
+    public int PlayersCount { get => playersCount; }
+
     [SerializeField] private Shop shop;
     public Shop GetShop { get => shop; }
 
@@ -153,6 +156,7 @@ public class GameManager : MonoBehaviour
                 p.playerName = item.playerName;
                 p.playerScript = item.playerInput.GetComponentInParent<PlayerCharacter>();
                 playersByName.Add(p);
+                playersCount++;
             }
         }    
         InitState();

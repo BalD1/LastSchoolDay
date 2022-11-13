@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Drawing;
 
 public class UIManager : MonoBehaviour
 {
@@ -36,6 +37,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopContentMenu;
     [SerializeField] private GameObject localHUD;
     [SerializeField] private GameObject mainMenu_mainPanel;
+
+    private RectTransform hudRect;
+    private bool isHUDTransparent = false;
+
+    [SerializeField] private float hudTransparencyValue = .3f;
+    [SerializeField] private float hudTransparencyTime = .3f;
+
+    private Collider2D[] playersColliders = new Collider2D[4];
 
     [SerializeField] private Scrollbar pbContainerBar;
     [SerializeField] private Scrollbar shopBar;
@@ -113,7 +122,64 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) SelectButton("MainMenu");
+        else
+        {
+            SetPlayersCollidersArray();
+        }
     }
+
+    private void LateUpdate()
+    {
+        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu) == false)
+            CheckIfPlayerIsCoveredByHUD();
+    }
+
+    private void SetPlayersCollidersArray()
+    {
+        int playersCount = GameManager.Instance.PlayersCount;
+
+        hudRect = localHUD.GetComponent<RectTransform>();
+
+        playersColliders = new Collider2D[playersCount];
+
+        for (int i = 0; i < playersCount; i++)
+        {
+            // TODO : faire un meilleur moyen de récup les colliders psq là c'est dégueulasse
+            playersColliders[i] = DataKeeper.Instance.playersDataKeep[i].playerInput.GetComponentInParent<PlayerCharacter>().GetSprite.GetComponent<BoxCollider2D>();
+        }
+    }
+
+    private void CheckIfPlayerIsCoveredByHUD()
+    {
+        foreach (var item in playersColliders)
+        {
+            Vector3 boundsMin = RectTransformUtility.WorldToScreenPoint(Camera.main, item.bounds.min);
+            Vector3 boundsMax = RectTransformUtility.WorldToScreenPoint(Camera.main, item.bounds.max);
+
+            for (int i = 0; i < GameManager.Instance.PlayersCount; i++)
+            {
+                bool minP = RectTransformUtility.RectangleContainsScreenPoint(playerHUDs[i].portrait.rectTransform, boundsMin);
+                bool maxP = RectTransformUtility.RectangleContainsScreenPoint(playerHUDs[i].portrait.rectTransform, boundsMax);
+
+                if (minP && maxP)
+                {
+                    FadeHUD(true);
+                    return;
+                }
+            }
+        }
+
+        FadeHUD(false);
+    }
+
+    private void FadeHUD(bool makeTransparent)
+    {
+        if (isHUDTransparent == makeTransparent) return;
+        isHUDTransparent = makeTransparent;
+
+        LeanTween.alphaCanvas(localHUD.GetComponent<CanvasGroup>(), makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
+    }
+
 
     /// <summary> <para>
     /// Handles the selection of buttons on menu changes. <paramref name="context"/> is used to decided which button should be selected. 

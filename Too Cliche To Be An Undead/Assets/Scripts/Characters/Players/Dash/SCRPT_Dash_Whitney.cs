@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Whitney", menuName = "Scriptable/Entity/Dash/Whitney")]
 public class SCRPT_Dash_Whitney : SCRPT_Dash
 {
+    [SerializeField] private GameObject particles;
 
     [SerializeField] private int critBoostValue = 20;
     [SerializeField] private float critBoostTime = 1;
@@ -22,5 +23,7 @@ public class SCRPT_Dash_Whitney : SCRPT_Dash
     public override void OnDashStop(PlayerCharacter owner)
     {
         owner.AddModifierUnique(MODIF_ID, critBoostValue, critBoostTime, StatsModifier.E_StatType.CritChances);
+        GameObject gO = Instantiate(particles, owner.transform.position, Quaternion.identity);
+        Destroy(gO, 1f);
     }
 }

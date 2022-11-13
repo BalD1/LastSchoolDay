@@ -2918,6 +2918,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2526245624121578099}
+  - component: {fileID: 1328510913371110365}
   m_Layer: 5
   m_Name: HUD_Local
   m_TagString: Untagged
@@ -2949,6 +2950,18 @@ RectTransform:
   m_AnchoredPosition: {x: -0.3798828, y: -0.72998047}
   m_SizeDelta: {x: -2.730011, y: -2.380005}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1328510913371110365
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3232614500028037748}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &3702909155053034098
 GameObject:
   m_ObjectHideFlags: 0
