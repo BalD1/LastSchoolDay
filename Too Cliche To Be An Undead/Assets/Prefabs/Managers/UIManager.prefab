@@ -60,6 +60,12 @@ MonoBehaviour:
   shopContentMenu: {fileID: 0}
   localHUD: {fileID: 0}
   mainMenu_mainPanel: {fileID: 0}
+  hudTransparencyValue: 0.3
+  hudTransparencyTime: 0.3
+  pbContainerBar: {fileID: 0}
+  shopBar: {fileID: 0}
+  optionButton_Pause: {fileID: 0}
+  mainMenuButton_Pause: {fileID: 0}
   playerHUDs:
   - container: {fileID: 0}
     portrait: {fileID: 0}
@@ -87,12 +93,44 @@ MonoBehaviour:
     dashThumbnail: {fileID: 0}
   characterPortrait:
   - characterName: 0
-    portrait: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
+    characterPortraitsByHP:
+    - percentage: 0.75
+      portrait: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
+    - percentage: 0.5
+      portrait: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
+    - percentage: 0.25
+      portrait: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
+    - percentage: 0
+      portrait: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
   - characterName: 1
-    portrait: {fileID: 21300000, guid: 45ffae705df58fa49b9c9fc7010ab5c3, type: 3}
+    characterPortraitsByHP:
+    - percentage: 0.75
+      portrait: {fileID: 21300000, guid: 45ffae705df58fa49b9c9fc7010ab5c3, type: 3}
+    - percentage: 0.5
+      portrait: {fileID: 21300000, guid: 45ffae705df58fa49b9c9fc7010ab5c3, type: 3}
+    - percentage: 0.25
+      portrait: {fileID: 21300000, guid: 45ffae705df58fa49b9c9fc7010ab5c3, type: 3}
+    - percentage: 0
+      portrait: {fileID: 21300000, guid: 45ffae705df58fa49b9c9fc7010ab5c3, type: 3}
   - characterName: 2
-    portrait: {fileID: 21300000, guid: 70afcbb304fb64147ab2761f729d9ddc, type: 3}
+    characterPortraitsByHP:
+    - percentage: 0.75
+      portrait: {fileID: 21300000, guid: 70afcbb304fb64147ab2761f729d9ddc, type: 3}
+    - percentage: 0.5
+      portrait: {fileID: 21300000, guid: 70afcbb304fb64147ab2761f729d9ddc, type: 3}
+    - percentage: 0.25
+      portrait: {fileID: 21300000, guid: 70afcbb304fb64147ab2761f729d9ddc, type: 3}
+    - percentage: 0
+      portrait: {fileID: 21300000, guid: 70afcbb304fb64147ab2761f729d9ddc, type: 3}
   - characterName: 3
-    portrait: {fileID: 21300000, guid: 9c2220d982021684fa1539faa1eb73eb, type: 3}
+    characterPortraitsByHP:
+    - percentage: 0.75
+      portrait: {fileID: 21300000, guid: 9c2220d982021684fa1539faa1eb73eb, type: 3}
+    - percentage: 0.5
+      portrait: {fileID: 21300000, guid: 9c2220d982021684fa1539faa1eb73eb, type: 3}
+    - percentage: 0.25
+      portrait: {fileID: 21300000, guid: 9c2220d982021684fa1539faa1eb73eb, type: 3}
+    - percentage: 0
+      portrait: {fileID: 21300000, guid: 9c2220d982021684fa1539faa1eb73eb, type: 3}
   panelsManager: {fileID: 0}
   EDITOR_openMenusQueues: []

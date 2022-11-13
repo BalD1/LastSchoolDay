@@ -122,6 +122,9 @@ public class ED_PlayerCharacter : Editor
 
         GUI.enabled = false;
 
+        SerializedProperty characterPortrait = serializedObject.FindProperty("characterPortrait");
+        EditorGUILayout.PropertyField(characterPortrait);
+
         SerializedProperty portrait = serializedObject.FindProperty("portrait");
         EditorGUILayout.PropertyField(portrait);
 
@@ -138,6 +141,18 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.PropertyField(dashIcon);
 
         GUI.enabled = true;
+
+        SerializedProperty iconsMaxScale = serializedObject.FindProperty("iconsMaxScale");
+        EditorGUILayout.PropertyField(iconsMaxScale);
+
+        SerializedProperty maxScaleTime = serializedObject.FindProperty("maxScaleTime");
+        EditorGUILayout.PropertyField(maxScaleTime);
+
+        SerializedProperty inType = serializedObject.FindProperty("inType");
+        EditorGUILayout.PropertyField(inType);
+
+        SerializedProperty outType = serializedObject.FindProperty("outType");
+        EditorGUILayout.PropertyField(outType);
 
         EditorGUILayout.EndVertical();
     }

@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.Users;
 using System.Linq;
+using UnityEngine.TextCore.Text;
 
 public class PlayerCharacter : Entity, IInteractable
 {
@@ -43,6 +44,15 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image skillIcon;
     [SerializeField] private Image dashIcon;
+
+    [SerializeField] private UIManager.CharacterPortrait characterPortrait;
+
+    private int currentPortraitIdx;
+
+    [SerializeField] private Vector3 iconsMaxScale = new Vector3(1.3f, 1.3f, 1.3f);
+    [SerializeField] private float maxScaleTime = .7f;
+    [SerializeField] private LeanTweenType inType = LeanTweenType.easeInSine;
+    [SerializeField] private LeanTweenType outType = LeanTweenType.easeOutSine;
 
     [SerializeField] private static int money;
     [SerializeField] private static int level;
@@ -88,6 +98,7 @@ public class PlayerCharacter : Entity, IInteractable
     public PlayerWeapon Weapon { get => weapon; }
     public SkillHolder GetSkillHolder { get => skillHolder; }
     public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
+    public Image GetSkillIcon { get => skillIcon; }
     public Vector2 Velocity { get => velocity; }
     public PlayerInput Inputs { get => inputs; }
     public int Money { get => money; }
@@ -139,6 +150,13 @@ public class PlayerCharacter : Entity, IInteractable
             GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
 
             UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
+
+            foreach (var item in UIManager.Instance.CharacterPortraits)
+            {
+                if (item.characterName.Equals(character)) characterPortrait = item;
+            }
+
+            currentPortraitIdx = 0;
 
             if (pHUD.container != null)
             {
@@ -201,15 +219,27 @@ public class PlayerCharacter : Entity, IInteractable
         if (this.hpBar == null)
         {
             UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[0];
+            characterPortrait = UIManager.Instance.CharacterPortraits[this.playerIndex];
+            currentPortraitIdx = 0;
+
+            if (DataKeeper.Instance.IsPlayerDataKeepSet())
+            {
+                GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
+                foreach (var item in UIManager.Instance.CharacterPortraits)
+                {
+                    if (item.characterName.Equals(character)) characterPortrait = item;
+                }
+            }
 
             if (pHUD.container != null)
             {
                 pHUD.container.SetActive(true);
+                this.portrait = pHUD.portrait;
                 this.hpBar = pHUD.hpBar;
                 this.hpText = pHUD.hpText;
                 this.skillIcon = pHUD.skillThumbnail;
 
-                pHUD.portrait.sprite = UIManager.Instance.GetPortrait(GameManager.E_CharactersNames.Whitney);
+                pHUD.portrait.sprite = UIManager.Instance.GetBasePortrait(GameManager.E_CharactersNames.Whitney);
             }
         }
 
@@ -225,7 +255,11 @@ public class PlayerCharacter : Entity, IInteractable
         {
             dash_CD_TIMER -= Time.deltaTime;
             if (dashIcon != null)
+            {
                 dashIcon.fillAmount = -((dash_CD_TIMER / playerDash.Dash_COOLDOWN) - 1);
+
+                if (dash_CD_TIMER <= 0) ScaleTweenObject(dashIcon.gameObject);
+            }
         }
     }
 
@@ -326,12 +360,70 @@ public class PlayerCharacter : Entity, IInteractable
         bool res;
         res = base.OnTakeDamages(amount, isCrit);
 
+        if (portrait != null)
+        {
+            LeanTween.color(portrait.rectTransform, Color.red, .2f).setEase(inType)
+            .setOnComplete(() =>
+            {
+                LeanTween.color(portrait.rectTransform, Color.white, .2f);
+            });
+
+            if (SetPortrait())
+            {
+                GameObject target = UIManager.Instance.PlayerHUDs[this.playerIndex].container;
+
+                LeanTween.scale(target, iconsMaxScale, maxScaleTime / 2).setEase(inType)
+                .setOnComplete(() =>
+                {
+                    LeanTween.scale(target, Vector3.one, maxScaleTime / 2).setEase(outType);
+                });
+            }
+        }
+
         if (hpBar != null)
             hpBar.fillAmount = (currentHP / GetStats.MaxHP(StatsModifiers));
         if (hpText != null)
             hpText.text = $"{currentHP} / {GetStats.MaxHP(StatsModifiers)}";
 
         return res;
+    }
+
+    private bool SetPortrait(float currentMaxHP = -1)
+    {
+        if (currentMaxHP == -1)
+            currentMaxHP = GetStats.MaxHP(StatsModifiers);
+
+
+        if (currentPortraitIdx + 1 <= characterPortrait.characterPortraitsByHP.Length)
+        {
+            if (currentHP * (currentMaxHP / 100) <= currentMaxHP * CurrentCharacterPortrait().percentage)
+            {
+                SetCharacterPortrait(currentPortraitIdx + 1);
+                SetPortrait(currentMaxHP);
+                return true;
+            }
+        }   
+
+        if (currentPortraitIdx > 0)
+        {
+            if (currentHP * (currentMaxHP / 100) > currentMaxHP * LastCharacterPortrait().percentage)
+            {
+                SetCharacterPortrait(currentPortraitIdx - 1);
+                SetPortrait(currentMaxHP);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private UIManager.CharacterPortraitByHP CurrentCharacterPortrait() => characterPortrait.characterPortraitsByHP[currentPortraitIdx];
+    private UIManager.CharacterPortraitByHP NextCharacterPortrait() => characterPortrait.characterPortraitsByHP[currentPortraitIdx + 1];
+    private UIManager.CharacterPortraitByHP LastCharacterPortrait() => characterPortrait.characterPortraitsByHP[currentPortraitIdx - 1];
+    private void SetCharacterPortrait(int idx)
+    {
+        this.portrait.sprite = characterPortrait.characterPortraitsByHP[idx].portrait;
+        currentPortraitIdx = idx;
     }
 
     public override void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false)
@@ -342,6 +434,8 @@ public class PlayerCharacter : Entity, IInteractable
             hpBar.fillAmount = (currentHP / GetStats.MaxHP(StatsModifiers));
         if (hpText != null)
             hpText.text = $"{currentHP} / {GetStats.MaxHP(StatsModifiers)}";
+
+        SetPortrait();
     }
 
     public override void OnDeath(bool forceDeath = false)
@@ -620,6 +714,22 @@ public class PlayerCharacter : Entity, IInteractable
 
     #endregion
 
+    public void ScaleTweenObject(GameObject target)
+    {
+        LeanTween.scale(target, iconsMaxScale, maxScaleTime).setEase(inType)
+        .setOnComplete(() =>
+        {
+            LeanTween.scale(target, Vector3.one, maxScaleTime).setEase(outType);
+        });
+    }
+    public void ScaleTweenObject(RectTransform target)
+    {
+        LeanTween.scale(target, iconsMaxScale, maxScaleTime).setEase(inType)
+        .setOnComplete(() =>
+        {
+            LeanTween.scale(target, Vector3.one, maxScaleTime).setEase(outType);
+        });
+    }
 
     public void EnteredInRange(GameObject interactor)
     {
@@ -639,7 +749,6 @@ public class PlayerCharacter : Entity, IInteractable
     }
 
     public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying"); 
-
 
     public void SetAttack(GameObject newWeapon)
     {
@@ -665,7 +774,15 @@ public class PlayerCharacter : Entity, IInteractable
         this.sprite.sprite = newSprite;
 
         if (this.portrait != null)
-            this.portrait.sprite = UIManager.Instance.GetPortrait(character);
+            this.portrait.sprite = UIManager.Instance.GetBasePortrait(character);
+
+        foreach (var item in UIManager.Instance.CharacterPortraits)
+        {
+            if (item.characterName.Equals(character)) characterPortrait = item;
+        }
+
+        currentPortraitIdx = 0;
+        SetPortrait();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

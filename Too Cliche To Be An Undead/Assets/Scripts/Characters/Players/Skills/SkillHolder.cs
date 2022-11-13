@@ -33,6 +33,8 @@ public class SkillHolder : MonoBehaviour
         {
             timer -= Time.deltaTime;
             owner.UpdateSkillThumbnailFill(-((timer / skill.Cooldown) - 1));
+
+            if (timer <= 0) owner.ScaleTweenObject(owner.GetSkillIcon.gameObject);
         }
 
         if (skill.IsInUse) skill.UpdateSkill(owner);

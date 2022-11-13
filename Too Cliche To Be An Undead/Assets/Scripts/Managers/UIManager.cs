@@ -74,6 +74,13 @@ public class UIManager : MonoBehaviour
     public struct CharacterPortrait
     {
         public GameManager.E_CharactersNames characterName;
+        public CharacterPortraitByHP[] characterPortraitsByHP;
+    }
+
+    [System.Serializable]
+    public struct CharacterPortraitByHP
+    {
+        public float percentage;
         public Sprite portrait;
     }
 
@@ -437,14 +444,14 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
     }
 
-    public Sprite GetPortrait(GameManager.E_CharactersNames character)
+    public Sprite GetBasePortrait(GameManager.E_CharactersNames character)
     {
         foreach (var item in characterPortrait)
         {
-            if (item.characterName.Equals(character)) return item.portrait;
+            if (item.characterName.Equals(character)) return item.characterPortraitsByHP[0].portrait;
         }
 
-        return characterPortrait[0].portrait;
+        return characterPortrait[0].characterPortraitsByHP[0].portrait;
     }
 
     public void PlayerLeftArrowOnPanel(int id)
