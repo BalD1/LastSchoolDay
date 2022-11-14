@@ -23,6 +23,7 @@ public class Shop : MonoBehaviour, IInteractable
         for (int i = 0; i < levels.Length; i++)
         {
             levels[i] = shop.transform.GetChild(i).GetComponent<ShopLevel>();
+            levels[i].SetShop(this);
         }
 
         SetData();
@@ -58,6 +59,14 @@ public class Shop : MonoBehaviour, IInteractable
         if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
+    public void UpdateCostsMoney()
+    {
+        for (int i = 0; i < levels.Length; i++)
+        {
+            levels[i].SetPlayersMoney();
+        }
+    }
+
     private void OpenShop()
     {
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
@@ -65,6 +74,11 @@ public class Shop : MonoBehaviour, IInteractable
         UIManager.Instance.D_closeMenu += CheckIfClosedMenuIsShop;
         shopIsOpen = true;
         GameManager.Player1Ref.SetAllVelocity(Vector2.zero);
+
+        foreach (var item in levels)
+        {
+            item.SetPlayersMoney();
+        }
     }
 
     private void CloseShop()
