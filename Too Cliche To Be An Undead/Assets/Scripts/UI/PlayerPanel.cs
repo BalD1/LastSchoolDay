@@ -128,10 +128,10 @@ public class PlayerPanel : MonoBehaviour
 
     private void ScaleUpAndDown()
     {
-        LeanTween.scale(panel, scaleGoal, scaleTime).setEase(inType).setOnComplete(
+        LeanTween.scale(panel, scaleGoal, scaleTime).setEase(inType).setIgnoreTimeScale(true).setOnComplete(
         () =>
         {
-            LeanTween.scale(panel, Vector3.one, scaleTime).setEase(outType);
+            LeanTween.scale(panel, Vector3.one, scaleTime).setEase(outType).setIgnoreTimeScale(true);
         });
     }
 

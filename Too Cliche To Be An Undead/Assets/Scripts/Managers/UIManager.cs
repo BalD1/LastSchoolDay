@@ -233,6 +233,11 @@ public class UIManager : MonoBehaviour
                 firstSelectedButton_Lobby?.Select();
                 break;
 
+            case "None":
+                if (eventSystem != null)
+                    eventSystem.SetSelectedGameObject(null);
+                break;
+
             default:
                 Debug.LogError(context + " was not found in switch statement.");
                 break;

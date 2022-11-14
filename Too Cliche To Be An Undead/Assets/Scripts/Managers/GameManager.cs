@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
     /// Changes the scene to <paramref name="newScene"/>.
     /// </summary>
     /// <param name="newScene"></param>
-    public static void ChangeScene(E_ScenesNames newScene, bool allowReload = false, bool async = false)
+    public static void ChangeScene(E_ScenesNames newScene, bool allowReload = false)
     {
         string sceneName = EnumsExtension.EnumToString(newScene);
 
@@ -248,8 +248,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (async) SceneManager.LoadSceneAsync(sceneName);
-        else SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneName);
     }
 
     public void ReloadScene()
