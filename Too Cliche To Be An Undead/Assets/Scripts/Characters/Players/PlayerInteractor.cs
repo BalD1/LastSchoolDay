@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,6 +15,8 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private CircleCollider2D trigger;
     [SerializeField] private GameObject interactPrompt;
     [SerializeField] private TextMeshPro promptText;
+
+    public TextMeshPro PromptText { get => promptText; }
 
     [SerializeField] private PlayerCharacter owner;
 
@@ -51,16 +54,21 @@ public class PlayerInteractor : MonoBehaviour
 
     private void SetPrompt()
     {
+        if (owner.StateManager.ToString().Equals("Dying")) return;
+
         interactPrompt.SetActive(true);
-        string res = "E";
+
+        StringBuilder sb = new StringBuilder("Press ");
 
         InputDevice d = owner.Inputs.devices[0];
 
-        if (d is XInputController) res = "Y";
-        else if (d is DualShockGamepad) res = "TRIANGLE";
-        else if (d is SwitchProControllerHID) res = "X";
+        if (d is XInputController) sb.Append("Y");
+        else if (d is DualShockGamepad) sb.Append("TRIANGLE");
+        else if (d is SwitchProControllerHID) sb.Append("X");
+        else sb.Append("E");
 
-        promptText.text = $"Press {res} to interact";
+        sb.Append(" to interact.");
+        promptText.text = sb.ToString();
     }
 
     public void ResetCollider()

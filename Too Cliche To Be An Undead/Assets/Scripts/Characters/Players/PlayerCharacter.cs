@@ -33,6 +33,7 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private PlayerWeapon weapon;
     [SerializeField] private SkillHolder skillHolder;
     [SerializeField] private SCRPT_Dash playerDash;
+    [SerializeField] private TextMeshPro selfReviveText;
 
     [SerializeField] private List<EnemyBase> attackers = new List<EnemyBase>();
 
@@ -59,6 +60,8 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private float dyingState_DURATION = 20f;
     [SerializeField][Range(0, 1)] private float reviveHealPercentage = 0.25f;
+
+    public int selfReviveCount;
 
     private float dash_CD_TIMER;
     public bool isDashing;
@@ -95,10 +98,12 @@ public class PlayerCharacter : Entity, IInteractable
 
 
     public FSM_Player_Manager StateManager { get => stateManager; }
+    public PlayerInteractor GetInteractor { get => selfInteractor; }
     public PlayerWeapon Weapon { get => weapon; }
     public SkillHolder GetSkillHolder { get => skillHolder; }
     public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
     public Image GetSkillIcon { get => skillIcon; }
+    public TextMeshPro SelfReviveText { get => selfReviveText; }
     public Vector2 Velocity { get => velocity; }
     public PlayerInput Inputs { get => inputs; }
     public int Money { get => money; }
@@ -458,6 +463,13 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void DefinitiveDeath()
     {
+        if (selfReviveCount > 0)
+        {
+            selfReviveCount -= 1;
+            Revive();
+            return;
+        }
+
         stateManager.SwitchState(stateManager.deadState);
 
         PlayersManager.Instance.DefinitiveDeath(this);
@@ -570,6 +582,15 @@ public class PlayerCharacter : Entity, IInteractable
     public void AimInput(InputAction.CallbackContext context)
     {
         if (context.performed) D_aimInput?.Invoke(context.ReadValue<Vector2>());
+    }
+
+    public void SelfRevive(InputAction.CallbackContext context)
+    {
+        if (context.performed && stateManager.ToString().Equals("Dying") && selfReviveCount > 0)
+        {
+            selfReviveCount -= 1;
+            Revive();
+        }
     }
 
     public void ScrollCurrentVerticalBarDown(InputAction.CallbackContext context)

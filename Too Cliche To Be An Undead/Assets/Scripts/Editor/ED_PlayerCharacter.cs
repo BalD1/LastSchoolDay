@@ -7,6 +7,7 @@ using BalDUtilities.Misc;
 using static UnityEditor.Progress;
 using UnityEditor.Experimental.GraphView;
 using Unity.VisualScripting;
+using System.Text;
 
 [CustomEditor(typeof(PlayerCharacter))]
 public class ED_PlayerCharacter : Editor
@@ -111,6 +112,9 @@ public class ED_PlayerCharacter : Editor
 
         SerializedProperty healthPopupOffset = serializedObject.FindProperty("healthPopupOffset");
         EditorGUILayout.PropertyField(healthPopupOffset);
+
+        SerializedProperty selfReviveText = serializedObject.FindProperty("selfReviveText");
+        EditorGUILayout.PropertyField(selfReviveText);
 
         EditorGUILayout.Space();
 
@@ -282,11 +286,18 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty invincible = serializedObject.FindProperty("invincible");
         EditorGUILayout.PropertyField(invincible);
 
+        targetScript.selfReviveCount = EditorGUILayout.IntField("Revives count", targetScript.selfReviveCount);
+
         GUI.enabled = false;
 
-        EditorGUILayout.LabelField("Current HP : " + targetScript.CurrentHP + " / " + 
-                                   targetScript.maxHP_M + 
-                                   "(" + targetScript.CurrentHP / targetScript.maxHP_M * 100 + "%)");
+        StringBuilder sb = new StringBuilder("Current HP");
+        sb.Append(targetScript.CurrentHP);
+        sb.Append(" / ");
+        sb.Append(targetScript.maxHP_M + "(");
+        sb.Append(targetScript.CurrentHP / targetScript.maxHP_M * 100 + "%");
+
+        EditorGUILayout.LabelField(sb.ToString());
+
 
         GUIStyle style = new GUIStyle(EditorStyles.foldout);
         style.fixedWidth = 0;
