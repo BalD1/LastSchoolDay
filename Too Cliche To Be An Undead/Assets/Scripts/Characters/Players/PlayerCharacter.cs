@@ -805,6 +805,8 @@ public class PlayerCharacter : Entity, IInteractable
 
     #endregion
 
+    #region Tweening
+
     public void ScaleTweenObject(GameObject target)
     {
         LeanTween.scale(target, iconsMaxScale, maxScaleTime).setEase(inType)
@@ -830,6 +832,10 @@ public class PlayerCharacter : Entity, IInteractable
         });
     }
 
+    #endregion
+
+    #region Interactions
+
     public void EnteredInRange(GameObject interactor)
     {
         sprite.material = outlineMaterial;
@@ -847,20 +853,19 @@ public class PlayerCharacter : Entity, IInteractable
         sprite.material = GameAssets.Instance.DefaultMaterial;
     }
 
-    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying"); 
+    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");  
 
-    public void SetAttack(GameObject newWeapon)
-    {
-        weapon.ResetAttack();
-        Destroy(weapon.gameObject);
-        GameObject gO = Instantiate(newWeapon, this.transform);
-        weapon = gO.GetComponent<PlayerWeapon>();
-        stateManager.OwnerWeapon = weapon;
-    }
+    #endregion
+
+    #region Level
 
     public static void LevelUp() => level++;
     public static void SetLevel(int newLevel) => level = newLevel;
     public static int GetLevel => PlayerCharacter.level;
+
+    #endregion
+
+    #region Switch & Set
 
     public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite, GameManager.E_CharactersNames character)
     {
@@ -898,6 +903,17 @@ public class PlayerCharacter : Entity, IInteractable
             this.ApplyModifier(item);
         }
     }
+
+    public void SetAttack(GameObject newWeapon)
+    {
+        weapon.ResetAttack();
+        Destroy(weapon.gameObject);
+        GameObject gO = Instantiate(newWeapon, this.transform);
+        weapon = gO.GetComponent<PlayerWeapon>();
+        stateManager.OwnerWeapon = weapon;
+    }
+
+    #endregion
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

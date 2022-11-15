@@ -95,6 +95,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public Quaternion GetRotationOnMouseOrGamepad()
     {
+        if (owner.Inputs.currentControlScheme == null) return Quaternion.identity;
         if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
         {
             return GetRotationOnMouse();
