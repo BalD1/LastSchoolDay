@@ -173,7 +173,7 @@ public class PlayerCharacter : Entity, IInteractable
 
             SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character);
 
-            this.currentHP = GetStats.MaxHP(StatsModifiers);
+            this.currentHP = maxHP_M;
         }
 
         if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
@@ -263,8 +263,9 @@ public class PlayerCharacter : Entity, IInteractable
         }
     }
 
-    private void LateUpdate()
+    protected override void LateUpdate()
     {
+        base.LateUpdate();
         Vector3 minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         Vector3 maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
@@ -332,8 +333,8 @@ public class PlayerCharacter : Entity, IInteractable
     public void Movements()
     {
         if (stayStatic) return;
-        velocity = Vector2.ClampMagnitude(velocity, GetStats.Speed(StatsModifiers));
-        this.rb.MovePosition(this.rb.position + velocity * GetStats.Speed(StatsModifiers) * Time.fixedDeltaTime);
+        velocity = Vector2.ClampMagnitude(velocity, maxSpeed_M);
+        this.rb.MovePosition(this.rb.position + velocity * maxSpeed_M * Time.fixedDeltaTime);
     }
 
     #endregion
@@ -381,9 +382,9 @@ public class PlayerCharacter : Entity, IInteractable
         }
 
         if (hpBar != null)
-            hpBar.fillAmount = (currentHP / GetStats.MaxHP(StatsModifiers));
+            hpBar.fillAmount = (currentHP / maxHP_M);
         if (hpText != null)
-            hpText.text = $"{currentHP} / {GetStats.MaxHP(StatsModifiers)}";
+            hpText.text = $"{currentHP} / {maxHP_M}";
 
         return res;
     }
@@ -391,7 +392,7 @@ public class PlayerCharacter : Entity, IInteractable
     private bool SetPortrait(float currentMaxHP = -1)
     {
         if (currentMaxHP == -1)
-            currentMaxHP = GetStats.MaxHP(StatsModifiers);
+            currentMaxHP = maxHP_M;
 
 
         if (currentPortraitIdx + 1 <= characterPortrait.characterPortraitsByHP.Length)
@@ -422,7 +423,9 @@ public class PlayerCharacter : Entity, IInteractable
     private UIManager.CharacterPortraitByHP LastCharacterPortrait() => characterPortrait.characterPortraitsByHP[currentPortraitIdx - 1];
     private void SetCharacterPortrait(int idx)
     {
-        this.portrait.sprite = characterPortrait.characterPortraitsByHP[idx].portrait;
+        if (idx < characterPortrait.characterPortraitsByHP.Length)
+            this.portrait.sprite = characterPortrait.characterPortraitsByHP[idx].portrait;
+
         currentPortraitIdx = idx;
     }
 
@@ -431,9 +434,9 @@ public class PlayerCharacter : Entity, IInteractable
         base.OnHeal(amount, isCrit, canExceedMaxHP);
 
         if (hpBar != null)
-            hpBar.fillAmount = (currentHP / GetStats.MaxHP(StatsModifiers));
+            hpBar.fillAmount = (currentHP / maxHP_M);
         if (hpText != null)
-            hpText.text = $"{currentHP} / {GetStats.MaxHP(StatsModifiers)}";
+            hpText.text = $"{currentHP} / {maxHP_M}";
 
         SetPortrait();
     }
@@ -449,7 +452,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void Revive()
     {
-        this.OnHeal(this.stats.MaxHP(statsModifiers) * reviveHealPercentage);
+        this.OnHeal(this.maxHP_M * reviveHealPercentage);
         stateManager.SwitchState(stateManager.idleState);
     }
 
@@ -599,6 +602,12 @@ public class PlayerCharacter : Entity, IInteractable
     }
     public void UpdateSkillThumbnailFill(float fill) => skillIcon.fillAmount = fill;
 
+    public void ResetSkillAnimator()
+    {
+        this.GetSkillHolder.GetAnimator.ResetTrigger("EndSkill");
+        this.GetSkillHolder.GetAnimator.Play("MainState");
+    }
+
     public void OffsetSkillHolder(float offset)
     {
         skillHolder.transform.localPosition = (Vector3)weapon.GetGeneralDirectionOfMouseOrGamepad() * offset;
@@ -703,7 +712,7 @@ public class PlayerCharacter : Entity, IInteractable
         this.StatsModifiers.Clear();
         this.attackers.Clear();
 
-        this.currentHP = stats.MaxHP(StatsModifiers);
+        this.currentHP = this.maxHP_M;
         this.hpBar.fillAmount = 1;
 
         this.stateManager.ResetAll();
@@ -720,6 +729,14 @@ public class PlayerCharacter : Entity, IInteractable
         .setOnComplete(() =>
         {
             LeanTween.scale(target, Vector3.one, maxScaleTime).setEase(outType);
+        });
+    }
+    public void ScaleTweenObject(GameObject target, LeanTweenType _inType, LeanTweenType _outType)
+    {
+        LeanTween.scale(target, iconsMaxScale, maxScaleTime).setEase(_inType)
+        .setOnComplete(() =>
+        {
+            LeanTween.scale(target, Vector3.one, maxScaleTime).setEase(_outType);
         });
     }
     public void ScaleTweenObject(RectTransform target)

@@ -35,7 +35,7 @@ public abstract class EnemyBase : Entity
 
     private Vector2 steeredVelocity;
 
-    public float MaxSpeed { get => this.GetStats.Speed(this.StatsModifiers) * this.SpeedMultiplier; }
+    public float MaxSpeed { get => this.maxSpeed_M * this.SpeedMultiplier; }
 
     [SerializeField] private float randomWanderPositionRadius = 5f;
     public float RandomWanderPositionRadius { get => randomWanderPositionRadius; }

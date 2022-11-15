@@ -64,7 +64,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         PlayerCharacter p = collider.transform.parent.GetComponent<PlayerCharacter>();
         if (p == null) return;
 
-        p.OnTakeDamages(owner.GetStats.BaseDamages(owner.StatsModifiers), owner.RollCrit());
+        p.OnTakeDamages(owner.maxDamages_M, owner.RollCrit());
     }
 
     public override string ToString() => "Attacking";

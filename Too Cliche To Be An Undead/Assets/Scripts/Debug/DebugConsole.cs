@@ -48,6 +48,11 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand<int> ADDM_SELF_CRIT;
     private DebugCommand<int, float> ADDM_SELF_CRIT_T;
 
+    private DebugCommand GOLD_BAG;
+    private DebugCommand PAYDAY;
+    private DebugCommand RICH_AF;
+    private DebugCommand<int> ADD_MONEY;
+ 
     private DebugCommand<int> TEST_INT;
 
     private Vector2 helpScroll;
@@ -74,7 +79,7 @@ public class DebugConsole : MonoBehaviour
 
         KILLSELF = new DebugCommand("KILL_SELF", "Kills the currently controlled character", "KILL_SELF", () =>
         {
-            GameManager.Player1Ref.OnTakeDamages(GameManager.Player1Ref.GetStats.MaxHP(GameManager.Player1Ref.StatsModifiers));
+            GameManager.Player1Ref.OnTakeDamages(GameManager.Player1Ref.maxHP_M);
         });
 
         KILLALL = new DebugCommand("KILL_ALL", "Kills every players", "KILL_ALL", () =>
@@ -82,7 +87,7 @@ public class DebugConsole : MonoBehaviour
             foreach (var item in DataKeeper.Instance.playersDataKeep)
             {
                 PlayerCharacter pc = item.playerInput.GetComponentInParent<PlayerCharacter>();
-                pc.OnTakeDamages(pc.GetStats.MaxHP(pc.StatsModifiers));
+                pc.OnTakeDamages(pc.maxHP_M);
             }
         });
 
@@ -96,6 +101,21 @@ public class DebugConsole : MonoBehaviour
             GameManager.Player1Ref.StatsModifiers.Clear();
         });
 
+        GOLD_BAG = new DebugCommand("GOLD_BAG", "Adds 50 gold", "GOLD_BAG", () =>
+        {
+            PlayerCharacter.AddMoney(50);
+        });
+
+        PAYDAY = new DebugCommand("PAYDAY", "Adds 200 gold", "PAYDAY", () =>
+        {
+            PlayerCharacter.AddMoney(200);
+        });
+
+        RICH_AF = new DebugCommand("RICH_AF", "Adds 5000 gold", "RICH_AF", () =>
+        {
+            PlayerCharacter.AddMoney(5000);
+        });
+
         #endregion
 
         #region Int commands
@@ -103,7 +123,7 @@ public class DebugConsole : MonoBehaviour
         KILL = new DebugCommand<int>("KILL", "Kills the given player index", "KILL <int>", (val) =>
         {
             PlayerCharacter pc = DataKeeper.Instance.playersDataKeep[val].playerInput.GetComponentInParent<PlayerCharacter>();
-            pc.OnTakeDamages(pc.GetStats.MaxHP(pc.StatsModifiers));
+            pc.OnTakeDamages(pc.maxHP_M);
         });
 
         ADDM_SELF_CRIT = new DebugCommand<int>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self", "ADDM_SELF_CRIT <float>", (val) =>
@@ -114,6 +134,11 @@ public class DebugConsole : MonoBehaviour
         ADDM_SELF_CRIT_T = new DebugCommand<int, float>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self for <float>s", "ADDM_SELF_CRIT <int> <float>", (val_1, val_2) =>
         {
             GameManager.Player1Ref.AddModifier(MODIF_CRIT_ID, val_1, val_2, StatsModifier.E_StatType.CritChances);
+        });
+
+        ADD_MONEY = new DebugCommand<int>("ADD_MONEY", "Adds <int> money", "ADD_MONEY <int>", (val) =>
+        {
+            PlayerCharacter.AddMoney(val);
         });
 
         #endregion
@@ -226,6 +251,11 @@ public class DebugConsole : MonoBehaviour
 
             ADDM_SELF_CRIT,
             ADDM_SELF_CRIT_T,
+
+            ADD_MONEY,
+            GOLD_BAG,
+            PAYDAY,
+            RICH_AF,
     };
     }
 
@@ -245,10 +275,12 @@ public class DebugConsole : MonoBehaviour
         {
             ResetField();
             GameManager.Player1Ref.SetInGameControlsState(false);
+            GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
         }
         else
         {
             GameManager.Player1Ref.SetInGameControlsState(true);
+            GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
     }
 
@@ -261,6 +293,7 @@ public class DebugConsole : MonoBehaviour
             input = "";
             showConsole = false;
             showHelp = false;
+            GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
     }
 
@@ -418,6 +451,7 @@ public class DebugConsole : MonoBehaviour
             showConsole = false;
             ResetField();
             GameManager.Player1Ref.SetInGameControlsState(true);
+            GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
 
         if (Event.current.isKey)
@@ -429,6 +463,7 @@ public class DebugConsole : MonoBehaviour
                 showConsole = false;
                 ResetField();
                 GameManager.Player1Ref.SetInGameControlsState(true);
+                GameManager.Instance.GameState = GameManager.E_GameState.InGame;
             }
         }
         

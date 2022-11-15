@@ -11,10 +11,7 @@ public class ShopLevel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private TextMeshProUGUI costText;
 
-    [SerializeField] private ShopLevel leftNeighbour;
-    [SerializeField] private ShopLevel rightNeighbour;
-    [SerializeField] private ShopLevel downNeighbour;
-    [SerializeField] private ShopLevel upNeighbour;
+    [SerializeField] private ShopLevel[] levelsToActivate;
 
     private Shop shop;
 
@@ -109,7 +106,7 @@ public class ShopLevel : MonoBehaviour
             }
         }
 
-        UnlockNeighboursAndSetNavigation();
+        foreach (var item in levelsToActivate) item.SetActive(true);
 
         this.button.colors = unlockedColors;
 
@@ -119,25 +116,37 @@ public class ShopLevel : MonoBehaviour
         PlayerCharacter.LevelUp();
     }
 
+    /*
     private void UnlockNeighboursAndSetNavigation()
     {
-        CheckNeighbour(leftNeighbour);
-        CheckNeighbour(rightNeighbour);
-        CheckNeighbour(downNeighbour);
-        CheckNeighbour(upNeighbour);
+        if (unlockLeft) CheckNeighbour(leftNeighbour);
+        if (unlockRight) CheckNeighbour(rightNeighbour);
+        if (unlockDown) CheckNeighbour(downNeighbour);
+        if (unlockUp) CheckNeighbour(upNeighbour);
 
-        SetNavigationIfNeighbourIsActive();
+        SetSelfNavigationIfNeighbourIsActive();
+
+        leftNeighbour?.SetSelfNavigationIfNeighbourIsActive();
+        rightNeighbour?.SetSelfNavigationIfNeighbourIsActive();
+        downNeighbour?.SetSelfNavigationIfNeighbourIsActive();
+        upNeighbour?.SetSelfNavigationIfNeighbourIsActive();
     }
+    
 
-    private void CheckNeighbour(ShopLevel level)
+    private void UnlockNeighboursAndSetNavigation()
     {
-        if (level == null) return;
-
-        level.SetActive(true);
-        level.SetNavigationIfNeighbourIsActive();
+        foreach (var item in levelsToUnlock) item.Unlock(); 
     }
 
-    public void SetNavigationIfNeighbourIsActive()
+    private void CheckNeighbour(ShopLevel target)
+    {
+        if (target == null) return;
+
+        target.SetActive(true);
+    }
+
+    
+    public void SetSelfNavigationIfNeighbourIsActive()
     {
         Navigation nav = this.button.navigation;
 
@@ -155,6 +164,7 @@ public class ShopLevel : MonoBehaviour
 
         this.button.navigation = nav;
     }
+    */
 
     public void OnClick()
     {

@@ -21,6 +21,8 @@ public class StatsModifier
         Damages,
         AttackRange,
         Attack_CD,
+        DASH_CD,
+        SKILL_CD,
         Speed,
         CritChances,
     }
@@ -62,6 +64,7 @@ public class StatsModifier
 
     public void ResetTimer() => timer = maxDuration;
 
+    public void InverseModifier() => modifier *= -1;
 
     public string TypeToString()
     {
@@ -88,6 +91,14 @@ public class StatsModifier
 
             case E_StatType.Attack_CD:
                 s = "ATTCD";
+                break;
+
+            case E_StatType.DASH_CD:
+                s = "DASHCD";
+                break;
+
+            case E_StatType.SKILL_CD:
+                s = "SKILLCD";
                 break;
 
             case E_StatType.Speed:

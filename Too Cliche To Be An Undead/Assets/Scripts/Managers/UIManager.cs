@@ -435,7 +435,9 @@ public class UIManager : MonoBehaviour
         OpenMenuInQueue(shopMenu);
         SelectButton("Shop");
         localHUD.SetActive(false);
-        SetCurrentVerticalScrollbar(shopBar);
+
+        //SetCurrentVerticalScrollbar(shopBar);
+
         PlayersManager.Instance.SetAllPlayersControlMapToUI();
     }
 
@@ -444,7 +446,7 @@ public class UIManager : MonoBehaviour
         CloseYoungerMenu();
         localHUD.SetActive(true);
         PlayersManager.Instance.SetAllPlayersControlMapToInGame();
-        UnsetCurrentVerticalScrollbar();
+        //UnsetCurrentVerticalScrollbar();
 
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
     }

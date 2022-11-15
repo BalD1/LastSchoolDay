@@ -285,8 +285,8 @@ public class ED_PlayerCharacter : Editor
         GUI.enabled = false;
 
         EditorGUILayout.LabelField("Current HP : " + targetScript.CurrentHP + " / " + 
-                                   targetScript.GetStats.MaxHP(targetScript.StatsModifiers) + 
-                                   "(" + targetScript.CurrentHP / targetScript.GetStats.MaxHP(targetScript.StatsModifiers) * 100 + "%)");
+                                   targetScript.maxHP_M + 
+                                   "(" + targetScript.CurrentHP / targetScript.maxHP_M * 100 + "%)");
 
         GUIStyle style = new GUIStyle(EditorStyles.foldout);
         style.fixedWidth = 0;
@@ -303,13 +303,13 @@ public class ED_PlayerCharacter : Editor
             EditorGUILayout.BeginVertical("GroupBox");
 
             EditorGUILayout.TextField("Entity Type", playerStats.EntityType);
-            EditorGUILayout.FloatField("Max HP", playerStats.MaxHP(targetScript.StatsModifiers));
-            EditorGUILayout.FloatField("Base Damages", playerStats.BaseDamages(targetScript.StatsModifiers));
-            EditorGUILayout.FloatField("Attack Range", playerStats.AttackRange(targetScript.StatsModifiers));
-            EditorGUILayout.FloatField("Attack Cooldown", playerStats.Attack_COOLDOWN(targetScript.StatsModifiers));
+            DrawBaseAndModified("Max HP", playerStats.MaxHP, targetScript.maxHP_M);
+            DrawBaseAndModified("Damages", playerStats.BaseDamages, targetScript.maxDamages_M);
+            DrawBaseAndModified("Attack Range", playerStats.AttackRange, targetScript.maxAttRange_M);
+            DrawBaseAndModified("Attack Cooldown", playerStats.Attack_COOLDOWN, targetScript.maxAttCD_M);
             EditorGUILayout.FloatField("Invincibility Cooldown", playerStats.Invincibility_COOLDOWN);
-            EditorGUILayout.FloatField("Speed", playerStats.Speed(targetScript.StatsModifiers));
-            EditorGUILayout.IntField("Crit Chances", playerStats.CritChances(targetScript.StatsModifiers));
+            DrawBaseAndModified("Speed", playerStats.Speed, targetScript.maxSpeed_M);
+            DrawBaseAndModified("Crit Chances", playerStats.CritChances, targetScript.maxCritChances_M);
             EditorGUILayout.FloatField("Weight", playerStats.Weight);
             EditorGUILayout.TextField("Team", EnumsExtension.EnumToString(playerStats.Team));
 
@@ -397,6 +397,39 @@ public class ED_PlayerCharacter : Editor
         GUI.enabled = true;
 
         EditorGUILayout.EndVertical();
+    }
+
+    private void DrawBaseAndModified(string statType, float baseValue, float modifiedValue)
+    {
+
+        EditorGUILayout.BeginHorizontal();
+
+        EditorGUILayout.FloatField("Base " + statType, baseValue);
+
+        float bw = EditorGUIUtility.labelWidth;
+        EditorGUIUtility.labelWidth = 100;
+
+        EditorGUILayout.FloatField("Modified", modifiedValue);
+
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUIUtility.labelWidth = bw;
+    }
+
+    private void DrawBaseAndModified(string statType, int baseValue, int modifiedValue)
+    {
+        EditorGUILayout.BeginHorizontal();
+
+        EditorGUILayout.IntField("Base " + statType, baseValue);
+
+        float bw = EditorGUIUtility.labelWidth;
+        EditorGUIUtility.labelWidth = 100;
+
+        EditorGUILayout.IntField("Modified", modifiedValue);
+
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUIUtility.labelWidth = bw;
     }
 
     private void DrawMisc()

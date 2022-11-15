@@ -20,13 +20,13 @@ public class PlayerBaseWeapon : PlayerWeapon
     public override void StartWeaponAttack(bool isLastAttack)
     {
         base.StartWeaponAttack(isLastAttack);
-        hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.GetStats.AttackRange(owner.StatsModifiers), damageablesLayer);
+        hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.maxAttRange_M, damageablesLayer);
         foreach (var item in hitEntities)
         {
             var damageable = item.GetComponentInParent<IDamageable>();
             if (damageable != null)
             {
-                float damages = owner.GetStats.BaseDamages(owner.StatsModifiers);
+                float damages = owner.maxDamages_M;
 
                 if (isLastAttack)
                 {
@@ -47,7 +47,7 @@ public class PlayerBaseWeapon : PlayerWeapon
 #if UNITY_EDITOR
         if (!debugMode || owner == null) return;
 
-        Gizmos.DrawWireSphere(this.transform.position, owner.GetStats.AttackRange(owner.StatsModifiers));
+        Gizmos.DrawWireSphere(this.transform.position, owner.maxAttRange_M);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(owner.transform.position, maxRange);
 #endif

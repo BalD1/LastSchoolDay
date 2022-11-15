@@ -32,12 +32,13 @@ public class SkillHolder : MonoBehaviour
         if (timer > 0)
         {
             timer -= Time.deltaTime;
-            owner.UpdateSkillThumbnailFill(-((timer / skill.Cooldown) - 1));
 
-            if (timer <= 0) owner.ScaleTweenObject(owner.GetSkillIcon.gameObject);
+            if (timer <= 0) owner.ScaleTweenObject(owner.GetSkillIcon.gameObject, LeanTweenType.linear, LeanTweenType.easeOutSine);
+
+            owner.UpdateSkillThumbnailFill(-((timer / skill.Cooldown) - 1));
         }
 
-        if (skill.IsInUse) skill.UpdateSkill(owner);
+        //if (skill.IsInUse) skill.UpdateSkill(owner);
     }
 
     public void StartSkill()
@@ -56,11 +57,15 @@ public class SkillHolder : MonoBehaviour
 
     public void ChangeSkill(SCRPT_Skill newSkill)
     {
+        owner.StateManager.SwitchState(owner.StateManager.idleState);
+
         this.skill = newSkill;
         this.Skill.ResetSkill();
         timer = 0;
         owner.SetSkillThumbnail(newSkill.Thumbnail);
         owner.UpdateSkillThumbnailFill(1);
+
+        owner.ResetSkillAnimator();
     }
 
 

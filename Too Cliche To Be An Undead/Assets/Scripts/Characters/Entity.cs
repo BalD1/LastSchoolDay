@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -52,6 +53,13 @@ public class Entity : MonoBehaviour, IDamageable
 
     [SerializeField] protected SCRPT_EntityStats stats;
     public SCRPT_EntityStats GetStats { get => stats; }
+
+    public float maxHP_M { get; protected set; }
+    public float maxDamages_M { get; protected set; }
+    public float maxAttRange_M { get; protected set; }
+    public float maxAttCD_M { get; protected set; }
+    public float maxSpeed_M { get; protected set; }
+    public int maxCritChances_M { get; protected set; }
 
     [SerializeField] protected List<StatsModifier> statsModifiers = new List<StatsModifier>();
     public List<StatsModifier> StatsModifiers { get => statsModifiers; }
@@ -108,11 +116,19 @@ public class Entity : MonoBehaviour, IDamageable
     protected virtual void Awake()
     {
         baseMaterial = this.sprite.material;
+
+        this.maxHP_M = GetStats.MaxHP;
+        this.maxDamages_M = GetStats.BaseDamages;
+        this.maxAttRange_M = GetStats.AttackRange;
+        this.maxAttCD_M = GetStats.Attack_COOLDOWN;
+        this.maxSpeed_M = GetStats.Speed;
+        this.maxCritChances_M = GetStats.CritChances;
+
+        this.currentHP = maxHP_M;
     }
 
     protected virtual void Start()
     {
-        currentHP = GetStats.MaxHP(StatsModifiers);
     }
 
     protected virtual void Update()
@@ -135,13 +151,14 @@ public class Entity : MonoBehaviour, IDamageable
         if (attack_TIMER > 0) attack_TIMER -= Time.deltaTime;
     }
 
-    private void LateUpdate()
+    protected virtual void LateUpdate()
     {
-        if (modifiersToRemove.Count > 0)
+        foreach (var item in modifiersToRemove)
         {
-            StatsModifiers.RemoveAll(x => modifiersToRemove.Contains(x));
-            modifiersToRemove.Clear();
+            UnapplyModifier(item);
+            StatsModifiers.Remove(item);
         }
+        modifiersToRemove.Clear();
 
         if (tickDamagesToRemove.Count > 0)
         {
@@ -181,20 +198,63 @@ public class Entity : MonoBehaviour, IDamageable
         AddTickDamages(t);
     }
 
+    protected virtual void ApplyModifier(StatsModifier m)
+    {
+        switch (m.StatType)
+        {
+            case StatsModifier.E_StatType.MaxHP:
+                maxHP_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.Damages:
+                maxDamages_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.AttackRange:
+                maxAttRange_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.Attack_CD:
+                maxAttCD_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.Speed:
+                maxSpeed_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.CritChances:
+                maxCritChances_M += (int)m.Modifier;
+                break;
+        }
+    }
+
+    protected virtual void UnapplyModifier(StatsModifier m)
+    {
+        m.InverseModifier();
+        ApplyModifier(m);
+    }
+
     public void AddModifier(string id, float value, float time, StatsModifier.E_StatType type)
     {
-        StatsModifiers.Add(new StatsModifier(id, value, time, type));
+        StatsModifier m = new StatsModifier(id, value, time, type);
+        StatsModifiers.Add(m);
+
+        ApplyModifier(m);
+
         if (type == StatsModifier.E_StatType.MaxHP) this.OnHeal(value);
     }
     public void AddModifier(string id, float value, StatsModifier.E_StatType type)
     {
-        StatsModifiers.Add(new StatsModifier(id, value, type));
-        if (type == StatsModifier.E_StatType.MaxHP) this.OnHeal(value);
+        AddModifier(id, value, -1, type);
     }
 
     public void AddModifier(string id, int value, float time, StatsModifier.E_StatType type)
     {
-        StatsModifiers.Add(new StatsModifier(id, value, time, type));
+        StatsModifier m = new StatsModifier(id, value, time, type);
+        StatsModifiers.Add(m);
+
+        ApplyModifier(m);
+
         if (type == StatsModifier.E_StatType.MaxHP) this.OnHeal(value);
     }
     public void AddModifier(string id, int value, StatsModifier.E_StatType type)
@@ -234,11 +294,17 @@ public class Entity : MonoBehaviour, IDamageable
         if (m.IDName == "NULL") return;
 
         StatsModifiers.Remove(m);
+
+        UnapplyModifier(m);
     }
 
     public void RemoveModifier(StatsModifier modifier)
     {
-        if (StatsModifiers.Contains(modifier)) modifiersToRemove.Add(modifier);
+        if (StatsModifiers.Contains(modifier))
+        {
+            modifiersToRemove.Add(modifier);
+            UnapplyModifier(modifier);
+        }
     }
 
     public void RemoveModifiersAll(string id)
@@ -247,7 +313,11 @@ public class Entity : MonoBehaviour, IDamageable
         {
             if (item.IDName.Equals(id)) modifiersToRemove.Add(item);
         }
-        StatsModifiers.RemoveAll(x => modifiersToRemove.Contains(x));
+        foreach (var item in modifiersToRemove)
+        {
+            UnapplyModifier(item);
+            StatsModifiers.Remove(item);
+        }
     }
 
     public StatsModifier SearchModifier(string id)
@@ -307,7 +377,7 @@ public class Entity : MonoBehaviour, IDamageable
         if (isCrit) amount *= 1.5f;
 
         if (canExceedMaxHP) currentHP += amount;
-        else currentHP = Mathf.Clamp(currentHP += amount, 0, GetStats.MaxHP(StatsModifiers));
+        else currentHP = Mathf.Clamp(currentHP += amount, 0, maxHP_M);
 
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: true, isCrit);
     }
@@ -350,7 +420,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     public void SetInvincibility(bool _i) => invincible = _i;
 
-    public bool RollCrit() => UnityEngine.Random.Range(0, 100) <= GetStats.CritChances(StatsModifiers) ? true : false;
+    public bool RollCrit() => UnityEngine.Random.Range(0, 100) <= maxCritChances_M ? true : false;
 
     public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
     {
@@ -365,7 +435,7 @@ public class Entity : MonoBehaviour, IDamageable
         return v;
     }
 
-    public void StartAttackTimer(float durationModifier = 0) => attack_TIMER = GetStats.Attack_COOLDOWN(StatsModifiers) + durationModifier;
+    public void StartAttackTimer(float durationModifier = 0) => attack_TIMER = maxAttCD_M + durationModifier;
 
     #region Debug
 
@@ -373,7 +443,7 @@ public class Entity : MonoBehaviour, IDamageable
     {
 #if UNITY_EDITOR
         string col = GetStats.GetMarkdownColor();
-        Debug.Log("<b><color=" + col + ">" + this.gameObject.name + "</color></b> : " + currentHP + " / " + GetStats.MaxHP(StatsModifiers) + " (" + (currentHP / GetStats.MaxHP(StatsModifiers) * 100) + "% ) ", this.gameObject);
+        Debug.Log("<b><color=" + col + ">" + this.gameObject.name + "</color></b> : " + currentHP + " / " + maxHP_M + " (" + (currentHP / maxHP_M * 100) + "% ) ", this.gameObject); ;
 #endif
     }
 

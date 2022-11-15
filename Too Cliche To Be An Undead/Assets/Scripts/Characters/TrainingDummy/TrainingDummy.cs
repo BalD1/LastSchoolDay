@@ -93,7 +93,7 @@ public class TrainingDummy : EnemyBase
 
     public override void OnDeath(bool forceDeath = false)
     {
-        this.OnHeal(this.GetStats.MaxHP(StatsModifiers));
+        this.OnHeal(this.maxHP_M);
     }
 
     private void Regen()
@@ -104,7 +104,7 @@ public class TrainingDummy : EnemyBase
         receivedDPS = 0;
         receivedAttacks = 0;
 
-        this.OnHeal(this.GetStats.MaxHP(StatsModifiers));
+        this.OnHeal(this.maxHP_M);
     }
 
     private void UpdateTimeText()

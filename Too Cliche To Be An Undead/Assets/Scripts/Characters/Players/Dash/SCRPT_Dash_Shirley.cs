@@ -16,8 +16,8 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
 
     public override void OnDashStart(PlayerCharacter owner)
     {
-        finalDamages = owner.GetStats.BaseDamages(owner.StatsModifiers) * damagesPercentageModifier;
-        critChances = owner.GetStats.CritChances(owner.StatsModifiers);
+        finalDamages = owner.maxDamages_M * damagesPercentageModifier;
+        critChances = owner.maxCritChances_M;
         team = owner.GetStats.Team;
 
         hitEntities = new List<Entity>();

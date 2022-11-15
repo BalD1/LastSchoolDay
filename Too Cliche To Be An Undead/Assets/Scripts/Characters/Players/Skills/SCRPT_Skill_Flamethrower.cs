@@ -18,7 +18,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
 
-        finalDamages = owner.GetStats.BaseDamages(owner.StatsModifiers) * damagesPercentageModifier;
+        finalDamages = owner.maxDamages_M * damagesPercentageModifier;
     }
 
     public override void UpdateSkill(PlayerCharacter owner)
