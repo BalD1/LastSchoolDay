@@ -35,7 +35,7 @@ public class SkillHolder : MonoBehaviour
 
             if (timer <= 0) owner.ScaleTweenObject(owner.GetSkillIcon.gameObject, LeanTweenType.linear, LeanTweenType.easeOutSine);
 
-            owner.UpdateSkillThumbnailFill(-((timer / skill.Cooldown) - 1));
+            owner.UpdateSkillThumbnailFill(-((timer / owner.MaxSkillCD_M) - 1));
         }
 
         //if (skill.IsInUse) skill.UpdateSkill(owner);
@@ -46,9 +46,10 @@ public class SkillHolder : MonoBehaviour
         if (Skill.IsInUse || timer > 0) return;
 
         owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimer(skill.Duration));
-        owner.UpdateSkillThumbnailFill(-((timer / skill.Cooldown) - 1));
+        owner.UpdateSkillThumbnailFill(-((timer / owner.MaxSkillCD_M) - 1));
     }
 
+    public void StartTimer() => timer = owner.MaxSkillCD_M;
     public void StartTimer(float t) => timer = t;
 
     public void PlayAnimation(string id) => animator.Play(id);

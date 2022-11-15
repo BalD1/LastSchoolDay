@@ -30,7 +30,7 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
         owner.SetInvincibility(false);
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();
-        owner.GetSkillHolder.StartTimer(cooldown);
+        owner.GetSkillHolder.StartTimer();
 
         owner.d_EnteredTrigger -= EnteredTrigger;
         owner.d_ExitedTrigger -= ExitedTrigger;

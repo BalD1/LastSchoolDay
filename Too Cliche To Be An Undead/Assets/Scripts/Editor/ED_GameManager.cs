@@ -98,6 +98,9 @@ public class ED_GameManager : Editor
         GUI.enabled = false;
         SerializedProperty playersCount = serializedObject.FindProperty("playersCount");
         EditorGUILayout.PropertyField(playersCount);
+
+        SerializedProperty playersByName = serializedObject.FindProperty("playersByName");
+        EditorGUILayout.PropertyField(playersByName);
         GUI.enabled = true;
 
         SerializedProperty shop = serializedObject.FindProperty("shop");

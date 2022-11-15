@@ -13,7 +13,6 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
         owner.OffsetSkillHolder(offset);
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
-        owner.GetSkillHolder.StartTimer(cooldown);
 
         Collider2D[] hitTargets = Physics2D.OverlapCircleAll(owner.GetSkillHolder.transform.position, range, entitiesToAffect);
 
@@ -35,5 +34,6 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
     public override void StopSkill(PlayerCharacter owner)
     {
         isInUse = false;
+        owner.GetSkillHolder.StartTimer();
     }
 }

@@ -19,6 +19,7 @@ public class ShopLevel : MonoBehaviour
     [SerializeField] private int cost;
 
     [SerializeField] private Modifier[] modifiers;
+    [SerializeField] private int revivesToAdd = 0;
 
     [SerializeField] private bool isActive = false;
     private bool isUnlocked = false;
@@ -51,12 +52,15 @@ public class ShopLevel : MonoBehaviour
 
     private void Awake()
     {
-        StringBuilder sb = new StringBuilder($"Level {id} \n");
+        StringBuilder sb = new StringBuilder();
 
         foreach (var item in modifiers)
         {
-            sb.Append($"+{item.amount}% {item.stat}");
+            sb.AppendFormat("{0} {1} to your {2} \n", item.amount > 0 ? "Adds" : "Removes", Mathf.Abs(item.amount), StatsModifier.TypeToString_UI(item.stat));
         }
+
+        if (revivesToAdd > 0)
+            sb.AppendFormat(" +{0} revive{1} \n", revivesToAdd, revivesToAdd > 1 ? "s" : "");
 
         buttonText.text = sb.ToString();
 
@@ -70,14 +74,24 @@ public class ShopLevel : MonoBehaviour
 
     public void SetPlayersMoney()
     {
-        StringBuilder sb = new StringBuilder($"Cost {PlayerCharacter.GetMoney()} / {cost}");
+        StringBuilder sb = new StringBuilder("Cost ");
+        sb.AppendFormat("{0} / {1}", PlayerCharacter.GetMoney(), cost);
+
         costText.text = sb.ToString();
     }
 
     public void SetActive(bool active)
     {
+        if (isActive == active) return;
+
         isActive = active;
         button.interactable = isActive;
+
+        LeanTween.scale(this.GetComponent<RectTransform>(), new Vector3(1.2f, 1.2f, 1.2f), .2f).setEase(LeanTweenType.easeInSine).setIgnoreTimeScale(true).
+            setOnComplete(() =>
+            {
+                LeanTween.scale(this.GetComponent<RectTransform>(), Vector3.one, .2f).setEase(LeanTweenType.easeOutSine).setIgnoreTimeScale(true);
+            });
     }
 
     public bool TryUnlock()
@@ -103,6 +117,8 @@ public class ShopLevel : MonoBehaviour
             foreach (var item in GameManager.Instance.playersByName)
             {
                 foreach (var modif in modifiers) item.playerScript.AddModifier(modif.idName, modif.amount, modif.stat);
+
+                item.playerScript.selfReviveCount += revivesToAdd;
             }
         }
 
@@ -203,11 +219,10 @@ public class ShopLevel : MonoBehaviour
 
     private void BoughtUpgradeFeedback()
     {
-        LeanTween.scale(this.GetComponent<RectTransform>(), new Vector3(1.3f, 1.3f, 1.3f), .2f).setEase(LeanTweenType.easeInSine)
+        LeanTween.scale(this.GetComponent<RectTransform>(), Vector3.one, .2f).setEase(LeanTweenType.easeInSine)
         .setOnComplete(() =>
         {
-            LeanTween.scale(this.GetComponent<RectTransform>(), Vector3.one, .2f).setEase(LeanTweenType.easeOutSine)
-            .setOnComplete(() => isTweening = false);
+            isTweening = false;
         });
     }
 

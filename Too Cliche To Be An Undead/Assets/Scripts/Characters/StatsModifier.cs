@@ -112,4 +112,48 @@ public class StatsModifier
 
         return s;
     }
+
+    public static string TypeToString_UI(E_StatType type)
+    {
+        {
+            string s = "";
+
+            switch (type)
+            {
+                case E_StatType.MaxHP:
+                    s = "Max Health";
+                    break;
+
+                case E_StatType.Damages:
+                    s = "Damages";
+                    break;
+
+                case E_StatType.AttackRange:
+                    s = "Attack Range";
+                    break;
+
+                case E_StatType.Attack_CD:
+                    s = "Attack Cooldown";
+                    break;
+
+                case E_StatType.DASH_CD:
+                    s = "Dash Cooldown";
+                    break;
+
+                case E_StatType.SKILL_CD:
+                    s = "Skill Cooldown";
+                    break;
+
+                case E_StatType.Speed:
+                    s = "Movement Speed";
+                    break;
+
+                case E_StatType.CritChances:
+                    s = "Critical Hit Chances";
+                    break;
+            }
+
+            return s;
+        }
+    }
 }

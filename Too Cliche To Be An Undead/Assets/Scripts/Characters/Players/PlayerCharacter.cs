@@ -63,6 +63,9 @@ public class PlayerCharacter : Entity, IInteractable
 
     public int selfReviveCount;
 
+    public float MaxSkillCD_M { get; private set; }
+    public float MaxDashCD_M { get; private set; }
+
     private float dash_CD_TIMER;
     public bool isDashing;
 
@@ -148,7 +151,6 @@ public class PlayerCharacter : Entity, IInteractable
         }
         else
         {
-            //PlayersManager.Instance.AddAlivePlayer();
             this.transform.position = GameManager.Instance.SpawnPoints[this.playerIndex].position;
             SwitchControlMapToInGame();
 
@@ -221,19 +223,25 @@ public class PlayerCharacter : Entity, IInteractable
 
         UIManager.Instance.D_exitPause += SwitchControlMapToInGame;
 
-        if (this.hpBar == null)
+        if (this.hpBar == null && GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainScene))
         {
             UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[0];
             characterPortrait = UIManager.Instance.CharacterPortraits[this.playerIndex];
             currentPortraitIdx = 0;
 
+            GameManager.E_CharactersNames character = GameManager.E_CharactersNames.Shirley;
             if (DataKeeper.Instance.IsPlayerDataKeepSet())
             {
-                GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
                 foreach (var item in UIManager.Instance.CharacterPortraits)
                 {
                     if (item.characterName.Equals(character)) characterPortrait = item;
                 }
+            }
+            else
+            {
+                GameManager.Instance.SetPlayer1(this);
+                GameManager.Instance.playersByName = new List<GameManager.PlayersByName>();
+                GameManager.Instance.playersByName.Add(new GameManager.PlayersByName("soloP1", this));
             }
 
             if (pHUD.container != null)
@@ -244,9 +252,19 @@ public class PlayerCharacter : Entity, IInteractable
                 this.hpText = pHUD.hpText;
                 this.skillIcon = pHUD.skillThumbnail;
 
-                pHUD.portrait.sprite = UIManager.Instance.GetBasePortrait(GameManager.E_CharactersNames.Whitney);
+                pHUD.portrait.sprite = UIManager.Instance.GetBasePortrait(character);
             }
+
+            PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(GameManager.E_CharactersNames.Shirley);
+
+            SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character);
+
+            this.currentHP = maxHP_M;
+
+            SwitchControlMapToInGame();
         }
+
+        if (GameManager.Instance.playersByName.Count <= 0) GameManager.Instance.SetPlayersByNameList();
 
         SetDashThumbnail(playerDash.Thumbnail);
     }
@@ -261,7 +279,7 @@ public class PlayerCharacter : Entity, IInteractable
             dash_CD_TIMER -= Time.deltaTime;
             if (dashIcon != null)
             {
-                dashIcon.fillAmount = -((dash_CD_TIMER / playerDash.Dash_COOLDOWN) - 1);
+                dashIcon.fillAmount = -((dash_CD_TIMER / MaxDashCD_M) - 1);
 
                 if (dash_CD_TIMER <= 0) ScaleTweenObject(dashIcon.gameObject);
             }
@@ -432,6 +450,44 @@ public class PlayerCharacter : Entity, IInteractable
             this.portrait.sprite = characterPortrait.characterPortraitsByHP[idx].portrait;
 
         currentPortraitIdx = idx;
+    }
+
+    protected override void ApplyModifier(StatsModifier m)
+    {
+        switch (m.StatType)
+        {
+            case StatsModifier.E_StatType.MaxHP:
+                maxHP_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.Damages:
+                maxDamages_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.AttackRange:
+                maxAttRange_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.Attack_CD:
+                maxAttCD_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.Speed:
+                maxSpeed_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.CritChances:
+                maxCritChances_M += (int)m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.DASH_CD:
+                MaxDashCD_M += m.Modifier;
+                break;
+
+            case StatsModifier.E_StatType.SKILL_CD:
+                MaxSkillCD_M += m.Modifier;
+                break;
+        }
     }
 
     public override void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false)
@@ -621,7 +677,12 @@ public class PlayerCharacter : Entity, IInteractable
 
         skillIcon.sprite = image;
     }
-    public void UpdateSkillThumbnailFill(float fill) => skillIcon.fillAmount = fill;
+    public void UpdateSkillThumbnailFill(float fill)
+    {
+        if (skillIcon == null) return;
+
+        skillIcon.fillAmount = fill;
+    }
 
     public void ResetSkillAnimator()
     {
@@ -674,7 +735,7 @@ public class PlayerCharacter : Entity, IInteractable
         isDashing = true;
     }
 
-    public void StartDashTimer() => dash_CD_TIMER = playerDash.Dash_COOLDOWN;
+    public void StartDashTimer() => dash_CD_TIMER = MaxDashCD_M;
 
     public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
     {
@@ -821,6 +882,21 @@ public class PlayerCharacter : Entity, IInteractable
 
         currentPortraitIdx = 0;
         SetPortrait();
+
+        this.MaxDashCD_M = newDash.Dash_COOLDOWN;
+        this.MaxSkillCD_M = newSkill.Cooldown;
+
+        this.maxHP_M = newStats.MaxHP;
+        this.maxDamages_M = newStats.BaseDamages;
+        this.maxAttRange_M = newStats.AttackRange;
+        this.maxAttCD_M = newStats.Attack_COOLDOWN;
+        this.maxSpeed_M = newStats.Speed;
+        this.maxCritChances_M = newStats.CritChances;
+
+        foreach (var item in statsModifiers)
+        {
+            this.ApplyModifier(item);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

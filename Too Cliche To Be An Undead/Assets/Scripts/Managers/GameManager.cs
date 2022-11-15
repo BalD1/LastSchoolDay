@@ -41,6 +41,12 @@ public class GameManager : MonoBehaviour
     {
         public string playerName;
         public PlayerCharacter playerScript;
+
+        public PlayersByName(string _playerName, PlayerCharacter _playerScript)
+        {
+            this.playerName = _playerName;
+            this.playerScript = _playerScript;
+        }
     }
 
     [SerializeField] private Transform[] spawnPoints;
@@ -148,18 +154,21 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        SetPlayersByNameList();
+        InitState();
+    }
+
+    public void SetPlayersByNameList()
+    {
         if (DataKeeper.Instance.IsPlayerDataKeepSet())
         {
             foreach (var item in DataKeeper.Instance.playersDataKeep)
             {
-                var p = new PlayersByName();
-                p.playerName = item.playerName;
-                p.playerScript = item.playerInput.GetComponentInParent<PlayerCharacter>();
+                var p = new PlayersByName(item.playerName, item.playerInput.GetComponentInParent<PlayerCharacter>());
                 playersByName.Add(p);
                 playersCount++;
             }
-        }    
-        InitState();
+        }
     }
 
     public void QuitLobby(int id)

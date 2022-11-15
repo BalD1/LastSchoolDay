@@ -11,6 +11,8 @@ public class DebugConsole : MonoBehaviour
     private const string MODIF_CD_ID = "DC_CHEAT_CD_X";
     private const string MODIF_SPEED_ID = "DC_CHEAT_SPEED_X";
     private const string MODIF_CRIT_ID = "DC_CHEAT_CRIT_X";
+    private const string MODIF_DASHCD_ID = "DC_CHEAT_DASH-CD_X";
+    private const string MODIF_SKILLCD_ID = "DC_CHEAT_SKILL-CD_X";
 
     private bool showConsole;
     private bool showHelp;
@@ -47,6 +49,10 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand<float,float> ADDM_SELF_SPEED_T;
     private DebugCommand<int> ADDM_SELF_CRIT;
     private DebugCommand<int, float> ADDM_SELF_CRIT_T;
+    private DebugCommand<float> ADDM_SELF_DASHCD;
+    private DebugCommand<float, float> ADDM_SELF_DASHCD_T;
+    private DebugCommand<float> ADDM_SELF_SKILLCD;
+    private DebugCommand<float, float> ADDM_SELF_SKILLCD_T;
 
     private DebugCommand GOLD_BAG;
     private DebugCommand PAYDAY;
@@ -213,7 +219,27 @@ public class DebugConsole : MonoBehaviour
         ADDM_SELF_SPEED_T = new DebugCommand<float, float>("ADDM_SELF_SPEED", "Adds a speed modifier of <float> to self for <float>s", "ADDM_SELF_SPEED <float> <float>", (val_1, val_2) =>
         {
             GameManager.Player1Ref.AddModifier(MODIF_SPEED_ID, val_1, val_2, StatsModifier.E_StatType.Speed);
-        }); 
+        });
+
+        ADDM_SELF_DASHCD = new DebugCommand<float>("ADDM_SELF_DASHCD", "Adds a dash cooldown modifier of <float> to self", "ADDM_SELF_DASHCD <float>", (val) =>
+        {
+            GameManager.Player1Ref.AddModifier(MODIF_DASHCD_ID, val, StatsModifier.E_StatType.DASH_CD);
+        });
+
+        ADDM_SELF_DASHCD_T = new DebugCommand<float, float>("ADDM_SELF_DASHCD_T", "Adds a dash cooldown modifier of <float> to self for <float>s", "ADDM_SELF_DASHCD_T <float> <float>", (val_1, val_2) =>
+        {
+            GameManager.Player1Ref.AddModifier(MODIF_DASHCD_ID, val_1, val_2, StatsModifier.E_StatType.DASH_CD);
+        });
+
+        ADDM_SELF_SKILLCD = new DebugCommand<float>("ADDM_SELF_SKILLCD", "Adds a skill cooldown modifier of <float> to self", "ADDM_SELF_SKILLCD <float>", (val) =>
+        {
+            GameManager.Player1Ref.AddModifier(MODIF_SKILLCD_ID, val, StatsModifier.E_StatType.SKILL_CD);
+        });
+
+        ADDM_SELF_SKILLCD_T = new DebugCommand<float, float>("ADDM_SELF_SKILLCD_T", "Adds a speed modifier of <float> to self for <float>s", "ADDM_SELF_SKILLCD_T <float> <float>", (val_1, val_2) =>
+        {
+            GameManager.Player1Ref.AddModifier(MODIF_SKILLCD_ID, val_1, val_2, StatsModifier.E_StatType.SKILL_CD);
+        });
 
         #endregion
 
@@ -251,6 +277,12 @@ public class DebugConsole : MonoBehaviour
 
             ADDM_SELF_CRIT,
             ADDM_SELF_CRIT_T,
+
+            ADDM_SELF_DASHCD,
+            ADDM_SELF_DASHCD_T,
+
+            ADDM_SELF_SKILLCD,
+            ADDM_SELF_SKILLCD_T,
 
             ADD_MONEY,
             GOLD_BAG,

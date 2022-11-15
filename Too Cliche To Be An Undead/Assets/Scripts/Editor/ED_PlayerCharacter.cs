@@ -290,11 +290,8 @@ public class ED_PlayerCharacter : Editor
 
         GUI.enabled = false;
 
-        StringBuilder sb = new StringBuilder("Current HP");
-        sb.Append(targetScript.CurrentHP);
-        sb.Append(" / ");
-        sb.Append(targetScript.maxHP_M + "(");
-        sb.Append(targetScript.CurrentHP / targetScript.maxHP_M * 100 + "%");
+        StringBuilder sb = new StringBuilder("Current HP ");
+        sb.AppendFormat("{0} / {1} ({2}%)", targetScript.CurrentHP, targetScript.maxHP_M, targetScript.CurrentHP / targetScript.maxHP_M * 100);
 
         EditorGUILayout.LabelField(sb.ToString());
 
@@ -318,9 +315,11 @@ public class ED_PlayerCharacter : Editor
             DrawBaseAndModified("Damages", playerStats.BaseDamages, targetScript.maxDamages_M);
             DrawBaseAndModified("Attack Range", playerStats.AttackRange, targetScript.maxAttRange_M);
             DrawBaseAndModified("Attack Cooldown", playerStats.Attack_COOLDOWN, targetScript.maxAttCD_M);
-            EditorGUILayout.FloatField("Invincibility Cooldown", playerStats.Invincibility_COOLDOWN);
             DrawBaseAndModified("Speed", playerStats.Speed, targetScript.maxSpeed_M);
             DrawBaseAndModified("Crit Chances", playerStats.CritChances, targetScript.maxCritChances_M);
+            DrawBaseAndModified("Dash Cooldown", targetScript.PlayerDash.Dash_COOLDOWN, targetScript.MaxDashCD_M);
+            DrawBaseAndModified("Skill Cooldown", targetScript.GetSkillHolder.Skill.Cooldown, targetScript.MaxSkillCD_M);
+            EditorGUILayout.FloatField("Invincibility Cooldown", playerStats.Invincibility_COOLDOWN);
             EditorGUILayout.FloatField("Weight", playerStats.Weight);
             EditorGUILayout.TextField("Team", EnumsExtension.EnumToString(playerStats.Team));
 

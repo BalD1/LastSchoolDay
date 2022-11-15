@@ -698,7 +698,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -29.477}
   m_AnchorMin: {x: 0.019188024, y: 0.012655058}
   m_AnchorMax: {x: 0.45881194, y: 0.31965503}
-  m_AnchoredPosition: {x: -0.8000488, y: -0.5}
+  m_AnchoredPosition: {x: -0.8000412, y: -0.5}
   m_SizeDelta: {x: 1.7285004, y: -64.0186}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1824184016
@@ -1196,7 +1196,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 57.25
+  m_fontSize: 55.2
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3342,7 +3342,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
+  m_fontSize: 19.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7056,11 +7056,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7448039742438409422, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.3857422
+      value: 0.38573837
       objectReference: {fileID: 0}
     - target: {fileID: 8223205364989257167, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: m_fontSize
-      value: 22.55
+      value: 21.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99121e736d0208b4a8046018d4904396, type: 3}
@@ -7276,7 +7276,7 @@ PrefabInstance:
       objectReference: {fileID: 6572933053147916851}
     - target: {fileID: 5433258077843572243, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: modifiers.Array.data[0].amount
-      value: -0.5
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5433258077843572243, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: modifiers.Array.data[0].idName
@@ -7348,7 +7348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8223205364989257167, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: m_fontSize
-      value: 22.7
+      value: 21.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99121e736d0208b4a8046018d4904396, type: 3}
@@ -7620,7 +7620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8223205364989257167, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: m_fontSize
-      value: 22.75
+      value: 21.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99121e736d0208b4a8046018d4904396, type: 3}
@@ -8121,7 +8121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8223205364989257167, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: m_fontSize
-      value: 22.7
+      value: 21.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99121e736d0208b4a8046018d4904396, type: 3}
@@ -8272,6 +8272,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5433258077362381121}
     - target: {fileID: 5433258077843572243, guid: 99121e736d0208b4a8046018d4904396, type: 3}
+      propertyPath: revivesToAdd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5433258077843572243, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: leftNeighbour
       value: 
       objectReference: {fileID: 4036461843832306138}
@@ -8281,7 +8285,7 @@ PrefabInstance:
       objectReference: {fileID: 5605490862189974647}
     - target: {fileID: 5433258077843572243, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: modifiers.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5433258077843572243, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: neighbours.Array.size
@@ -8381,7 +8385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8223205364989257167, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: m_fontSize
-      value: 22.7
+      value: 21.85
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99121e736d0208b4a8046018d4904396, type: 3}
@@ -8661,11 +8665,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7448039742438409422, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.38572693
+      value: 0.3857231
       objectReference: {fileID: 0}
     - target: {fileID: 8223205364989257167, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: m_fontSize
-      value: 22.55
+      value: 21.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99121e736d0208b4a8046018d4904396, type: 3}
@@ -9231,7 +9235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8223205364989257167, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: m_fontSize
-      value: 22.7
+      value: 21.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99121e736d0208b4a8046018d4904396, type: 3}
@@ -9431,7 +9435,7 @@ PrefabInstance:
       objectReference: {fileID: 5433258077460351387}
     - target: {fileID: 5433258077843572243, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: modifiers.Array.data[0].stat
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5433258077843572243, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: levelsToActivate.Array.data[0]
@@ -9515,7 +9519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8223205364989257167, guid: 99121e736d0208b4a8046018d4904396, type: 3}
       propertyPath: m_fontSize
-      value: 22.75
+      value: 21.95
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99121e736d0208b4a8046018d4904396, type: 3}

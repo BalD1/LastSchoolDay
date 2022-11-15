@@ -36,7 +36,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
     {
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();
-        owner.GetSkillHolder.StartTimer(cooldown);
+        owner.GetSkillHolder.StartTimer();
         isInUse = false;
     }
 

@@ -53,7 +53,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();
-        owner.GetSkillHolder.StartTimer(cooldown);
+        owner.GetSkillHolder.StartTimer();
     }
 
     private void Fire()
