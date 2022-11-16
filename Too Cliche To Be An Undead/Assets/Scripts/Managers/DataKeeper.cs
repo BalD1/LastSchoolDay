@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +13,7 @@ public class DataKeeper : MonoBehaviour
         {
             if (instance == null)
             {
-                Debug.LogError("DataKeeper instance was not set.");
+                //Debug.LogError("DataKeeper instance was not set.");
                 //instance = FindObjectOfType<DataKeeper>();
                 //if (instance == null)
                 //{

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using BalDUtilities.Misc;
 using UnityEngine.InputSystem;
+using System;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +15,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (instance == null) Debug.LogError("GameManager Instance not found.");
+            //if (instance == null) Debug.LogError("GameManager Instance not found.");
 
             return instance;
         }
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour
         Jason,
         Nelson,
     }
+
+    public static bool isAppQuitting { get; private set; }
 
     [SerializeField] private PlayerCharacter player1Ref;
     public static PlayerCharacter Player1Ref { get => Instance.player1Ref; }
@@ -221,6 +225,11 @@ public class GameManager : MonoBehaviour
                 item.SetActive(active);
             }
         }
+    }
+
+    public void TeleportPlayerAtCameraCenter(int playerIdx)
+    {
+        playersByName[playerIdx].playerScript.gameObject.transform.position = CameraManager.Instance.gameObject.transform.position;
     }
 
     #region Scenes

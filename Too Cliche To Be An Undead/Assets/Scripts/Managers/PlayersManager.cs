@@ -13,7 +13,7 @@ public class PlayersManager : MonoBehaviour
     {
         get
         {
-            if (instance == null) Debug.LogError("PlayersManager Instance not found.");
+            //if (instance == null) Debug.LogError("PlayersManager Instance not found.");
 
             return instance;
         }

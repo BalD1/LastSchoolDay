@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Drawing;
+using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class UIManager : MonoBehaviour
     {
         get
         {
-            if (instance == null) Debug.LogError("UIManager instance was not found.");
+            //if (instance == null) Debug.LogError("UIManager instance was not found.");
 
             return instance;
         }
@@ -44,7 +45,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float hudTransparencyValue = .3f;
     [SerializeField] private float hudTransparencyTime = .3f;
 
-    private Collider2D[] playersColliders = new Collider2D[4];
+    public Collider2D[] playersColliders = new Collider2D[8];
 
     [SerializeField] private Scrollbar pbContainerBar;
     [SerializeField] private Scrollbar shopBar;
@@ -147,7 +148,7 @@ public class UIManager : MonoBehaviour
 
         hudRect = localHUD.GetComponent<RectTransform>();
 
-        playersColliders = new Collider2D[playersCount];
+        playersColliders = new Collider2D[8];
 
         for (int i = 0; i < playersCount; i++)
         {
@@ -156,10 +157,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void AddMakersInCollidersArray(BoxCollider2D[] collider2Ds)
+    {
+        for (int i = GameManager.Instance.PlayersCount + 3; i < collider2Ds.Length + 4; i++)
+        {
+            playersColliders[i] = collider2Ds[i - (GameManager.Instance.PlayersCount + 3)];
+        }
+    }
+
     private void CheckIfPlayerIsCoveredByHUD()
     {
         foreach (var item in playersColliders)
         {
+            if (item == null) continue;
+            if (item.isActiveAndEnabled == false) continue;
+
             Vector3 boundsMin = RectTransformUtility.WorldToScreenPoint(Camera.main, item.bounds.min);
             Vector3 boundsMax = RectTransformUtility.WorldToScreenPoint(Camera.main, item.bounds.max);
 

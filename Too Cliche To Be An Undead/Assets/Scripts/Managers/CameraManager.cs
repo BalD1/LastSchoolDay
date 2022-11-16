@@ -12,7 +12,7 @@ public class CameraManager : MonoBehaviour
     {
         get
         {
-            if (instance == null) Debug.LogError("CameraManager not found.");
+            //if (instance == null) Debug.LogError("CameraManager not found.");
 
             return instance;
         }
@@ -27,8 +27,14 @@ public class CameraManager : MonoBehaviour
     public CinemachineTargetGroup TG_Players { get => tg_players; }
 
     [SerializeField] private Transform[] markers;
+    [SerializeField] private BoxCollider2D[] markersColliders;
 
-    private List<Transform> invisiblePlayers = new List<Transform>();
+    public Transform[] Markers { get => markers; }
+
+    [SerializeField] private float maxDistance;
+
+    [SerializeField] private List<Transform> invisiblePlayers = new List<Transform>();
+    [SerializeField] private List<Transform> playersToRemoveFromList = new List<Transform>();
 
     private void Awake()
     {
@@ -44,6 +50,8 @@ public class CameraManager : MonoBehaviour
     {
         SetArray();
         mainCam = this.GetComponent<Camera>();
+
+        UIManager.Instance.AddMakersInCollidersArray(markersColliders);
     }
 
     private void LateUpdate()
@@ -55,10 +63,26 @@ public class CameraManager : MonoBehaviour
             Vector3 minScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(0, 0, 0));
             Vector3 maxScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
-            markers[i].position = new Vector3(Mathf.Clamp(TG_Players.m_Targets[i].target.position.x, minScreenBounds.x + 1, maxScreenBounds.x - 1), 
-                                              Mathf.Clamp(TG_Players.m_Targets[i].target.position.y, minScreenBounds.y + 1, maxScreenBounds.y - 1),
+            markers[i].position = new Vector3(Mathf.Clamp(invisiblePlayers[i].position.x, minScreenBounds.x + 2, maxScreenBounds.x - 2), 
+                                              Mathf.Clamp(invisiblePlayers[i].position.y, minScreenBounds.y + 2, maxScreenBounds.y - 2),
                                               0);
+
+            float dist = Vector2.Distance(invisiblePlayers[i].position, markers[i].position);
+            float markerScale = Mathf.Clamp01(1 - (dist / maxDistance));
+
+            Vector3 v = markers[i].transform.localScale;
+            v.x = markerScale;
+            v.y = markerScale;
+            markers[i].transform.localScale = v;
+
+            if (dist > maxDistance) invisiblePlayers[i].transform.position = this.transform.position;
         }
+
+        foreach (var item in playersToRemoveFromList)
+        {
+            if (invisiblePlayers.Contains(item)) invisiblePlayers.Remove(item);
+        }
+        playersToRemoveFromList.Clear();
     }
 
     private void OnSceneLoaded()
@@ -82,13 +106,18 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public void PlayerBecameInvisible(Transform player)
+    public void PlayerBecameInvisible(Transform player, int playerIdx)
     {
-        invisiblePlayers.Add(transform);
+        if (invisiblePlayers.Contains(player)) return;
+
+        invisiblePlayers.Add(player);
         int idx = invisiblePlayers.IndexOf(player);
 
-        GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[idx].character;
+        GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[playerIdx].character;
 
+        if (markers == null || ReferenceEquals(markers, null)) return;
+
+        markers[idx].localScale = Vector3.one;
         markers[idx].GetComponent<SpriteRenderer>().sprite = UIManager.Instance.GetBasePortrait(character);
         markers[idx].gameObject.SetActive(true);
     }
@@ -96,7 +125,7 @@ public class CameraManager : MonoBehaviour
     public void PlayerBecameVisible(Transform player)
     {
         markers[invisiblePlayers.IndexOf(player)].gameObject.SetActive(false);
-        invisiblePlayers.Remove(transform);
+        playersToRemoveFromList.Add(player);
     }
 
     private void OnDestroy()
