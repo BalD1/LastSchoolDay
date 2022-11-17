@@ -116,6 +116,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty selfReviveText = serializedObject.FindProperty("selfReviveText");
         EditorGUILayout.PropertyField(selfReviveText);
 
+        SerializedProperty minimapMarker = serializedObject.FindProperty("minimapMarker");
+        EditorGUILayout.PropertyField(minimapMarker);
+
         EditorGUILayout.Space();
 
         SimpleDraws.HorizontalLine();

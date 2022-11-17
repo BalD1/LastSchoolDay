@@ -11,7 +11,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - '-'
   - Water
   - UI
   - Player
@@ -27,7 +27,7 @@ TagManager:
   - VisionTarget
   - Projectile
   - Trap
-  - 
+  - Minimap
   - 
   - 
   - 
@@ -44,8 +44,14 @@ TagManager:
   - name: Background
     uniqueID: 1201366245
     locked: 0
+  - name: Front-Background
+    uniqueID: 215591473
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Back-Foreground
+    uniqueID: 907740915
     locked: 0
   - name: Foreground
     uniqueID: 2904140385

@@ -130,10 +130,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) SelectButton("MainMenu");
-        else
-        {
-            SetPlayersCollidersArray();
-        }
+        else SetPlayersCollidersArray();
     }
 
     private void LateUpdate()

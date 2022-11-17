@@ -29,6 +29,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private FSM_Player_Manager stateManager;
 
+    [SerializeField] private GameObject minimapMarker;
     [SerializeField] private PlayerInteractor selfInteractor;
     [SerializeField] private PlayerWeapon weapon;
     [SerializeField] private SkillHolder skillHolder;
@@ -98,7 +99,6 @@ public class PlayerCharacter : Entity, IInteractable
     public D_AimInput D_aimInput;
 
     private InputAction movementsAction;
-
 
     public FSM_Player_Manager StateManager { get => stateManager; }
     public PlayerInteractor GetInteractor { get => selfInteractor; }
@@ -879,6 +879,8 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (this.portrait != null)
             this.portrait.sprite = UIManager.Instance.GetBasePortrait(character);
+
+        this.minimapMarker.GetComponent<SpriteRenderer>().sprite = this.portrait.sprite;
 
         foreach (var item in UIManager.Instance.CharacterPortraits)
         {
