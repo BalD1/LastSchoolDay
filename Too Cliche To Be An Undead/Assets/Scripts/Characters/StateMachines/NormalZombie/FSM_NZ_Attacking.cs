@@ -15,7 +15,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     {
         owner ??= stateManager.Owner;
         owner.d_EnteredTrigger += OnTrigger;
-        owner.StartMaterialFlash(owner.AttackMaterial, .1f);
+        owner.StartMaterialFlash("_Attacking", .1f);
 
         owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
 

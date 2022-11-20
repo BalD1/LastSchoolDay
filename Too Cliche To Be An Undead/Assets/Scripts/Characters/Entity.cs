@@ -23,16 +23,11 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected SpriteRenderer sprite;
     public SpriteRenderer GetSprite { get => sprite; }
 
-    [SerializeField] protected Material hitMaterial;
-    public Material GetHitMaterial { get => hitMaterial; }
-
     [SerializeField] protected Animator animator;
     public Animator GetAnimator { get => animator; }
 
     [SerializeField] protected Vector2 healthPopupOffset;
     public Vector2 GetHealthPopupOffset { get => healthPopupOffset; }
-
-    protected Material baseMaterial;
 
     //************************************
     //************* AUDIO ****************
@@ -115,8 +110,6 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected virtual void Awake()
     {
-        baseMaterial = this.sprite.material;
-
         this.maxHP_M = GetStats.MaxHP;
         this.maxDamages_M = GetStats.BaseDamages;
         this.maxAttRange_M = GetStats.AttackRange;
@@ -392,19 +385,19 @@ public class Entity : MonoBehaviour, IDamageable
 
     public bool IsAlive() => currentHP > 0;
 
-    public void StartMaterialFlash(Material m, float time) => StartCoroutine(MaterialFlash(m, time));
+    public void StartMaterialFlash(string m, float time) => StartCoroutine(MaterialFlash(m, time));
 
     protected virtual IEnumerator MaterialFlash()
     {
-        this.sprite.material = hitMaterial;
+        this.sprite.material.SetInt("_Hit", 1);
         yield return new WaitForSeconds(flashOnHitTime);
-        this.sprite.material = baseMaterial;
+        this.sprite.material.SetInt("_Hit", 0);
     }
-    protected virtual IEnumerator MaterialFlash(Material m, float time)
+    protected virtual IEnumerator MaterialFlash(string m, float time)
     {
-        this.sprite.material = m;
+        this.sprite.material.SetInt(m, 1);
         yield return new WaitForSeconds(time);
-        this.sprite.material = baseMaterial;
+        this.sprite.material.SetInt(m, 0);
     }
 
     #endregion

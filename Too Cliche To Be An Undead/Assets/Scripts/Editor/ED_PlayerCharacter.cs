@@ -83,9 +83,6 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty sprite = serializedObject.FindProperty("sprite");
         EditorGUILayout.PropertyField(sprite);
 
-        SerializedProperty hitMaterial = serializedObject.FindProperty("hitMaterial");
-        EditorGUILayout.PropertyField(hitMaterial);
-
         SerializedProperty outlineMaterial = serializedObject.FindProperty("outlineMaterial");
         EditorGUILayout.PropertyField(outlineMaterial);
 

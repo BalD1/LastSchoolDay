@@ -850,7 +850,7 @@ public class PlayerCharacter : Entity, IInteractable
     {
         Revive();
 
-        sprite.material = GameAssets.Instance.DefaultMaterial;
+        sprite.material = defaultMaterial;
     }
 
     public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");  
@@ -956,9 +956,6 @@ public class PlayerCharacter : Entity, IInteractable
             gizmosPushRay = new Ray(this.transform.position,gizmosMouseDir * gizmosPushEnd);
         }
 
-        //if (stateManager.ToString().Equals("Dashing"))
-        ////    Gizmos.DrawLine(this.transform.position, mouseDir * pushForce * stateManager.dashingState.GetRemainingTimeByMax());
-        //else
         Gizmos.DrawRay(this.transform.position, gizmosMouseDir * gizmosPushEnd);
 
         RaycastHit2D[] rh = Physics2D.RaycastAll(this.transform.position, gizmosMouseDir * gizmosPushEnd);

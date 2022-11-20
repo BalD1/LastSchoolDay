@@ -47,7 +47,7 @@ public class PlayerBaseWeapon : PlayerWeapon
 #if UNITY_EDITOR
         if (!debugMode || owner == null) return;
 
-        Gizmos.DrawWireSphere(this.transform.position, owner.maxAttRange_M);
+        Gizmos.DrawWireSphere(effectObject.transform.position, owner.maxAttRange_M);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(owner.transform.position, maxRange);
 #endif

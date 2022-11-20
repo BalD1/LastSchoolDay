@@ -185,11 +185,7 @@ public class GameManager : MonoBehaviour
     private void InitState()
     {
         if (CompareCurrentScene(E_ScenesNames.MainMenu)) GameState = E_GameState.MainMenu;
-        else if (CompareCurrentScene(E_ScenesNames.MainScene)) GameState = E_GameState.InGame;
-#if UNITY_EDITOR
-        else if (CompareCurrentScene(E_ScenesNames.T_flo)) GameState = E_GameState.InGame;
-        else if (CompareCurrentScene(E_ScenesNames.Test_Kankan)) GameState = E_GameState.InGame;
-#endif
+        else GameState = E_GameState.InGame;
     }
 
     public void HandlePause()
