@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6d4187fd398924db905f2016cacdc7, type: 3}
   m_Name: PB_SignedBaseballBat
   m_EditorClassIdentifier: 
-  thumbnail: {fileID: 21300000, guid: a170fd88fab2c9b47a49ecfd060e443e, type: 3}
+  thumbnail: {fileID: 125122089, guid: ddd058a569536df44af0147b8747cd89, type: 3}
+  customID: 
   statType: 1
+  isUnique: 0
+  associatedCharacter: 2
   amount: 20
-  description: Adds 20 to your damages
+  AC_amount: 30
+  description: +20 Damages (+30 for Jason)

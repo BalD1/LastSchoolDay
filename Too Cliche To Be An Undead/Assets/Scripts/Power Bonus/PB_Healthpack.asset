@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6d4187fd398924db905f2016cacdc7, type: 3}
   m_Name: PB_Healthpack
   m_EditorClassIdentifier: 
-  thumbnail: {fileID: 21300000, guid: d3301a4ece791a9469630d5f9f46c56d, type: 3}
+  thumbnail: {fileID: -121396093, guid: ddd058a569536df44af0147b8747cd89, type: 3}
+  customID: 
   statType: 0
+  isUnique: 0
+  associatedCharacter: 4
   amount: 15
-  description: Adds 15 to your max hp
+  AC_amount: 0
+  description: +15 Max HP

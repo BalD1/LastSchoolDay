@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Smokescreen
   m_EditorClassIdentifier: 
   layerName: 2
+  aimAtMovements: 1
   cooldown: 3
-  offset: 2
+  offset: 0.8
   range: 1
   duration: 0.5
-  damages: 0
+  damagesPercentageModifier: 0
   canMove: 0
   entitiesToAffect:
     serializedVersion: 2

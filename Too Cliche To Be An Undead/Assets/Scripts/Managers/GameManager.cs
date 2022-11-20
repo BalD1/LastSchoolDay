@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
         Whitney,
         Jason,
         Nelson,
+        None,
     }
 
     public static bool isAppQuitting { get; private set; }

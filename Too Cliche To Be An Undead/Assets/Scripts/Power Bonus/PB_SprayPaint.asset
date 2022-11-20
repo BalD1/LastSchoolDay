@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6d4187fd398924db905f2016cacdc7, type: 3}
   m_Name: PB_SprayPaint
   m_EditorClassIdentifier: 
-  thumbnail: {fileID: 21300000, guid: 007367462b027a74c963ff2c6c10eaed, type: 3}
-  statType: 3
-  amount: -5
-  description: Reduces your att cd by 5s
+  thumbnail: {fileID: 729666880, guid: ddd058a569536df44af0147b8747cd89, type: 3}
+  customID: 
+  statType: 4
+  isUnique: 0
+  associatedCharacter: 1
+  amount: -1
+  AC_amount: -2
+  description: -1s Dash Cooldown (-2 for Whitney)

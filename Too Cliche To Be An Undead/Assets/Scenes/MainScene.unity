@@ -729,7 +729,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 98717407}
   sprite: {fileID: 937708436}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 937708434}
   healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
@@ -1309,6 +1308,170 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!43 &171675587
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  serializedVersion: 10
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 42
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 16
+    localAABB:
+      m_Center: {x: -0.13464737, y: -1.0254364, z: 0}
+      m_Extent: {x: 0.16786957, y: 0.14530945, z: 0}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 00000100020003000100000003000400010005000400030006000400050004000600070002000800000000000900030001000a00020004000b00010003000c00050007000d00040005000e00060006000f000700
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 16
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 28
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 704
+    _typelessdata: 0014083d00db95bf000000000000803f0000008000000080000000800014083d00db95bf0014083d00db95bf0014083d005061bf00000000000000800000803f00000080000000800014083d005061bf0014083d005061bf0014083d804183bf000000000000803f0000008000000080000000800014083d005061bf0014083d00db95bf00e109be00db95bf0000000000000080000080bf00000000000000800014083d00db95bf80e39abe00db95bf00e109be005061bf00000000000000800000803f000000800000008080e39abe005061bf0014083d005061bf80e39abe00db95bf0000000000000080000080bf000000000000008080e39abe00db95bf80e39abe00db95bf80e39abe804183bf00000000000080bf00000080000000800000008080e39abe00db95bf80e39abe005061bf80e39abe005061bf00000000000080bf00000080000000800000008080e39abe005061bf80e39abe005061bf0014083d804183bf000000000000803f0000008000000080000000800014083d005061bf0014083d00db95bf0014083d00db95bf0000000000000080000080bf00000000000000800014083d00db95bf0014083d00db95bf0014083d005061bf000000000000803f0000008000000080000000800014083d005061bf0014083d005061bf00e109be005061bf00000000000000800000803f000000800000008080e39abe005061bf0014083d005061bf00e109be00db95bf0000000000000080000080bf00000000000000800014083d00db95bf80e39abe00db95bf80e39abe005061bf00000000000000800000803f000000800000008080e39abe005061bf80e39abe005061bf80e39abe00db95bf00000000000080bf00000080000000800000008080e39abe00db95bf80e39abe00db95bf80e39abe804183bf00000000000080bf00000080000000800000008080e39abe00db95bf80e39abe005061bf
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: -0.13464737, y: -1.0254364, z: 0}
+    m_Extent: {x: 0.16786957, y: 0.14530945, z: 0}
+  m_MeshUsageFlags: 0
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1001 &189138420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1920,7 +2083,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.49, y: 15.45}
+    oldSize: {x: 0.5, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2192,7 +2355,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.49, y: 15.45}
+    oldSize: {x: 0.5, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2598,7 +2761,7 @@ PrefabInstance:
       objectReference: {fileID: 880958944}
     - target: {fileID: 1242743799768066064, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.30873203
+      value: -0.30873108
       objectReference: {fileID: 0}
     - target: {fileID: 2509933280434714099, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2606,11 +2769,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3456696688239172260, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.30873966
+      value: -0.3087387
       objectReference: {fileID: 0}
     - target: {fileID: 4587435142442464607, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.30873203
+      value: -0.30873108
       objectReference: {fileID: 0}
     - target: {fileID: 4647886569459204930, guid: c165275362ac6ed4b90a8995e8913157, type: 3}
       propertyPath: m_Pivot.x
@@ -7850,7 +8013,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 842979322}
   sprite: {fileID: 1917325195}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 1917325193}
   healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
@@ -8231,7 +8393,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 876118628}
   sprite: {fileID: 271086285}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 271086283}
   healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
@@ -8899,7 +9060,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.49, y: 15.45}
+    oldSize: {x: 0.5, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -9385,7 +9546,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.49, y: 15.45}
+    oldSize: {x: 0.5, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -9850,7 +10011,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.49, y: 15.45}
+    oldSize: {x: 0.5, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -9918,17 +10079,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 356066964}
     m_Modifications:
-    - target: {fileID: 7821369717731874616, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7821369719249530889, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: m_Name
       value: NormalZombie_11
-      objectReference: {fileID: 0}
-    - target: {fileID: 7821369719249530889, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7821369719249530890, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: m_RootOrder
@@ -9936,11 +10089,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7821369719249530890, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.48587
+      value: -43.905
       objectReference: {fileID: 0}
     - target: {fileID: 7821369719249530890, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.983738
+      value: -7.037
       objectReference: {fileID: 0}
     - target: {fileID: 7821369719249530890, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10146,8 +10299,8 @@ MonoBehaviour:
   - {x: 0.0332222, y: -0.88012695, z: 0}
   - {x: 0.0332222, y: -1.1707458, z: 0}
   m_ShapePathHash: 0
-  m_Mesh: {fileID: 1615593841}
-  m_InstanceId: 30728
+  m_Mesh: {fileID: 171675587}
+  m_InstanceId: 47946
 --- !u!4 &1038505190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6507736769034952509, guid: 7f4a0bba8bf8c0b43a3341bc02df0de8, type: 3}
@@ -10494,7 +10647,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1068166423}
   sprite: {fileID: 972912262}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 972912260}
   healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
@@ -12216,7 +12368,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.49, y: 15.45}
+    oldSize: {x: 0.5, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -13165,7 +13317,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1448119835}
   sprite: {fileID: 2033835234}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 2033835232}
   healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
@@ -14481,170 +14632,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!43 &1615593841
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 10
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 42
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 16
-    localAABB:
-      m_Center: {x: -0.13464737, y: -1.0254364, z: 0}
-      m_Extent: {x: 0.16786957, y: 0.14530945, z: 0}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 00000100020003000100000003000400010005000400030006000400050004000600070002000800000000000900030001000a00020004000b00010003000c00050007000d00040005000e00060006000f000700
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 16
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 28
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 704
-    _typelessdata: 0014083d00db95bf000000000000803f0000008000000080000000800014083d00db95bf0014083d00db95bf0014083d005061bf00000000000000800000803f00000080000000800014083d005061bf0014083d005061bf0014083d804183bf000000000000803f0000008000000080000000800014083d005061bf0014083d00db95bf00e109be00db95bf0000000000000080000080bf00000000000000800014083d00db95bf80e39abe00db95bf00e109be005061bf00000000000000800000803f000000800000008080e39abe005061bf0014083d005061bf80e39abe00db95bf0000000000000080000080bf000000000000008080e39abe00db95bf80e39abe00db95bf80e39abe804183bf00000000000080bf00000080000000800000008080e39abe00db95bf80e39abe005061bf80e39abe005061bf00000000000080bf00000080000000800000008080e39abe005061bf80e39abe005061bf0014083d804183bf000000000000803f0000008000000080000000800014083d005061bf0014083d00db95bf0014083d00db95bf0000000000000080000080bf00000000000000800014083d00db95bf0014083d00db95bf0014083d005061bf000000000000803f0000008000000080000000800014083d005061bf0014083d005061bf00e109be005061bf00000000000000800000803f000000800000008080e39abe005061bf0014083d005061bf00e109be00db95bf0000000000000080000080bf00000000000000800014083d00db95bf80e39abe00db95bf80e39abe005061bf00000000000000800000803f000000800000008080e39abe005061bf80e39abe005061bf80e39abe00db95bf00000000000080bf00000080000000800000008080e39abe00db95bf80e39abe00db95bf80e39abe804183bf00000000000080bf00000080000000800000008080e39abe00db95bf80e39abe005061bf
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: -0.13464737, y: -1.0254364, z: 0}
-    m_Extent: {x: 0.16786957, y: 0.14530945, z: 0}
-  m_MeshUsageFlags: 0
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!1001 &1619738696
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15367,7 +15354,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1737478519}
   sprite: {fileID: 1348941966}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 1348941964}
   healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
@@ -15753,7 +15739,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1782834155}
   sprite: {fileID: 2146344786}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 2146344784}
   healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
@@ -16484,7 +16469,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1866041312}
   sprite: {fileID: 1012139176}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 1012139174}
   healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
@@ -16994,7 +16978,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.49, y: 15.45}
+    oldSize: {x: 0.5, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -18220,7 +18204,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.49, y: 15.45}
+    oldSize: {x: 0.5, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -18569,7 +18553,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 2073763182}
   sprite: {fileID: 313457825}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 313457823}
   healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
@@ -19267,7 +19250,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.49, y: 15.45}
+    oldSize: {x: 0.5, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -19712,7 +19695,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7821369717917801165}
   sprite: {fileID: 7821369719097032188}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 2333927271541354246}
   healthPopupOffset: {x: 0, y: 1.5}
   audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
@@ -19897,7 +19879,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.49, y: 15.45}
+    oldSize: {x: 0.5, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

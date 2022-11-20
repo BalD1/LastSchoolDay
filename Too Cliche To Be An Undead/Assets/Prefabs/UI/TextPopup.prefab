@@ -52,11 +52,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseComponents:
-    speedMovements: {x: 0, y: 1, z: 0}
+    speedMovements: {x: 0, y: 0.3, z: 0}
     lifetime: 0.5
-    disapearSpeed: 0.5
-    fontSize: 1
-    increaseScaleAmount: 10
+    disapearSpeed: 2
+    fontSize: 0.5
+    increaseScaleAmount: 3
     decreaseScaleAmount: 0
     color: {r: 1, g: 0.58431375, b: 0, a: 1}
 --- !u!23 &1580573106300973691
@@ -98,7 +98,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1390826911
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 100
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3825977611247108744

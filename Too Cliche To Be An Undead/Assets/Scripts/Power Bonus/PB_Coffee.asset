@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6d4187fd398924db905f2016cacdc7, type: 3}
   m_Name: PB_Coffee
   m_EditorClassIdentifier: 
-  thumbnail: {fileID: 21300000, guid: 9dd13b784fe9f6f4cafecae938ef8112, type: 3}
-  statType: 4
+  thumbnail: {fileID: -384953445, guid: ddd058a569536df44af0147b8747cd89, type: 3}
+  customID: 
+  statType: 6
+  isUnique: 0
+  associatedCharacter: 4
   amount: 5
-  description: Adds 5 to your speed
+  AC_amount: 0
+  description: +5 Speed

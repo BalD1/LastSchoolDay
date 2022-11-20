@@ -812,6 +812,8 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void ScaleTweenObject(GameObject target)
     {
+        if (target == null) return;
+
         LeanTween.scale(target, iconsMaxScale, maxScaleTime).setEase(inType)
         .setOnComplete(() =>
         {
@@ -820,6 +822,8 @@ public class PlayerCharacter : Entity, IInteractable
     }
     public void ScaleTweenObject(GameObject target, LeanTweenType _inType, LeanTweenType _outType)
     {
+        if (target == null) return;
+
         LeanTween.scale(target, iconsMaxScale, maxScaleTime).setEase(_inType)
         .setOnComplete(() =>
         {
@@ -828,6 +832,8 @@ public class PlayerCharacter : Entity, IInteractable
     }
     public void ScaleTweenObject(RectTransform target)
     {
+        if (target == null) return;
+
         LeanTween.scale(target, iconsMaxScale, maxScaleTime).setEase(inType)
         .setOnComplete(() =>
         {
@@ -919,6 +925,18 @@ public class PlayerCharacter : Entity, IInteractable
     }
 
     #endregion
+
+    public GameManager.E_CharactersNames GetCharacterName()
+    {
+        return DataKeeper.Instance.playersDataKeep[this.playerIndex].character;
+    }
+
+    public GameManager.E_CharactersNames GetCharacterName(int idx)
+    {
+        if (idx > DataKeeper.Instance.playersDataKeep.Count) return GameManager.E_CharactersNames.Shirley;
+        
+        return DataKeeper.Instance.playersDataKeep[idx].character;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

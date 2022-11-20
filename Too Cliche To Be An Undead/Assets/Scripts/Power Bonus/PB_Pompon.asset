@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6d4187fd398924db905f2016cacdc7, type: 3}
   m_Name: PB_Pompon
   m_EditorClassIdentifier: 
-  thumbnail: {fileID: 21300000, guid: ade4ecc57ad79fe4fb0639f46ea89d74, type: 3}
-  statType: 3
+  thumbnail: {fileID: -1888590332, guid: ddd058a569536df44af0147b8747cd89, type: 3}
+  customID: 
+  statType: 5
+  isUnique: 0
+  associatedCharacter: 0
   amount: -1
-  description: Reduces your att CD by 1s
+  AC_amount: -2
+  description: -1s Skill Cooldown (-2 for Shirley)

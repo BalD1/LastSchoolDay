@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6d4187fd398924db905f2016cacdc7, type: 3}
   m_Name: PB_GameConsol
   m_EditorClassIdentifier: 
-  thumbnail: {fileID: 21300000, guid: ab807196067f9614fbb526810e73ed26, type: 3}
-  statType: 5
+  thumbnail: {fileID: -442986741, guid: ddd058a569536df44af0147b8747cd89, type: 3}
+  customID: 
+  statType: 7
+  isUnique: 0
+  associatedCharacter: 3
   amount: 10
-  description: Adds 10 to your crit chances
+  AC_amount: 20
+  description: +10 Crit Chances (+20 for Nelson)

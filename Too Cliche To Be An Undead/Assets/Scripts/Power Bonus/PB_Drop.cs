@@ -15,7 +15,13 @@ public class PB_Drop : Collectable
     protected override void TouchedPlayer(PlayerCharacter player)
     {
         base.TouchedPlayer(player);
-        player.AddModifier(bonusPower.ID, bonusPower.Amount, bonusPower.StatType);
+
+        float val;
+
+        if (player.GetCharacterName().Equals(bonusPower.AssociatedCharacter)) val = bonusPower.AC_Amount;
+        else val = bonusPower.Amount;
+
+        player.AddModifier(bonusPower.ID, val, bonusPower.StatType);
         UIManager.Instance.AddPBToContainer(bonusPower);
     }
 }

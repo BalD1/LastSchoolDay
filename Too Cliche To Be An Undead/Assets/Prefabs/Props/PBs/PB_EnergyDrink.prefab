@@ -30,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 2382483450802718914}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3809, y: 0.3809, z: 0.3809}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b265f271e7f234eb07e37639659846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   drawdistance: 3
   animationCurve:
     serializedVersion: 2
@@ -76,6 +75,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 1
+  pickupDistance: 1
+  detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: 8337f817ae7fd884fb1817d4c116ed2c, type: 2}
   sprite: {fileID: 2382483450802718917}
 --- !u!212 &2382483450802718917
@@ -117,7 +118,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1390826911
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

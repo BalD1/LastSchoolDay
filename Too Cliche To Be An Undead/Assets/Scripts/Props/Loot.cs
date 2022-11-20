@@ -10,6 +10,8 @@ public class Loot : MonoBehaviour
     [SerializeField] private float minRandomOffset = .80f;
     [SerializeField] private float maxRandomOffset = 1.20f;
 
+    [SerializeField] private float velocityMultiplier = .5f;
+
     [System.Serializable]
     private struct VelocityCurves
     {
@@ -66,10 +68,10 @@ public class Loot : MonoBehaviour
             return;
         }
 
-        vel.x = curveToFollow.GetVelocity_X(elapsedTime) * offset;
+        vel.x = curveToFollow.GetVelocity_X(elapsedTime) * offset * velocityMultiplier;
         if (inverseX) vel.x = -vel.x;
 
-        vel.y = curveToFollow.GetVelocity_Y(elapsedTime) * offset;
+        vel.y = curveToFollow.GetVelocity_Y(elapsedTime) * offset * velocityMultiplier;
 
         this.rb.velocity = vel;
     }

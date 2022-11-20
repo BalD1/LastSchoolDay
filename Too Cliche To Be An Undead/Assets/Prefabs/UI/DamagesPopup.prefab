@@ -52,36 +52,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalHit:
-    speedMovements: {x: 1, y: 5, z: 0}
+    speedMovements: {x: 1, y: 3, z: 0}
     lifetime: 1
     disapearSpeed: 1
-    fontSize: 1
-    increaseScaleAmount: 2
-    decreaseScaleAmount: 2
+    fontSize: 0.5
+    increaseScaleAmount: 1
+    decreaseScaleAmount: 1
     color: {r: 1, g: 0.58431375, b: 0, a: 1}
   criticalHit:
-    speedMovements: {x: 2, y: 7, z: 0}
+    speedMovements: {x: 2, y: 5, z: 0}
     lifetime: 1.3
-    disapearSpeed: 1
-    fontSize: 2
-    increaseScaleAmount: 2
-    decreaseScaleAmount: 2
-    color: {r: 1, g: 0, b: 0, a: 1}
-  normalHeal:
-    speedMovements: {x: 1, y: 5, z: 0}
-    lifetime: 1
     disapearSpeed: 1
     fontSize: 1
-    increaseScaleAmount: 2
-    decreaseScaleAmount: 2
+    increaseScaleAmount: 1
+    decreaseScaleAmount: 1
+    color: {r: 1, g: 0, b: 0, a: 1}
+  normalHeal:
+    speedMovements: {x: 1, y: 3, z: 0}
+    lifetime: 1
+    disapearSpeed: 1
+    fontSize: 0.5
+    increaseScaleAmount: 1
+    decreaseScaleAmount: 1
     color: {r: 0, g: 1, b: 0.23156762, a: 1}
   criticalHeal:
-    speedMovements: {x: 2, y: 7, z: 0}
+    speedMovements: {x: 5, y: 5, z: 0}
     lifetime: 1.3
     disapearSpeed: 1
-    fontSize: 2
-    increaseScaleAmount: 2
-    decreaseScaleAmount: 2
+    fontSize: 1
+    increaseScaleAmount: 1
+    decreaseScaleAmount: 1
     color: {r: 0, g: 0.6509434, b: 0.050943416, a: 1}
 --- !u!23 &9036201050885389501
 MeshRenderer:
@@ -172,12 +172,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4.55
+  m_fontSize: 2.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 1
-  m_fontSizeMax: 72
+  m_fontSizeMax: 3
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
