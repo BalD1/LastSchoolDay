@@ -196,6 +196,9 @@ public class PlayerCharacter : Entity, IInteractable
     protected override void Awake()
     {
         base.Awake();
+
+        this.MaxSkillCD_M = skillHolder.Skill.Cooldown;
+        this.MaxDashCD_M = playerDash.Dash_COOLDOWN;
         
         playerControls = new PlayerControls();
         playerControls.InGame.Enable();
