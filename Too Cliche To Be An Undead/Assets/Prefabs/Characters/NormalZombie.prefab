@@ -331,7 +331,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 00afe588db79e4d4daaa4a4731ae7c0a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -476,7 +476,7 @@ MonoBehaviour:
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 4564975985439888221}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
-  speedMultiplier: 100
+  speedMultiplier: 40
   maxForce: 100
   movementMass: 30
   randomWanderPositionRadius: 4
@@ -523,7 +523,7 @@ Rigidbody2D:
   m_AngularDrag: 5
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 2
   m_CollisionDetection: 0
   m_Constraints: 4

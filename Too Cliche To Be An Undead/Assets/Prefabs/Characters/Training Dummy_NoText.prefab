@@ -178,7 +178,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7039631815659153767}
   sprite: {fileID: 7039631816421822038}
-  hitMaterial: {fileID: 2100000, guid: af9474a609becae42b0b70083c6040ad, type: 2}
   animator: {fileID: 3267673772895476908}
   healthPopupOffset: {x: -0.15, y: 1.75}
   audioClips: {fileID: 11400000, guid: ea8297e9977d1c44bac248b46a29a173, type: 2}
@@ -187,6 +186,7 @@ MonoBehaviour:
   currentHP: 0
   flashOnHitTime: 0.1
   invincible: 0
+  canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 0}
   attack: {fileID: 0}
@@ -206,7 +206,6 @@ MonoBehaviour:
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
   currentStateDebug: N/A
-  state: N/A
 --- !u!50 &7039631815659153767
 Rigidbody2D:
   serializedVersion: 4
@@ -308,7 +307,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 00afe588db79e4d4daaa4a4731ae7c0a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -357,7 +356,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 17.539999, y: 20.75212}
+    oldSize: {x: 0.4975, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

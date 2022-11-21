@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using BalDUtilities.EditorUtils;
 using BalDUtilities.Misc;
+using UnityEditor.Sprites;
 
 [CustomEditor(typeof(EditorAssetsHolder))]
 public class EDITOR_Assets : Editor

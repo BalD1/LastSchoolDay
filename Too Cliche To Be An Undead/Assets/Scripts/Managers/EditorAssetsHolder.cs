@@ -40,6 +40,9 @@ public class EditorAssetsHolder : MonoBehaviour
     {
         Default,
         Back,
+        Locker,
+        Desk,
+        Table
     }
 
     public IconWithSize GetIconData(E_IconNames name)
@@ -51,6 +54,5 @@ public class EditorAssetsHolder : MonoBehaviour
 
         return iconsWithSize[0];
     }
-
 #endif
 }
