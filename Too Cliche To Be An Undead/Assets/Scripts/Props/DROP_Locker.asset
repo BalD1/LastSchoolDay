@@ -50,16 +50,16 @@ MonoBehaviour:
     weight: 15
   bonusCoins:
   - editorName: Little
-    objectsToDrop:
-    - editorName: Coins
-      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+    coinTypeWithAmounts:
+    - editorName: Small
+      coinType: 0
       minAmount: 1
       maxAmount: 1
     weight: 100
   - editorName: Big
-    objectsToDrop:
-    - editorName: Coins
-      objectToDrop: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
+    coinTypeWithAmounts:
+    - editorName: Big
+      coinType: 0
       minAmount: 5
       maxAmount: 5
     weight: 60

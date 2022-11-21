@@ -23,6 +23,9 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject coinPF;
     [SerializeField] private GameObject pbThumbnailPF;
 
+    [SerializeField] private GameObject smallCoinDropPF;
+    [SerializeField] private GameObject largeCoinDropPF;
+
     [System.Serializable]
     public struct PBWithRarity
     {
@@ -42,6 +45,12 @@ public class GameAssets : MonoBehaviour
         Unique,
     }
 
+    public enum E_CoinType
+    {
+        Small,
+        Large,
+    }
+
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private Material defaultMaterial;
 
@@ -52,6 +61,9 @@ public class GameAssets : MonoBehaviour
     public GameObject NormalZombiePF { get => normalZombiePF; }
     public GameObject CoinPF { get => coinPF; }
     public GameObject PBThumbnailPF { get => pbThumbnailPF; }
+
+    public GameObject SmallCoinDropPF { get => smallCoinDropPF; }
+    public GameObject LargeCoinDropPF { get => largeCoinDropPF; }
 
     public PBWithRarity[] PBWithRarities { get => pBWithRarities; }
     public List<GameObject> UniquePBs { get => uniquePBs; }
