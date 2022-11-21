@@ -10,7 +10,7 @@ using UnityEditor.Sprites;
 public class EDITOR_Assets : Editor
 {
     private EditorAssetsHolder targetScript;
-    private bool drawDefaultInspector = false;
+    private bool drawExemples = false;
 
     private bool showIconsWithSize = false;
 
@@ -21,29 +21,17 @@ public class EDITOR_Assets : Editor
 
     public override void OnInspectorGUI()
     {
-        drawDefaultInspector = EditorGUILayout.Toggle("Show default inspector", drawDefaultInspector);
-        if (drawDefaultInspector)
-        {
-            ReadOnlyDraws.EditorScriptDraw(typeof(EDITOR_Assets), this);
-            base.OnInspectorGUI();
-            return;
-        }
-
         ReadOnlyDraws.EditorScriptDraw(typeof(EDITOR_Assets), this);
-        ReadOnlyDraws.ScriptDraw(typeof(EditorAssetsHolder), targetScript, true);
+        base.OnInspectorGUI();
 
-        DrawIconsWithSize();
+        drawExemples = EditorGUILayout.Toggle("Show exemples", drawExemples);
+        if (drawExemples) DrawIconsWithSize();
     }
 
     private void DrawIconsWithSize()
     {
         MixedDraws.ListFoldoutWithEditableSize<EditorAssetsHolder.IconWithSize>(ref showIconsWithSize, "Icons with size", EditorAssetsHolder.Instance.iconsWithSize);
-        if (!showIconsWithSize) return;
-        if (EditorAssetsHolder.Instance.iconsWithSize.Count <= 0)
-        {
-            if (GUILayout.Button("+", GUILayout.MaxWidth(20))) EditorAssetsHolder.Instance.iconsWithSize.Add(new EditorAssetsHolder.IconWithSize());
-            return;
-        }
+        if (!showIconsWithSize || EditorAssetsHolder.Instance.iconsWithSize.Count <= 0) return;
 
         EditorGUILayout.BeginVertical("HelpBox");
         EditorGUI.indentLevel++;
@@ -53,20 +41,9 @@ public class EDITOR_Assets : Editor
         {
             item = EditorAssetsHolder.Instance.iconsWithSize[i];
 
-            EditorGUILayout.BeginHorizontal();
             item.showInInspector = EditorGUILayout.Foldout(item.showInInspector, EnumsExtension.EnumToString(item.iconName));
-            if (GUILayout.Button("-", GUILayout.MaxWidth(20)))
-            {
-                EditorAssetsHolder.Instance.iconsWithSize.Remove(item);
-                continue;
-            }
-            EditorGUILayout.EndHorizontal();
 
-            if (!item.showInInspector)
-            {
-                EditorAssetsHolder.Instance.iconsWithSize[i] = item;
-                continue;
-            }
+            if (!item.showInInspector) continue;
 
             EditorGUI.indentLevel++;
 
@@ -103,7 +80,6 @@ public class EDITOR_Assets : Editor
 
             EditorAssetsHolder.Instance.iconsWithSize[i] = item;
         }
-        if (GUILayout.Button("+", GUILayout.MaxWidth(20))) EditorAssetsHolder.Instance.iconsWithSize.Add(new EditorAssetsHolder.IconWithSize());
 
         EditorGUI.indentLevel--;
         EditorGUILayout.EndVertical();

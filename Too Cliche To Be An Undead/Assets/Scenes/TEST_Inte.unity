@@ -1252,6 +1252,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2074738593}
     m_Modifications:
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[2].image
+      value: 
+      objectReference: {fileID: 2800000, guid: 220748e7fb9593e4c810a4a27dc5c00f, type: 3}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[3].image
+      value: 
+      objectReference: {fileID: 2800000, guid: 61655fe06ccbf81458abd9d8306390a0, type: 3}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[4].image
+      value: 
+      objectReference: {fileID: 2800000, guid: 38f1663e7d2fcf046b039f0f904bc341, type: 3}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[2].iconName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[2].maxWidth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[3].iconName
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[3].maxWidth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[4].iconName
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[4].maxWidth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[2].maxHeight
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[3].maxHeight
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[4].maxHeight
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[2].showInInspector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[3].showInInspector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931839403389755046, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
+      propertyPath: iconsWithSize.Array.data[4].showInInspector
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 931839403389755047, guid: b00f9e3dbeca23348ab2cb22f3bc7d81, type: 3}
       propertyPath: m_Name
       value: EditorAssets
