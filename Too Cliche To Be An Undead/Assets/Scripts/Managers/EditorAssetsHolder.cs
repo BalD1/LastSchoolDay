@@ -40,9 +40,21 @@ public class EditorAssetsHolder : MonoBehaviour
     {
         Default,
         Back,
+        
         Locker,
         Desk,
-        Table
+        Table,
+        Bag,
+        Bin,
+        Chair,
+        Plant,
+
+        Blackboard,
+        Whiteboard,
+        Flag,
+        Paper,
+        Poster,
+        Window,
     }
 
     public IconWithSize GetIconData(E_IconNames name)

@@ -14,7 +14,7 @@ public class WINDOW_LDTools : EditorWindow
 
     private Vector3 mousePosition;
 
-    private Vector2 snapGrid;
+    private Vector2 snapGrid = new Vector2(.25f, .25f);
 
     private bool isDragging;
     private bool snapKeyIsPressed;
@@ -26,17 +26,17 @@ public class WINDOW_LDTools : EditorWindow
     private string currentDraggedName;
 
     private SCRPT_Props.PropsByName currentProp;
+    private SCRPT_Props.DecorationByName currentDeco;
     private int currentGOPFIdx;
 
     private int propsByRow = 5;
+    private int decorationsByRow = 5;
 
     private static SCRPT_Props props;
-    private GameObject desk;
 
     private void OnEnable()
     {
         props = (SCRPT_Props)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Editor/Props.asset", typeof(SCRPT_Props));
-        desk = props.PropsByNames[1].propPFs[0];
     }
 
     private void OnFocus()
@@ -72,15 +72,15 @@ public class WINDOW_LDTools : EditorWindow
 
                     if (e.keyCode == KeyCode.LeftShift) snapKeyIsPressed = true;
                     if (e.keyCode == KeyCode.LeftControl) roundedSnapKeyIsPressed = true;
-                    if (e.keyCode == KeyCode.LeftAlt && currentProp.HasMultiplePFs()) currentGOPFIdx = Random.Range(0, currentProp.propPFs.Length);
+                    if (e.keyCode == KeyCode.LeftAlt && HasMultiples()) InstantiateNewCurrentProp(true);
 
-                    if (e.keyCode == KeyCode.LeftArrow && currentProp.HasMultiplePFs())
+                    if (e.keyCode == KeyCode.A && HasMultiples())
                     {
                         currentGOPFIdx -= 1;
 
                         InstantiateNewCurrentProp();
                     }
-                    if (e.keyCode == KeyCode.RightArrow && currentProp.HasMultiplePFs())
+                    if (e.keyCode == KeyCode.E && HasMultiples())
                     {
                         currentGOPFIdx += 1;
 
@@ -174,6 +174,14 @@ public class WINDOW_LDTools : EditorWindow
         }
     }
 
+    public bool HasMultiples()
+    {
+        if (currentProp.pName != SCRPT_Props.E_PropName.Default) return currentProp.HasMultiplePFs();
+        if (currentDeco.pName != SCRPT_Props.E_PropName.Default) return currentDeco.HasMultipleSprites();
+
+        return false;
+    }
+
     private float RoundToGrid(float f)
     {
         if (f % snapGrid.x != 0)
@@ -210,7 +218,9 @@ public class WINDOW_LDTools : EditorWindow
                                "Clic Gauche : Place le props sélectionné \n" +
                                "Clic Droit : Stop la sélection d'un props \n" +
                                "Shift : Permet de déplacer le props d'un montant fixe \n" +
-                               "Contrôle : Permet de déplacer le props d'un montant fixe et arrondis\n");
+                               "Contrôle : Permet de déplacer le props d'un montant fixe et arrondis\n" +
+                               "Alt Gauche : Choisit un nouveau props random \n" +
+                               "Flèches gauche & droite : Choisit le prochain/précedent props \n");
             EditorGUI.indentLevel--;
         }
 
@@ -221,7 +231,14 @@ public class WINDOW_LDTools : EditorWindow
 
         SimpleDraws.HorizontalLine();
 
+        DrawDecorationWindow();
+
+        SimpleDraws.HorizontalLine();
+
         EditorGUILayout.EndScrollView();
+
+        EditorUtility.UnloadUnusedAssetsImmediate();
+        System.GC.Collect();
     }
 
     private void DrawPropsWindow()
@@ -238,6 +255,7 @@ public class WINDOW_LDTools : EditorWindow
             {
                 isDragging = true;
 
+                currentDeco = default;
                 currentProp = props.PropsByNames[i - 1];
 
                 InstantiateNewCurrentProp(true);
@@ -262,6 +280,45 @@ public class WINDOW_LDTools : EditorWindow
             EditorGUILayout.EndHorizontal();
     }
 
+    private void DrawDecorationWindow()
+    {
+        decorationsByRow = EditorGUILayout.IntSlider("Decorations by rows", decorationsByRow, 2, 10);
+
+        for (int i = 1; i < props.DecorationsByNames.Length + 1; i++)
+        {
+            if (i == 1) EditorGUILayout.BeginHorizontal();
+
+            EditorAssetsHolder.IconWithSize ic = EditorAssetsHolder.Instance.GetIconData(props.DecorationsByNames[i - 1].icon);
+
+            if (GUILayout.Button(ic.image, GUILayout.Width(ic.maxWidth), GUILayout.Height(ic.maxHeight)))
+            {
+                isDragging = true;
+
+                currentProp = default;
+                currentDeco = props.DecorationsByNames[i - 1];
+
+                InstantiateNewCurrentProp(true);
+
+                if (SceneView.sceneViews.Count > 0)
+                {
+                    SceneView sceneView = (SceneView)SceneView.sceneViews[0];
+                    sceneView.Focus();
+                }
+            }
+
+            if (i == 1) continue;
+
+            if (i % decorationsByRow == 0)
+            {
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.BeginHorizontal();
+            }
+        }
+
+        if (props.DecorationsByNames.Length > 0)
+            EditorGUILayout.EndHorizontal();
+    }
+
     private void InstantiateNewCurrentProp(bool random = false)
     {
         if (draggedGO != null)
@@ -270,17 +327,47 @@ public class WINDOW_LDTools : EditorWindow
             draggedGO = null;
             DestroyImmediate(ghost);
         }
-        if (random && currentProp.HasMultiplePFs()) currentGOPFIdx = currentProp.HasMultiplePFs() ? Random.Range(0, currentProp.propPFs.Length) : currentGOPFIdx;
 
-        if (currentGOPFIdx < 0) currentGOPFIdx = currentProp.propPFs.Length - 1;
-        else if (currentGOPFIdx >= currentProp.propPFs.Length) currentGOPFIdx = 0;
+        if (currentProp.pName != SCRPT_Props.E_PropName.Default)
+        {
+            if (random && HasMultiples()) SelectRandom(currentProp.propPFs.Length);
 
-        draggedGO = (GameObject)PrefabUtility.InstantiatePrefab(currentProp.propPFs[currentGOPFIdx]);
-        draggedGO.transform.position = mousePosition;
+            if (currentGOPFIdx < 0) currentGOPFIdx = currentProp.propPFs.Length - 1;
+            else if (currentGOPFIdx >= currentProp.propPFs.Length) currentGOPFIdx = 0;
 
-        Undo.RegisterCreatedObjectUndo(draggedGO, "Create my GameObject");
+            draggedGO = (GameObject)PrefabUtility.InstantiatePrefab(currentProp.propPFs[currentGOPFIdx]);
+            draggedGO.transform.position = mousePosition;
 
-        currentDraggedName = currentProp.pName.ToString();
-        draggedGO.name = currentDraggedName;
+            Undo.RegisterCreatedObjectUndo(draggedGO, "Create my GameObject");
+
+            currentDraggedName = currentProp.pName.ToString();
+            draggedGO.name = currentDraggedName;
+        }
+        else
+        {
+            if (random && HasMultiples()) SelectRandom(currentDeco.sprites.Length);
+
+            if (currentGOPFIdx < 0) currentGOPFIdx = currentDeco.sprites.Length - 1;
+            else if (currentGOPFIdx >= currentDeco.sprites.Length) currentGOPFIdx = 0;
+
+            draggedGO = new GameObject();
+            SpriteRenderer sp = draggedGO.AddComponent<SpriteRenderer>();
+            sp.sprite = currentDeco.sprites[currentGOPFIdx];
+            sp.sortingLayerName = "Front-Background";
+            sp.sortingOrder = 1;
+            draggedGO.transform.position = mousePosition;
+
+            Undo.RegisterCreatedObjectUndo(draggedGO, "Create my GameObject");
+
+            currentDraggedName = currentDeco.pName.ToString();
+            draggedGO.name = currentDraggedName;
+        }
+    }
+
+    private void SelectRandom(int length)
+    {
+        int r = Random.Range(0, length);
+        if (r == currentGOPFIdx) r = (r + 1) % length;
+        currentGOPFIdx = r;
     }
 }

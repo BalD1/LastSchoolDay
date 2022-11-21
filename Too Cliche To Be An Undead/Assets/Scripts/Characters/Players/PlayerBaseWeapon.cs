@@ -16,6 +16,8 @@ public class PlayerBaseWeapon : PlayerWeapon
     [SerializeField] private float bigShakeIntensity = 2f;
     [SerializeField] private float bigShakeDuration = .2f;
 
+    [SerializeField] private float distanceForAutoAim = 1f;
+
     [SerializeField] private GameObject effectObject;
 
 
@@ -50,6 +52,10 @@ public class PlayerBaseWeapon : PlayerWeapon
 
                 if (damageable.OnTakeDamages(damages, owner.GetStats.Team, isCrit) == false)
                     continue;
+
+                if (Vector2.Distance(item.transform.position, effectObject.transform.position) <= distanceForAutoAim)
+                    SetRotationTowardTarget(item.transform);
+                Debug.Log(Vector2.Distance(item.transform.position, effectObject.transform.position));
 
                 float shakeIntensity = normalShakeIntensity;
                 float shakeDuration = normalShakeDuration;

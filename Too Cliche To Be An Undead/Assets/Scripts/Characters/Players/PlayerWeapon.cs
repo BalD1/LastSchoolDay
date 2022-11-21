@@ -56,6 +56,21 @@ public class PlayerWeapon : MonoBehaviour
         indicatorHolder.transform.rotation = this.transform.rotation;
     }
 
+    public Quaternion GetRotationOnMouseOrGamepad()
+    {
+        if (owner.Inputs.currentControlScheme == null) return Quaternion.identity;
+        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
+        {
+            return GetRotationOnMouse();
+        }
+        else
+        {
+            Vector2 c = owner.LastDirection.normalized;
+            lookAngle = Mathf.Atan2(c.y, c.x) * Mathf.Rad2Deg;
+            return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+        }
+    }
+
     public void RotateOnMouse()
     {
         if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
@@ -74,6 +89,13 @@ public class PlayerWeapon : MonoBehaviour
 
         lookAngle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
         return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+    }
+
+    public void SetRotationTowardTarget(Transform target)
+    {
+        Vector2 dir = (target.position - this.transform.position).normalized;
+        lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
     }
 
     public void SetAimGoal(Vector2 goal)
@@ -95,21 +117,6 @@ public class PlayerWeapon : MonoBehaviour
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * slerpSpeed);
         }
         else RotateOnMouse();
-    }
-
-    public Quaternion GetRotationOnMouseOrGamepad()
-    {
-        if (owner.Inputs.currentControlScheme == null) return Quaternion.identity;
-        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
-        {
-            return GetRotationOnMouse();
-        }
-        else
-        {
-            Vector2 c = owner.LastDirection.normalized;
-            lookAngle = Mathf.Atan2(c.y, c.x) * Mathf.Rad2Deg;
-            return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
-        }
     }
 
     public Vector2 GetPreciseDirectionOfMouseOrGamepad()

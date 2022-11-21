@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [CreateAssetMenu(fileName = "DropTable", menuName = "Scriptable/DropTable")]
@@ -8,6 +9,9 @@ public class SCRPT_DropTable : ScriptableObject
 {
     [SerializeField] private DropWithWeight[] dropTable;
     public DropWithWeight[] DropTable { get => dropTable; }
+
+    [SerializeField] private DropWithWeight[] bonusCoins;
+    public DropWithWeight[] BonusCoins { get => bonusCoins; }
 
     [SerializeField] private MandatoryDrop[] mandatoryDrops;
     public MandatoryDrop[] MandatoryDrops { get => mandatoryDrops; }
@@ -65,26 +69,51 @@ public class SCRPT_DropTable : ScriptableObject
 
         return new DropWithWeight();
     }
+    public DropWithWeight GetRandomDrop(DropWithWeight[] table)
+    {
+        float totalWeight = 0;
+        foreach (DropWithWeight drop in table)
+        {
+            totalWeight += drop.weight;
+        }
+
+        float randomValue = Random.Range(0, totalWeight);
+        float currentWeight = 0;
+        foreach (DropWithWeight d in table)
+        {
+            currentWeight += d.weight;
+            if (currentWeight >= randomValue)
+            {
+                return d;
+            }
+        }
+
+        return new DropWithWeight();
+    }
 
     public List<GameObject> DropRandom(Vector2 position)
     {
         List<GameObject> table = new List<GameObject>();
-        SCRPT_DropTable.DropWithWeight drop = GetRandomDrop();
-        if (drop.objectsToDrop.Length > 0)
-        {
-            foreach (var item in drop.objectsToDrop)
-            {
-                int amount = Random.Range(item.minAmount, item.maxAmount + 1);
-                for (int i = 0; i < amount; i++)
-                {
-                    GameObject newDrop = Instantiate(item.objectToDrop, position, Quaternion.identity);
-                    newDrop.GetComponent<Rigidbody2D>()?.AddForce(Vector2.up, ForceMode2D.Impulse);
-                    table.Add(newDrop);
-                }
-            }
-        }
 
-        //Debug.Log($"Dropping {drop.editorName}");
+        SCRPT_DropTable.DropWithWeight drop = GetRandomDrop();
+        AddDropsToTableAndSpawn(ref table, drop, position);
+
+        //if (drop.objectsToDrop.Length > 0)
+        //{
+        //    foreach (var item in drop.objectsToDrop)
+        //    {
+        //        int amount = Random.Range(item.minAmount, item.maxAmount + 1);
+        //        for (int i = 0; i < amount; i++)
+        //        {
+        //            GameObject newDrop = Instantiate(item.objectToDrop, position, Quaternion.identity);
+        //            newDrop.GetComponent<Rigidbody2D>()?.AddForce(Vector2.up, ForceMode2D.Impulse);
+        //            table.Add(newDrop);
+        //        }
+        //    }
+        //}
+
+        SCRPT_DropTable.DropWithWeight coins = GetRandomDrop(bonusCoins);
+        AddDropsToTableAndSpawn(ref table, coins, position);
 
         foreach (var item in mandatoryDrops)
         {
@@ -93,5 +122,21 @@ public class SCRPT_DropTable : ScriptableObject
         }
 
         return table;
+    }
+
+    private void AddDropsToTableAndSpawn(ref List<GameObject> table, DropWithWeight drops, Vector2 pos)
+    {
+        if (drops.objectsToDrop.Length > 0)
+        {
+            foreach (var item in drops.objectsToDrop)
+            {
+                int amount = Random.Range(item.minAmount, item.maxAmount + 1);
+                for (int i = 0; i < amount; i++)
+                {
+                    GameObject newDrop = Instantiate(item.objectToDrop, pos, Quaternion.identity);
+                    table.Add(newDrop);
+                }
+            }
+        }
     }
 }

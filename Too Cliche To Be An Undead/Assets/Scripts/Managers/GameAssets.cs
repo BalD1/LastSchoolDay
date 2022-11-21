@@ -23,6 +23,25 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject coinPF;
     [SerializeField] private GameObject pbThumbnailPF;
 
+    [System.Serializable]
+    public struct PBWithRarity
+    {
+        public E_PBRarity pbRarity;
+        public GameObject[] pbsPF;
+    }
+
+    [SerializeField] private PBWithRarity[] pBWithRarities;
+
+    [SerializeField] private List<GameObject> uniquePBs;
+
+    public enum E_PBRarity
+    {
+        Common,
+        Uncommon,
+        Rare,
+        Unique,
+    }
+
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private Material defaultMaterial;
 
@@ -33,6 +52,9 @@ public class GameAssets : MonoBehaviour
     public GameObject NormalZombiePF { get => normalZombiePF; }
     public GameObject CoinPF { get => coinPF; }
     public GameObject PBThumbnailPF { get => pbThumbnailPF; }
+
+    public PBWithRarity[] PBWithRarities { get => pBWithRarities; }
+    public List<GameObject> UniquePBs { get => uniquePBs; }
 
     public Material OutlineMaterial { get => outlineMaterial; }
     public Material DefaultMaterial { get => defaultMaterial; }
