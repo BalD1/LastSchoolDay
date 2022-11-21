@@ -14,6 +14,8 @@ public class PlayerWeapon : MonoBehaviour
 
     [SerializeField] private float slerpSpeed = 10f;
 
+    [SerializeField] private float onHitKnockback = 2f;
+
 #if UNITY_EDITOR
     [SerializeField] protected bool debugMode;
 #endif
@@ -22,6 +24,8 @@ public class PlayerWeapon : MonoBehaviour
 
     [SerializeField] protected Animator effectAnimator;
     public Animator EffectAnimator { get => effectAnimator; }
+
+    [SerializeField] protected ParticleSystem hitParticles;
 
     protected Collider2D[] hitEntities;
 
@@ -127,14 +131,22 @@ public class PlayerWeapon : MonoBehaviour
 
     public virtual void StartWeaponAttack(bool isLastAttack) { }
 
-    public void SuccessfulHit(Vector3 hitPosition)
+    public void SuccessfulHit(Vector3 hitPosition, Entity e, bool addKnockback)
     {
-        float dist = Vector2.Distance(this.transform.position, hitPosition) / 2;
-        Vector2 dir = (hitPosition - this.transform.position).normalized;
+        Vector3 effectObjectPos = effectAnimator.gameObject.transform.position;
+        float dist = Vector2.Distance(effectObjectPos, hitPosition) / 2;
+        Vector2 dir = (hitPosition - effectObjectPos).normalized;
 
-        //Instantiate(hitParticles, this.transform.position + (dir * dist), Quaternion.identity);
+        Instantiate(hitParticles, effectObjectPos + (Vector3)(dist * dir), Quaternion.identity);
 
-        // Screen shake
+        float finalKnockback = onHitKnockback - e.GetStats.Weight;
+        if (finalKnockback > 0 && addKnockback)
+        {
+            e.Stun(.1f, true);
+
+            Vector2 dirToPlayer = (e.transform.position - owner.transform.position).normalized;
+            e.GetRb.AddForce(finalKnockback * dirToPlayer, ForceMode2D.Impulse);
+        }
     }
 
     public Vector2 GetGeneralDirectionOfMouseOrGamepad()

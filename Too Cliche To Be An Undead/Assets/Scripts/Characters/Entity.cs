@@ -170,7 +170,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     #region Status
 
-    public virtual void Stun(float duration) { throw new System.NotImplementedException(); }
+    public virtual void Stun(float duration, bool resetAttackTimer = false) { throw new System.NotImplementedException(); }
 
     public void AddTickDamages(TickDamages tick)
     {
@@ -429,6 +429,7 @@ public class Entity : MonoBehaviour, IDamageable
     }
 
     public void StartAttackTimer(float durationModifier = 0) => attack_TIMER = maxAttCD_M + durationModifier;
+    public void ResetAttackTimer() => attack_TIMER = 0;
 
     #region Debug
 

@@ -35,9 +35,10 @@ public class FSM_Entity_Stunned<T> : FSM_Base<T>
 
     public void SetOwner(EnemyBase _owner) => owner = _owner;
 
-    public FSM_Entity_Stunned<T> SetDuration(float duration)
+    public FSM_Entity_Stunned<T> SetDuration(float duration, bool resetAttackTimer = false)
     {
         stun_TIMER = duration;
+        if (owner != null && resetAttackTimer) owner.ResetAttackTimer();
         return this;
     }
 

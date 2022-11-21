@@ -484,6 +484,9 @@ MonoBehaviour:
   maxWaitBeforeNewWanderPoint: 5
   distanceBeforeStop: 1.5
   durationBeforeAttack: 0.7
+  maxScaleOnAttack: {x: 1.25, y: 1.25}
+  inType: 14
+  outType: 15
   detectedPlayers: []
   attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}

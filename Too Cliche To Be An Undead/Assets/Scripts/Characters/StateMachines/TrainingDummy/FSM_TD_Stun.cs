@@ -6,7 +6,7 @@ public class FSM_TD_Stun : FSM_Entity_Stunned<FSM_TD_Manager>
 {
     public override void EnterState(FSM_TD_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
+        if (owner == null) owner = stateManager.Owner;
         base.EnterState(stateManager);
     }
 

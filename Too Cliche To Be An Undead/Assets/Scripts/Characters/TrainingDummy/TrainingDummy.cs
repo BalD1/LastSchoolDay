@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Text;
 
 public class TrainingDummy : EnemyBase
 {
@@ -113,14 +114,21 @@ public class TrainingDummy : EnemyBase
     }
     private void UpdateDamagesText()
     {
-        damagesText.text = "DPS : " + receivedDPS.ToString("F2") + "\n" +
-                        "Total : " + totalReceived + "\n" +
-                        "Attacks : " + receivedAttacks + "\n";
+        StringBuilder sb = new StringBuilder("DPS : ");
+        sb.AppendLine(receivedDPS.ToString("F2"));
+        
+        sb.Append("Total : ");
+        sb.AppendLine(totalReceived.ToString());
+        
+        sb.Append("Attacks : ");
+        sb.AppendLine(receivedAttacks.ToString());
+        
+        damagesText.text = sb.ToString();
     }
 
-    public override void Stun(float duration)
+    public override void Stun(float duration, bool resetAttackTimer = false)
     {
-        stateManager.SwitchState(stateManager.stunState.SetDuration(duration));
+        stateManager.SwitchState(stateManager.stunState.SetDuration(duration, resetAttackTimer));
         statusText.text = "STUN";
         statusText.enabled = true;
     }

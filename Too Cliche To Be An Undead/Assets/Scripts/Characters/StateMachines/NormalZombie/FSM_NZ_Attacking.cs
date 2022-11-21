@@ -16,10 +16,16 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         owner ??= stateManager.Owner;
         owner.d_EnteredTrigger += OnTrigger;
         owner.StartMaterialFlash("_Attacking", .1f);
-
+        
         owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
 
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
+
+        LeanTween.scale(owner.GetSprite.gameObject, owner.MaxScaleOnAttack, owner.DurationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
+            () =>
+            {
+                LeanTween.scale(owner.GetSprite.gameObject, Vector2.one, owner.DurationBeforeAttack / 2).setEase(owner.OutType);
+            });
 
         waitBeforeAttack_TIMER = owner.DurationBeforeAttack;
         attack_TIMER = owner.Attack_DURATION;

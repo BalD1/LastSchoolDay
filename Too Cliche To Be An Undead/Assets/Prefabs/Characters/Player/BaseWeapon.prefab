@@ -154,11 +154,13 @@ MonoBehaviour:
   owner: {fileID: 0}
   indicatorHolder: {fileID: 3852056659885133262}
   slerpSpeed: 5
+  onHitKnockback: 1
   debugMode: 0
   damageablesLayer:
     serializedVersion: 2
     m_Bits: 320
   effectAnimator: {fileID: 4725801109954140596}
+  hitParticles: {fileID: 5024009746357069192, guid: ec3f674830402cc45bce805cf6493db7, type: 3}
   isAttacking: 0
   attackEnded: 0
   prepareNextAttack: 0
@@ -166,6 +168,11 @@ MonoBehaviour:
   maxRange: 0.75
   lastAttackDamagesMultiplier: 1.5
   lastAttackPushPercentage: 0.3
+  onAttackMovementForce: 1
+  normalShakeIntensity: 0.7
+  normalShakeDuration: 0.1
+  bigShakeIntensity: 1.4
+  bigShakeDuration: 0.2
   effectObject: {fileID: 2221034363546464809}
 --- !u!1 &3852056659885133262
 GameObject:

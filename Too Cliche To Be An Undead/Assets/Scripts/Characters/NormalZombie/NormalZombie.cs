@@ -37,9 +37,9 @@ public class NormalZombie : EnemyBase
         Destroy(this.gameObject);
     }
 
-    public override void Stun(float duration)
+    public override void Stun(float duration, bool resetAttackTimer = false)
     {
-        stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration));
+        stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
     }
 
     public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)

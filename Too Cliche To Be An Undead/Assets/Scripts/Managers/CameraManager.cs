@@ -19,6 +19,11 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] private CinemachineVirtualCamera cam_followPlayers;
     [SerializeField] private CinemachineTargetGroup tg_players;
+    private CinemachineBasicMultiChannelPerlin bmcp;
+
+    private float shake_TIMER;
+    private float shake_DURATION;
+    private float shake_startingIntensity;
 
     private Camera mainCam;
 
@@ -40,6 +45,8 @@ public class CameraManager : MonoBehaviour
         DontDestroyOnLoad(cam_followPlayers);
         DontDestroyOnLoad(tg_players);
 
+        bmcp = cam_followPlayers.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
         GameManager.Instance._onSceneReload += OnSceneLoaded;
 
         instance = this;
@@ -51,6 +58,15 @@ public class CameraManager : MonoBehaviour
         mainCam = this.GetComponent<Camera>();
 
         UIManager.Instance.AddMakersInCollidersArray(markersColliders);
+    }
+
+    private void Update()
+    {
+        if (shake_TIMER > 0)
+        {
+            shake_TIMER -= Time.deltaTime;
+            bmcp.m_AmplitudeGain = Mathf.Lerp(shake_startingIntensity, 0f, 1 - (shake_TIMER / shake_DURATION));
+        }
     }
 
     private void LateUpdate()
@@ -125,6 +141,15 @@ public class CameraManager : MonoBehaviour
     {
         markers[invisiblePlayers.IndexOf(player)].gameObject.SetActive(false);
         playersToRemoveFromList.Add(player);
+    }
+
+    public void ShakeCamera(float intensity, float duration)
+    {
+        bmcp.m_AmplitudeGain = intensity;
+        shake_startingIntensity = intensity;
+        
+        shake_DURATION = duration;
+        shake_TIMER = duration;
     }
 
     private void OnDestroy()

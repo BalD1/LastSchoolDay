@@ -22,6 +22,7 @@ public abstract class EnemyBase : Entity
     [SerializeField] private Material attackMaterial;
     public Material AttackMaterial { get => attackMaterial; }
 
+
     [Header("Stats", order = 0)]
 
     [SerializeField] private float speedMultiplier;
@@ -52,6 +53,13 @@ public abstract class EnemyBase : Entity
     [SerializeField] private float durationBeforeAttack = .3f;
     public float DurationBeforeAttack { get => durationBeforeAttack; }
 
+    [SerializeField] private Vector2 maxScaleOnAttack = new Vector2(1.3f, 1.3f);
+    [SerializeField] private LeanTweenType inType = LeanTweenType.easeInSine;
+    [SerializeField] private LeanTweenType outType = LeanTweenType.easeOutSine;
+
+    public Vector2 MaxScaleOnAttack { get => maxScaleOnAttack; }
+    public LeanTweenType InType { get => inType; }
+    public LeanTweenType OutType { get => outType; }
 
     [Header("Player Related")]
 
