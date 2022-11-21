@@ -48,7 +48,12 @@ public class PlayerWeapon : MonoBehaviour
         effectAnimator ??= this.transform.GetComponentInChildren<Animator>();
     }
 
-    public void FollowMouse(bool aimAtMovements = true)
+    /// <summary>
+    /// Check if we should aim at movements. If yes, rotate depending on gamepad or mouse.
+    /// If not, Rotate on mouse.
+    /// </summary>
+    /// <param name="aimAtMovements"></param>
+    public void SetRotation(bool aimAtMovements = true)
     {
         if (aimAtMovements) this.transform.rotation = GetRotationOnMouseOrGamepad();
         else  RotateOnMouse();
@@ -56,6 +61,10 @@ public class PlayerWeapon : MonoBehaviour
         indicatorHolder.transform.rotation = this.transform.rotation;
     }
 
+    /// <summary>
+    /// Returns quaternion depending on if the user is on keyboard or gamepad
+    /// </summary>
+    /// <returns></returns>
     public Quaternion GetRotationOnMouseOrGamepad()
     {
         if (owner.Inputs.currentControlScheme == null) return Quaternion.identity;
@@ -71,12 +80,19 @@ public class PlayerWeapon : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Rotates depending on mouse position. Uses <see cref="GetRotationOnMouse"/>
+    /// </summary>
     public void RotateOnMouse()
     {
         if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
             this.transform.rotation = GetRotationOnMouse();
     }
 
+    /// <summary>
+    /// Returns a quaternion depending on mouse position
+    /// </summary>
+    /// <returns></returns>
     public Quaternion GetRotationOnMouse()
     {
         Vector3 mousePos = Input.mousePosition;
@@ -91,11 +107,19 @@ public class PlayerWeapon : MonoBehaviour
         return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
     }
 
+    /// <summary>
+    /// Auto aims toward target
+    /// </summary>
+    /// <param name="target"></param>
     public void SetRotationTowardTarget(Transform target)
     {
+        if (target == null) return;
+        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD)) return;
+
         Vector2 dir = (target.position - this.transform.position).normalized;
         lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+        owner.LastDirection = dir;
     }
 
     public void SetAimGoal(Vector2 goal)
@@ -105,6 +129,9 @@ public class PlayerWeapon : MonoBehaviour
         aimGoal = goal;
     }
 
+    /// <summary>
+    /// Use this if we should rotate depending on aim instead of movements
+    /// </summary>
     public void RotateOnAim()
     {
         if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_GAMEPAD))

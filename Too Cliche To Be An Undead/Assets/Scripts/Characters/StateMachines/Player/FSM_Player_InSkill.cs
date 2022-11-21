@@ -36,7 +36,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
         if (timerForCancel > 0) timerForCancel -= Time.deltaTime;
 
-        stateManager.OwnerWeapon.FollowMouse(owner.GetSkill.AimAtMovements);
+        stateManager.OwnerWeapon.SetRotation(owner.GetSkill.AimAtMovements);
 
         owner.GetSkill.UpdateSkill(owner);
     }

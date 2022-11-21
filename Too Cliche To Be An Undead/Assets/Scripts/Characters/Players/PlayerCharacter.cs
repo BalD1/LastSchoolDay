@@ -115,7 +115,7 @@ public class PlayerCharacter : Entity, IInteractable
     public float DyingState_DURATION { get => dyingState_DURATION; }
     public SCRPT_Dash PlayerDash { get => playerDash; }
     public List<EnemyBase> Attackers { get => attackers; }
-    public Vector2 LastDirection { get => lastDirection; }
+    public Vector2 LastDirection { get => lastDirection; set => lastDirection = value; }
 
     public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
     public const string SCHEME_GAMEPAD = "Gamepad";

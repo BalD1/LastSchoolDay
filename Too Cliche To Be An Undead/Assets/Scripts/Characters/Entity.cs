@@ -312,6 +312,18 @@ public class Entity : MonoBehaviour, IDamageable
             StatsModifiers.Remove(item);
         }
     }
+    public void RemoveModifiersAll()
+    {
+        foreach (var item in StatsModifiers)
+        {
+            modifiersToRemove.Add(item);
+        }
+        foreach (var item in modifiersToRemove)
+        {
+            UnapplyModifier(item);
+            StatsModifiers.Remove(item);
+        }
+    }
 
     public StatsModifier SearchModifier(string id)
     {

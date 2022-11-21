@@ -98,20 +98,6 @@ public class SCRPT_DropTable : ScriptableObject
         SCRPT_DropTable.DropWithWeight drop = GetRandomDrop();
         AddDropsToTableAndSpawn(ref table, drop, position);
 
-        //if (drop.objectsToDrop.Length > 0)
-        //{
-        //    foreach (var item in drop.objectsToDrop)
-        //    {
-        //        int amount = Random.Range(item.minAmount, item.maxAmount + 1);
-        //        for (int i = 0; i < amount; i++)
-        //        {
-        //            GameObject newDrop = Instantiate(item.objectToDrop, position, Quaternion.identity);
-        //            newDrop.GetComponent<Rigidbody2D>()?.AddForce(Vector2.up, ForceMode2D.Impulse);
-        //            table.Add(newDrop);
-        //        }
-        //    }
-        //}
-
         SCRPT_DropTable.DropWithWeight coins = GetRandomDrop(bonusCoins);
         AddDropsToTableAndSpawn(ref table, coins, position);
 

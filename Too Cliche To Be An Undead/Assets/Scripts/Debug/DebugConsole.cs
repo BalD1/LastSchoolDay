@@ -104,7 +104,7 @@ public class DebugConsole : MonoBehaviour
 
         REMOVE_ALL_MODIFIERS = new DebugCommand("REMOVE_ALL_MODIFIERS", "Removes every modifiers of self", "REMOVE_ALL_MODIFIERS", () =>
         {
-            GameManager.Player1Ref.StatsModifiers.Clear();
+            GameManager.Player1Ref.RemoveModifiersAll();
         });
 
         GOLD_BAG = new DebugCommand("GOLD_BAG", "Adds 50 gold", "GOLD_BAG", () =>

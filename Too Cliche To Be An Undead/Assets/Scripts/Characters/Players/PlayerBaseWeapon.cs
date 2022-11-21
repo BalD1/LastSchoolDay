@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerBaseWeapon : PlayerWeapon
 {
@@ -19,6 +21,9 @@ public class PlayerBaseWeapon : PlayerWeapon
     [SerializeField] private float distanceForAutoAim = 1f;
 
     [SerializeField] private GameObject effectObject;
+
+    private Transform closestEnemy;
+    private float closestEnemyDist = -1;
 
 
     protected override void Awake()
@@ -53,9 +58,13 @@ public class PlayerBaseWeapon : PlayerWeapon
                 if (damageable.OnTakeDamages(damages, owner.GetStats.Team, isCrit) == false)
                     continue;
 
-                if (Vector2.Distance(item.transform.position, effectObject.transform.position) <= distanceForAutoAim)
-                    SetRotationTowardTarget(item.transform);
-                Debug.Log(Vector2.Distance(item.transform.position, effectObject.transform.position));
+                float dist = Vector2.Distance(item.transform.position, effectObject.transform.position);
+                if ((closestEnemy == null || closestEnemyDist == -1) || (dist <= distanceForAutoAim && dist < closestEnemyDist) )
+                {
+                    closestEnemy = item.transform;
+                    closestEnemyDist = dist;
+                }
+                    
 
                 float shakeIntensity = normalShakeIntensity;
                 float shakeDuration = normalShakeDuration;
@@ -76,6 +85,10 @@ public class PlayerBaseWeapon : PlayerWeapon
                 CameraManager.Instance.ShakeCamera(shakeIntensity, shakeDuration);
             }
         }
+
+        SetRotationTowardTarget(closestEnemy);
+        closestEnemy = null;
+        closestEnemyDist = -1;
     }
 
     private void OnDrawGizmos()

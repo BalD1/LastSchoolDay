@@ -24,7 +24,7 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
         //owner.ReadMovementsInputs();
-        stateManager.OwnerWeapon.FollowMouse();
+        stateManager.OwnerWeapon.SetRotation();
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)

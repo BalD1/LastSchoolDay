@@ -24,7 +24,7 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
         //owner.ReadMovementsInputs();
 
         SetAnimator();
-        stateManager.OwnerWeapon.FollowMouse();
+        stateManager.OwnerWeapon.SetRotation();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
