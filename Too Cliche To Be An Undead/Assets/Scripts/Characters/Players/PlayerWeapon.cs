@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using BalDUtilities.MouseUtils;
 using BalDUtilities.VectorUtils;
-using System.Text;
 
 public class PlayerWeapon : MonoBehaviour
 {
@@ -16,9 +15,6 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private float slerpSpeed = 10f;
 
     [SerializeField] private float onHitKnockback = 2f;
-
-    [SerializeField] private float timeBeforeAttackReset = .2f;
-    private float attackReset_TIMER;
 
 #if UNITY_EDITOR
     [SerializeField] protected bool debugMode;
@@ -41,38 +37,15 @@ public class PlayerWeapon : MonoBehaviour
     public bool prepareNextAttack;
     public bool inputStored;
 
-    public bool animEnded = false;
-
     public delegate void NextAttack(int attackIdx);
     public NextAttack D_nextAttack;
 
     private Vector2 aimGoal;
 
-    public Coroutine resetCoroutine;
-
     protected virtual void Awake()
     {
         owner ??= this.transform.GetComponentInParent<PlayerCharacter>();
         effectAnimator ??= this.transform.GetComponentInChildren<Animator>();
-    }
-
-    private void Update()
-    {
-        if (attackReset_TIMER > 0)
-        {
-            if (this.isAttacking)
-            {
-                attackReset_TIMER = 0;
-                return;
-            }
-            attackReset_TIMER -= Time.deltaTime;
-            if (attackReset_TIMER <= 0) ResetAttack();
-        }
-    }
-
-    public void StartResetTimer()
-    {
-        attackReset_TIMER = timeBeforeAttackReset;
     }
 
     /// <summary>
@@ -190,12 +163,7 @@ public class PlayerWeapon : MonoBehaviour
         else return owner.LastDirection.normalized;
     }
 
-    public virtual void StartWeaponAttack(bool isLastAttack) 
-    {
-        StringBuilder nextAtt = new StringBuilder("AN_Slash0");
-        nextAtt.Append(owner.StateManager.attackingState.CurrentAttackIdx);
-        effectAnimator.Play(nextAtt.ToString());
-    }
+    public virtual void StartWeaponAttack(bool isLastAttack) { }
 
     public void SuccessfulHit(Vector3 hitPosition, Entity e, bool addKnockback)
     {
@@ -227,6 +195,9 @@ public class PlayerWeapon : MonoBehaviour
 
     public void ResetAttack()
     {
-        owner.StateManager.attackingState.NextAttack(1);
+        isAttacking = false;
+        attackEnded = false;
+        prepareNextAttack = false;
+        inputStored = false;
     }
 }

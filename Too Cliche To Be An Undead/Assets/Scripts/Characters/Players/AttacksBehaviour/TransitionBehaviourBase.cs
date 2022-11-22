@@ -23,9 +23,6 @@ public class TransitionBehaviourBase : StateMachineBehaviour
             switchToNextAttack = true;
             weapon.D_nextAttack?.Invoke(currentAttackIndex);
 
-            if (currentAttackIndex == 1)
-                weapon.isAttacking = true;
-
             if (animationToPlay != null && animationToPlay != "")
                 animator.Play(animationToPlay);
         }

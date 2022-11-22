@@ -73,7 +73,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: StartAttack
+    functionName: ChangeText
+    data: A_RIGHT_3
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.13333334
+    functionName: PerformAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -84,19 +91,12 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 1
+    intParameter: 0
     messageOptions: 0
   - time: 0.21666667
-    functionName: SetNextAttackIndex
-    data: 
+    functionName: ChangeText
+    data: A_RIGHT_3
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: -1
-    messageOptions: 0
-  - time: 0.21666667
-    functionName: EndAnim
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 1
+    intParameter: 0
     messageOptions: 0

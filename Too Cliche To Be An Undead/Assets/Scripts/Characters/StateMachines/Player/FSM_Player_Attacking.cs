@@ -6,9 +6,6 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 {
     public PlayerCharacter owner;
 
-    private int currentAttackIdx = 0;
-    public int CurrentAttackIdx { get => currentAttackIdx; }
-
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         owner ??= stateManager.Owner;
@@ -20,9 +17,8 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, true);
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKINDEX, currentAttackIdx);
 
-        owner.D_attackInput += owner.StoreInput;
+        owner.D_attackInput += owner.StartAttack;
         owner.D_dashInput += owner.StartDash;
     }
 
@@ -36,16 +32,19 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
-        owner.D_attackInput -= owner.StoreInput;
-        owner.D_dashInput -= owner.StartDash;
-
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);
 
         owner.ForceUpdateMovementsInput();
+
+        owner.D_attackInput -= owner.StartAttack;
+        owner.D_dashInput -= owner.StartDash;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
+        if (!owner.Weapon.isAttacking)
+            stateManager.SwitchState(stateManager.idleState);
+
         if (owner.isDashing)
         {
             owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);
@@ -57,7 +56,7 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     public void NextAttack(int currentAttackIndex)
     {
-        currentAttackIdx = currentAttackIndex;
+        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKINDEX, currentAttackIndex);
     }
     public override string ToString() => "Attacking";
 }
