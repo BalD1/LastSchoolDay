@@ -99,6 +99,9 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         // lessen the PushForce depending on the remaining push time
         float remainingPushForce = owner.PlayerDash.PushForce * GetRemainingTimeByMax();
 
+        CameraManager.Instance.ShakeCamera(owner.PlayerDash.MaxScreenShakeIntensity * GetRemainingTimeByMax(),
+                                           owner.PlayerDash.MaxScreenShakeDuration * GetRemainingTimeByMax());
+
         e.Push(owner.transform.position, remainingPushForce, owner);
     }
 

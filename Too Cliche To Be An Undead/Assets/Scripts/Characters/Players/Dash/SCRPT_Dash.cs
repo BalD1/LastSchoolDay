@@ -16,6 +16,12 @@ public abstract class SCRPT_Dash : ScriptableObject
     [SerializeField] private float pushForce;
     public float PushForce { get => pushForce; }
 
+    [SerializeField] private float maxScreenShakeIntensity = 1;
+    public float MaxScreenShakeIntensity { get => maxScreenShakeIntensity; }
+
+    [SerializeField] private float maxScreenShakeDuration = .1f;
+    public float MaxScreenShakeDuration { get => maxScreenShakeDuration; }
+
     public abstract void OnDashStart(PlayerCharacter owner);
     public abstract void OnDashUpdate(PlayerCharacter owner);
     public abstract void OnDashStop(PlayerCharacter owner);
