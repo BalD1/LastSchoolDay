@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.Users;
 using System.Linq;
 using UnityEngine.TextCore.Text;
+using UnityEditor;
 
 public class PlayerCharacter : Entity, IInteractable
 {
@@ -369,8 +370,17 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void StartAttack()
     {
-        if (!weapon.prepareNextAttack) weapon.prepareNextAttack = true;
-        else weapon.inputStored = true;
+        if (stateManager.CurrentState.ToString() != "Attacking")
+        {
+            if (stateManager.attackingState.CurrentAttackIdx < 1)
+                stateManager.attackingState.NextAttack(1);
+            stateManager.SwitchState(stateManager.attackingState);
+        }
+    }
+
+    public void StoreInput()
+    {
+        this.Weapon.prepareNextAttack = true;
     }
 
     public void CancelAttackAnimation()
