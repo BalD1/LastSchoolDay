@@ -35,6 +35,7 @@ public class ProjectileBase : MonoBehaviour
             if (proj != null)
                 if (proj.Team.Equals(this.team)) return;
 
+            Debug.Log(collision.name);
             Destroy(this.gameObject);
             return;
         }

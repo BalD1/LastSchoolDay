@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 335982923}
   - component: {fileID: 335982924}
   - component: {fileID: 28432788}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Marker_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &335982923
 Transform:
   m_ObjectHideFlags: 0
@@ -122,13 +122,13 @@ GameObject:
   - component: {fileID: 831781914}
   - component: {fileID: 831781915}
   - component: {fileID: 1145265600}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Marker_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &831781914
 Transform:
   m_ObjectHideFlags: 0
@@ -233,13 +233,13 @@ GameObject:
   - component: {fileID: 918798066}
   - component: {fileID: 918798067}
   - component: {fileID: 723426772}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Marker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &918798066
 Transform:
   m_ObjectHideFlags: 0
@@ -344,13 +344,13 @@ GameObject:
   - component: {fileID: 986050648}
   - component: {fileID: 986050649}
   - component: {fileID: 1997521041}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Marker_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &986050648
 Transform:
   m_ObjectHideFlags: 0
@@ -540,7 +540,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
