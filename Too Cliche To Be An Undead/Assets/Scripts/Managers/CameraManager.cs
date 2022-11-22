@@ -91,7 +91,12 @@ public class CameraManager : MonoBehaviour
             v.y = markerScale * scaleMultiplier;
             markers[i].transform.localScale = v;
 
-            if (dist > maxDistance) invisiblePlayers[i].transform.position = this.transform.position;
+            if (dist > maxDistance)
+            {
+                Vector3 newPos = this.transform.position;
+                newPos.z = 0;
+                invisiblePlayers[i].transform.position = newPos;
+            }
         }
 
         foreach (var item in playersToRemoveFromList)
