@@ -22,6 +22,6 @@ public class PB_Drop : Collectable
         else val = bonusPower.Amount;
 
         player.AddModifier(bonusPower.ID, val, bonusPower.StatType);
-        UIManager.Instance.AddPBToContainer(bonusPower);
+        UIManager.Instance.AddPBToContainer(bonusPower, player.PlayerIndex);
     }
 }

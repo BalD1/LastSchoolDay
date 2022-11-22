@@ -8,6 +8,6 @@ public class AnimationCallbacks : MonoBehaviour
 
     public void PerformAttack()
     {
-        ownerWeapon.animIsReady = true;
+        //ownerWeapon.animIsReady = true;
     }
 }

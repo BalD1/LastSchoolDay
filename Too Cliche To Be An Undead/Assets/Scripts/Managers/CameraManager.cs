@@ -36,6 +36,7 @@ public class CameraManager : MonoBehaviour
     public Transform[] Markers { get => markers; }
 
     [SerializeField] private float maxDistance;
+    [SerializeField] private float scaleMultiplier = .5f;
 
     [SerializeField] private List<Transform> invisiblePlayers = new List<Transform>();
     [SerializeField] private List<Transform> playersToRemoveFromList = new List<Transform>();
@@ -78,16 +79,16 @@ public class CameraManager : MonoBehaviour
             Vector3 minScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(0, 0, 0));
             Vector3 maxScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
-            markers[i].position = new Vector3(Mathf.Clamp(invisiblePlayers[i].position.x, minScreenBounds.x + 2, maxScreenBounds.x - 2), 
-                                              Mathf.Clamp(invisiblePlayers[i].position.y, minScreenBounds.y + 2, maxScreenBounds.y - 2),
+            markers[i].position = new Vector3(Mathf.Clamp(invisiblePlayers[i].position.x, minScreenBounds.x + .5f, maxScreenBounds.x - .5f), 
+                                              Mathf.Clamp(invisiblePlayers[i].position.y, minScreenBounds.y + .5f, maxScreenBounds.y - .5f),
                                               0);
 
             float dist = Vector2.Distance(invisiblePlayers[i].position, markers[i].position);
             float markerScale = Mathf.Clamp01(1 - (dist / maxDistance));
 
             Vector3 v = markers[i].transform.localScale;
-            v.x = markerScale;
-            v.y = markerScale;
+            v.x = markerScale * scaleMultiplier;
+            v.y = markerScale * scaleMultiplier;
             markers[i].transform.localScale = v;
 
             if (dist > maxDistance) invisiblePlayers[i].transform.position = this.transform.position;

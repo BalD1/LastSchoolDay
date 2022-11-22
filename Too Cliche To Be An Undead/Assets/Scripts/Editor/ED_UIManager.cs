@@ -97,8 +97,11 @@ public class ED_UIManager : Editor
         SerializedProperty gameoverMenu = serializedObject.FindProperty("gameoverMenu");
         EditorGUILayout.PropertyField(gameoverMenu);
 
-        SerializedProperty pbContainer = serializedObject.FindProperty("pbContainer");
-        EditorGUILayout.PropertyField(pbContainer);
+        SerializedProperty pbContainersButtons = serializedObject.FindProperty("pbContainersButtons");
+        EditorGUILayout.PropertyField(pbContainersButtons);
+
+        SerializedProperty pbContainers = serializedObject.FindProperty("pbContainers");
+        EditorGUILayout.PropertyField(pbContainers);
 
         SerializedProperty shopMenu = serializedObject.FindProperty("shopMenu");
         EditorGUILayout.PropertyField(shopMenu);

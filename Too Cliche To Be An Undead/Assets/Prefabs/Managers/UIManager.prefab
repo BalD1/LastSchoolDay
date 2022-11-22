@@ -53,7 +53,6 @@ MonoBehaviour:
   firstSelectedButton_Lobby: {fileID: 0}
   firstSelectedButton_Options: {fileID: 0}
   pauseMenu: {fileID: 0}
-  pbContainer: {fileID: 0}
   winMenu: {fileID: 0}
   gameoverMenu: {fileID: 0}
   shopMenu: {fileID: 0}
@@ -62,6 +61,15 @@ MonoBehaviour:
   mainMenu_mainPanel: {fileID: 0}
   hudTransparencyValue: 0.3
   hudTransparencyTime: 0.3
+  playersColliders:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   pbContainerBar: {fileID: 0}
   shopBar: {fileID: 0}
   optionButton_Pause: {fileID: 0}
@@ -91,6 +99,16 @@ MonoBehaviour:
     hpText: {fileID: 0}
     skillThumbnail: {fileID: 0}
     dashThumbnail: {fileID: 0}
+  pbContainersButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  pbContainers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   characterPortrait:
   - characterName: 0
     characterPortraitsByHP:
