@@ -440,7 +440,13 @@ public class Entity : MonoBehaviour, IDamageable
         return v;
     }
 
-    public void StartAttackTimer(float durationModifier = 0) => attack_TIMER = maxAttCD_M + durationModifier;
+    public void StartAttackTimer(float durationModifier = 0, bool addRandom = false)
+    {
+        float finalDuration = UnityEngine.Random.Range(maxAttCD_M, maxAttCD_M * 2);
+        finalDuration += durationModifier;
+
+        attack_TIMER = finalDuration;
+    }
     public void ResetAttackTimer() => attack_TIMER = 0;
 
     #region Debug

@@ -226,7 +226,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         UIManager.Instance.D_exitPause += SwitchControlMapToInGame;
 
-        if (this.hpBar == null && GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainScene))
+        if (this.hpBar == null && !GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {
             UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[0];
             characterPortrait = UIManager.Instance.CharacterPortraits[this.playerIndex];
@@ -798,7 +798,8 @@ public class PlayerCharacter : Entity, IInteractable
         this.attackers.Clear();
 
         this.currentHP = this.maxHP_M;
-        this.hpBar.fillAmount = 1;
+        if (this.hpBar != null)
+            this.hpBar.fillAmount = 1;
 
         this.stateManager.ResetAll();
 

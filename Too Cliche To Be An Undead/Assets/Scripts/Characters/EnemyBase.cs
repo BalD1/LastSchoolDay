@@ -50,8 +50,11 @@ public abstract class EnemyBase : Entity
     [SerializeField] private float distanceBeforeStop = 1f;
     public float DistanceBeforeStop { get => distanceBeforeStop; }
 
-    [SerializeField] private float durationBeforeAttack = .3f;
-    public float DurationBeforeAttack { get => durationBeforeAttack; }
+    [SerializeField] private float minDurationBeforeAttack = .3f;
+    public float MinDurationBeforeAttack { get => minDurationBeforeAttack; }
+
+    [SerializeField] private float maxDurationBeforeAttack = .4f;
+    public float MaxDurationBeforeAttack { get => maxDurationBeforeAttack; }
 
     [SerializeField] private Vector2 maxScaleOnAttack = new Vector2(1.3f, 1.3f);
     [SerializeField] private LeanTweenType inType = LeanTweenType.easeInSine;

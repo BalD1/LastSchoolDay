@@ -21,13 +21,15 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
 
-        LeanTween.scale(owner.GetSprite.gameObject, owner.MaxScaleOnAttack, owner.DurationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
+        float durationBeforeAttack = Random.Range(owner.MinDurationBeforeAttack, owner.MaxDurationBeforeAttack);
+
+        LeanTween.scale(owner.GetSprite.gameObject, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
             () =>
             {
-                LeanTween.scale(owner.GetSprite.gameObject, Vector2.one, owner.DurationBeforeAttack / 2).setEase(owner.OutType);
+                LeanTween.scale(owner.GetSprite.gameObject, Vector2.one, durationBeforeAttack / 2).setEase(owner.OutType);
             });
 
-        waitBeforeAttack_TIMER = owner.DurationBeforeAttack;
+        waitBeforeAttack_TIMER = durationBeforeAttack;
         attack_TIMER = owner.Attack_DURATION;
         attack_flag = false;
 

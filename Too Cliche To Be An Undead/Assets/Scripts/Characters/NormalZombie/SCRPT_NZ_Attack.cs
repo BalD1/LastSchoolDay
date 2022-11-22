@@ -22,7 +22,7 @@ public class SCRPT_NZ_Attack : SCRPT_EnemyAttack
     public override void OnExit(EnemyBase owner)
     {
         owner.GetRb.velocity = Vector2.zero;
-        owner.StartAttackTimer();
+        owner.StartAttackTimer(0, true);
         (owner as NormalZombie).attackStarted = false;
     }
 }
