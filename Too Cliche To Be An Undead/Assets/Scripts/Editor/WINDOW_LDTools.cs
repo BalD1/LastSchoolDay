@@ -355,6 +355,7 @@ public class WINDOW_LDTools : EditorWindow
             sp.sprite = currentDeco.sprites[currentGOPFIdx];
             sp.sortingLayerName = "Front-Background";
             sp.sortingOrder = 1;
+            sp.spriteSortPoint = SpriteSortPoint.Pivot;
             draggedGO.transform.position = mousePosition;
 
             Undo.RegisterCreatedObjectUndo(draggedGO, "Create my GameObject");
