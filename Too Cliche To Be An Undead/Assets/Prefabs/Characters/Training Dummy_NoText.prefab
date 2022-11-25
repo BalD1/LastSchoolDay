@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757441016300020178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -155,7 +155,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7039631815659153765}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -64.72, y: 37.75, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -179,7 +179,7 @@ MonoBehaviour:
   rb: {fileID: 7039631815659153767}
   sprite: {fileID: 7039631816421822038}
   animator: {fileID: 3267673772895476908}
-  healthPopupOffset: {x: -0.15, y: 1.75}
+  healthPopupOffset: {x: 0, y: 1.09}
   audioClips: {fileID: 11400000, guid: ea8297e9977d1c44bac248b46a29a173, type: 2}
   source: {fileID: 5908459638465093020}
   stats: {fileID: 11400000, guid: 10fc24fac3686414a815f20d9147390e, type: 2}
@@ -199,7 +199,11 @@ MonoBehaviour:
   minWaitBeforeNewWanderPoint: 1
   maxWaitBeforeNewWanderPoint: 3
   distanceBeforeStop: 1
-  durationBeforeAttack: 0.3
+  minDurationBeforeAttack: 0.3
+  maxDurationBeforeAttack: 0.4
+  maxScaleOnAttack: {x: 1.3, y: 1.3}
+  inType: 14
+  outType: 15
   detectedPlayers: []
   attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
@@ -240,7 +244,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.13464701, y: -1.0254378}
+  m_Offset: {x: 0, y: 0.22776926}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -251,7 +255,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.33574176, y: 0.29061604}
+  m_Size: {x: 0.33574176, y: 0.16599059}
   m_EdgeRadius: 0
 --- !u!1 &7039631816421822036
 GameObject:
@@ -281,8 +285,8 @@ Transform:
   m_GameObject: {fileID: 7039631816421822036}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0.1477, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7039631815659153766}
   m_RootOrder: 0
@@ -338,7 +342,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!61 &7039631816421822039
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -352,10 +356,10 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.7463684, y: 0.5471637}
+  m_Offset: {x: 0, y: 0.4500663}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.4975, y: 0.8925}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -363,7 +367,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.8352375, y: 12.116201}
+  m_Size: {x: 0.6, y: 0.9058053}
   m_EdgeRadius: 0
 --- !u!95 &3267673772895476908
 Animator:
