@@ -530,6 +530,8 @@ public class PlayerCharacter : Entity, IInteractable
         }
 
         stateManager.SwitchState(stateManager.deadState);
+        NormalZombie zombifiedSelf = Instantiate(GameAssets.Instance.NormalZombiePF, this.transform.position, Quaternion.identity).GetComponent<NormalZombie>();
+        zombifiedSelf.SetAsZombifiedPlayer(this.sprite.sprite, this.maxHP_M, this.maxDamages_M, this.maxSpeed_M, this.maxCritChances_M);
 
         PlayersManager.Instance.DefinitiveDeath(this);
     }

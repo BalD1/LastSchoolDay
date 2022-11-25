@@ -17,7 +17,6 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private Vector3 offset;
 
-
     private Vector3 centerPoint;
     private Vector3 targetPosition;
     private Vector3 velocity;

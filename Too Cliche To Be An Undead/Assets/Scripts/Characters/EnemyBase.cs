@@ -214,6 +214,17 @@ public abstract class EnemyBase : Entity
         attackedPlayer?.RemoveAttacker(this);
     }
 
+    public void SetAsZombifiedPlayer(Sprite playerSprite, float playerMaxHP, float playerDamages, float playerSpeed, int playerCrits)
+    {
+        this.sprite.sprite = playerSprite;
+        this.sprite.color = Color.green;
+        this.maxHP_M = playerMaxHP;
+        this.OnHeal(playerMaxHP);
+        this.maxDamages_M = playerDamages;
+        this.maxSpeed_M = playerSpeed;
+        this.maxCritChances_M = playerCrits;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Walls"))
