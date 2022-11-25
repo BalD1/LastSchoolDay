@@ -54,7 +54,7 @@ public class StatsModifier
     public bool Update(float time)
     {
         if (maxDuration < 0) return false;
-
+        
         timer -= time;
 
         if (timer <= 0) return true;

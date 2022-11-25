@@ -68,6 +68,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private FightArena fightArena;
+
     public List<PlayersByName> playersByName;
 
     public delegate void D_OnSceneReload();
@@ -227,6 +229,11 @@ public class GameManager : MonoBehaviour
     public void TeleportPlayerAtCameraCenter(int playerIdx)
     {
         playersByName[playerIdx].playerScript.gameObject.transform.position = CameraManager.Instance.gameObject.transform.position;
+    }
+
+    public void StartArena()
+    {
+        fightArena?.SpawnNext(0);
     }
 
     #region Scenes

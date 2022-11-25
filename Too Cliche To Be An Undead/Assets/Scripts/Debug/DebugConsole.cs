@@ -23,6 +23,8 @@ public class DebugConsole : MonoBehaviour
 
     private DebugCommand HELP;
 
+    private DebugCommand START_ARENA;
+
     private DebugCommand KILLSELF;
     private DebugCommand KILLALL;
     private DebugCommand<int> KILL;
@@ -81,6 +83,11 @@ public class DebugConsole : MonoBehaviour
         HELP = new DebugCommand("HELP", "Shows all commands", "HELP", () =>
         {
             showHelp = !showHelp;
+        });
+
+        START_ARENA = new DebugCommand("START_ARENA", "Starts the fight arena's waves spawn", "START_ARENA", () =>
+        {
+            GameManager.Instance.StartArena();
         });
 
         KILLSELF = new DebugCommand("KILL_SELF", "Kills the currently controlled character", "KILL_SELF", () =>
@@ -246,6 +253,9 @@ public class DebugConsole : MonoBehaviour
         commandList = new List<object>()
         {
             HELP,
+
+            START_ARENA,
+
             KILLSELF,
             KILLALL,
             KILL,
