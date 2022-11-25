@@ -136,8 +136,8 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
 
-
         stateManager.SwitchState(stateManager.idleState);
+        CancelInvoke(nameof(ClearAttackers));
 
         if (scene.name.Equals("MainMenu"))
         {
@@ -181,9 +181,15 @@ public class PlayerCharacter : Entity, IInteractable
             SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character);
 
             this.currentHP = maxHP_M;
+
+            ClearAttackers();
         }
 
+        this.minimapMarker.SetActive(true);
+
         if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
+
+        this.attackers.Clear();
 
         this.stateManager.SwitchState(stateManager.idleState);
     }
@@ -268,6 +274,8 @@ public class PlayerCharacter : Entity, IInteractable
         }
 
         if (GameManager.Instance.playersByName.Count <= 0) GameManager.Instance.SetPlayersByNameList();
+
+        this.minimapMarker.SetActive(true);
 
         SetDashThumbnail(playerDash.Thumbnail);
     }
@@ -533,6 +541,8 @@ public class PlayerCharacter : Entity, IInteractable
         NormalZombie zombifiedSelf = Instantiate(GameAssets.Instance.NormalZombiePF, this.transform.position, Quaternion.identity).GetComponent<NormalZombie>();
         zombifiedSelf.SetAsZombifiedPlayer(this.sprite.sprite, this.maxHP_M, this.maxDamages_M, this.maxSpeed_M, this.maxCritChances_M);
 
+        this.minimapMarker.SetActive(false);
+
         PlayersManager.Instance.DefinitiveDeath(this);
     }
 
@@ -548,6 +558,14 @@ public class PlayerCharacter : Entity, IInteractable
     public void RemoveAttacker(EnemyBase attacker)
     {
         attackers.Remove(attacker);
+    }
+
+    public void ClearAttackers(bool repeat = true, float repeatTime = 5)
+    {
+        attackers.Clear();
+
+        if (repeat)
+            InvokeRepeating(nameof(ClearAttackers), repeatTime, repeatTime);
     }
 
     #endregion

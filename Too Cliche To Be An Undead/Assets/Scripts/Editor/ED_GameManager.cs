@@ -107,6 +107,9 @@ public class ED_GameManager : Editor
         SerializedProperty shop = serializedObject.FindProperty("shop");
         EditorGUILayout.PropertyField(shop);
 
+        SerializedProperty fightArena = serializedObject.FindProperty("fightArena");
+        EditorGUILayout.PropertyField(fightArena);
+
         bool checkAllow = EditorGUILayout.Toggle("Allow Enemies", targetScript.AllowEnemies);
         if (checkAllow != targetScript.AllowEnemies) targetScript.AllowEnemies = checkAllow;
     }
