@@ -182,7 +182,7 @@ public class PlayerCharacter : Entity, IInteractable
 
             this.currentHP = maxHP_M;
 
-            ClearAttackers();
+            //InvokeRepeating(nameof(ClearAttackers), 5, 5);
         }
 
         this.minimapMarker.SetActive(true);
@@ -560,12 +560,9 @@ public class PlayerCharacter : Entity, IInteractable
         attackers.Remove(attacker);
     }
 
-    public void ClearAttackers(bool repeat = true, float repeatTime = 5)
+    public void ClearAttackers()
     {
         attackers.Clear();
-
-        if (repeat)
-            InvokeRepeating(nameof(ClearAttackers), repeatTime, repeatTime);
     }
 
     #endregion

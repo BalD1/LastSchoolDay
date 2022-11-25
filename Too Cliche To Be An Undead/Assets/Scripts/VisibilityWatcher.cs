@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class VisibilityWatcher : MonoBehaviour
 {
+    [SerializeField] private PlayerCharacter owner;
+
     private bool isVisible = true;
 
     private int playerIdx = -1;
 
     private void Start()
     {
-        playerIdx = this.GetComponentInParent<PlayerCharacter>().PlayerIndex;
+        playerIdx = owner.PlayerIndex;
     }
 
     private void OnBecameInvisible()
     {
-        if (isVisible == false) return;
+        if (isVisible == false || owner.IsAlive() == false) return;
 
         CameraManager.Instance.PlayerBecameInvisible(this.transform.parent, playerIdx);
         isVisible = false;
@@ -23,7 +25,7 @@ public class VisibilityWatcher : MonoBehaviour
 
     private void OnBecameVisible()
     {
-        if (isVisible == true) return;
+        if (isVisible == true || owner.IsAlive() == false) return;
 
         CameraManager.Instance.PlayerBecameVisible(this.transform.parent);
         isVisible = true;
