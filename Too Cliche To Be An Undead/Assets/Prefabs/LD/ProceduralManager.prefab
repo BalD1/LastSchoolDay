@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2326818981240154156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2326818981240154159}
+  - component: {fileID: 2326818981240154158}
+  m_Layer: 0
+  m_Name: ProceduralManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2326818981240154159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2326818981240154156}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2326818981240154158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2326818981240154156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f487148a431d3474086e8ece409aec49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorsHolder: {fileID: 0}
+  roomsData:
+  - roomOrientation: 0
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 0
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 0
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 0
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 1
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 1
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 1
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 1
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 0
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 0
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 0
+    roomAnchor: {fileID: 0}
+  - roomOrientation: 0
+    roomAnchor: {fileID: 0}
+  instantiatedRooms: []
+  leftClassroomsPF:
+  - {fileID: 8093143248084183653, guid: 9f6fc64a4be182d4fb8fa33341889394, type: 3}
+  - {fileID: 5534571330740752137, guid: 8fc82ae68f24eac4d82f9a16950ad595, type: 3}
+  - {fileID: 4963819748103753560, guid: 503bf51bbfbdede43b58784cbf29c423, type: 3}
+  - {fileID: 7783213259295614893, guid: 983e7e344a2729f4db6ad907aec4f1fe, type: 3}
+  rightClassroomsPF:
+  - {fileID: 5844737756320259796, guid: 0400d71b9de85a64d857febda0284995, type: 3}
+  - {fileID: 8562499600788359838, guid: 58859bb4cf3e64746a69035784c6b3a1, type: 3}
+  - {fileID: 6827381410101991742, guid: a18f53b565fb95144ae3b34d2213acda, type: 3}
+  - {fileID: 1828042474579249735, guid: e174f72d83cf15c48b0905eda1dc0aee, type: 3}

@@ -8,7 +8,6 @@ using UnityEngine;
 public class ED_ProceduralRoomsManager : Editor
 {
     private ProceduralRoomsManager targetScript;
-    private GameManager.E_GameState currentState;
 
     private void OnEnable()
     {

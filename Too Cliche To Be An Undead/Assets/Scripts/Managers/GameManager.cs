@@ -154,6 +154,8 @@ public class GameManager : MonoBehaviour
 
     public static float gameTimeSpeed = 1f;
 
+    public static int AcquiredCards { get; set; }
+
     private void Awake()
     {
         instance = this;

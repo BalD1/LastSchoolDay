@@ -104,6 +104,8 @@ public class ED_GameManager : Editor
         EditorGUILayout.PropertyField(playersByName);
         GUI.enabled = true;
 
+        GameManager.AcquiredCards = EditorGUILayout.DelayedIntField("Acquired Cards ", GameManager.AcquiredCards);
+
         SerializedProperty shop = serializedObject.FindProperty("shop");
         EditorGUILayout.PropertyField(shop);
 
