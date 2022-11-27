@@ -49,5 +49,7 @@ public class SCRPT_Props : ScriptableObject
         Paper,
         Poster,
         Window,
+
+        Aquarium,
     }
 }

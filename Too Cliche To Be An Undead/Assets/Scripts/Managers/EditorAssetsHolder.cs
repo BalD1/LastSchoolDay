@@ -55,6 +55,8 @@ public class EditorAssetsHolder : MonoBehaviour
         Paper,
         Poster,
         Window,
+
+        Aquarium,
     }
 
     public IconWithSize GetIconData(E_IconNames name)
