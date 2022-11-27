@@ -22,6 +22,7 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject normalZombiePF;
     [SerializeField] private GameObject coinPF;
     [SerializeField] private GameObject pbThumbnailPF;
+    [SerializeField] private GameObject keycardPF;
 
     [SerializeField] private GameObject smallCoinDropPF;
     [SerializeField] private GameObject largeCoinDropPF;
@@ -61,6 +62,7 @@ public class GameAssets : MonoBehaviour
     public GameObject NormalZombiePF { get => normalZombiePF; }
     public GameObject CoinPF { get => coinPF; }
     public GameObject PBThumbnailPF { get => pbThumbnailPF; }
+    public GameObject KeycardPF { get => keycardPF; }
 
     public GameObject SmallCoinDropPF { get => smallCoinDropPF; }
     public GameObject LargeCoinDropPF { get => largeCoinDropPF; }

@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class GymnasiumDoor : MonoBehaviour, IInteractable
 {
+    [SerializeField] private Animator animator;
+
     public int requiredCardsCount = 0;
 
     private bool canBeInteracted = true;
+
 
     public bool CanBeInteractedWith()
     {
@@ -30,7 +33,8 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
     {
         if (GameManager.AcquiredCards >= requiredCardsCount)
         {
-            Destroy(this.gameObject);
+            canBeInteracted = false;
+            animator.SetTrigger("Open");
         }
     }
 }

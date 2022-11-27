@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnersManager : MonoBehaviour
@@ -17,15 +18,17 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] [Range(0, 10)] private int maxKeycardsToSpawn = 5;
     [SerializeField] [Range(0, 10)] private int minKeycardsToSpawn = 3;
 
-    [SerializeField] private ElementSpawner[] elementSpawners;
-    private List<ElementSpawner> keycardSpawners = new List<ElementSpawner>();
+    [SerializeField] private List<ElementSpawner> elementSpawners = new List<ElementSpawner>();
+    [SerializeField] private List<ElementSpawner> keycardSpawners = new List<ElementSpawner>();
 
     [SerializeField] private GameObject spawner_PF;
     public GameObject Spawner_PF { get => spawner_PF; }
 
-    private void Start()
+    public GymnasiumDoor gymnasiumDoor;
+
+    private void Awake()
     {
-        ManageKeycardSpawn();
+        instance = this;
     }
 
     public void ForceSpawnAll()
@@ -44,19 +47,16 @@ public class SpawnersManager : MonoBehaviour
         {
             int randomSpawner = Random.Range(0, keycardSpawners.Count);
             keycardSpawners[randomSpawner].SpawnElement();
+            gymnasiumDoor.requiredCardsCount += 1;
 
-#if UNITY_EDITOR == false
             Destroy(keycardSpawners[randomSpawner].gameObject); 
-#endif
 
             keycardSpawners.RemoveAt(randomSpawner);
         }
 
         foreach (var item in keycardSpawners)
         {
-#if UNITY_EDITOR == false
             Destroy(item.gameObject);
-#endif
         }
         keycardSpawners.Clear();
     }
@@ -64,19 +64,28 @@ public class SpawnersManager : MonoBehaviour
     public void SetupArray(GameObject[] objectsArray)
     {
         keycardSpawners = new List<ElementSpawner>();
-        elementSpawners = new ElementSpawner[objectsArray.Length];
+        elementSpawners = new List<ElementSpawner>();
         for (int i = 0; i < objectsArray.Length; i++)
         {
-            elementSpawners[i] = objectsArray[i].GetComponent<ElementSpawner>();
+            AddSingleToArray(objectsArray[i], i);
+        }
+    }
+
+    public void AddSingleToArray(GameObject element, int idx = -1)
+    {
+        if (idx == -1)
+        {
+            elementSpawners.Add(null);
+            idx = elementSpawners.Count - 1;
+        }
+        elementSpawners[idx] = element.GetComponent<ElementSpawner>();
 
 #if UNITY_EDITOR
-            CreateObjectName(objectsArray[i], elementSpawners[i]);
-            elementSpawners[i].isSetup = true;
+        CreateObjectName(element, elementSpawners[idx]);
 #endif
 
-            if (elementSpawners[i].ElementToSpawn == ElementSpawner.E_ElementToSpawn.Keycard)
-                keycardSpawners.Add(elementSpawners[i]);
-        }
+        if (elementSpawners[idx].ElementToSpawn == ElementSpawner.E_ElementToSpawn.Keycard)
+            keycardSpawners.Add(elementSpawners[idx]);
     }
 
     private void CreateObjectName(GameObject gO, ElementSpawner es)

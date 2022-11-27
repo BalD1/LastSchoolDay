@@ -20,6 +20,7 @@ public class ED_SpawnersManager : Editor
     private void OnEnable()
     {
         targetScript = (SpawnersManager)target;
+
     }
 
     public override void OnInspectorGUI()
@@ -33,7 +34,8 @@ public class ED_SpawnersManager : Editor
 
         if (GUILayout.Button("Create Spawner"))
         {
-            sp = (PrefabUtility.InstantiatePrefab(targetScript.Spawner_PF) as GameObject).GetComponent<ElementSpawner>();
+            GameObject parent = GameObject.FindGameObjectWithTag("SpawnersContainer");
+            sp = (PrefabUtility.InstantiatePrefab(targetScript.Spawner_PF, parent.transform) as GameObject).GetComponent<ElementSpawner>();
             Undo.RegisterCreatedObjectUndo(sp.gameObject, "Create my GameObject");
             sp?.Setup(elementToSpawn, destroyAfterSpawn, spawnAtStart);
         }
@@ -70,5 +72,9 @@ public class ED_SpawnersManager : Editor
         if (GUILayout.Button("Spawn all"))
             targetScript.ForceSpawnAll();
         GUILayout.EndHorizontal();
+
+        EditorUtility.SetDirty(targetScript);
+        EditorUtility.SetDirty(this);
+        serializedObject.ApplyModifiedProperties();
     }
 }

@@ -19,12 +19,10 @@ public class ElementSpawner : MonoBehaviour
     [SerializeField] private bool destroyAfterSpawn;
     [SerializeField] private bool spawnAtStart = true;
 
+    [SerializeField] private bool wasInstantiatedInRoom = false;
+
     public bool DestroyAfterSpawn { get => destroyAfterSpawn; }
     public bool SpawnAtStart { get => spawnAtStart; }
-
-#if UNITY_EDITOR
-    public bool isSetup; 
-#endif
 
     public void Setup(E_ElementToSpawn _elementToSpawn, bool _destroyAfterSpawn, bool _spawnAtStart)
     {
@@ -35,6 +33,8 @@ public class ElementSpawner : MonoBehaviour
 
     private void Start()
     {
+        if (wasInstantiatedInRoom) SpawnersManager.Instance.AddSingleToArray(this.gameObject);
+
         if (spawnAtStart) SpawnElement();
     }
 
@@ -47,6 +47,7 @@ public class ElementSpawner : MonoBehaviour
                 break;
 
             case E_ElementToSpawn.Keycard:
+                Instantiate(GameAssets.Instance.KeycardPF, this.transform.position, Quaternion.identity);
                 break;
 
             case E_ElementToSpawn.Coins:
@@ -65,8 +66,6 @@ public class ElementSpawner : MonoBehaviour
     {
 #if UNITY_EDITOR
         if (this.gameObject.CompareTag("ElementSpawner") == false) this.gameObject.tag = "ElementSpawner";
-
-        if (!isSetup) Debug.Log("Please setup array in SpawnersManager");
 #endif
     }
 }

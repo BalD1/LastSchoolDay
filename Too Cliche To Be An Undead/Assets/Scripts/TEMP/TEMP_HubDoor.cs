@@ -20,6 +20,8 @@ public class TEMP_HubDoor : MonoBehaviour
                 collision.gameObject.transform.parent.position = playerTPPos;
 
             if (fightArena != null && !fightArena.started) fightArena.SpawnNext(0);
+
+            if (fightArena == null) SpawnersManager.Instance.ManageKeycardSpawn();
         }
     }
 

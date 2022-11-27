@@ -98,13 +98,14 @@ public class ProceduralRoomsManager : MonoBehaviour
         {
             case E_RoomOrientation.Left:
 
-                GetRandomRoomAtList(ref availableLeftRooms, leftClassroomsPF, data.roomAnchor);
-
+                if (data.roomAnchor != null)
+                    GetRandomRoomAtList(ref availableLeftRooms, leftClassroomsPF, data.roomAnchor);
                 break;
 
             case E_RoomOrientation.Right:
 
-                GetRandomRoomAtList(ref availableRightRooms, rightClassroomsPF, data.roomAnchor);
+                if (data.roomAnchor != null)
+                    GetRandomRoomAtList(ref availableRightRooms, rightClassroomsPF, data.roomAnchor);
                 break;
 
             //case E_RoomOrientation.Up:
