@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using TMPro;
 using UnityEngine;
 
 public class TEMP_HubDoor : MonoBehaviour
@@ -8,21 +10,60 @@ public class TEMP_HubDoor : MonoBehaviour
     [SerializeField] private Vector2 playerTPPos;
     [SerializeField] private BoxCollider2D boxCollider2D;
 
-    [SerializeField] private FightArena fightArena;
+    [SerializeField] private TextMeshPro playersCounter;
+    private int currentCounter = 0;
+    private int maxPlayers;
+
+    private void Start()
+    {
+        maxPlayers = GameManager.Instance.PlayersCount;
+        UpdateText();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.GetComponent<PlayerCharacter>() != null)
         {
+            if (currentCounter < maxPlayers)
+            {
+                currentCounter++;
+                UpdateText();
+
+                if (currentCounter < maxPlayers)
+                    return;
+            }
+
             boxCollider2D.isTrigger = false;
             spriteRenderer.color = Color.red;
-            if (collision.gameObject.transform.parent != null)
-                collision.gameObject.transform.parent.position = playerTPPos;
 
-            if (fightArena != null && !fightArena.started) fightArena.SpawnNext(0);
+            foreach (var item in GameManager.Instance.playersByName)
+            {
+                item.playerScript.gameObject.transform.position = playerTPPos;
+            }
 
-            if (fightArena == null) SpawnersManager.Instance.ManageKeycardSpawn();
+            UIManager.Instance.KeycardContainer.SetActive(true);
+            playersCounter.gameObject.SetActive(false);
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.GetComponent<PlayerCharacter>() != null)
+        {
+            currentCounter--;
+            UpdateText();
+        }
+    }
+
+    private void UpdateText()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(currentCounter);
+        sb.Append(" / ");
+        sb.Append(maxPlayers);
+
+        playersCounter.text = sb.ToString();
     }
 
     private void OnDrawGizmos()

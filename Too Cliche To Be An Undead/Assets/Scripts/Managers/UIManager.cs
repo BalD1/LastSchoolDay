@@ -106,6 +106,7 @@ public class UIManager : MonoBehaviour
 
     public PlayerHUD[] PlayerHUDs { get => playerHUDs; }
 
+    public GameObject KeycardContainer { get => keycardsContainer; }
     public TextMeshProUGUI KeycardsCounters { get => keycardsCounter; }
 
     private List<PBThumbnail> pbThumbnails = new List<PBThumbnail>();
