@@ -41,6 +41,8 @@ public class TEMP_HubDoor : MonoBehaviour
                 item.playerScript.gameObject.transform.position = playerTPPos;
             }
 
+            SpawnersManager.Instance.ManageKeycardSpawn();
+
             UIManager.Instance.KeycardContainer.SetActive(true);
             playersCounter.gameObject.SetActive(false);
         }
