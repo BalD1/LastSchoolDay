@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.Users;
 using System.Linq;
 using UnityEngine.TextCore.Text;
+using System.Text;
 
 public class PlayerCharacter : Entity, IInteractable
 {
@@ -418,7 +419,13 @@ public class PlayerCharacter : Entity, IInteractable
         if (hpBar != null)
             hpBar.fillAmount = (currentHP / maxHP_M);
         if (hpText != null)
-            hpText.text = $"{currentHP} / {maxHP_M}";
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(currentHP);
+            sb.Append(" / ");
+            sb.Append(maxHP_M);
+            hpText.text = sb.ToString();
+        }
 
         return res;
     }
@@ -508,7 +515,13 @@ public class PlayerCharacter : Entity, IInteractable
         if (hpBar != null)
             hpBar.fillAmount = (currentHP / maxHP_M);
         if (hpText != null)
-            hpText.text = $"{currentHP} / {maxHP_M}";
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(currentHP);
+            sb.Append(" / ");
+            sb.Append(maxHP_M);
+            hpText.text = sb.ToString();
+        }
 
         SetPortrait();
     }

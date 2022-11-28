@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Keycard : MonoBehaviour
 {
-
     private bool isPicked = false;
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -57,6 +57,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button[] pbContainersButtons;
     [SerializeField] private GameObject[] pbContainers;
 
+    [SerializeField] private TextMeshProUGUI keycardsCounter;
+
     public const int maxPBImagesByRows = 6;
 
     [System.Serializable]
@@ -101,6 +103,8 @@ public class UIManager : MonoBehaviour
     public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
 
     public PlayerHUD[] PlayerHUDs { get => playerHUDs; }
+
+    public TextMeshProUGUI KeycardsCounters { get => keycardsCounter; }
 
     private List<PBThumbnail> pbThumbnails = new List<PBThumbnail>();
 
