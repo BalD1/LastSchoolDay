@@ -104,7 +104,13 @@ public class ED_GameManager : Editor
         EditorGUILayout.PropertyField(playersByName);
         GUI.enabled = true;
 
+        int pastAcquired = GameManager.AcquiredCards;
         GameManager.AcquiredCards = EditorGUILayout.DelayedIntField("Acquired Cards ", GameManager.AcquiredCards);
+        if (pastAcquired != GameManager.AcquiredCards) GameManager.Instance.UpdateKeycardsCounter();
+
+        int neededCards = GameManager.NeededCards;
+        GameManager.AcquiredCards = EditorGUILayout.DelayedIntField("Needed Cards ", GameManager.NeededCards);
+        if (neededCards != GameManager.NeededCards) GameManager.Instance.UpdateKeycardsCounter();
 
         SerializedProperty shop = serializedObject.FindProperty("shop");
         EditorGUILayout.PropertyField(shop);

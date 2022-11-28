@@ -508,10 +508,13 @@ MonoBehaviour:
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 4564975985439888221}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
+  wallsMask:
+    serializedVersion: 2
+    m_Bits: 3072
   speedMultiplier: 40
   maxForce: 100
   movementMass: 30
-  randomWanderPositionRadius: 4
+  randomWanderPositionRadius: 6
   minWaitBeforeNewWanderPoint: 1
   maxWaitBeforeNewWanderPoint: 5
   distanceBeforeStop: 1.5

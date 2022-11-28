@@ -121,6 +121,9 @@ public class ED_UIManager : Editor
         SerializedProperty localHUD = serializedObject.FindProperty("localHUD");
         EditorGUILayout.PropertyField(localHUD);
 
+        SerializedProperty minimap = serializedObject.FindProperty("minimap");
+        EditorGUILayout.PropertyField(minimap);
+
         SerializedProperty hudTransparencyValue = serializedObject.FindProperty("hudTransparencyValue");
         EditorGUILayout.PropertyField(hudTransparencyValue);
 
@@ -129,6 +132,9 @@ public class ED_UIManager : Editor
 
         SerializedProperty playerHUDs = serializedObject.FindProperty("playerHUDs");
         EditorGUILayout.PropertyField(playerHUDs);
+
+        SerializedProperty keycardsContainer = serializedObject.FindProperty("keycardsContainer");
+        EditorGUILayout.PropertyField(keycardsContainer);
 
         SerializedProperty keycardsCounter = serializedObject.FindProperty("keycardsCounter");
         EditorGUILayout.PropertyField(keycardsCounter);

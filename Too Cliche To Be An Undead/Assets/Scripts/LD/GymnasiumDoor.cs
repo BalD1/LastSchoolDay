@@ -6,8 +6,6 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 {
     [SerializeField] private Animator animator;
 
-    public int requiredCardsCount = 0;
-
     private bool canBeInteracted = true;
 
 
@@ -31,7 +29,7 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     public void TryOpen()
     {
-        if (GameManager.AcquiredCards >= requiredCardsCount)
+        if (GameManager.AcquiredCards >= GameManager.NeededCards)
         {
             canBeInteracted = false;
             animator.SetTrigger("Open");

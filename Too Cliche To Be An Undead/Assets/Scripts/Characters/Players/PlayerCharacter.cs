@@ -183,6 +183,8 @@ public class PlayerCharacter : Entity, IInteractable
 
             this.currentHP = maxHP_M;
 
+            UpdateHPonUI();
+
             //InvokeRepeating(nameof(ClearAttackers), 5, 5);
         }
 
@@ -416,16 +418,7 @@ public class PlayerCharacter : Entity, IInteractable
             }
         }
 
-        if (hpBar != null)
-            hpBar.fillAmount = (currentHP / maxHP_M);
-        if (hpText != null)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(currentHP);
-            sb.Append(" / ");
-            sb.Append(maxHP_M);
-            hpText.text = sb.ToString();
-        }
+        UpdateHPonUI();
 
         return res;
     }
@@ -512,6 +505,13 @@ public class PlayerCharacter : Entity, IInteractable
     {
         base.OnHeal(amount, isCrit, canExceedMaxHP);
 
+        UpdateHPonUI();
+
+        SetPortrait();
+    }
+
+    private void UpdateHPonUI()
+    {
         if (hpBar != null)
             hpBar.fillAmount = (currentHP / maxHP_M);
         if (hpText != null)
@@ -522,8 +522,6 @@ public class PlayerCharacter : Entity, IInteractable
             sb.Append(maxHP_M);
             hpText.text = sb.ToString();
         }
-
-        SetPortrait();
     }
 
     public override void OnDeath(bool forceDeath = false)

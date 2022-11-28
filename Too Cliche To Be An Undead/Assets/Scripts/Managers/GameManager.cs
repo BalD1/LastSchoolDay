@@ -6,6 +6,7 @@ using BalDUtilities.Misc;
 using UnityEngine.InputSystem;
 using System;
 using UnityEditor;
+using System.Text;
 
 public class GameManager : MonoBehaviour
 {
@@ -154,16 +155,9 @@ public class GameManager : MonoBehaviour
 
     public static float gameTimeSpeed = 1f;
 
-    private static int acquiredCards;
-    public static int AcquiredCards
-    {
-        get => acquiredCards;
-        set
-        {
-            acquiredCards = value;
+    public static int AcquiredCards { get; set; }
 
-        }
-    }
+    public static int NeededCards { get; set; }
 
     private void Awake()
     {
@@ -245,6 +239,15 @@ public class GameManager : MonoBehaviour
     public void StartArena()
     {
         fightArena?.SpawnNext(0);
+    }
+
+    public void UpdateKeycardsCounter()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(AcquiredCards);
+        sb.Append(" / ");
+        sb.Append(NeededCards);
+        UIManager.Instance.KeycardsCounters.text = sb.ToString();
     }
 
     #region Scenes

@@ -22,6 +22,7 @@ public abstract class EnemyBase : Entity
     [SerializeField] private Material attackMaterial;
     public Material AttackMaterial { get => attackMaterial; }
 
+    [SerializeField] private LayerMask wallsMask;
 
     [Header("Stats", order = 0)]
 
@@ -137,7 +138,12 @@ public abstract class EnemyBase : Entity
         Vector2 randDir = (Random.insideUnitCircle * this.transform.position).normalized;
         float randDist = Random.Range(distanceBeforeStop, randomWanderPositionRadius);
 
-        Vector2 point = (Vector2)this.transform.position + randDir * randDist;
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, randDir, randDist, wallsMask);
+
+        Vector2 point = this.transform.position;
+
+        point = hit.point != Vector2.zero ? hit.point :
+                             (Vector2)this.transform.position + randDir * randDist;
 
         SetTarget(point);
     }
@@ -247,6 +253,8 @@ public abstract class EnemyBase : Entity
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(this.transform.position, randomWanderPositionRadius);
         Gizmos.color = Color.white;
+
+        //Gizmos.DrawWireSphere()
 #endif
     }
 }

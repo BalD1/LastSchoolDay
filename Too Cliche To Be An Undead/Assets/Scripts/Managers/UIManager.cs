@@ -53,10 +53,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button mainMenuButton_Pause;
 
     [SerializeField] private PlayerHUD[] playerHUDs;
+    [SerializeField] private GameObject minimap;
 
     [SerializeField] private Button[] pbContainersButtons;
     [SerializeField] private GameObject[] pbContainers;
 
+    [SerializeField] private GameObject keycardsContainer;
     [SerializeField] private TextMeshProUGUI keycardsCounter;
 
     public const int maxPBImagesByRows = 6;
@@ -293,9 +295,15 @@ public class UIManager : MonoBehaviour
                         pbContainersButtons[i].gameObject.SetActive(false);
                     }
                 }
+                localHUD.SetActive(true);
+                keycardsContainer.SetActive(true);
+                minimap.SetActive(true);
                 break;
 
             case GameManager.E_GameState.Pause:
+                localHUD.SetActive(false);
+                keycardsContainer.SetActive(false);
+                minimap.SetActive(false);
                 OpenMenuInQueue(pauseMenu);
                 SelectButton("Pause");
                 SetCurrentHorizontalScrollbar(pbContainerBar);
@@ -370,6 +378,8 @@ public class UIManager : MonoBehaviour
             if (closedMenu.Equals(shopMenu))
             {
                 localHUD.SetActive(true);
+                keycardsContainer.SetActive(true);
+                minimap.SetActive(true);
                 PlayersManager.Instance.SetAllPlayersControlMapToInGame();
 
                 GameManager.Instance.GetShop.SetIsShopOpen(false);
@@ -392,6 +402,8 @@ public class UIManager : MonoBehaviour
 
                 case GameManager.E_GameState.InGame:
                     localHUD.SetActive(true);
+                    keycardsContainer.SetActive(true);
+                    minimap.SetActive(true);
                     break;
 
                 case GameManager.E_GameState.MainMenu:
@@ -477,6 +489,8 @@ public class UIManager : MonoBehaviour
         OpenMenuInQueue(shopMenu);
         SelectButton("Shop");
         localHUD.SetActive(false);
+        keycardsContainer.SetActive(false);
+        minimap.SetActive(false);
 
         //SetCurrentVerticalScrollbar(shopBar);
 

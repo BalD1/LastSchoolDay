@@ -14,6 +14,7 @@ public class Keycard : MonoBehaviour
         {
             isPicked = true;
             GameManager.AcquiredCards += 1;
+            GameManager.Instance.UpdateKeycardsCounter();
             Destroy(this.gameObject);
         }
     }

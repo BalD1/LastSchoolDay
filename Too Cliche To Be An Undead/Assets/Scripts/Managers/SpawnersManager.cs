@@ -24,8 +24,6 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] private GameObject spawner_PF;
     public GameObject Spawner_PF { get => spawner_PF; }
 
-    public GymnasiumDoor gymnasiumDoor;
-
     private void Awake()
     {
         instance = this;
@@ -43,22 +41,33 @@ public class SpawnersManager : MonoBehaviour
     {
         int keysToSpawn = Random.Range(minKeycardsToSpawn, maxKeycardsToSpawn + 1);
 
-        for (int i = 0; i < keysToSpawn; i++)
-        {
-            int randomSpawner = Random.Range(0, keycardSpawners.Count);
-            keycardSpawners[randomSpawner].SpawnElement();
-            gymnasiumDoor.requiredCardsCount += 1;
-
-            Destroy(keycardSpawners[randomSpawner].gameObject); 
-
-            keycardSpawners.RemoveAt(randomSpawner);
-        }
+        SpawnSingleCard(keysToSpawn);
 
         foreach (var item in keycardSpawners)
         {
             Destroy(item.gameObject);
         }
         keycardSpawners.Clear();
+
+        GameManager.Instance.UpdateKeycardsCounter();
+    }
+
+    private void SpawnSingleCard(int remainingSpawns)
+    {
+        if (remainingSpawns <= 0) return;
+
+        int randomSpawner = Random.Range(0, keycardSpawners.Count);
+
+        if (randomSpawner >= keycardSpawners.Count) return;
+
+        keycardSpawners[randomSpawner].SpawnElement();
+        GameManager.NeededCards += 1;
+
+        Destroy(keycardSpawners[randomSpawner].gameObject);
+
+        keycardSpawners.RemoveAt(randomSpawner);
+
+        SpawnSingleCard(remainingSpawns - 1);
     }
 
     public void SetupArray(GameObject[] objectsArray)

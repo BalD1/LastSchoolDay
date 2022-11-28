@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 7821369719249530884}
-  detectionRange: 6
+  detectionRange: 3
   detectionTrigger: {fileID: 6272284523090620940}
   detectionMask:
     serializedVersion: 2
@@ -310,7 +310,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 6
+  m_Radius: 3
 --- !u!1 &7821369717731874616
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +511,7 @@ MonoBehaviour:
   speedMultiplier: 100
   maxForce: 100
   movementMass: 30
-  randomWanderPositionRadius: 4
+  randomWanderPositionRadius: 0
   minWaitBeforeNewWanderPoint: 1
   maxWaitBeforeNewWanderPoint: 5
   distanceBeforeStop: 1.5
