@@ -748,6 +748,10 @@ MonoBehaviour:
   attack: {fileID: 0}
   pathfinding: {fileID: 0}
   attackMaterial: {fileID: 0}
+  wallsMask:
+    serializedVersion: 2
+    m_Bits: 0
+  pivotOffset: {fileID: 7408701187914595873}
   speedMultiplier: 0
   maxForce: 0
   movementMass: 0

@@ -60,7 +60,7 @@ public class PlayerBaseWeapon : PlayerWeapon
                 float dist = Vector2.Distance(item.transform.position, effectObject.transform.position);
                 if ((closestEnemy == null || closestEnemyDist == -1) || (dist <= distanceForAutoAim && dist < closestEnemyDist) )
                 {
-                    closestEnemy = item.transform;
+                    closestEnemy = item.GetComponentInParent<EnemyBase>().PivotOffset;
                     closestEnemyDist = dist;
                 }
                     

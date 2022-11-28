@@ -24,6 +24,9 @@ public abstract class EnemyBase : Entity
 
     [SerializeField] private LayerMask wallsMask;
 
+    [SerializeField] private Transform pivotOffset;
+    public Transform PivotOffset { get => pivotOffset; }
+
     [Header("Stats", order = 0)]
 
     [SerializeField] private float speedMultiplier;

@@ -508,6 +508,10 @@ MonoBehaviour:
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 4564975985439888221}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
+  wallsMask:
+    serializedVersion: 2
+    m_Bits: 0
+  pivotOffset: {fileID: 8304648256601179650}
   speedMultiplier: 100
   maxForce: 100
   movementMass: 30
