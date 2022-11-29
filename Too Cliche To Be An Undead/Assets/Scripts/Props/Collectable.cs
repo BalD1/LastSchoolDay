@@ -113,6 +113,7 @@ public class Collectable : MonoBehaviour, IInteractable
 
         isPicked = true;
 
+
         Destroy(this.gameObject, 1f);
     }
 
