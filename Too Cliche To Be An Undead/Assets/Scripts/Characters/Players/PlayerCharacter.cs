@@ -405,6 +405,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         bool res;
         res = base.OnTakeDamages(amount, isCrit);
+        if (res == false) return res;
 
         if (portrait != null)
         {

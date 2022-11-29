@@ -417,6 +417,7 @@ public class Entity : MonoBehaviour, IDamageable
     #endregion
 
     public void SetInvincibility(bool _i) => invincible = _i;
+    public void SetTimedInvincibility(float time) => invincibility_TIMER = time;
 
     public bool RollCrit() => UnityEngine.Random.Range(0, 100) <= maxCritChances_M ? true : false;
 
