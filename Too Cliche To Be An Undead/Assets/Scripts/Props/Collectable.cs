@@ -110,11 +110,23 @@ public class Collectable : MonoBehaviour, IInteractable
     public virtual void Interact(GameObject interactor)
     {
         if (pickupOnCollision) return;
+        spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
 
         isPicked = true;
 
+        LeanTween.scale(this.gameObject, new Vector2(1.2f, 1.2f), .3f).setOnComplete(
+        () =>
+        {
+            LeanTween.scale(this.gameObject, Vector2.zero, .7f);
+            LeanTween.alpha(this.spriteRenderer.gameObject, 0f, 1).setOnComplete(
+            () =>
+            {
+                Destroy(this.gameObject, .1f);
+            });
+        });
 
-        Destroy(this.gameObject, 1f);
+
+
     }
 
     public bool CanBeInteractedWith()
