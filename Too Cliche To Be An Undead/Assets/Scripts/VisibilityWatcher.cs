@@ -17,6 +17,10 @@ public class VisibilityWatcher : MonoBehaviour
 
     private void OnBecameInvisible()
     {
+        if (GameManager.isAppQuitting) return;
+
+        if (this.transform.parent == null) return;
+
         if (isVisible == false || owner.IsAlive() == false) return;
 
         CameraManager.Instance.PlayerBecameInvisible(this.transform.parent, playerIdx);
@@ -25,6 +29,8 @@ public class VisibilityWatcher : MonoBehaviour
 
     private void OnBecameVisible()
     {
+        if (this.transform.parent == null) return;
+
         if (isVisible == true || owner.IsAlive() == false) return;
 
         CameraManager.Instance.PlayerBecameVisible(this.transform.parent);

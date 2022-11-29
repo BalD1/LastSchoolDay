@@ -108,9 +108,12 @@ public class DataKeeper : MonoBehaviour
     }
     public void RemoveData(int idx)
     {
+        if (GameManager.isAppQuitting) return;
+
         if (idx < 0 && idx >= playersDataKeep.Count) return;
 
-        GameObject player = playersDataKeep[idx].playerInput.transform.parent.gameObject;
+        // Get the object's root
+        GameObject player = playersDataKeep[idx].playerInput.GetComponentInParent<PlayerCharacter>().gameObject;
         playersDataKeep.RemoveAt(idx);
 
         Destroy(player);

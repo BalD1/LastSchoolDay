@@ -109,7 +109,7 @@ public class ED_GameManager : Editor
         if (pastAcquired != GameManager.AcquiredCards) GameManager.Instance.UpdateKeycardsCounter();
 
         int neededCards = GameManager.NeededCards;
-        GameManager.AcquiredCards = EditorGUILayout.DelayedIntField("Needed Cards ", GameManager.NeededCards);
+        GameManager.NeededCards = EditorGUILayout.DelayedIntField("Needed Cards ", GameManager.NeededCards);
         if (neededCards != GameManager.NeededCards) GameManager.Instance.UpdateKeycardsCounter();
 
         SerializedProperty shop = serializedObject.FindProperty("shop");

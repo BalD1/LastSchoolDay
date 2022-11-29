@@ -162,6 +162,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        isAppQuitting = false;
+        AcquiredCards = 0;
+        NeededCards = 0;
+        Application.quitting += () => isAppQuitting = true;
     }
 
     private void Start()
