@@ -76,6 +76,8 @@ MonoBehaviour:
   particle: {fileID: 5127839487733964369, guid: 8af0cf8f91f1c074ab97253147919a4c, type: 3}
   coinValue: 10
   pickupDistance: 0.2
+  pickupOnCollision: 1
+  spriteRenderer: {fileID: 2920342835408079449}
   detectedPlayers: []
 --- !u!50 &569784898369819774
 Rigidbody2D:

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7668464898701711135}
   - component: {fileID: 7668464898701711123}
   - component: {fileID: 7668464898701711132}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: PB_EnergyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,9 +76,10 @@ MonoBehaviour:
   particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 1
   pickupDistance: 1
+  pickupOnCollision: 0
+  spriteRenderer: {fileID: 7668464898701711134}
   detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: cbcc182952ba8884380b001ca7766a5f, type: 2}
-  sprite: {fileID: 7668464898701711134}
 --- !u!212 &7668464898701711134
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -256,7 +257,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.97}
+    oldSize: {x: 0.26, y: 0.2525}
     newSize: {x: 1, y: 0.97}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

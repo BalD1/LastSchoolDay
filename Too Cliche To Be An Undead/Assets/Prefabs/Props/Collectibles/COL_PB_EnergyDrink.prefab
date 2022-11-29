@@ -51,6 +51,7 @@ MonoBehaviour:
   rb: {fileID: 3024565253009458584}
   minRandomOffset: 0.5
   maxRandomOffset: 1.5
+  velocityMultiplier: 0.5
   velocityCurves:
   - xVelocity:
       serializedVersion: 2
@@ -416,7 +417,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b265f271e7f234eb07e37639659846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   drawdistance: 3
   animationCurve:
     serializedVersion: 2
@@ -444,6 +444,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 1
+  pickupDistance: 1
+  pickupOnCollision: 0
+  spriteRenderer: {fileID: 3319472103423702904}
+  detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: 8337f817ae7fd884fb1817d4c116ed2c, type: 2}
   sprite: {fileID: 3319472103423702904}
 --- !u!212 &3319472103423702904

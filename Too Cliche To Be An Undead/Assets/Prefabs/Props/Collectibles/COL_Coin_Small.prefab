@@ -49,9 +49,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectable: {fileID: 1093446505770199944}
   rb: {fileID: 631906467031423342}
+  pickupOnCollision: 1
   minRandomOffset: 0.5
   maxRandomOffset: 1.5
   velocityMultiplier: 0.5
+  spriteRenderer: {fileID: 2324947861571057067}
   velocityCurves:
   - xVelocity:
       serializedVersion: 2
@@ -440,5 +442,10 @@ MonoBehaviour:
 --- !u!4 &1093446505770199949 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 569784898369819775, guid: 5e14202c12d6120469dc0284984da077, type: 3}
+  m_PrefabInstance: {fileID: 631906465592131570}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &2324947861571057067 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2920342835408079449, guid: 5e14202c12d6120469dc0284984da077, type: 3}
   m_PrefabInstance: {fileID: 631906465592131570}
   m_PrefabAsset: {fileID: 0}

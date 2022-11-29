@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3374958949472698562}
   - component: {fileID: 3374958949472698574}
   - component: {fileID: 3374958949472698561}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: PB_Apple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,9 +76,10 @@ MonoBehaviour:
   particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 1
   pickupDistance: 1
+  pickupOnCollision: 0
+  spriteRenderer: {fileID: 3374958949472698563}
   detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: 3cb9ac68c10e77a4cbf0c78492d7602c, type: 2}
-  sprite: {fileID: 3374958949472698563}
 --- !u!212 &3374958949472698563
 SpriteRenderer:
   m_ObjectHideFlags: 0

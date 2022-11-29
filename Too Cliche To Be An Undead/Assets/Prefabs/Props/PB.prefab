@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b265f271e7f234eb07e37639659846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   drawdistance: 3
   animationCurve:
     serializedVersion: 2
@@ -76,6 +75,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 1
+  pickupDistance: 1
+  pickupOnCollision: 0
+  spriteRenderer: {fileID: 2955321381052630723}
+  detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: c2d2b1021ac2b4d4c8ef04ca39b92438, type: 2}
   sprite: {fileID: 2955321381052630723}
 --- !u!212 &2955321381052630723

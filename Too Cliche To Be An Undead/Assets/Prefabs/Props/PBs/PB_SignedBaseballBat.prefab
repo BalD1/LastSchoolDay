@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2906166410238224676}
   - component: {fileID: 2906166410238224677}
   - component: {fileID: 2906166410238224678}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: PB_SignedBaseballBat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,9 +76,10 @@ MonoBehaviour:
   particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 1
   pickupDistance: 1
+  pickupOnCollision: 0
+  spriteRenderer: {fileID: 2906166410238224679}
   detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: 67bf506b8fadaa14f8b181e6ed684b1c, type: 2}
-  sprite: {fileID: 2906166410238224679}
 --- !u!212 &2906166410238224679
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -128,7 +129,7 @@ SpriteRenderer:
   m_Size: {x: 0.725, y: 0.9975}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!96 &2906166410238224676

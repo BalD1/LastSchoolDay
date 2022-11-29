@@ -5,19 +5,27 @@ using UnityEngine;
 public class PB_Drop : Collectable
 {
     [SerializeField] private SCRPT_PB bonusPower;
-    [SerializeField] private SpriteRenderer sprite;
 
     private void Awake()
     {
-        sprite.sprite = bonusPower.Thumbnail;
+        spriteRenderer.sprite = bonusPower.Thumbnail;
     }
 
     protected override void TouchedPlayer(PlayerCharacter player)
     {
         base.TouchedPlayer(player);
 
+
+    }
+
+    public override void Interact(GameObject interactor)
+    {
+        if (pickupOnCollision) return;
+        base.Interact(interactor);
+
         float val;
 
+        PlayerCharacter player = interactor.GetComponentInParent<PlayerCharacter>();
         if (player.GetCharacterName().Equals(bonusPower.AssociatedCharacter)) val = bonusPower.AC_Amount;
         else val = bonusPower.Amount;
 

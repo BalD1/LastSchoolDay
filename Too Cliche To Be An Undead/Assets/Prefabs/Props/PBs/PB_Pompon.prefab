@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5233204785658368543}
   - component: {fileID: 5233204785658368531}
   - component: {fileID: 5233204785658368540}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: PB_Pompon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,9 +76,10 @@ MonoBehaviour:
   particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 1
   pickupDistance: 1
+  pickupOnCollision: 0
+  spriteRenderer: {fileID: 5233204785658368542}
   detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: 9cb7548e9b198d2439446c942c1346e6, type: 2}
-  sprite: {fileID: 5233204785658368542}
 --- !u!212 &5233204785658368542
 SpriteRenderer:
   m_ObjectHideFlags: 0

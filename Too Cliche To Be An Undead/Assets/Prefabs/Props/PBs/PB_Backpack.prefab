@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1192050621241294348}
   - component: {fileID: 1192050621241294336}
   - component: {fileID: 1192050621241294351}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: PB_Backpack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,9 +76,10 @@ MonoBehaviour:
   particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 1
   pickupDistance: 1
+  pickupOnCollision: 0
+  spriteRenderer: {fileID: 1192050621241294349}
   detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: 5dcfb0605dc10914da42a8718ac6ad2a, type: 2}
-  sprite: {fileID: 1192050621241294349}
 --- !u!212 &1192050621241294349
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -255,7 +256,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 0.505, y: 0.3675}
     newSize: {x: 0.505, y: 0.3675}
     adaptiveTilingThreshold: 0.5

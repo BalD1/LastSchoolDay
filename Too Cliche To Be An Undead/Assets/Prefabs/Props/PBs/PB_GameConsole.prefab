@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3227161445971931692}
   - component: {fileID: 3227161445971931680}
   - component: {fileID: 3227161445971931695}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: PB_GameConsole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,9 +76,10 @@ MonoBehaviour:
   particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 1
   pickupDistance: 1
+  pickupOnCollision: 0
+  spriteRenderer: {fileID: 3227161445971931693}
   detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: c38114b914df47b49b2716f99fbbae90, type: 2}
-  sprite: {fileID: 3227161445971931693}
 --- !u!212 &3227161445971931693
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2887888211161863056}
   - component: {fileID: 2887888211161863068}
   - component: {fileID: 2887888211161863059}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: PB_Coffee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,9 +76,10 @@ MonoBehaviour:
   particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 1
   pickupDistance: 1
+  pickupOnCollision: 0
+  spriteRenderer: {fileID: 2887888211161863057}
   detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: ff30211132c1f4a49a8be61b857d7230, type: 2}
-  sprite: {fileID: 2887888211161863057}
 --- !u!212 &2887888211161863057
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -256,7 +257,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.785, y: 1}
+    oldSize: {x: 0.1975, y: 0.2525}
     newSize: {x: 0.785, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
