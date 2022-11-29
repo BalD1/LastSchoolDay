@@ -28,4 +28,6 @@ public class TEMP_TP : MonoBehaviour, IInteractable
 
         fightArena.SpawnNext(0);
     }
+
+    public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);
 }

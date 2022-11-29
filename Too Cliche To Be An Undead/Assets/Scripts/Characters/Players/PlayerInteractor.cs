@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -20,13 +21,36 @@ public class PlayerInteractor : MonoBehaviour
 
     [SerializeField] private PlayerCharacter owner;
 
-    [SerializeField] private List<IInteractable> interactablesInRange = new List<IInteractable>();
+    private List<IInteractable> interactablesInRange = new List<IInteractable>();
     private List<IInteractable> interactablesToRemove = new List<IInteractable>();
+
+    private IInteractable closestInteractable;
+    private float closestInteractableDistance = float.MaxValue;
 
     public void InvokeInteraction(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
+        if (closestInteractable == null) return;
+
+        InteractWithClosest();
         
+    }
+
+    private void InteractWithClosest()
+    {
+        closestInteractable.Interact(this.gameObject);
+
+        if (closestInteractable.CanBeInteractedWith() == false)
+        {
+            CleanListSingle(closestInteractable);
+            closestInteractable = null;
+            closestInteractableDistance = float.MaxValue;
+            SearchClosestInList();
+        }
+    }
+
+    private void InteractWithAllInRange()
+    {
         foreach (var item in interactablesInRange)
         {
             item.Interact(this.gameObject);
@@ -34,7 +58,6 @@ public class PlayerInteractor : MonoBehaviour
                 interactablesToRemove.Add(item);
         }
         CleanListAll();
-        
     }
 
     public void CleanListSingle(IInteractable i)
@@ -79,12 +102,29 @@ public class PlayerInteractor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        IInteractable interactable = collision.transform.parent.GetComponent<IInteractable>();
+        IInteractable interactable = collision.GetComponentInParent<IInteractable>();
 
         if (interactable == null) return;
         if (interactable.CanBeInteractedWith() == false) return;
 
-        interactable.EnteredInRange(this.gameObject);
+        float newChallengerDistance = interactable.GetDistanceFrom(this.transform);
+        if (closestInteractable == null) SetNewClosest();
+        else
+        {
+            float lastClosestDistance = Vector2.Distance(this.transform.position, collision.transform.position);
+
+            if (newChallengerDistance < lastClosestDistance) SetNewClosest();
+        }
+
+        void SetNewClosest()
+        {
+            if (closestInteractable != null) closestInteractable.ExitedRange(this.gameObject);
+
+            closestInteractable = interactable;
+            closestInteractableDistance = newChallengerDistance;
+
+            closestInteractable.EnteredInRange(this.gameObject);
+        }
 
         interactablesInRange.Add(interactable);
         SetPrompt();
@@ -92,11 +132,51 @@ public class PlayerInteractor : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        IInteractable interactable = collision.transform.parent.GetComponent<IInteractable>();
+        IInteractable interactable = collision.GetComponentInParent<IInteractable>();
 
         if (interactable == null) return;
 
-        interactable.ExitedRange(this.gameObject);
+        if (closestInteractable == interactable) SearchClosestInList();
+
         CleanListSingle(interactable);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        SearchClosestInList(false);
+    }
+
+    private void SearchClosestInList(bool resetIfNothingFound = true)
+    {
+        IInteractable newClosest = null;
+        float closestDistance = closestInteractable != null ? closestInteractable.GetDistanceFrom(this.transform) : float.MaxValue;
+        float itemDistance = float.MaxValue;
+
+        foreach (var item in interactablesInRange)
+        {
+            if (item.CanBeInteractedWith() == false)
+            {
+                if (item.CanBeInteractedWith() == false)
+                    interactablesToRemove.Add(item);
+                continue;
+            }
+            itemDistance = item.GetDistanceFrom(this.transform);
+
+            if (itemDistance < closestDistance)
+            {
+                newClosest = item;
+                closestDistance = itemDistance;
+            }
+        }
+
+        if (interactablesToRemove.Count > 0) CleanListAll();
+
+        if ((newClosest != null) || (newClosest == null && resetIfNothingFound))
+        {
+            closestInteractable?.ExitedRange(this.gameObject);
+            closestInteractable = newClosest;
+            closestInteractable?.EnteredInRange(this.gameObject);
+            closestInteractableDistance = itemDistance;
+        }
     }
 }

@@ -899,8 +899,10 @@ public class PlayerCharacter : Entity, IInteractable
         sprite.material = defaultMaterial;
     }
 
-    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");  
+    public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");
 
+    public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);
+ 
     #endregion
 
     #region Level

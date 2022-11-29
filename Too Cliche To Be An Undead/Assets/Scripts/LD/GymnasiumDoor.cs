@@ -27,6 +27,8 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
         TryOpen();
     }
 
+    public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);
+
     public void TryOpen()
     {
         if (GameManager.AcquiredCards >= GameManager.NeededCards)

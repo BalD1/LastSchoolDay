@@ -40,6 +40,8 @@ public class Chest : MonoBehaviour, IInteractable
         if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
+    public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);
+
     public bool CanBeInteractedWith()
     {
         return (isOpen == false);

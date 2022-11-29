@@ -51,6 +51,8 @@ public class Shop : MonoBehaviour, IInteractable
         if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
+    public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);
+
     public void UIInteract()
     {
         if (shopIsOpen) CloseShop();

@@ -8,4 +8,6 @@ public interface IInteractable
     public void ExitedRange(GameObject interactor);
     public void Interact(GameObject interactor);
     public bool CanBeInteractedWith();
+
+    public float GetDistanceFrom(Transform target);
 }
