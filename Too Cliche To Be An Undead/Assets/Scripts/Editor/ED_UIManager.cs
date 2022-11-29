@@ -59,6 +59,9 @@ public class ED_UIManager : Editor
 
         SerializedProperty characterPortrait = serializedObject.FindProperty("characterPortrait");
         EditorGUILayout.PropertyField(characterPortrait);
+
+        SerializedProperty OPTION_DashOnMovementsToggle = serializedObject.FindProperty("OPTION_DashOnMovementsToggle");
+        EditorGUILayout.PropertyField(OPTION_DashOnMovementsToggle);
     }
 
     private void DrawMainMenuInspector()
@@ -135,6 +138,9 @@ public class ED_UIManager : Editor
 
         SerializedProperty keycardsContainer = serializedObject.FindProperty("keycardsContainer");
         EditorGUILayout.PropertyField(keycardsContainer);
+
+        SerializedProperty keycardsContainerRect = serializedObject.FindProperty("keycardsContainerRect");
+        EditorGUILayout.PropertyField(keycardsContainerRect);
 
         SerializedProperty keycardsCounter = serializedObject.FindProperty("keycardsCounter");
         EditorGUILayout.PropertyField(keycardsCounter);

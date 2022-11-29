@@ -27,6 +27,8 @@ public class SaveManager : MonoBehaviour
 
         // bools
 
+        B_DashOnMovements
+
         // strings
     }
 
@@ -34,6 +36,13 @@ public class SaveManager : MonoBehaviour
     {
         instance = this;
         InitiateKeys();
+    }
+
+    private void Start()
+    {
+        GameManager.OPTION_DashToMouse = GetSavedBoolKey(E_SaveKeys.B_DashOnMovements);
+
+        UIManager.Instance.SetOptionsState();
     }
 
     private void InitiateKeys()
@@ -46,6 +55,9 @@ public class SaveManager : MonoBehaviour
 
         if (!PlayerPrefs.HasKey(EnumsExtension.EnumToString(E_SaveKeys.F_SFXVolume)))
             SetSavedKey(E_SaveKeys.F_SFXVolume, .5f);
+
+        if (!PlayerPrefs.HasKey(EnumsExtension.EnumToString(E_SaveKeys.B_DashOnMovements)))
+            SetSavedKey(E_SaveKeys.B_DashOnMovements, 0);
     }
 
     /*

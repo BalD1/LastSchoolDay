@@ -322,7 +322,9 @@ public class DebugConsole : MonoBehaviour
         else
         {
             GameManager.Player1Ref.SetInGameControlsState(true);
-            GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+            GameManager.E_GameState currentState = GameManager.Instance.GameState;
+            if (currentState == GameManager.E_GameState.Restricted)
+                GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
     }
 
@@ -493,7 +495,9 @@ public class DebugConsole : MonoBehaviour
             showConsole = false;
             ResetField();
             GameManager.Player1Ref.SetInGameControlsState(true);
-            GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+            GameManager.E_GameState currentState = GameManager.Instance.GameState;
+            if (currentState == GameManager.E_GameState.Restricted)
+                GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
 
         if (Event.current.isKey)
@@ -505,7 +509,10 @@ public class DebugConsole : MonoBehaviour
                 showConsole = false;
                 ResetField();
                 GameManager.Player1Ref.SetInGameControlsState(true);
-                GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+
+                GameManager.E_GameState currentState = GameManager.Instance.GameState;
+                if (currentState == GameManager.E_GameState.Restricted)
+                    GameManager.Instance.GameState = GameManager.E_GameState.InGame;
             }
         }
         

@@ -17,6 +17,7 @@ public class ProceduralRoomsManager : MonoBehaviour
     public RoomData[] RoomsData { get => roomsData; set => roomsData = value; }
 
     [ReadOnly] [SerializeField] private List<GameObject> instantiatedRooms = new List<GameObject>();
+    [SerializeField] private Transform instantiatedRoomsParent;
 
     [SerializeField] private GameObject[] leftClassroomsPF = new GameObject[0];
     [SerializeField] private GameObject[] rightClassroomsPF = new GameObject[0];
@@ -126,6 +127,7 @@ public class ProceduralRoomsManager : MonoBehaviour
 
         int randRoom = Random.Range(0, list.Count);
         GameObject newRoom = Instantiate(list[randRoom], anchorPoint.position, Quaternion.identity);
+        newRoom.transform.parent = instantiatedRoomsParent;
 
         list.RemoveAt(randRoom);
 

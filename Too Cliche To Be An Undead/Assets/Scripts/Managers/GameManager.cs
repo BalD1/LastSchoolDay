@@ -42,6 +42,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Shop shop;
     public Shop GetShop { get => shop; }
 
+    [SerializeField] private Transform instantiatedEntitiesParent;
+    [SerializeField] private Transform instantiatedKeycardsParent;
+    [SerializeField] private Transform instantiatedMiscParent;
+
+    public Transform InstantiatedEntitiesParent { get => instantiatedEntitiesParent; }
+    public Transform InstantiatedKeycardsParent { get => instantiatedKeycardsParent; }
+    public Transform InstantiatedMiscParent { get => instantiatedMiscParent; }
+
     [System.Serializable]
     public class PlayersByName
     {
@@ -76,6 +84,9 @@ public class GameManager : MonoBehaviour
     public delegate void D_OnSceneReload();
     public D_OnSceneReload _onSceneReload;
 
+    public delegate void D_OnRunStarted();
+    public D_OnRunStarted _onRunStarted;
+
     public bool hasKey;
 
     public static int MaxAttackers = 5;
@@ -101,7 +112,6 @@ public class GameManager : MonoBehaviour
         set
         {
             gameState = value;
-
             ProcessStateChange(value);
 
             if (UIManager.Instance)
@@ -246,15 +256,6 @@ public class GameManager : MonoBehaviour
     public void StartArena()
     {
         fightArena?.SpawnNext(0);
-    }
-
-    public void UpdateKeycardsCounter()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.Append(AcquiredCards);
-        sb.Append(" / ");
-        sb.Append(NeededCards);
-        UIManager.Instance.KeycardsCounters.text = sb.ToString();
     }
 
     #region Scenes

@@ -49,7 +49,7 @@ public class SpawnersManager : MonoBehaviour
         }
         keycardSpawners.Clear();
 
-        GameManager.Instance.UpdateKeycardsCounter();
+        UIManager.Instance.UpdateKeycardsCounter();
     }
 
     private void SpawnSingleCard(int remainingSpawns)

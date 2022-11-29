@@ -186,6 +186,8 @@ public class PlayerCharacter : Entity, IInteractable
             this.skillIcon = pHUD.skillThumbnail;
             this.dashIcon = pHUD.dashThumbnail;
         }
+
+        UIManager.Instance.KeycardContainer.SetActive(false);
     }
 
     private void SetCharacter()

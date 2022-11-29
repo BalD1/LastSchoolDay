@@ -109,19 +109,32 @@ public class ED_GameManager : Editor
         EditorGUILayout.PropertyField(playersByName);
         GUI.enabled = true;
 
-        int pastAcquired = GameManager.AcquiredCards;
-        GameManager.AcquiredCards = EditorGUILayout.DelayedIntField("Acquired Cards ", GameManager.AcquiredCards);
-        if (pastAcquired != GameManager.AcquiredCards) GameManager.Instance.UpdateKeycardsCounter();
-
-        int neededCards = GameManager.NeededCards;
-        GameManager.NeededCards = EditorGUILayout.DelayedIntField("Needed Cards ", GameManager.NeededCards);
-        if (neededCards != GameManager.NeededCards) GameManager.Instance.UpdateKeycardsCounter();
-
         SerializedProperty shop = serializedObject.FindProperty("shop");
         EditorGUILayout.PropertyField(shop);
 
         SerializedProperty fightArena = serializedObject.FindProperty("fightArena");
         EditorGUILayout.PropertyField(fightArena);
+
+        SerializedProperty instantiatedEntitiesParent = serializedObject.FindProperty("instantiatedEntitiesParent");
+        EditorGUILayout.PropertyField(instantiatedEntitiesParent);
+
+        SerializedProperty instantiatedKeycardsParent = serializedObject.FindProperty("instantiatedKeycardsParent");
+        EditorGUILayout.PropertyField(instantiatedKeycardsParent);
+
+        SerializedProperty instantiatedMiscParent = serializedObject.FindProperty("instantiatedMiscParent");
+        EditorGUILayout.PropertyField(instantiatedMiscParent);
+
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Misc", EditorStyles.boldLabel);
+
+        int pastAcquired = GameManager.AcquiredCards;
+        GameManager.AcquiredCards = EditorGUILayout.DelayedIntField("Acquired Cards ", GameManager.AcquiredCards);
+        if (pastAcquired != GameManager.AcquiredCards) UIManager.Instance.UpdateKeycardsCounter();
+
+        int neededCards = GameManager.NeededCards;
+        GameManager.NeededCards = EditorGUILayout.DelayedIntField("Needed Cards ", GameManager.NeededCards);
+        if (neededCards != GameManager.NeededCards) UIManager.Instance.UpdateKeycardsCounter();
+
 
         bool checkAllow = EditorGUILayout.Toggle("Allow Enemies", targetScript.AllowEnemies);
         if (checkAllow != targetScript.AllowEnemies) targetScript.AllowEnemies = checkAllow;

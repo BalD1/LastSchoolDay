@@ -144,7 +144,7 @@ public class SCRPT_DropTable : ScriptableObject
             AddDropsToTableAndSpawn(ref table, drop, position);
 
         SCRPT_DropTable.CoinsDropWithWeight coins = GetRandomDrop(bonusCoins);
-        AddDropsToTableAndSpawn(ref table, coins, position);
+        AddCoinsToTableAndSpawn(ref table, coins, position);
 
         foreach (var item in mandatoryDrops)
         {
@@ -165,12 +165,13 @@ public class SCRPT_DropTable : ScriptableObject
                 for (int i = 0; i < amount; i++)
                 {
                     GameObject newDrop = Instantiate(item.objectToDrop, pos, Quaternion.identity);
+                    newDrop.transform.parent = GameManager.Instance.InstantiatedMiscParent;
                     table.Add(newDrop);
                 }
             }
         }
     }
-    private void AddDropsToTableAndSpawn(ref List<GameObject> table, CoinsDropWithWeight drops, Vector2 pos)
+    private void AddCoinsToTableAndSpawn(ref List<GameObject> table, CoinsDropWithWeight drops, Vector2 pos)
     {
         if (drops.coinTypeWithAmounts?.Length > 0)
         {
@@ -198,6 +199,7 @@ public class SCRPT_DropTable : ScriptableObject
                 for (int i = 0; i < amount; i++)
                 {
                     GameObject newDrop = Instantiate(coin, pos, Quaternion.identity);
+                    newDrop.transform.parent = GameManager.Instance.InstantiatedMiscParent;
                     table.Add(newDrop);
                 }
             }

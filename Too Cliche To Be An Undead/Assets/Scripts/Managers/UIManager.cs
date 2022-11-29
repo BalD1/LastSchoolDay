@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Drawing;
 using Unity.VisualScripting;
+using System.Text;
 
 public class UIManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private EventSystem eventSystem;
 
+    #region Buttons & Menus
+
     [SerializeField] private Button firstSelectedButton_MainMenu;
     [SerializeField] private Button firstSelectedButton_Pause;
     [SerializeField] private Button firstSelectedButton_Win;
@@ -36,7 +39,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopMenu;
     [SerializeField] private GameObject shopContentMenu;
     [SerializeField] private GameObject localHUD;
-    [SerializeField] private GameObject mainMenu_mainPanel;
+    [SerializeField] private GameObject mainMenu_mainPanel; 
+
+    [SerializeField] private Toggle OPTION_DashOnMovementsToggle;
+
+    #endregion
+
+    #region HUD
 
     private RectTransform hudRect;
     private bool isHUDTransparent = false;
@@ -45,6 +54,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float hudTransparencyTime = .3f;
 
     public Collider2D[] playersColliders = new Collider2D[8];
+
+    #endregion
+
+    #region UI Refs
 
     [SerializeField] private Scrollbar pbContainerBar;
     [SerializeField] private Scrollbar shopBar;
@@ -59,9 +72,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject[] pbContainers;
 
     [SerializeField] private GameObject keycardsContainer;
-    [SerializeField] private TextMeshProUGUI keycardsCounter;
+    [SerializeField] private RectTransform keycardsContainerRect;
+    [SerializeField] private TextMeshProUGUI keycardsCounter; 
 
-    public const int maxPBImagesByRows = 6;
+    #endregion
+
+    #region Players UI Components
 
     [System.Serializable]
     public struct PlayerHUD
@@ -89,25 +105,13 @@ public class UIManager : MonoBehaviour
     {
         public float percentage;
         public Sprite portrait;
-    }
+    } 
+
+    #endregion
 
     [SerializeField] private PlayerPanelsManager panelsManager;
 
-    public PlayerPanelsManager PanelsManager { get => panelsManager; }
-
-    public GameObject ShopMenu { get => shopMenu; }
-
-    public GameObject ShopContentMenu { get => shopContentMenu; }
-
-    public GameObject[] PbContainers { get => pbContainers; }
-
     private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
-    public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
-
-    public PlayerHUD[] PlayerHUDs { get => playerHUDs; }
-
-    public GameObject KeycardContainer { get => keycardsContainer; }
-    public TextMeshProUGUI KeycardsCounters { get => keycardsCounter; }
 
     private List<PBThumbnail> pbThumbnails = new List<PBThumbnail>();
 
@@ -124,12 +128,37 @@ public class UIManager : MonoBehaviour
     private GameObject lastSelected;
 
     private Scrollbar currentVerticalScrollbar;
-    public Scrollbar CurrentVerticalScrollbar { get => currentVerticalScrollbar; }
-
     private Scrollbar currentHorizontalScrollbar;
+
+    #region Getters
+
+    public PlayerPanelsManager PanelsManager { get => panelsManager; }
+
+    public GameObject ShopMenu { get => shopMenu; }
+
+    public GameObject ShopContentMenu { get => shopContentMenu; }
+
+    public GameObject[] PbContainers { get => pbContainers; }
+
+    public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
+
+    public PlayerHUD[] PlayerHUDs { get => playerHUDs; }
+
+    public GameObject KeycardContainer { get => keycardsContainer; }
+
+    public TextMeshProUGUI KeycardsCounters { get => keycardsCounter; }
+
     public Scrollbar CurrentHorizontalScrollbar { get => currentHorizontalScrollbar; }
 
+    public Scrollbar CurrentVerticalScrollbar { get => currentVerticalScrollbar; }
+
+    #endregion
+
+    public const int maxPBImagesByRows = 6;
+
     public const float scrollbarSensibility = .1f;
+
+    #region Awake / Start / Updates
 
     private void Awake()
     {
@@ -157,7 +186,16 @@ public class UIManager : MonoBehaviour
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu) == false)
             CheckIfPlayerIsCoveredByHUD();
+    } 
+
+    #endregion
+
+    public void SetOptionsState()
+    {
+        OPTION_DashOnMovementsToggle?.SetIsOnWithoutNotify(GameManager.OPTION_DashToMouse);
     }
+
+    #region Players HUD
 
     private void SetPlayersCollidersArray()
     {
@@ -203,6 +241,15 @@ public class UIManager : MonoBehaviour
                     return;
                 }
             }
+
+            bool minK = RectTransformUtility.RectangleContainsScreenPoint(keycardsContainerRect, boundsMin);
+            bool maxK = RectTransformUtility.RectangleContainsScreenPoint(keycardsContainerRect, boundsMax);
+
+            if (minK && maxK)
+            {
+                FadeHUD(true);
+                return;
+            }
         }
 
         FadeHUD(false);
@@ -214,8 +261,59 @@ public class UIManager : MonoBehaviour
         isHUDTransparent = makeTransparent;
 
         LeanTween.alphaCanvas(localHUD.GetComponent<CanvasGroup>(), makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
+        LeanTween.alphaCanvas(keycardsContainer.GetComponent<CanvasGroup>(), makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
     }
 
+    public void UpdateKeycardsCounter()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(GameManager.AcquiredCards);
+        sb.Append(" / ");
+        sb.Append(GameManager.NeededCards);
+        KeycardsCounters.text = sb.ToString();
+
+        if (GameManager.AcquiredCards != 0)
+        {
+            LeanTween.scale(KeycardContainer, new Vector2(1.6f, 1.6f), .5f).setEase(LeanTweenType.easeInSine);
+            LeanTween.rotate(KeycardContainer, new Vector3(0, 0, 3f), .5f).setEase(LeanTweenType.easeInSine).setOnComplete(() =>
+            {
+                LeanTween.scale(KeycardContainer, Vector2.one, .5f).setEase(LeanTweenType.easeOutSine);
+                LeanTween.rotate(KeycardContainer, new Vector3(0, 0, -3f), .5f).setEase(LeanTweenType.easeOutSine);
+            });
+        }
+    }
+
+    #endregion
+
+    #region Scrollbars
+
+    public void SetCurrentVerticalScrollbar(Scrollbar bar) => currentVerticalScrollbar = bar;
+    public void UnsetCurrentVerticalScrollbar() => currentVerticalScrollbar = null;
+
+    public void SetCurrentHorizontalScrollbar(Scrollbar bar) => currentHorizontalScrollbar = bar;
+    public void UnsetCurrentHorizontalScrollbar() => currentHorizontalScrollbar = null;
+
+    public void ScrollCurrentVerticalBarDown(InputAction.CallbackContext context)
+    {
+        if (/*context.performed && */currentVerticalScrollbar != null) currentVerticalScrollbar.value -= scrollbarSensibility;
+    }
+    public void ScrollCurrentVerticalBarUp(InputAction.CallbackContext context)
+    {
+        if (/*context.performed && */currentVerticalScrollbar != null) currentVerticalScrollbar.value += scrollbarSensibility;
+    }
+
+    public void ScrollCurrentHorizontalBarLeft(InputAction.CallbackContext context)
+    {
+        if (/*context.performed && */currentHorizontalScrollbar != null) currentHorizontalScrollbar.value -= scrollbarSensibility;
+    }
+    public void ScrollCurrentHorizontalBarRight(InputAction.CallbackContext context)
+    {
+        if (/*context.performed && */currentHorizontalScrollbar != null) currentHorizontalScrollbar.value += scrollbarSensibility;
+    }
+
+    #endregion
+
+    #region Menus Managers
 
     /// <summary> <para>
     /// Handles the selection of buttons on menu changes. <paramref name="context"/> is used to decided which button should be selected. 
@@ -337,30 +435,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void SetCurrentVerticalScrollbar(Scrollbar bar) => currentVerticalScrollbar = bar;
-    public void UnsetCurrentVerticalScrollbar() => currentVerticalScrollbar = null;
-
-    public void SetCurrentHorizontalScrollbar(Scrollbar bar) => currentHorizontalScrollbar = bar;
-    public void UnsetCurrentHorizontalScrollbar() => currentHorizontalScrollbar = null;
-
-    public void ScrollCurrentVerticalBarDown(InputAction.CallbackContext context)
-    {
-        if (/*context.performed && */currentVerticalScrollbar != null) currentVerticalScrollbar.value -= scrollbarSensibility;
-    }
-    public void ScrollCurrentVerticalBarUp(InputAction.CallbackContext context)
-    {
-        if (/*context.performed && */currentVerticalScrollbar != null) currentVerticalScrollbar.value += scrollbarSensibility;
-    }
-
-    public void ScrollCurrentHorizontalBarLeft(InputAction.CallbackContext context)
-    {
-        if (/*context.performed && */currentHorizontalScrollbar != null) currentHorizontalScrollbar.value -= scrollbarSensibility;
-    }
-    public void ScrollCurrentHorizontalBarRight(InputAction.CallbackContext context)
-    {
-        if (/*context.performed && */currentHorizontalScrollbar != null) currentHorizontalScrollbar.value += scrollbarSensibility;
-    }
-
     public void OpenMenuInQueue(GameObject newMenu)
     {
         newMenu.SetActive(true);
@@ -373,7 +447,7 @@ public class UIManager : MonoBehaviour
         GameObject closedMenu = null;
         if (openMenusQueues.Count > 0)
             closedMenu = openMenusQueues.Pop();
-        
+
         if (closedMenu != null)
         {
             if (closedMenu.Equals(shopMenu))
@@ -415,6 +489,31 @@ public class UIManager : MonoBehaviour
 
         SelectButton("Last");
     }
+
+    public void OpenShop()
+    {
+        OpenMenuInQueue(shopMenu);
+        SelectButton("Shop");
+        localHUD.SetActive(false);
+        keycardsContainer.SetActive(false);
+        minimap.SetActive(false);
+
+        //SetCurrentVerticalScrollbar(shopBar);
+
+        PlayersManager.Instance.SetAllPlayersControlMapToUI();
+    }
+
+    public void CloseShop()
+    {
+        CloseYoungerMenu();
+        localHUD.SetActive(true);
+        PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+        //UnsetCurrentVerticalScrollbar();
+
+        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+    } 
+
+    #endregion
 
     public void AddPBToContainer(SCRPT_PB pb, int playerIdx = 0)
     {
@@ -483,29 +582,6 @@ public class UIManager : MonoBehaviour
         addedPB.navigation = nav;
 
         pbThumbnails.Add(gO);
-    }
-
-    public void OpenShop()
-    {
-        OpenMenuInQueue(shopMenu);
-        SelectButton("Shop");
-        localHUD.SetActive(false);
-        keycardsContainer.SetActive(false);
-        minimap.SetActive(false);
-
-        //SetCurrentVerticalScrollbar(shopBar);
-
-        PlayersManager.Instance.SetAllPlayersControlMapToUI();
-    }
-
-    public void CloseShop()
-    {
-        CloseYoungerMenu();
-        localHUD.SetActive(true);
-        PlayersManager.Instance.SetAllPlayersControlMapToInGame();
-        //UnsetCurrentVerticalScrollbar();
-
-        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
     }
 
     public Sprite GetBasePortrait(GameManager.E_CharactersNames character)

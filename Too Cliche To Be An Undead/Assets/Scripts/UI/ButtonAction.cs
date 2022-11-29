@@ -12,5 +12,10 @@ public class ButtonAction : MonoBehaviour
 
     public void Quit() => Application.Quit();
 
-    public void OPTION_DashToMouse(bool b) => GameManager.OPTION_DashToMouse = b;
+    public void OPTION_DashToMouse(bool b)
+    {
+        GameManager.OPTION_DashToMouse = b;
+
+        SaveManager.SetSavedKey(SaveManager.E_SaveKeys.B_DashOnMovements, b);
+    }
 }

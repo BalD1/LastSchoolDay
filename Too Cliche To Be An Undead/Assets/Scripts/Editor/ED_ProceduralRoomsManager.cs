@@ -30,6 +30,7 @@ public class ED_ProceduralRoomsManager : Editor
 
                 targetScript.RoomsData[i] = new ProceduralRoomsManager.RoomData(or, child);
             }
+
         }
 
         EditorGUILayout.Space();

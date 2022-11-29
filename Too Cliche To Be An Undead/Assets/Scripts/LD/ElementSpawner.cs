@@ -43,15 +43,18 @@ public class ElementSpawner : MonoBehaviour
         switch (elementToSpawn)
         {
             case E_ElementToSpawn.Zombie:
-                Instantiate(GameAssets.Instance.NormalZombiePF, this.transform.position, Quaternion.identity);
+                GameObject zom = Instantiate(GameAssets.Instance.NormalZombiePF, this.transform.position, Quaternion.identity);
+                zom.transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
                 break;
 
             case E_ElementToSpawn.Keycard:
-                Instantiate(GameAssets.Instance.KeycardPF, this.transform.position, Quaternion.identity);
+                GameObject key = Instantiate(GameAssets.Instance.KeycardPF, this.transform.position, Quaternion.identity);
+                key.transform.parent = GameManager.Instance.InstantiatedKeycardsParent;
                 break;
 
             case E_ElementToSpawn.Coins:
-                Instantiate(GameAssets.Instance.CoinPF, this.transform.position, Quaternion.identity);
+                GameObject cns = Instantiate(GameAssets.Instance.CoinPF, this.transform.position, Quaternion.identity);
+                cns.transform.parent = GameManager.Instance.InstantiatedMiscParent;
                 break;
 
             default:

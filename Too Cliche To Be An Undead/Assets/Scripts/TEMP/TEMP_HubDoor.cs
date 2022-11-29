@@ -46,6 +46,8 @@ public class TEMP_HubDoor : MonoBehaviour
             UIManager.Instance.KeycardContainer.SetActive(true);
             playersCounter.gameObject.SetActive(false);
         }
+
+        GameManager.Instance._onRunStarted?.Invoke();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
