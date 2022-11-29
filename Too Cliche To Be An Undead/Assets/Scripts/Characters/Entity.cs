@@ -110,14 +110,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected virtual void Awake()
     {
-        this.maxHP_M = GetStats.MaxHP;
-        this.maxDamages_M = GetStats.BaseDamages;
-        this.maxAttRange_M = GetStats.AttackRange;
-        this.maxAttCD_M = GetStats.Attack_COOLDOWN;
-        this.maxSpeed_M = GetStats.Speed;
-        this.maxCritChances_M = GetStats.CritChances;
-
-        this.currentHP = maxHP_M;
+        ResetStats();
     }
 
     protected virtual void Start()
@@ -448,6 +441,18 @@ public class Entity : MonoBehaviour, IDamageable
         attack_TIMER = finalDuration;
     }
     public void ResetAttackTimer() => attack_TIMER = 0;
+
+    protected virtual void ResetStats()
+    {
+        this.maxHP_M = GetStats.MaxHP;
+        this.maxDamages_M = GetStats.BaseDamages;
+        this.maxAttRange_M = GetStats.AttackRange;
+        this.maxAttCD_M = GetStats.Attack_COOLDOWN;
+        this.maxSpeed_M = GetStats.Speed;
+        this.maxCritChances_M = GetStats.CritChances;
+
+        this.currentHP = maxHP_M;
+    }
 
     #region Debug
 

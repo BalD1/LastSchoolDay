@@ -155,37 +155,13 @@ public class PlayerCharacter : Entity, IInteractable
             this.transform.position = GameManager.Instance.SpawnPoints[this.playerIndex].position;
             SwitchControlMapToInGame();
 
-            GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
-
-            UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
-
-            foreach (var item in UIManager.Instance.CharacterPortraits)
-            {
-                if (item.characterName.Equals(character)) characterPortrait = item;
-            }
-
             currentPortraitIdx = 0;
 
-            if (pHUD.container != null)
-            {
-                pHUD.container.SetActive(true);
-
-                this.portrait = pHUD.portrait;
-                this.hpBar = pHUD.hpBar;
-                this.hpText = pHUD.hpText;
-                this.skillIcon = pHUD.skillThumbnail;
-                this.dashIcon = pHUD.dashThumbnail;
-            }
-
-            PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
-
-            SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character);
-
-            this.currentHP = maxHP_M;
+            SetHUD();
 
             UpdateHPonUI();
 
-            //InvokeRepeating(nameof(ClearAttackers), 5, 5);
+            ResetStats();
         }
 
         this.minimapMarker.SetActive(true);
@@ -195,6 +171,38 @@ public class PlayerCharacter : Entity, IInteractable
         this.attackers.Clear();
 
         this.stateManager.SwitchState(stateManager.idleState);
+    }
+
+    private void SetHUD()
+    {
+        UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
+        if (pHUD.container != null)
+        {
+            pHUD.container.SetActive(true);
+
+            this.portrait = pHUD.portrait;
+            this.hpBar = pHUD.hpBar;
+            this.hpText = pHUD.hpText;
+            this.skillIcon = pHUD.skillThumbnail;
+            this.dashIcon = pHUD.dashThumbnail;
+        }
+    }
+
+    private void SetCharacter()
+    {
+        GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
+
+        foreach (var item in UIManager.Instance.CharacterPortraits)
+        {
+            if (item.characterName.Equals(character))
+            {
+                characterPortrait = item;
+            }
+        }
+
+        PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
+
+        SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character);
     }
 
     private void OnDestroy()
@@ -954,6 +962,14 @@ public class PlayerCharacter : Entity, IInteractable
     }
 
     #endregion
+
+    protected override void ResetStats()
+    {
+        base.ResetStats();
+
+        this.MaxSkillCD_M = skillHolder.Skill.Cooldown;
+        this.MaxDashCD_M = playerDash.Dash_COOLDOWN;
+    }
 
     public GameManager.E_CharactersNames GetCharacterName()
     {
