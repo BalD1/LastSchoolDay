@@ -32,7 +32,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         pastVelocity = owner.Velocity;
         owner.SetAllVelocity(Vector2.zero);
 
-        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
+        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD) && GameManager.OPTION_DashToMouse)
         {
             Vector2 mousePos = MousePosition.GetMouseWorldPosition();
             mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;

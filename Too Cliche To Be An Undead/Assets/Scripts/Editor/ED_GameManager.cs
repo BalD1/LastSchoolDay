@@ -91,6 +91,11 @@ public class ED_GameManager : Editor
     private void DrawIGReferences()
     {
         EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Options", EditorStyles.boldLabel);
+
+        GameManager.OPTION_DashToMouse = EditorGUILayout.Toggle("Dash To Mouse", GameManager.OPTION_DashToMouse);
+
+        EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("References", EditorStyles.boldLabel);
 
         SerializedProperty player1Ref = serializedObject.FindProperty("player1Ref");

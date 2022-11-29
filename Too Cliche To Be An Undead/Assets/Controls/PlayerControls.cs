@@ -255,6 +255,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""117ce36d-a88b-420d-85be-f415bf85c49f"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""2bbf3997-8298-41ca-97e5-4c06e7f231d0"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
