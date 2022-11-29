@@ -80,6 +80,8 @@ public class GameManager : MonoBehaviour
 
     public static int MaxAttackers = 5;
 
+    public static bool OPTION_DashToMouse = true;
+
     #region GameStates
 
     public enum E_GameState

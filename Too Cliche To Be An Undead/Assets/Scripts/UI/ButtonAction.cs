@@ -11,4 +11,6 @@ public class ButtonAction : MonoBehaviour
     public void ReloadScene() => GameManager.Instance.ReloadScene();
 
     public void Quit() => Application.Quit();
+
+    public void OPTION_DashToMouse(bool b) => GameManager.OPTION_DashToMouse = b;
 }
