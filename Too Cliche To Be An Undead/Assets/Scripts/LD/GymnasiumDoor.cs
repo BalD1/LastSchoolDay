@@ -9,7 +9,17 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     [SerializeField] private GameObject keycardHolderPF;
 
+    private List<GameObject> currentInteractors = new List<GameObject>();
+
+    [SerializeField] private float keycardsRadius = 2;
+
     private GameObject[] keycardsHolders;
+    private Vector2[] holderPosition;
+
+    [SerializeField] private LeanTweenType inType = LeanTweenType.easeInSine;
+    [SerializeField] private LeanTweenType outType = LeanTweenType.easeOutSine;
+
+    [SerializeField] private float tweenTime = .5f;
 
     private bool canBeInteracted = true;
 
@@ -22,12 +32,24 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     private void InstantiateKeycardHolders()
     {
-        keycardsHolders = new GameObject[GameManager.NeededCards];
-        for (int i = 0; i < GameManager.NeededCards; i++)
+        int neededCards = GameManager.NeededCards;
+        keycardsHolders = new GameObject[neededCards];
+        holderPosition = new Vector2[neededCards];
+
+        neededCards++;
+
+        for (int i = 1; i < neededCards; i++)
         {
             GameObject gO = Instantiate(keycardHolderPF, this.transform);
 
-            keycardsHolders[i] = gO;
+            var angle = i * Mathf.PI * keycardsRadius * .5f / neededCards;
+            var AngleOffset = Mathf.Atan2(angle, angle) * Mathf.Deg2Rad;
+            angle += AngleOffset;
+            var pos = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * keycardsRadius;
+
+            holderPosition[i - 1] = pos + this.transform.position;
+
+            keycardsHolders[i - 1] = gO;
         }
     }
 
@@ -38,19 +60,48 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     public void EnteredInRange(GameObject interactor)
     {
-        for (int i = 0; i < keycardsHolders.Length; i++)
-        {
-            keycardsHolders[i].SetActive(true);
+        currentInteractors.Add(interactor);
+        if (currentInteractors.Count > 1) return;
 
-        }
+        LeanTween.cancel(this.gameObject);
+        EaseInNext(0);
+    }
+
+    private void EaseInNext(int i)
+    {
+        if (i >= keycardsHolders.Length) return;
+
+        LeanTween.move(keycardsHolders[i], holderPosition[i], tweenTime).setEase(inType);
+        LeanTween.scale(keycardsHolders[i], Vector3.one, tweenTime);
+        LeanTween.delayedCall(.1f,
+        () =>
+        {
+            EaseInNext(i + 1);
+        });
+
     }
 
     public void ExitedRange(GameObject interactor)
     {
-        for (int i = 0; i < keycardsHolders.Length; i++)
+        currentInteractors.Remove(interactor);
+        if (currentInteractors.Count > 0) return;
+
+        LeanTween.cancel(this.gameObject);
+        EaseOutNext(0);
+    }
+
+    private void EaseOutNext(int i)
+    {
+        if (i >= keycardsHolders.Length) return;
+
+        LeanTween.move(keycardsHolders[i], this.transform.position, tweenTime).setEase(outType);
+        LeanTween.scale(keycardsHolders[i], Vector3.zero, tweenTime);
+        LeanTween.delayedCall(.1f,
+        () =>
         {
-            keycardsHolders[i].SetActive(true);
-        }
+            EaseOutNext(i + 1);
+        });
+
     }
 
     public void Interact(GameObject interactor)

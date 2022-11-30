@@ -14,14 +14,19 @@ public class TEMP_HubDoor : MonoBehaviour
     private int currentCounter = 0;
     private int maxPlayers;
 
+    private bool hasSpawnedKeys = false;
+
     private void Start()
     {
         maxPlayers = GameManager.Instance.PlayersCount;
+        hasSpawnedKeys = false;
         UpdateText();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (hasSpawnedKeys) return;
+
         if (collision.GetComponent<PlayerCharacter>() != null)
         {
             if (currentCounter < maxPlayers)
@@ -42,7 +47,8 @@ public class TEMP_HubDoor : MonoBehaviour
             }
 
             SpawnersManager.Instance.ManageKeycardSpawn();
-
+            hasSpawnedKeys = true;
+                
             UIManager.Instance.KeycardContainer.SetActive(true);
             playersCounter.gameObject.SetActive(false);
         }
@@ -52,6 +58,8 @@ public class TEMP_HubDoor : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (hasSpawnedKeys) return;
+
         if (collision.GetComponent<PlayerCharacter>() != null)
         {
             currentCounter--;

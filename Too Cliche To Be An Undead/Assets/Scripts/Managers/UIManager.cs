@@ -179,6 +179,8 @@ public class UIManager : MonoBehaviour
                     pbContainersButtons[i].image.sprite = im;
                 }
             }
+
+            keycardsContainer.SetActive(false);
         }
     }
 

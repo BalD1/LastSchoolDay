@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 55361006598698531}
   - component: {fileID: 55361006598698530}
   - component: {fileID: 5477472137141444426}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 55361006944118592}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5, y: -7.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -160,6 +160,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 6241222304885668172}
   keycardHolderPF: {fileID: 1510732049700388646, guid: c38a3b8d020aa8f4ba6aba40fdf02f57, type: 3}
+  keycardsRadius: 2
+  inType: 0
+  outType: 0
+  tweenTime: 0.5
 --- !u!61 &55361006944118621
 BoxCollider2D:
   m_ObjectHideFlags: 0
