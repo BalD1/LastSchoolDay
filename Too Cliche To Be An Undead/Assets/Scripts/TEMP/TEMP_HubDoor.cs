@@ -4,11 +4,11 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 
-public class TEMP_HubDoor : MonoBehaviour
+public class TEMP_HubDoor : MonoBehaviour, IInteractable
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Vector2 playerTPPos;
-    [SerializeField] private BoxCollider2D boxCollider2D;
+    [SerializeField] private Collider2D playerCounterTrigger;
 
     [SerializeField] private TextMeshPro playersCounter;
     private int currentCounter = 0;
@@ -33,24 +33,8 @@ public class TEMP_HubDoor : MonoBehaviour
             {
                 currentCounter++;
                 UpdateText();
-
-                if (currentCounter < maxPlayers)
-                    return;
             }
 
-            boxCollider2D.isTrigger = false;
-            spriteRenderer.color = Color.red;
-
-            foreach (var item in GameManager.Instance.playersByName)
-            {
-                item.playerScript.gameObject.transform.position = playerTPPos;
-            }
-
-            SpawnersManager.Instance.ManageKeycardSpawn();
-            hasSpawnedKeys = true;
-                
-            UIManager.Instance.KeycardContainer.SetActive(true);
-            playersCounter.gameObject.SetActive(false);
         }
 
         GameManager.Instance._onRunStarted?.Invoke();
@@ -69,6 +53,8 @@ public class TEMP_HubDoor : MonoBehaviour
 
     private void UpdateText()
     {
+        if (playersCounter == null) return;
+
         StringBuilder sb = new StringBuilder();
 
         sb.Append(currentCounter);
@@ -82,5 +68,49 @@ public class TEMP_HubDoor : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(playerTPPos, 0.5f);
+    }
+
+    public void EnteredInRange(GameObject interactor)
+    {
+        if (currentCounter > 0) return;
+        spriteRenderer.material = GameAssets.Instance.OutlineMaterial;
+    }
+
+    public void ExitedRange(GameObject interactor)
+    {
+        if (currentCounter > 0) return;
+        spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
+    }
+
+    public void Interact(GameObject interactor)
+    {
+        if (currentCounter < maxPlayers)
+            return;
+
+        playerCounterTrigger.enabled = false;
+        spriteRenderer.color = Color.red;
+
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            item.playerScript.gameObject.transform.position = playerTPPos;
+        }
+
+        SpawnersManager.Instance.ManageKeycardSpawn();
+        hasSpawnedKeys = true;
+        
+        UIManager.Instance.KeycardContainer.SetActive(true);
+        playersCounter.gameObject.SetActive(false);
+
+        spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
+    }
+
+    public bool CanBeInteractedWith()
+    {
+        return !hasSpawnedKeys;
+    }
+
+    public float GetDistanceFrom(Transform target)
+    {
+        return Vector2.Distance(target.position, this.transform.position);
     }
 }

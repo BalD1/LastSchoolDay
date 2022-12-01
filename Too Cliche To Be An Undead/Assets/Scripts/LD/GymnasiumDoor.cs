@@ -23,6 +23,9 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     private bool canBeInteracted = true;
 
+    private bool tweeningIn = false;
+    private bool tweeningOut = false;
+
     private int keycardsOfferedToDoor = 0;
 
     private void Start()
@@ -69,8 +72,15 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     private void EaseInNext(int i)
     {
-        if (i >= keycardsHolders.Length) return;
+        if (i >= keycardsHolders.Length)
+        {
+            tweeningIn = false;
+            return;
+        }
 
+        if (tweeningOut) return;
+
+        tweeningIn = true;
         LeanTween.move(keycardsHolders[i], holderPosition[i], tweenTime).setEase(inType);
         LeanTween.scale(keycardsHolders[i], Vector3.one, tweenTime);
         LeanTween.delayedCall(.1f,
@@ -92,8 +102,15 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     private void EaseOutNext(int i)
     {
-        if (i >= keycardsHolders.Length) return;
+        if (i >= keycardsHolders.Length)
+        {
+            tweeningOut = false;
+            return;
+        }
 
+        if (tweeningIn) return;
+
+        tweeningOut = true;
         LeanTween.move(keycardsHolders[i], this.transform.position, tweenTime).setEase(outType);
         LeanTween.scale(keycardsHolders[i], Vector3.zero, tweenTime);
         LeanTween.delayedCall(.1f,
