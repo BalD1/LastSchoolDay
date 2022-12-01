@@ -36,8 +36,6 @@ public class TEMP_HubDoor : MonoBehaviour, IInteractable
             }
 
         }
-
-        GameManager.Instance._onRunStarted?.Invoke();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -87,6 +85,7 @@ public class TEMP_HubDoor : MonoBehaviour, IInteractable
         if (currentCounter < maxPlayers)
             return;
 
+
         playerCounterTrigger.enabled = false;
         spriteRenderer.color = Color.red;
 
@@ -102,6 +101,8 @@ public class TEMP_HubDoor : MonoBehaviour, IInteractable
         playersCounter.gameObject.SetActive(false);
 
         spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
+
+        GameManager.Instance._onRunStarted?.Invoke();
     }
 
     public bool CanBeInteractedWith()
