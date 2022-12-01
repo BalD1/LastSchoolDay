@@ -8,6 +8,7 @@ using static UnityEditor.Progress;
 using UnityEditor.Experimental.GraphView;
 using Unity.VisualScripting;
 using System.Text;
+using UnityEngine.InputSystem;
 
 [CustomEditor(typeof(PlayerCharacter))]
 public class ED_PlayerCharacter : Editor
@@ -106,6 +107,11 @@ public class ED_PlayerCharacter : Editor
 
         SerializedProperty inputs = serializedObject.FindProperty("inputs");
         EditorGUILayout.PropertyField(inputs);
+
+        GUI.enabled = false;
+        EditorGUILayout.TextField("Current Control Scheme", targetScript.Inputs?.currentControlScheme);
+        EditorGUILayout.TextField("Current Action Map", targetScript.Inputs?.currentActionMap?.name);
+        GUI.enabled = true;
 
         SerializedProperty healthPopupOffset = serializedObject.FindProperty("healthPopupOffset");
         EditorGUILayout.PropertyField(healthPopupOffset);

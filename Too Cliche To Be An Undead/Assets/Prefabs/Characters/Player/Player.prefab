@@ -441,6 +441,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ff9d3552-5d2b-4451-99e6-1008de7fb818
     m_ActionName: InGame/SelfRevive[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8823656354733599271}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: ContinueDialogue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2818b723-e22d-43cf-b608-2fb4bf53d19a
+    m_ActionName: Dialogue/New action
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: InGame

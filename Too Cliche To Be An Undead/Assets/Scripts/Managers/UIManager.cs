@@ -71,9 +71,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button[] pbContainersButtons;
     [SerializeField] private GameObject[] pbContainers;
 
+    [SerializeField] private Image[] blackBars;
+
     [SerializeField] private GameObject keycardsContainer;
     [SerializeField] private RectTransform keycardsContainerRect;
-    [SerializeField] private TextMeshProUGUI keycardsCounter; 
+    [SerializeField] private TextMeshProUGUI keycardsCounter;
+
+    [SerializeField] private CanvasGroup hudContainer;
+    [SerializeField] private CanvasGroup dialogueContainer;
 
     #endregion
 
@@ -396,15 +401,13 @@ public class UIManager : MonoBehaviour
                         pbContainersButtons[i].gameObject.SetActive(false);
                     }
                 }
-                localHUD.SetActive(true);
-                keycardsContainer.SetActive(true);
-                minimap.SetActive(true);
+
+                FadeAllHUD(fadeIn: true);
                 break;
 
             case GameManager.E_GameState.Pause:
-                localHUD.SetActive(false);
-                keycardsContainer.SetActive(false);
-                minimap.SetActive(false);
+                FadeAllHUD(fadeIn: false);
+
                 OpenMenuInQueue(pauseMenu);
                 SelectButton("Pause");
                 SetCurrentHorizontalScrollbar(pbContainerBar);
@@ -437,6 +440,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void FadeAllHUD(bool fadeIn, float time = .2f)
+    {
+        hudContainer.LeanAlpha(fadeIn ? 1 : 0, time).setIgnoreTimeScale(true);
+    }
+
     public void OpenMenuInQueue(GameObject newMenu)
     {
         newMenu.SetActive(true);
@@ -454,9 +462,8 @@ public class UIManager : MonoBehaviour
         {
             if (closedMenu.Equals(shopMenu))
             {
-                localHUD.SetActive(true);
-                keycardsContainer.SetActive(true);
-                minimap.SetActive(true);
+                FadeAllHUD(fadeIn: true);
+
                 PlayersManager.Instance.SetAllPlayersControlMapToInGame();
 
                 GameManager.Instance.GetShop.SetIsShopOpen(false);
@@ -478,9 +485,8 @@ public class UIManager : MonoBehaviour
                     break;
 
                 case GameManager.E_GameState.InGame:
-                    localHUD.SetActive(true);
-                    keycardsContainer.SetActive(true);
-                    minimap.SetActive(true);
+                    FadeAllHUD(fadeIn: true);
+
                     break;
 
                 case GameManager.E_GameState.MainMenu:
@@ -496,9 +502,8 @@ public class UIManager : MonoBehaviour
     {
         OpenMenuInQueue(shopMenu);
         SelectButton("Shop");
-        localHUD.SetActive(false);
-        keycardsContainer.SetActive(false);
-        minimap.SetActive(false);
+
+        FadeAllHUD(fadeIn: false);
 
         //SetCurrentVerticalScrollbar(shopBar);
 
@@ -508,7 +513,8 @@ public class UIManager : MonoBehaviour
     public void CloseShop()
     {
         CloseYoungerMenu();
-        localHUD.SetActive(true);
+
+        FadeAllHUD(fadeIn: true);
         PlayersManager.Instance.SetAllPlayersControlMapToInGame();
         //UnsetCurrentVerticalScrollbar();
 
@@ -516,6 +522,18 @@ public class UIManager : MonoBehaviour
     } 
 
     #endregion
+
+    public void SetBlackBars(bool appear, float time = 1f)
+    {
+        foreach (var item in blackBars)
+        {
+            LeanTween.value(item.fillAmount, appear ? 1 : 0, time).setIgnoreTimeScale(true).setOnUpdate( 
+            (float val) =>
+            {
+                item.fillAmount = val;
+            });
+        }
+    }
 
     public void AddPBToContainer(SCRPT_PB pb, int playerIdx = 0)
     {

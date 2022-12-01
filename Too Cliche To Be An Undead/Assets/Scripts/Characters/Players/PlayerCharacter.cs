@@ -350,6 +350,7 @@ public class PlayerCharacter : Entity, IInteractable
     public void SwitchControlMap(string map) => inputs.SwitchCurrentActionMap(map);
     public void SwitchControlMapToInGame() => inputs.SwitchCurrentActionMap("InGame");
     public void SwitchControlMapToUI() => inputs.SwitchCurrentActionMap("UI");
+    public void SwitchControlMapToDialogue() => inputs.SwitchCurrentActionMap("Dialogue");
 
     public void ReadMovementsInputs(InputAction.CallbackContext context)
     {
@@ -607,7 +608,9 @@ public class PlayerCharacter : Entity, IInteractable
     #endregion
 
     #region Inputs
-    
+
+        #region InGame
+
     public void AttackInput(InputAction.CallbackContext context)
     {
         if (context.performed) D_attackInput?.Invoke();
@@ -627,7 +630,7 @@ public class PlayerCharacter : Entity, IInteractable
     public void DashInput(InputAction.CallbackContext context)
     {
         if (context.performed) D_dashInput?.Invoke();
-    } 
+    }
 
     public void SelectInput(InputAction.CallbackContext context)
     {
@@ -636,6 +639,30 @@ public class PlayerCharacter : Entity, IInteractable
             //PlayersManager.Instance.JoinAction(context);
         }
     }
+
+    public void StayStaticInput(InputAction.CallbackContext context)
+    {
+        if (context.started) stayStatic = true;
+        else if (context.canceled) stayStatic = false;
+    }
+
+    public void AimInput(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_aimInput?.Invoke(context.ReadValue<Vector2>());
+    }
+
+    public void SelfRevive(InputAction.CallbackContext context)
+    {
+        if (context.performed && stateManager.ToString().Equals("Dying") && selfReviveCount > 0)
+        {
+            selfReviveCount -= 1;
+            Revive();
+        }
+    }
+
+    #endregion
+
+        #region Menus
 
     public void LeftArrowInput(InputAction.CallbackContext context)
     {
@@ -671,26 +698,6 @@ public class PlayerCharacter : Entity, IInteractable
         }
     }
 
-    public void StayStaticInput(InputAction.CallbackContext context)
-    {
-        if (context.started) stayStatic = true;
-        else if (context.canceled) stayStatic = false;
-    }
-
-    public void AimInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_aimInput?.Invoke(context.ReadValue<Vector2>());
-    }
-
-    public void SelfRevive(InputAction.CallbackContext context)
-    {
-        if (context.performed && stateManager.ToString().Equals("Dying") && selfReviveCount > 0)
-        {
-            selfReviveCount -= 1;
-            Revive();
-        }
-    }
-
     public void ScrollCurrentVerticalBarDown(InputAction.CallbackContext context)
     {
         UIManager.Instance.ScrollCurrentVerticalBarDown(context);
@@ -708,6 +715,17 @@ public class PlayerCharacter : Entity, IInteractable
     {
         UIManager.Instance.ScrollCurrentHorizontalBarRight(context);
     }
+
+    #endregion
+
+        #region Dialogues
+
+    public void ContinueDialogue(InputAction.CallbackContext context)
+    {
+        if (context.performed) DialogueManager.Instance.TryNextLine();
+    }
+
+        #endregion
 
     #endregion
 

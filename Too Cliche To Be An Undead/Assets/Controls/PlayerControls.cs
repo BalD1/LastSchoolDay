@@ -1122,6 +1122,67 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Dialogue"",
+            ""id"": ""a740968e-2f25-46b2-a5bd-f651093c84ce"",
+            ""actions"": [
+                {
+                    ""name"": ""ShowNextLine"",
+                    ""type"": ""Button"",
+                    ""id"": ""2818b723-e22d-43cf-b608-2fb4bf53d19a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0e66302d-e5cc-4461-a2b5-1edd8bb5a44b"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ShowNextLine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7206679-3f56-4034-ac39-c54d3849c22e"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ShowNextLine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8bb98062-aa0f-496a-9227-fbf2fa0c2a05"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""action"": ""ShowNextLine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8698e5d-2cce-4fd2-9d9a-1872fb7c57fd"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""action"": ""ShowNextLine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1221,6 +1282,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_UI_ScrollUp = m_UI.FindAction("ScrollUp", throwIfNotFound: true);
         m_UI_ScrollLeft = m_UI.FindAction("ScrollLeft", throwIfNotFound: true);
         m_UI_ScrollRight = m_UI.FindAction("ScrollRight", throwIfNotFound: true);
+        // Dialogue
+        m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
+        m_Dialogue_ShowNextLine = m_Dialogue.FindAction("ShowNextLine", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1566,6 +1630,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Dialogue
+    private readonly InputActionMap m_Dialogue;
+    private IDialogueActions m_DialogueActionsCallbackInterface;
+    private readonly InputAction m_Dialogue_ShowNextLine;
+    public struct DialogueActions
+    {
+        private @PlayerControls m_Wrapper;
+        public DialogueActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ShowNextLine => m_Wrapper.m_Dialogue_ShowNextLine;
+        public InputActionMap Get() { return m_Wrapper.m_Dialogue; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DialogueActions set) { return set.Get(); }
+        public void SetCallbacks(IDialogueActions instance)
+        {
+            if (m_Wrapper.m_DialogueActionsCallbackInterface != null)
+            {
+                @ShowNextLine.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnShowNextLine;
+                @ShowNextLine.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnShowNextLine;
+                @ShowNextLine.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnShowNextLine;
+            }
+            m_Wrapper.m_DialogueActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ShowNextLine.started += instance.OnShowNextLine;
+                @ShowNextLine.performed += instance.OnShowNextLine;
+                @ShowNextLine.canceled += instance.OnShowNextLine;
+            }
+        }
+    }
+    public DialogueActions @Dialogue => new DialogueActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1646,5 +1743,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnScrollUp(InputAction.CallbackContext context);
         void OnScrollLeft(InputAction.CallbackContext context);
         void OnScrollRight(InputAction.CallbackContext context);
+    }
+    public interface IDialogueActions
+    {
+        void OnShowNextLine(InputAction.CallbackContext context);
     }
 }

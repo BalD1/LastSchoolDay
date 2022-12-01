@@ -118,6 +118,12 @@ public class ED_UIManager : Editor
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("References", EditorStyles.boldLabel);
 
+        SerializedProperty hudContainer = serializedObject.FindProperty("hudContainer");
+        EditorGUILayout.PropertyField(hudContainer);
+
+        SerializedProperty dialogueContainer = serializedObject.FindProperty("dialogueContainer");
+        EditorGUILayout.PropertyField(dialogueContainer);
+
         SerializedProperty pbContainerBar = serializedObject.FindProperty("pbContainerBar");
         EditorGUILayout.PropertyField(pbContainerBar);
 
@@ -144,6 +150,9 @@ public class ED_UIManager : Editor
 
         SerializedProperty keycardsCounter = serializedObject.FindProperty("keycardsCounter");
         EditorGUILayout.PropertyField(keycardsCounter);
+
+        SerializedProperty blackBars = serializedObject.FindProperty("blackBars");
+        EditorGUILayout.PropertyField(blackBars);
 
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Buttons Selection", EditorStyles.boldLabel);
