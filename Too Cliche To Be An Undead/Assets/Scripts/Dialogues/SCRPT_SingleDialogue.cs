@@ -27,5 +27,6 @@ public class SCRPT_SingleDialogue : ScriptableObject
     public enum E_Effects
     {
         ProgressiveReveal,
+        PauseOnIndex,
     }
 }

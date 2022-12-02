@@ -39,6 +39,8 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private int pauseOnIndex = -1;
+
 
     private void Awake()
     {
@@ -65,7 +67,9 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        Debug.LogErrorFormat($"{searchedID} was not found in {Dialogues} array.");
+#if UNITY_EDITOR
+        Debug.LogErrorFormat($"{searchedID} was not found in {Dialogues} array."); 
+#endif
         return false;
     }
 
@@ -102,6 +106,7 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
             return;
         }
+        pauseOnIndex = -1;
         UnfinishedEffectsCount = 0;
 
         currentLine = currentDialogue.dialogueLines[currentLineIndex];
@@ -174,6 +179,7 @@ public class DialogueManager : MonoBehaviour
     {
         UnfinishedEffectsCount = 0;
         currentLineIndex = -1;
+        pauseOnIndex = -1;
         pressKeyToContinue.alpha = 0;
     }
 
@@ -183,7 +189,11 @@ public class DialogueManager : MonoBehaviour
         {
             case SCRPT_SingleDialogue.E_Effects.ProgressiveReveal:
                 UnfinishedEffectsCount++;
-                StartCoroutine(Reveal(lineEffect.value));
+                StartCoroutine(Reveal(lineEffect.value == 0 ? 0.025f : lineEffect.value));
+                break;
+
+            case SCRPT_SingleDialogue.E_Effects.PauseOnIndex:
+                pauseOnIndex = (int)lineEffect.value;
                 break;
 
             default:
@@ -202,6 +212,10 @@ public class DialogueManager : MonoBehaviour
         while(loop)
         {
             int visibleCount = counter % (totalVisibleCharacters + 1);
+            if (visibleCount == pauseOnIndex)
+            {
+                yield return new WaitForSeconds(1);
+            }
 
             dialogueText.maxVisibleCharacters = visibleCount;
 
