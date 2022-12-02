@@ -46,11 +46,6 @@ public class DialogueManager : MonoBehaviour
         instance = this;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P)) TryStartDialogue("test");
-    }
-
     public bool TryStartDialogue(string searchedID)
     {
         foreach (var item in Dialogues)
@@ -75,7 +70,7 @@ public class DialogueManager : MonoBehaviour
             item.playerScript.SwitchControlMapToDialogue();
         }
 
-        PostproManager.Instance.SetBlurState(true);
+        //PostproManager.Instance.SetBlurState(true);
 
         dialogueText.text = "";
 

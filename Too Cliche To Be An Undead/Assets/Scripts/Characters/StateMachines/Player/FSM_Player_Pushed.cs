@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
 {
+    public override void EnterState(FSM_Player_Manager stateManager)
+    {
+        base.EnterState(stateManager);
+    }
+
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         base.ExitState(stateManager);

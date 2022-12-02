@@ -161,8 +161,8 @@ public class GameManager : MonoBehaviour
     {
         MainMenu,
         MainScene,
-        T_flo,
-        Test_Kankan,
+        Map,
+        Playground,
     }
 
     public static float gameTimeSpeed = 1f;

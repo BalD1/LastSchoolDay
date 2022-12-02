@@ -26,6 +26,9 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region vars
 
+    [SerializeField] public LayerMask feetsBaseLayer;
+    [SerializeField] public LayerMask ignoreHoleLayer;
+
     [SerializeField] private int playerIndex;
 
     [SerializeField] private FSM_Player_Manager stateManager;
@@ -160,6 +163,8 @@ public class PlayerCharacter : Entity, IInteractable
             SetHUD();
 
             UpdateHPonUI();
+
+            SetCharacter();
 
             ResetStats();
         }
@@ -1004,6 +1009,11 @@ public class PlayerCharacter : Entity, IInteractable
         if (idx > DataKeeper.Instance.playersDataKeep.Count) return GameManager.E_CharactersNames.Shirley;
         
         return DataKeeper.Instance.playersDataKeep[idx].character;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        d_EnteredCollider?.Invoke(collision);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

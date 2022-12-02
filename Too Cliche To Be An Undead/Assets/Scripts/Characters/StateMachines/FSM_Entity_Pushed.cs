@@ -67,8 +67,6 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
 
     protected virtual void TriggerEnter(Collider2D collider)
     {
-        // Check if the hit object is a wall
-
         // Check if the hit object is an entity
         Entity e = collider.GetComponentInParent<Entity>();
         if (e == null) return;
