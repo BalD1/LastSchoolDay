@@ -28,7 +28,17 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] [ReadOnly] private SCRPT_SingleDialogue.DialogueLine currentLine;
     [SerializeField] [ReadOnly] private int currentLineIndex = -1;
 
-    [SerializeField] private bool isReadyToShowNextLine = false;
+    private int unfinishedEffectsCount;
+    private int UnfinishedEffectsCount
+    {
+        get => unfinishedEffectsCount;
+        set
+        {
+            unfinishedEffectsCount = value;
+            if (unfinishedEffectsCount <= 0) OnIsReadyToShowNextLine();
+        }
+    }
+
 
     private void Awake()
     {
@@ -66,6 +76,8 @@ public class DialogueManager : MonoBehaviour
             item.playerScript.SwitchControlMapToDialogue();
         }
 
+        PostproManager.Instance.SetBlurState(true);
+
         dialogueText.text = "";
 
         currentDialogue = dialogue;
@@ -79,7 +91,7 @@ public class DialogueManager : MonoBehaviour
 
     public void TryNextLine()
     {
-        if (isReadyToShowNextLine) ShowNextLine();
+        if (UnfinishedEffectsCount == 0) ShowNextLine();
     }
 
     private void ShowNextLine()
@@ -90,8 +102,7 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
             return;
         }
-        LeanTween.textAlpha(pressKeyToContinue.rectTransform, 0, .2f);
-        isReadyToShowNextLine = false;
+        UnfinishedEffectsCount = 0;
 
         currentLine = currentDialogue.dialogueLines[currentLineIndex];
 
@@ -103,9 +114,44 @@ public class DialogueManager : MonoBehaviour
             ManageEffects(item);
         }
 
+        if (UnfinishedEffectsCount <= 0)
+            OnIsReadyToShowNextLine();
+        else
+            OnCantShowNextLine();
+
         currentLineIndex++;
-        isReadyToShowNextLine = true;
-        LeanTween.textAlpha(pressKeyToContinue.rectTransform, 1, .2f);
+    }
+
+    private void OnCantShowNextLine()
+    {
+        LeanTween.value(pressKeyToContinue.alpha, 0, .2f).setOnUpdate(
+            (float val) =>
+            {
+                pressKeyToContinue.alpha = val;
+            }).setIgnoreTimeScale(true);
+    }
+    private void OnIsReadyToShowNextLine()
+    {
+        LeanTween.value(pressKeyToContinue.alpha, 1, .2f).setOnUpdate(
+            (float val) =>
+            {
+                pressKeyToContinue.alpha = val;
+            }).setIgnoreTimeScale(true).setOnComplete(() => LeanTween.delayedCall(1, () => PressKeyTextVisibleEffects()));
+    }
+
+    private void PressKeyTextVisibleEffects()
+    {
+        LeanTween.delayedCall(3, () => {
+
+            if (pressKeyToContinue.alpha <= 0) return;
+
+            LeanTween.scale(pressKeyToContinue.rectTransform, Vector3.one * 1.2f, 0.5f)
+            .setEase(LeanTweenType.easeInOutBack).setOnComplete(() =>
+            {
+                LeanTween.scale(pressKeyToContinue.rectTransform, Vector3.one, 0.5f);
+            });
+
+        }).setRepeat(-1);
     }
 
     private void EndDialogue()
@@ -121,20 +167,23 @@ public class DialogueManager : MonoBehaviour
             });
 
         ResetDialogue();
+        PostproManager.Instance.SetBlurState(true);
     }
 
     private void ResetDialogue()
     {
-        isReadyToShowNextLine = false;
+        UnfinishedEffectsCount = 0;
         currentLineIndex = -1;
+        pressKeyToContinue.alpha = 0;
     }
 
-    private void ManageEffects(SCRPT_SingleDialogue.E_Effects effect)
+    private void ManageEffects(SCRPT_SingleDialogue.DialogueEffect lineEffect)
     {
-        switch (effect)
+        switch (lineEffect.effect)
         {
             case SCRPT_SingleDialogue.E_Effects.ProgressiveReveal:
-                StartCoroutine(Reveal());
+                UnfinishedEffectsCount++;
+                StartCoroutine(Reveal(lineEffect.value));
                 break;
 
             default:
@@ -142,8 +191,9 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private IEnumerator Reveal()
+    private IEnumerator Reveal(float time)
     {
+        dialogueText.ForceMeshUpdate();
         int totalVisibleCharacters = dialogueText.textInfo.characterCount;
         int counter = 0;
 
@@ -156,11 +206,14 @@ public class DialogueManager : MonoBehaviour
             dialogueText.maxVisibleCharacters = visibleCount;
 
             if (visibleCount >= totalVisibleCharacters)
+            {
                 loop = false;
+                UnfinishedEffectsCount--;
+            }
 
             counter++;
 
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(time);
         }
     }
 }
