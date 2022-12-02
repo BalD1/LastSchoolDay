@@ -39,16 +39,11 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private int pauseOnIndex = -1;
-
+    private Queue<int> pauseOnIndexQueue = new Queue<int>();
 
     private void Awake()
     {
         instance = this;
-    }
-
-    private void Start()
-    {
     }
 
     private void Update()
@@ -106,7 +101,7 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
             return;
         }
-        pauseOnIndex = -1;
+        pauseOnIndexQueue.Clear();
         UnfinishedEffectsCount = 0;
 
         currentLine = currentDialogue.dialogueLines[currentLineIndex];
@@ -179,8 +174,8 @@ public class DialogueManager : MonoBehaviour
     {
         UnfinishedEffectsCount = 0;
         currentLineIndex = -1;
-        pauseOnIndex = -1;
         pressKeyToContinue.alpha = 0;
+        pauseOnIndexQueue.Clear();
     }
 
     private void ManageEffects(SCRPT_SingleDialogue.DialogueEffect lineEffect)
@@ -193,7 +188,7 @@ public class DialogueManager : MonoBehaviour
                 break;
 
             case SCRPT_SingleDialogue.E_Effects.PauseOnIndex:
-                pauseOnIndex = (int)lineEffect.value;
+                pauseOnIndexQueue.Enqueue((int)lineEffect.value);
                 break;
 
             default:
@@ -212,9 +207,14 @@ public class DialogueManager : MonoBehaviour
         while(loop)
         {
             int visibleCount = counter % (totalVisibleCharacters + 1);
-            if (visibleCount == pauseOnIndex)
+
+            if (pauseOnIndexQueue.Count > 0) 
             {
-                yield return new WaitForSeconds(1);
+                if (visibleCount == pauseOnIndexQueue.Peek())
+                {
+                    pauseOnIndexQueue.Dequeue();
+                    yield return new WaitForSeconds(1);
+                }
             }
 
             dialogueText.maxVisibleCharacters = visibleCount;
