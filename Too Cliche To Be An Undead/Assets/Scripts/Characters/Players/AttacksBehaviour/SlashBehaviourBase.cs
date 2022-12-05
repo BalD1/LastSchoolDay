@@ -13,6 +13,8 @@ public class SlashBehaviourBase : StateMachineBehaviour
         if (weapon == null) weapon = animator.GetComponentInParent<PlayerWeapon>();
         weapon.isAttacking = true;
 
+        weapon.slashParticles.Play();
+
         weapon.StartWeaponAttack(isLastAttack);
         // Play attack sound based on attack index
     }

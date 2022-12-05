@@ -6,12 +6,14 @@ public class ZombieLocker : MonoBehaviour
 {
     [SerializeField] private int damagesAmount = 10;
     [SerializeField] private float stunDuration = 1.0f;
+    
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        PlayerCharacter player = collision.GetComponent<PlayerCharacter>();
+        PlayerCharacter player = collision.gameObject.GetComponentInParent<PlayerCharacter>();
 
         if (player == null) return;
+        if (player.StateManager.ToString() == "Pushed") return;
 
         player.Stun(stunDuration);
         player.OnTakeDamages(damagesAmount);

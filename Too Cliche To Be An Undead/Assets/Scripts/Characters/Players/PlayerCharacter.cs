@@ -991,6 +991,11 @@ public class PlayerCharacter : Entity, IInteractable
 
     #endregion
 
+    public override void Stun(float duration, bool resetAttackTimer = false)
+    {
+        stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
+    }
+
     protected override void ResetStats()
     {
         base.ResetStats();

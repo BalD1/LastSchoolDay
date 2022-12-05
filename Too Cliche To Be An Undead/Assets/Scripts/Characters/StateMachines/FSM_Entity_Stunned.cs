@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class FSM_Entity_Stunned<T> : FSM_Base<T>
 {
-    protected EnemyBase owner;
+    protected Entity owner;
     protected float stun_TIMER;
     protected bool baseConditionChecked;
 
     public override void EnterState(T stateManager)
     {
         owner.GetRb.velocity = Vector3.zero;
-        owner.UnsetAttackedPlayer();
     }
 
     public override void UpdateState(T stateManager)
@@ -33,7 +32,7 @@ public class FSM_Entity_Stunned<T> : FSM_Base<T>
         if (stun_TIMER <= 0) baseConditionChecked = true;   
     }
 
-    public void SetOwner(EnemyBase _owner) => owner = _owner;
+    public void SetOwner(Entity _owner) => owner = _owner;
 
     public FSM_Entity_Stunned<T> SetDuration(float duration, bool resetAttackTimer = false)
     {

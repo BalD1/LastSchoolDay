@@ -25,6 +25,8 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] protected Animator effectAnimator;
     public Animator EffectAnimator { get => effectAnimator; }
 
+    [SerializeField] public ParticleSystem slashParticles;
+
     [SerializeField] protected ParticleSystem hitParticles;
 
     protected Collider2D[] hitEntities;

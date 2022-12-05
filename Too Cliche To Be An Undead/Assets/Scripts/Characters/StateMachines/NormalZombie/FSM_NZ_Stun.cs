@@ -10,20 +10,7 @@ public class FSM_NZ_Stun : FSM_Entity_Stunned<FSM_NZ_Manager>
         base.EnterState(stateManager);
 
         owner.canBePushed = true;
-    }
-
-    public override void UpdateState(FSM_NZ_Manager stateManager)
-    {
-        base.UpdateState(stateManager);
-    }
-
-    public override void FixedUpdateState(FSM_NZ_Manager stateManager)
-    {
-    }
-
-    public override void ExitState(FSM_NZ_Manager stateManager)
-    {
-        base.ExitState(stateManager);
+        (owner as NormalZombie).UnsetAttackedPlayer();
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)

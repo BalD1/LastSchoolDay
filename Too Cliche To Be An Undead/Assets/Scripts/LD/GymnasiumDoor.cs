@@ -21,7 +21,7 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     [SerializeField] private float tweenTime = .5f;
 
-    private bool canBeInteracted = true;
+    private bool canBeInteracted = false;
 
     private bool tweeningIn = false;
     private bool tweeningOut = false;
@@ -54,6 +54,8 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
             keycardsHolders[i - 1] = gO;
         }
+
+        canBeInteracted = true;
     }
 
     public bool CanBeInteractedWith()

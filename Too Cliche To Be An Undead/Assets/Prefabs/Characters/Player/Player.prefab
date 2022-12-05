@@ -1721,6 +1721,12 @@ MonoBehaviour:
   invincible: 0
   canBePushed: 1
   debugMode: 0
+  feetsBaseLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  ignoreHoleLayer:
+    serializedVersion: 2
+    m_Bits: 0
   playerIndex: 0
   stateManager: {fileID: 5207945969965588748}
   minimapMarker: {fileID: 5962262701401338645}
@@ -1870,6 +1876,14 @@ PrefabInstance:
       propertyPath: owner
       value: 
       objectReference: {fileID: 8823656354733599271}
+    - target: {fileID: 7281161797600166558, guid: 960750e1507b31f42aada6b33ce495fd, type: 3}
+      propertyPath: m_Size.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281161797600166558, guid: 960750e1507b31f42aada6b33ce495fd, type: 3}
+      propertyPath: m_Size.y
+      value: 0.01
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 960750e1507b31f42aada6b33ce495fd, type: 3}
 --- !u!4 &2234981269527908459 stripped
