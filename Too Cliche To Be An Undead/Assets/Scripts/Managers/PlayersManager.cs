@@ -70,7 +70,7 @@ public class PlayersManager : MonoBehaviour
             return;
         }
 
-        Vector2 spawnPos = GameManager.Instance.SpawnPoints[0].position;
+        Vector2 spawnPos = GameManager.Instance.GetSpawnPoint(0).position;
         PlayerCharacter p1 = Instantiate(GameAssets.Instance.PlayerPF, spawnPos, Quaternion.identity).GetComponent<PlayerCharacter>();
         player1 = p1;
         GameManager.Instance.SetPlayer1(p1);

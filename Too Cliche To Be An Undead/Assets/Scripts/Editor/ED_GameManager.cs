@@ -74,8 +74,11 @@ public class ED_GameManager : Editor
         if (!Application.isPlaying) GUI.enabled = true;
         EditorGUILayout.HelpBox("Max Attackers étant static, il ne peut être modifié que dans le GameManager, les changements IG sont remis à 0 à chaque fois", MessageType.Warning);
 
-        SerializedProperty spawnPoints = serializedObject.FindProperty("spawnPoints");
-        EditorGUILayout.PropertyField(spawnPoints);
+        SerializedProperty ingameSpawnPoints = serializedObject.FindProperty("ingameSpawnPoints");
+        EditorGUILayout.PropertyField(ingameSpawnPoints);
+
+        SerializedProperty tutoSpawnPoints = serializedObject.FindProperty("tutoSpawnPoints");
+        EditorGUILayout.PropertyField(tutoSpawnPoints);
     }
 
     private void DrawMainMenuInspector()

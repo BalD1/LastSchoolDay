@@ -13,6 +13,8 @@ public class DialogueManager : MonoBehaviour
         get => instance;
     }
 
+    public static List<string> DialogueNamesList;
+
     [SerializeField] private CanvasGroup dialogueContainer;
 
     [SerializeField] private float leanFadeTime = .2f;
@@ -22,7 +24,15 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI pressKeyToContinue;
 
+        
     [field: SerializeField] public SCRPT_SingleDialogue[] Dialogues { get; private set; }
+
+#if UNITY_EDITOR
+    [InspectorButton(nameof(UpdateDialogueList), ButtonWidth = 300)][SerializeField] private bool updateNamesList;
+
+    [ListToPopup(typeof(DialogueManager), nameof(DialogueNamesList))]
+    [SerializeField] private string dialogueNamePopupTest; 
+#endif
 
     [SerializeField] [ReadOnly] private SCRPT_SingleDialogue currentDialogue;
     [SerializeField] [ReadOnly] private SCRPT_SingleDialogue.DialogueLine currentLine;
@@ -72,7 +82,11 @@ public class DialogueManager : MonoBehaviour
 
         //PostproManager.Instance.SetBlurState(true);
 
+        ResetDialogue();
+
         dialogueText.text = "";
+
+        Debug.Log("sd");
 
         currentDialogue = dialogue;
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
@@ -162,7 +176,7 @@ public class DialogueManager : MonoBehaviour
             });
 
         ResetDialogue();
-        PostproManager.Instance.SetBlurState(true);
+        //PostproManager.Instance.SetBlurState(true);
     }
 
     private void ResetDialogue()
@@ -223,6 +237,15 @@ public class DialogueManager : MonoBehaviour
             counter++;
 
             yield return new WaitForSeconds(time);
+        }
+    }
+
+    public void UpdateDialogueList()
+    {
+        DialogueNamesList = new List<string>();
+        foreach (var item in Dialogues)
+        {
+            DialogueNamesList.Add(item.ID);
         }
     }
 }

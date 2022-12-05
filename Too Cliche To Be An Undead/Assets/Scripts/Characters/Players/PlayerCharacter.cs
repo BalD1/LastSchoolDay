@@ -156,7 +156,7 @@ public class PlayerCharacter : Entity, IInteractable
         }
         else
         {
-            this.transform.position = GameManager.Instance.SpawnPoints[this.playerIndex].position;
+            this.transform.position = GameManager.Instance.GetSpawnPoint(this.playerIndex).position;
             SwitchControlMapToInGame();
 
             currentPortraitIdx = 0;

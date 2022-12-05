@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using System;
 using UnityEditor;
 using System.Text;
+using static UIManager;
 
 public class GameManager : MonoBehaviour
 {
@@ -63,8 +64,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private Transform[] spawnPoints;
-    public Transform[] SpawnPoints { get => spawnPoints; }
+    [SerializeField] private Transform[] tutoSpawnPoints;
+    public Transform[] TutoSpawnPoints { get => tutoSpawnPoints; }
+
+    [SerializeField] private Transform[] ingameSpawnPoints;
+    public Transform[] IngameSpawnPoints { get => ingameSpawnPoints; }
 
     [SerializeField] private bool allowEnemies = true;
     public bool AllowEnemies
@@ -256,6 +260,30 @@ public class GameManager : MonoBehaviour
     public void StartArena()
     {
         fightArena?.SpawnNext(0);
+    }
+
+    public Transform GetSpawnPoint(int playerId)
+    {
+#if UNITY_EDITOR
+        if (CompareCurrentScene(E_ScenesNames.MainScene) == false)
+            return ReturnSpawnPointsOrSelf(IngameSpawnPoints, playerId); 
+#endif
+
+        if (DataKeeper.Instance.skipTuto)
+            return ReturnSpawnPointsOrSelf(IngameSpawnPoints, playerId);
+        else
+            return ReturnSpawnPointsOrSelf(TutoSpawnPoints, playerId);
+
+    }
+
+    private Transform ReturnSpawnPointsOrSelf(Transform[] points, int idx)
+    {
+        if (points.Length > 0) return points[idx];
+        else
+        {
+            Debug.LogErrorFormat($"Spawnpoints of {points} were not set");
+            return this.transform;
+        }
     }
 
     #region Scenes

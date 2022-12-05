@@ -57,6 +57,8 @@ public class DataKeeper : MonoBehaviour
     public int money;
     public int maxLevel;
 
+    public bool skipTuto = true;
+
     public int CreateData(PlayerCharacter newPlayer)
     {
         foreach (var item in playersDataKeep)

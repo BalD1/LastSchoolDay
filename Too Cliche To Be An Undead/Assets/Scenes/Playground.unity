@@ -1388,7 +1388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 636135896}
   m_Layer: 0
-  m_Name: SpawnPoints
+  m_Name: PlayersSpawnPoints_IG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3173,6 +3173,26 @@ PrefabInstance:
       propertyPath: instantiatedKeycardsParent
       value: 
       objectReference: {fileID: 1317883650}
+    - target: {fileID: 874000493620210163, guid: 48c2497861520eb4ab036ba4c03020fc, type: 3}
+      propertyPath: ingameSpawnPoints.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 874000493620210163, guid: 48c2497861520eb4ab036ba4c03020fc, type: 3}
+      propertyPath: ingameSpawnPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1933343121}
+    - target: {fileID: 874000493620210163, guid: 48c2497861520eb4ab036ba4c03020fc, type: 3}
+      propertyPath: ingameSpawnPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 320125380}
+    - target: {fileID: 874000493620210163, guid: 48c2497861520eb4ab036ba4c03020fc, type: 3}
+      propertyPath: ingameSpawnPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 1250422217}
+    - target: {fileID: 874000493620210163, guid: 48c2497861520eb4ab036ba4c03020fc, type: 3}
+      propertyPath: ingameSpawnPoints.Array.data[3]
+      value: 
+      objectReference: {fileID: 1332952687}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48c2497861520eb4ab036ba4c03020fc, type: 3}
 --- !u!4 &1528201041 stripped
