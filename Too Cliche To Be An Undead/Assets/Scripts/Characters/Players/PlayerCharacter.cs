@@ -139,6 +139,7 @@ public class PlayerCharacter : Entity, IInteractable
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
+        selfInteractor.RemoveEverythingFromList();
 
         stateManager.SwitchState(stateManager.idleState);
         CancelInvoke(nameof(ClearAttackers));
@@ -167,6 +168,7 @@ public class PlayerCharacter : Entity, IInteractable
             SetCharacter();
 
             ResetStats();
+
         }
 
         this.minimapMarker.SetActive(true);

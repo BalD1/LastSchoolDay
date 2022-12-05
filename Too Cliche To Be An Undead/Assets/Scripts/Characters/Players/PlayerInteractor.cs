@@ -1,7 +1,4 @@
-using JetBrains.Annotations;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -9,7 +6,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
 using UnityEngine.InputSystem.Switch;
 using UnityEngine.InputSystem.XInput;
-using UnityEngine.Rendering;
 
 public class PlayerInteractor : MonoBehaviour
 {
@@ -73,6 +69,12 @@ public class PlayerInteractor : MonoBehaviour
         interactablesToRemove.Clear();
 
         if (interactablesInRange.Count == 0) interactPrompt.SetActive(false);
+    }
+
+    public void RemoveEverythingFromList()
+    {
+        interactablesToRemove = interactablesInRange;
+        CleanListAll();
     }
 
     private void SetPrompt()
@@ -154,18 +156,21 @@ public class PlayerInteractor : MonoBehaviour
 
         foreach (var item in interactablesInRange)
         {
-            if (item.CanBeInteractedWith() == false)
+            if (item == null || item.CanBeInteractedWith() == false)
             {
-                if (item.CanBeInteractedWith() == false)
-                    interactablesToRemove.Add(item);
+                interactablesToRemove.Add(item);
                 continue;
             }
-            itemDistance = item.GetDistanceFrom(this.transform);
-
-            if (itemDistance < closestDistance)
+            else
             {
-                newClosest = item;
-                closestDistance = itemDistance;
+
+                itemDistance = item.GetDistanceFrom(this.transform);
+
+                if (itemDistance < closestDistance)
+                {
+                    newClosest = item;
+                    closestDistance = itemDistance;
+                }
             }
         }
 

@@ -145,7 +145,11 @@ public class CameraManager : MonoBehaviour
 
     public void PlayerBecameVisible(Transform player)
     {
-        markers[invisiblePlayers.IndexOf(player)].gameObject.SetActive(false);
+        int indexOfPlayer = invisiblePlayers.IndexOf(player);
+
+        if (indexOfPlayer > markers.Length) return;
+
+        markers[indexOfPlayer].gameObject.SetActive(false);
         playersToRemoveFromList.Add(player);
     }
 
