@@ -157,7 +157,9 @@ public class PlayerCharacter : Entity, IInteractable
         else
         {
             this.transform.position = GameManager.Instance.GetSpawnPoint(this.playerIndex).position;
-            SwitchControlMapToInGame();
+            if (this.playerIndex == 0) CameraManager.Instance.TeleportCamera(this.transform.position);
+
+            SwitchControlMapToDialogue();
 
             currentPortraitIdx = 0;
 
@@ -290,7 +292,7 @@ public class PlayerCharacter : Entity, IInteractable
 
             this.currentHP = maxHP_M;
 
-            SwitchControlMapToInGame();
+            SwitchControlMapToDialogue();
         }
 
         if (GameManager.Instance.playersByName.Count <= 0) GameManager.Instance.SetPlayersByNameList();

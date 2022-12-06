@@ -9,6 +9,8 @@ public class ListToPopupAttribute : PropertyAttribute
     public Type propertyType;
     public string propertyName;
 
+    public static List<string> stringList = null;
+
     public ListToPopupAttribute(Type _propertyType, string _propertyName)
     {
         this.propertyType = _propertyType;
@@ -23,18 +25,18 @@ public class ListToPopupDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         ListToPopupAttribute popup = attribute as ListToPopupAttribute;
-        List<string> stringList = null;
+        ListToPopupAttribute.stringList = null;
 
         if (popup.propertyType.GetField(popup.propertyName) != null)
         {
-            stringList = popup.propertyType.GetField(popup.propertyName).GetValue(popup.propertyType) as List<string>;
+            ListToPopupAttribute.stringList = popup.propertyType.GetField(popup.propertyName).GetValue(popup.propertyType) as List<string>;
         }
 
-        if (stringList != null && stringList.Count != 0)
+        if (ListToPopupAttribute.stringList != null && ListToPopupAttribute.stringList.Count != 0)
         {
-            int selectedIndex = Mathf.Max(stringList.IndexOf(property.stringValue), 0);
-            selectedIndex = EditorGUI.Popup(position, property.name, selectedIndex, stringList.ToArray());
-            property.stringValue = stringList[selectedIndex];
+            int selectedIndex = Mathf.Max(ListToPopupAttribute.stringList.IndexOf(property.stringValue), 0);
+            selectedIndex = EditorGUI.Popup(position, property.name, selectedIndex, ListToPopupAttribute.stringList.ToArray());
+            property.stringValue = ListToPopupAttribute.stringList[selectedIndex];
         }
         else EditorGUI.PropertyField(position, property, label);
     }

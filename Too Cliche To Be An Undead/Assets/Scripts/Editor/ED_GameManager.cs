@@ -127,6 +127,9 @@ public class ED_GameManager : Editor
         SerializedProperty instantiatedMiscParent = serializedObject.FindProperty("instantiatedMiscParent");
         EditorGUILayout.PropertyField(instantiatedMiscParent);
 
+        SerializedProperty Tuto = serializedObject.FindProperty("Tuto");
+        EditorGUILayout.PropertyField(Tuto);
+
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Misc", EditorStyles.boldLabel);
 

@@ -59,6 +59,8 @@ MonoBehaviour:
   shopContentMenu: {fileID: 0}
   localHUD: {fileID: 0}
   mainMenu_mainPanel: {fileID: 0}
+  fadeImage: {fileID: 0}
+  OPTION_DashOnMovementsToggle: {fileID: 0}
   hudTransparencyValue: 0.3
   hudTransparencyTime: 0.3
   playersColliders:
@@ -110,9 +112,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  blackBars: []
   keycardsContainer: {fileID: 0}
   keycardsContainerRect: {fileID: 0}
   keycardsCounter: {fileID: 0}
+  hudContainer: {fileID: 0}
+  dialogueContainer: {fileID: 0}
   characterPortrait:
   - characterName: 0
     characterPortraitsByHP:

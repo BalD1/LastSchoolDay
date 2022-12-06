@@ -38,6 +38,10 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] [ReadOnly] private SCRPT_SingleDialogue.DialogueLine currentLine;
     [SerializeField] [ReadOnly] private int currentLineIndex = -1;
 
+    private Action endDialogueAction;
+
+    private bool allowSkipLine = false;
+
     private int unfinishedEffectsCount;
     private int UnfinishedEffectsCount
     {
@@ -54,18 +58,22 @@ public class DialogueManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        ResetDialogue();
     }
 
-    public bool TryStartDialogue(string searchedID)
+    public bool TryStartDialogue(string searchedID, Action actionAtDialogueEnd = null)
     {
         foreach (var item in Dialogues)
         {
             if (item.ID == searchedID)
             {
                 StartDialogue(item);
+                endDialogueAction = actionAtDialogueEnd;
                 return true;
             }
         }
+
 
 #if UNITY_EDITOR
         Debug.LogErrorFormat($"{searchedID} was not found in {Dialogues} array."); 
@@ -82,11 +90,7 @@ public class DialogueManager : MonoBehaviour
 
         //PostproManager.Instance.SetBlurState(true);
 
-        ResetDialogue();
-
         dialogueText.text = "";
-
-        Debug.Log("sd");
 
         currentDialogue = dialogue;
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
@@ -99,11 +103,14 @@ public class DialogueManager : MonoBehaviour
 
     public void TryNextLine()
     {
+        if (allowSkipLine == false) return;
+        if (currentDialogue == null || currentLine.textLine == null) return;
         if (UnfinishedEffectsCount == 0) ShowNextLine();
     }
 
     private void ShowNextLine()
     {
+        allowSkipLine = false;
         if (currentLineIndex == -1) currentLineIndex = 0;
         if (currentLineIndex >= currentDialogue.dialogueLines.Length)
         {
@@ -129,6 +136,7 @@ public class DialogueManager : MonoBehaviour
             OnCantShowNextLine();
 
         currentLineIndex++;
+        allowSkipLine = true;
     }
 
     private void OnCantShowNextLine()
@@ -173,9 +181,10 @@ public class DialogueManager : MonoBehaviour
             () =>
             {
                 GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+                endDialogueAction?.Invoke();
+                ResetDialogue();
             });
 
-        ResetDialogue();
         //PostproManager.Instance.SetBlurState(true);
     }
 
@@ -184,6 +193,8 @@ public class DialogueManager : MonoBehaviour
         UnfinishedEffectsCount = 0;
         currentLineIndex = -1;
         pressKeyToContinue.alpha = 0;
+        allowSkipLine = false;
+        endDialogueAction = null;
         pauseOnIndexQueue.Clear();
     }
 
@@ -247,5 +258,11 @@ public class DialogueManager : MonoBehaviour
         {
             DialogueNamesList.Add(item.ID);
         }
+    }
+
+    [Obsolete]
+    public static void SearchAndUpdateDialogueList()
+    {
+        GameObject.FindObjectOfType<DialogueManager>().UpdateDialogueList();
     }
 }

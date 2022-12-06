@@ -62,6 +62,9 @@ public class ED_UIManager : Editor
 
         SerializedProperty OPTION_DashOnMovementsToggle = serializedObject.FindProperty("OPTION_DashOnMovementsToggle");
         EditorGUILayout.PropertyField(OPTION_DashOnMovementsToggle);
+
+        SerializedProperty fadeImage = serializedObject.FindProperty("fadeImage");
+        EditorGUILayout.PropertyField(fadeImage);
     }
 
     private void DrawMainMenuInspector()

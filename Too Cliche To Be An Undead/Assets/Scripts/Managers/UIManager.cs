@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using System.Drawing;
-using Unity.VisualScripting;
 using System.Text;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -39,7 +38,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shopMenu;
     [SerializeField] private GameObject shopContentMenu;
     [SerializeField] private GameObject localHUD;
-    [SerializeField] private GameObject mainMenu_mainPanel; 
+    [SerializeField] private GameObject mainMenu_mainPanel;
+
+    [SerializeField] private Image fadeImage;
 
     [SerializeField] private Toggle OPTION_DashOnMovementsToggle;
 
@@ -163,11 +164,15 @@ public class UIManager : MonoBehaviour
 
     public const float scrollbarSensibility = .1f;
 
+    private bool firstGameStatePassFlag = false;
+
     #region Awake / Start / Updates
 
     private void Awake()
     {
         instance = this;
+
+        if (hudContainer != null) hudContainer.alpha = 0;
     }
 
     private void Start()
@@ -184,6 +189,8 @@ public class UIManager : MonoBehaviour
                     pbContainersButtons[i].image.sprite = im;
                 }
             }
+
+            if (DataKeeper.Instance.skipTuto) FadeAllHUD(true);
 
             keycardsContainer.SetActive(false);
         }
@@ -402,7 +409,9 @@ public class UIManager : MonoBehaviour
                     }
                 }
 
-                FadeAllHUD(fadeIn: true);
+                if (!firstGameStatePassFlag) firstGameStatePassFlag = true;
+                else FadeAllHUD(fadeIn: true);
+
                 PostproManager.Instance.SetBlurState(false);
                 break;
 
@@ -529,6 +538,33 @@ public class UIManager : MonoBehaviour
     } 
 
     #endregion
+
+    public void FadeScreen(bool fadeOut, float time = .5f)
+    {
+        if (fadeImage == null) return;
+
+        LeanTween.alpha(fadeImage.rectTransform, fadeOut ? 1 : 0, time).setIgnoreTimeScale(true);
+    }
+    public void FadeScreen(bool fadeOut, Action onCompleteAction, float time = .5f)
+    {
+        if (fadeImage == null) return;
+
+        if (onCompleteAction == null)
+        {
+            FadeScreen(fadeOut, time);
+            return;
+        }
+        LeanTween.alpha(fadeImage.rectTransform, fadeOut ? 1 : 0, time).setIgnoreTimeScale(true).
+            setOnComplete(onCompleteAction);
+    }
+    public void InstantFadeScreen(bool fadeOut)
+    {
+        if (fadeImage == null) return;
+
+        Color c = fadeImage.color;
+        c.a = fadeOut ? 1 : 0;
+        fadeImage.color = c;
+    }
 
     public void SetBlackBars(bool appear, float time = 1f)
     {

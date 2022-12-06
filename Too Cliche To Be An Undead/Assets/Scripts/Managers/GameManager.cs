@@ -81,6 +81,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [field: SerializeField] public Tutorial Tuto;
+
     [SerializeField] private FightArena fightArena;
 
     public List<PlayersByName> playersByName;
@@ -96,6 +98,8 @@ public class GameManager : MonoBehaviour
     public static int MaxAttackers = 5;
 
     public static bool OPTION_DashToMouse = true;
+
+    private bool firstPassInGameStateFlag = false;
 
     #region GameStates
 
@@ -132,7 +136,8 @@ public class GameManager : MonoBehaviour
 
             case E_GameState.InGame:
                 Time.timeScale = 1;
-                PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+                if (firstPassInGameStateFlag == false) firstPassInGameStateFlag = true;
+                else PlayersManager.Instance.SetAllPlayersControlMapToInGame();
                 break;
 
             case E_GameState.Pause:
@@ -213,8 +218,41 @@ public class GameManager : MonoBehaviour
 
     private void InitState()
     {
-        if (CompareCurrentScene(E_ScenesNames.MainMenu)) GameState = E_GameState.MainMenu;
-        else GameState = E_GameState.InGame;
+        if (CompareCurrentScene(E_ScenesNames.MainMenu))
+        {
+            GameState = E_GameState.MainMenu;
+            UIManager.Instance.InstantFadeScreen(true);
+        }
+        else
+        {
+            UIManager.Instance.InstantFadeScreen(true);
+            GameState = E_GameState.InGame;
+
+            GameStartScreenFade();
+        }
+    }
+
+    private void GameStartScreenFade()
+    {
+        UIManager.Instance.FadeScreen(fadeOut: false, onCompleteAction: ScreenFadeEnd, time: 2);
+    }
+
+    private void ScreenFadeEnd()
+    {
+        if (DataKeeper.Instance.skipTuto)
+        {
+            PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+        }
+        else
+        {
+            if (Tuto == null)
+            {
+                Tuto = GameObject.FindObjectOfType<Tutorial>();
+                Debug.LogErrorFormat($"{Tuto} object was not set in {this.gameObject}", this.gameObject);
+            }
+
+            Tuto?.StartFirstDialogue();
+        }
     }
 
     public void HandlePause()

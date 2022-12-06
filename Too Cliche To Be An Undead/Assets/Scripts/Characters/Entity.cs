@@ -93,6 +93,9 @@ public class Entity : MonoBehaviour, IDamageable
     public delegate void D_enteredCollider(Collision2D collision);
     public D_enteredCollider d_EnteredCollider;
 
+    public delegate void D_onDeath();
+    public D_onDeath d_OnDeath;
+
     [SerializeField] private List<TickDamages> appliedTickDamages = new List<TickDamages>();
     public List<TickDamages> AppliedTickDamages { get => appliedTickDamages; }
 
@@ -384,6 +387,8 @@ public class Entity : MonoBehaviour, IDamageable
     {
         if (invincible) return;
         if (!forceDeath && IsAlive()) return;
+
+        d_OnDeath?.Invoke();
 
         source.PlayOneShot(audioClips.GetRandomDeathClip());
     }

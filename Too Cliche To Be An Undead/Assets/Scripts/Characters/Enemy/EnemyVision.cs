@@ -12,6 +12,8 @@ public class EnemyVision : MonoBehaviour
 
     [SerializeField] private LayerMask detectionMask;
 
+    [field: SerializeField] public bool isActive { get; private set; }
+
 #if UNITY_EDITOR
     [SerializeField] private bool debugMode;
 #endif
@@ -20,6 +22,8 @@ public class EnemyVision : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (!isActive) return;
+
         if (collision.CompareTag("VisionTarget"))
         {
             PlayerCharacter player = collision.GetComponentInParent<PlayerCharacter>();
@@ -43,12 +47,26 @@ public class EnemyVision : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (!isActive) return;
+
         if (collision.CompareTag("VisionTarget"))
         {
             PlayerCharacter player = collision.GetComponentInParent<PlayerCharacter>();
             if (owner.DetectedPlayers.Contains(player))
             {
                 owner.RemoveDetectedPlayer(player);
+            }
+        }
+    }
+
+    public void SetVisionState(bool active)
+    {
+        isActive = active;
+        if (!isActive)
+        {
+            foreach (var item in owner.DetectedPlayers)
+            {
+                owner.RemoveDetectedPlayer(item);
             }
         }
     }

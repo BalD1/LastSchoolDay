@@ -294,6 +294,7 @@ MonoBehaviour:
   detectionMask:
     serializedVersion: 2
     m_Bits: 66753
+  <isActive>k__BackingField: 0
   debugMode: 0
 --- !u!58 &6272284523090620940
 CircleCollider2D:
@@ -507,6 +508,7 @@ MonoBehaviour:
   dropTable: {fileID: 11400000, guid: 24b1884c867a10746ae2b9457faf1185, type: 2}
   attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 4564975985439888221}
+  <SelfVision>k__BackingField: {fileID: 5981686219492541693}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   wallsMask:
     serializedVersion: 2

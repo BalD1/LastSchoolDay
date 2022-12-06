@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abd21a50e2dcf641b7a1b85e22aa21d, type: 3}
+  m_Name: DIALOGUE_Tuto_Push
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: tuto_push
+  <dialogueLines>k__BackingField:
+  - <portrait>k__BackingField: {fileID: 21300000, guid: 45ffae705df58fa49b9c9fc7010ab5c3, type: 3}
+    <textLine>k__BackingField: "Ba lol atontion l\xE9 kasi\xE9 la izon l\xE9r donjereu
+      !! me pouss pa 2dan hin ^^'"
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    - <effect>k__BackingField: 1
+      <value>k__BackingField: 49
+  - <portrait>k__BackingField: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
+    <textLine>k__BackingField: "ahah :0 ba nn tkt :0 jam\xE9 je fer\xE9 sa olala
+      :0"
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    - <effect>k__BackingField: 1
+      <value>k__BackingField: 8
+    - <effect>k__BackingField: 1
+      <value>k__BackingField: 21

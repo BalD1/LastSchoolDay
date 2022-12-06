@@ -162,6 +162,11 @@ public class CameraManager : MonoBehaviour
         shake_TIMER = duration;
     }
 
+    public void TeleportCamera(Vector2 pos)
+    {
+        cam_followPlayers.transform.position = pos;
+    }
+
     private void OnDestroy()
     {
         GameManager.Instance._onSceneReload -= OnSceneLoaded;

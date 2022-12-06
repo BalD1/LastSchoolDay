@@ -19,6 +19,8 @@ public abstract class EnemyBase : Entity
     [SerializeField] private EnemyPathfinding pathfinding;
     public EnemyPathfinding Pathfinding { get => pathfinding; }
 
+    [field: SerializeField] public EnemyVision SelfVision { get; private set; }
+
     [SerializeField] private Material attackMaterial;
     public Material AttackMaterial { get => attackMaterial; }
 
