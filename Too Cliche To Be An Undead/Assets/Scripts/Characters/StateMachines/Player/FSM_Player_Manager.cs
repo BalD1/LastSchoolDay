@@ -33,6 +33,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
         owner.Weapon.D_nextAttack += attackingState.NextAttack;
         currentState = idleState;
         currentState.EnterState(this);
+        owner.AnimationController.SetCharacterState(this.ToString());
     }
 
     protected override void Update()
@@ -54,6 +55,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
         currentState?.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
+        owner.AnimationController.SetCharacterState(this.ToString());
     }
 
     public override string ToString()

@@ -33,6 +33,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private FSM_Player_Manager stateManager;
 
+    [SerializeField] private PlayerAnimationController animationController;
     [SerializeField] private GameObject minimapMarker;
     [SerializeField] private PlayerInteractor selfInteractor;
     [SerializeField] private PlayerWeapon weapon;
@@ -104,6 +105,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     private InputAction movementsAction;
 
+    public PlayerAnimationController AnimationController { get => animationController; }
     public FSM_Player_Manager StateManager { get => stateManager; }
     public PlayerInteractor GetInteractor { get => selfInteractor; }
     public PlayerWeapon Weapon { get => weapon; }

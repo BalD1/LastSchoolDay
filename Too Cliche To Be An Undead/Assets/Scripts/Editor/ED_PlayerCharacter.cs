@@ -122,6 +122,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty minimapMarker = serializedObject.FindProperty("minimapMarker");
         EditorGUILayout.PropertyField(minimapMarker);
 
+        SerializedProperty animationController = serializedObject.FindProperty("animationController");
+        EditorGUILayout.PropertyField(animationController);
+
         EditorGUILayout.Space();
 
         SimpleDraws.HorizontalLine();
