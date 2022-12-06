@@ -316,12 +316,10 @@ public class DebugConsole : MonoBehaviour
         if (showConsole)
         {
             ResetField();
-            GameManager.Player1Ref.SetInGameControlsState(false);
             GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
         }
         else
         {
-            GameManager.Player1Ref.SetInGameControlsState(true);
             GameManager.E_GameState currentState = GameManager.Instance.GameState;
             if (currentState == GameManager.E_GameState.Restricted)
                 GameManager.Instance.GameState = GameManager.E_GameState.InGame;
@@ -494,7 +492,6 @@ public class DebugConsole : MonoBehaviour
         {
             showConsole = false;
             ResetField();
-            GameManager.Player1Ref.SetInGameControlsState(true);
             GameManager.E_GameState currentState = GameManager.Instance.GameState;
             if (currentState == GameManager.E_GameState.Restricted)
                 GameManager.Instance.GameState = GameManager.E_GameState.InGame;
@@ -508,7 +505,6 @@ public class DebugConsole : MonoBehaviour
             {
                 showConsole = false;
                 ResetField();
-                GameManager.Player1Ref.SetInGameControlsState(true);
 
                 GameManager.E_GameState currentState = GameManager.Instance.GameState;
                 if (currentState == GameManager.E_GameState.Restricted)

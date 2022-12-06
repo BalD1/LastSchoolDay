@@ -83,8 +83,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private PlayerInput inputs;
 
-    private PlayerControls playerControls;
-
     public delegate void D_AttackInput();
     public D_AttackInput D_attackInput;
 
@@ -229,9 +227,6 @@ public class PlayerCharacter : Entity, IInteractable
 
         this.MaxSkillCD_M = skillHolder.Skill.Cooldown;
         this.MaxDashCD_M = playerDash.Dash_COOLDOWN;
-        
-        playerControls = new PlayerControls();
-        playerControls.InGame.Enable();
 
         if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
             SwitchControlMapToUI();
@@ -345,17 +340,6 @@ public class PlayerCharacter : Entity, IInteractable
         this.velocity = _velocity;
         if (this.rb != null)
             this.rb.velocity = _velocity;
-    }
-
-    public void SetInGameControlsState(bool state)
-    {
-        if (state) playerControls.InGame.Enable();
-        else playerControls.InGame.Disable();
-    }
-    public void SetUIControlsState(bool state)
-    {
-        if (state) playerControls.UI.Enable();
-        else playerControls.UI.Disable();
     }
 
     public void SwitchControlMap(string map) => inputs.SwitchCurrentActionMap(map);
