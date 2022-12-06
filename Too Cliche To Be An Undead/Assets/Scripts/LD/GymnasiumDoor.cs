@@ -49,6 +49,8 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
             angle += AngleOffset;
             var pos = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * keycardsRadius;
 
+            gO.transform.localScale = Vector3.zero;
+
             holderPosition[i - 1] = pos + this.transform.position;
 
             keycardsHolders[i - 1] = gO;
@@ -153,6 +155,11 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
         {
             canBeInteracted = false;
             animator.SetTrigger("Open");
+
+            foreach (var item in keycardsHolders)
+            {
+                item.SetActive(false);
+            }
         }
     }
 }

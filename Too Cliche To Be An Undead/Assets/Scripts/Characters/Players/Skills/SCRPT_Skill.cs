@@ -32,6 +32,8 @@ public abstract class SCRPT_Skill : ScriptableObject
     [SerializeField] protected string animationToPlay;
     [SerializeField] protected Sprite thumbnail;
 
+    [SerializeField] protected GameObject particles;
+
     protected bool isInUse;
     public bool IsInUse { get => isInUse; }
 

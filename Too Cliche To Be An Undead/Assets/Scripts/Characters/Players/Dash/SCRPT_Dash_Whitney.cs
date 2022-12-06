@@ -23,7 +23,8 @@ public class SCRPT_Dash_Whitney : SCRPT_Dash
     public override void OnDashStop(PlayerCharacter owner)
     {
         owner.AddModifierUnique(MODIF_ID, critBoostValue, critBoostTime, StatsModifier.E_StatType.CritChances);
-        GameObject gO = Instantiate(particles, owner.transform.position, Quaternion.identity);
-        Destroy(gO, 1f);
+
+        if (particles != null)
+            Instantiate(particles, owner.transform.position, Quaternion.identity);
     }
 }

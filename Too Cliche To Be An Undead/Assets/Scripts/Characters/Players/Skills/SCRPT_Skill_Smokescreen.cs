@@ -12,7 +12,9 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
         isInUse = true;
         owner.OffsetSkillHolder(offset);
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
-        owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
+
+        if (particles != null)
+            Instantiate(particles, owner.GetSkillHolder.transform.position, Quaternion.identity);
 
         Collider2D[] hitTargets = Physics2D.OverlapCircleAll(owner.GetSkillHolder.transform.position, range, entitiesToAffect);
 
