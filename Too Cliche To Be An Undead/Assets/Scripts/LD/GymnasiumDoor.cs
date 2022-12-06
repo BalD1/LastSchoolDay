@@ -8,7 +8,7 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     [SerializeField] private GameObject keycardHolderPF;
 
-    private List<GameObject> currentInteractors = new List<GameObject>();
+    [SerializeField] [ReadOnly] private List<GameObject> currentInteractors = new List<GameObject>();
 
     [SerializeField] private float keycardsRadius = 2;
 
@@ -25,7 +25,12 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
     private bool tweeningIn = false;
     private bool tweeningOut = false;
 
+    private bool isTweeningKeycard = false;
+
+    private bool needsToTweenOut = false;
+
     private int keycardsOfferedToDoor = 0;
+    private int youngestActiveHolderIdx = 0;
 
     private void Start()
     {
@@ -69,6 +74,8 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
         currentInteractors.Add(interactor);
         if (currentInteractors.Count > 1) return;
 
+        needsToTweenOut = false;
+
         LeanTween.cancel(this.gameObject);
         EaseInNext(0);
     }
@@ -104,12 +111,16 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
         currentInteractors.Remove(interactor);
         if (currentInteractors.Count > 0) return;
 
+        if (isTweeningKeycard) needsToTweenOut = true;
+
         LeanTween.cancel(this.gameObject);
         EaseOutNext(0);
     }
 
     private void EaseOutNext(int i)
     {
+        if (isTweeningKeycard) return;
+
         if (i >= keycardsHolders.Length)
         {
             tweeningOut = false;
@@ -138,13 +149,42 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
     {
         int keysToOffer = GameManager.AcquiredCards - keycardsOfferedToDoor;
 
-        for (int i = 0; i < keysToOffer; i++)
+        if (keysToOffer <= 0) return;
+
+        isTweeningKeycard = true;
+
+        keycardsOfferedToDoor += keysToOffer;
+
+        TweenSingleHolder(keysToOffer);
+    }
+
+    private void TweenSingleHolder(int count)
+    {
+        if (count <= 0)
         {
-            keycardsHolders[keycardsOfferedToDoor].GetComponentInChildren<SpriteRenderer>().color = Color.white;
-            keycardsOfferedToDoor += 1;
+            TryOpen();
+            isTweeningKeycard = false;
+
+            if (needsToTweenOut)
+            {
+                EaseOutNext(0);
+                needsToTweenOut = false;
+            }
+            return;
         }
 
-        TryOpen();
+        int reversedIdx = keycardsHolders.Length - youngestActiveHolderIdx - 1;
+
+        GameObject target = keycardsHolders[reversedIdx];
+        target.LeanScale(Vector3.one * 1.2f, .2f).setOnComplete(() =>
+        {
+            LeanTween.color(target.transform.GetChild(0).gameObject, Color.white, .2f);
+            target.LeanScale(Vector3.one, .2f).setOnComplete(() =>
+            {
+                youngestActiveHolderIdx++;
+                TweenSingleHolder(count - 1);
+            });
+        });
     }
 
     public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);
