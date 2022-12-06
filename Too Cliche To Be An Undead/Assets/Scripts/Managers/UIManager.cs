@@ -410,7 +410,7 @@ public class UIManager : MonoBehaviour
                 }
 
                 if (!firstGameStatePassFlag) firstGameStatePassFlag = true;
-                else FadeAllHUD(fadeIn: true);
+                else if (!GameManager.Instance.IsInTutorial) FadeAllHUD(fadeIn: true);
 
                 PostproManager.Instance.SetBlurState(false);
                 break;

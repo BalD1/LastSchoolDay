@@ -43,6 +43,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Shop shop;
     public Shop GetShop { get => shop; }
 
+    private bool isInTutorial;
+    [SerializeField] public bool IsInTutorial
+    {   
+        get => isInTutorial;
+        set
+        {
+            isInTutorial = value;
+
+            if (value == false)
+                UIManager.Instance.FadeAllHUD(true);
+        }
+    }
+
     [SerializeField] private Transform instantiatedEntitiesParent;
     [SerializeField] private Transform instantiatedKeycardsParent;
     [SerializeField] private Transform instantiatedMiscParent;
@@ -192,6 +205,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        IsInTutorial = !DataKeeper.Instance.skipTuto;
         SetPlayersByNameList();
         InitState();
     }

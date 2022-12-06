@@ -335,7 +335,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     #region Damages / Heal
 
-    public virtual bool OnTakeDamages(float amount, bool isCrit = false)
+    public virtual bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false)
     {
         if (invincible) return false;
         if (invincibility_TIMER > 0) return false;
@@ -344,7 +344,7 @@ public class Entity : MonoBehaviour, IDamageable
 
         amount = MathF.Round(amount);
 
-        currentHP -= amount;
+        if (!fakeDamages) currentHP -= amount;
 
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: false, isCrit);
         StartCoroutine(MaterialFlash());
@@ -360,7 +360,7 @@ public class Entity : MonoBehaviour, IDamageable
 
         return true;
     }
-    public virtual bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false)
+    public virtual bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false, bool fakeDamages = false)
     {
         if (invincible) return false;
         if (invincibility_TIMER > 0) return false;
@@ -368,7 +368,7 @@ public class Entity : MonoBehaviour, IDamageable
         // si la team de l'attaquant est la même que la nôtre, on ne subit pas de dégâts
         if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return false;
 
-        OnTakeDamages(amount, isCrit);
+        OnTakeDamages(amount, isCrit, fakeDamages);
 
         return true;
     }

@@ -174,7 +174,7 @@ public class DialogueManager : MonoBehaviour
     private void EndDialogue()
     {
         UIManager.Instance.SetBlackBars(false, .3f);
-        UIManager.Instance.FadeAllHUD(true);
+
         dialogueContainer.LeanAlpha(0, leanFadeTime)
             .setIgnoreTimeScale(true)
             .setOnComplete(

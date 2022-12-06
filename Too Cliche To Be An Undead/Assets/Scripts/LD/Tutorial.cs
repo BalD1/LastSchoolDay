@@ -86,6 +86,7 @@ public class Tutorial : MonoBehaviour
             UIManager.Instance.FadeScreen(false, () =>
             {
                 PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+                GameManager.Instance.IsInTutorial = false;
             });
         });
 

@@ -411,12 +411,15 @@ public class PlayerCharacter : Entity, IInteractable
         weapon.ResetAttack();
     }
 
-    public override bool OnTakeDamages(float amount, bool isCrit = false)
+    public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false)
     {
         if (!IsAlive()) return false;
 
         bool res;
-        res = base.OnTakeDamages(amount, isCrit);
+
+        if (GameManager.Instance.IsInTutorial) fakeDamages = true;
+
+        res = base.OnTakeDamages(amount, isCrit, fakeDamages);
         if (res == false) return res;
 
         if (portrait != null)
