@@ -36,7 +36,7 @@ public class Tutorial : MonoBehaviour
 
     private void Start()
     {
-        if (DataKeeper.Instance.skipTuto)
+        if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto)
         {
             Destroy(this.gameObject);
             return;
@@ -87,6 +87,7 @@ public class Tutorial : MonoBehaviour
             {
                 PlayersManager.Instance.SetAllPlayersControlMapToInGame();
                 GameManager.Instance.IsInTutorial = false;
+                DataKeeper.Instance.alreadyPlayedTuto = true;
             });
         });
 

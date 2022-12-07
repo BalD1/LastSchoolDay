@@ -145,6 +145,7 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case E_GameState.MainMenu:
+                DataKeeper.Instance.alreadyPlayedTuto = false;
                 break;
 
             case E_GameState.InGame:
@@ -195,6 +196,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        LeanTween.cancelAll();
         instance = this;
 
         isAppQuitting = false;
@@ -205,7 +207,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        IsInTutorial = !DataKeeper.Instance.skipTuto;
+        IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
         SetPlayersByNameList();
         InitState();
     }
@@ -253,7 +255,7 @@ public class GameManager : MonoBehaviour
 
     private void ScreenFadeEnd()
     {
-        if (DataKeeper.Instance.skipTuto)
+        if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto)
         {
             PlayersManager.Instance.SetAllPlayersControlMapToInGame();
         }
@@ -321,7 +323,7 @@ public class GameManager : MonoBehaviour
             return ReturnSpawnPointsOrSelf(IngameSpawnPoints, playerId); 
 #endif
 
-        if (DataKeeper.Instance.skipTuto)
+        if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto)
             return ReturnSpawnPointsOrSelf(IngameSpawnPoints, playerId);
         else
             return ReturnSpawnPointsOrSelf(TutoSpawnPoints, playerId);

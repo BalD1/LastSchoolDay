@@ -167,12 +167,11 @@ public class PlayerCharacter : Entity, IInteractable
 
             SetHUD();
 
-            UpdateHPonUI();
-
             SetCharacter();
 
             ResetStats();
 
+            UpdateHPonUI();
         }
 
         this.minimapMarker.SetActive(true);
@@ -603,7 +602,7 @@ public class PlayerCharacter : Entity, IInteractable
     }
     public static void SetMoney(int newMoney) => money = newMoney;
     public static int GetMoney() => money;
-    public static bool HasEnoughMoney(int price) => money > price ? true : false;
+    public static bool HasEnoughMoney(int price) => money >= price ? true : false;
 
     #endregion
 
@@ -969,10 +968,14 @@ public class PlayerCharacter : Entity, IInteractable
         this.maxSpeed_M = newStats.Speed;
         this.maxCritChances_M = newStats.CritChances;
 
+        this.currentHP = this.maxHP_M;
+
         foreach (var item in statsModifiers)
         {
             this.ApplyModifier(item);
         }
+
+        UpdateHPonUI();
     }
 
     public void SetAttack(GameObject newWeapon)

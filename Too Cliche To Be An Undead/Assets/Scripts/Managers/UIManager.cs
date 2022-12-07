@@ -190,7 +190,7 @@ public class UIManager : MonoBehaviour
                 }
             }
 
-            if (DataKeeper.Instance.skipTuto) FadeAllHUD(true);
+            if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto) FadeAllHUD(true);
 
             keycardsContainer.SetActive(false);
         }

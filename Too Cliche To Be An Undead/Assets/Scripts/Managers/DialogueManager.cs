@@ -158,6 +158,7 @@ public class DialogueManager : MonoBehaviour
 
     private void PressKeyTextVisibleEffects()
     {
+        if (pressKeyToContinue == null) return;
         LeanTween.delayedCall(3, () => {
 
             if (pressKeyToContinue.alpha <= 0) return;

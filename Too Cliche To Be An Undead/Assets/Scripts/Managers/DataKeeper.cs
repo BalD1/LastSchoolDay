@@ -58,6 +58,7 @@ public class DataKeeper : MonoBehaviour
     public int maxLevel;
 
     public bool skipTuto = true;
+    public bool alreadyPlayedTuto = false;
 
     public int CreateData(PlayerCharacter newPlayer)
     {
