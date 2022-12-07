@@ -40,6 +40,7 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private SkillHolder skillHolder;
     [SerializeField] private SCRPT_Dash playerDash;
     [SerializeField] private TextMeshPro selfReviveText;
+    [SerializeField] private GameObject pivotOffset;
 
     [SerializeField] private List<EnemyBase> attackers = new List<EnemyBase>();
 
@@ -103,6 +104,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     private InputAction movementsAction;
 
+    public GameObject PivotOffset { get => pivotOffset; }
     public PlayerAnimationController AnimationController { get => animationController; }
     public FSM_Player_Manager StateManager { get => stateManager; }
     public PlayerInteractor GetInteractor { get => selfInteractor; }

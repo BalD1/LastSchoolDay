@@ -21,7 +21,6 @@ public class PlayerInteractor : MonoBehaviour
     private List<IInteractable> interactablesToRemove = new List<IInteractable>();
 
     private IInteractable closestInteractable;
-    private float closestInteractableDistance = float.MaxValue;
 
     public void InvokeInteraction(InputAction.CallbackContext context)
     {
@@ -29,7 +28,6 @@ public class PlayerInteractor : MonoBehaviour
         if (closestInteractable == null) return;
 
         InteractWithClosest();
-        
     }
 
     private void InteractWithClosest()
@@ -40,11 +38,11 @@ public class PlayerInteractor : MonoBehaviour
         {
             CleanListSingle(closestInteractable);
             closestInteractable = null;
-            closestInteractableDistance = float.MaxValue;
             SearchClosestInList();
         }
     }
 
+    /*
     private void InteractWithAllInRange()
     {
         foreach (var item in interactablesInRange)
@@ -55,6 +53,7 @@ public class PlayerInteractor : MonoBehaviour
         }
         CleanListAll();
     }
+    */
 
     public void CleanListSingle(IInteractable i)
     {
@@ -73,6 +72,7 @@ public class PlayerInteractor : MonoBehaviour
 
     public void RemoveEverythingFromList()
     {
+        return;
         interactablesToRemove = interactablesInRange;
         CleanListAll();
     }
@@ -123,7 +123,6 @@ public class PlayerInteractor : MonoBehaviour
             if (closestInteractable != null) closestInteractable.ExitedRange(this.gameObject);
 
             closestInteractable = interactable;
-            closestInteractableDistance = newChallengerDistance;
 
             closestInteractable.EnteredInRange(this.gameObject);
         }
@@ -181,7 +180,6 @@ public class PlayerInteractor : MonoBehaviour
             closestInteractable?.ExitedRange(this.gameObject);
             closestInteractable = newClosest;
             closestInteractable?.EnteredInRange(this.gameObject);
-            closestInteractableDistance = itemDistance;
         }
     }
 }

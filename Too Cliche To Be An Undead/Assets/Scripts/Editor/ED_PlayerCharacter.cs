@@ -84,6 +84,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty sprite = serializedObject.FindProperty("sprite");
         EditorGUILayout.PropertyField(sprite);
 
+        SerializedProperty pivotOffset = serializedObject.FindProperty("pivotOffset");
+        EditorGUILayout.PropertyField(pivotOffset);
+
         SerializedProperty outlineMaterial = serializedObject.FindProperty("outlineMaterial");
         EditorGUILayout.PropertyField(outlineMaterial);
 

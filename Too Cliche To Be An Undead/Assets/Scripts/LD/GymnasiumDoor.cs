@@ -72,7 +72,7 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
     public void EnteredInRange(GameObject interactor)
     {
         currentInteractors.Add(interactor);
-        if (currentInteractors.Count > 1) return;
+        if (currentInteractors.Count > 1 || tweeningIn) return;
 
         needsToTweenOut = false;
 
@@ -109,7 +109,7 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
     public void ExitedRange(GameObject interactor)
     {
         currentInteractors.Remove(interactor);
-        if (currentInteractors.Count > 0) return;
+        if (currentInteractors.Count > 0 || tweeningOut) return;
 
         if (isTweeningKeycard) needsToTweenOut = true;
 

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Skill", menuName = "Scriptable/Entity/Skills/Nailgun")]
@@ -67,8 +69,8 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         v.z += 90f;
         q.eulerAngles = v;
 
-        // Vector2 dir = _owner.Weapon.GetPreciseDirectionOfMouseOrGamepad().normalized;
-         Vector2 dir = (_owner.Weapon.IndicatorHolder.transform.GetChild(0).position - _owner.transform.position).normalized;
+        //Vector2 dir = _owner.Weapon.GetPreciseDirectionOfMouseOrGamepad().normalized;
+        Vector2 dir = (_owner.Weapon.IndicatorHolder.transform.GetChild(0).position - _owner.PivotOffset.transform.position).normalized;
 
 
         ProjectileBase proj = Instantiate(projectile, skillHolderTransform.position, q).GetComponent<ProjectileBase>();

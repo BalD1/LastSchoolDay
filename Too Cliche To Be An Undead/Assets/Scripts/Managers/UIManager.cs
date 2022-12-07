@@ -453,6 +453,7 @@ public class UIManager : MonoBehaviour
 
     public void FadeAllHUD(bool fadeIn, float time = .2f)
     {
+        if (hudContainer == null) return;
         hudContainer.LeanAlpha(fadeIn ? 1 : 0, time).setIgnoreTimeScale(true);
     }
 
