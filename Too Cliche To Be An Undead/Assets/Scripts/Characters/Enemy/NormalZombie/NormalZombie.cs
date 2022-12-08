@@ -11,6 +11,8 @@ public class NormalZombie : EnemyBase
 
     public bool attackStarted;
 
+    public Vector2 AttackDirection { get; private set; }
+
     public static NormalZombie Create(Vector2 pos)
     {
         GameObject gO = Instantiate(GameAssets.Instance.NormalZombiePF, pos, Quaternion.identity);
@@ -53,6 +55,14 @@ public class NormalZombie : EnemyBase
         stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher));
 
         return v;
+    }
+
+    public override void SetAttackedPlayer(PlayerCharacter target)
+    {
+        base.SetAttackedPlayer(target);
+
+        Vector2 targetPosition = this.CurrentPlayerTarget == null ? this.storedTargetPosition : this.CurrentPlayerTarget.transform.position;
+        AttackDirection = (targetPosition - (Vector2)this.transform.position).normalized;
     }
 
 }

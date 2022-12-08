@@ -10,7 +10,7 @@ public class SCRPT_NZ_Attack : SCRPT_EnemyAttack
     public override void OnStart(EnemyBase owner)
     {
         Vector2 target = owner.CurrentPlayerTarget == null ? owner.storedTargetPosition : owner.CurrentPlayerTarget.transform.position;
-        Vector2 dir = (target - (Vector2)owner.transform.position).normalized;
+        Vector2 dir = (owner as NormalZombie).AttackDirection;
         owner.GetRb.AddForce(dir * attackForce, ForceMode2D.Impulse);
         (owner as NormalZombie).attackStarted = true;
     }
