@@ -158,7 +158,7 @@ public abstract class EnemyBase : Entity
         steeredVelocity = Vector2.zero;
     }
 
-    public void SetAttackedPlayer(PlayerCharacter target)
+    public virtual void SetAttackedPlayer(PlayerCharacter target)
     {
         if (target.IsAlive() == false) return;
 

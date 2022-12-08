@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tutorial : MonoBehaviour
 {
-    [InspectorButton(nameof(DialogueManager.SearchAndUpdateDialogueList), ButtonWidth = 300)]
+    [InspectorButton(nameof(DelegateUpdateNmaesOnList), ButtonWidth = 300)]
     [SerializeField] private bool updateDialoguesNames;
 
     [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
@@ -100,5 +100,10 @@ public class Tutorial : MonoBehaviour
             enteredInTriggerFlag = true;
             StartZombiesDialogue();
         }
+    }
+
+    private void DelegateUpdateNmaesOnList()
+    {
+        DialogueManager.SearchAndUpdateDialogueList();
     }
 }

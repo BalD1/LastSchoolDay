@@ -261,7 +261,6 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    [Obsolete]
     public static void SearchAndUpdateDialogueList()
     {
         GameObject.FindObjectOfType<DialogueManager>().UpdateDialogueList();

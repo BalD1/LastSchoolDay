@@ -378,6 +378,9 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (stayStatic) return;
         velocity = Vector2.ClampMagnitude(velocity, maxSpeed_M);
+
+        animationController.FlipSkeleton(velocity.x > 0);
+
         this.rb.MovePosition(this.rb.position + velocity * maxSpeed_M * Time.fixedDeltaTime);
     }
 

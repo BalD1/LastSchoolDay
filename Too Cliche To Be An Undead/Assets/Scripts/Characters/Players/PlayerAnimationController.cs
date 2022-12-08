@@ -20,6 +20,18 @@ public class PlayerAnimationController : MonoBehaviour
             skeleton = skeletonAnimation.Skeleton;
     }
 
+    public void FlipSkeleton(bool lookAtRight)
+    {
+        if (skeletonAnimation == null) return;
+
+        if (lookAtRight && IsLookingAtRight()) return;
+        if (!lookAtRight && !IsLookingAtRight()) return;
+
+        Vector2 scale = skeletonAnimation.gameObject.transform.localScale;
+        scale.x *= -1;
+        skeletonAnimation.gameObject.transform.localScale = scale;
+    }
+
     private void SetAnimation(string animation, bool loop, float timeScale = 1)
     {
         if (skeletonAnimation == null) return;
@@ -41,4 +53,6 @@ public class PlayerAnimationController : MonoBehaviour
                 break;
         }
     }
+
+    public bool IsLookingAtRight() => skeletonAnimation.gameObject.transform.localScale.x > 0;
 }
