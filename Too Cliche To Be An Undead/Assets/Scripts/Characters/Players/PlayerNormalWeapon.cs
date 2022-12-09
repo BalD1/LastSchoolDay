@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerBaseWeapon : PlayerWeapon
+public class PlayerNormalWeapon : PlayerWeapon
 {
     [SerializeField] private float maxRange = 2f;
     [SerializeField] private float lastAttackDamagesMultiplier = 1.5f;
@@ -23,7 +23,7 @@ public class PlayerBaseWeapon : PlayerWeapon
 
     private Transform closestEnemy;
     private float closestEnemyDist = -1;
-
+    private float speedModifier;
 
     protected override void Awake()
     {
@@ -35,7 +35,18 @@ public class PlayerBaseWeapon : PlayerWeapon
     {
         base.StartWeaponAttack(isLastAttack);
 
-        owner.GetRb.AddForce(onAttackMovementForce * (effectObject.transform.position - owner.transform.position).normalized, ForceMode2D.Impulse);
+        float onAttackMovementSpeed = onAttackMovementForce;
+
+        // If the player was moving, add its speed to the attack movements
+        if (owner.Velocity != Vector2.zero) speedModifier = owner.maxSpeed_M;
+        else speedModifier = 0;
+
+        onAttackMovementSpeed += speedModifier;
+        
+        //Vector2 attackMovementDirection = (effectObject.transform.position - owner.transform.position).normalized;
+        Vector2 attackMovementDirection = owner.Weapon.GetPreciseDirectionOfMouseOrGamepad().normalized;
+
+        owner.GetRb.AddForce(onAttackMovementSpeed * attackMovementDirection, ForceMode2D.Impulse);
 
         hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.maxAttRange_M, damageablesLayer);
         foreach (var item in hitEntities)
@@ -54,9 +65,11 @@ public class PlayerBaseWeapon : PlayerWeapon
 
                 bool isCrit = owner.RollCrit();
 
+                // If the entity can't be damaged, continue to the next hit entity
                 if (damageable.OnTakeDamages(damages, owner.GetStats.Team, isCrit) == false)
                     continue;
 
+                // Check if the entity is the closest one from player
                 float dist = Vector2.Distance(item.transform.position, effectObject.transform.position);
                 if ((closestEnemy == null || closestEnemyDist == -1) || (dist <= distanceForAutoAim && dist < closestEnemyDist) )
                 {
@@ -68,19 +81,14 @@ public class PlayerBaseWeapon : PlayerWeapon
                 float shakeIntensity = normalShakeIntensity;
                 float shakeDuration = normalShakeDuration;
                 
-                if (isLastAttack)
+                if (isLastAttack || isCrit)
                 {
                     item.GetComponentInParent<Entity>().Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage, owner);
                     shakeIntensity = bigShakeIntensity;
                     shakeDuration = bigShakeDuration;
                 }
-                if (isCrit)
-                {
-                    shakeIntensity = bigShakeIntensity;
-                    shakeDuration = bigShakeDuration;
-                }
 
-                SuccessfulHit(item.transform.position, item.GetComponentInParent<Entity>(), performKnockback);
+                SuccessfulHit(item.transform.position, item.GetComponentInParent<Entity>(), performKnockback, speedModifier);
                 CameraManager.Instance.ShakeCamera(shakeIntensity, shakeDuration);
             }
         }

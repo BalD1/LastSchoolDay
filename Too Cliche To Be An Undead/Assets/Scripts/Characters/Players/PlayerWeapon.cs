@@ -167,7 +167,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public virtual void StartWeaponAttack(bool isLastAttack) { }
 
-    public void SuccessfulHit(Vector3 hitPosition, Entity e, bool addKnockback)
+    public void SuccessfulHit(Vector3 hitPosition, Entity e, bool addKnockback, float speedModifier)
     {
         Vector3 effectObjectPos = effectAnimator.gameObject.transform.position;
         float dist = Vector2.Distance(effectObjectPos, hitPosition) / 2;
@@ -175,7 +175,7 @@ public class PlayerWeapon : MonoBehaviour
 
         Instantiate(hitParticles, effectObjectPos + (Vector3)(dist * dir), Quaternion.identity);
 
-        float finalKnockback = onHitKnockback - e.GetStats.Weight;
+        float finalKnockback = onHitKnockback - e.GetStats.Weight + speedModifier;
         if (finalKnockback > 0 && addKnockback)
         {
             e.Stun(.1f, true);

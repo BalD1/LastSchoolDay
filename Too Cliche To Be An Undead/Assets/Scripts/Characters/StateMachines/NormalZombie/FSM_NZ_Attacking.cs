@@ -70,7 +70,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     private void OnTrigger(Collider2D collider)
     {
         if (!owner.attackStarted) return;
-        PlayerCharacter p = collider.transform.parent.GetComponent<PlayerCharacter>();
+        if (collider == null) return;
+        PlayerCharacter p = collider.transform.GetComponentInParent<PlayerCharacter>();
         if (p == null) return;
 
         p.OnTakeDamages(owner.maxDamages_M, owner.RollCrit());
