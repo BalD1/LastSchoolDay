@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private CanvasGroup dialogueContainer;
 
     [SerializeField] private float leanFadeTime = .2f;
+
+    [SerializeField] private float allowSkip_COOLDOWN = .15f;
+    private float allowSkip_TIMER;
 
     [SerializeField] private Image dialoguePortrait;
 
@@ -40,7 +44,7 @@ public class DialogueManager : MonoBehaviour
 
     private Action endDialogueAction;
 
-    private bool allowSkipLine = false;
+    private Coroutine revealCoroutine;
 
     private int unfinishedEffectsCount;
     private int UnfinishedEffectsCount
@@ -62,6 +66,18 @@ public class DialogueManager : MonoBehaviour
         ResetDialogue();
     }
 
+    private void Update()
+    {
+        if (allowSkip_TIMER > 0) allowSkip_TIMER -= Time.deltaTime;
+    }
+
+    /// <summary>
+    /// <para> Searchs in the list for the "<paramref name="searchedID"/>" dialogue, then plays it if found. </para>
+    /// <para> Can trigger "<paramref name="actionAtDialogueEnd"/>" at the end of the dialogue. </para>
+    /// </summary>
+    /// <param name="searchedID"></param>
+    /// <param name="actionAtDialogueEnd"></param>
+    /// <returns>Returns <see langword="true"/> if the dialogue was found,  <see langword="false"/> otherwise.</returns>
     public bool TryStartDialogue(string searchedID, Action actionAtDialogueEnd = null)
     {
         foreach (var item in Dialogues)
@@ -81,8 +97,13 @@ public class DialogueManager : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Starts the dialogue "<paramref name="dialogue"/>", activating "cinematic" mode.
+    /// </summary>
+    /// <param name="dialogue"></param>
     public void StartDialogue(SCRPT_SingleDialogue dialogue)
     {
+        // Sets every player's control map to Dialogue
         foreach (var item in GameManager.Instance.playersByName)
         {
             item.playerScript.SwitchControlMapToDialogue();
@@ -93,24 +114,42 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
 
         currentDialogue = dialogue;
+
+        // Sets GameState and UI to a "cinematic" mode.
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
         UIManager.Instance.SetBlackBars(true, .3f);
         UIManager.Instance.FadeAllHUD(false);
+
+        // Fades in the dialogue container, then shows the first line
         dialogueContainer.LeanAlpha(1f, leanFadeTime)
             .setIgnoreTimeScale(true)
             .setOnComplete(() => ShowNextLine());
     }
 
+    /// <summary>
+    /// <para> /!\ Should only be called through <seealso cref="PlayerCharacter.ContinueDialogue"/> /!\</para>
+    /// <para> Shows the next line. If the current one's effects aren't finished, end them.</para>
+    /// </summary>
     public void TryNextLine()
     {
-        if (allowSkipLine == false) return;
         if (currentDialogue == null || currentLine.textLine == null) return;
-        if (UnfinishedEffectsCount == 0) ShowNextLine();
+        if (UnfinishedEffectsCount > 0 && allowSkip_TIMER <= 0)
+        {
+            ForceStopEffects();
+
+            UnfinishedEffectsCount = 0;
+
+            return;
+        }
+
+        ShowNextLine();
     }
 
+    /// <summary>
+    /// Shows the next dialogue line, and plays it's effects if it haves any.
+    /// </summary>
     private void ShowNextLine()
     {
-        allowSkipLine = false;
         if (currentLineIndex == -1) currentLineIndex = 0;
         if (currentLineIndex >= currentDialogue.dialogueLines.Length)
         {
@@ -130,17 +169,18 @@ public class DialogueManager : MonoBehaviour
             ManageEffects(item);
         }
 
+        // If there is no effects, instantly ready the next line.
         if (UnfinishedEffectsCount <= 0)
             OnIsReadyToShowNextLine();
         else
             OnCantShowNextLine();
 
         currentLineIndex++;
-        allowSkipLine = true;
     }
 
     private void OnCantShowNextLine()
     {
+        allowSkip_TIMER = allowSkip_COOLDOWN;
         LeanTween.value(pressKeyToContinue.alpha, 0, .2f).setOnUpdate(
             (float val) =>
             {
@@ -156,6 +196,9 @@ public class DialogueManager : MonoBehaviour
             }).setIgnoreTimeScale(true).setOnComplete(() => LeanTween.delayedCall(1, () => PressKeyTextVisibleEffects()));
     }
 
+    /// <summary>
+    /// Plays the animation of the "press key" text.
+    /// </summary>
     private void PressKeyTextVisibleEffects()
     {
         if (pressKeyToContinue == null) return;
@@ -172,6 +215,9 @@ public class DialogueManager : MonoBehaviour
         }).setRepeat(-1);
     }
 
+    /// <summary>
+    /// Ends the dialogue, removing every cinematic effects and giving back player's controls.
+    /// </summary>
     private void EndDialogue()
     {
         UIManager.Instance.SetBlackBars(false, .3f);
@@ -194,7 +240,6 @@ public class DialogueManager : MonoBehaviour
         UnfinishedEffectsCount = 0;
         currentLineIndex = -1;
         pressKeyToContinue.alpha = 0;
-        allowSkipLine = false;
         endDialogueAction = null;
         pauseOnIndexQueue.Clear();
     }
@@ -205,7 +250,7 @@ public class DialogueManager : MonoBehaviour
         {
             case SCRPT_SingleDialogue.E_Effects.ProgressiveReveal:
                 UnfinishedEffectsCount++;
-                StartCoroutine(Reveal(lineEffect.value == 0 ? 0.025f : lineEffect.value));
+                revealCoroutine = StartCoroutine(Reveal(lineEffect.value == 0 ? 0.025f : lineEffect.value));
                 break;
 
             case SCRPT_SingleDialogue.E_Effects.PauseOnIndex:
@@ -217,6 +262,12 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// <para> Progressive Reveal text effect : makes every dialogue characters appear progressivly, instead of immediatly. </para>
+    /// <para> Can play Pause On Index effects, which pauses the text on the character's index for 1 second.</para>
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
     private IEnumerator Reveal(float time)
     {
         dialogueText.ForceMeshUpdate();
@@ -243,6 +294,7 @@ public class DialogueManager : MonoBehaviour
             if (visibleCount >= totalVisibleCharacters)
             {
                 loop = false;
+                revealCoroutine = null;
                 UnfinishedEffectsCount--;
             }
 
@@ -250,6 +302,15 @@ public class DialogueManager : MonoBehaviour
 
             yield return new WaitForSeconds(time);
         }
+    }
+
+    private void ForceStopEffects()
+    {
+        StopCoroutine(revealCoroutine);
+        dialogueText.ForceMeshUpdate();
+
+        int totalVisibleCharacters = dialogueText.textInfo.characterCount;
+        dialogueText.maxVisibleCharacters = totalVisibleCharacters;
     }
 
     public void UpdateDialogueList()

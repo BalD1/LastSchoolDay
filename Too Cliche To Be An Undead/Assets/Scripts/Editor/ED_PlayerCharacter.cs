@@ -111,6 +111,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty inputs = serializedObject.FindProperty("inputs");
         EditorGUILayout.PropertyField(inputs);
 
+        SerializedProperty onTakeDamagesGamepadShake = serializedObject.FindProperty("onTakeDamagesGamepadShake");
+        EditorGUILayout.PropertyField(onTakeDamagesGamepadShake);
+
         GUI.enabled = false;
         EditorGUILayout.TextField("Current Control Scheme", targetScript.Inputs?.currentControlScheme);
         EditorGUILayout.TextField("Current Action Map", targetScript.Inputs?.currentActionMap?.name);

@@ -88,6 +88,8 @@ public class Tutorial : MonoBehaviour
                 PlayersManager.Instance.SetAllPlayersControlMapToInGame();
                 GameManager.Instance.IsInTutorial = false;
                 DataKeeper.Instance.alreadyPlayedTuto = true;
+
+                GameManager.Instance.ShopTuto.StartTutorial();
             });
         });
 

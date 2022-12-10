@@ -93,6 +93,9 @@ public class PlayerNormalWeapon : PlayerWeapon
             }
         }
 
+        if (isLastAttack) owner.StartGamepadShake(bigHitGamepadShake);
+        else owner.StartGamepadShake(bigHitGamepadShake);
+
         SetRotationTowardTarget(closestEnemy);
         closestEnemy = null;
         closestEnemyDist = -1;

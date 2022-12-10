@@ -94,7 +94,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [field: SerializeField] public Tutorial Tuto;
+    [SerializeField] public Tutorial Tuto;
+    [SerializeField] public ShopTutorial ShopTuto;
 
     [SerializeField] private FightArena fightArena;
 

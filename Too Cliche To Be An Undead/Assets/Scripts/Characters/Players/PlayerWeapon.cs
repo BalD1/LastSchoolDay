@@ -29,6 +29,9 @@ public class PlayerWeapon : MonoBehaviour
 
     [SerializeField] protected ParticleSystem hitParticles;
 
+    [SerializeField] protected PlayersManager.GamepadShakeData normalHitGamepadShake;
+    [SerializeField] protected PlayersManager.GamepadShakeData bigHitGamepadShake;
+
     protected Collider2D[] hitEntities;
 
     private float lookAngle;

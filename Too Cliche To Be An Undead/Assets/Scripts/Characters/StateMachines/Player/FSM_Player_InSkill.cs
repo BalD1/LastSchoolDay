@@ -7,7 +7,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     private PlayerCharacter owner;
     private float timer;
 
-    private const float cooldownForCancel = .75f;
+    private const float cooldownForCancel = 1.5f;
     private float timerForCancel;
 
     public override void EnterState(FSM_Player_Manager stateManager)

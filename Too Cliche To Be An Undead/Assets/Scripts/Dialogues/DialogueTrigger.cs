@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    [InspectorButton(nameof(DialogueManager.SearchAndUpdateDialogueList), ButtonWidth = 300)]
+    [InspectorButton(nameof(SearchAndUpdateDialogueListRepeter), ButtonWidth = 300)]
     [SerializeField] private bool updateDialoguesNames;
 
     [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
@@ -23,5 +23,8 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
 
-    
+    private void SearchAndUpdateDialogueListRepeter() => DialogueManager.SearchAndUpdateDialogueList();
+
+
+
 }

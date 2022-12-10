@@ -130,6 +130,9 @@ public class ED_GameManager : Editor
         SerializedProperty Tuto = serializedObject.FindProperty("Tuto");
         EditorGUILayout.PropertyField(Tuto);
 
+        SerializedProperty ShopTuto = serializedObject.FindProperty("ShopTuto");
+        EditorGUILayout.PropertyField(ShopTuto);
+
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Misc", EditorStyles.boldLabel);
 

@@ -41,6 +41,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private List<Transform> invisiblePlayers = new List<Transform>();
     [SerializeField] private List<Transform> playersToRemoveFromList = new List<Transform>();
 
+    private bool cinematicMode = false;
+
     private void Awake()
     {
         DontDestroyOnLoad(cam_followPlayers);
@@ -72,6 +74,8 @@ public class CameraManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (cinematicMode) return;
+
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCam);
 
         for (int i = 0; i < invisiblePlayers.Count; i++)
@@ -129,6 +133,7 @@ public class CameraManager : MonoBehaviour
 
     public void PlayerBecameInvisible(Transform player, int playerIdx)
     {
+        if (cinematicMode) return;
         if (invisiblePlayers.Contains(player)) return;
 
         invisiblePlayers.Add(player);
@@ -145,6 +150,7 @@ public class CameraManager : MonoBehaviour
 
     public void PlayerBecameVisible(Transform player)
     {
+        if (cinematicMode) return;
         int indexOfPlayer = invisiblePlayers.IndexOf(player);
 
         if (indexOfPlayer > markers.Length) return;
@@ -165,6 +171,21 @@ public class CameraManager : MonoBehaviour
     public void TeleportCamera(Vector2 pos)
     {
         cam_followPlayers.transform.position = pos;
+    }
+
+    public void MoveCamera(Vector2 pos, Action onCompleteAction = null)
+    {
+        cinematicMode = true;
+        LeanTween.move(cam_followPlayers.gameObject, pos, 1);
+        Array.Clear(tg_players.m_Targets, 0, tg_players.m_Targets.Length);
+
+        onCompleteAction?.Invoke();
+    }
+
+    public void EndCinematic()
+    {
+        cinematicMode = false;
+        SetArray();
     }
 
     private void OnDestroy()

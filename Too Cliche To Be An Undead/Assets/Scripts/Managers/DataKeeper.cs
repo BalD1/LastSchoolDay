@@ -60,6 +60,8 @@ public class DataKeeper : MonoBehaviour
     public bool skipTuto = true;
     public bool alreadyPlayedTuto = false;
 
+    public bool allowGamepadShake = true;
+
     public int CreateData(PlayerCharacter newPlayer)
     {
         foreach (var item in playersDataKeep)

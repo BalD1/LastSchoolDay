@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using static UnityEditor.PlayerSettings;
+using static UnityEditor.Progress;
+using UnityEngine.Rendering;
 
 public class PlayersManager : MonoBehaviour
 {
@@ -33,6 +36,14 @@ public class PlayersManager : MonoBehaviour
 
     [SerializeField] private int alivePlayersCount;
     public int AlivePlayersCount { get => alivePlayersCount; }
+
+    [System.Serializable]
+    public struct GamepadShakeData
+    {
+        public float lowFrequency;
+        public float highFrequency;
+        public float duration;
+    }
 
     [System.Serializable]
     public struct PlayerCharacterComponents

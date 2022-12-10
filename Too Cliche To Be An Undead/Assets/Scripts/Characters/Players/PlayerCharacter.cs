@@ -42,6 +42,8 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private TextMeshPro selfReviveText;
     [SerializeField] private GameObject pivotOffset;
 
+    [SerializeField] private PlayersManager.GamepadShakeData onTakeDamagesGamepadShake;
+
     [SerializeField] private List<EnemyBase> attackers = new List<EnemyBase>();
 
     [SerializeField] private Material outlineMaterial;
@@ -125,6 +127,8 @@ public class PlayerCharacter : Entity, IInteractable
 
     public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
     public const string SCHEME_GAMEPAD = "Gamepad";
+
+    private float gamepadShake_TIMER;
 
 #if UNITY_EDITOR
     public bool debugPush;
@@ -315,6 +319,12 @@ public class PlayerCharacter : Entity, IInteractable
                 if (dash_CD_TIMER <= 0) ScaleTweenObject(dashIcon.gameObject);
             }
         }
+
+        if (gamepadShake_TIMER > 0)
+        {
+            gamepadShake_TIMER -= Time.deltaTime;
+            if (gamepadShake_TIMER <= 0) StopGamepadShake();
+        }
     }
 
     protected override void LateUpdate()
@@ -384,6 +394,28 @@ public class PlayerCharacter : Entity, IInteractable
         this.rb.MovePosition(this.rb.position + velocity * maxSpeed_M * Time.fixedDeltaTime);
     }
 
+    public void StartGamepadShake(PlayersManager.GamepadShakeData shakeData) 
+        =>  StartGamepadShake(shakeData.lowFrequency, shakeData.highFrequency, shakeData.duration);
+    public void StartGamepadShake(float lowFrequency, float highFrequency, float time)
+    {
+        if (DataKeeper.Instance.allowGamepadShake == false) return;
+
+        foreach (var item in inputs.devices)
+        {
+            (item as Gamepad)?.SetMotorSpeeds(lowFrequency, highFrequency);
+        }
+
+        gamepadShake_TIMER = time;
+    }
+
+    public void StopGamepadShake()
+    {
+        foreach (var item in inputs.devices)
+        {
+            (item as Gamepad)?.SetMotorSpeeds(0, 0);
+        }
+    }
+
     #endregion
 
     #region Attack / Damages / Heal
@@ -431,6 +463,8 @@ public class PlayerCharacter : Entity, IInteractable
                 });
             }
         }
+
+        StartGamepadShake(onTakeDamagesGamepadShake);
 
         UpdateHPonUI();
 
