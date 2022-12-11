@@ -8,14 +8,14 @@ public class PB_Drop : Collectable
 
     private void Awake()
     {
-        spriteRenderer.sprite = bonusPower.Thumbnail;
+        if (bonusPower != null)
+            spriteRenderer.sprite = bonusPower.Thumbnail;
     }
 
-    protected override void TouchedPlayer(PlayerCharacter player)
+    public void Setup(SCRPT_PB pb)
     {
-        base.TouchedPlayer(player);
-
-
+        bonusPower = pb;
+        spriteRenderer.sprite = bonusPower.Thumbnail;
     }
 
     public override void Interact(GameObject interactor)

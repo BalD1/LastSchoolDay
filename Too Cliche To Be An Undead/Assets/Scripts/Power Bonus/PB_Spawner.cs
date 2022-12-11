@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PB_Spawner : MonoBehaviour
@@ -13,7 +14,10 @@ public class PB_Spawner : MonoBehaviour
             if (GameAssets.Instance.UniquePBs.Count > 0)
             {
                 int randIdx = Random.Range(0, GameAssets.Instance.UniquePBs.Count);
-                Instantiate(GameAssets.Instance.UniquePBs[randIdx], this.transform.position, Quaternion.identity);
+
+                PB_Drop drop = Instantiate(GameAssets.Instance.BasePBPF, this.transform.position, Quaternion.identity).GetComponent<PB_Drop>();
+                drop.Setup(GameAssets.Instance.UniquePBs[randIdx]);
+
                 GameAssets.Instance.UniquePBs.RemoveAt(randIdx);
             }
             Destroy(this.gameObject);
@@ -31,8 +35,11 @@ public class PB_Spawner : MonoBehaviour
         }
     }
 
-    private void SpawnRandomFromArray(GameObject[] array)
+    private void SpawnRandomFromArray(SCRPT_PB[] array)
     {
-        Instantiate(array[Random.Range(0, array.Length)], this.transform.position, Quaternion.identity);
+        SCRPT_PB pbToSpawn = array[Random.Range(0, array.Length)];
+
+        PB_Drop drop = Instantiate(GameAssets.Instance.BasePBPF, this.transform.position, Quaternion.identity).GetComponent<PB_Drop>();
+        drop.Setup(pbToSpawn);
     }
 }

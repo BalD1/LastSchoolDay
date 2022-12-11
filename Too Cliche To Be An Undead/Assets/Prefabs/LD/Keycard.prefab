@@ -82,6 +82,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4411075114088318976}
+  - component: {fileID: 7766766871661446484}
   - component: {fileID: 4411075114088318977}
   m_Layer: 0
   m_Name: Sprite
@@ -105,6 +106,23 @@ Transform:
   m_Father: {fileID: 4411075114079108187}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7766766871661446484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4411075114088318979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: 0
+  isStatic: 1
+  objectRenderer: {fileID: 4411075114088318977}
+  debugMode: 0
 --- !u!212 &4411075114088318977
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -145,7 +163,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5000
   m_Sprite: {fileID: 21300000, guid: 6d59ffdee2981754189a267545ab76b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -168,7 +186,7 @@ GameObject:
   - component: {fileID: 6137351037054757930}
   - component: {fileID: 58309096827514385}
   m_Layer: 19
-  m_Name: Sprite_1
+  m_Name: Minimap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

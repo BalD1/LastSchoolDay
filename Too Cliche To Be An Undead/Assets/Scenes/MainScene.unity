@@ -303,6 +303,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1433750746}
     m_Modifications:
+    - target: {fileID: 8098066754004913499, guid: 1661319ad2ae6e940b82f562801d29e2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4432
+      objectReference: {fileID: 0}
     - target: {fileID: 8098066755104516712, guid: 1661319ad2ae6e940b82f562801d29e2, type: 3}
       propertyPath: m_Name
       value: TutorialZombie_1
@@ -2526,6 +2530,10 @@ PrefabInstance:
       propertyPath: character
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2878668607870029510, guid: 877f037b944fdb542a810f81d2127435, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5032
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 877f037b944fdb542a810f81d2127435, type: 3}
 --- !u!4 &627298179 stripped
@@ -3195,6 +3203,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1433750746}
     m_Modifications:
+    - target: {fileID: 8098066754004913499, guid: 1661319ad2ae6e940b82f562801d29e2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4480
+      objectReference: {fileID: 0}
     - target: {fileID: 8098066755104516712, guid: 1661319ad2ae6e940b82f562801d29e2, type: 3}
       propertyPath: m_Name
       value: TutorialZombie_3
@@ -4193,6 +4205,7 @@ GameObject:
   - component: {fileID: 995508609}
   - component: {fileID: 995508608}
   - component: {fileID: 995508607}
+  - component: {fileID: 995508611}
   m_Layer: 0
   m_Name: Spine GameObject (Shirley_marche_cote_droit)
   m_TagString: Untagged
@@ -4277,7 +4290,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5007
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &995508609
 MeshFilter:
@@ -4302,6 +4315,23 @@ Transform:
   m_Father: {fileID: 1795430738}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &995508611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995508606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: 0
+  isStatic: 0
+  objectRenderer: {fileID: 995508608}
+  debugMode: 0
 --- !u!1 &1017081664
 GameObject:
   m_ObjectHideFlags: 0
@@ -4639,6 +4669,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 984034877}
     m_Modifications:
+    - target: {fileID: 55361006598698530, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4975
+      objectReference: {fileID: 0}
     - target: {fileID: 55361006944118592, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
       propertyPath: m_Name
       value: GymnasiumDoor
@@ -4750,6 +4784,7 @@ GameObject:
   - component: {fileID: 1126994654}
   - component: {fileID: 1126994653}
   - component: {fileID: 1126994652}
+  - component: {fileID: 1126994656}
   m_Layer: 0
   m_Name: Spine GameObject (Shirley_base_cote_droit)
   m_TagString: Untagged
@@ -4834,7 +4869,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1126994654
 MeshFilter:
@@ -4859,6 +4894,23 @@ Transform:
   m_Father: {fileID: 1795430738}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1126994656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126994651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: 0
+  isStatic: 0
+  objectRenderer: {fileID: 1126994653}
+  debugMode: 0
 --- !u!1001 &1136110016
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4917,6 +4969,10 @@ PrefabInstance:
     - target: {fileID: 2281954389161674263, guid: 80838eda1eaa00d4db39a1982951c57d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2281954389678189844, guid: 80838eda1eaa00d4db39a1982951c57d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4969
       objectReference: {fileID: 0}
     - target: {fileID: 2281954389678189846, guid: 80838eda1eaa00d4db39a1982951c57d, type: 3}
       propertyPath: m_LocalScale.x
@@ -6330,6 +6386,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6123584852346833717, guid: e559a4f74c688f948a3e2fe7a5683673, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4990
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e559a4f74c688f948a3e2fe7a5683673, type: 3}
 --- !u!4 &1383416158 stripped
@@ -7382,6 +7442,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterSwitch
       objectReference: {fileID: 0}
+    - target: {fileID: 2878668607870029510, guid: 877f037b944fdb542a810f81d2127435, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5032
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 877f037b944fdb542a810f81d2127435, type: 3}
 --- !u!4 &1476672149 stripped
@@ -7741,6 +7805,10 @@ PrefabInstance:
       propertyPath: character
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2878668607870029510, guid: 877f037b944fdb542a810f81d2127435, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5032
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 877f037b944fdb542a810f81d2127435, type: 3}
 --- !u!4 &1533320008 stripped
@@ -7755,6 +7823,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 421729422}
     m_Modifications:
+    - target: {fileID: 7821369717731874618, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4874
+      objectReference: {fileID: 0}
     - target: {fileID: 7821369719249530889, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
       propertyPath: m_Name
       value: Boss
@@ -8290,6 +8362,10 @@ PrefabInstance:
     - target: {fileID: 6507736769034952510, guid: 7f4a0bba8bf8c0b43a3341bc02df0de8, type: 3}
       propertyPath: m_Name
       value: Training Dummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507736770286270477, guid: 7f4a0bba8bf8c0b43a3341bc02df0de8, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4998
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f4a0bba8bf8c0b43a3341bc02df0de8, type: 3}
@@ -9987,6 +10063,10 @@ PrefabInstance:
       propertyPath: character
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2878668607870029510, guid: 877f037b944fdb542a810f81d2127435, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5032
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 877f037b944fdb542a810f81d2127435, type: 3}
 --- !u!4 &1995297625 stripped
@@ -10001,6 +10081,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 773311301}
     m_Modifications:
+    - target: {fileID: 6355442990564566846, guid: 14a1345f19abf4143a32a9b7ed4c0428, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4446
+      objectReference: {fileID: 0}
     - target: {fileID: 6355442991514030918, guid: 14a1345f19abf4143a32a9b7ed4c0428, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -10690,6 +10774,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1433750746}
     m_Modifications:
+    - target: {fileID: 8098066754004913499, guid: 1661319ad2ae6e940b82f562801d29e2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4460
+      objectReference: {fileID: 0}
     - target: {fileID: 8098066755104516712, guid: 1661319ad2ae6e940b82f562801d29e2, type: 3}
       propertyPath: m_Name
       value: TutorialZombie_2
@@ -11139,6 +11227,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1433750746}
     m_Modifications:
+    - target: {fileID: 8098066754004913499, guid: 1661319ad2ae6e940b82f562801d29e2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4442
+      objectReference: {fileID: 0}
     - target: {fileID: 8098066755104516712, guid: 1661319ad2ae6e940b82f562801d29e2, type: 3}
       propertyPath: m_Name
       value: TutorialZombie
@@ -11395,6 +11487,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1380812445}
     m_Modifications:
+    - target: {fileID: 8330362650562147832, guid: 7c7a9f4774df33244aeed07f6349c259, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4472
+      objectReference: {fileID: 0}
     - target: {fileID: 8330362650562147833, guid: 7c7a9f4774df33244aeed07f6349c259, type: 3}
       propertyPath: m_RootOrder
       value: 6

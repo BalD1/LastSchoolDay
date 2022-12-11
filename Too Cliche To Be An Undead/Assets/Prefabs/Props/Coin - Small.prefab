@@ -76,6 +76,8 @@ MonoBehaviour:
   particle: {fileID: 5127839487733964369, guid: 8af0cf8f91f1c074ab97253147919a4c, type: 3}
   coinValue: 1
   pickupDistance: 0.2
+  pickupOnCollision: 1
+  spriteRenderer: {fileID: 0}
   detectedPlayers: []
 --- !u!50 &569784898369819774
 Rigidbody2D:
@@ -231,6 +233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 521078653938674918}
+  - component: {fileID: 5102062662955462328}
   - component: {fileID: 2920342835408079449}
   - component: {fileID: 3347134677734006209}
   m_Layer: 11
@@ -255,6 +258,23 @@ Transform:
   m_Father: {fileID: 569784898369819775}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5102062662955462328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2675006704868668355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: 0
+  isStatic: 0
+  objectRenderer: {fileID: 2920342835408079449}
+  debugMode: 0
 --- !u!212 &2920342835408079449
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -295,7 +315,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1390826911
   m_SortingLayer: 2
-  m_SortingOrder: 1
+  m_SortingOrder: 5000
   m_Sprite: {fileID: -550145207, guid: 8a09a45d549589a4aa1435fb10a10721, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

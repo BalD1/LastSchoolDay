@@ -240,6 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8950255851485009334}
   - component: {fileID: 8950255851485009331}
+  - component: {fileID: 34076475871953010}
   - component: {fileID: 6386180276322052668}
   - component: {fileID: 8950255851485009329}
   m_Layer: 14
@@ -282,6 +283,23 @@ MonoBehaviour:
   playerTPPos: {x: 0, y: 0}
   playerCounterTrigger: {fileID: 6386180276322052668}
   playersCounter: {fileID: 8950255850716097421}
+--- !u!114 &34076475871953010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8950255851485009335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: 0
+  isStatic: 1
+  objectRenderer: {fileID: 8950255851485009329}
+  debugMode: 0
 --- !u!58 &6386180276322052668
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -338,7 +356,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4985
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0.85213137, b: 1, a: 1}
   m_FlipX: 0

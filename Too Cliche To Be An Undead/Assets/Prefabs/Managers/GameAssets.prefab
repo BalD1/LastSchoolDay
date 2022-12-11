@@ -54,26 +54,27 @@ MonoBehaviour:
   keycardPF: {fileID: 4411075114079108186, guid: fe1f6d3fb04f6e5458e5d1bc508e5402, type: 3}
   smallCoinDropPF: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
   largeCoinDropPF: {fileID: 6419538789060412800, guid: 2420c71f525fcf841a5b4d8bc1a5d19c, type: 3}
+  basePBPF: {fileID: 5984426657660484135, guid: f8107dbf9b7a76e4b82c63babc5a4b8a, type: 3}
   pBWithRarities:
   - pbRarity: 0
     pbsPF:
-    - {fileID: 3374958949472698564, guid: 05671034c85416a499fce8b27ffc4521, type: 3}
-    - {fileID: 1192050621241294346, guid: dcb20eaf6a80b584582d742d80b42251, type: 3}
-    - {fileID: 7668464898701711129, guid: d6645ead9d06bf64bae2f7d7e30544f0, type: 3}
+    - {fileID: 11400000, guid: 3cb9ac68c10e77a4cbf0c78492d7602c, type: 2}
+    - {fileID: 11400000, guid: 5dcfb0605dc10914da42a8718ac6ad2a, type: 2}
+    - {fileID: 11400000, guid: cbcc182952ba8884380b001ca7766a5f, type: 2}
   - pbRarity: 1
     pbsPF:
-    - {fileID: 3915212746969495526, guid: d3fff8836a363c04f845875859d05b0c, type: 3}
-    - {fileID: 2887888211161863062, guid: 5625b57f8b5b31b4bb3c4cad60473fed, type: 3}
+    - {fileID: 11400000, guid: ca4c9f21c28fa464bb047af0d0cd81c0, type: 2}
+    - {fileID: 11400000, guid: ff30211132c1f4a49a8be61b857d7230, type: 2}
   - pbRarity: 2
     pbsPF:
-    - {fileID: 925109188959086796, guid: 8c6a6c7d41a9b884eb5c1335b8875806, type: 3}
-    - {fileID: 1138238402154775228, guid: ea70bd0757db3fb4a99f3037c06db649, type: 3}
-    - {fileID: 857105671273125857, guid: e8da7e67939864745965a8409dea8153, type: 3}
-    - {fileID: 2382483450802718914, guid: 9d7b417e06a79034e9a4f0a297576071, type: 3}
+    - {fileID: 11400000, guid: e51a84f4fedc61d4c91df3cd946c911d, type: 2}
+    - {fileID: 11400000, guid: c2d2b1021ac2b4d4c8ef04ca39b92438, type: 2}
+    - {fileID: 11400000, guid: 58742932f125fa240966e279e7aa51b6, type: 2}
+    - {fileID: 11400000, guid: 8337f817ae7fd884fb1817d4c116ed2c, type: 2}
   uniquePBs:
-  - {fileID: 1138238402154775228, guid: d78242777f92c8a42893ad3abd7dee95, type: 3}
-  - {fileID: 2906166410238224681, guid: 96fa0b891cfd6bf4f845d90a14b369e1, type: 3}
-  - {fileID: 5233204785658368537, guid: 62623ed44d9444e4d9650421a9b3bf7a, type: 3}
-  - {fileID: 3227161445971931690, guid: aff26cbcc303b264baea1bb1ee202f1c, type: 3}
+  - {fileID: 11400000, guid: 9cb7548e9b198d2439446c942c1346e6, type: 2}
+  - {fileID: 11400000, guid: 67bf506b8fadaa14f8b181e6ed684b1c, type: 2}
+  - {fileID: 11400000, guid: 74c6ae620c0f60c42b3741a6ac9fa4a4, type: 2}
+  - {fileID: 11400000, guid: c38114b914df47b49b2716f99fbbae90, type: 2}
   outlineMaterial: {fileID: 2100000, guid: 24e8dde08e8293446b016dd4e14158f9, type: 2}
   defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}

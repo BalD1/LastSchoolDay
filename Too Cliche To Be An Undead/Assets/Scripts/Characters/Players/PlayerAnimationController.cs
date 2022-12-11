@@ -5,14 +5,29 @@ using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
 {
+    [Header("Animations")]
+
     [SerializeField] private SkeletonAnimation skeletonAnimation;
 
     [SpineAnimation]
     [SerializeField] private string idleAnimation;
 
-    [SerializeField] [ReadOnly] private string currentState = "N/A";
+    [SerializeField][ReadOnly] private string currentState = "N/A";
 
     private Spine.Skeleton skeleton;
+
+    [Space]
+    [Header("Editor")]
+
+    [InspectorButton(nameof(SetAnimationInspector), ButtonWidth = 200)]
+    [SerializeField] private bool ForceAnimation;
+
+#if UNITY_EDITOR
+    [SpineAnimation]
+    [SerializeField] private string editor_AnimationToSet;
+    [SerializeField] private bool editor_loopAnimation;
+#endif
+
 
     private void Awake()
     {
@@ -55,4 +70,11 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
     public bool IsLookingAtRight() => skeletonAnimation.gameObject.transform.localScale.x > 0;
+
+    private void SetAnimationInspector()
+    {
+#if UNITY_EDITOR
+        SetAnimation(editor_AnimationToSet, editor_loopAnimation);
+#endif
+    }
 }

@@ -1199,6 +1199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6584472741892906471}
+  - component: {fileID: 7691020766232732440}
   - component: {fileID: 4552811738554455624}
   - component: {fileID: 6594098670953706687}
   - component: {fileID: 2973600011114593282}
@@ -1225,6 +1226,23 @@ Transform:
   m_Father: {fileID: 8823656353503972634}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7691020766232732440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642324960663711693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: 0
+  isStatic: 0
+  objectRenderer: {fileID: 6594098670953706687}
+  debugMode: 0
 --- !u!33 &4552811738554455624
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1253,7 +1271,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d0321f77ae8b1144b9649e2a2c094a27, type: 2}
+  - {fileID: 2100000, guid: 54f8dc0a125df7e4d954a9e92b67bb98, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1273,7 +1291,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2973600011114593282
 MonoBehaviour:
@@ -1305,8 +1323,10 @@ MonoBehaviour:
   calculateTangents: 0
   maskInteraction: 1
   maskMaterials:
-    materialsMaskDisabled: []
-    materialsInsideMask: []
+    materialsMaskDisabled:
+    - {fileID: 2100000, guid: d0321f77ae8b1144b9649e2a2c094a27, type: 2}
+    materialsInsideMask:
+    - {fileID: 2100000, guid: 54f8dc0a125df7e4d954a9e92b67bb98, type: 2}
     materialsOutsideMask: []
   disableRenderingOnOverride: 1
   _animationName: animation
@@ -1530,6 +1550,7 @@ GameObject:
   - component: {fileID: 8823656353503972634}
   - component: {fileID: 8621487532268834906}
   - component: {fileID: 2641463189831679491}
+  - component: {fileID: 239576881528485806}
   - component: {fileID: 8823656353503972633}
   - component: {fileID: 8823656353503972632}
   - component: {fileID: 3934805327378046947}
@@ -1571,6 +1592,9 @@ MonoBehaviour:
   skeletonAnimation: {fileID: 2973600011114593282}
   idleAnimation: animation
   currentState: 
+  ForceAnimation: 0
+  editor_AnimationToSet: animation
+  editor_loopAnimation: 0
 --- !u!114 &2641463189831679491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1584,6 +1608,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 8823656354733599271}
+--- !u!114 &239576881528485806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823656353503972635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: 0
+  isStatic: 0
+  objectRenderer: {fileID: 8823656353503972633}
+  debugMode: 0
 --- !u!212 &8823656353503972633
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1624,7 +1665,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5000
   m_Sprite: {fileID: 21300000, guid: 16420e9b25d30444998839437dffbc48, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1759,6 +1800,10 @@ MonoBehaviour:
   playerDash: {fileID: 11400000, guid: 5687414b9e30e6d499e7df1d67a5701d, type: 2}
   selfReviveText: {fileID: 7454060687585340113}
   pivotOffset: {fileID: 6079729821347107844}
+  onTakeDamagesGamepadShake:
+    lowFrequency: 0
+    highFrequency: 0
+    duration: 0
   attackers: []
   outlineMaterial: {fileID: 2100000, guid: 24e8dde08e8293446b016dd4e14158f9, type: 2}
   defaultMaterial: {fileID: 2100000, guid: 00afe588db79e4d4daaa4a4731ae7c0a, type: 2}
