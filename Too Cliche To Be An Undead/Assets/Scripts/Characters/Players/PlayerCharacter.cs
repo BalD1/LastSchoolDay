@@ -42,6 +42,8 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private TextMeshPro selfReviveText;
     [SerializeField] private GameObject pivotOffset;
 
+    [SerializeField] private Animator skillTutorialAnimator;
+
     [SerializeField] private PlayersManager.GamepadShakeData onTakeDamagesGamepadShake;
 
     [SerializeField] private List<EnemyBase> attackers = new List<EnemyBase>();
@@ -54,6 +56,7 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image skillIcon;
     [SerializeField] private Image dashIcon;
+    [SerializeField] private Image skillDurationIcon;
 
     [SerializeField] private UIManager.CharacterPortrait characterPortrait;
 
@@ -113,6 +116,8 @@ public class PlayerCharacter : Entity, IInteractable
     public PlayerWeapon Weapon { get => weapon; }
     public SkillHolder GetSkillHolder { get => skillHolder; }
     public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
+    public Animator SkillTutoAnimator { get => skillTutorialAnimator; }
+    public Image SkillDurationIcon { get => skillDurationIcon; }
     public Image GetSkillIcon { get => skillIcon; }
     public TextMeshPro SelfReviveText { get => selfReviveText; }
     public Vector2 Velocity { get => velocity; }

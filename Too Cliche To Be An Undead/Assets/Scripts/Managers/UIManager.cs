@@ -179,7 +179,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
-        {
+        {   
             skipTutorialToggle.SetIsOnWithoutNotify(DataKeeper.Instance.skipTuto);
         }
         else

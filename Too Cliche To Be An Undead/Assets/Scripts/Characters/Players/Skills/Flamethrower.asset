@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerName: 2
   aimAtMovements: 1
+  skillTutoAnimatorName: shirley
   cooldown: 3
   offset: 1.2
   range: 1
@@ -25,3 +26,4 @@ MonoBehaviour:
     m_Bits: 256
   animationToPlay: Flamethrower
   thumbnail: {fileID: 21300000, guid: c7f730dbd6e6b4f408ec03b2bffad61d, type: 3}
+  particles: {fileID: 0}

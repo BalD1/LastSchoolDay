@@ -11,6 +11,9 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
     {
         isInUse = true;
         owner.SetInvincibility(true);
+
+        owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
+
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
         owner.OffsetSkillHolder(offset);
@@ -33,6 +36,8 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();
         owner.GetSkillHolder.StartTimer();
+
+        owner.SkillTutoAnimator.SetTrigger("finish");
 
         owner.d_EnteredTrigger -= EnteredTrigger;
         owner.d_ExitedTrigger -= ExitedTrigger;

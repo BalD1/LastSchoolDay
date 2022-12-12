@@ -8,6 +8,8 @@ public abstract class SCRPT_Skill : ScriptableObject
 
     [SerializeField] protected bool aimAtMovements = true;
 
+    [SerializeField] protected string skillTutoAnimatorName;
+
     public bool AimAtMovements { get => aimAtMovements; }
 
     public enum E_SortlingLayers

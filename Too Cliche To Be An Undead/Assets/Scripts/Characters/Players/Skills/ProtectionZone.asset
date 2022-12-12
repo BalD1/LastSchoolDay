@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: ProtectionZone
   m_EditorClassIdentifier: 
   layerName: 0
+  aimAtMovements: 1
+  skillTutoAnimatorName: jason
   cooldown: 5
   offset: 0
   range: 10
@@ -24,4 +26,5 @@ MonoBehaviour:
     m_Bits: 320
   animationToPlay: ProtectionZone
   thumbnail: {fileID: 21300000, guid: 9be013b93ab8dac4293c8ab0ffbe1b58, type: 3}
+  particles: {fileID: 0}
   playersInRange: []

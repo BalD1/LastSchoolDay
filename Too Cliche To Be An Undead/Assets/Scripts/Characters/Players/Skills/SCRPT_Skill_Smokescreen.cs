@@ -13,6 +13,8 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
         owner.OffsetSkillHolder(offset);
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
 
+        owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
+
         if (particles != null)
             Instantiate(particles, owner.GetSkillHolder.transform.position, Quaternion.identity);
 
@@ -37,5 +39,7 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
     {
         isInUse = false;
         owner.GetSkillHolder.StartTimer();
+
+        owner.SkillTutoAnimator.SetTrigger("finish");
     }
 }

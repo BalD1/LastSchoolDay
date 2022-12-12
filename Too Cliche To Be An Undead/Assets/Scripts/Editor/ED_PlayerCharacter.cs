@@ -108,6 +108,12 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty skillHolder = serializedObject.FindProperty("skillHolder");
         EditorGUILayout.PropertyField(skillHolder);
 
+        SerializedProperty skillTutorialAnimator = serializedObject.FindProperty("skillTutorialAnimator");
+        EditorGUILayout.PropertyField(skillTutorialAnimator);
+
+        SerializedProperty skillDurationIcon = serializedObject.FindProperty("skillDurationIcon");
+        EditorGUILayout.PropertyField(skillDurationIcon);
+
         SerializedProperty inputs = serializedObject.FindProperty("inputs");
         EditorGUILayout.PropertyField(inputs);
 

@@ -18,6 +18,8 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
 
+        owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
+
         finalDamages = owner.maxDamages_M * damagesPercentageModifier;
     }
 
@@ -38,6 +40,8 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.AnimationEnded();
         owner.GetSkillHolder.StartTimer();
         isInUse = false;
+
+        owner.SkillTutoAnimator.SetTrigger("finish");
     }
 
     public void EnteredTrigger(Entity entity)

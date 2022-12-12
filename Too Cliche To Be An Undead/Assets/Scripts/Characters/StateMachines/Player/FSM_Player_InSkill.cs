@@ -5,6 +5,7 @@ using UnityEngine;
 public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 {
     private PlayerCharacter owner;
+    private float maxTimer;
     private float timer;
 
     private const float cooldownForCancel = 1.5f;
@@ -37,6 +38,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         if (timerForCancel > 0) timerForCancel -= Time.deltaTime;
 
         stateManager.OwnerWeapon.SetRotation(owner.GetSkill.AimAtMovements);
+
+        owner.SkillDurationIcon.fillAmount = timer / maxTimer;
 
         owner.GetSkill.UpdateSkill(owner);
     }
@@ -73,6 +76,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     public FSM_Player_InSkill SetTimer(float _timer)
     {
         timer = _timer;
+        maxTimer = _timer;
         return this;
     }
     public override string ToString() => "InSkill";
