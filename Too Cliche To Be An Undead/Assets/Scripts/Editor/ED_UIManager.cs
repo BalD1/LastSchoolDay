@@ -88,6 +88,9 @@ public class ED_UIManager : Editor
 
         SerializedProperty firstSelectedButton_Lobby = serializedObject.FindProperty("firstSelectedButton_Lobby");
         EditorGUILayout.PropertyField(firstSelectedButton_Lobby);
+
+        SerializedProperty skipTutorialToggle = serializedObject.FindProperty("skipTutorialToggle");
+        EditorGUILayout.PropertyField(skipTutorialToggle);
     }
 
     private void DrawInGameInspector()

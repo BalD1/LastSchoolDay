@@ -17,6 +17,7 @@ public class VisibilityWatcher : MonoBehaviour
 
     private void OnBecameInvisible()
     {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         if (GameManager.isAppQuitting) return;
 
         if (this.transform.parent == null) return;
@@ -29,6 +30,7 @@ public class VisibilityWatcher : MonoBehaviour
 
     private void OnBecameVisible()
     {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         if (this.transform.parent == null) return;
 
         if (isVisible == true || owner.IsAlive() == false) return;

@@ -43,6 +43,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image fadeImage;
 
     [SerializeField] private Toggle OPTION_DashOnMovementsToggle;
+    [SerializeField] private Toggle skipTutorialToggle;
 
     #endregion
 
@@ -177,7 +178,10 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) SelectButton("MainMenu");
+        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
+        {
+            skipTutorialToggle.SetIsOnWithoutNotify(DataKeeper.Instance.skipTuto);
+        }
         else
         {
             SetPlayersCollidersArray();
@@ -672,6 +676,8 @@ public class UIManager : MonoBehaviour
     {
         panelsManager?.RemovePanel(id);
     }
+
+    public void SkipTutoToggle(bool value) => DataKeeper.Instance.skipTuto = value;
 
 #if UNITY_EDITOR
 
