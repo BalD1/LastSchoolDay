@@ -55,6 +55,8 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
 
     private void EnteredTrigger(Collider2D collider)
     {
+        if (GameManager.IsInLayerMask(collider.gameObject, entitiesToAffect) == false) return;
+
         PlayerCharacter target = collider.GetComponentInParent<PlayerCharacter>();
 
         if (target == null) return;
@@ -65,6 +67,8 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
 
     private void ExitedTrigger(Collider2D collider)
     {
+        if (GameManager.IsInLayerMask(collider.gameObject, entitiesToAffect) == false) return;
+
         PlayerCharacter target = collider.GetComponentInParent<PlayerCharacter>();
 
         if (target == null) return;

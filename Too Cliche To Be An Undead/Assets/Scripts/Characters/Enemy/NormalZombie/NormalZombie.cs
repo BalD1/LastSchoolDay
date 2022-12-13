@@ -11,7 +11,7 @@ public class NormalZombie : EnemyBase
 
     public bool attackStarted;
 
-    public Vector2 AttackDirection { get; private set; }
+    public Vector2 AttackDirection { get; set; }
 
     public static NormalZombie Create(Vector2 pos)
     {
@@ -42,6 +42,7 @@ public class NormalZombie : EnemyBase
     public override void Stun(float duration, bool resetAttackTimer = false)
     {
         stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
+        this.attackTelegraph.CancelTelegraph();
     }
 
     public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
@@ -62,7 +63,12 @@ public class NormalZombie : EnemyBase
         base.SetAttackedPlayer(target);
 
         Vector2 targetPosition = this.CurrentPlayerTarget == null ? this.storedTargetPosition : this.CurrentPlayerTarget.transform.position;
-        AttackDirection = (targetPosition - (Vector2)this.transform.position).normalized;
+        //AttackDirection = (targetPosition - (Vector2)this.transform.position).normalized;
+    }
+
+    protected override void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(this.transform.position, Attack.AttackDistance);
     }
 
 }

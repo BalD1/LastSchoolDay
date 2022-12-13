@@ -14,12 +14,13 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
         owner ??= stateManager.Owner;
-        owner.d_EnteredTrigger += OnTrigger;
+
+        if (owner.Attack.DamageOnCollision) owner.d_EnteredTrigger += OnTrigger;
+
         owner.StartMaterialFlash("_Attacking", .1f);
-        
-        
 
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
+
 
         float durationBeforeAttack = Random.Range(owner.MinDurationBeforeAttack, owner.MaxDurationBeforeAttack);
 
@@ -33,6 +34,19 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         waitBeforeAttack_TIMER = durationBeforeAttack;
         attack_TIMER = owner.Attack_DURATION;
         attack_flag = false;
+
+        SCRPT_EnemyAttack enemyAttack = owner.Attack;
+
+        Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
+        float lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        lookAngle += enemyAttack.telegraphRotationOffset; 
+        Quaternion telegraphRotation = Quaternion.AngleAxis(lookAngle, Vector3.forward);
+
+        owner.AttackDirection = -dir;
+
+        Vector2 telegraphSize = enemyAttack.telegraphVectorSize != Vector2.zero ? enemyAttack.telegraphVectorSize : new Vector2(enemyAttack.AttackDistance, enemyAttack.AttackDistance);
+
+        owner.attackTelegraph.Setup(telegraphSize, owner.Attack.attackOffset, telegraphRotation, owner.Attack.telegraphSprite, durationBeforeAttack);
 
         owner.canBePushed = true;
     }
@@ -57,7 +71,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
         owner.Attack.OnExit(owner);
-        owner.d_EnteredTrigger -= OnTrigger;
+        if (owner.Attack.DamageOnCollision) owner.d_EnteredTrigger -= OnTrigger;
 
         owner.UnsetAttackedPlayer();
     }

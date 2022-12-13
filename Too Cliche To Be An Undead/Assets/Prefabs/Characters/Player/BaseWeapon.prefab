@@ -164,13 +164,13 @@ MonoBehaviour:
   slashParticles: {fileID: 5937923514325655606}
   hitParticles: {fileID: 5024009746357069192, guid: ec3f674830402cc45bce805cf6493db7, type: 3}
   normalHitGamepadShake:
-    lowFrequency: 0
-    highFrequency: 0
-    duration: 0
+    lowFrequency: 0.123
+    highFrequency: 0.234
+    duration: 0.2
   bigHitGamepadShake:
-    lowFrequency: 0
-    highFrequency: 0
-    duration: 0
+    lowFrequency: 0.246
+    highFrequency: 0.419
+    duration: 0.2
   isAttacking: 0
   attackEnded: 0
   prepareNextAttack: 0

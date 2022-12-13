@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 616387203}
   - component: {fileID: 616387204}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Commands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 1392137801}
   - component: {fileID: 1392137800}
   - component: {fileID: 1344461387}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: SkillHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -855,7 +855,7 @@ GameObject:
   - component: {fileID: 423191066295964888}
   - component: {fileID: 6273460433202643633}
   - component: {fileID: 7454060687585340113}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: SelfReviveText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1029,7 +1029,7 @@ GameObject:
   - component: {fileID: 4319801015898001568}
   - component: {fileID: 3401559701444407004}
   - component: {fileID: 1361719101332542845}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: SkillTutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1134,7 +1134,7 @@ GameObject:
   - component: {fileID: 3483341132164494498}
   - component: {fileID: 1437381921413096744}
   - component: {fileID: 8843546095007425344}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: SkillUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1183,7 +1183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1383,7 +1383,7 @@ GameObject:
   - component: {fileID: 7579855245090571130}
   - component: {fileID: 4622352100448357207}
   - component: {fileID: 6890624866390927571}
-  m_Layer: 7
+  m_Layer: 5
   m_Name: WorldSpace UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1429,7 +1429,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1390826911
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &4622352100448357207
