@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1654467336465693374
+--- !u!1 &5110844327940362536
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,12 +8,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 280893071648587013}
-  - component: {fileID: 818864743848646243}
-  - component: {fileID: 1440235738334766542}
-  - component: {fileID: 6123584852346833717}
-  - component: {fileID: 5972903290220262946}
-  - component: {fileID: 368701664644601472}
+  - component: {fileID: 4364443855572829961}
+  - component: {fileID: 5118338201478170893}
+  - component: {fileID: 4152859283056590926}
+  - component: {fileID: 5769366038462534812}
+  - component: {fileID: 218455732503391115}
   m_Layer: 0
   m_Name: Spine GameObject (Aquarium_1)
   m_TagString: Untagged
@@ -21,53 +20,53 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &280893071648587013
+--- !u!4 &4364443855572829961
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654467336465693374}
+  m_GameObject: {fileID: 5110844327940362536}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.634, y: 0.963, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5487054679487722863}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &818864743848646243
+--- !u!114 &5118338201478170893
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654467336465693374}
+  m_GameObject: {fileID: 5110844327940362536}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sortingOrderOffset: 0
-  pivotOffset: -10
-  isStatic: 0
-  objectRenderer: {fileID: 6123584852346833717}
+  pivotOffset: 0
+  isStatic: 1
+  objectRenderer: {fileID: 5769366038462534812}
   debugMode: 0
---- !u!33 &1440235738334766542
+--- !u!33 &4152859283056590926
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654467336465693374}
+  m_GameObject: {fileID: 5110844327940362536}
   m_Mesh: {fileID: 0}
---- !u!23 &6123584852346833717
+--- !u!23 &5769366038462534812
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654467336465693374}
+  m_GameObject: {fileID: 5110844327940362536}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -81,7 +80,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1bded5571953fe3478dc1fcf0e013c9a, type: 2}
+  - {fileID: 2100000, guid: ccfeaa7df55688a439e2308d87975869, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -101,21 +100,21 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4990
+  m_SortingOrder: 4977
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5972903290220262946
+--- !u!114 &218455732503391115
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654467336465693374}
+  m_GameObject: {fileID: 5110844327940362536}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: b51bf017ad4e45d4ba43934413e3b11e, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 6cf1b22cc8bc1a344b07ede5a989afbc, type: 2}
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
@@ -137,35 +136,9 @@ MonoBehaviour:
     materialsInsideMask: []
     materialsOutsideMask: []
   disableRenderingOnOverride: 1
-  _animationName: Poisson rouge
+  _animationName: 
   loop: 1
   timeScale: 1
---- !u!61 &368701664644601472
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654467336465693374}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.62653494, y: -0.7079365}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.2003851, y: 0.5197298}
-  m_EdgeRadius: 0
 --- !u!1 &5487054679487722856
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +167,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 280893071648587013}
+  - {fileID: 4364443855572829961}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -330,6 +330,7 @@ public class PlayerCharacter : Entity, IInteractable
             gamepadShake_TIMER -= Time.deltaTime;
             if (gamepadShake_TIMER <= 0) StopGamepadShake();
         }
+
     }
 
     protected override void LateUpdate()

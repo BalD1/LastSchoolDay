@@ -13,11 +13,15 @@ public abstract class EnemyBase : Entity
 
     [SerializeField] private SCRPT_DropTable dropTable;
 
-    [SerializeField] private SCRPT_NZ_Attack attack;
-    public SCRPT_NZ_Attack Attack { get => attack; }
+    [SerializeField] private SCRPT_EnemyAttack attack;
+    public SCRPT_EnemyAttack Attack { get => attack; }
 
     [SerializeField] private EnemyPathfinding pathfinding;
     public EnemyPathfinding Pathfinding { get => pathfinding; }
+
+    [field: SerializeField] public BoxCollider2D enemiesBlocker;
+
+    [field: SerializeField] public AttackTelegraph attackTelegraph { get; private set; }
 
     [field: SerializeField] public EnemyVision SelfVision { get; private set; }
 
@@ -42,6 +46,8 @@ public abstract class EnemyBase : Entity
 
     private Vector2 steeredVelocity;
 
+    [SerializeField] private bool allowSlowdown = true;
+
     public float MaxSpeed { get => this.maxSpeed_M * this.SpeedMultiplier; }
 
     [SerializeField] private float randomWanderPositionRadius = 5f;
@@ -56,11 +62,9 @@ public abstract class EnemyBase : Entity
     [SerializeField] private float distanceBeforeStop = 1f;
     public float DistanceBeforeStop { get => distanceBeforeStop; }
 
-    [SerializeField] private float minDurationBeforeAttack = .3f;
-    public float MinDurationBeforeAttack { get => minDurationBeforeAttack; }
+    public float MinDurationBeforeAttack { get => Attack.MinDurationBeforeAttack; }
 
-    [SerializeField] private float maxDurationBeforeAttack = .4f;
-    public float MaxDurationBeforeAttack { get => maxDurationBeforeAttack; }
+    public float MaxDurationBeforeAttack { get => Attack.MaxDurationBeforeAttack; }
 
     [SerializeField] private Vector2 maxScaleOnAttack = new Vector2(1.3f, 1.3f);
     [SerializeField] private LeanTweenType inType = LeanTweenType.easeInSine;
@@ -129,7 +133,7 @@ public abstract class EnemyBase : Entity
             steering /= this.MovementMass;
         
         float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
-        if (distance < distanceBeforeStop && slowdownOnApproach) 
+        if (distance < distanceBeforeStop && slowdownOnApproach && allowSlowdown) 
             steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * (distance / distanceBeforeStop);
         else 
             steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed);
