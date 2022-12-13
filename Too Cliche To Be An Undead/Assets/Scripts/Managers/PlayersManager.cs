@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-using static UnityEditor.PlayerSettings;
-using static UnityEditor.Progress;
+//using static UnityEditor.PlayerSettings;
+//using static UnityEditor.Progress;
 using UnityEngine.Rendering;
 
 public class PlayersManager : MonoBehaviour
