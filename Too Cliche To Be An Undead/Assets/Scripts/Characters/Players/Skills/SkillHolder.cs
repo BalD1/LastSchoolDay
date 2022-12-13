@@ -73,13 +73,21 @@ public class SkillHolder : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         collidersInTrigger.Add(collision);
-        D_enteredTrigger?.Invoke(collision.GetComponentInParent<Entity>());
+
+        Entity e = collision.GetComponentInParent<Entity>();
+
+        if (e != null)
+            D_enteredTrigger?.Invoke(e);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         collidersInTrigger.Remove(collision);
-        D_exitedTrigger?.Invoke(collision.GetComponentInParent<Entity>());
+
+        Entity e = collision.GetComponentInParent<Entity>();
+
+        if (e != null)
+        D_exitedTrigger?.Invoke(e);
     }
 
     private void OnDrawGizmos()

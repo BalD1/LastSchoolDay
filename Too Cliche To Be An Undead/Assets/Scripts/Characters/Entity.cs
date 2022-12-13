@@ -174,17 +174,54 @@ public class Entity : MonoBehaviour, IDamageable
         {
             if (item.ID.Equals(tick.ID))
             {
-                item.ResetLifetime();
+                item.ResetTimer();
                 return;
             }
         }
 
         appliedTickDamages.Add(tick);
     }
-    public void AddTickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime)
+    public void AddTickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime, bool damageInstantly = false)
     {
-        TickDamages t = new TickDamages(_id, _damages, _timeBetweenDamages, _lifetime, this);
+        TickDamages t = new TickDamages(_id, _damages, _timeBetweenDamages, _lifetime, this, damageInstantly);
         AddTickDamages(t);
+    }
+
+    public bool RemoveTickDamages(TickDamages tick, float delay = 0)
+    {
+        return RemoveTickDamages(tick.ID, delay);
+    }
+    public bool RemoveTickDamages(string _id, float delay = 0)
+    {
+        foreach (var item in appliedTickDamages)
+        {
+            if (item.ID.Equals(_id))
+            {
+                item.ForceEnd(delay);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool SearchTickDamages(string _id)
+    {
+        foreach (var item in appliedTickDamages)
+        {
+            if (item.ID.Equals(_id)) return true;
+        }
+
+        return false;
+    }
+    public TickDamages GetAppliedTickDamages(string _id)
+    {
+        foreach (var item in appliedTickDamages)
+        {
+            if (item.ID.Equals(_id)) return item;
+        }
+
+        return null;
     }
 
     protected virtual void ApplyModifier(StatsModifier m)

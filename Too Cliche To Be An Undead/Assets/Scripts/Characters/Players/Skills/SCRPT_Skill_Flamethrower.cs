@@ -5,9 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Skill", menuName = "Scriptable/Entity/Skills/Flamethrower")]
 public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 {
-    private const string tickDamages_ID = "SKILL_FT";
+    private const string inTriggerTickDamages_ID = "SKILL_FT";
 
     private List<Entity> entitiesInTrigger = new List<Entity>();
+
+    [SerializeField] private float tickDamagesMultiplier = .5f;
+    private float tickDamages;
 
     public override void StartSkill(PlayerCharacter owner)
     {
@@ -21,17 +24,13 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
         finalDamages = owner.maxDamages_M * damagesPercentageModifier;
+        tickDamages = finalDamages * tickDamagesMultiplier;
     }
 
     public override void UpdateSkill(PlayerCharacter owner)
     {
         owner.OffsetSkillHolder(offset);
         owner.RotateSkillHolder();
-
-        foreach (var item in entitiesInTrigger)
-        {
-            item.AddTickDamages(tickDamages_ID, finalDamages, .5f, 2f);
-        }
     }
 
     public override void StopSkill(PlayerCharacter owner)
@@ -46,13 +45,35 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
     public void EnteredTrigger(Entity entity)
     {
+        if (GameManager.IsInLayerMask(entity.gameObject, entitiesToAffect) == false) return;
+
         if (entity as EnemyBase != null)
             entitiesInTrigger.Add(entity);
+
+        TickDamages appliedTickDamages = entity.GetAppliedTickDamages(inTriggerTickDamages_ID);
+
+        if (appliedTickDamages == null)
+            entity.AddTickDamages(inTriggerTickDamages_ID, finalDamages, .5f, 2f, true);
+        else
+        {
+            appliedTickDamages.ResetTimer();
+            appliedTickDamages.ModifyDamages(finalDamages);
+        }
     }
 
     public void ExitedTrigger(Entity entity)
     {
+        if (GameManager.IsInLayerMask(entity.gameObject, entitiesToAffect) == false) return;
+
         if (entity as EnemyBase != null)
             entitiesInTrigger.Remove(entity);
+
+        TickDamages appliedTickDamages = entity.GetAppliedTickDamages(inTriggerTickDamages_ID);
+
+        if (appliedTickDamages != null)
+        {
+            appliedTickDamages.ResetTimer();
+            appliedTickDamages.ModifyDamages(tickDamages);
+        }
     }
 }
