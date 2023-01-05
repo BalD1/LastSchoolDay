@@ -19,7 +19,7 @@ MonoBehaviour:
   offset: 0
   range: 0
   duration: 10
-  damagesPercentageModifier: 0.5
+  damagesPercentageModifier: 0.25
   canMove: 1
   entitiesToAffect:
     serializedVersion: 2
@@ -29,4 +29,6 @@ MonoBehaviour:
   particles: {fileID: 0}
   projectile: {fileID: 2370581798129389374, guid: ab67f2fad5863b84dbe37f4eb13b2838, type: 3}
   critModifier: 0.5
-  fire_COOLDOWN: 0.15
+  rotationMinRandom: -30
+  rotationMaxRandom: 30
+  fire_COOLDOWN: 0.09

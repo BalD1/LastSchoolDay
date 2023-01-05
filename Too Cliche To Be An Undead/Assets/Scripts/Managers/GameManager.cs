@@ -201,13 +201,16 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         isAppQuitting = false;
-        AcquiredCards = 0;
-        NeededCards = 0;
         Application.quitting += () => isAppQuitting = true;
     }
 
     private void Start()
     {
+        AcquiredCards = 0;
+        NeededCards = 0;
+
+        UIManager.Instance.UpdateKeycardsCounter();
+
         IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
         SetPlayersByNameList();
         InitState();

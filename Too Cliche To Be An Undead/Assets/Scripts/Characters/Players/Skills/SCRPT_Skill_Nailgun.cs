@@ -11,6 +11,8 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
     [SerializeField] private float critModifier;
 
+    [SerializeField] private float rotationMinRandom, rotationMaxRandom;
+
     [SerializeField] private float fire_COOLDOWN;
     private float fire_TIMER;
 
@@ -71,11 +73,22 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         Quaternion q = _owner.Weapon.transform.rotation;
         Vector3 v = q.eulerAngles;
         v.z += 90f;
+
+        v.x += Random.Range(rotationMinRandom, rotationMaxRandom);
+        v.y += Random.Range(rotationMinRandom, rotationMaxRandom);
+
         q.eulerAngles = v;
 
-        //Vector2 dir = _owner.Weapon.GetPreciseDirectionOfMouseOrGamepad().normalized;
-        Vector2 dir = (_owner.Weapon.IndicatorHolder.transform.GetChild(0).position - _owner.PivotOffset.transform.position).normalized;
+        Vector2 aimTargetPosition = _owner.Weapon.IndicatorHolder.transform.GetChild(0).position;
+        Vector2 aimerPosition = _owner.PivotOffset.transform.position;
 
+        Vector2 dir = (aimTargetPosition - aimerPosition);
+
+        Debug.Log("avant rand " + dir);
+
+        dir *= Random.Range(rotationMinRandom, rotationMaxRandom);
+
+        dir.Normalize();
 
         ProjectileBase proj = Instantiate(projectile, skillHolderTransform.position, q).GetComponent<ProjectileBase>();
         proj.Fire(dir, finalDamages, finalCrit, _owner.GetStats.Team);
