@@ -45,11 +45,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player1Ref: {fileID: 0}
+  playersCount: 0
   shop: {fileID: 0}
-  spawnPoints:
+  instantiatedEntitiesParent: {fileID: 0}
+  instantiatedKeycardsParent: {fileID: 0}
+  instantiatedMiscParent: {fileID: 0}
+  tutoSpawnPoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  ingameSpawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  allowEnemies: 1
+  Tuto: {fileID: 0}
+  ShopTuto: {fileID: 0}
+  fightArena: {fileID: 0}
   playersByName: []
   hasKey: 0

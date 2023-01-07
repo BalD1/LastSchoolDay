@@ -31,6 +31,8 @@ public class DebugConsole : MonoBehaviour
 
     private DebugCommand FORCEWIN;
 
+    private DebugCommand<int> ADD_KEYCARD;
+
     private DebugCommand<float> HEAL_SELF;
     private DebugCommand<float, bool> HEAL_SELF_C;
 
@@ -154,6 +156,11 @@ public class DebugConsole : MonoBehaviour
             PlayerCharacter.AddMoney(val);
         });
 
+        ADD_KEYCARD = new DebugCommand<int>("ADD_KEYCARD", "Adds <int> keycards", "ADD_KEYCARD <int>", (val) =>
+        {
+            GameManager.AcquiredCards += val;
+        });
+
         #endregion
 
         #region Float commands
@@ -261,6 +268,8 @@ public class DebugConsole : MonoBehaviour
             KILL,
 
             FORCEWIN,
+
+            ADD_KEYCARD,
 
             HEAL_SELF,
             HEAL_SELF_C,
