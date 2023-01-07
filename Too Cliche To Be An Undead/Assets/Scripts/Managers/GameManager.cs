@@ -209,9 +209,12 @@ public class GameManager : MonoBehaviour
         AcquiredCards = 0;
         NeededCards = 0;
 
-        UIManager.Instance.UpdateKeycardsCounter();
+        if (GameState == E_GameState.InGame)
+        {
+            UIManager.Instance.UpdateKeycardsCounter();
 
-        IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
+            IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
+        }
         SetPlayersByNameList();
         InitState();
     }

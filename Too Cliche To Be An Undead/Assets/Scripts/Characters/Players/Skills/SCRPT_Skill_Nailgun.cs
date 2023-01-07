@@ -84,9 +84,10 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
         Vector2 dir = (aimTargetPosition - aimerPosition);
 
-        Debug.Log("avant rand " + dir);
+        float rand = Random.Range(rotationMinRandom, rotationMaxRandom);
 
-        dir *= Random.Range(rotationMinRandom, rotationMaxRandom);
+        dir.x += rand;
+        dir.y += rand;
 
         dir.Normalize();
 
