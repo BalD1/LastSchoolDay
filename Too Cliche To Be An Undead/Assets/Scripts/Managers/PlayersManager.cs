@@ -53,6 +53,7 @@ public class PlayersManager : MonoBehaviour
         public SCRPT_Skill skill;
         public SCRPT_EntityStats stats;
         public Sprite sprite;
+        public SCRPT_PlayersAnimData animData;
     }
 
     [SerializeField] private PlayerCharacterComponents[] characterComponents;

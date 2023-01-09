@@ -223,7 +223,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
 
-        SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character);
+        SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character, pcc.animData);
     }
 
     private void OnDestroy()
@@ -295,7 +295,7 @@ public class PlayerCharacter : Entity, IInteractable
 
             PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(GameManager.E_CharactersNames.Shirley);
 
-            SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character);
+            SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character, pcc.animData);
 
             this.currentHP = maxHP_M;
 
@@ -379,12 +379,10 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void StartAction(InputAction.CallbackContext context)
     {
-        Debug.Log(context);
         if (!context.performed) return;
 
         InputDevice d = context.control.device;
 
-        Debug.Log(d);
         if (!InputUser.all[0].pairedDevices.Contains(d)) return;
 
         GameManager.ChangeScene(GameManager.E_ScenesNames.MainScene);
@@ -395,7 +393,8 @@ public class PlayerCharacter : Entity, IInteractable
         if (stayStatic) return;
         velocity = Vector2.ClampMagnitude(velocity, maxSpeed_M);
 
-        animationController.FlipSkeleton(velocity.x > 0);
+        if (velocity.x != 0)
+            animationController.FlipSkeleton(velocity.x > 0);
 
         this.rb.MovePosition(this.rb.position + velocity * maxSpeed_M * Time.fixedDeltaTime);
     }
@@ -978,7 +977,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Switch & Set
 
-    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite, GameManager.E_CharactersNames character)
+    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite, GameManager.E_CharactersNames character, SCRPT_PlayersAnimData animData)
     {
         this.playerDash = newDash;
         if (dashIcon != null)
@@ -987,6 +986,8 @@ public class PlayerCharacter : Entity, IInteractable
         this.skillHolder.ChangeSkill(newSkill);
         this.stats = newStats;
         this.sprite.sprite = newSprite;
+
+        animationController.Setup(animData);
 
         if (this.portrait != null)
             this.portrait.sprite = UIManager.Instance.GetBasePortrait(character);

@@ -89,21 +89,25 @@ MonoBehaviour:
     skill: {fileID: 11400000, guid: 30e8c9614365e1b4b9810234cf4830c7, type: 2}
     stats: {fileID: 11400000, guid: 641691dcbebbce04793993d719e9f9fe, type: 2}
     sprite: {fileID: 21300000, guid: bd16bdeae129bec419566b7b2e5b729a, type: 3}
+    animData: {fileID: 11400000, guid: abf34e82765a5b34b83bc5c26c7c9393, type: 2}
   - character: 1
     dash: {fileID: 11400000, guid: 5687414b9e30e6d499e7df1d67a5701d, type: 2}
     skill: {fileID: 11400000, guid: fc23f6bb8164d644f88849b9b8912b85, type: 2}
     stats: {fileID: 11400000, guid: ab4080b6edf8ea643adde70dbd2220fe, type: 2}
     sprite: {fileID: 21300000, guid: 16420e9b25d30444998839437dffbc48, type: 3}
+    animData: {fileID: 0}
   - character: 2
     dash: {fileID: 11400000, guid: 90c2809f271833e4aa9e303bb8cf0887, type: 2}
     skill: {fileID: 11400000, guid: 1d6edb53ce4fced4e86a2d8bd1ae9cef, type: 2}
     stats: {fileID: 11400000, guid: d1faf44669723c1458d46c144cca58cc, type: 2}
     sprite: {fileID: 21300000, guid: c2455a8b8a83cca4d8a043997ab45f64, type: 3}
+    animData: {fileID: 0}
   - character: 3
     dash: {fileID: 11400000, guid: 477650d05568ed444b3bfb2aabe76810, type: 2}
     skill: {fileID: 11400000, guid: 55dd8e27178959b45b2602905c0b39bd, type: 2}
     stats: {fileID: 11400000, guid: 5b083b2832f5a9849888d73dc4c80e11, type: 2}
     sprite: {fileID: 21300000, guid: 04949ae248a00cb4e8be2c963c20195e, type: 3}
+    animData: {fileID: 0}
 --- !u!114 &5271613095616157202
 MonoBehaviour:
   m_ObjectHideFlags: 0

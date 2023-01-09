@@ -1,4 +1,5 @@
 using Spine.Unity;
+using Spine.Unity.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,14 +8,16 @@ public class PlayerAnimationController : MonoBehaviour
 {
     [Header("Animations")]
 
-    [SerializeField] private SkeletonAnimation skeletonAnimation;
+    [SerializeField] private SpriteRenderer placeholderSprite;
 
-    [SpineAnimation]
-    [SerializeField] private string idleAnimation;
+    [SerializeField] private SkeletonAnimation skeletonAnimation;
+    public SkeletonAnimation SkeletonAnimation { get => skeletonAnimation; }
+
+    [field: SerializeField] public SCRPT_PlayersAnimData animationsData { get; private set; }
 
     [SerializeField][ReadOnly] private string currentState = "N/A";
 
-    private Spine.Skeleton skeleton;
+    [field: SerializeField][field: ReadOnly] public bool isValid { get; private set; }
 
     [Space]
     [Header("Editor")]
@@ -28,11 +31,39 @@ public class PlayerAnimationController : MonoBehaviour
     [SerializeField] private bool editor_loopAnimation;
 #endif
 
-
     private void Awake()
     {
-        if (skeletonAnimation != null)
-            skeleton = skeletonAnimation.Skeleton;
+        if (skeletonAnimation == null || animationsData == null)
+        {
+            placeholderSprite.enabled = true;
+            this.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+            isValid = false;
+        }
+        else
+        {
+            skeletonAnimation.skeletonDataAsset = animationsData.skeletonDataAsset;
+            SpineEditorUtilities.ReloadSkeletonDataAsset(skeletonAnimation.skeletonDataAsset);
+            isValid = true;
+        }
+    }
+
+    public void Setup(SCRPT_PlayersAnimData animData)
+    {
+        if (animData == null)
+        {
+            placeholderSprite.enabled = true;
+            this.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+            isValid = false;
+            return;
+        }
+
+        animationsData = animData;
+        skeletonAnimation.skeletonDataAsset = animData.skeletonDataAsset;
+        SpineEditorUtilities.ReloadSkeletonDataAsset(skeletonAnimation.skeletonDataAsset);
+
+        SetAnimation(animationsData.idleAnim, true);
+
+        isValid = true;
     }
 
     public void FlipSkeleton(bool lookAtRight)
@@ -47,21 +78,54 @@ public class PlayerAnimationController : MonoBehaviour
         skeletonAnimation.gameObject.transform.localScale = scale;
     }
 
-    private void SetAnimation(string animation, bool loop, float timeScale = 1)
+    public void SetAnimation(string animation, bool loop, float timeScale = 1)
+    {
+        if (skeletonAnimation == null) return;
+
+        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
+    }
+    public void SetAnimation(Spine.Animation animation, bool loop, float timeScale = 1)
     {
         if (skeletonAnimation == null) return;
 
         skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
     }
 
+    public void AddAnimation(string animation, bool loop, float timeScale = 1)
+    {
+        if (skeletonAnimation == null) return;
+
+        skeletonAnimation.state.AddAnimation(0, animation, loop, 0).TimeScale = timeScale;
+    }
+    public void AddAnimation(Spine.Animation animation, bool loop, float timeScale = 1)
+    {
+        if (skeletonAnimation == null) return;
+
+        skeletonAnimation.state.AddAnimation(0, animation, loop, 0).TimeScale = timeScale;
+    }
+
     public void SetCharacterState(string state)
     {
+        if (!isValid) return;
+
         currentState = state;
 
         switch (state)
         {
             case "Idle":
-                SetAnimation(idleAnimation, true);
+                SetAnimation(animationsData.idleAnim, true);
+                break;
+
+            case "Moving":
+                SetAnimation(animationsData.walkAnim, true);
+                break;
+
+            case "Dashing":
+                SetAnimation(animationsData.dashAnim, true);
+                break;
+
+            case "Dying":
+                SetAnimation(animationsData.deathAnim, true);
                 break;
 
             default:

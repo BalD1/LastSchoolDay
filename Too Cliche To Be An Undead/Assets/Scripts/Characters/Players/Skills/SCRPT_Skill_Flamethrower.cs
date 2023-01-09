@@ -21,6 +21,8 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
 
+        owner.OffsetSkillHolder(offset);
+
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
         finalDamages = owner.maxDamages_M * damagesPercentageModifier;

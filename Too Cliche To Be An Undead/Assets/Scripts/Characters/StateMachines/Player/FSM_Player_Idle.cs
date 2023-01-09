@@ -1,3 +1,4 @@
+using BalDUtilities.MouseUtils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,8 +24,11 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
-        //owner.ReadMovementsInputs();
         stateManager.OwnerWeapon.SetRotation();
+
+        Vector2 mousePos = MousePosition.GetMouseWorldPosition();
+        Vector2 mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
+        owner.AnimationController.FlipSkeleton(mouseDir.x > 0);
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)

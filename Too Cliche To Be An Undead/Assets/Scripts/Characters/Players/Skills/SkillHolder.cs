@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,7 +46,17 @@ public class SkillHolder : MonoBehaviour
     {
         if (Skill.IsInUse || timer > 0) return;
 
-        owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimer(skill.Duration));
+        PlayerAnimationController animController = owner.AnimationController;
+        AnimationReferenceAsset transitionAnim = animController.animationsData.skillTransitionAnim;
+
+        float transitionDuration = -1;
+        if (transitionAnim != null)
+        {
+            animController.SetAnimation(transitionAnim, false);
+            transitionDuration = transitionAnim.Animation.Duration;
+        }
+
+        owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimers(skill.Duration, transitionDuration));
         owner.UpdateSkillThumbnailFill(-((timer / owner.MaxSkillCD_M) - 1));
     }
 

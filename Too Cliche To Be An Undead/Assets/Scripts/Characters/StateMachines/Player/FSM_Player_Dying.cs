@@ -24,6 +24,9 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
 
         owner.SetAnimatorArgs("Dying", true);
 
+        owner.AnimationController.SetAnimation(owner.AnimationController.animationsData.deathAnim, false);
+        owner.AnimationController.SkeletonAnimation.loop = false;
+
         owner.canBePushed = false;
 
         removedAlive = false;

@@ -1,19 +1,42 @@
+using BalDUtilities.MouseUtils;
+using Spine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 {
     private PlayerCharacter owner;
-    private float maxTimer;
-    private float timer;
+
+    private PlayerAnimationController ownerAnimationController;
+    private TrackEntry ownerTrackEntry;
+
+    private Spine.Animation idleAnim;
+    private Spine.Animation walkAnim;
+
+    private float skill_MaxTimer;
+    private float skill_Timer;
+
+    private float transition_Timer;
 
     private const float cooldownForCancel = 1.5f;
     private float timerForCancel;
 
+    private bool started;
+
+    private bool isIdle = false;
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         owner ??= stateManager.Owner;
+        ownerAnimationController ??= owner.AnimationController;
+        ownerTrackEntry ??= ownerAnimationController.SkeletonAnimation.AnimationState.GetCurrent(0);
+
+        idleAnim = ownerAnimationController.animationsData.skillIdleAnim;
+        walkAnim = ownerAnimationController.animationsData.skillWalkAnim;
+
+        started = false;
 
         timerForCancel = cooldownForCancel;
 
@@ -21,10 +44,6 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
-
-        owner.GetSkillHolder.Trigger.enabled = true;
-        owner.GetSkill.StartSkill(owner);
 
         owner.D_skillInput += StopSkill;
 
@@ -33,20 +52,47 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
-        timer -= Time.deltaTime;
+        if (started == false)
+        {
+            if (transition_Timer > 0)
+            {
+                transition_Timer -= Time.deltaTime;
+                return;
+            }
+            else
+            {
+                started = true;
+                ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnim, true);
+                owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
+                owner.GetSkillHolder.Trigger.enabled = true;
+                owner.GetSkill.StartSkill(owner);
+            }
+        }
+
+        skill_Timer -= Time.deltaTime;
 
         if (timerForCancel > 0) timerForCancel -= Time.deltaTime;
 
         stateManager.OwnerWeapon.SetRotation(owner.GetSkill.AimAtMovements);
 
-        owner.SkillDurationIcon.fillAmount = timer / maxTimer;
+        owner.SkillDurationIcon.fillAmount = skill_Timer / skill_MaxTimer;
+
+        Vector2 mousePos = MousePosition.GetMouseWorldPosition();
+        Vector2 mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
+        ownerAnimationController.FlipSkeleton(mouseDir.x > 0);
+
+        isIdle = owner.Velocity == Vector2.zero;
+        if (isIdle && ownerTrackEntry.Animation != idleAnim)
+            ownerAnimationController.SetAnimation(idleAnim, true);
+        else if (!isIdle && ownerTrackEntry.Animation != walkAnim)
+            ownerAnimationController.SetAnimation(walkAnim, true);
 
         owner.GetSkill.UpdateSkill(owner);
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
     {
-        if (owner.GetSkill.CanMove) owner.Movements();
+        if (owner.GetSkill.CanMove && started) owner.Movements();
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)
@@ -65,18 +111,27 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     {
         if (timerForCancel > 0) return;
 
-        this.timer = 0;
+        this.skill_Timer = 0;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
-        if (timer <= 0) stateManager.SwitchState(stateManager.idleState);
+        if (skill_Timer <= 0) stateManager.SwitchState(stateManager.idleState);
     }
 
-    public FSM_Player_InSkill SetTimer(float _timer)
+    public FSM_Player_InSkill SetTimers(float _skillTimer, float _transitionTimer = -1)
     {
-        timer = _timer;
-        maxTimer = _timer;
+        skill_Timer = _skillTimer;
+        skill_MaxTimer = _skillTimer;
+
+        transition_Timer = _transitionTimer;
+        if (transition_Timer <= 0)
+        {
+            started = true;
+            owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
+            owner.GetSkillHolder.Trigger.enabled = true;
+            owner.GetSkill.StartSkill(owner);
+        }
         return this;
     }
     public override string ToString() => "InSkill";
