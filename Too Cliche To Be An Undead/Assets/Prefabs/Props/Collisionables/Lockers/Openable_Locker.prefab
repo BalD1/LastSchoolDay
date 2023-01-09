@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 2610078122621152387}
   - component: {fileID: 6239897972503032784}
   - component: {fileID: 166674998}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Openable_Locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,8 +78,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0f8b520fac334343921c0db8035e042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
-  animator: {fileID: 0}
+  skeletonAnimation: {fileID: 7863960121320469591}
+  sparkles: {fileID: 3384024203702004203}
+  bloodyLocker:
+    closedIdle: Casier ferme 02
+    openAnim:
+    - SANG Porte ouverte 01
+    - SANG Porte ouverte 02
+  normalLocker:
+    closedIdle: Casier ferme 01
+    openAnim:
+    - Porte ouverte 01
+    - Porte ouverte 02
   lootSpawnPoint: {fileID: 749276473408036085}
   dropTable: {fileID: 11400000, guid: 1db90e021ba6e8446b6d5e397cfdbd6f, type: 2}
 --- !u!61 &166674998
@@ -135,7 +145,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.1, y: 0.325, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 269157276540935657}
   m_RootOrder: 0
@@ -204,6 +214,7 @@ GameObject:
   - component: {fileID: 2516026259461722928}
   - component: {fileID: 1329649170087910162}
   - component: {fileID: 7863960121320469591}
+  - component: {fileID: 430120805}
   m_Layer: 14
   m_Name: Spine GameObject (Casier_V2)
   m_TagString: Untagged
@@ -314,3 +325,23 @@ MonoBehaviour:
   _animationName: Casier ferme 01
   loop: 0
   timeScale: 1
+--- !u!95 &430120805
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5220591801981342434}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 23fd8d8319c7bbe4cad9b4d5ba776367, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

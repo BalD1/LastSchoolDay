@@ -1,12 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Spine.Unity;
 
 public class Locker : MonoBehaviour, IInteractable
 {
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private SkeletonAnimation skeletonAnimation;
 
-    [SerializeField] private Animator animator;
+    [System.Serializable]
+    private struct S_Animations
+    {
+        [SpineAnimation] public string closedIdle;
+        [SpineAnimation] public string[] openAnim;
+
+        public string GetRandomOpenAnim() => openAnim[Random.Range(0, openAnim.Length)];
+    }
+
+    [SerializeField] private GameObject sparkles;
+
+    [SerializeField] private S_Animations bloodyLocker;
+    [SerializeField] private S_Animations normalLocker;
 
     [SerializeField] private Transform lootSpawnPoint;
 
@@ -14,23 +27,32 @@ public class Locker : MonoBehaviour, IInteractable
 
     private bool isOpen = false;
 
+    private bool isBloody = false;
+
+    private void Start()
+    {
+        isBloody = Random.Range(0, 2) == 0;
+        if (isBloody) skeletonAnimation.AnimationState.SetAnimation(0, bloodyLocker.closedIdle, false);
+    }
+
     public void EnteredInRange(GameObject interactor)
     {
-        spriteRenderer.material = GameAssets.Instance.OutlineMaterial;
     }
 
     public void ExitedRange(GameObject interactor)
     {
-        spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public void Interact(GameObject interactor)
     {
         isOpen = true;
-        animator.SetTrigger("Open");
 
         dropTable.DropRandom(lootSpawnPoint.position);
-        spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
+
+        if (isBloody) skeletonAnimation.AnimationState.SetAnimation(0, bloodyLocker.GetRandomOpenAnim(), false);
+        else skeletonAnimation.AnimationState.SetAnimation(0, normalLocker.GetRandomOpenAnim(), false);
+
+        sparkles.SetActive(false);
     }
 
     public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);
