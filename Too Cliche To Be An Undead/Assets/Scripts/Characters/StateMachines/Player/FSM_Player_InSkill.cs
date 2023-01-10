@@ -26,6 +26,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     private bool started;
 
     private bool isIdle = false;
+    private bool isPlayingIdle = false;
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
@@ -62,8 +63,22 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
             else
             {
                 started = true;
-                ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnim, true);
+
                 owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
+
+                if (owner.Velocity == Vector2.zero)
+                {
+                    ownerAnimationController.SetAnimation(idleAnim, true);
+                    isPlayingIdle = isIdle = true;
+                }
+                else
+                {
+                    ownerAnimationController.SetAnimation(walkAnim, true);
+                    isPlayingIdle = isIdle = false;
+                }
+
+                ownerAnimationController.SetAnimation(idleAnim, true);
+
                 owner.GetSkillHolder.Trigger.enabled = true;
                 owner.GetSkill.StartSkill(owner);
             }
@@ -81,13 +96,25 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         Vector2 mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
         ownerAnimationController.FlipSkeleton(mouseDir.x > 0);
 
-        isIdle = owner.Velocity == Vector2.zero;
-        if (isIdle && ownerTrackEntry.Animation != idleAnim)
-            ownerAnimationController.SetAnimation(idleAnim, true);
-        else if (!isIdle && ownerTrackEntry.Animation != walkAnim)
-            ownerAnimationController.SetAnimation(walkAnim, true);
+        CheckAnimation();
 
         owner.GetSkill.UpdateSkill(owner);
+    }
+
+    private void CheckAnimation()
+    {
+        isIdle = owner.Velocity == Vector2.zero;
+
+        if (isIdle && !isPlayingIdle)
+        {
+            ownerAnimationController.SetAnimation(idleAnim, true);
+            isPlayingIdle = true;
+        }
+        else if (!isIdle && isPlayingIdle)
+        {
+            ownerAnimationController.SetAnimation(walkAnim, true);
+            isPlayingIdle = false;
+        }
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)

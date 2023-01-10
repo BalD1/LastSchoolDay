@@ -53,7 +53,7 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
     {
         if (isOpen) return;
 
-        if (keycardsOfferedToDoor >= GameManager.AcquiredCards)
+        if (keycardsOfferedToDoor >= GameManager.NeededCards)
         {
             skeleton.AnimationState.SetAnimation(0, doorOpenAnim, false);
             canBeInteracted = false;
