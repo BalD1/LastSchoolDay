@@ -21,7 +21,8 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
 
-        owner.OffsetSkillHolder(offset);
+        owner.OffsetChild(offset);
+        owner.SetArmsState(true);
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
@@ -31,8 +32,9 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
     public override void UpdateSkill(PlayerCharacter owner)
     {
-        owner.OffsetSkillHolder(offset);
+        //owner.OffsetChild(offset);
         owner.RotateSkillHolder();
+        owner.RotateArms();
     }
 
     public override void StopSkill(PlayerCharacter owner)
@@ -41,6 +43,8 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.AnimationEnded();
         owner.GetSkillHolder.StartTimer();
         isInUse = false;
+
+        owner.SetArmsState(false);
 
         owner.SkillTutoAnimator.SetTrigger("finish");
     }

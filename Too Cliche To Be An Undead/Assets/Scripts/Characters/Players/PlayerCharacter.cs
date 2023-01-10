@@ -42,6 +42,9 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private TextMeshPro selfReviveText;
     [SerializeField] private GameObject pivotOffset;
 
+    [SerializeField] private Transform leftArm;
+    [SerializeField] private Transform rightArm;
+
     [SerializeField] private Animator skillTutorialAnimator;
 
     [SerializeField] private PlayersManager.GamepadShakeData onTakeDamagesGamepadShake;
@@ -795,27 +798,42 @@ public class PlayerCharacter : Entity, IInteractable
     {
         skillHolder.transform.localPosition = (Vector3)weapon.GetGeneralDirectionOfMouseOrGamepad() * offset;
     }
+    public void OffsetChild(float offset)
+    {
+        skillHolder.transform.GetChild(0).localPosition = Vector2.down * offset;
+    }
+
+    public void SetArmsState(bool active)
+    {
+        leftArm.gameObject.SetActive(active);
+        rightArm.gameObject.SetActive(active);
+    }
 
     public void RotateSkillHolder()
     {
-        switch (weapon.GetGeneralDirectionOfMouseOrGamepad())
-        {
-            case Vector2 v when v.Equals(Vector2.left):
-                skillHolder.transform.eulerAngles = new Vector3(0, 0, -90);
-                break;
+        Vector3 rot = weapon.GetRotationOnMouseOrGamepad().eulerAngles;
+        rot.z -= 90;
+        skillHolder.transform.eulerAngles = rot;
+    }
+    public void RotateArms()
+    {
+        Vector3 rot = weapon.GetRotationOnMouseOrGamepad().eulerAngles;
+        rot.z += 180;
 
-            case Vector2 v when v.Equals(Vector2.right):
-                skillHolder.transform.eulerAngles = new Vector3(0, 0, 90);
-                break;
+        //if (rot.z > -90f && rot.z < 90)
+        //{
+        //    leftArm.GetComponent<SpriteRenderer>().flipY = false;
+        //    rightArm.GetComponent<SpriteRenderer>().flipY = false;
+        //}
+        //else
+        //{
+        //    leftArm.GetComponent<SpriteRenderer>().flipY = true;
+        //    rightArm.GetComponent<SpriteRenderer>().flipY = true;
+        //}
+        
 
-            case Vector2 v when v.Equals(Vector2.up):
-                skillHolder.transform.eulerAngles = new Vector3(0, 0, -180);
-                break;
-
-            case Vector2 v when v.Equals(Vector2.down):
-                skillHolder.transform.eulerAngles = new Vector3(0, 0, 0);
-                break;
-        }
+        leftArm.transform.eulerAngles = rot;
+        rightArm.transform.eulerAngles = rot;
     }
 
     #endregion

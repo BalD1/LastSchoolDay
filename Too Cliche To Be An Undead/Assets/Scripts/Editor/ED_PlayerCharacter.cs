@@ -84,6 +84,12 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty sprite = serializedObject.FindProperty("sprite");
         EditorGUILayout.PropertyField(sprite);
 
+        SerializedProperty leftArm = serializedObject.FindProperty("leftArm");
+        EditorGUILayout.PropertyField(leftArm);
+
+        SerializedProperty rightArm = serializedObject.FindProperty("rightArm");
+        EditorGUILayout.PropertyField(rightArm);
+
         SerializedProperty pivotOffset = serializedObject.FindProperty("pivotOffset");
         EditorGUILayout.PropertyField(pivotOffset);
 
