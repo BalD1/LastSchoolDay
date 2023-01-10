@@ -34,7 +34,11 @@ public class SkillHolder : MonoBehaviour
         {
             timer -= Time.deltaTime;
 
-            if (timer <= 0) owner.ScaleTweenObject(owner.GetSkillIcon.gameObject, LeanTweenType.linear, LeanTweenType.easeOutSine);
+            if (timer <= 0)
+            {
+                owner.ScaleTweenObject(owner.GetSkillIcon.gameObject, LeanTweenType.linear, LeanTweenType.easeOutSine);
+                UIManager.Instance.SetSkillIconState(owner.PlayerIndex, true);
+            }
 
             owner.UpdateSkillThumbnailFill(-((timer / owner.MaxSkillCD_M) - 1));
         }
@@ -75,7 +79,9 @@ public class SkillHolder : MonoBehaviour
         this.Skill.ResetSkill();
         timer = 0;
         owner.SetSkillThumbnail(newSkill.Thumbnail);
+
         owner.UpdateSkillThumbnailFill(1);
+        UIManager.Instance.SetSkillIconState(owner.PlayerIndex, true);
 
         owner.ResetSkillAnimator();
     }

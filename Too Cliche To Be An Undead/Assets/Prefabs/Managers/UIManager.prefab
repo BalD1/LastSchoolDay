@@ -61,6 +61,7 @@ MonoBehaviour:
   mainMenu_mainPanel: {fileID: 0}
   fadeImage: {fileID: 0}
   OPTION_DashOnMovementsToggle: {fileID: 0}
+  skipTutorialToggle: {fileID: 0}
   hudTransparencyValue: 0.3
   hudTransparencyTime: 0.3
   playersColliders:
@@ -81,25 +82,33 @@ MonoBehaviour:
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
     hpText: {fileID: 0}
+    skillContainer: {fileID: 0}
     skillThumbnail: {fileID: 0}
+    dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
   - container: {fileID: 0}
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
     hpText: {fileID: 0}
+    skillContainer: {fileID: 0}
     skillThumbnail: {fileID: 0}
+    dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
   - container: {fileID: 0}
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
     hpText: {fileID: 0}
+    skillContainer: {fileID: 0}
     skillThumbnail: {fileID: 0}
+    dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
   - container: {fileID: 0}
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
     hpText: {fileID: 0}
+    skillContainer: {fileID: 0}
     skillThumbnail: {fileID: 0}
+    dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
   minimap: {fileID: 0}
   pbContainersButtons:
@@ -112,23 +121,33 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  blackBars: []
+  blackBars:
+  - {fileID: 0}
+  - {fileID: 0}
   keycardsContainer: {fileID: 0}
   keycardsContainerRect: {fileID: 0}
   keycardsCounter: {fileID: 0}
   hudContainer: {fileID: 0}
   dialogueContainer: {fileID: 0}
+  <skillButton_active>k__BackingField: {fileID: 0}
+  <skillButton_inactive>k__BackingField: {fileID: 0}
+  <dashButton_active>k__BackingField: {fileID: 0}
+  <dashButton_inactive>k__BackingField: {fileID: 0}
   characterPortrait:
   - characterName: 0
     characterPortraitsByHP:
-    - percentage: 0.75
-      portrait: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
+    - percentage: 0.9
+      portrait: {fileID: 813413951, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
+    - percentage: 0.7
+      portrait: {fileID: -1743251688, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
     - percentage: 0.5
-      portrait: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
-    - percentage: 0.25
-      portrait: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
+      portrait: {fileID: 1840623084, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
+    - percentage: 0.3
+      portrait: {fileID: 1996300552, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
+    - percentage: 0.15
+      portrait: {fileID: 287301334, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
     - percentage: 0
-      portrait: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
+      portrait: {fileID: 1861653704, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   - characterName: 1
     characterPortraitsByHP:
     - percentage: 0.75

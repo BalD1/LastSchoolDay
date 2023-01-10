@@ -93,9 +93,18 @@ public class UIManager : MonoBehaviour
         public Image portrait;
         public Image hpBar;
         public TextMeshProUGUI hpText;
+
+        public Image skillContainer;
         public Image skillThumbnail;
+
+        public Image dashContainer;
         public Image dashThumbnail;
     }
+
+    [field: SerializeField] public Image skillButton_active { get; private set; }
+    [field: SerializeField] public Image skillButton_inactive { get; private set; }
+    [field: SerializeField] public Image dashButton_active { get; private set; }
+    [field: SerializeField] public Image dashButton_inactive { get; private set; }
 
     [SerializeField] private CharacterPortrait[] characterPortrait;
     public CharacterPortrait[] CharacterPortraits { get => characterPortrait; }
@@ -280,6 +289,16 @@ public class UIManager : MonoBehaviour
 
         LeanTween.alphaCanvas(localHUD.GetComponent<CanvasGroup>(), makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
         LeanTween.alphaCanvas(keycardsContainer.GetComponent<CanvasGroup>(), makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
+    }
+
+    public void SetDashIconState(int playerID, bool active)
+    {
+        playerHUDs[playerID].dashContainer = active ? dashButton_active : dashButton_inactive;
+    }
+
+    public void SetSkillIconState(int playerID, bool active)
+    {
+        playerHUDs[playerID].skillContainer = active ? skillButton_active : skillButton_inactive;
     }
 
     public void UpdateKeycardsCounter()

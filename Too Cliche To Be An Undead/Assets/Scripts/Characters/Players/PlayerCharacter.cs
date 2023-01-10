@@ -484,10 +484,9 @@ public class PlayerCharacter : Entity, IInteractable
         if (currentMaxHP == -1)
             currentMaxHP = maxHP_M;
 
-
         if (currentPortraitIdx + 1 <= characterPortrait.characterPortraitsByHP.Length)
         {
-            if (currentHP * (currentMaxHP / 100) <= currentMaxHP * CurrentCharacterPortrait().percentage)
+            if (currentHP / currentMaxHP * 100 <= 100 * CurrentCharacterPortrait().percentage)
             {
                 SetCharacterPortrait(currentPortraitIdx + 1);
                 SetPortrait(currentMaxHP);
@@ -497,7 +496,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (currentPortraitIdx > 0)
         {
-            if (currentHP * (currentMaxHP / 100) > currentMaxHP * LastCharacterPortrait().percentage)
+            if (currentHP / currentMaxHP * 100 > 100 * LastCharacterPortrait().percentage)
             {
                 SetCharacterPortrait(currentPortraitIdx - 1);
                 SetPortrait(currentMaxHP);

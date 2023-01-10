@@ -34,6 +34,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         ownerAnimationController ??= owner.AnimationController;
         ownerTrackEntry ??= ownerAnimationController.SkeletonAnimation.AnimationState.GetCurrent(0);
 
+        UIManager.Instance.SetSkillIconState(owner.PlayerIndex, false);
+
         idleAnim = ownerAnimationController.animationsData.skillIdleAnim;
         walkAnim = ownerAnimationController.animationsData.skillWalkAnim;
 
