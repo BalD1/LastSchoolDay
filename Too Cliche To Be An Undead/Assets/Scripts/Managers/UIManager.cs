@@ -101,10 +101,10 @@ public class UIManager : MonoBehaviour
         public Image dashThumbnail;
     }
 
-    [field: SerializeField] public Image skillButton_active { get; private set; }
-    [field: SerializeField] public Image skillButton_inactive { get; private set; }
-    [field: SerializeField] public Image dashButton_active { get; private set; }
-    [field: SerializeField] public Image dashButton_inactive { get; private set; }
+    [SerializeField] private Sprite skillButton_active;
+    [SerializeField] private Sprite skillButton_inactive;
+    [SerializeField] private Sprite dashButton_active;
+    [SerializeField] private Sprite dashButton_inactive;
 
     [SerializeField] private CharacterPortrait[] characterPortrait;
     public CharacterPortrait[] CharacterPortraits { get => characterPortrait; }
@@ -293,12 +293,12 @@ public class UIManager : MonoBehaviour
 
     public void SetDashIconState(int playerID, bool active)
     {
-        playerHUDs[playerID].dashContainer = active ? dashButton_active : dashButton_inactive;
+        playerHUDs[playerID].dashContainer.sprite = active ? dashButton_active : dashButton_inactive;
     }
 
     public void SetSkillIconState(int playerID, bool active)
     {
-        playerHUDs[playerID].skillContainer = active ? skillButton_active : skillButton_inactive;
+        playerHUDs[playerID].skillContainer.sprite = active ? skillButton_active : skillButton_inactive;
     }
 
     public void UpdateKeycardsCounter()

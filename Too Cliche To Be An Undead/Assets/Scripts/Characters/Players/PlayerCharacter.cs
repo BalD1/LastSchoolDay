@@ -198,6 +198,10 @@ public class PlayerCharacter : Entity, IInteractable
     private void SetHUD()
     {
         UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
+        SetHUD(pHUD);
+    }
+    private void SetHUD(UIManager.PlayerHUD pHUD)
+    {
         if (pHUD.container != null)
         {
             pHUD.container.SetActive(true);
@@ -266,7 +270,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (this.hpBar == null && !GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {
-            UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[0];
+            UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
             characterPortrait = UIManager.Instance.CharacterPortraits[this.playerIndex];
             currentPortraitIdx = 0;
 
@@ -285,16 +289,7 @@ public class PlayerCharacter : Entity, IInteractable
                 GameManager.Instance.playersByName.Add(new GameManager.PlayersByName("soloP1", this));
             }
 
-            if (pHUD.container != null)
-            {
-                pHUD.container.SetActive(true);
-                this.portrait = pHUD.portrait;
-                this.hpBar = pHUD.hpBar;
-                this.hpText = pHUD.hpText;
-                this.skillIcon = pHUD.skillThumbnail;
-
-                pHUD.portrait.sprite = UIManager.Instance.GetBasePortrait(character);
-            }
+            SetHUD(pHUD);
 
             PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(GameManager.E_CharactersNames.Shirley);
 
@@ -308,8 +303,6 @@ public class PlayerCharacter : Entity, IInteractable
         if (GameManager.Instance.playersByName.Count <= 0) GameManager.Instance.SetPlayersByNameList();
 
         this.minimapMarker.SetActive(true);
-
-        SetDashThumbnail(playerDash.Thumbnail);
     }
 
     protected override void Update()
@@ -320,11 +313,14 @@ public class PlayerCharacter : Entity, IInteractable
         if (dash_CD_TIMER > 0)
         {
             dash_CD_TIMER -= Time.deltaTime;
-            if (dashIcon != null)
-            {
-                dashIcon.fillAmount = -((dash_CD_TIMER / MaxDashCD_M) - 1);
 
-                if (dash_CD_TIMER <= 0) ScaleTweenObject(dashIcon.gameObject);
+            float fillAmount = (dash_CD_TIMER / MaxDashCD_M) - 1;
+            UpdateDashThumbnailFill(fillAmount * -1);
+
+            if (dash_CD_TIMER <= 0)
+            {
+                ScaleTweenObject(dashIcon.gameObject);
+                UIManager.Instance.SetDashIconState(PlayerIndex, true);
             }
         }
 
@@ -817,19 +813,13 @@ public class PlayerCharacter : Entity, IInteractable
     public void RotateArms()
     {
         Vector3 rot = weapon.GetRotationOnMouseOrGamepad().eulerAngles;
-        rot.z += 180;
 
-        //if (rot.z > -90f && rot.z < 90)
-        //{
-        //    leftArm.GetComponent<SpriteRenderer>().flipY = false;
-        //    rightArm.GetComponent<SpriteRenderer>().flipY = false;
-        //}
-        //else
-        //{
-        //    leftArm.GetComponent<SpriteRenderer>().flipY = true;
-        //    rightArm.GetComponent<SpriteRenderer>().flipY = true;
-        //}
-        
+        bool flipArms = (rot.z < 270) && (rot.z > 90);
+
+        leftArm.GetComponent<SpriteRenderer>().flipY = !flipArms;
+        rightArm.GetComponent<SpriteRenderer>().flipY = !flipArms;
+
+        rot.z += 180;
 
         leftArm.transform.eulerAngles = rot;
         rightArm.transform.eulerAngles = rot;
@@ -997,8 +987,6 @@ public class PlayerCharacter : Entity, IInteractable
     public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite, GameManager.E_CharactersNames character, SCRPT_PlayersAnimData animData)
     {
         this.playerDash = newDash;
-        if (dashIcon != null)
-            this.dashIcon.sprite = newDash.Thumbnail;
 
         this.skillHolder.ChangeSkill(newSkill);
         this.stats = newStats;
@@ -1049,6 +1037,13 @@ public class PlayerCharacter : Entity, IInteractable
     }
 
     #endregion
+
+    public void UpdateDashThumbnailFill(float fill)
+    {
+        if (dashIcon == null) return;
+
+        dashIcon.fillAmount = fill;
+    }
 
     public override void Stun(float duration, bool resetAttackTimer = false)
     {

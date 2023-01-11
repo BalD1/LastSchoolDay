@@ -40,7 +40,8 @@ public class SkillHolder : MonoBehaviour
                 UIManager.Instance.SetSkillIconState(owner.PlayerIndex, true);
             }
 
-            owner.UpdateSkillThumbnailFill(-((timer / owner.MaxSkillCD_M) - 1));
+            float fillAmount = (timer / owner.MaxSkillCD_M) - 1;
+            owner.UpdateSkillThumbnailFill(fillAmount * -1);
         }
 
         //if (skill.IsInUse) skill.UpdateSkill(owner);
@@ -61,7 +62,9 @@ public class SkillHolder : MonoBehaviour
         }
 
         owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimers(skill.Duration, transitionDuration));
-        owner.UpdateSkillThumbnailFill(-((timer / owner.MaxSkillCD_M) - 1));
+
+        float fillAmount = (timer / owner.MaxSkillCD_M) - 1;
+        owner.UpdateSkillThumbnailFill(fillAmount * -1);
     }
 
     public void StartTimer() => timer = owner.MaxSkillCD_M;

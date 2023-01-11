@@ -34,8 +34,6 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         ownerAnimationController ??= owner.AnimationController;
         ownerTrackEntry ??= ownerAnimationController.SkeletonAnimation.AnimationState.GetCurrent(0);
 
-        UIManager.Instance.SetSkillIconState(owner.PlayerIndex, false);
-
         idleAnim = ownerAnimationController.animationsData.skillIdleAnim;
         walkAnim = ownerAnimationController.animationsData.skillWalkAnim;
 
@@ -127,6 +125,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         owner.GetSkill.StopSkill(owner);
+        UIManager.Instance.SetSkillIconState(owner.PlayerIndex, false);
         owner.GetSkillHolder.Trigger.enabled = false;
 
         owner.ForceUpdateMovementsInput();

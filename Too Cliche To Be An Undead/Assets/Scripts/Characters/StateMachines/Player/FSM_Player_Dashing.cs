@@ -72,6 +72,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, false);
 
         owner.StartDashTimer();
+        UIManager.Instance.SetDashIconState(owner.PlayerIndex, false);
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
