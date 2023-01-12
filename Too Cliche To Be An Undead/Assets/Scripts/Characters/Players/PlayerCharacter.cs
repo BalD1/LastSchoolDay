@@ -44,6 +44,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private Transform leftArm;
     [SerializeField] private Transform rightArm;
+    [SerializeField] private Transform armsParent;
 
     [SerializeField] private Animator skillTutorialAnimator;
 
@@ -816,10 +817,11 @@ public class PlayerCharacter : Entity, IInteractable
 
         bool flipArms = (rot.z < 270) && (rot.z > 90);
 
-        leftArm.GetComponent<SpriteRenderer>().flipY = !flipArms;
-        rightArm.GetComponent<SpriteRenderer>().flipY = !flipArms;
+        Vector2 armsScale = armsParent.localScale;
+        armsScale.x = flipArms ? 1 : -1;
+        armsParent.localScale = armsScale;
 
-        rot.z += 180;
+        if (flipArms) rot.z += 180;
 
         leftArm.transform.eulerAngles = rot;
         rightArm.transform.eulerAngles = rot;
