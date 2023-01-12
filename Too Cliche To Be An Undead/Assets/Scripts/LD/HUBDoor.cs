@@ -8,6 +8,7 @@ using UnityEngine;
 public class HUBDoor : MonoBehaviour, IInteractable
 {
     [SerializeField] private SkeletonAnimation skeletonAnimation;
+    [SerializeField] private GameObject outline;
 
     [SpineAnimation] [SerializeField] private string openAnimation, closeAnimation;
 
@@ -97,11 +98,15 @@ public class HUBDoor : MonoBehaviour, IInteractable
     public void EnteredInRange(GameObject interactor)
     {
         if (currentCounter > 0) return;
+
+        outline.SetActive(true);
     }
 
     public void ExitedRange(GameObject interactor)
     {
         if (currentCounter > 0) return;
+
+        outline.SetActive(false);
     }
 
     public void Interact(GameObject interactor)
@@ -110,6 +115,7 @@ public class HUBDoor : MonoBehaviour, IInteractable
             return;
 
         StartCoroutine(FadeAndTeleport());
+        outline.SetActive(false);
     }
 
     private IEnumerator FadeAndTeleport()

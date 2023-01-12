@@ -36,11 +36,13 @@ public class CustomBoneFollow : MonoBehaviour
 
     public bool useOffset;
     public Vector3 offset;
+    public bool forceZOffset;
 
     public bool followXPosition = true;
     public bool followYPosition = true;
     public bool followZPosition = true;
     public bool followBoneRotation = true;
+
 
     [Tooltip("Follows the skeleton's flip state by controlling this Transform's local scale.")]
     public bool followSkeletonFlip = true;
@@ -142,7 +144,7 @@ public class CustomBoneFollow : MonoBehaviour
         }
 
         Transform thisTransform = this.transform;
-        float additionalFlipScale = 1;
+         float additionalFlipScale = 1;
         if (skeletonTransformIsParent)
         {
             // Recommended setup: Use local transform properties if Spine GameObject is the immediate parent
@@ -197,6 +199,8 @@ public class CustomBoneFollow : MonoBehaviour
             }
             else
             {
+                if (forceZOffset) targetWorldPosition.z = .1f;
+
                 thisTransform.position = targetWorldPosition + (useOffset ? offset : Vector3.zero);
             }
 

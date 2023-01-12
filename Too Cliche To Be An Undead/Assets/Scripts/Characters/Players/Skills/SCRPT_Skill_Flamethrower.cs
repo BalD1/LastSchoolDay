@@ -12,6 +12,8 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
     [SerializeField] private float tickDamagesMultiplier = .5f;
     private float tickDamages;
 
+    private GameObject playingParticles;
+
     public override void StartSkill(PlayerCharacter owner)
     {
         isInUse = true; 
@@ -23,6 +25,8 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
         owner.OffsetChild(offset);
         owner.SetArmsState(true);
+
+        playingParticles = Instantiate(particles, owner.GetSkillHolder.transform.GetChild(0));
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
@@ -47,6 +51,8 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.SetArmsState(false);
 
         owner.SkillTutoAnimator.SetTrigger("finish");
+
+        Destroy(playingParticles);
     }
 
     public void EnteredTrigger(Entity entity)

@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 8823656354733599271}
-  skill: {fileID: 11400000, guid: fc23f6bb8164d644f88849b9b8912b85, type: 2}
+  skill: {fileID: 11400000, guid: 30e8c9614365e1b4b9810234cf4830c7, type: 2}
   animator: {fileID: 1392137800}
   trigger: {fileID: 1344461387}
   debugMode: 0
@@ -1385,6 +1385,7 @@ MonoBehaviour:
   boneName: Buste
   useOffset: 1
   offset: {x: 0, y: 0.095, z: 0}
+  forceZOffset: 0
   followXPosition: 0
   followYPosition: 1
   followZPosition: 0
@@ -1490,7 +1491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4392769597751985400}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0154, y: 0.06920001, z: 0}
+  m_LocalPosition: {x: -0.0154, y: 0.06920001, z: 0.1}
   m_LocalScale: {x: 0.81859934, y: 0.81859934, z: 0.81859934}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1521,7 +1522,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4392769597751985400}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07b669272d19c2340b8a61d6ff5a5c42, type: 3}
   m_Name: 
@@ -1530,6 +1531,7 @@ MonoBehaviour:
   boneName: Buste
   useOffset: 1
   offset: {x: 0, y: 0.095, z: 0}
+  forceZOffset: 0
   followXPosition: 0
   followYPosition: 1
   followZPosition: 0
@@ -2190,7 +2192,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5000
+  m_SortingOrder: 5005
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1312988683021083799
 MonoBehaviour:
@@ -2357,7 +2359,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5000
+  m_SortingOrder: 5005
   m_Sprite: {fileID: 21300000, guid: 16420e9b25d30444998839437dffbc48, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2443,7 +2445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8823656354733599274}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

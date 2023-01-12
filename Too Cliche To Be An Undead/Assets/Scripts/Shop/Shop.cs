@@ -8,6 +8,7 @@ public class Shop : MonoBehaviour, IInteractable
     [SerializeField] private GameObject shop;
 
     [SerializeField] private SkeletonAnimation skeleton;
+    [SerializeField] private GameObject outline;
 
     [SerializeField] [SpineAnimation] private string idle, open;
 
@@ -35,7 +36,7 @@ public class Shop : MonoBehaviour, IInteractable
     }
     public void EnteredInRange(GameObject interactor)
     {
-        //skeleton.material = GameAssets.Instance.OutlineMaterial;
+        outline.SetActive(true);
         currentInteractors.Add(interactor);
     }
 
@@ -45,7 +46,7 @@ public class Shop : MonoBehaviour, IInteractable
         if (currentInteractors.Count > 0) return;
 
         if (shopIsOpen) CloseShop();
-        //skeleton.material = GameAssets.Instance.DefaultMaterial;
+        outline.SetActive(false);
     }
 
     public void Interact(GameObject interactor)
@@ -53,7 +54,7 @@ public class Shop : MonoBehaviour, IInteractable
         if (shopIsOpen) CloseShop();
         else OpenShop();
 
-        //if (!CanBeInteractedWith()) skeleton.material = GameAssets.Instance.DefaultMaterial;
+        outline.SetActive(false);
     }
 
     public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);
@@ -63,7 +64,7 @@ public class Shop : MonoBehaviour, IInteractable
         if (shopIsOpen) CloseShop();
         else OpenShop();
 
-        //if (!CanBeInteractedWith()) skeleton.material = GameAssets.Instance.DefaultMaterial;
+        outline.SetActive(false);
     }
 
     public void UpdateCostsMoney()
@@ -118,6 +119,8 @@ public class Shop : MonoBehaviour, IInteractable
     private void DelayedIdle()
     {
         skeleton.AnimationState.SetAnimation(0, idle, true);
+
+        if (currentInteractors.Count > 0) outline.SetActive(true);
     }
 
     public void SetIsShopOpen(bool newState) => shopIsOpen = newState;
