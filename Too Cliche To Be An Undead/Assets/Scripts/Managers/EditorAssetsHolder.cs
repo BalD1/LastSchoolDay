@@ -57,6 +57,9 @@ public class EditorAssetsHolder : MonoBehaviour
         Window,
 
         Aquarium,
+        Tree,
+        Camera,
+        VendingMachine,
     }
 
     public IconWithSize GetIconData(E_IconNames name)

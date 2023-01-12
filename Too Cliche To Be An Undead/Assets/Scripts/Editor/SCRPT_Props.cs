@@ -50,5 +50,8 @@ public class SCRPT_Props : ScriptableObject
         Poster,
         Window,
         Aquarium,
-    }
+        Tree,
+        Camera,
+        VendingMachine,
+    }   
 }
