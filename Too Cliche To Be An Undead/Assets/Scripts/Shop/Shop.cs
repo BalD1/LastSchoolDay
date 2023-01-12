@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,11 @@ public class Shop : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject shop;
 
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private SkeletonAnimation skeleton;
+
+    [SerializeField] [SpineAnimation] private string idle, open;
+
+    [SerializeField] private float animationDelay = .35f;
 
     private List<GameObject> currentInteractors = new List<GameObject>();
 
@@ -30,7 +35,7 @@ public class Shop : MonoBehaviour, IInteractable
     }
     public void EnteredInRange(GameObject interactor)
     {
-        spriteRenderer.material = GameAssets.Instance.OutlineMaterial;
+        //skeleton.material = GameAssets.Instance.OutlineMaterial;
         currentInteractors.Add(interactor);
     }
 
@@ -40,7 +45,7 @@ public class Shop : MonoBehaviour, IInteractable
         if (currentInteractors.Count > 0) return;
 
         if (shopIsOpen) CloseShop();
-        spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
+        //skeleton.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public void Interact(GameObject interactor)
@@ -48,7 +53,7 @@ public class Shop : MonoBehaviour, IInteractable
         if (shopIsOpen) CloseShop();
         else OpenShop();
 
-        if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
+        //if (!CanBeInteractedWith()) skeleton.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);
@@ -58,7 +63,7 @@ public class Shop : MonoBehaviour, IInteractable
         if (shopIsOpen) CloseShop();
         else OpenShop();
 
-        if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
+        //if (!CanBeInteractedWith()) skeleton.material = GameAssets.Instance.DefaultMaterial;
     }
 
     public void UpdateCostsMoney()
@@ -69,13 +74,23 @@ public class Shop : MonoBehaviour, IInteractable
         }
     }
 
-    private void OpenShop()
+    public void OpenShop()
     {
+        if (skeleton.AnimationName != idle) return;
+
+        skeleton.AnimationState.SetAnimation(0, open, true);
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
-        UIManager.Instance.OpenShop();
+        UIManager.Instance.FadeAllHUD(fadeIn: false);
+
+        LeanTween.delayedCall(animationDelay, DelayedOpen);
+    }
+    private void DelayedOpen()
+    {
+        UIManager.Instance.OpenShop(false);
         UIManager.Instance.D_closeMenu += CheckIfClosedMenuIsShop;
         shopIsOpen = true;
         GameManager.Player1Ref.SetAllVelocity(Vector2.zero);
+
 
         foreach (var item in levels)
         {
@@ -83,12 +98,26 @@ public class Shop : MonoBehaviour, IInteractable
         }
     }
 
-    private void CloseShop()
+    public void CloseShop()
     {
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         UIManager.Instance.CloseShop();
         UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
         shopIsOpen = false;
+
+        LeanTween.delayedCall(animationDelay, DelayedIdle);
+    }
+    public void CloseShopFromUI()
+    {
+        UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
+        shopIsOpen = false;
+
+        LeanTween.delayedCall(animationDelay, DelayedIdle);
+    }
+
+    private void DelayedIdle()
+    {
+        skeleton.AnimationState.SetAnimation(0, idle, true);
     }
 
     public void SetIsShopOpen(bool newState) => shopIsOpen = newState;

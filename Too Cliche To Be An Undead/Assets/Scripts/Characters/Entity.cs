@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +23,9 @@ public class Entity : MonoBehaviour, IDamageable
 
     [SerializeField] protected SpriteRenderer sprite;
     public SpriteRenderer GetSprite { get => sprite; }
+
+    [SerializeField] protected SkeletonAnimation skeletonAnimation;
+    public SkeletonAnimation SkeletonAnimation { get => skeletonAnimation; }
 
     [SerializeField] protected Animator animator;
     public Animator GetAnimator { get => animator; }
@@ -436,9 +440,18 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected virtual IEnumerator MaterialFlash()
     {
-        this.sprite.material.SetInt("_Hit", 1);
-        yield return new WaitForSeconds(flashOnHitTime);
-        this.sprite.material.SetInt("_Hit", 0);
+        if (skeletonAnimation != null)
+        {
+            this.skeletonAnimation.Skeleton.SetColor(Color.red);
+            yield return new WaitForSeconds(flashOnHitTime);
+            this.skeletonAnimation.Skeleton.SetColor(Color.white);
+        }
+        else
+        {
+            this.sprite.material.SetInt("_Hit", 1);
+            yield return new WaitForSeconds(flashOnHitTime);
+            this.sprite.material.SetInt("_Hit", 0);
+        }
     }
     protected virtual IEnumerator MaterialFlash(string m, float time)
     {
