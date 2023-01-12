@@ -29,9 +29,14 @@ public class RendererSorting : MonoBehaviour
     {
         if (objectRenderer == null)
         {
-            Debug.LogErrorFormat($"Object Renderer {objectRenderer} of {this.gameObject.name} is null or invalid.", this.gameObject);
+            objectRenderer = this.GetComponent<Renderer>();
+
+            if (objectRenderer != null) return;
+
 #if !UNITY_EDITOR
             Destroy(this);
+#else
+            Debug.LogErrorFormat($"Object Renderer {objectRenderer} of {this.gameObject.name} is null or invalid.", this.gameObject);
 #endif
             return;
         }

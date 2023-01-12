@@ -496,16 +496,8 @@ public class UIManager : MonoBehaviour
         if (closedMenu != null)
         {
             if (closedMenu.Equals(shopMenu))
-            {
-                FadeAllHUD(fadeIn: true);
-                PostproManager.Instance.SetBlurState(false);
+                CloseShopFromBack();
 
-                PlayersManager.Instance.SetAllPlayersControlMapToInGame();
-
-                GameManager.Instance.GetShop.SetIsShopOpen(false);
-
-                GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-            }
             closedMenu.SetActive(false);
         }
 
@@ -535,12 +527,12 @@ public class UIManager : MonoBehaviour
         SelectButton("Last");
     }
 
-    public void OpenShop()
+    public void OpenShop(bool makeFade = true)
     {
         OpenMenuInQueue(shopMenu);
         SelectButton("Shop");
 
-        FadeAllHUD(fadeIn: false);
+        if (makeFade) FadeAllHUD(fadeIn: false);
         PostproManager.Instance.SetBlurState(true);
 
         //SetCurrentVerticalScrollbar(shopBar);
@@ -552,6 +544,10 @@ public class UIManager : MonoBehaviour
     {
         CloseYoungerMenu();
 
+        CloseShopFromBack();
+    } 
+    private void CloseShopFromBack()
+    {
         FadeAllHUD(fadeIn: true);
         PostproManager.Instance.SetBlurState(false);
 
@@ -559,7 +555,9 @@ public class UIManager : MonoBehaviour
         //UnsetCurrentVerticalScrollbar();
 
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-    } 
+
+        GameManager.Instance.GetShop.CloseShopFromUI();
+    }
 
     #endregion
 

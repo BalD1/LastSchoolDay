@@ -1326,6 +1326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3310727593560656710}
+  - component: {fileID: 270223231945928575}
   - component: {fileID: 3925588513764982553}
   - component: {fileID: 5180044908240593025}
   - component: {fileID: 8819665399439366369}
@@ -1351,6 +1352,23 @@ Transform:
   m_Father: {fileID: 1423488751546438909}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &270223231945928575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962321047335756774}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0337a3a8c54ceb741a392e9bc6ece40f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armsSprites:
+  - {fileID: -1400362639, guid: 3d8c55561e9c19a4780706000e7d6965, type: 3}
+  - {fileID: -1818848475, guid: 3d8c55561e9c19a4780706000e7d6965, type: 3}
+  - {fileID: -2116162541, guid: 3d8c55561e9c19a4780706000e7d6965, type: 3}
+  spriteRenderer: {fileID: 8819665399439366369}
 --- !u!114 &3925588513764982553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1453,6 +1471,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3961767359042658185}
+  - component: {fileID: 8494116311049216039}
   - component: {fileID: 8658477632741702112}
   - component: {fileID: 8837276098362536879}
   - component: {fileID: 2347113076546151329}
@@ -1478,6 +1497,23 @@ Transform:
   m_Father: {fileID: 1423488751546438909}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8494116311049216039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4392769597751985400}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0337a3a8c54ceb741a392e9bc6ece40f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armsSprites:
+  - {fileID: 921262228, guid: 3d8c55561e9c19a4780706000e7d6965, type: 3}
+  - {fileID: 833490206, guid: 3d8c55561e9c19a4780706000e7d6965, type: 3}
+  - {fileID: 1170308082, guid: 3d8c55561e9c19a4780706000e7d6965, type: 3}
+  spriteRenderer: {fileID: 2347113076546151329}
 --- !u!114 &8658477632741702112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2178,9 +2214,9 @@ MonoBehaviour:
   useClipping: 1
   immutableTriangles: 0
   pmaVertexColors: 1
-  clearStateOnDisable: 0
-  tintBlack: 0
-  singleSubmesh: 0
+  clearStateOnDisable: 1
+  tintBlack: 1
+  singleSubmesh: 1
   fixDrawOrder: 0
   addNormals: 0
   calculateTangents: 0
@@ -2431,6 +2467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 8823656354733599272}
   sprite: {fileID: 8823656353503972633}
+  skeletonAnimation: {fileID: 1312988683021083799}
   animator: {fileID: 3934805327378046947}
   healthPopupOffset: {x: 0, y: 1}
   audioClips: {fileID: 11400000, guid: 16996d08a168bd545875040b1188965a, type: 2}
