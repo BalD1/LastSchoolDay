@@ -103,7 +103,7 @@ public class SpawnersManager : MonoBehaviour
         StringBuilder objectName = new StringBuilder("SPAWNER");
         switch (es.ElementToSpawn)
         {
-            case ElementSpawner.E_ElementToSpawn.Zombie:
+            case ElementSpawner.E_ElementToSpawn.RandomBaseZombie:
                 objectName.Append("_ZOM");
                 break;
 

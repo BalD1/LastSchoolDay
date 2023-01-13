@@ -15,7 +15,7 @@ public class NormalZombie : EnemyBase
 
     public static NormalZombie Create(Vector2 pos)
     {
-        GameObject gO = Instantiate(GameAssets.Instance.NormalZombiePF, pos, Quaternion.identity);
+        GameObject gO = Instantiate(GameAssets.Instance.DashingZombiePF, pos, Quaternion.identity);
 
         NormalZombie nZ = gO.GetComponent<NormalZombie>();
 

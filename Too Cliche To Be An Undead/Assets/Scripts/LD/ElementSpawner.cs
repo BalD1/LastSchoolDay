@@ -8,9 +8,11 @@ public class ElementSpawner : MonoBehaviour
 
     public enum E_ElementToSpawn
     {
-        Zombie,
+        RandomBaseZombie,
         Keycard,
         Coins,
+        DashingZombie,
+        CaCZombie,
     }
 
     [SerializeField] private E_ElementToSpawn elementToSpawn;
@@ -42,19 +44,24 @@ public class ElementSpawner : MonoBehaviour
     {
         switch (elementToSpawn)
         {
-            case E_ElementToSpawn.Zombie:
-                GameObject zom = Instantiate(GameAssets.Instance.NormalZombiePF, this.transform.position, Quaternion.identity);
-                zom.transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
+            case E_ElementToSpawn.RandomBaseZombie:
+                Spawn(GameAssets.Instance.GetRandomZombie, GameManager.Instance.InstantiatedEntitiesParent);
                 break;
 
             case E_ElementToSpawn.Keycard:
-                GameObject key = Instantiate(GameAssets.Instance.KeycardPF, this.transform.position, Quaternion.identity);
-                key.transform.parent = GameManager.Instance.InstantiatedKeycardsParent;
+                Spawn(GameAssets.Instance.KeycardPF, GameManager.Instance.InstantiatedKeycardsParent);
                 break;
 
             case E_ElementToSpawn.Coins:
-                GameObject cns = Instantiate(GameAssets.Instance.CoinPF, this.transform.position, Quaternion.identity);
-                cns.transform.parent = GameManager.Instance.InstantiatedMiscParent;
+                Spawn(GameAssets.Instance.CoinPF, GameManager.Instance.InstantiatedMiscParent);
+                break;
+
+            case E_ElementToSpawn.CaCZombie:
+                Spawn(GameAssets.Instance.CacZombiePF, GameManager.Instance.InstantiatedEntitiesParent);
+                break;
+
+            case E_ElementToSpawn.DashingZombie:
+                Spawn(GameAssets.Instance.DashingZombiePF, GameManager.Instance.InstantiatedEntitiesParent);
                 break;
 
             default:
@@ -63,6 +70,12 @@ public class ElementSpawner : MonoBehaviour
         }
 
         if (destroyAfterSpawn) Destroy(this.gameObject);
+    }
+
+    private void Spawn(GameObject objPF, Transform parent)
+    {
+        GameObject instantiated = Instantiate(objPF, this.transform.position, Quaternion.identity);
+        instantiated.transform.parent = parent;
     }
 
     private void OnEnable()

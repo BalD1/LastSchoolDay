@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 1392137801}
   - component: {fileID: 1392137800}
   - component: {fileID: 1344461387}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SkillHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2515,6 +2515,11 @@ MonoBehaviour:
   skillDurationIcon: {fileID: 8843546095007425344}
   characterPortrait:
     characterName: 0
+    portraitRect:
+      offsetMin: {x: 0, y: 0}
+      offsetMax: {x: 0, y: 0}
+      anchorMin: {x: 0, y: 0}
+      anchorMax: {x: 0, y: 0}
     characterPortraitsByHP: []
   iconsMaxScale: {x: 1.3, y: 1.3, z: 1.3}
   maxScaleTime: 0.7
