@@ -214,6 +214,10 @@ public class PlayerCharacter : Entity, IInteractable
             this.dashIcon = pHUD.dashThumbnail;
         }
 
+        UIManager.PortraitRect portraitRect = characterPortrait.portraitRect;
+        portrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
+                                                   portraitRect.anchorMin, portraitRect.anchorMax);
+
         UIManager.Instance.KeycardContainer.SetActive(false);
     }
 
@@ -1007,7 +1011,6 @@ public class PlayerCharacter : Entity, IInteractable
         }
 
         currentPortraitIdx = 0;
-        SetPortrait();
 
         this.MaxDashCD_M = newDash.Dash_COOLDOWN;
         this.MaxSkillCD_M = newSkill.Cooldown;
@@ -1020,6 +1023,11 @@ public class PlayerCharacter : Entity, IInteractable
         this.maxCritChances_M = newStats.CritChances;
 
         this.currentHP = this.maxHP_M;
+
+        SetPortrait();
+        UIManager.PortraitRect portraitRect = characterPortrait.portraitRect;
+        portrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
+                                                   portraitRect.anchorMin, portraitRect.anchorMax);
 
         foreach (var item in statsModifiers)
         {

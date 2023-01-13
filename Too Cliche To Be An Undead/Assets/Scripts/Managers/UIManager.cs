@@ -113,6 +113,9 @@ public class UIManager : MonoBehaviour
     public struct CharacterPortrait
     {
         public GameManager.E_CharactersNames characterName;
+
+        public PortraitRect portraitRect;
+
         public CharacterPortraitByHP[] characterPortraitsByHP;
     }
 
@@ -121,7 +124,16 @@ public class UIManager : MonoBehaviour
     {
         public float percentage;
         public Sprite portrait;
-    } 
+    }
+    [System.Serializable]
+    public struct PortraitRect
+    {
+        public Vector2 offsetMin;
+        public Vector2 offsetMax;
+
+        public Vector2 anchorMin;
+        public Vector2 anchorMax;
+    }
 
     #endregion
 

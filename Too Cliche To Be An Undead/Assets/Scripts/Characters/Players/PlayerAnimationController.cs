@@ -57,6 +57,9 @@ public class PlayerAnimationController : MonoBehaviour
             return;
         }
 
+        this.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+        placeholderSprite.sprite = null;
+
         animationsData = animData;
         skeletonAnimation.skeletonDataAsset = animData.skeletonDataAsset;
         SpineEditorUtilities.ReloadSkeletonDataAsset(skeletonAnimation.skeletonDataAsset);
