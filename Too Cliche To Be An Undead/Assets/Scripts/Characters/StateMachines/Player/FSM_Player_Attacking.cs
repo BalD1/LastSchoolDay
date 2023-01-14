@@ -20,7 +20,6 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
         PlayerAnimationController ownerAnims = owner.AnimationController;
 
-        owner.SkeletonAnimation.skeleton.SetToSetupPose();
         switch (owner.Weapon.GetGeneralDirectionOfMouseOrGamepad())
         {
             case Vector2 v when v == Vector2.up:
@@ -29,7 +28,7 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
                 break;
 
             case Vector2 v when v == Vector2.down:
-                ownerAnims.FlipSkeleton(false);
+                ownerAnims.FlipSkeleton(true);
                 ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_down, false);
                 break;
 

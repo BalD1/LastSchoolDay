@@ -99,7 +99,7 @@ public class PlayerWeapon : MonoBehaviour
                             break;
 
                         case Vector2 v when v == Vector2.down:
-                            ownerAnims.FlipSkeleton(false);
+                            ownerAnims.FlipSkeleton(true);
                             ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_down, false);
                             break;
 
