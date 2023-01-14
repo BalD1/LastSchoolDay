@@ -12,7 +12,7 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
         SetAnimator();
 
-        owner.D_attackInput += owner.StartAttack;
+        owner.D_attackInput += owner.Weapon.AskForAttack;
         owner.D_skillInput += owner.GetSkillHolder.StartSkill;
         owner.D_dashInput += owner.StartDash;
 
@@ -34,7 +34,7 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
-        owner.D_attackInput -= owner.StartAttack;
+        owner.D_attackInput -= owner.Weapon.AskForAttack;
         owner.D_skillInput -= owner.GetSkillHolder.StartSkill;
         owner.D_dashInput -= owner.StartDash;
     }

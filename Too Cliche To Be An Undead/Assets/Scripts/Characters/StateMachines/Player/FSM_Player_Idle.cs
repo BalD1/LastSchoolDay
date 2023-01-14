@@ -15,7 +15,7 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
         owner.SetAllVelocity(Vector2.zero);
         base.EnterState(stateManager);
 
-        owner.D_attackInput += owner.StartAttack;
+        owner.D_attackInput += owner.Weapon.AskForAttack;
         owner.D_skillInput += owner.GetSkillHolder.StartSkill;
         owner.D_dashInput += owner.StartDash;
 
@@ -35,7 +35,7 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
     {
         base.ExitState(stateManager);
 
-        owner.D_attackInput -= owner.StartAttack;
+        owner.D_attackInput -= owner.Weapon.AskForAttack;
         owner.D_skillInput -= owner.GetSkillHolder.StartSkill;
         owner.D_dashInput -= owner.StartDash;
     }

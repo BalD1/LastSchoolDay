@@ -1381,7 +1381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b669272d19c2340b8a61d6ff5a5c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonRenderer: {fileID: 1312988683021083799}
+  skeletonRenderer: {fileID: 0}
   boneName: Buste
   useOffset: 1
   offset: {x: 0, y: 0.095, z: 0}
@@ -1527,7 +1527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b669272d19c2340b8a61d6ff5a5c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonRenderer: {fileID: 1312988683021083799}
+  skeletonRenderer: {fileID: 0}
   boneName: Buste
   useOffset: 1
   offset: {x: 0, y: 0.095, z: 0}
@@ -2032,11 +2032,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6610660807933591452}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.048, y: 0.01, z: 0}
+  m_LocalPosition: {x: 0.048, y: 0.00999999, z: 0}
   m_LocalScale: {x: 0.47664, y: 0.14780976, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 4468168921171664662}
+  m_Father: {fileID: 3834981775181064935}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4918047263826536550
@@ -2091,146 +2091,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &8383282551950463100
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4468168921171664662}
-  - component: {fileID: 7731485100424811597}
-  - component: {fileID: 1243006955284922713}
-  - component: {fileID: 6470060748323715576}
-  - component: {fileID: 1312988683021083799}
-  m_Layer: 0
-  m_Name: Spine GameObject (Shirley)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4468168921171664662
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8383282551950463100}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1399257753742968110}
-  m_Father: {fileID: 8823656353503972634}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7731485100424811597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8383282551950463100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingOrderOffset: 0
-  pivotOffset: 0
-  isStatic: 0
-  objectRenderer: {fileID: 6470060748323715576}
-  debugMode: 0
---- !u!33 &1243006955284922713
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8383282551950463100}
-  m_Mesh: {fileID: 0}
---- !u!23 &6470060748323715576
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8383282551950463100}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 5fdd6881a3252e147ac36264fd3d567c, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5005
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1312988683021083799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8383282551950463100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: e037097d1e8179a4ea42589b51ada4a3, type: 2}
-  initialSkinName: 
-  initialFlipX: 0
-  initialFlipY: 0
-  updateWhenInvisible: 3
-  separatorSlotNames: []
-  zSpacing: 0
-  useClipping: 1
-  immutableTriangles: 0
-  pmaVertexColors: 1
-  clearStateOnDisable: 1
-  tintBlack: 1
-  singleSubmesh: 1
-  fixDrawOrder: 0
-  addNormals: 0
-  calculateTangents: 0
-  maskInteraction: 0
-  maskMaterials:
-    materialsMaskDisabled: []
-    materialsInsideMask: []
-    materialsOutsideMask: []
-  disableRenderingOnOverride: 1
-  _animationName: IDLE
-  loop: 1
-  timeScale: 1
 --- !u!1 &8823656353503972635
 GameObject:
   m_ObjectHideFlags: 0
@@ -2265,7 +2125,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4468168921171664662}
+  - {fileID: 3834981775181064935}
   m_Father: {fileID: 8823656354733599273}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2282,7 +2142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeholderSprite: {fileID: 8823656353503972633}
-  skeletonAnimation: {fileID: 1312988683021083799}
+  skeletonAnimation: {fileID: 6299397748074035037}
   <animationsData>k__BackingField: {fileID: 11400000, guid: abf34e82765a5b34b83bc5c26c7c9393, type: 2}
   currentState: 
   <isValid>k__BackingField: 0
@@ -2469,7 +2329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 8823656354733599272}
   sprite: {fileID: 8823656353503972633}
-  skeletonAnimation: {fileID: 1312988683021083799}
+  skeletonAnimation: {fileID: 6299397748074035037}
   animator: {fileID: 3934805327378046947}
   healthPopupOffset: {x: 0, y: 1}
   audioClips: {fileID: 11400000, guid: 16996d08a168bd545875040b1188965a, type: 2}
@@ -2592,6 +2452,146 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.25933075, y: 0.14416504}
   m_EdgeRadius: 0
+--- !u!1 &8833047015093376026
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3834981775181064935}
+  - component: {fileID: 583483418703621476}
+  - component: {fileID: 5570274112872385724}
+  - component: {fileID: 8513430035912318771}
+  - component: {fileID: 6299397748074035037}
+  m_Layer: 0
+  m_Name: Spine GameObject (Shirley)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3834981775181064935
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8833047015093376026}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1399257753742968110}
+  m_Father: {fileID: 8823656353503972634}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &583483418703621476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8833047015093376026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: 0
+  isStatic: 0
+  objectRenderer: {fileID: 8513430035912318771}
+  debugMode: 0
+--- !u!33 &5570274112872385724
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8833047015093376026}
+  m_Mesh: {fileID: 0}
+--- !u!23 &8513430035912318771
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8833047015093376026}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4b37f5f7e9a07514f9d53afe483d84b4, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 5005
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6299397748074035037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8833047015093376026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeletonDataAsset: {fileID: 11400000, guid: e037097d1e8179a4ea42589b51ada4a3, type: 2}
+  initialSkinName: 
+  initialFlipX: 0
+  initialFlipY: 0
+  updateWhenInvisible: 3
+  separatorSlotNames: []
+  zSpacing: 0
+  useClipping: 1
+  immutableTriangles: 0
+  pmaVertexColors: 1
+  clearStateOnDisable: 0
+  tintBlack: 0
+  singleSubmesh: 0
+  fixDrawOrder: 0
+  addNormals: 0
+  calculateTangents: 0
+  maskInteraction: 0
+  maskMaterials:
+    materialsMaskDisabled: []
+    materialsInsideMask: []
+    materialsOutsideMask: []
+  disableRenderingOnOverride: 1
+  _animationName: IDLE
+  loop: 1
+  timeScale: 1
 --- !u!1001 &4027779215867649428
 PrefabInstance:
   m_ObjectHideFlags: 0

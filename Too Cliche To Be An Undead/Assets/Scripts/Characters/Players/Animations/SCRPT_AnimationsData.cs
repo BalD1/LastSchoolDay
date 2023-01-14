@@ -27,5 +27,8 @@ public class SCRPT_AnimationsData : ScriptableObject
 
     [field: SerializeField] public AnimationReferenceAsset idleAnim { get; private set; }
     [field: SerializeField] public AnimationReferenceAsset walkAnim { get; private set; }
+    [field: SerializeField] public AnimationReferenceAsset attackAnim_side { get; private set; }
+    [field: SerializeField] public AnimationReferenceAsset attackAnim_up { get; private set; }
+    [field: SerializeField] public AnimationReferenceAsset attackAnim_down { get; private set; }
     [field: SerializeField] public AnimationReferenceAsset deathAnim { get; private set; }
 }

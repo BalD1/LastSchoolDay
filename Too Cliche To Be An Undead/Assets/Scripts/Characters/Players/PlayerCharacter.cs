@@ -312,6 +312,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     protected override void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F5)) animationController.SetAnimation(animationController.animationsData.attackAnim_down, false);
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         base.Update();
 
@@ -429,16 +430,9 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Attack / Damages / Heal
 
-    public void StartAttack()
-    {
-        if (!weapon.prepareNextAttack) weapon.prepareNextAttack = true;
-        else weapon.inputStored = true;
-    }
-
     public void CancelAttackAnimation()
     {
         this.animator.Play("AN_Wh_Idle");
-        weapon.EffectAnimator.Play("Main State");
         weapon.ResetAttack();
     }
 
@@ -1035,6 +1029,11 @@ public class PlayerCharacter : Entity, IInteractable
         }
 
         UpdateHPonUI();
+
+        Spine.Animation attackAnim = animationController.animationsData.attackAnim_side.Animation;
+        if (attackAnim != null)
+            weapon.attackDuration = attackAnim.Duration;
+
     }
 
     public void SetAttack(GameObject newWeapon)

@@ -11,6 +11,14 @@ public class salut : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            skeletonAnimation.skeleton.SetToSetupPose();
+            Vector2 scale = skeletonAnimation.transform.localScale;
+            scale.x = 1;
+            skeletonAnimation.transform.localScale = scale;
+            skeletonAnimation.AnimationState.SetAnimation(0, idle, true);
+        }
         if (Input.GetKeyDown(KeyCode.F5))
         {
             skeletonAnimation.skeleton.SetToSetupPose();

@@ -18,7 +18,33 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, true);
 
-        owner.D_attackInput += owner.StartAttack;
+        PlayerAnimationController ownerAnims = owner.AnimationController;
+
+        owner.SkeletonAnimation.skeleton.SetToSetupPose();
+        switch (owner.Weapon.GetGeneralDirectionOfMouseOrGamepad())
+        {
+            case Vector2 v when v == Vector2.up:
+                ownerAnims.FlipSkeleton(false);
+                ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_up, false);
+                break;
+
+            case Vector2 v when v == Vector2.down:
+                ownerAnims.FlipSkeleton(false);
+                ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_down, false);
+                break;
+
+            case Vector2 v when v == Vector2.left:
+                ownerAnims.FlipSkeleton(false);
+                ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_side, false);
+                break;
+
+            case Vector2 v when v == Vector2.right:
+                ownerAnims.FlipSkeleton(true);
+                ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_side, false);
+                break;
+        }
+
+        owner.D_attackInput += owner.Weapon.AskForAttack;
         owner.D_dashInput += owner.StartDash;
     }
 
@@ -36,15 +62,12 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
         owner.ForceUpdateMovementsInput();
 
-        owner.D_attackInput -= owner.StartAttack;
+        owner.D_attackInput -= owner.Weapon.AskForAttack;
         owner.D_dashInput -= owner.StartDash;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
-        if (!owner.Weapon.isAttacking)
-            stateManager.SwitchState(stateManager.idleState);
-
         if (owner.isDashing)
         {
             owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);

@@ -83,26 +83,26 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void SetAnimation(string animation, bool loop, float timeScale = 1)
     {
-        if (skeletonAnimation == null) return;
+        if (skeletonAnimation == null || animation == null) return;
 
         skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
     }
     public void SetAnimation(Spine.Animation animation, bool loop, float timeScale = 1)
     {
-        if (skeletonAnimation == null) return;
+        if (skeletonAnimation == null || animation == null) return;
 
         skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
     }
 
     public void AddAnimation(string animation, bool loop, float timeScale = 1)
     {
-        if (skeletonAnimation == null) return;
+        if (skeletonAnimation == null || animation == null) return;
 
         skeletonAnimation.state.AddAnimation(0, animation, loop, 0).TimeScale = timeScale;
     }
     public void AddAnimation(Spine.Animation animation, bool loop, float timeScale = 1)
     {
-        if (skeletonAnimation == null) return;
+        if (skeletonAnimation == null || animation == null) return;
 
         skeletonAnimation.state.AddAnimation(0, animation, loop, 0).TimeScale = timeScale;
     }
