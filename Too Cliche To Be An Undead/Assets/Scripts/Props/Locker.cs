@@ -7,6 +7,8 @@ public class Locker : MonoBehaviour, IInteractable
 {
     [SerializeField] private SkeletonAnimation skeletonAnimation;
 
+    [SerializeField] private int openableChance = 50;
+
     [System.Serializable]
     private struct S_Animations
     {
@@ -31,6 +33,23 @@ public class Locker : MonoBehaviour, IInteractable
 
     private void Start()
     {
+        bool isOpenable = Random.Range(0, 100) <= openableChance;
+
+        if (!isOpenable)
+        {
+            isBloody = Random.Range(0, 2) == 0;
+            bool isOpen = Random.Range(0, 2) == 0;
+
+            if (isOpen) skeletonAnimation.AnimationState.SetAnimation(0, normalLocker.GetRandomOpenAnim(), false);
+            else if (!isOpen && isBloody) skeletonAnimation.AnimationState.SetAnimation(0, bloodyLocker.closedIdle, false);
+            else if (!isOpen && !isBloody) skeletonAnimation.AnimationState.SetAnimation(0, normalLocker.closedIdle, false);
+
+            Destroy(sparkles);
+
+            Destroy(this);
+            return;
+        }
+
         isBloody = Random.Range(0, 2) == 0;
         if (isBloody) skeletonAnimation.AnimationState.SetAnimation(0, bloodyLocker.closedIdle, false);
     }
