@@ -67,6 +67,9 @@ public class EditorAssetsHolder : MonoBehaviour
         EagleFlag,
         EagleStrips,
         BasketHoop,
+
+        ReversedLocker,
+        ExitDoor,
     }
 
     public IconWithSize GetIconData(E_IconNames name)

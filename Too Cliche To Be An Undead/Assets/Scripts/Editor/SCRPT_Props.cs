@@ -61,5 +61,8 @@ public class SCRPT_Props : ScriptableObject
         EagleStrips,
         BasketHoop,
 
+        ReversedLocker,
+        ExitDoor,
+
     }   
 }
