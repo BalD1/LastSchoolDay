@@ -52,14 +52,14 @@ public class WINDOW_LDTools : EditorWindow
 
     private void OnSceneGUI(SceneView sceneView)
     {
-        Event e = Event.current;
-        mousePosition = e.mousePosition;
-        mousePosition.y = SceneView.currentDrawingSceneView.camera.pixelHeight - mousePosition.y;
-        mousePosition = SceneView.currentDrawingSceneView.camera.ScreenToWorldPoint(mousePosition);
-        mousePosition.z = 0;
-
         if (isDragging)
         {
+            Event e = Event.current;
+            mousePosition = e.mousePosition;
+            mousePosition.y = SceneView.currentDrawingSceneView.camera.pixelHeight - mousePosition.y;
+            mousePosition = SceneView.currentDrawingSceneView.camera.ScreenToWorldPoint(mousePosition);
+            mousePosition.z = 0;
+
             if (draggedGO == null)
             {
                 isDragging = false;

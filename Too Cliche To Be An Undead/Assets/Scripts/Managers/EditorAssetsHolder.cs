@@ -60,6 +60,13 @@ public class EditorAssetsHolder : MonoBehaviour
         Tree,
         Camera,
         VendingMachine,
+
+        GymnasiumBallsHolder,
+        GymnasiumBall,
+        BloodyBottles,
+        EagleFlag,
+        EagleStrips,
+        BasketHoop,
     }
 
     public IconWithSize GetIconData(E_IconNames name)

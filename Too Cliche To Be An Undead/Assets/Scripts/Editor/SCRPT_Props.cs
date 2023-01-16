@@ -53,5 +53,13 @@ public class SCRPT_Props : ScriptableObject
         Tree,
         Camera,
         VendingMachine,
+
+        GymnasiumBallsHolder,
+        GymnasiumBall,
+        BloodyBottles,
+        EagleFlag,
+        EagleStrips,
+        BasketHoop,
+
     }   
 }
