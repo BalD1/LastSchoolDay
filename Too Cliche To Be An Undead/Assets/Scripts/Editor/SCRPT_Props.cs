@@ -63,6 +63,11 @@ public class SCRPT_Props : ScriptableObject
 
         ReversedLocker,
         ExitDoor,
-
+        Bench,
+        Extinguisher,
+        Clock,
+        Blood,
+        Tray,
+        OutdoorTable,
     }   
 }

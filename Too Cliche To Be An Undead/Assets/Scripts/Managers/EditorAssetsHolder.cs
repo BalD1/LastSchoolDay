@@ -70,6 +70,12 @@ public class EditorAssetsHolder : MonoBehaviour
 
         ReversedLocker,
         ExitDoor,
+        Bench,
+        Extinguisher,
+        Clock,
+        Blood,
+        Tray,
+        OutdoorTable,
     }
 
     public IconWithSize GetIconData(E_IconNames name)
