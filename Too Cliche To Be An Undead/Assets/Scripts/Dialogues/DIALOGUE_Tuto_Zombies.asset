@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ID>k__BackingField: tuto_zombies
   <dialogueLines>k__BackingField:
-  - <portrait>k__BackingField: {fileID: 21300000, guid: 70afcbb304fb64147ab2761f729d9ddc, type: 3}
+  - <characterName>k__BackingField: 2
+    <customPortrait>k__BackingField: {fileID: 0}
     <textLine>k__BackingField: "Attention il y a des zombies ici ! Pr\xE9parez vous
       \xE0 vous battre !"
     <effects>k__BackingField:
     - <effect>k__BackingField: 0
       <value>k__BackingField: 0.025
-  - <portrait>k__BackingField: {fileID: 21300000, guid: 1f3b3bcf18eb14047a5940dbeee8b4ea, type: 3}
+  - <characterName>k__BackingField: 0
+    <customPortrait>k__BackingField: {fileID: 0}
     <textLine>k__BackingField: "Ils \xE9taient stupides de leur vivant donc \xE7a
       m'\xE9tonnerai que la mort les ait arrang\xE9s !"
     <effects>k__BackingField:

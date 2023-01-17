@@ -161,7 +161,10 @@ public class DialogueManager : MonoBehaviour
 
         currentLine = currentDialogue.dialogueLines[currentLineIndex];
 
-        dialoguePortrait.sprite = currentLine.portrait;
+        dialoguePortrait.sprite = currentLine.customPortrait != null ? 
+                                  currentLine.customPortrait :
+                                  UIManager.Instance.GetBasePortrait(currentLine.characterName);
+
         dialogueText.text = currentLine.textLine;
 
         foreach (var item in currentLine.effects)
