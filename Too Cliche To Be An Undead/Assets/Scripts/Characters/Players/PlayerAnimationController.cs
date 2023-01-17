@@ -1,5 +1,4 @@
 using Spine.Unity;
-using Spine.Unity.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,7 +41,6 @@ public class PlayerAnimationController : MonoBehaviour
         else
         {
             skeletonAnimation.skeletonDataAsset = animationsData.skeletonDataAsset;
-            SpineEditorUtilities.ReloadSkeletonDataAsset(skeletonAnimation.skeletonDataAsset);
             isValid = true;
         }
     }
@@ -62,7 +60,6 @@ public class PlayerAnimationController : MonoBehaviour
 
         animationsData = animData;
         skeletonAnimation.skeletonDataAsset = animData.skeletonDataAsset;
-        SpineEditorUtilities.ReloadSkeletonDataAsset(skeletonAnimation.skeletonDataAsset);
 
         SetAnimation(animationsData.idleAnim, true);
 
