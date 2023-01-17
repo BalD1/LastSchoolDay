@@ -21,7 +21,7 @@ public class RendererSorting : MonoBehaviour
     private float update_TIMER;
     private const float update_COOLDOWN = .1f;
 
-    private const int yOrderPrecision = 10; 
+    private const int yOrderPrecision = 1000; 
 
     private void Awake() => objectRenderer ??= this.GetComponent<Renderer>();
 
@@ -45,7 +45,7 @@ public class RendererSorting : MonoBehaviour
         if (update_TIMER <= 0)
         {
             update_TIMER = update_COOLDOWN;
-            objectRenderer.sortingOrder = (int)((sortingOrderBase + sortingOrderOffset) - (this.transform.position.y * yOrderPrecision) - pivotOffset);
+            objectRenderer.sortingOrder = (int)((sortingOrderBase + sortingOrderOffset) - (this.transform.position.y * yOrderPrecision) + (pivotOffset * yOrderPrecision));
 #if !UNITY_EDITOR
             if (isStatic) Destroy(this); 
 #endif
