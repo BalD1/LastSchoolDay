@@ -23,6 +23,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private float allowSkip_COOLDOWN = .15f;
     private float allowSkip_TIMER;
 
+    [SerializeField] private float onStartSkipWait_DURATION = .3f;
+    private float onStartSkipWait_TIMER;
+
     [SerializeField] private Image dialoguePortrait;
 
     [SerializeField] private TextMeshProUGUI dialogueText;
@@ -69,6 +72,7 @@ public class DialogueManager : MonoBehaviour
     private void Update()
     {
         if (allowSkip_TIMER > 0) allowSkip_TIMER -= Time.deltaTime;
+        if (onStartSkipWait_TIMER > 0) onStartSkipWait_TIMER -= Time.deltaTime;
     }
 
     /// <summary>
@@ -103,6 +107,7 @@ public class DialogueManager : MonoBehaviour
     /// <param name="dialogue"></param>
     public void StartDialogue(SCRPT_SingleDialogue dialogue)
     {
+        onStartSkipWait_TIMER = onStartSkipWait_DURATION;
         // Sets every player's control map to Dialogue
         foreach (var item in GameManager.Instance.playersByName)
         {
@@ -132,6 +137,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public void TryNextLine()
     {
+        if (onStartSkipWait_TIMER > 0) return;
         if (currentDialogue == null || currentLine.textLine == null) return;
         if (UnfinishedEffectsCount > 0 && allowSkip_TIMER <= 0)
         {
@@ -156,6 +162,7 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
             return;
         }
+        StopCoroutine(revealCoroutine);
         pauseOnIndexQueue.Clear();
         UnfinishedEffectsCount = 0;
 
