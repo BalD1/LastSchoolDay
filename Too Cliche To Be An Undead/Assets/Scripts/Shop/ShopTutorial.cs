@@ -22,7 +22,11 @@ public class ShopTutorial : MonoBehaviour
 
     private void OnDialogueEnd()
     {
-        UIManager.Instance.OpenShop();
+        GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
+        UIManager.Instance.FadeAllHUD(fadeIn: false);
+
+        GameManager.Instance.GetShop.OpenShop();
+
         CameraManager.Instance.EndCinematic();
     }
 

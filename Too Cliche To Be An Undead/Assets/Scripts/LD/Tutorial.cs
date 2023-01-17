@@ -61,6 +61,10 @@ public class Tutorial : MonoBehaviour
 
         if (zombiesCount <= 0)
         {
+            foreach (var item in GameManager.Instance.playersByName)
+            {
+                item.playerScript.StopGamepadShake();
+            }
             DialogueManager.Instance.TryStartDialogue(cleanedRoomDialogue, TeleportPlayersToInGameHUB);
         }
     }

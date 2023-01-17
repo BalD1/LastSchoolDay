@@ -25,7 +25,7 @@ public class PlayerCharacter : Entity, IInteractable
     #endregion
 
     #region vars
-
+    
     [SerializeField] public LayerMask feetsBaseLayer;
     [SerializeField] public LayerMask ignoreHoleLayer;
 
@@ -1016,7 +1016,6 @@ public class PlayerCharacter : Entity, IInteractable
         this.maxSpeed_M = newStats.Speed;
         this.maxCritChances_M = newStats.CritChances;
 
-        this.currentHP = this.maxHP_M;
 
         SetPortrait();
         UIManager.PortraitRect portraitRect = characterPortrait.portraitRect;
@@ -1027,6 +1026,8 @@ public class PlayerCharacter : Entity, IInteractable
         {
             this.ApplyModifier(item);
         }
+
+        this.currentHP = this.maxHP_M;
 
         UpdateHPonUI();
 

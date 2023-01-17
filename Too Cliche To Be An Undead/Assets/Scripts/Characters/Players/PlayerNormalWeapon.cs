@@ -35,6 +35,8 @@ public class PlayerNormalWeapon : PlayerWeapon
     {
         base.StartWeaponAttack(isLastAttack);
 
+        slashParticles.Play();
+
         float onAttackMovementSpeed = onAttackMovementForce;
 
         // If the player was moving, add its speed to the attack movements
