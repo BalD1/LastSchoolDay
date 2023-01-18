@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingOrderOffset: 0
-  pivotOffset: 0
-  isStatic: 0
+  pivotOffset: 0.19
+  isStatic: 1
   objectRenderer: {fileID: 4278024402452203113}
   debugMode: 0
 --- !u!212 &4278024402452203113
@@ -90,7 +90,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4931
+  m_SortingOrder: 5189
   m_Sprite: {fileID: -870603639, guid: c2fab3dc4b2168e4abb094f6f604cd14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

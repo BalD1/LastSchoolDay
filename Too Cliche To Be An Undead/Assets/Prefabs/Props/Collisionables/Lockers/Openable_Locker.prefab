@@ -216,6 +216,7 @@ GameObject:
   - component: {fileID: 1329649170087910162}
   - component: {fileID: 7863960121320469591}
   - component: {fileID: 430120805}
+  - component: {fileID: 7552274110641021462}
   m_Layer: 14
   m_Name: Spine GameObject (Casier_V2)
   m_TagString: Untagged
@@ -287,7 +288,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4945
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7863960121320469591
 MonoBehaviour:
@@ -346,3 +347,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7552274110641021462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5220591801981342434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: 0
+  isStatic: 1
+  objectRenderer: {fileID: 1329649170087910162}
+  debugMode: 0

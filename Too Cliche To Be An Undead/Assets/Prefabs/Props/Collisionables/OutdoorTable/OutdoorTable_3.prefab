@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7710042320798761552, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_Name
-      value: OutdoorTable_2
+      value: OutdoorTable_3
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761553, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -63,9 +63,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7710042320798761566, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
+      propertyPath: debugMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710042320798761566, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
+      propertyPath: objectRenderer
+      value: 
+      objectReference: {fileID: 3279181649695577786}
     - target: {fileID: 7710042320798761567, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -934052205, guid: 5489f0066dd2cd3439e566d38413be2c, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
+--- !u!212 &3279181649695577786 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7710042320798761567, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
+  m_PrefabInstance: {fileID: 5151674810637866213}
+  m_PrefabAsset: {fileID: 0}

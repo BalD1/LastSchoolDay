@@ -8,6 +8,22 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 507367642986627005, guid: 4adced233f631b540a44038f85572545, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0201068
+      objectReference: {fileID: 0}
+    - target: {fileID: 507367642986627005, guid: 4adced233f631b540a44038f85572545, type: 3}
+      propertyPath: m_Size.y
+      value: 0.24408603
+      objectReference: {fileID: 0}
+    - target: {fileID: 507367642986627005, guid: 4adced233f631b540a44038f85572545, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.0063574314
+      objectReference: {fileID: 0}
+    - target: {fileID: 507367642986627005, guid: 4adced233f631b540a44038f85572545, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.12715065
+      objectReference: {fileID: 0}
+    - target: {fileID: 507367642986627005, guid: 4adced233f631b540a44038f85572545, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
       value: 1.045
       objectReference: {fileID: 0}
@@ -17,7 +33,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1440324739009473352, guid: 4adced233f631b540a44038f85572545, type: 3}
       propertyPath: m_Name
-      value: Locker_Side_Up_Broken 2
+      value: Locker_Side_Up_Broken 2 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1440324739009473354, guid: 4adced233f631b540a44038f85572545, type: 3}
       propertyPath: m_RootOrder
@@ -69,11 +85,15 @@ PrefabInstance:
       objectReference: {fileID: 1353111309, guid: 214fdc8738448974788eb8b540a862a8, type: 3}
     - target: {fileID: 5660503398436397467, guid: 4adced233f631b540a44038f85572545, type: 3}
       propertyPath: m_SortingOrder
-      value: 5027
+      value: 7770
       objectReference: {fileID: 0}
     - target: {fileID: 5690136006673681009, guid: 4adced233f631b540a44038f85572545, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7924425825467489707, guid: 4adced233f631b540a44038f85572545, type: 3}
+      propertyPath: debugMode
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4adced233f631b540a44038f85572545, type: 3}
