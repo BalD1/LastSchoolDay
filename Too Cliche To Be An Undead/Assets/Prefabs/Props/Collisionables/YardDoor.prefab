@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &703147172382350515
+--- !u!1 &3568743336446287829
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,103 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 703147172382350519}
-  - component: {fileID: 5102629553534320475}
-  - component: {fileID: 8251820898924994685}
-  - component: {fileID: 703147172382350516}
-  - component: {fileID: 703147172382350518}
-  - component: {fileID: 703147172382350513}
-  - component: {fileID: 703147172382350512}
-  - component: {fileID: 4651724998289188787}
-  - component: {fileID: 7643762592840328754}
+  - component: {fileID: 3568743336446287849}
+  - component: {fileID: 3568743336446287830}
+  - component: {fileID: 3568743336446287831}
+  - component: {fileID: 3568743336446287828}
+  - component: {fileID: 3568743336446287851}
+  - component: {fileID: 3568743336446287848}
   m_Layer: 0
-  m_Name: Tree
+  m_Name: Spine GameObject (Porte_Cour)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &703147172382350519
+--- !u!4 &3568743336446287849
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703147172382350515}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.8150005, y: 4.653, z: 0}
-  m_LocalScale: {x: 1.4773, y: 1.4773, z: 1.4773}
+  m_GameObject: {fileID: 3568743336446287829}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5898614, y: 1.5932415, z: 1.5449611}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8814590905235929646}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 3568743337245287101}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5102629553534320475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703147172382350515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c8fbd154b7813243b395a9c849516b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spineColor: {fileID: 8251820898924994685}
---- !u!114 &8251820898924994685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703147172382350515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66f21e44b295f044a9d1f4e435833be4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  switchToModified: 0
-  switchToBase: 0
-  setBaseColorToCurrent: 0
-  editor_TestTargetColor: 0
-  editor_TestBaseColor: 0
-  <TargetColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0.2}
-  <BaseColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
-  <skeletonAnimation>k__BackingField: {fileID: 703147172382350512}
---- !u!114 &703147172382350516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703147172382350515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingOrderOffset: 0
-  pivotOffset: -1.05
-  isStatic: 1
-  objectRenderer: {fileID: 703147172382350513}
-  debugMode: 0
---- !u!33 &703147172382350518
+--- !u!33 &3568743336446287830
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703147172382350515}
+  m_GameObject: {fileID: 3568743336446287829}
   m_Mesh: {fileID: 0}
---- !u!23 &703147172382350513
+--- !u!23 &3568743336446287831
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703147172382350515}
+  m_GameObject: {fileID: 3568743336446287829}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -118,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7f862f66c0fb69b478ae75f5b9ceb17a, type: 2}
+  - {fileID: 2100000, guid: 4a7ce33def288534d808299c571999ba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -138,21 +84,21 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3064
+  m_SortingOrder: -2467
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &703147172382350512
+--- !u!114 &3568743336446287828
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703147172382350515}
+  m_GameObject: {fileID: 3568743336446287829}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: e4d8516ec4075904c838d7b86f895b61, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 20dbad7f09683064594c1aba4d09a2d0, type: 2}
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
@@ -174,23 +120,23 @@ MonoBehaviour:
     materialsInsideMask: []
     materialsOutsideMask: []
   disableRenderingOnOverride: 1
-  _animationName: Arbre qui bouge
+  _animationName: Porte sans zombies
   loop: 1
   timeScale: 1
---- !u!61 &4651724998289188787
+--- !u!61 &3568743336446287851
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703147172382350515}
+  m_GameObject: {fileID: 3568743336446287829}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.18701923, y: 2.8953311}
+  m_Offset: {x: 0.0052859187, y: 0.1520386}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -201,35 +147,26 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5049546, y: 2.6668353}
+  m_Size: {x: 1.1458484, y: 0.30139726}
   m_EdgeRadius: 0
---- !u!61 &7643762592840328754
-BoxCollider2D:
+--- !u!114 &3568743336446287848
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703147172382350515}
+  m_GameObject: {fileID: 3568743336446287829}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.035500944, y: 1.3091011}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.9694828, y: 0.7333689}
-  m_EdgeRadius: 0
---- !u!1 &5891793764657202995
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: -0.48
+  isStatic: 1
+  objectRenderer: {fileID: 3568743336446287831}
+  debugMode: 0
+--- !u!1 &3568743337245287098
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,44 +174,61 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8814590905235929646}
-  - component: {fileID: 396802851255826658}
-  m_Layer: 0
-  m_Name: Collider
+  - component: {fileID: 3568743337245287101}
+  - component: {fileID: 3570462180930060890}
+  - component: {fileID: 4522009399653879579}
+  m_Layer: 14
+  m_Name: YardDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8814590905235929646
+--- !u!4 &3568743337245287101
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5891793764657202995}
+  m_GameObject: {fileID: 3568743337245287098}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.57436, y: 6.988, z: 0.035614733}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 703147172382350519}
+  m_Children:
+  - {fileID: 3568743336446287849}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &396802851255826658
+--- !u!114 &3570462180930060890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3568743337245287098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ca7f937cc362e348b1c869946e7e33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeletonAnimation: {fileID: 3568743336446287828}
+  openAnimation: Ouverture Portes
+  blockCollision: {fileID: 3568743336446287851}
+--- !u!61 &4522009399653879579
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5891793764657202995}
+  m_GameObject: {fileID: 3568743337245287098}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.07483488, y: 0.5014949}
+  m_Offset: {x: -0.07605767, y: 0.6885214}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -285,5 +239,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4768449, y: 1.0884905}
+  m_Size: {x: 2.9935107, y: 2.6812744}
   m_EdgeRadius: 0
