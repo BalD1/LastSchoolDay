@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 970135835907297232, guid: 12aa7c5c68f1105499ba068269eec495, type: 3}
       propertyPath: m_Name
-      value: Locker_Side_Up_Closed 2
+      value: Locker_Side_Up_Closed 2 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 970135835907297234, guid: 12aa7c5c68f1105499ba068269eec495, type: 3}
       propertyPath: m_RootOrder
@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1119402533186445763, guid: 12aa7c5c68f1105499ba068269eec495, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7770
+      objectReference: {fileID: 0}
     - target: {fileID: 4945283823115410320, guid: 12aa7c5c68f1105499ba068269eec495, type: 3}
       propertyPath: _animationName
       value: Casier ferme 02
@@ -62,6 +66,10 @@ PrefabInstance:
     - target: {fileID: 5799790056869572329, guid: 12aa7c5c68f1105499ba068269eec495, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318893510624786739, guid: 12aa7c5c68f1105499ba068269eec495, type: 3}
+      propertyPath: debugMode
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12aa7c5c68f1105499ba068269eec495, type: 3}

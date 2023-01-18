@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 54958971839658448}
   - component: {fileID: 8289419225419449528}
   - component: {fileID: 6860451804388457758}
+  - component: {fileID: 7681837657811681871}
   m_Layer: 0
   m_Name: table_4
   m_TagString: Untagged
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2538
   m_Sprite: {fileID: -1923224423, guid: f4ec397fe8b5db54eb667b4b8232007b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -111,3 +112,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.96, y: 0.9}
   m_EdgeRadius: 0
+--- !u!114 &7681837657811681871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8586592620473810980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: -0.445
+  isStatic: 1
+  objectRenderer: {fileID: 8289419225419449528}
+  debugMode: 0

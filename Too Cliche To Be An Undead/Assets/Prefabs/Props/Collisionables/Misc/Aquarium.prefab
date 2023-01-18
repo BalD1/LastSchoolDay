@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4152859283056590926}
   - component: {fileID: 5769366038462534812}
   - component: {fileID: 218455732503391115}
+  - component: {fileID: 7363177188065636561}
   m_Layer: 0
   m_Name: Spine GameObject (Aquarium_1)
   m_TagString: Untagged
@@ -48,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingOrderOffset: 0
-  pivotOffset: 0
+  pivotOffset: 0.56
   isStatic: 1
   objectRenderer: {fileID: 5769366038462534812}
   debugMode: 0
@@ -80,7 +81,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ccfeaa7df55688a439e2308d87975869, type: 2}
+  - {fileID: 2100000, guid: 1bded5571953fe3478dc1fcf0e013c9a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,7 +101,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4977
+  m_SortingOrder: 5560
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &218455732503391115
 MonoBehaviour:
@@ -114,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 6cf1b22cc8bc1a344b07ede5a989afbc, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: b51bf017ad4e45d4ba43934413e3b11e, type: 2}
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
@@ -136,9 +137,35 @@ MonoBehaviour:
     materialsInsideMask: []
     materialsOutsideMask: []
   disableRenderingOnOverride: 1
-  _animationName: 
+  _animationName: Poisson rouge
   loop: 1
   timeScale: 1
+--- !u!61 &7363177188065636561
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110844327940362536}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.6252501, y: -0.7521709}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.2065, y: 0.4186582}
+  m_EdgeRadius: 0
 --- !u!1 &5487054679487722856
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +190,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5487054679487722856}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.138, y: -0.028, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

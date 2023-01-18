@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2495794017582931347}
   - component: {fileID: 5480156459858540779}
   - component: {fileID: 7765214862227809000}
+  - component: {fileID: 7107141913887890729}
   m_Layer: 0
   m_Name: Banc_2
   m_TagString: Untagged
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2714
   m_Sprite: {fileID: -774385444, guid: f4ec397fe8b5db54eb667b4b8232007b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -111,3 +112,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9375, y: 0.4775}
   m_EdgeRadius: 0
+--- !u!114 &7107141913887890729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904899468400825365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: -0.21
+  isStatic: 1
+  objectRenderer: {fileID: 5480156459858540779}
+  debugMode: 0

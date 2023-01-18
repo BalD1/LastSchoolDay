@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3333389416908542631, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}
       propertyPath: m_Name
-      value: Locker_Side_Up_Broken 3
+      value: Locker_Side_Up_Broken 3 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4230308958130275922, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -62,6 +62,10 @@ PrefabInstance:
     - target: {fileID: 4230308958130275922, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 0.515
+      objectReference: {fileID: 0}
+    - target: {fileID: 5784500948107224132, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}
+      propertyPath: debugMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8300624919969781876, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}
       propertyPath: m_Sprite
