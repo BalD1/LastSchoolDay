@@ -20,13 +20,6 @@ MonoBehaviour:
       minAmount: 0
       maxAmount: 0
     weight: 150
-  - editorName: Common Drop
-    objectsToDrop:
-    - editorName: Common PB
-      objectToDrop: {fileID: 4760652629549799819, guid: 96887e5a489b99d4886e805250dd0a2b, type: 3}
-      minAmount: 1
-      maxAmount: 1
-    weight: 70
   - editorName: Uncommon Drop
     objectsToDrop:
     - editorName: Uncommon PB
@@ -34,6 +27,13 @@ MonoBehaviour:
       minAmount: 1
       maxAmount: 1
     weight: 45
+  - editorName: Common Drop
+    objectsToDrop:
+    - editorName: Common PB
+      objectToDrop: {fileID: 4760652629549799819, guid: 96887e5a489b99d4886e805250dd0a2b, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 70
   - editorName: Rare Drop
     objectsToDrop:
     - editorName: Rare PB

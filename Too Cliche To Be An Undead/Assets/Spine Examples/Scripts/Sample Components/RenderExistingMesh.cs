@@ -127,6 +127,8 @@ namespace Spine.Unity.Examples {
 		}
 
 		void UpdateMaterials () {
+			if (ownMeshFilter == null) return;
+
 			ownMeshFilter.sharedMesh = referenceMeshFilter.sharedMesh;
 
 			var parentMaterials = referenceRenderer.sharedMaterials;

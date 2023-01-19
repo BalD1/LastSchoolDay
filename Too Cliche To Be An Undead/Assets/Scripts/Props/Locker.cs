@@ -19,6 +19,9 @@ public class Locker : MonoBehaviour, IInteractable
     }
 
     [SerializeField] private GameObject sparkles;
+    [SerializeField] private GameObject outline;
+
+    private int interactorsCount = 0;
 
     [SerializeField] private S_Animations bloodyLocker;
     [SerializeField] private S_Animations normalLocker;
@@ -56,10 +59,20 @@ public class Locker : MonoBehaviour, IInteractable
 
     public void EnteredInRange(GameObject interactor)
     {
+        if (interactor == null && !isOpen) return;
+
+        interactorsCount++;
+
+        if (interactorsCount <= 1) outline.SetActive(true);
     }
 
     public void ExitedRange(GameObject interactor)
     {
+        if (interactor == null && !isOpen) return;
+
+        interactorsCount--;
+
+        if (interactorsCount <= 0) outline.SetActive(false);
     }
 
     public void Interact(GameObject interactor)
@@ -72,6 +85,10 @@ public class Locker : MonoBehaviour, IInteractable
         else skeletonAnimation.AnimationState.SetAnimation(0, normalLocker.GetRandomOpenAnim(), false);
 
         sparkles.SetActive(false);
+
+        outline.SetActive(false);
+
+        Destroy(this);
     }
 
     public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);

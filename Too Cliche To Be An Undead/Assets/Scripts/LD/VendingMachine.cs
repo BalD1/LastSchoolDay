@@ -1,6 +1,7 @@
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class VendingMachine : MonoBehaviour, IInteractable
@@ -10,6 +11,8 @@ public class VendingMachine : MonoBehaviour, IInteractable
 
     [SerializeField] private int interactableChances = 50;
 
+    [SerializeField] private int price = 25;
+
     [SerializeField] private E_MachineStyle machineStyle;
 
     [SerializeField] private S_MachineAnimations blueMachineStyle;
@@ -18,6 +21,12 @@ public class VendingMachine : MonoBehaviour, IInteractable
     [SerializeField] private SCRPT_DropTable dropTable;
 
     [SerializeField] private Vector2 dropPosition;
+
+    [SerializeField] private GameObject priceComponents;
+
+    [SerializeField] private Animator animator;
+
+    [SerializeField] private TextMeshPro priceText;
 
 #if UNITY_EDITOR
     [SerializeField] private bool debugMode;
@@ -53,7 +62,10 @@ public class VendingMachine : MonoBehaviour, IInteractable
         {
             skeletonAnimation.AnimationState.SetAnimation(0, currentMachineStyle.emptyState, false);
             Destroy(this);
+            return;
         }
+
+        priceText.text = price.ToString();
     }
 
     public bool CanBeInteractedWith()
@@ -63,20 +75,26 @@ public class VendingMachine : MonoBehaviour, IInteractable
 
     public void EnteredInRange(GameObject interactor)
     {
-        if (!isValid) return;
+        if (interactor == null || !isValid) return;
 
         interactorsCount++;
 
-        if (interactorsCount <= 1) outline.SetActive(true);
+        if (interactorsCount > 1) return;
+
+        outline.SetActive(true);
+        priceComponents.SetActive(true);
     }
 
     public void ExitedRange(GameObject interactor)
     {
-        if (!isValid) return;
+        if (interactor == null || !isValid) return;
 
         interactorsCount--;
 
-        if (interactorsCount <= 0) outline.SetActive(false);
+        if (interactorsCount > 0) return;
+
+        outline.SetActive(false);
+        priceComponents.SetActive(false);
     }
 
     public float GetDistanceFrom(Transform target)
@@ -88,13 +106,21 @@ public class VendingMachine : MonoBehaviour, IInteractable
     {
         if (!isValid) return;
 
+        if (PlayerCharacter.HasEnoughMoney(price) == false)
+        {
+            animator.SetTrigger("shake");
+            return;
+        }
+
+        PlayerCharacter.RemoveMoney(price, false);
+
         float animDuration = skeletonAnimation.skeleton.Data.FindAnimation(currentMachineStyle.vendingState).Duration;
 
         skeletonAnimation.AnimationState.SetAnimation(0, currentMachineStyle.vendingState, false);
 
         StartCoroutine(WaitForAnimation(animDuration));
 
-        skeletonAnimation.AnimationState.SetAnimation(0, currentMachineStyle.emptyState, false);
+        skeletonAnimation.AnimationState.AddAnimation(0, currentMachineStyle.emptyState, false, .25f);
         outline.SetActive(false);
 
         isValid = false;
@@ -104,7 +130,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
     {
         yield return new WaitForSeconds(duration);
 
-        dropTable.DropRandom(dropPosition);
+        dropTable.DropRandom((Vector2)this.transform.position + dropPosition);
     }
 
     private void OnDrawGizmos()
