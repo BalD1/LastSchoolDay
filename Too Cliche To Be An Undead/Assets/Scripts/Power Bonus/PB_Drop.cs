@@ -6,10 +6,45 @@ public class PB_Drop : Collectable
 {
     [SerializeField] private SCRPT_PB bonusPower;
 
+    [SerializeField] private AnimationCurve fallSpeedY;
+    [SerializeField] private AnimationCurve fallSpeedX;
+
+    private float animationTimer = 0;
+
+    private float minTime;
+
+    private Vector2 vel;
+
     private void Awake()
     {
+        canBePickedUp = false;
         if (bonusPower != null)
             spriteRenderer.sprite = bonusPower.Thumbnail;
+
+        minTime = fallSpeedX.keys[fallSpeedX.length - 1].time;
+        float minTimeY = fallSpeedY.keys[fallSpeedY.length - 1].time;
+
+        if (minTime > minTimeY) minTime = minTimeY;
+
+        if (minTime <= 0) animationTimer = 1;
+    }
+
+    protected override void Update()
+    {
+        if (animationTimer > minTime) return;
+
+        animationTimer += Time.deltaTime;
+
+        if (animationTimer > minTime)
+        {
+            this.rb.velocity = Vector2.zero;
+            canBePickedUp = true;
+            return;
+        }
+        vel.x = fallSpeedX.Evaluate(animationTimer);
+        vel.y = fallSpeedY.Evaluate(animationTimer);
+
+        this.rb.velocity = vel;
     }
 
     public void Setup(SCRPT_PB pb)
@@ -20,7 +55,7 @@ public class PB_Drop : Collectable
 
     public override void Interact(GameObject interactor)
     {
-        if (pickupOnCollision) return;
+        if (pickupOnCollision || !canBePickedUp) return;
         base.Interact(interactor);
 
         float val;

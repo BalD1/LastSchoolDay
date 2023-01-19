@@ -122,6 +122,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
 
         skeletonAnimation.AnimationState.AddAnimation(0, currentMachineStyle.emptyState, false, .25f);
         outline.SetActive(false);
+        priceComponents.SetActive(false);
 
         isValid = false;
     }
