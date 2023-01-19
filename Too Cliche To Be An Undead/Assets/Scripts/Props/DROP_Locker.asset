@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: DROP_Locker
   m_EditorClassIdentifier: 
   dropTable:
-  - editorName: Uncommon Drop
+  - editorName: Nothing
     objectsToDrop:
-    - editorName: Uncommon PB
-      objectToDrop: {fileID: 3344476432698285564, guid: 23d76fcbb7b4074459a73de902fa86fb, type: 3}
-      minAmount: 1
-      maxAmount: 1
-    weight: 45
+    - editorName: N
+      objectToDrop: {fileID: 0}
+      minAmount: 0
+      maxAmount: 0
+    weight: 150
   - editorName: Common Drop
     objectsToDrop:
     - editorName: Common PB
@@ -27,6 +27,13 @@ MonoBehaviour:
       minAmount: 1
       maxAmount: 1
     weight: 70
+  - editorName: Uncommon Drop
+    objectsToDrop:
+    - editorName: Uncommon PB
+      objectToDrop: {fileID: 3344476432698285564, guid: 23d76fcbb7b4074459a73de902fa86fb, type: 3}
+      minAmount: 1
+      maxAmount: 1
+    weight: 45
   - editorName: Rare Drop
     objectsToDrop:
     - editorName: Rare PB
