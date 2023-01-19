@@ -21,6 +21,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineTargetGroup tg_players;
     private CinemachineBasicMultiChannelPerlin bmcp;
 
+    [SerializeField] private Transform volumeTrigger;
+
     private float shake_TIMER;
     private float shake_DURATION;
     private float shake_startingIntensity;
@@ -180,6 +182,12 @@ public class CameraManager : MonoBehaviour
         Array.Clear(tg_players.m_Targets, 0, tg_players.m_Targets.Length);
 
         onCompleteAction?.Invoke();
+    }
+
+    public void SetTriggerParent(Transform newParent)
+    {
+        volumeTrigger.parent = newParent;
+        volumeTrigger.localPosition = Vector3.zero;
     }
 
     public void EndCinematic()

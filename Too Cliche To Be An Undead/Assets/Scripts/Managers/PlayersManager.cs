@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-//using static UnityEditor.PlayerSettings;
-//using static UnityEditor.Progress;
 using UnityEngine.Rendering;
 
 public class PlayersManager : MonoBehaviour
@@ -94,6 +92,11 @@ public class PlayersManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         DontDestroyOnLoad(this);
+    }
+
+    private void Start()
+    {
+        CameraManager.Instance.SetTriggerParent(player1.transform);
     }
 
     public void SetAllPlayersControlMapToInGame()
