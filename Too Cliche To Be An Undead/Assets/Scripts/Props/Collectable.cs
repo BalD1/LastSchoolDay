@@ -15,6 +15,10 @@ public class Collectable : MonoBehaviour, IInteractable
 
     [SerializeField] protected bool pickupOnCollision = true;
 
+    [SerializeField] protected Rigidbody2D rb;
+
+    public bool canBePickedUp = true;
+
     private bool isPicked = false;
 
     [SerializeField] protected SpriteRenderer spriteRenderer;
@@ -111,7 +115,7 @@ public class Collectable : MonoBehaviour, IInteractable
 
     public virtual void Interact(GameObject interactor)
     {
-        if (pickupOnCollision) return;
+        if (pickupOnCollision || !canBePickedUp) return;
         spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
 
         isPicked = true;
@@ -126,9 +130,6 @@ public class Collectable : MonoBehaviour, IInteractable
                 Destroy(this.gameObject, .1f);
             });
         });
-
-
-
     }
 
     public bool CanBeInteractedWith()

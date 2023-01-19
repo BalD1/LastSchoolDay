@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5984426657660484131}
   - component: {fileID: 5984426657660484159}
-  - component: {fileID: 5113110052456678220}
   - component: {fileID: 5984426657660484128}
   - component: {fileID: 5984426657660484129}
   - component: {fileID: 5984426657660484141}
@@ -78,26 +77,23 @@ MonoBehaviour:
   coinValue: 0
   pickupDistance: 0
   pickupOnCollision: 0
+  rb: {fileID: 5984426657660484130}
+  canBePickedUp: 1
   spriteRenderer: {fileID: 5984426657660484128}
   detectedPlayers: []
   bonusPower: {fileID: 11400000, guid: cbcc182952ba8884380b001ca7766a5f, type: 2}
---- !u!114 &5113110052456678220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5984426657660484135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingOrderOffset: 0
-  pivotOffset: 0
-  isStatic: 1
-  objectRenderer: {fileID: 5984426657660484128}
-  debugMode: 0
+  fallSpeedY:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fallSpeedX:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!212 &5984426657660484128
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -136,9 +132,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5000
+  m_SortingLayerID: 907740915
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -1585332292, guid: ddd058a569536df44af0147b8747cd89, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
