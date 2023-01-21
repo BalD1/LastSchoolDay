@@ -10,7 +10,6 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     private PlayerCharacter owner;
 
     private PlayerAnimationController ownerAnimationController;
-    private TrackEntry ownerTrackEntry;
 
     private Spine.Animation idleAnim;
     private Spine.Animation walkAnim;
@@ -32,7 +31,6 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     {
         owner ??= stateManager.Owner;
         ownerAnimationController ??= owner.AnimationController;
-        ownerTrackEntry ??= ownerAnimationController.SkeletonAnimation.AnimationState.GetCurrent(0);
 
         idleAnim = ownerAnimationController.animationsData.skillIdleAnim;
         walkAnim = ownerAnimationController.animationsData.skillWalkAnim;

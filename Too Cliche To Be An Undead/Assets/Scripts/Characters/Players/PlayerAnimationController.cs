@@ -9,8 +9,8 @@ public class PlayerAnimationController : MonoBehaviour
 
     [SerializeField] private SpriteRenderer placeholderSprite;
 
-    [SerializeField] private SkeletonAnimation skeletonAnimation;
-    public SkeletonAnimation SkeletonAnimation { get => skeletonAnimation; }
+    [SerializeField] private SkeletonAnimationMulti skeletonAnimation;
+    public SkeletonAnimationMulti SkeletonAnimation { get => skeletonAnimation; }
 
     [field: SerializeField] public SCRPT_PlayersAnimData animationsData { get; private set; }
 
@@ -40,27 +40,36 @@ public class PlayerAnimationController : MonoBehaviour
         }
         else
         {
-            skeletonAnimation.skeletonDataAsset = animationsData.skeletonDataAsset;
+            skeletonAnimation.SetAnimation(animationsData.idleAnim, true);
             isValid = true;
+        }
+    }
+
+    private void Start()
+    {
+        foreach (Transform item in skeletonAnimation.transform)
+        {
+            if (item.GetComponent<SkeletonAnimation>() != null)
+                item.gameObject.AddComponent<RendererSorting>();
         }
     }
 
     public void Setup(SCRPT_PlayersAnimData animData)
     {
+        //temp
         if (animData == null)
         {
             placeholderSprite.enabled = true;
-            this.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+            skeletonAnimation.gameObject.SetActive(false);
             isValid = false;
             return;
         }
 
-        this.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+        //temp
+        skeletonAnimation.gameObject.SetActive(true);
         placeholderSprite.sprite = null;
 
         animationsData = animData;
-        skeletonAnimation.skeletonDataAsset = animData.skeletonDataAsset;
-        skeletonAnimation.skeleton.SetToSetupPose();    
         SetAnimation(animationsData.idleAnim, true);
 
         isValid = true;
@@ -82,26 +91,26 @@ public class PlayerAnimationController : MonoBehaviour
     {
         if (skeletonAnimation == null || animation == null) return;
 
-        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
+        skeletonAnimation.SetAnimation(animation, loop).TimeScale = timeScale;
     }
     public void SetAnimation(Spine.Animation animation, bool loop, float timeScale = 1)
     {
         if (skeletonAnimation == null || animation == null) return;
 
-        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
+        skeletonAnimation.SetAnimation(animation, loop).TimeScale = timeScale;
     }
 
     public void AddAnimation(string animation, bool loop, float timeScale = 1)
     {
         if (skeletonAnimation == null || animation == null) return;
 
-        skeletonAnimation.state.AddAnimation(0, animation, loop, 0).TimeScale = timeScale;
+        skeletonAnimation.SetAnimation(animation, loop).TimeScale = timeScale;
     }
     public void AddAnimation(Spine.Animation animation, bool loop, float timeScale = 1)
     {
         if (skeletonAnimation == null || animation == null) return;
 
-        skeletonAnimation.state.AddAnimation(0, animation, loop, 0).TimeScale = timeScale;
+        skeletonAnimation.SetAnimation(animation, loop).TimeScale = timeScale;
     }
 
     public void SetCharacterState(string state)
