@@ -162,7 +162,9 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
             return;
         }
-        StopCoroutine(revealCoroutine);
+
+        if (revealCoroutine != null)  StopCoroutine(revealCoroutine);
+
         pauseOnIndexQueue.Clear();
         UnfinishedEffectsCount = 0;
 

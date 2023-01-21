@@ -41,6 +41,7 @@ public class ED_PlayerCharacter : Editor
         Moving,
     }
     private E_PlayerStates stateToForce;
+    private GameManager.E_CharactersNames characterToForce;
 
     private void OnEnable()
     {
@@ -202,12 +203,10 @@ public class ED_PlayerCharacter : Editor
         if (!showState) return;
 
         EditorGUILayout.BeginVertical("GroupBox");
-
         SerializedProperty stateManager = serializedObject.FindProperty("stateManager");
         EditorGUILayout.PropertyField(stateManager);
 
         EditorGUILayout.LabelField("Current State", targetScript.StateManager.ToString());
-
 
         EditorGUILayout.BeginHorizontal();
 
@@ -226,6 +225,24 @@ public class ED_PlayerCharacter : Editor
             }
         }
         stateToForce = (E_PlayerStates)EditorGUILayout.EnumPopup(stateToForce, GUILayout.MaxWidth(100));
+
+        EditorGUILayout.EndHorizontal();
+        SimpleDraws.HorizontalLine();
+
+        string currentCharacter = "N/A";
+        if (Application.isPlaying)
+            currentCharacter = targetScript.GetCharacterName().ToString();
+
+        EditorGUILayout.LabelField("Current Character", currentCharacter);
+
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Force new character", GUILayout.MaxWidth(150)))
+        {
+            PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(characterToForce);
+            targetScript.SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character, pcc.animData);
+        }
+        characterToForce = (GameManager.E_CharactersNames)EditorGUILayout.EnumPopup(characterToForce, GUILayout.MaxWidth(100));
 
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndVertical();

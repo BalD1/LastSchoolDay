@@ -60,7 +60,7 @@ public class PlayerAnimationController : MonoBehaviour
 
         animationsData = animData;
         skeletonAnimation.skeletonDataAsset = animData.skeletonDataAsset;
-
+        skeletonAnimation.skeleton.SetToSetupPose();    
         SetAnimation(animationsData.idleAnim, true);
 
         isValid = true;

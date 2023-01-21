@@ -1031,7 +1031,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         UpdateHPonUI();
 
-        Spine.Animation attackAnim = animationController.animationsData.attackAnim_side.Animation;
+        Spine.Animation attackAnim = animationController.animationsData.attackAnim_side?.Animation;
         if (attackAnim != null)
             weapon.attackDuration = attackAnim.Duration;
 

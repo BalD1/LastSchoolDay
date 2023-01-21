@@ -20,6 +20,11 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
         PlayerAnimationController ownerAnims = owner.AnimationController;
 
+        owner.D_attackInput += owner.Weapon.AskForAttack;
+        owner.D_dashInput += owner.StartDash;
+
+        if (ownerAnims.animationsData == null) return;
+
         switch (owner.Weapon.GetGeneralDirectionOfMouseOrGamepad())
         {
             case Vector2 v when v == Vector2.up:
@@ -42,9 +47,6 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
                 ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_side, false);
                 break;
         }
-
-        owner.D_attackInput += owner.Weapon.AskForAttack;
-        owner.D_dashInput += owner.StartDash;
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

@@ -2219,7 +2219,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5005
+  m_SortingOrder: 5500
   m_Sprite: {fileID: 21300000, guid: 16420e9b25d30444998839437dffbc48, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2465,6 +2465,7 @@ GameObject:
   - component: {fileID: 5570274112872385724}
   - component: {fileID: 8513430035912318771}
   - component: {fileID: 6299397748074035037}
+  - component: {fileID: 6635921152579406509}
   m_Layer: 0
   m_Name: Spine GameObject (Shirley)
   m_TagString: Untagged
@@ -2553,7 +2554,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5005
+  m_SortingOrder: 5500
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &6299397748074035037
 MonoBehaviour:
@@ -2592,6 +2593,34 @@ MonoBehaviour:
   _animationName: IDLE
   loop: 1
   timeScale: 1
+--- !u!114 &6635921152579406509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8833047015093376026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ea35d82fb1b5d4583e89b4343976b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialFlipX: 0
+  initialFlipY: 0
+  initialAnimation: IDLE
+  initialLoop: 1
+  skeletonDataAssets:
+  - {fileID: 11400000, guid: e037097d1e8179a4ea42589b51ada4a3, type: 2}
+  - {fileID: 11400000, guid: 0e14f26cdceca8444ba707b192b655f8, type: 2}
+  meshGeneratorSettings:
+    useClipping: 1
+    zSpacing: 0
+    pmaVertexColors: 1
+    tintBlack: 0
+    canvasGroupTintBlack: 0
+    calculateTangents: 0
+    addNormals: 0
+    immutableTriangles: 0
 --- !u!1001 &4027779215867649428
 PrefabInstance:
   m_ObjectHideFlags: 0

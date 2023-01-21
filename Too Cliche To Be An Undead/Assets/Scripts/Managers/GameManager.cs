@@ -186,6 +186,7 @@ public class GameManager : MonoBehaviour
         MainMenu,
         MainScene,
         Map,
+        MapTiles,
         Playground,
     }
 
