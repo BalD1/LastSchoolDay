@@ -56,6 +56,9 @@ namespace Spine.Unity {
 		//Stateful
 		SkeletonAnimation currentSkeletonAnimation;
 
+		public delegate void _SwitchSkeleton();
+		public _SwitchSkeleton _switchSkeleton;
+
 		void Clear () {
 			foreach (var s in skeletonAnimations)
 				Destroy(s.gameObject);
@@ -66,14 +69,26 @@ namespace Spine.Unity {
 		}
 
 		void SetActiveSkeleton (SkeletonAnimation skeletonAnimation) {
-			foreach (var sa in skeletonAnimations)
-				sa.gameObject.SetActive(sa == skeletonAnimation);
 
-			currentSkeletonAnimation = skeletonAnimation;
-		}
+			SkeletonAnimation sa;
+			for (int i = 0; i < skeletonAnimations.Count; i++)
+			{
+				sa = skeletonAnimations[i];
+				if (sa != skeletonAnimation)
+				{
+					sa.gameObject.SetActive(false);
+                    continue;
+                }
 
-		#region Lifecycle
-		void Awake () {
+				sa.gameObject.SetActive(true);
+                _switchSkeleton?.Invoke();
+            }
+
+            currentSkeletonAnimation = skeletonAnimation;
+        }
+
+        #region Lifecycle
+        void Awake () {
 			Initialize(false);
 		}
 		#endregion

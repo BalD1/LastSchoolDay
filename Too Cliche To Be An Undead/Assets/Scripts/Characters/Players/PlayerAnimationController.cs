@@ -12,6 +12,8 @@ public class PlayerAnimationController : MonoBehaviour
     [SerializeField] private SkeletonAnimationMulti skeletonAnimation;
     public SkeletonAnimationMulti SkeletonAnimation { get => skeletonAnimation; }
 
+    [SerializeField] private Transform armsParent;
+
     [field: SerializeField] public SCRPT_PlayersAnimData animationsData { get; private set; }
 
     [SerializeField][ReadOnly] private string currentState = "N/A";
@@ -52,6 +54,8 @@ public class PlayerAnimationController : MonoBehaviour
             if (item.GetComponent<SkeletonAnimation>() != null)
                 item.gameObject.AddComponent<RendererSorting>();
         }
+
+        skeletonAnimation._switchSkeleton += SwitchSkeleton;
     }
 
     public void Setup(SCRPT_PlayersAnimData animData)
@@ -73,6 +77,14 @@ public class PlayerAnimationController : MonoBehaviour
         SetAnimation(animationsData.idleAnim, true);
 
         isValid = true;
+    }
+
+    public void SwitchSkeleton()
+    {
+        foreach (Transform arm in armsParent)
+        {
+            arm.GetComponent<CustomBoneFollow>().skeletonRenderer = skeletonAnimation.CurrentSkeletonAnimation;
+        }
     }
 
     public void FlipSkeleton(bool lookAtRight)
