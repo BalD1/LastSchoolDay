@@ -10,9 +10,12 @@ public class ShopTutorial : MonoBehaviour
     [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
     [SerializeField] private string shopTutoDialogue;
 
+    [SerializeField] private Transform shopTransform;
+
     public void StartTutorial()
     {
-        CameraManager.Instance.MoveCamera(new Vector2(0.24f, 3.31f), 
+        Vector2 shopPos = shopTransform.position;
+        CameraManager.Instance.MoveCamera(shopPos, 
             () =>
             {
                 DialogueManager.Instance.TryStartDialogue(shopTutoDialogue, OnDialogueEnd);

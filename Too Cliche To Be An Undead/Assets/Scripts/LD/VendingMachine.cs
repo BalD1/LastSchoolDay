@@ -8,7 +8,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
 {
     [SerializeField] private SkeletonAnimation skeletonAnimation;
     [SerializeField] private GameObject outline;
-    [SerializeField] private ParticleSystem sparkles;
+    [SerializeField] private GameObject sparkles;
 
     [SerializeField] private int interactableChances = 50;
 
@@ -63,7 +63,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
         {
             skeletonAnimation.AnimationState.SetAnimation(0, currentMachineStyle.emptyState, false);
             Destroy(priceComponents);
-            Destroy(sparkles.gameObject);
+            Destroy(sparkles);
             Destroy(this);
             return;
         }
@@ -126,7 +126,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
         skeletonAnimation.AnimationState.AddAnimation(0, currentMachineStyle.emptyState, false, .25f);
         outline.SetActive(false);
         priceComponents.SetActive(false);
-        Destroy(sparkles.gameObject);
+        Destroy(sparkles);
 
         isValid = false;
     }
