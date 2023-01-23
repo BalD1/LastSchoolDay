@@ -26,6 +26,7 @@ public class PB_Drop : Collectable
             if (fallSpeedY.length <= 0)
             {
                 minTime = -1;
+                canBePickedUp = true;
                 return;
             }
 
@@ -44,7 +45,11 @@ public class PB_Drop : Collectable
 
         if (minTime > minTimeY) minTime = minTimeY;
 
-        if (minTime <= 0) animationTimer = 1;
+        if (minTime <= 0)
+        {
+            animationTimer = 1;
+            canBePickedUp = true;
+        }
     }
 
     protected override void Update()
