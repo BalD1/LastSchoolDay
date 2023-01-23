@@ -21,6 +21,24 @@ public class PB_Drop : Collectable
         if (bonusPower != null)
             spriteRenderer.sprite = bonusPower.Thumbnail;
 
+        if (fallSpeedX.length <= 0)
+        {
+            if (fallSpeedY.length <= 0)
+            {
+                minTime = -1;
+                return;
+            }
+
+            minTime = fallSpeedY.keys[fallSpeedY.length - 1].time;
+            return;
+        }
+
+        if (fallSpeedY.length <= 0)
+        {
+            minTime = fallSpeedX.keys[fallSpeedX.length - 1].time;
+            return;
+        }
+
         minTime = fallSpeedX.keys[fallSpeedX.length - 1].time;
         float minTimeY = fallSpeedY.keys[fallSpeedY.length - 1].time;
 

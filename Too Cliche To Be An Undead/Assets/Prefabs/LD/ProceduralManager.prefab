@@ -54,6 +54,8 @@ MonoBehaviour:
     roomAnchor: {fileID: 0}
   - roomOrientation: 0
     roomAnchor: {fileID: 0}
+  - roomOrientation: 0
+    roomAnchor: {fileID: 0}
   - roomOrientation: 1
     roomAnchor: {fileID: 0}
   - roomOrientation: 1
@@ -62,15 +64,10 @@ MonoBehaviour:
     roomAnchor: {fileID: 0}
   - roomOrientation: 1
     roomAnchor: {fileID: 0}
-  - roomOrientation: 0
-    roomAnchor: {fileID: 0}
-  - roomOrientation: 0
-    roomAnchor: {fileID: 0}
-  - roomOrientation: 0
-    roomAnchor: {fileID: 0}
-  - roomOrientation: 0
+  - roomOrientation: 1
     roomAnchor: {fileID: 0}
   instantiatedRooms: []
+  instantiatedRoomsParent: {fileID: 0}
   leftClassroomsPF:
   - {fileID: 8093143248084183653, guid: 9f6fc64a4be182d4fb8fa33341889394, type: 3}
   - {fileID: 5534571330740752137, guid: 8fc82ae68f24eac4d82f9a16950ad595, type: 3}

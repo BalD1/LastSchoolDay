@@ -19,13 +19,13 @@ public class salut : MonoBehaviour
             skeletonAnimation.transform.localScale = scale;
             skeletonAnimation.AnimationState.SetAnimation(0, idle, true);
         }
-        if (Input.GetKeyDown(KeyCode.F5))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             skeletonAnimation.skeleton.SetToSetupPose();
             Vector2 scale = skeletonAnimation.transform.localScale;
             scale.x = 1;
             skeletonAnimation.transform.localScale = scale;
-            skeletonAnimation.AnimationState.SetAnimation(0, attaque_cote, false);
+            skeletonAnimation.AnimationState.SetAnimation(0, idle, false);
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {

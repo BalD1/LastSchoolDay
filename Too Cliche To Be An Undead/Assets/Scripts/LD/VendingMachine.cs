@@ -61,6 +61,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
         if (!isValid)
         {
             skeletonAnimation.AnimationState.SetAnimation(0, currentMachineStyle.emptyState, false);
+            Destroy(priceComponents);
             Destroy(this);
             return;
         }

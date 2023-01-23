@@ -16,7 +16,9 @@ public class YardDoor : MonoBehaviour
         if (collision.GetComponent<PlayerCharacter>() == null) return;
 
         skeletonAnimation.AnimationState.SetAnimation(0, openAnimation, false);
-        blockCollision.enabled = false;
+
+        if (blockCollision != null) blockCollision.enabled = false;
+
         Destroy(this);
     }
 }

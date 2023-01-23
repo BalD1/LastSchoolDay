@@ -113,6 +113,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -415,7 +427,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 1044
+        y: 1048
         width: 436
         height: 294
       alignment: 7
@@ -704,6 +716,111 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: SH_Props_Collision_28
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 360
+        width: 1303
+        height: 121
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 621c6c864fc506242b480526885a3c14
+      internalID: -203484226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SH_Props_Collision_29
+      rect:
+        serializedVersion: 2
+        x: 1386
+        y: 361
+        width: 649
+        height: 120
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a074034069bc75c43964cf930d6b58ae
+      internalID: -1622402309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SH_Props_Collision_30
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 197
+        width: 1240
+        height: 148
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa7f3b3e0557255438a3ba3f8493bd7b
+      internalID: 81372925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SH_Props_Collision_31
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 27
+        width: 782
+        height: 148
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20a3faa560a688f4ea00869461f6362d
+      internalID: 470990284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SH_Props_Collision_32
+      rect:
+        serializedVersion: 2
+        x: 899
+        y: 28
+        width: 668
+        height: 147
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a69f8d457286c794fa4e1a3f58c29cf9
+      internalID: 1159066963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -715,34 +832,39 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      SH_Props_Collision_18: -1784399603
-      SH_Props_Collision_4: -379931512
-      SH_Props_Collision_0: -982876608
-      SH_Props_Collision_16: -2065328857
-      SH_Props_Collision_9: 647040817
-      SH_Props_Collision_25: 1239300703
-      SH_Props_Collision_21: 393513411
-      SH_Props_Collision_13: 1789249030
-      SH_Props_Collision_10: -671840449
-      SH_Props_Collision_23: -702975612
-      SH_Props_Collision_17: 1968672942
-      SH_Props_Collision_19: -606407537
-      SH_Props_Collision_27: -510918692
-      SH_Props_Collision_12: -687713213
-      SH_Props_Collision_6: -93497884
-      SH_Props_Collision_11: -1118160878
-      SH_Props_Collision_24: 146972424
-      SH_Props_Collision_26: -1506008388
+      SH_Props_Collision_15: -203484226
+      SH_Props_Collision_18: -834101696
+      SH_Props_Collision_4: 627041646
+      SH_Props_Collision_0: -964704373
+      SH_Props_Collision_30: 193740372
+      SH_Props_Collision_16: -379931512
+      SH_Props_Collision_9: -489485703
+      SH_Props_Collision_31: 470990284
+      SH_Props_Collision_25: -93497884
+      SH_Props_Collision_32: 1159066963
+      SH_Props_Collision_21: -908252257
+      SH_Props_Collision_13: -527594853
+      SH_Props_Collision_10: 647040817
+      SH_Props_Collision_23: -671840449
+      SH_Props_Collision_17: -1118160878
+      SH_Props_Collision_19: -687713213
+      SH_Props_Collision_27: 1789249030
+      SH_Props_Collision_12: 986196217
+      SH_Props_Collision_6: 128141116
+      SH_Props_Collision_11: -2065328857
+      SH_Props_Collision_24: 1968672942
+      SH_Props_Collision_26: -1784399603
+      SH_Props_Collision_29: -606407537
       SH_Props_Collision_20: 1900264776
-      SH_Props_Collision_7: -908252257
-      SH_Props_Collision_1: -834101696
-      SH_Props_Collision_5: -489485703
-      SH_Props_Collision_14: 986196217
-      SH_Props_Collision_2: 627041646
-      SH_Props_Collision_8: -527594853
-      SH_Props_Collision_15: 128141116
-      SH_Props_Collision_22: 841831580
-      SH_Props_Collision_3: -964704373
+      SH_Props_Collision_7: 393513411
+      SH_Props_Collision_1: 841831580
+      SH_Props_Collision_5: -702975612
+      SH_Props_Collision_14: 146972424
+      SH_Props_Collision_2: -1506008388
+      SH_Props_Collision_8: -1622402309
+      SH_Props_Collision_22: -510918692
+      SH_Props_Collision_28: 1239300703
+      SH_Props_Collision_3: -982876608
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
