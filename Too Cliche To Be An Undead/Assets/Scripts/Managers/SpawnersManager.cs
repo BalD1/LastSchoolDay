@@ -87,7 +87,9 @@ public class SpawnersManager : MonoBehaviour
             elementSpawners.Add(null);
             idx = elementSpawners.Count - 1;
         }
-        elementSpawners[idx] = element.GetComponent<ElementSpawner>();
+
+        if (idx >= elementSpawners.Count) elementSpawners.Add(element.GetComponent<ElementSpawner>());
+        else elementSpawners[idx] = element.GetComponent<ElementSpawner>();
 
 #if UNITY_EDITOR
         CreateObjectName(element, elementSpawners[idx]);

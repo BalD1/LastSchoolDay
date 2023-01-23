@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using BalDUtilities.EditorUtils;
 
-[CustomEditor(typeof("TARGET_SCRIPT"))]
+[CustomEditor(typeof(TARGET_SCRIPT))]
 public class #SCRIPTNAME# : Editor
 {
 	private TARGET_SCRIPT targetScript;
@@ -19,13 +19,15 @@ public class #SCRIPTNAME# : Editor
     public override void OnInspectorGUI()
     {
         showDefaultInspector = EditorGUILayout.Toggle("Show Default Inspector", showDefaultInspector);
-        ReadOnlyDraws.EditorScriptDraw(typeof("TARGET_SCRIPT"), this);
+        ReadOnlyDraws.EditorScriptDraw(typeof(TARGET_SCRIPT), this);
         if (showDefaultInspector)
         {
             base.DrawDefaultInspector();
             return;
         }
-    #NOTRIM#
+        #NOTRIM#
         ReadOnlyDraws.ScriptDraw(typeof(DebugSpawnables), targetScript);
+        #NOTRIM#
+        serializedObject.ApplyModifiedProperties();
     }
 }
