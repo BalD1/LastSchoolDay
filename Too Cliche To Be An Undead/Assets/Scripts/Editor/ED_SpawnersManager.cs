@@ -10,8 +10,6 @@ public class ED_SpawnersManager : Editor
     private SpawnersManager targetScript;
     private Vector2 spawnerSpawnPos;
 
-    private bool showSpawnerArgs;
-
     private ElementSpawner.E_ElementToSpawn elementToSpawn = ElementSpawner.E_ElementToSpawn.Coins;
     private bool destroyAfterSpawn;
     private bool spawnAtStart;
@@ -59,6 +57,22 @@ public class ED_SpawnersManager : Editor
             GameObject[] res = GameObject.FindGameObjectsWithTag("ElementSpawner");
 
             targetScript.SetupArray(res);
+
+            GameObject[] areaSpawners = GameObject.FindGameObjectsWithTag("AreaSpawner");
+
+            targetScript.SetupAreaSpawners(areaSpawners);
+        }
+
+        bool pastShow = targetScript.showAreaSpawnersBounds;
+
+        targetScript.showAreaSpawnersBounds = EditorGUILayout.Toggle("Show Area Bounds", targetScript.showAreaSpawnersBounds);
+
+        if (pastShow != targetScript.showAreaSpawnersBounds)
+        {
+            foreach (var item in targetScript.AreaSpawners)
+            {
+                item.debugMode = !pastShow;
+            }
         }
 
         GUILayout.Space(5);
@@ -71,6 +85,9 @@ public class ED_SpawnersManager : Editor
         if (GUILayout.Button("Spawn all"))
             targetScript.ForceSpawnAll();
         GUILayout.EndHorizontal();
+
+        SerializedProperty maxStamp = serializedObject.FindProperty("maxStamp");
+        maxStamp.intValue = (int)targetScript.zombiesSpawnByArea.curveMax.keys[targetScript.zombiesSpawnByArea.curveMax.length - 1].time;
 
         EditorUtility.SetDirty(targetScript);
         EditorUtility.SetDirty(this);

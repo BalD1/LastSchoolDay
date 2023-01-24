@@ -12,6 +12,9 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
         owner ??= stateManager.Owner;
         owner.ResetVelocity();
 
+        owner.Pathfinding.StopUpdatepath();
+        owner.Pathfinding.StartUpdatePath();
+
         owner.canBePushed = true;
     }
 

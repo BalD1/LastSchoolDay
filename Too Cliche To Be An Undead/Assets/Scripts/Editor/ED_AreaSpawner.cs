@@ -28,6 +28,9 @@ public class ED_AreaSpawner : Editor
     
         ReadOnlyDraws.ScriptDraw(typeof(DebugSpawnables), targetScript);
 
+        SerializedProperty objectsPoolToSpawn = serializedObject.FindProperty("objectsPoolToSpawn");
+        EditorGUILayout.PropertyField(objectsPoolToSpawn);
+
         SerializedProperty symetrical = serializedObject.FindProperty("symetrical");
         EditorGUILayout.PropertyField(symetrical);
 

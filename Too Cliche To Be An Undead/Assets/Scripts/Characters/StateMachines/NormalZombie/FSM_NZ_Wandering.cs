@@ -12,13 +12,16 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
     {
         owner ??= stateManager.Owner;
         owner.ResetVelocity();
-        owner.ChooseRandomPosition();
+
+        if (owner.allowWander) owner.ChooseRandomPosition();
+        else owner.Pathfinding.StopUpdatepath();
 
         owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)
     {
+        if (!owner.allowWander) return;
         if (owner.Pathfinding == null) return;
         
         goalPosition = owner.Pathfinding.CheckWayPoint();

@@ -6,6 +6,8 @@ public class NormalZombie : EnemyBase
 {
     [SerializeField] private FSM_NZ_Manager stateManager;
 
+    [field:  SerializeField] public bool allowWander { get; private set; }
+
     [SerializeField] private float attack_DURATION = .3f;
     public float Attack_DURATION { get => attack_DURATION; }
 

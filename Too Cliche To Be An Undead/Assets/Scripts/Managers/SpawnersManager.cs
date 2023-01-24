@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SpawnersManager : MonoBehaviour
 {
@@ -18,23 +19,71 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] [Range(0, 10)] private int maxKeycardsToSpawn = 5;
     [SerializeField] [Range(0, 10)] private int minKeycardsToSpawn = 3;
 
+    [field: SerializeField] public ParticleSystem.MinMaxCurve zombiesSpawnByArea { get; private set; }
+    [field: SerializeField] public ParticleSystem.MinMaxCurve zombiesSpawnCooldown { get; private set; }
+
+    [ReadOnly]
+    [SerializeField] private int spawnStamp;
+
+    [ReadOnly]
+    [SerializeField] private int maxStamp;
+
+    [ReadOnly]
+    [SerializeField] private float spawnTimer;
+
+    public const int minValidDistanceFromPlayer = 5;
+    public const int maxValidDistanceFromPlayer = 15;
+
     [SerializeField] private List<ElementSpawner> elementSpawners = new List<ElementSpawner>();
     [SerializeField] private List<ElementSpawner> keycardSpawners = new List<ElementSpawner>();
 
+    [SerializeField] private AreaSpawner[] areaSpawners;
+    public AreaSpawner[] AreaSpawners { get => areaSpawners; }
+
     [SerializeField] private GameObject spawner_PF;
     public GameObject Spawner_PF { get => spawner_PF; }
+
+#if UNITY_EDITOR
+    [HideInInspector] public bool showAreaSpawnersBounds = false; 
+#endif
 
     private void Awake()
     {
         instance = this;
     }
 
+    private void Start()
+    {
+        foreach (var item in areaSpawners)
+        {
+            item.SpawnObject(3);
+        }
+    }
+
+    private void Update()
+    {
+        //TrySpawnZombies();
+    }
+
+    private void TrySpawnZombies()
+    {
+        spawnTimer -= Time.deltaTime;
+
+        if (spawnTimer <= 0) SpawnNextWave();
+    }
+
+    private void SpawnNextWave()
+    {
+        spawnStamp++;
+        spawnTimer = zombiesSpawnCooldown.Evaluate(spawnStamp);
+        int spawnCount = Mathf.RoundToInt(zombiesSpawnByArea.Evaluate(spawnStamp));
+
+        foreach (var item in areaSpawners) item.SpawnObject(spawnCount);
+    }
+
     public void ForceSpawnAll()
     {
-        foreach (var item in elementSpawners)
-        {
-            item.SpawnElement();
-        }
+        foreach (var item in elementSpawners) item.SpawnElement();
     }
 
     public void ManageKeycardSpawn()
@@ -43,10 +92,8 @@ public class SpawnersManager : MonoBehaviour
 
         SpawnSingleCard(keysToSpawn);
 
-        foreach (var item in keycardSpawners)
-        {
-            Destroy(item.gameObject);
-        }
+        foreach (var item in keycardSpawners) Destroy(item.gameObject);
+
         keycardSpawners.Clear();
 
         UIManager.Instance.UpdateKeycardsCounter();
@@ -77,6 +124,15 @@ public class SpawnersManager : MonoBehaviour
         for (int i = 0; i < objectsArray.Length; i++)
         {
             AddSingleToArray(objectsArray[i], i);
+        }
+    }
+    public void SetupAreaSpawners(GameObject[] spawners)
+    {
+        areaSpawners = new AreaSpawner[spawners.Length];
+
+        for (int i = 0; i < spawners.Length; i++)
+        {
+            areaSpawners[i] = spawners[i].GetComponent<AreaSpawner>();
         }
     }
 
