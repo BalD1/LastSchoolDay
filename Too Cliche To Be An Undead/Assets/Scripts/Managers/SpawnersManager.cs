@@ -19,8 +19,7 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] [Range(0, 10)] private int maxKeycardsToSpawn = 5;
     [SerializeField] [Range(0, 10)] private int minKeycardsToSpawn = 3;
 
-    [field: SerializeField] public ParticleSystem.MinMaxCurve zombiesSpawnByArea { get; private set; }
-    [field: SerializeField] public ParticleSystem.MinMaxCurve zombiesSpawnCooldown { get; private set; }
+    [field: SerializeField] public AnimationCurve maxZombiesInSchoolByTime;
 
     [ReadOnly]
     [SerializeField] private int spawnStamp;
@@ -29,7 +28,8 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] private int maxStamp;
 
     [ReadOnly]
-    [SerializeField] private float spawnTimer;
+    [SerializeField] private int currentZombiesInSchool;
+    public int CurrentZombiesInSchool { get => currentZombiesInSchool; }
 
     public const int minValidDistanceFromPlayer = 5;
     public const int maxValidDistanceFromPlayer = 15;
@@ -37,8 +37,13 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] private List<ElementSpawner> elementSpawners = new List<ElementSpawner>();
     [SerializeField] private List<ElementSpawner> keycardSpawners = new List<ElementSpawner>();
 
+    public List<ElementSpawner> ElementSpawners { get => elementSpawners; }
+    public List<ElementSpawner> KeycardSpawners { get => keycardSpawners; }
+
     [SerializeField] private AreaSpawner[] areaSpawners;
     public AreaSpawner[] AreaSpawners { get => areaSpawners; }
+
+    public List<AreaSpawner> validAreaSpawners = new List<AreaSpawner>();
 
     [SerializeField] private GameObject spawner_PF;
     public GameObject Spawner_PF { get => spawner_PF; }
@@ -54,6 +59,8 @@ public class SpawnersManager : MonoBehaviour
 
     private void Start()
     {
+        return;
+
         foreach (var item in areaSpawners)
         {
             item.SpawnObject(3);
@@ -62,23 +69,37 @@ public class SpawnersManager : MonoBehaviour
 
     private void Update()
     {
-        //TrySpawnZombies();
+        TrySpawnZombies();
     }
 
     private void TrySpawnZombies()
     {
-        spawnTimer -= Time.deltaTime;
-
-        if (spawnTimer <= 0) SpawnNextWave();
+        if (currentZombiesInSchool < maxZombiesInSchoolByTime.Evaluate(0)) SpawnNext();
     }
 
-    private void SpawnNextWave()
+    private void SpawnNext()
     {
-        spawnStamp++;
-        spawnTimer = zombiesSpawnCooldown.Evaluate(spawnStamp);
-        int spawnCount = Mathf.RoundToInt(zombiesSpawnByArea.Evaluate(spawnStamp));
+        if (validAreaSpawners.Count <= 0) return;
 
-        foreach (var item in areaSpawners) item.SpawnObject(spawnCount);
+        int zombiesToSpawn = (int)maxZombiesInSchoolByTime.Evaluate(0) - currentZombiesInSchool;
+
+        int zombiesByArea = zombiesToSpawn / validAreaSpawners.Count;
+
+        foreach (var item in validAreaSpawners)
+        {
+            item.SpawnObject(zombiesByArea);
+        }
+    }
+
+    public void AddZombie()
+    {
+        if (GameManager.Instance.IsInTutorial) return;
+        currentZombiesInSchool++;
+    }
+    public void RemoveZombie()
+    {
+        if (GameManager.Instance.IsInTutorial) return;
+        currentZombiesInSchool--;
     }
 
     public void ForceSpawnAll()

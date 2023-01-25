@@ -8,6 +8,8 @@ public class NormalZombie : EnemyBase
 
     [field:  SerializeField] public bool allowWander { get; private set; }
 
+    [field: SerializeField] public bool tutorialZombie { get; private set; }
+
     [SerializeField] private float attack_DURATION = .3f;
     public float Attack_DURATION { get => attack_DURATION; }
 
@@ -28,6 +30,12 @@ public class NormalZombie : EnemyBase
     {
         base.Start();
         Pathfinding?.StartUpdatePath();
+
+        if (tutorialZombie) return;
+
+        SpawnersManager.Instance.AddZombie();
+
+        d_OnDeath += SpawnersManager.Instance.RemoveZombie;
     }
 
     protected override void Update()

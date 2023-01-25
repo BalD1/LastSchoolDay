@@ -45,6 +45,7 @@ public class ElementSpawner : MonoBehaviour
         switch (elementToSpawn)
         {
             case E_ElementToSpawn.RandomBaseZombie:
+                break;
                 Spawn(GameAssets.Instance.GetRandomZombie, GameManager.Instance.InstantiatedEntitiesParent);
                 break;
 
@@ -69,7 +70,16 @@ public class ElementSpawner : MonoBehaviour
                 break;
         }
 
-        if (destroyAfterSpawn) Destroy(this.gameObject);
+        if (destroyAfterSpawn)
+        {
+            Destroy(this.gameObject);
+            if (elementToSpawn == E_ElementToSpawn.Keycard)
+            {
+                SpawnersManager.Instance.KeycardSpawners.Remove(this);
+                SpawnersManager.Instance.ElementSpawners.Remove(this);
+            }
+            else SpawnersManager.Instance.ElementSpawners.Remove(this);
+        }
     }
 
     private void Spawn(GameObject objPF, Transform parent)

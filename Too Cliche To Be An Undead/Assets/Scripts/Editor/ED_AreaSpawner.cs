@@ -34,6 +34,9 @@ public class ED_AreaSpawner : Editor
         SerializedProperty symetrical = serializedObject.FindProperty("symetrical");
         EditorGUILayout.PropertyField(symetrical);
 
+        SerializedProperty isValid = serializedObject.FindProperty("isValid");
+        EditorGUILayout.PropertyField(isValid);
+
         if (targetScript.Symetrical == false)
         {
             EditorGUILayout.BeginVertical("GroupBox");

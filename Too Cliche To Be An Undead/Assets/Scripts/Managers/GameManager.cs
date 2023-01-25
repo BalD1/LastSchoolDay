@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private GameObject tutorialObject;
+
     [SerializeField] private Transform instantiatedEntitiesParent;
     [SerializeField] private Transform instantiatedKeycardsParent;
     [SerializeField] private Transform instantiatedMiscParent;
@@ -218,6 +220,7 @@ public class GameManager : MonoBehaviour
             UIManager.Instance.UpdateKeycardsCounter();
 
             IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
+            if (!IsInTutorial) Destroy(tutorialObject);
         }
     }
 

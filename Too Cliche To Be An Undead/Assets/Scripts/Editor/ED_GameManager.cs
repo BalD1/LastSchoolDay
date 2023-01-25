@@ -118,6 +118,9 @@ public class ED_GameManager : Editor
         SerializedProperty fightArena = serializedObject.FindProperty("fightArena");
         EditorGUILayout.PropertyField(fightArena);
 
+        SerializedProperty tutorialObject = serializedObject.FindProperty("tutorialObject");
+        EditorGUILayout.PropertyField(tutorialObject);
+
         SerializedProperty instantiatedEntitiesParent = serializedObject.FindProperty("instantiatedEntitiesParent");
         EditorGUILayout.PropertyField(instantiatedEntitiesParent);
 

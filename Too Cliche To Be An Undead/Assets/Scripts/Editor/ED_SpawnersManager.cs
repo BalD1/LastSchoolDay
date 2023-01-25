@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(SpawnersManager))]
+[CustomEditor(typeof(SpawnersManager)), CanEditMultipleObjects]
 public class ED_SpawnersManager : Editor
 {
     private SpawnersManager targetScript;
@@ -17,7 +17,7 @@ public class ED_SpawnersManager : Editor
     private void OnEnable()
     {
         targetScript = (SpawnersManager)target;
-
+        
     }
 
     public override void OnInspectorGUI()
@@ -87,7 +87,6 @@ public class ED_SpawnersManager : Editor
         GUILayout.EndHorizontal();
 
         SerializedProperty maxStamp = serializedObject.FindProperty("maxStamp");
-        maxStamp.intValue = (int)targetScript.zombiesSpawnByArea.curveMax.keys[targetScript.zombiesSpawnByArea.curveMax.length - 1].time;
 
         EditorUtility.SetDirty(targetScript);
         EditorUtility.SetDirty(this);
