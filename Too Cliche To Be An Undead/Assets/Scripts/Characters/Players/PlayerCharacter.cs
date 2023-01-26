@@ -1088,13 +1088,19 @@ public class PlayerCharacter : Entity, IInteractable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
+        {
             d_EnteredTrigger?.Invoke(collision);
+            return;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
+        {
             d_ExitedTrigger?.Invoke(collision);
+            return;
+        }
     }
 
     #region Gizmos

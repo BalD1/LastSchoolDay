@@ -527,6 +527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7821369717731874617}
   - component: {fileID: 4554072221562673533}
+  - component: {fileID: 2742574312997926352}
   - component: {fileID: 7821369717731874618}
   - component: {fileID: 7821369717731874619}
   - component: {fileID: 2333927270175999424}
@@ -569,6 +570,19 @@ MonoBehaviour:
   isStatic: 0
   objectRenderer: {fileID: 7821369717731874618}
   debugMode: 0
+--- !u!114 &2742574312997926352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7821369717731874616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867620e950703924299a6aaa9b66c7e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 7821369719249530884}
 --- !u!212 &7821369717731874618
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -744,6 +758,7 @@ MonoBehaviour:
     m_Bits: 3072
   pivotOffset: {fileID: 3110682095013553420}
   speedMultiplier: 40
+  speedMultiplierWhenOutsideOfCamera: 1
   maxForce: 100
   movementMass: 30
   allowSlowdown: 1
@@ -761,6 +776,8 @@ MonoBehaviour:
   storedTargetPosition: {x: 0, y: 0}
   currentStateDebug: N/A
   stateManager: {fileID: 133242913744623205}
+  <allowWander>k__BackingField: 0
+  <tutorialZombie>k__BackingField: 0
   attack_DURATION: 0.75
   attackStarted: 0
 --- !u!114 &133242913744623205

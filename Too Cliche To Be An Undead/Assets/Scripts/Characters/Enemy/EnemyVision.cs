@@ -12,6 +12,11 @@ public class EnemyVision : MonoBehaviour
 
     [SerializeField] private LayerMask detectionMask;
 
+    [SerializeField] private float targetUpdateRate = 2;
+    private float targetUpdate_TIMER;
+
+    private List<Transform> targets;
+
     [field: SerializeField] public bool isActive { get; private set; }
 
 #if UNITY_EDITOR
@@ -19,6 +24,43 @@ public class EnemyVision : MonoBehaviour
 #endif
 
     private Vector3 dir;
+
+    private void Start()
+    {
+        //targets = new List<Transform>();
+        PlayerCharacter closerTarget = null;
+        float closerDistance = float.MaxValue;
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            //targets.Add(item.playerScript.gameObject.transform);
+            float currentDist = Vector2.Distance(owner.transform.position, item.playerScript.transform.position);
+            if(currentDist < closerDistance)
+            {
+                closerDistance = currentDist;
+                closerTarget = item.playerScript;
+            }
+        }
+
+        owner.SetTarget(closerTarget);
+    }
+
+    /*
+    private void Update()
+    {
+        if (targetUpdate_TIMER > 0) targetUpdate_TIMER = Time.time;
+        else UpdateTarget();
+    }
+
+    private void UpdateTarget()
+    {
+        targetUpdate_TIMER = targetUpdateRate;
+
+        foreach (var item in collection)
+        {
+
+        }
+    }
+    */
 
     private void OnTriggerStay2D(Collider2D collision)
     {

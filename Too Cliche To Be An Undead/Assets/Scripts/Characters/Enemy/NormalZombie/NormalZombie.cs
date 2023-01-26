@@ -17,14 +17,10 @@ public class NormalZombie : EnemyBase
 
     public Vector2 AttackDirection { get; set; }
 
+    public const int maxDistanceFromPlayer = 15;
+
     public static NormalZombie Create(Vector2 pos)
-    {
-        GameObject gO = Instantiate(GameAssets.Instance.DashingZombiePF, pos, Quaternion.identity);
-
-        NormalZombie nZ = gO.GetComponent<NormalZombie>();
-
-        return nZ;
-    }
+        => Instantiate(GameAssets.Instance.GetRandomZombie, pos, Quaternion.identity).GetComponent<NormalZombie>();
 
     protected override void Start()
     {
@@ -41,8 +37,16 @@ public class NormalZombie : EnemyBase
     protected override void Update()
     {
         base.Update();
+
+        if (Vector2.Distance(this.transform.position, GameManager.Player1Ref.transform.position) > maxDistanceFromPlayer) ForceKill();
     }
 
+    public void ForceKill()
+    {
+        attackedPlayer?.RemoveAttacker(this);
+        d_OnDeath?.Invoke();
+        Destroy(this.gameObject);
+    }
     public override void OnDeath(bool forceDeath = false)
     {
         base.OnDeath(forceDeath);

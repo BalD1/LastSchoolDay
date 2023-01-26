@@ -19,6 +19,8 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] [Range(0, 10)] private int maxKeycardsToSpawn = 5;
     [SerializeField] [Range(0, 10)] private int minKeycardsToSpawn = 3;
 
+    public Queue<GameObject> zombiesPool = new Queue<GameObject>();
+
     [field: SerializeField] public AnimationCurve maxZombiesInSchoolByTime;
 
     [ReadOnly]
@@ -124,7 +126,7 @@ public class SpawnersManager : MonoBehaviour
     {
         if (remainingSpawns <= 0) return;
 
-        int randomSpawner = Random.Range(0, keycardSpawners.Count);
+        int randomSpawner = Random.Range(0, keycardSpawners.Count - 1);
 
         if (randomSpawner >= keycardSpawners.Count) return;
 

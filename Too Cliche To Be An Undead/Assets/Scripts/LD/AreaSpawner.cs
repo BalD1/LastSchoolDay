@@ -11,9 +11,9 @@ public class AreaSpawner : MonoBehaviour
     public bool Symetrical { get => symetrical; }
 #endif
 
-    [SerializeField] private Vector2 minBounds;
-	[SerializeField] private Vector2 maxBounds;
-    [SerializeField] private Vector2 centerOffset;
+    [SerializeField] public Vector2 minBounds;
+	[SerializeField] public Vector2 maxBounds;
+    [SerializeField] public Vector2 centerOffset;
 
     [SerializeField] private GameObject[] objectsPoolToSpawn;
     public GameObject GetRandomObjectInPool { get => objectsPoolToSpawn[Random.Range(0, objectsPoolToSpawn.Length)]; }
@@ -26,23 +26,15 @@ public class AreaSpawner : MonoBehaviour
 
     private void Awake()
     {
-        isValid = true;
-        InvokeRepeating(nameof(CheckValidness), 0, 2);
+        isValid = false;
     }
 
-    private void CheckValidness()
+    public void SetValidity(bool validity)
     {
-        float distanceFromPlayer = Vector2.Distance(this.transform.position, GameManager.Player1Ref.transform.position);
+        isValid = validity;
 
-        bool pastValid = isValid;
-
-        isValid = distanceFromPlayer >= SpawnersManager.minValidDistanceFromPlayer && distanceFromPlayer <= SpawnersManager.maxValidDistanceFromPlayer;
-
-        if (pastValid != isValid)
-        {
-            if (isValid) SpawnersManager.Instance.validAreaSpawners.Add(this);
-            else SpawnersManager.Instance.validAreaSpawners.Remove(this);
-        }
+        if (isValid) SpawnersManager.Instance.validAreaSpawners.Add(this);
+        else SpawnersManager.Instance.validAreaSpawners.Remove(this);
     }
 
     public Vector2 GetRandomPositionInBounds()
@@ -51,7 +43,7 @@ public class AreaSpawner : MonoBehaviour
         Vector2 maxPos = BoundsMaxPosition;
 
         return new Vector2(x: Random.Range(minPos.x, maxPos.x),
-                           y: Random.Range(minPos.y, minPos.y));
+                           y: Random.Range(minPos.y, maxPos.y));
     }
 
     public void SpawnObject(int count = 1, GameObject objectOverride = null)
@@ -89,7 +81,6 @@ public class AreaSpawner : MonoBehaviour
         if (minBounds.y != maxBounds.y) minBounds.y = maxBounds.y * -1; 
 #endif
     }
-
 
     private void OnDrawGizmos()
 	{
