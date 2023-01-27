@@ -274,6 +274,8 @@ public class PlayerWeapon : MonoBehaviour
 
     public void SuccessfulHit(Vector3 hitPosition, Entity e, bool addKnockback, float speedModifier)
     {
+        if (e == null) return;
+
         Vector3 effectObjectPos = slashParticles.gameObject.transform.position;
         float dist = Vector2.Distance(effectObjectPos, hitPosition) / 2;
         Vector2 dir = (hitPosition - effectObjectPos).normalized;

@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class AreaSpawner : MonoBehaviour
@@ -52,9 +53,17 @@ public class AreaSpawner : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            GameObject objectToSpawn = objectOverride == null ? GetRandomObjectInPool : objectOverride;
+            if (SpawnersManager.Instance.ZombiesPool.Count > 0)
+            {
+                GameObject newZombie = SpawnersManager.Instance.ZombiesPool.Dequeue();
+                newZombie.GetComponent<NormalZombie>().Reenable(GetRandomPositionInBounds());
+            }
+            else
+            {
+                GameObject objectToSpawn = objectOverride == null ? GetRandomObjectInPool : objectOverride;
+                Instantiate(objectToSpawn, GetRandomPositionInBounds(), Quaternion.identity);
+            }
 
-            Instantiate(objectToSpawn, GetRandomPositionInBounds(), Quaternion.identity);
         }
     }
 

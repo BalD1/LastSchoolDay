@@ -166,6 +166,7 @@ public abstract class EnemyBase : Entity
 
     public virtual void SetAttackedPlayer(PlayerCharacter target)
     {
+        if (target == null) return;
         if (target.IsAlive() == false) return;
 
         if (target.AddAttacker(this))

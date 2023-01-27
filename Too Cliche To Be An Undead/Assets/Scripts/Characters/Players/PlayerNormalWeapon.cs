@@ -75,17 +75,16 @@ public class PlayerNormalWeapon : PlayerWeapon
                 float dist = Vector2.Distance(item.transform.position, effectObject.transform.position);
                 if ((closestEnemy == null || closestEnemyDist == -1) || (dist <= distanceForAutoAim && dist < closestEnemyDist) )
                 {
-                    closestEnemy = item.GetComponentInParent<EnemyBase>().PivotOffset;
+                    closestEnemy = item.GetComponentInParent<EnemyBase>()?.PivotOffset;
                     closestEnemyDist = dist;
                 }
-                    
 
                 float shakeIntensity = normalShakeIntensity;
                 float shakeDuration = normalShakeDuration;
                 
                 if (isLastAttack || isCrit)
                 {
-                    item.GetComponentInParent<Entity>().Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage, owner);
+                    item.GetComponentInParent<Entity>()?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage, owner);
                     shakeIntensity = bigShakeIntensity;
                     shakeDuration = bigShakeDuration;
                 }

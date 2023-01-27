@@ -27,7 +27,7 @@ public class ValidnessChecker : MonoBehaviour
             }
         }
         {
-            NormalZombie normalZombie = collision.GetComponent<NormalZombie>();
+            NormalZombie normalZombie = collision.GetComponentInParent<NormalZombie>();
             if (normalZombie != null)
             {
                 normalZombie.ForceKill();

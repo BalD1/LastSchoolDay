@@ -13,6 +13,7 @@ public class ED_SpawnersManager : Editor
     private ElementSpawner.E_ElementToSpawn elementToSpawn = ElementSpawner.E_ElementToSpawn.Coins;
     private bool destroyAfterSpawn;
     private bool spawnAtStart;
+    private bool showZombiesPool;
 
     private void OnEnable()
     {
@@ -26,6 +27,19 @@ public class ED_SpawnersManager : Editor
         DrawDefaultInspector();
 
         GUILayout.Space(5);
+
+        showZombiesPool = EditorGUILayout.Foldout(showZombiesPool, "Zombies Pool", true);
+        if (showZombiesPool)
+        {
+            EditorGUILayout.BeginVertical();
+
+            foreach (var item in targetScript.ZombiesPool)
+            {
+                EditorGUILayout.ObjectField(item, typeof(GameObject), true);
+            }
+
+            EditorGUILayout.EndVertical();
+        }
 
         ElementSpawner sp = null;
 

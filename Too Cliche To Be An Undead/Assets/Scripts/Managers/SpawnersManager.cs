@@ -19,7 +19,8 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] [Range(0, 10)] private int maxKeycardsToSpawn = 5;
     [SerializeField] [Range(0, 10)] private int minKeycardsToSpawn = 3;
 
-    public Queue<GameObject> zombiesPool = new Queue<GameObject>();
+    private Queue<GameObject> zombiesPool = new Queue<GameObject>();
+    public Queue<GameObject> ZombiesPool { get => zombiesPool; }
 
     [field: SerializeField] public AnimationCurve maxZombiesInSchoolByTime;
 

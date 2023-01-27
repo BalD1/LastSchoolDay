@@ -45,12 +45,24 @@ public class NormalZombie : EnemyBase
     {
         attackedPlayer?.RemoveAttacker(this);
         d_OnDeath?.Invoke();
-        Destroy(this.gameObject);
+        SpawnersManager.Instance.ZombiesPool.Enqueue(this.gameObject);
+        this.gameObject.SetActive(false);
     }
     public override void OnDeath(bool forceDeath = false)
     {
         base.OnDeath(forceDeath);
-        Destroy(this.gameObject);
+        SpawnersManager.Instance.ZombiesPool.Enqueue(this.gameObject);
+        this.gameObject.SetActive(false);
+    }
+
+    public void Reenable(Vector2 pos)
+    {
+        this.transform.position = pos;
+        this.ResetStats();
+        this.stateManager.SwitchState(stateManager.idleState);
+        SpawnersManager.Instance.AddZombie();
+        attackedPlayer?.RemoveAttacker(this);
+        this.gameObject.SetActive(true); 
     }
 
     public override void Stun(float duration, bool resetAttackTimer = false)
