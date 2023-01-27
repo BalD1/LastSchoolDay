@@ -9,7 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7710042320798761552, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_Name
-      value: OutdoorTable_3
+      value: OutdoorTable
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710042320798761552, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761553, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -17,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761553, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.9
+      value: 0.935
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761564, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_RootOrder
@@ -25,11 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761564, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.392351
+      value: -38.46
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761564, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9812952
+      value: -11.3284
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761564, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -41,15 +45,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761564, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761564, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761564, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7710042320798761564, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -75,6 +79,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -934052205, guid: 5489f0066dd2cd3439e566d38413be2c, type: 3}
+    - target: {fileID: 7710042320798761567, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 15893
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8343db9772387a8458e4aa38ac9dd17c, type: 3}
 --- !u!212 &3279181649695577786 stripped
