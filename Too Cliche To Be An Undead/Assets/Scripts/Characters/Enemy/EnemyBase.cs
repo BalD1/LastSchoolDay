@@ -23,8 +23,6 @@ public abstract class EnemyBase : Entity
 
     [field: SerializeField] public AttackTelegraph attackTelegraph { get; private set; }
 
-    [field: SerializeField] public EnemyVision SelfVision { get; private set; }
-
     [SerializeField] private Material attackMaterial;
     public Material AttackMaterial { get => attackMaterial; }
 

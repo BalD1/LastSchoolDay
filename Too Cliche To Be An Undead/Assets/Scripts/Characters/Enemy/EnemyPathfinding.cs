@@ -30,6 +30,11 @@ public class EnemyPathfinding : MonoBehaviour
     public void StartUpdatePath() => InvokeRepeating(nameof(TryUpdatePath), 0f, updatePathCooldown);
     public void StopUpdatepath() => CancelInvoke();
 
+    private void Update()
+    {
+        
+    }
+
     public void TryUpdatePath()
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;

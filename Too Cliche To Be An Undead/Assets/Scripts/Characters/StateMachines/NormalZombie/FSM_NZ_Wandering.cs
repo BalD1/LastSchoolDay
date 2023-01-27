@@ -40,9 +40,6 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
         if (canSwitchToChase) stateManager.SwitchState(stateManager.chasingState);
-
-        if (Vector2.Distance(owner.transform.position, owner.CurrentPositionTarget) < owner.DistanceBeforeStop * 0.6f)
-            stateManager.SwitchState(stateManager.idleState);
     }
 
     public void SawPlayer() => canSwitchToChase = true;

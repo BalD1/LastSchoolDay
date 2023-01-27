@@ -27,11 +27,14 @@ public class Tutorial : MonoBehaviour
     {
         foreach (var item in tutorialZombies)
         {
-            item.SelfVision.SetVisionState(false);
             item.d_OnDeath += OnZombieDeath;
         }
 
         zombiesCount = tutorialZombies.Length;
+        foreach (var item in tutorialZombies)
+        {
+            item.gameObject.SetActive(false);
+        }
     }
 
     private void Start()
@@ -47,12 +50,15 @@ public class Tutorial : MonoBehaviour
     public void StartZombiesDialogue()
     {
         doorToCloseOnZombies.Close(true);
-        DialogueManager.Instance.TryStartDialogue(zombiesDialogue, ResetZombiesVision);
+        DialogueManager.Instance.TryStartDialogue(zombiesDialogue, EnableTutorialZombies);
     }
 
-    private void ResetZombiesVision()
+    private void EnableTutorialZombies()
     {
-        foreach (var item in tutorialZombies) item.SelfVision.SetVisionState(true);
+        foreach (var item in tutorialZombies)
+        {
+            item.gameObject.SetActive(true);
+        }
     }
 
     private void OnZombieDeath()

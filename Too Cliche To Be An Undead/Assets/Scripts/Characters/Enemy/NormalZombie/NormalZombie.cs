@@ -59,10 +59,11 @@ public class NormalZombie : EnemyBase
     {
         this.transform.position = pos;
         this.ResetStats();
-        this.stateManager.SwitchState(stateManager.idleState);
+        this.stateManager.SwitchState(stateManager.chasingState);
         SpawnersManager.Instance.AddZombie();
         attackedPlayer?.RemoveAttacker(this);
-        this.gameObject.SetActive(true); 
+        this.sprite.material.SetInt("_Hit", 0);
+        this.gameObject.SetActive(true);
     }
 
     public override void Stun(float duration, bool resetAttackTimer = false)
