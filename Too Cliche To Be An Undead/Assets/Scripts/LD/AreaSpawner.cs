@@ -55,7 +55,7 @@ public class AreaSpawner : MonoBehaviour
         {
             if (SpawnersManager.Instance.ZombiesPool.Count > 0)
             {
-                GameObject newZombie = SpawnersManager.Instance.ZombiesPool.Dequeue();
+                GameObject newZombie = SpawnersManager.Instance.ZombiesPool.Dequeue().gameObject;
                 newZombie.GetComponent<NormalZombie>().Reenable(GetRandomPositionInBounds());
             }
             else
@@ -65,6 +65,11 @@ public class AreaSpawner : MonoBehaviour
             }
 
         }
+    }
+
+    public void TeleportZombieHere(NormalZombie zom)
+    {
+        zom.Reenable(GetRandomPositionInBounds(), false);
     }
 
     private void OnEnable()

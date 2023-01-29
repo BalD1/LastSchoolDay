@@ -19,10 +19,14 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] [Range(0, 10)] private int maxKeycardsToSpawn = 5;
     [SerializeField] [Range(0, 10)] private int minKeycardsToSpawn = 3;
 
-    private Queue<GameObject> zombiesPool = new Queue<GameObject>();
-    public Queue<GameObject> ZombiesPool { get => zombiesPool; }
+    private Queue<NormalZombie> zombiesPool = new Queue<NormalZombie>();
+    public Queue<NormalZombie> ZombiesPool { get => zombiesPool; }
 
-    [field: SerializeField] public AnimationCurve maxZombiesInSchoolByTime;
+    private Queue<NormalZombie> zombiesToTeleport = new Queue<NormalZombie>();
+    public Queue<NormalZombie> ZombiesToTeleport { get => zombiesToTeleport; }
+
+    [field: SerializeField] public AnimationCurve maxZombiesInSchoolByTime { get; private set; }
+    [field: SerializeField] public AnimationCurve zombiesSpawnCooldown { get; private set; }
 
     [ReadOnly]
     [SerializeField] private int spawnStamp;
@@ -32,13 +36,28 @@ public class SpawnersManager : MonoBehaviour
 
     [ReadOnly]
     [SerializeField] private int currentZombiesInSchool;
+
+    [ReadOnly]
+    [SerializeField] private int maxZombiesInSchool;
+
+    [ReadOnly]
+    [SerializeField] private float spawnCooldown;
+
     public int CurrentZombiesInSchool { get => currentZombiesInSchool; }
 
     public const int minValidDistanceFromPlayer = 5;
-    public const int maxValidDistanceFromPlayer = 15;
+
+    public const float timeBetweenStamps = 60;
+
+    private bool spawnsAreAllowed = false;
+
+    [ReadOnly]
+    [SerializeField] private float stamp_TIMER;
 
     [SerializeField] private List<ElementSpawner> elementSpawners = new List<ElementSpawner>();
     [SerializeField] private List<ElementSpawner> keycardSpawners = new List<ElementSpawner>();
+
+    public int SpawnStamp { get => spawnStamp; }
 
     public List<ElementSpawner> ElementSpawners { get => elementSpawners; }
     public List<ElementSpawner> KeycardSpawners { get => keycardSpawners; }
@@ -60,38 +79,64 @@ public class SpawnersManager : MonoBehaviour
         instance = this;
     }
 
-    private void Start()
-    {
-        return;
-
-        foreach (var item in areaSpawners)
-        {
-            item.SpawnObject(3);
-        }
-    }
-
     private void Update()
     {
+        if (spawnsAreAllowed == false) return;
+
         TrySpawnZombies();
+        EvaluateStamp();
+    }
+
+    public void AllowSpawns(bool allow)
+    {
+        spawnsAreAllowed = allow;
+
+        if (allow == false) return;
+
+        stamp_TIMER = timeBetweenStamps;
+        maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
+        spawnCooldown = zombiesSpawnCooldown.Evaluate(spawnStamp);
     }
 
     private void TrySpawnZombies()
     {
-        if (currentZombiesInSchool < maxZombiesInSchoolByTime.Evaluate(0)) SpawnNext();
+        if (currentZombiesInSchool < maxZombiesInSchool) SpawnNext();
+    }
+
+    public void ResetSpawners()
+    {
+        spawnStamp = 0;
+        stamp_TIMER = timeBetweenStamps;
+    }
+
+    private void EvaluateStamp()
+    {
+        if (spawnStamp >= maxStamp) return;
+        if (stamp_TIMER > 0)
+        {
+            stamp_TIMER -= Time.deltaTime;
+            return;
+        }
+
+        spawnStamp++;
+
+        stamp_TIMER = timeBetweenStamps;
+        maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
+        spawnCooldown = zombiesSpawnCooldown.Evaluate(spawnStamp);
     }
 
     private void SpawnNext()
     {
         if (validAreaSpawners.Count <= 0) return;
+        if (zombiesPool.Count > 0)
+            if (zombiesPool.Peek().timeOfDeath > Time.timeSinceLevelLoad - spawnCooldown) return;
 
-        int zombiesToSpawn = (int)maxZombiesInSchoolByTime.Evaluate(0) - currentZombiesInSchool;
+        validAreaSpawners[Random.Range(0, validAreaSpawners.Count)].SpawnObject();
+    }
 
-        int zombiesByArea = zombiesToSpawn / validAreaSpawners.Count;
-
-        foreach (var item in validAreaSpawners)
-        {
-            item.SpawnObject(zombiesByArea);
-        }
+    public void TeleportZombie(NormalZombie zom)
+    {
+        validAreaSpawners[Random.Range(0, validAreaSpawners.Count)].TeleportZombieHere(zom);
     }
 
     public void AddZombie()

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 [CustomEditor(typeof(SpawnersManager)), CanEditMultipleObjects]
 public class ED_SpawnersManager : Editor
@@ -31,13 +32,23 @@ public class ED_SpawnersManager : Editor
         showZombiesPool = EditorGUILayout.Foldout(showZombiesPool, "Zombies Pool", true);
         if (showZombiesPool)
         {
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical("GroupBox");
 
-            foreach (var item in targetScript.ZombiesPool)
+            GUI.enabled = false;
+            float zombieTimer = -1;
+
+            NormalZombie[] arr = targetScript.ZombiesPool.ToArray();
+            for (int i = 0; i < arr.Length; i++)
             {
-                EditorGUILayout.ObjectField(item, typeof(GameObject), true);
+                zombieTimer = targetScript.zombiesSpawnCooldown.Evaluate(targetScript.SpawnStamp) - Time.timeSinceLevelLoad + arr[i].timeOfDeath;
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.ObjectField(arr[i], typeof(GameObject), true);
+                EditorGUILayout.FloatField(zombieTimer);
+                EditorGUILayout.EndHorizontal();
             }
 
+            GUI.enabled = true;
             EditorGUILayout.EndVertical();
         }
 

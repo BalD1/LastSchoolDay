@@ -19,6 +19,8 @@ public class NormalZombie : EnemyBase
 
     public const int maxDistanceFromPlayer = 15;
 
+    [field: SerializeField] public float timeOfDeath;
+
     public static NormalZombie Create(Vector2 pos)
         => Instantiate(GameAssets.Instance.GetRandomZombie, pos, Quaternion.identity).GetComponent<NormalZombie>();
 
@@ -44,23 +46,25 @@ public class NormalZombie : EnemyBase
     public void ForceKill()
     {
         attackedPlayer?.RemoveAttacker(this);
-        d_OnDeath?.Invoke();
-        SpawnersManager.Instance.ZombiesPool.Enqueue(this.gameObject);
         this.gameObject.SetActive(false);
+        SpawnersManager.Instance.TeleportZombie(this);
     }
     public override void OnDeath(bool forceDeath = false)
     {
         base.OnDeath(forceDeath);
-        SpawnersManager.Instance.ZombiesPool.Enqueue(this.gameObject);
+        SpawnersManager.Instance.ZombiesPool.Enqueue(this);
+        timeOfDeath = Time.timeSinceLevelLoad;
         this.gameObject.SetActive(false);
     }
 
-    public void Reenable(Vector2 pos)
+    public void Reenable(Vector2 pos, bool addToSpawner = true)
     {
         this.transform.position = pos;
         this.ResetStats();
         this.stateManager.SwitchState(stateManager.chasingState);
-        SpawnersManager.Instance.AddZombie();
+
+        if (addToSpawner) SpawnersManager.Instance.AddZombie();
+
         attackedPlayer?.RemoveAttacker(this);
         this.sprite.material.SetInt("_Hit", 0);
         this.gameObject.SetActive(true);
