@@ -165,6 +165,9 @@ public class HUBDoor : MonoBehaviour, IInteractable
 
         // Re-enable players controllers
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+
+        yield return new WaitForSeconds(5);
+
         SpawnersManager.Instance.AllowSpawns(true);
     }
 

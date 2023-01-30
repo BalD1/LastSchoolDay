@@ -551,6 +551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 7821369719249530884}
   targetUpdateRate: 2
+  targetPlayerAtStart: 1
 --- !u!1 &7821369717731874616
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,10 +812,13 @@ MonoBehaviour:
   storedTargetPosition: {x: 0, y: 0}
   currentStateDebug: N/A
   stateManager: {fileID: 133242913744623205}
+  <Vision>k__BackingField: {fileID: 4416858856468475856}
+  isIdle: 0
   <allowWander>k__BackingField: 0
   <tutorialZombie>k__BackingField: 0
   attack_DURATION: 0.75
   attackStarted: 0
+  timeOfDeath: 0
 --- !u!114 &133242913744623205
 MonoBehaviour:
   m_ObjectHideFlags: 0

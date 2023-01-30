@@ -93,7 +93,7 @@ public class DebugSpawnables : MonoBehaviour
                 s.action = new Action(() =>
                 {
                     Vector2 pos = GetPosBySpawnType(s);
-                    NormalZombie.Create(pos);
+                    NormalZombie.Create(pos, true);
                 });
                 break;
 

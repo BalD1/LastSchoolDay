@@ -8,11 +8,20 @@ public class ZombiesSpeedOnCamera : MonoBehaviour
 
     private void OnBecameInvisible()
     {
+        if (owner.isIdle) return;
+
         owner.speedMultiplierWhenOutsideOfCamera = 5;
     }
 
     private void OnBecameVisible()
     {
+        if (owner.isIdle)
+        {
+            if (owner.CurrentPlayerTarget != null) return;
+
+            owner.Vision.TargetClosestPlayer();
+            return;
+        }
         owner.speedMultiplierWhenOutsideOfCamera = 1;
     }
 }

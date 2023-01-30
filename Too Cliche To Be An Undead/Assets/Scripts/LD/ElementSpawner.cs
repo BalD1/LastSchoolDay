@@ -13,6 +13,7 @@ public class ElementSpawner : MonoBehaviour
         Coins,
         DashingZombie,
         CaCZombie,
+        IdleZombie,
     }
 
     [SerializeField] private E_ElementToSpawn elementToSpawn;
@@ -63,6 +64,10 @@ public class ElementSpawner : MonoBehaviour
 
             case E_ElementToSpawn.DashingZombie:
                 Spawn(GameAssets.Instance.DashingZombiePF, GameManager.Instance.InstantiatedEntitiesParent);
+                break;
+
+            case E_ElementToSpawn.IdleZombie:
+                NormalZombie.Create(this.transform.position, false).transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
                 break;
 
             default:

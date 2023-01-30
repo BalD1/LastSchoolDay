@@ -61,7 +61,7 @@ public class AreaSpawner : MonoBehaviour
             else
             {
                 GameObject objectToSpawn = objectOverride == null ? GetRandomObjectInPool : objectOverride;
-                Instantiate(objectToSpawn, GetRandomPositionInBounds(), Quaternion.identity);
+                Instantiate(objectToSpawn, GetRandomPositionInBounds(), Quaternion.identity).transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
             }
 
         }

@@ -65,7 +65,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         TickDamages appliedTickDamages = entity.GetAppliedTickDamages(inTriggerTickDamages_ID);
 
         if (appliedTickDamages == null)
-            entity.AddTickDamages(inTriggerTickDamages_ID, finalDamages, .5f, 2f, true);
+            entity.AddTickDamages(inTriggerTickDamages_ID, finalDamages, .5f, 3f, true);
         else
         {
             appliedTickDamages.ResetTimer();

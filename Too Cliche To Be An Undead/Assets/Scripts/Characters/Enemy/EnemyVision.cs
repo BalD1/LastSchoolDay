@@ -11,9 +11,17 @@ public class EnemyVision : MonoBehaviour
 
     private List<Transform> targets;
 
+    public bool targetPlayerAtStart = true;
+
     private void Start()
     {
         targets = new List<Transform>();
+
+        if (targetPlayerAtStart) TargetClosestPlayer();
+    }
+
+    public void TargetClosestPlayer()
+    {
         PlayerCharacter closerTarget = null;
         float closerDistance = float.MaxValue;
         foreach (var item in GameManager.Instance.playersByName)
@@ -21,7 +29,7 @@ public class EnemyVision : MonoBehaviour
             targets.Add(item.playerScript.gameObject.transform);
             owner.AddDetectedPlayer(item.playerScript);
             float currentDist = Vector2.Distance(owner.transform.position, item.playerScript.transform.position);
-            if(currentDist < closerDistance)
+            if (currentDist < closerDistance)
             {
                 closerDistance = currentDist;
                 closerTarget = item.playerScript;

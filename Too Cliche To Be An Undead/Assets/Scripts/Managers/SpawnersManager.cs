@@ -242,6 +242,10 @@ public class SpawnersManager : MonoBehaviour
                 objectName.Append("_COIN");
                 break;
 
+            case ElementSpawner.E_ElementToSpawn.IdleZombie:
+                objectName.Append("_IDLEZOM");
+                break;
+
             default:
                 objectName.Append("_UNDEFINED");
                 break;

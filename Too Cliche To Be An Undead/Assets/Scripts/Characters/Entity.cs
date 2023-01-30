@@ -209,6 +209,14 @@ public class Entity : MonoBehaviour, IDamageable
         return false;
     }
 
+    public void RemoveAllTickDamages()
+    {
+        foreach (var item in appliedTickDamages)
+        {
+            item.ForceEnd();
+        }
+    }
+
     public bool SearchTickDamages(string _id)
     {
         foreach (var item in appliedTickDamages)

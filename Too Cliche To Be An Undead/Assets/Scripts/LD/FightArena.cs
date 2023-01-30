@@ -30,7 +30,7 @@ public class FightArena : MonoBehaviour
         for (int i = 0; i < enemiesNb; i++)
         {
             Vector2 pos = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
-            NormalZombie.Create(pos);
+            NormalZombie.Create(pos, true);
         }
 
         StartCoroutine(WaitForNext(idx));
