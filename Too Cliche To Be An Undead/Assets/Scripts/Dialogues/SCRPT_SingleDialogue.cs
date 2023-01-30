@@ -7,7 +7,10 @@ public class SCRPT_SingleDialogue : ScriptableObject
 {
     [field: SerializeField] public string ID { get; private set; }
 
+    [field: SerializeField] public bool ignoreGameState { get; private set; }
+
     [field: SerializeField] public DialogueLine[] dialogueLines { get; private set; }
+
 
     [System.Serializable]
     public struct DialogueLine

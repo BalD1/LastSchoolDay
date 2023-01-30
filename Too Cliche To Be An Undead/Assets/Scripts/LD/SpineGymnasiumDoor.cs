@@ -9,8 +9,11 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
 
     [SerializeField] private BoxCollider2D blocker;
 
+    [SerializeField] private GymnasiumCinematic cinematic;
+
     [Header("Animations")]
 
+    [SpineAnimation] [SerializeField] private string baseState;
     [SpineAnimation] [SerializeField] private string firstKeyAnim;
     [SpineAnimation] [SerializeField] private string secondKeyAnim;
     [SpineAnimation] [SerializeField] private string thirdKeyAnim;
@@ -32,6 +35,8 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
         animationsToPlay.Enqueue(firstKeyAnim);
         animationsToPlay.Enqueue(secondKeyAnim);
         animationsToPlay.Enqueue(thirdKeyAnim);
+
+        cinematic.D_cinematicEnded += CloseDoor;
     }
 
     public bool CanBeInteractedWith()
@@ -58,7 +63,7 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
             skeleton.AnimationState.SetAnimation(0, doorOpenAnim, false);
             canBeInteracted = false;
             isOpen = true;
-            blocker.enabled = false;
+            cinematic.Begin();
             return;
         }
 
@@ -79,6 +84,8 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
 
         StartCoroutine(WaitForNextAnimation());
     }
+
+    private void CloseDoor() => skeleton.AnimationState.SetAnimation(0, baseState, false);
 
     private IEnumerator WaitForNextAnimation()
     {

@@ -318,6 +318,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void TeleportAllPlayers(Vector2 position)
+    {
+        foreach (var item in playersByName)
+        {
+            item.playerScript.gameObject.transform.position = position;
+        }
+    }
+
     public void TeleportPlayerAtCameraCenter(int playerIdx)
     {
         playersByName[playerIdx].playerScript.gameObject.transform.position = CameraManager.Instance.gameObject.transform.position;

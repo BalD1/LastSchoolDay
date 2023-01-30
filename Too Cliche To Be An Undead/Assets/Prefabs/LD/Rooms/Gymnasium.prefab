@@ -1047,6 +1047,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!1 &5115206987611127368
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 325647608237338661}
+  m_Layer: 0
+  m_Name: PlayersTPtarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &325647608237338661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5115206987611127368}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6661611289898946538}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6555853707874126806
 GameObject:
   m_ObjectHideFlags: 0
@@ -3875,6 +3906,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6661611289898946538}
+  - component: {fileID: 5612159626570754620}
   m_Layer: 0
   m_Name: Gymnasium
   m_TagString: Untagged
@@ -3898,9 +3930,30 @@ Transform:
   - {fileID: 4032182772839267602}
   - {fileID: 6661611288470631017}
   - {fileID: 6661611289427091992}
+  - {fileID: 6507620148755963658}
+  - {fileID: 325647608237338661}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5612159626570754620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6661611289898946537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c42568cf90032b47a3ad3272de64eee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entryDialogue: gym_entry
+  bossHeardDialogue: gym_bossheard
+  bossSpawnDialogue: gym_bossspawn
+  doorTarget: {fileID: 4032182772839267602}
+  bossTarget: {fileID: 6507620148755963658}
+  playersTeleportPosition: {fileID: 325647608237338661}
+  boss: {fileID: 6507620148755963657}
 --- !u!1 &6661611289927681341
 GameObject:
   m_ObjectHideFlags: 0
@@ -4405,6 +4458,81 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!1001 &3946455482412789504
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6661611289898946538}
+    m_Modifications:
+    - target: {fileID: 7821369717731874618, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_SortingOrder
+      value: -10483
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530889, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_Name
+      value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530889, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+--- !u!1 &6507620148755963657 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7821369719249530889, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+  m_PrefabInstance: {fileID: 3946455482412789504}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6507620148755963658 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7821369719249530890, guid: 5645e5548b474f34ba65869a5760a734, type: 3}
+  m_PrefabInstance: {fileID: 3946455482412789504}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6661611288218640126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7206,21 +7334,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: GymnasiumDoor
       objectReference: {fileID: 0}
-    - target: {fileID: 55361006944118592, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 55361006944118595, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 55361006944118595, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 55361006944118595, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 55361006944118595, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7262,30 +7378,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1887451150475074865, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 2643113892615928357, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 6875535445442365539, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
-      propertyPath: debugMode
-      value: 0
+    - target: {fileID: 7700808168286604453, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
+      propertyPath: baseState
+      value: Porte 0 cles debloques
       objectReference: {fileID: 0}
-    - target: {fileID: 9052089708322100788, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
-      propertyPath: m_SortingLayer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9052089708322100788, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
-      propertyPath: m_SortingOrder
-      value: -8999
-      objectReference: {fileID: 0}
-    - target: {fileID: 9052089708322100788, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 7700808168286604453, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
+      propertyPath: cinematic
+      value: 
+      objectReference: {fileID: 5612159626570754620}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8366d5fcfee15ee46a5a26d8081392b5, type: 3}
 --- !u!4 &6680635564889149000 stripped

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abd21a50e2dcf641b7a1b85e22aa21d, type: 3}
+  m_Name: DIALOGUE_Tuto_Zombies 1
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: tuto_zombies
+  <dialogueLines>k__BackingField:
+  - <characterName>k__BackingField: 2
+    <customPortrait>k__BackingField: {fileID: 0}
+    <textLine>k__BackingField: "Attention il y a des zombies ici ! Pr\xE9parez vous
+      \xE0 vous battre !"
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+  - <characterName>k__BackingField: 0
+    <customPortrait>k__BackingField: {fileID: 0}
+    <textLine>k__BackingField: "Ils \xE9taient stupides de leur vivant donc \xE7a
+      m'\xE9tonnerai que la mort les ait arrang\xE9s !"
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025

@@ -199,6 +199,7 @@ public class PlayersManager : MonoBehaviour
     {
     }
 
+
     public void CleanInputs()
     {
         List<PlayerInput> inputsToRemove = new List<PlayerInput>();
@@ -219,6 +220,7 @@ public class PlayersManager : MonoBehaviour
 
         return characterComponents[0];
     }
+
 
     public void AddAlivePlayer()
     {

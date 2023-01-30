@@ -47,6 +47,7 @@ MonoBehaviour:
   dialogueContainer: {fileID: 0}
   leanFadeTime: 0.2
   allowSkip_COOLDOWN: 0.15
+  onStartSkipWait_DURATION: 0.3
   dialoguePortrait: {fileID: 0}
   dialogueText: {fileID: 0}
   pressKeyToContinue: {fileID: 0}
@@ -57,11 +58,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 995f8813c5b64eb469ccb906fd12a402, type: 2}
   - {fileID: 11400000, guid: f0ed74f9fc5e60c4abd6adda664a5197, type: 2}
   - {fileID: 11400000, guid: f5379027c05f93a40bdd7e551de46e82, type: 2}
+  - {fileID: 11400000, guid: ca14fe399794d894b870a947806f080e, type: 2}
+  - {fileID: 11400000, guid: d2f3ed4918d99cc4b86ab92ee85d6f3a, type: 2}
+  - {fileID: 11400000, guid: 7696550e2d324b74bb9d05619dd6c352, type: 2}
   updateNamesList: 0
   dialogueNamePopupTest: test
   currentDialogue: {fileID: 0}
   currentLine:
-    <portrait>k__BackingField: {fileID: 0}
+    <characterName>k__BackingField: 0
+    <customPortrait>k__BackingField: {fileID: 0}
     <textLine>k__BackingField: 
     <effects>k__BackingField: []
   currentLineIndex: -1

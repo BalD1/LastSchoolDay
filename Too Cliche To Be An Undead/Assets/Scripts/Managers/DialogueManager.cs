@@ -121,9 +121,12 @@ public class DialogueManager : MonoBehaviour
         currentDialogue = dialogue;
 
         // Sets GameState and UI to a "cinematic" mode.
-        GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
-        UIManager.Instance.SetBlackBars(true, .3f);
-        UIManager.Instance.FadeAllHUD(false);
+        if (currentDialogue.ignoreGameState == false)
+        {
+            GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
+            UIManager.Instance.SetBlackBars(true, .3f);
+            UIManager.Instance.FadeAllHUD(false);
+        }
 
         // Fades in the dialogue container, then shows the first line
         dialogueContainer.LeanAlpha(1f, leanFadeTime)
@@ -239,7 +242,8 @@ public class DialogueManager : MonoBehaviour
             .setOnComplete(
             () =>
             {
-                GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+                if (currentDialogue.ignoreGameState == false)
+                    GameManager.Instance.GameState = GameManager.E_GameState.InGame;
                 endDialogueAction?.Invoke();
                 ResetDialogue();
             });
