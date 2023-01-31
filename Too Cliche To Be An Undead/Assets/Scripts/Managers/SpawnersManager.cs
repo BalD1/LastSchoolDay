@@ -136,6 +136,8 @@ public class SpawnersManager : MonoBehaviour
 
     public void TeleportZombie(NormalZombie zom)
     {
+        if (validAreaSpawners.Count <= 0) return;
+
         validAreaSpawners[Random.Range(0, validAreaSpawners.Count)].TeleportZombieHere(zom);
     }
 

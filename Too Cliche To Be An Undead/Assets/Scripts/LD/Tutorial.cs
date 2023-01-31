@@ -23,6 +23,8 @@ public class Tutorial : MonoBehaviour
 
     private bool enteredInTriggerFlag = false;
 
+    private bool tutoFinished = false;
+
     private void Awake()
     {
         foreach (var item in tutorialZombies)
@@ -63,10 +65,17 @@ public class Tutorial : MonoBehaviour
 
     private void OnZombieDeath()
     {
+        if (tutoFinished) return;
+
         zombiesCount--;
 
         if (zombiesCount <= 0)
         {
+            tutoFinished = true;
+            foreach (var item in tutorialZombies)
+            {
+                item.d_OnDeath -= OnZombieDeath;
+            }
             foreach (var item in GameManager.Instance.playersByName)
             {
                 item.playerScript.StopGamepadShake();

@@ -72,6 +72,12 @@ public class NormalZombie : EnemyBase
     public override void OnDeath(bool forceDeath = false)
     {
         base.OnDeath(forceDeath);
+
+        if (tutorialZombie)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         SpawnersManager.Instance.ZombiesPool.Enqueue(this);
         timeOfDeath = Time.timeSinceLevelLoad;
 
