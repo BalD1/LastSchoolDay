@@ -89,6 +89,13 @@ public class DialogueManager : MonoBehaviour
             if (item.ID == searchedID)
             {
                 StartDialogue(item);
+
+                foreach (var player in GameManager.Instance.playersByName)
+                {
+                    PlayerCharacter p = player.playerScript;
+                    p.StateManager.SwitchState(p.StateManager.idleState);
+                }
+
                 endDialogueAction = actionAtDialogueEnd;
                 return true;
             }

@@ -45,6 +45,8 @@ public class NormalZombie : EnemyBase
 
         SpawnersManager.Instance.AddZombie();
 
+        this.Vision.TargetClosestPlayer();
+
         d_OnDeath += SpawnersManager.Instance.RemoveZombie;
     }
 
