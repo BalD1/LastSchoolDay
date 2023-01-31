@@ -44,13 +44,15 @@ public class GymnasiumCinematic : MonoBehaviour
 
         DialogueManager.Instance.TryStartDialogue(entryDialogue, () =>
         {
-            CameraManager.Instance.MoveCamera(doorTarget.localPosition, () =>
+            CameraManager.Instance.MoveCamera(doorTarget.position, () =>
             {
                 DialogueManager.Instance.TryStartDialogue(bossHeardDialogue, () =>
                 {
                     CameraManager.Instance.MoveCamera(bossTarget.position, () =>
                     {
                         boss.SetActive(true);
+                        boss.GetComponent<BossZombie>().TargetClosestPlayer();
+
                         DialogueManager.Instance.TryStartDialogue(bossSpawnDialogue, () =>
                         {
                             UIManager.Instance.FadeScreen(true, () =>

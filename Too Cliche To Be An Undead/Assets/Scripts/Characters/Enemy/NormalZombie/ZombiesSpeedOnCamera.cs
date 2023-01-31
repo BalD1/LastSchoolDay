@@ -8,6 +8,9 @@ public class ZombiesSpeedOnCamera : MonoBehaviour
 
     private void OnBecameInvisible()
     {
+#if UNITY_EDITOR
+        if (Camera.current?.name == "SceneCamera") return; 
+#endif
         if (owner.isIdle) return;
 
         owner.speedMultiplierWhenOutsideOfCamera = 5;
@@ -15,6 +18,9 @@ public class ZombiesSpeedOnCamera : MonoBehaviour
 
     private void OnBecameVisible()
     {
+#if UNITY_EDITOR
+        if (Camera.current?.name == "SceneCamera") return; 
+#endif
         if (owner.isIdle)
         {
             if (owner.CurrentPlayerTarget != null) return;

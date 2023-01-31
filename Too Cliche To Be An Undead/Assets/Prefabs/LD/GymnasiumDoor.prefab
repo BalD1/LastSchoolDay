@@ -49,6 +49,7 @@ MonoBehaviour:
   skeleton: {fileID: 7397713013866692264}
   blocker: {fileID: 6438991138573227554}
   cinematic: {fileID: 0}
+  baseState: Porte 0 cles debloques
   firstKeyAnim: Porte 1 cles debloques
   secondKeyAnim: Porte 2 cles debloques
   thirdKeyAnim: Porte 3 cles clebloques
@@ -89,7 +90,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3540492790207060359}
-  - component: {fileID: 6875535445442365539}
   - component: {fileID: 2643113892615928357}
   - component: {fileID: 9052089708322100788}
   - component: {fileID: 7397713013866692264}
@@ -116,23 +116,6 @@ Transform:
   m_Father: {fileID: 55361006944118595}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6875535445442365539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1887451150475074865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sortingOrderOffset: 0
-  pivotOffset: 0
-  isStatic: 1
-  objectRenderer: {fileID: 9052089708322100788}
-  debugMode: 0
 --- !u!33 &2643113892615928357
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -179,9 +162,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -8999
+  m_SortingLayerID: 215591473
+  m_SortingLayer: -1
+  m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7397713013866692264
 MonoBehaviour:
