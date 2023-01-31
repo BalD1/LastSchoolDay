@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe900726a8b295848b29242a20030c6e, type: 3}
+  m_Name: ANIMD_Whitney
+  m_EditorClassIdentifier: 
+  <character>k__BackingField: 1
+  <skeletonDataAsset>k__BackingField: {fileID: 11400000, guid: 012d980bb6ff5f549b63394498ccfbdd, type: 2}
+  <idleAnim>k__BackingField: {fileID: 11400000, guid: e528b44b492c9c447b9b0b9977a71165, type: 2}
+  <walkAnim>k__BackingField: {fileID: 11400000, guid: 2231f0f86f37f1345a3f11ea44cbdb65, type: 2}
+  <attackAnim_side>k__BackingField: {fileID: 11400000, guid: 5fc25c0b70c8509429fce406f891eaae, type: 2}
+  <attackAnim_up>k__BackingField: {fileID: 11400000, guid: fb9db53fe10e6244e812561eaa2c1fb2, type: 2}
+  <attackAnim_down>k__BackingField: {fileID: 11400000, guid: 7f93a1276edb9e84cb2347d3e9110889, type: 2}
+  <deathAnim>k__BackingField: {fileID: 11400000, guid: 409e3755dfc3e8649ab4e8cbc1471b69, type: 2}
+  <dashAnim>k__BackingField: {fileID: 11400000, guid: c68d71690cfddca4f9d6dac8abbaf419, type: 2}
+  <skillTransitionAnim>k__BackingField: {fileID: 11400000, guid: e528b44b492c9c447b9b0b9977a71165, type: 2}
+  <skillIdleAnim>k__BackingField: {fileID: 11400000, guid: 20cceae342114c9488fe287eb39e5276, type: 2}
+  <skillWalkAnim>k__BackingField: {fileID: 11400000, guid: 20cceae342114c9488fe287eb39e5276, type: 2}
