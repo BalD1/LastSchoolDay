@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class SCRPT_PlayersAnimData : SCRPT_AnimationsData
 {
-    [field: Header("Shirley Animations")]
+    [field: Header("Player general Animations")]
 
     [field: SerializeField] public AnimationReferenceAsset dashAnim { get; private set; }
 
