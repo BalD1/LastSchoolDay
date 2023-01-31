@@ -60,6 +60,7 @@ public class Tutorial : MonoBehaviour
         foreach (var item in tutorialZombies)
         {
             item.gameObject.SetActive(true);
+            item.Vision.TargetClosestPlayer();
         }
     }
 

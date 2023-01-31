@@ -25,9 +25,6 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
     protected override void Start()
     {
-        owner.D_detectedPlayer += wanderingState.SawPlayer;
-        owner.D_detectedPlayer += idleState.SawPlayer;
-
         currentState = wanderingState;
         currentState.EnterState(this);
 

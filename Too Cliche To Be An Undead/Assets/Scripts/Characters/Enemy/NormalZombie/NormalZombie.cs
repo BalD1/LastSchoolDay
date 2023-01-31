@@ -45,8 +45,6 @@ public class NormalZombie : EnemyBase
 
         SpawnersManager.Instance.AddZombie();
 
-        this.Vision.TargetClosestPlayer();
-
         d_OnDeath += SpawnersManager.Instance.RemoveZombie;
     }
 
@@ -107,9 +105,9 @@ public class NormalZombie : EnemyBase
 
         if (addToSpawner) SpawnersManager.Instance.AddZombie();
 
-        this.Vision.TargetClosestPlayer();
         this.sprite.material.SetInt("_Hit", 0);
         this.gameObject.SetActive(true);
+        this.Vision.TargetClosestPlayer();
     }
 
     public override void Stun(float duration, bool resetAttackTimer = false)

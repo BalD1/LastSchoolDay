@@ -23,7 +23,6 @@ public class EnemyVision : MonoBehaviour
 
         foreach (var item in GameManager.Instance.playersByName)
         {
-            owner.AddDetectedPlayer(item.playerScript);
             float currentDist = Vector2.Distance(owner.transform.position, item.playerScript.transform.position);
             if (currentDist < closerDistance)
             {

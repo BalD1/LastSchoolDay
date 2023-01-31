@@ -53,7 +53,6 @@ public class BossZombie : EnemyBase
         float closerDistance = float.MaxValue;
         foreach (var item in GameManager.Instance.playersByName)
         {
-            AddDetectedPlayer(item.playerScript);
             float currentDist = Vector2.Distance(this.transform.position, item.playerScript.transform.position);
             if (currentDist < closerDistance)
             {

@@ -76,7 +76,6 @@ public abstract class EnemyBase : Entity
 
     [Header("Player Related")]
 
-    [SerializeField] private List<PlayerCharacter> detectedPlayers;
 
     [SerializeField] protected PlayerCharacter attackedPlayer;
     public PlayerCharacter AttackedPlayer { get => attackedPlayer; }
@@ -86,11 +85,7 @@ public abstract class EnemyBase : Entity
     public PlayerCharacter CurrentPlayerTarget { get => currentPlayerTarget; }
     public Transform CurrentTransformTarget { get => currentPlayerTarget == null ? currentTransformTarget : currentPlayerTarget.transform; }
     public Vector2 CurrentPositionTarget { get => CurrentTransformTarget == null ? storedTargetPosition : CurrentTransformTarget.position; }
-    public List<PlayerCharacter> DetectedPlayers { get => detectedPlayers; }
     public Vector2 storedTargetPosition;
-
-    public delegate void D_DetectedPlayer();
-    public D_DetectedPlayer D_detectedPlayer;
 
     public delegate void D_LostPlayer();
     public D_LostPlayer D_lostPlayer;
@@ -176,27 +171,6 @@ public abstract class EnemyBase : Entity
         if (attackedPlayer == null) return;
         attackedPlayer.RemoveAttacker(this);
         attackedPlayer = null;
-    }
-
-    public void AddDetectedPlayer(PlayerCharacter newDetection)
-    {
-        if (newDetection.IsAlive() == false) return;
-
-        if (detectedPlayers.Count == 0) SetTarget(newDetection);
-
-        detectedPlayers.Add(newDetection);
-        D_detectedPlayer?.Invoke();
-    }
-
-    public void RemoveDetectedPlayer(PlayerCharacter player)
-    {
-        detectedPlayers.Remove(player);
-
-        if (detectedPlayers.Count > 0) SetTarget(detectedPlayers.Last());
-        else ResetTarget();
-
-        storedTargetPosition = player.transform.position;
-        D_lostPlayer?.Invoke();
     }
 
     public void SetTarget(Vector2 target)
