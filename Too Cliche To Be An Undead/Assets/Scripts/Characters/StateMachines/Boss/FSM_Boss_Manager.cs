@@ -7,7 +7,10 @@ public class FSM_Boss_Manager : FSM_ManagerBase
     [SerializeField] private BossZombie owner;
     public BossZombie Owner { get => owner; }
 
-    public FSM_Boss_Attacking attacking = new FSM_Boss_Attacking();
+    public FSM_Boss_Attacking attackingState = new FSM_Boss_Attacking();
+    public FSM_Boss_Chasing chasingState = new FSM_Boss_Chasing();
+    public FSM_Boss_Stun stunnedState = new FSM_Boss_Stun();
+    public FSM_Boss_Recovering recoveringState = new FSM_Boss_Recovering();
 
     private FSM_Base<FSM_Boss_Manager> currentState;
     public FSM_Base<FSM_Boss_Manager> CurrentState { get => currentState; }
@@ -18,7 +21,7 @@ public class FSM_Boss_Manager : FSM_ManagerBase
 
     protected override void Start()
     {
-        currentState = attacking;
+        currentState = chasingState;
         currentState.EnterState(this);
 
 #if UNITY_EDITOR
@@ -53,6 +56,17 @@ public class FSM_Boss_Manager : FSM_ManagerBase
     public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)
     {
         owner.Movements(goalPosition, slowdownOnApproach);
+    }
+
+    public bool AttackConditions()
+    {
+        float distanceFromTarget = Vector2.Distance(owner.transform.position, owner.CurrentPlayerTarget.transform.position);
+
+        bool isAtRightDistance = (distanceFromTarget <= owner.DistanceBeforeStop || distanceFromTarget <= owner.CurrentAttack.attack.AttackDistance);
+
+        bool targetCanBeAttacked = owner.CurrentPlayerTarget?.Attackers.Count < GameManager.MaxAttackers;
+
+        return (isAtRightDistance && owner.Attack_TIMER <= 0 && targetCanBeAttacked);
     }
 
     public override string ToString()

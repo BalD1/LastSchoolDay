@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59089d9812651fa4886f27e9279f5f90, type: 3}
+  m_Name: BossPatern
+  m_EditorClassIdentifier: 
+  <firstStagePaterns>k__BackingField:
+  - <attackWithCooldown>k__BackingField:
+    - <attack>k__BackingField: {fileID: 11400000, guid: 92465cfdb906dea46a6df5697e6d2efb, type: 2}
+      <timeBeforeNext>k__BackingField: 0.5
+    - <attack>k__BackingField: {fileID: 11400000, guid: 0b57ae2aa09157d4abbcf5927879c48b, type: 2}
+      <timeBeforeNext>k__BackingField: 0.5
+    <recoverTime>k__BackingField: 2
+  - <attackWithCooldown>k__BackingField:
+    - <attack>k__BackingField: {fileID: 11400000, guid: 0b57ae2aa09157d4abbcf5927879c48b, type: 2}
+      <timeBeforeNext>k__BackingField: 0
+    - <attack>k__BackingField: {fileID: 11400000, guid: 0b57ae2aa09157d4abbcf5927879c48b, type: 2}
+      <timeBeforeNext>k__BackingField: 0
+    - <attack>k__BackingField: {fileID: 11400000, guid: 0b57ae2aa09157d4abbcf5927879c48b, type: 2}
+      <timeBeforeNext>k__BackingField: 0
+    - <attack>k__BackingField: {fileID: 11400000, guid: 0b57ae2aa09157d4abbcf5927879c48b, type: 2}
+      <timeBeforeNext>k__BackingField: 0
+    <recoverTime>k__BackingField: 2
+  <secondStagePaterns>k__BackingField:
+  - <attackWithCooldown>k__BackingField:
+    - <attack>k__BackingField: {fileID: 11400000, guid: 0b57ae2aa09157d4abbcf5927879c48b, type: 2}
+      <timeBeforeNext>k__BackingField: 0.25
+    - <attack>k__BackingField: {fileID: 11400000, guid: 92465cfdb906dea46a6df5697e6d2efb, type: 2}
+      <timeBeforeNext>k__BackingField: 0.25
+    <recoverTime>k__BackingField: 2

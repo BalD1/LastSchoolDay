@@ -7,14 +7,30 @@ public class BossZombie : EnemyBase
     [SerializeField] private FSM_Boss_Manager stateManager;
 
     [SerializeField] private SCRPT_EnemyAttack[] attacks;
-    [field: SerializeField] public SCRPT_EnemyAttack CurrentAttack { get; private set; }
+
+    [SerializeField] private SCRPT_BossPatern.S_AttackAndCooldown currentAttack;
+    public SCRPT_BossPatern.S_AttackAndCooldown CurrentAttack
+    {
+        get
+        {
+            return currentAttack;
+        }
+        set => currentAttack = value;
+    }
+
+    [field: SerializeField] public AttacksPatern attacksPatern { get; private set; }
 
     public bool attackStarted;
 
-    public Vector2 AttackDirection { get; set; }
+    [field: SerializeField] public Vector2 AttackDirection { get; set; }
+
+    [field: SerializeField] public float hpThresholdBeforeNextStage { get; set; }
+
+    [field: SerializeField] public StatsModifier[] secondStageModifiers;
 
     protected override void Start()
     {
+        TargetClosestPlayer();
         base.Start();
         Pathfinding?.StartUpdatePath();
     }
@@ -23,6 +39,25 @@ public class BossZombie : EnemyBase
     {
         base.Update();
     }
+
+    public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false)
+    {
+        bool res = base.OnTakeDamages(amount, isCrit, fakeDamages);
+
+        if (this.currentHP <= (this.maxHP_M * hpThresholdBeforeNextStage) && attacksPatern.currentStage == 0) AdvanceToNextStage();
+
+        return res;
+    }
+
+    private void AdvanceToNextStage()
+    {
+        attacksPatern.NextStage();
+        foreach (var item in secondStageModifiers)
+        {
+            AddModifier(item.IDName, item.Modifier, item.StatType);
+        }
+    }
+
     public override void OnDeath(bool forceDeath = false)
     {
         base.OnDeath(forceDeath);
@@ -30,21 +65,13 @@ public class BossZombie : EnemyBase
 
     public override void Stun(float duration, bool resetAttackTimer = false)
     {
-        //stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
+        stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
         this.attackTelegraph.CancelTelegraph();
-    }
-
-    public override void SetAttackedPlayer(PlayerCharacter target)
-    {
-        base.SetAttackedPlayer(target);
-
-        Vector2 targetPosition = this.CurrentPlayerTarget == null ? this.storedTargetPosition : this.CurrentPlayerTarget.transform.position;
-        AttackDirection = (targetPosition - (Vector2)this.transform.position).normalized;
     }
 
     protected override void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(this.transform.position, Attack.AttackDistance);
+        Gizmos.DrawWireSphere(this.transform.position, CurrentAttack.attack.AttackDistance);
     }
 
     public void TargetClosestPlayer()

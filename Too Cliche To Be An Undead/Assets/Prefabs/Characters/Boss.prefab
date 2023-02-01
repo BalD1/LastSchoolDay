@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d87a57ee0764a49bb3abdbfced8aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 0}
+  owner: {fileID: 3128188501560300603}
   seeker: {fileID: 7491649661066783789}
   nextWaypointDistance: 0.25
   updatePathCooldown: 0.5
@@ -467,7 +467,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5000
+  m_SortingOrder: 4416
   m_Sprite: {fileID: 21300000, guid: ee4527c60c3c36d4ca76d5013692f841, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -536,6 +536,7 @@ GameObject:
   - component: {fileID: 7821369719249530890}
   - component: {fileID: 3128188501560300603}
   - component: {fileID: 2327177842620200974}
+  - component: {fileID: 750514109255877400}
   - component: {fileID: 7821369719249530891}
   - component: {fileID: 7821369719249530885}
   m_Layer: 9
@@ -589,7 +590,7 @@ MonoBehaviour:
   canBePushed: 1
   debugMode: 0
   dropTable: {fileID: 11400000, guid: 24b1884c867a10746ae2b9457faf1185, type: 2}
-  attack: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
+  attack: {fileID: 0}
   pathfinding: {fileID: 4564975985439888221}
   enemiesBlocker: {fileID: 7821369719249530885}
   <attackTelegraph>k__BackingField: {fileID: 5257944914517373135}
@@ -610,16 +611,20 @@ MonoBehaviour:
   maxScaleOnAttack: {x: 1.3, y: 1.3}
   inType: 14
   outType: 15
-  detectedPlayers: []
   attackedPlayer: {fileID: 0}
   currentPlayerTarget: {fileID: 0}
   currentTransformTarget: {fileID: 0}
   storedTargetPosition: {x: 0, y: 0}
   currentStateDebug: N/A
   stateManager: {fileID: 2327177842620200974}
-  attacks: []
-  <CurrentAttack>k__BackingField: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
+  attacks:
+  - {fileID: 11400000, guid: 0b57ae2aa09157d4abbcf5927879c48b, type: 2}
+  - {fileID: 11400000, guid: 92465cfdb906dea46a6df5697e6d2efb, type: 2}
+  <CurrentAttack>k__BackingField: {fileID: 11400000, guid: 0b57ae2aa09157d4abbcf5927879c48b, type: 2}
+  <attacksPatern>k__BackingField: {fileID: 750514109255877400}
   attackStarted: 0
+  <AttackDirection>k__BackingField: {x: 0, y: 0}
+  <hpThresholdBeforeNextStage>k__BackingField: 0.5
 --- !u!114 &2327177842620200974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,6 +638,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 3128188501560300603}
+--- !u!114 &750514109255877400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7821369719249530889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da01c149b9822f479678ef31541bcb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 3128188501560300603}
+  paterns: {fileID: 11400000, guid: bb558a555613acb4d9a255433de27b02, type: 2}
+  <currentStage>k__BackingField: 0
 --- !u!50 &7821369719249530891
 Rigidbody2D:
   serializedVersion: 4
