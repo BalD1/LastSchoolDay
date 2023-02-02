@@ -161,7 +161,10 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     {
         if (!owner.attackStarted) return;
         if (collider == null) return;
+        if (collider.transform.parent == null) return;
+
         PlayerCharacter p = collider.transform.parent.GetComponent<PlayerCharacter>();
+
         if (p == null) return;
 
         p.OnTakeDamages(owner.maxDamages_M, owner.RollCrit());

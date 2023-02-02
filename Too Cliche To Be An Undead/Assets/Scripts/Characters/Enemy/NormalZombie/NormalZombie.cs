@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -109,7 +110,11 @@ public class NormalZombie : EnemyBase
 
         if (addToSpawner) SpawnersManager.Instance.AddZombie();
 
-        this.sprite.material.SetInt("_Hit", 0);
+        if (this.sprite != null)
+            this.sprite.material.SetInt("_Hit", 0);
+        if (this.skeletonAnimation != null)
+            this.skeletonAnimation.skeleton.SetColor(Color.white);
+
         this.gameObject.SetActive(true);
         this.Vision.TargetClosestPlayer();
     }
