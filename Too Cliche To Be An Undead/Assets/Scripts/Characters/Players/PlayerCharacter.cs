@@ -12,6 +12,7 @@ using UnityEngine.InputSystem.Users;
 using System.Linq;
 using UnityEngine.TextCore.Text;
 using System.Text;
+using Spine.Unity;
 
 public class PlayerCharacter : Entity, IInteractable
 {
@@ -335,7 +336,6 @@ public class PlayerCharacter : Entity, IInteractable
             gamepadShake_TIMER -= Time.deltaTime;
             if (gamepadShake_TIMER <= 0) StopGamepadShake();
         }
-
     }
 
     protected override void LateUpdate()
@@ -440,11 +440,10 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (!IsAlive()) return false;
 
-        bool res;
-
         if (GameManager.Instance.IsInTutorial) fakeDamages = true;
 
-        res = base.OnTakeDamages(amount, isCrit, fakeDamages);
+        bool res = base.OnTakeDamages(amount, isCrit, fakeDamages);
+
         if (res == false) return res;
 
         if (portrait != null)

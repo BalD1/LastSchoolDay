@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 1392137801}
   - component: {fileID: 1392137800}
   - component: {fileID: 1344461387}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: SkillHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2434,6 +2434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d7c10a846c15f4da0048767ac4d5f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 8823656354733599271}
   placeholderSprite: {fileID: 8823656353503972633}
   skeletonAnimation: {fileID: 6635921152579406509}
   armsParent: {fileID: 1423488751546438909}

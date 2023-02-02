@@ -6,6 +6,10 @@ public class NormalZombie : EnemyBase
 {
     [SerializeField] private FSM_NZ_Manager stateManager;
 
+    [field: SerializeField] public GameObject spineHolder { get; private set; }
+    [field: SerializeField] public ZombiesAnimationController animationController { get; private set; }
+    [field: SerializeField] public SCRPT_ZombiesAnimDatga animationData { get; private set; }
+
     [field: SerializeField] public EnemyVision Vision { get; private set; }
     [field: SerializeField] public bool isIdle = false;
 

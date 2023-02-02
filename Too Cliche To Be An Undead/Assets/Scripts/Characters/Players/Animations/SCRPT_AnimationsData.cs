@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AnimationData", menuName = "Scriptable/Entity/AnimationData/Base")]
+[CreateAssetMenu(fileName = "AnimationData", menuName = "Scriptable/Entity/AnimationData/Players/Base")]
 public class SCRPT_AnimationsData : ScriptableObject
 {
     public enum E_Characters

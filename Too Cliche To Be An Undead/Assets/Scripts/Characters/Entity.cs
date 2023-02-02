@@ -25,7 +25,7 @@ public class Entity : MonoBehaviour, IDamageable
     public SpriteRenderer GetSprite { get => sprite; }
 
     [SerializeField] protected SkeletonAnimation skeletonAnimation;
-    public SkeletonAnimation SkeletonAnimation { get => skeletonAnimation; }
+    public SkeletonAnimation SkeletonAnimation { get => skeletonAnimation; set => skeletonAnimation = value; }
 
     [SerializeField] protected Animator animator;
     public Animator GetAnimator { get => animator; }
@@ -463,9 +463,12 @@ public class Entity : MonoBehaviour, IDamageable
     }
     protected virtual IEnumerator MaterialFlash(string m, float time)
     {
-        this.sprite.material.SetInt(m, 1);
-        yield return new WaitForSeconds(time);
-        this.sprite.material.SetInt(m, 0);
+        if (this.sprite != null)
+        {
+            this.sprite.material.SetInt(m, 1);
+            yield return new WaitForSeconds(time);
+            this.sprite.material.SetInt(m, 0);
+        }
     }
 
     #endregion

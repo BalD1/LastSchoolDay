@@ -12,6 +12,9 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
         owner ??= stateManager.Owner;
         owner.ResetVelocity();
 
+        if (owner.animationController != null)
+            owner.animationController.SetAnimation(owner.animationData.walkAnim, true);
+
         owner.Pathfinding.StopUpdatepath();
         owner.Pathfinding.StartUpdatePath();
 
@@ -28,6 +31,12 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
     {
         //owner.GetRb.AddForce(owner.Pathfinding.CheckWayPoint() * owner.GetStats.Speed * owner.SpeedMultiplier * Time.fixedDeltaTime);
         stateManager.Movements(goalPosition);
+
+        if (owner.animationController != null)
+        {
+            if (owner.transform.position.x > owner.CurrentTransformTarget.position.x) owner.animationController.FlipSkeleton(false);
+            else owner.animationController.FlipSkeleton(true);
+        }
     }
 
     public override void ExitState(FSM_NZ_Manager stateManager)

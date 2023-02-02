@@ -7,6 +7,8 @@ public class PlayerAnimationController : MonoBehaviour
 {
     [Header("Animations")]
 
+    [SerializeField] private PlayerCharacter owner;
+
     [SerializeField] private SpriteRenderer placeholderSprite;
 
     [SerializeField] private SkeletonAnimationMulti skeletonAnimation;
@@ -85,6 +87,7 @@ public class PlayerAnimationController : MonoBehaviour
         {
             arm.GetComponent<CustomBoneFollow>().skeletonRenderer = skeletonAnimation.CurrentSkeletonAnimation;
         }
+        owner.SkeletonAnimation = skeletonAnimation.CurrentSkeletonAnimation;
     }
 
     public void FlipSkeleton(bool lookAtRight)
