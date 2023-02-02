@@ -27,6 +27,9 @@ public class NormalZombie : EnemyBase
 
     public const int maxDistanceFromPlayer = 15;
 
+    [SerializeField] private float targetClosest_COOLDOWN = 3;
+    private float targetClosest_TIMER;
+
     [field: SerializeField] public float timeOfDeath;
 
     public static NormalZombie Create(Vector2 pos, bool seeAtStart)
@@ -50,6 +53,8 @@ public class NormalZombie : EnemyBase
 
         SpawnersManager.Instance.AddZombie();
 
+        targetClosest_TIMER = targetClosest_COOLDOWN;
+
         d_OnDeath += SpawnersManager.Instance.RemoveZombie;
     }
 
@@ -59,7 +64,14 @@ public class NormalZombie : EnemyBase
 
         if (isIdle) return;
 
-        if (Vector2.Distance(this.transform.position, GameManager.Player1Ref.transform.position) > maxDistanceFromPlayer) ForceKill();
+        if (targetClosest_TIMER > 0) targetClosest_TIMER-= Time.deltaTime;
+        else
+        {
+            this.Vision.TargetClosestPlayer();
+            targetClosest_TIMER = targetClosest_COOLDOWN;
+        }
+
+        if (Vector2.Distance(this.transform.position, CurrentPlayerTarget.transform.position) > maxDistanceFromPlayer) ForceKill();
     }
 
     public void ForceKill()

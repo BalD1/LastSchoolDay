@@ -54,7 +54,10 @@ public class PlayerAnimationController : MonoBehaviour
         foreach (Transform item in skeletonAnimation.transform)
         {
             if (item.GetComponent<SkeletonAnimation>() != null)
+            {
                 item.gameObject.AddComponent<RendererSorting>();
+                item.gameObject.AddComponent<VisibilityWatcher>().Setup(owner);
+            }
         }
 
         skeletonAnimation._switchSkeleton += SwitchSkeleton;

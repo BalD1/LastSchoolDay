@@ -12,6 +12,13 @@ public class VisibilityWatcher : MonoBehaviour
 
     private void Start()
     {
+        if (owner != null)
+            playerIdx = owner.PlayerIndex;
+    }
+
+    public void Setup(PlayerCharacter _owner)
+    {
+        this.owner = _owner;
         playerIdx = owner.PlayerIndex;
     }
 
@@ -19,12 +26,13 @@ public class VisibilityWatcher : MonoBehaviour
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         if (GameManager.isAppQuitting) return;
+        if (owner == null) return;
 
         if (this.transform.parent == null) return;
 
         if (isVisible == false || owner.IsAlive() == false) return;
 
-        CameraManager.Instance.PlayerBecameInvisible(this.transform.parent, playerIdx);
+        CameraManager.Instance.PlayerBecameInvisible(this.owner.transform, playerIdx);
         isVisible = false;
     }
 
@@ -32,10 +40,11 @@ public class VisibilityWatcher : MonoBehaviour
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         if (this.transform.parent == null) return;
+        if (owner == null) return;
 
         if (isVisible == true || owner.IsAlive() == false) return;
 
-        CameraManager.Instance.PlayerBecameVisible(this.transform.parent);
+        CameraManager.Instance.PlayerBecameVisible(this.owner.transform);
         isVisible = true;
     }
 }
