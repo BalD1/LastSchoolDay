@@ -1015,8 +1015,6 @@ public class PlayerCharacter : Entity, IInteractable
         this.maxSpeed_M = newStats.Speed;
         this.maxCritChances_M = newStats.CritChances;
 
-
-        SetPortrait();
         UIManager.PortraitRect portraitRect = characterPortrait.portraitRect;
         portrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
                                                    portraitRect.anchorMin, portraitRect.anchorMax);
@@ -1033,6 +1031,8 @@ public class PlayerCharacter : Entity, IInteractable
         Spine.Animation attackAnim = animationController.animationsData.attackAnim_side?.Animation;
         if (attackAnim != null)
             weapon.attackDuration = attackAnim.Duration;
+
+        CameraManager.Instance.Markers[this.playerIndex].gameObject.SetActive(false);
 
     }
 

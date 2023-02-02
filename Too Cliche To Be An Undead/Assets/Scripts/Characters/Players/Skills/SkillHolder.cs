@@ -59,6 +59,7 @@ public class SkillHolder : MonoBehaviour
         {
             animController.SetAnimation(transitionAnim, false);
             transitionDuration = transitionAnim.Animation.Duration;
+            transitionDuration *= skill.TransitionDurationMultiplier;
         }
 
         owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimers(skill.Duration, transitionDuration));

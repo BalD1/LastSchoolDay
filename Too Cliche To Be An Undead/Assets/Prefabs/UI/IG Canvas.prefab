@@ -3790,28 +3790,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1194735478487628730}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OpenMenuInQueue
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 4633051553013058160}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1194735478487628730}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: SelectButton
-        m_Mode: 5
+      - m_Target: {fileID: 4647886570042303566}
+        m_TargetAssemblyTypeName: ButtonAction, Assembly-CSharp
+        m_MethodName: ReloadScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Options
+          m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &3672636338627378860
