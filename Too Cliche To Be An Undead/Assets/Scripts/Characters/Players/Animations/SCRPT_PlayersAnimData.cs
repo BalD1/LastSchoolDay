@@ -12,6 +12,9 @@ public class SCRPT_PlayersAnimData : SCRPT_AnimationsData
     [field: SerializeField] public AnimationReferenceAsset dashAnim { get; private set; }
 
     [field: SerializeField] public AnimationReferenceAsset skillTransitionAnim { get; private set; }
-    [field: SerializeField] public AnimationReferenceAsset skillIdleAnim { get; private set; }
-    [field: SerializeField] public AnimationReferenceAsset skillWalkAnim { get; private set; }
+    [field: SerializeField] public AnimationReferenceAsset skillIdleAnimSide { get; private set; }
+    [field: SerializeField] public AnimationReferenceAsset skillWalkAnimSide { get; private set; }
+
+    [field: SerializeField] public AnimationReferenceAsset skillIdleAnimUp { get; private set; }
+    [field: SerializeField] public AnimationReferenceAsset skillIdleAnimDown { get; private set; }
 }

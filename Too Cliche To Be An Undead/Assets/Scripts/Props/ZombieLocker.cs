@@ -15,7 +15,7 @@ public class ZombieLocker : MonoBehaviour
         if (player == null) return;
         if (player.StateManager.ToString() == "Pushed") return;
 
-        player.Stun(stunDuration);
+        player.Stun(stunDuration, false, true);
         player.OnTakeDamages(damagesAmount);
     }
 }

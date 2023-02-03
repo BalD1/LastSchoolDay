@@ -24,11 +24,16 @@ public abstract class SCRPT_Skill : ScriptableObject
     [SerializeField] protected float range;
     [SerializeField] protected float duration;
     [SerializeField] protected float transitionDurationMultiplier = 1;
+    [SerializeField] protected float startOffset = 0;
 
     [SerializeField] protected float damagesPercentageModifier;
     protected float finalDamages;
 
     [SerializeField] protected bool canMove;
+    [field: SerializeField] public bool canAim = true;
+    [SerializeField] protected bool loopAnims = true;
+
+    [field: SerializeField] public bool is4D;
 
     [SerializeField] protected LayerMask entitiesToAffect;
 
@@ -45,8 +50,10 @@ public abstract class SCRPT_Skill : ScriptableObject
     public float Range { get => range; }
     public float Duration { get => duration; }
     public float TransitionDurationMultiplier { get => transitionDurationMultiplier; }
+    public float StartOffset { get => startOffset; }
 
     public bool CanMove { get => canMove; }
+    public bool LoopAnims { get => loopAnims; }
 
     public string AnimationToPlay { get => animationToPlay; }
 

@@ -43,8 +43,6 @@ public class SkillHolder : MonoBehaviour
             float fillAmount = (timer / owner.MaxSkillCD_M) - 1;
             owner.UpdateSkillThumbnailFill(fillAmount * -1);
         }
-
-        //if (skill.IsInUse) skill.UpdateSkill(owner);
     }
 
     public void StartSkill()
@@ -55,6 +53,10 @@ public class SkillHolder : MonoBehaviour
         AnimationReferenceAsset transitionAnim = animController.animationsData.skillTransitionAnim;
 
         float transitionDuration = -1;
+        float startOffset = -1;
+
+        startOffset = skill.StartOffset;
+
         if (transitionAnim != null)
         {
             animController.SetAnimation(transitionAnim, false);
@@ -62,7 +64,7 @@ public class SkillHolder : MonoBehaviour
             transitionDuration *= skill.TransitionDurationMultiplier;
         }
 
-        owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimers(skill.Duration, transitionDuration));
+        owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimers(skill.Duration, transitionDuration, startOffset));
 
         float fillAmount = (timer / owner.MaxSkillCD_M) - 1;
         owner.UpdateSkillThumbnailFill(fillAmount * -1);

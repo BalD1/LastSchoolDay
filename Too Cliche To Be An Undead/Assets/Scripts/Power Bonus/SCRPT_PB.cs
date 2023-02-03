@@ -42,4 +42,7 @@ public class SCRPT_PB : ScriptableObject
 
     [SerializeField] private string description;
     public string Description { get => description; }
+
+    [SerializeField] private string AC_description;
+    public string AC_Description { get => AC_description; }
 }

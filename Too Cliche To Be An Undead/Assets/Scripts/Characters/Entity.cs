@@ -170,7 +170,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     #region Status
 
-    public virtual void Stun(float duration, bool resetAttackTimer = false) { throw new System.NotImplementedException(); }
+    public virtual void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false) { throw new System.NotImplementedException(); }
 
     public void AddTickDamages(TickDamages tick)
     {

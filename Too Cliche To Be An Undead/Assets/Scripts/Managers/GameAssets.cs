@@ -31,6 +31,11 @@ public class GameAssets : MonoBehaviour
 
     [SerializeField] private GameObject basePBPF;
 
+    [field: SerializeField] public SCRPT_TextPopupComponents textComponents { get; private set; }
+    public static SCRPT_TextPopupComponents.HitComponents BaseComponents { get => GameAssets.Instance.textComponents.baseComponents; }
+    public static SCRPT_TextPopupComponents.HitComponents StunComponents { get => GameAssets.Instance.textComponents.StunComponents; }
+    public static SCRPT_TextPopupComponents.HitComponents ItemComponents { get => GameAssets.Instance.textComponents.ItemPickupComponents; }
+
     [System.Serializable]
     public struct PBWithRarity
     {

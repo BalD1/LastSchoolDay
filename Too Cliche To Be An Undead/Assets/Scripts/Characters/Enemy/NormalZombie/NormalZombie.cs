@@ -131,8 +131,10 @@ public class NormalZombie : EnemyBase
         this.Vision.TargetClosestPlayer();
     }
 
-    public override void Stun(float duration, bool resetAttackTimer = false)
+    public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
+        if (showStuntext)
+            TextPopup.Create("Stun !", this.GetHealthPopupOffset + (Vector2)this.transform.position, GameAssets.StunComponents);
         stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
         this.attackTelegraph.CancelTelegraph();
     }

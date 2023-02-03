@@ -6,23 +6,9 @@ using UnityEngine;
 
 public class TextPopup : MonoBehaviour
 {
-    [System.Serializable]
-    public struct HitComponents
-    {
-        public Vector3 speedMovements;
-        public float lifetime;
-        public float disapearSpeed;
-        public float fontSize;
-        public float increaseScaleAmount;
-        public float decreaseScaleAmount;
-        public Color color;
-    }
-
-    [SerializeField] private HitComponents baseComponents;
-
     private float maxLifetime;
 
-    private HitComponents componentsNeeded;
+    private SCRPT_TextPopupComponents.HitComponents componentsNeeded;
 
     private TextMeshPro textMesh;
 
@@ -50,7 +36,7 @@ public class TextPopup : MonoBehaviour
 
         return txtPopup;
     }
-    public static TextPopup Create(string text, Vector2 pos, HitComponents components)
+    public static TextPopup Create(string text, Vector2 pos, SCRPT_TextPopupComponents.HitComponents components)
     {
         GameObject txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, pos, Quaternion.identity);
 
@@ -60,7 +46,7 @@ public class TextPopup : MonoBehaviour
 
         return txtPopup;
     }
-    public static TextPopup Create(string text, Transform parent, HitComponents components)
+    public static TextPopup Create(string text, Transform parent, SCRPT_TextPopupComponents.HitComponents components)
     {
         GameObject txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, parent);
 
@@ -73,9 +59,9 @@ public class TextPopup : MonoBehaviour
 
     public void Setup(string text)
     {
-        Setup(text, baseComponents);
+        Setup(text, GameAssets.BaseComponents);
     }
-    public void Setup(string text, HitComponents components)
+    public void Setup(string text, SCRPT_TextPopupComponents.HitComponents components)
     {
         componentsNeeded = components;
 

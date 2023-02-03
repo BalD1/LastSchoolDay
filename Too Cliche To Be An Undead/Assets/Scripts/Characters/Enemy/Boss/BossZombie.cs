@@ -63,7 +63,7 @@ public class BossZombie : EnemyBase
         base.OnDeath(forceDeath);
     }
 
-    public override void Stun(float duration, bool resetAttackTimer = false)
+    public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
         stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
         this.attackTelegraph.CancelTelegraph();

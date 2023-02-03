@@ -10,7 +10,7 @@ public class Tree : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlayerCharacter>() == null) return;
+        if (collision.transform.parent.GetComponent<PlayerCharacter>() == null) return;
 
         playersBehindCount++;
 
@@ -20,7 +20,7 @@ public class Tree : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlayerCharacter>() == null) return;
+        if (collision.transform.parent.GetComponent<PlayerCharacter>() == null) return;
 
         playersBehindCount--;
 

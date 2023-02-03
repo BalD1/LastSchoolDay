@@ -29,7 +29,7 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
             bool isFromSameTeam = currentEntity.GetStats.Team.Equals(owner.GetStats.Team);
             if (isFromSameTeam) continue;
 
-            currentEntity.Stun(stunDuration);
+            currentEntity.Stun(stunDuration, false, true);
         }
     }
 

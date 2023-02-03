@@ -126,7 +126,7 @@ public class TrainingDummy : EnemyBase
         damagesText.text = sb.ToString();
     }
 
-    public override void Stun(float duration, bool resetAttackTimer = false)
+    public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
         stateManager.SwitchState(stateManager.stunState.SetDuration(duration, resetAttackTimer));
         statusText.text = "STUN";

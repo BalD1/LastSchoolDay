@@ -993,6 +993,8 @@ public class PlayerCharacter : Entity, IInteractable
 
         animationController.Setup(animData);
 
+        this.animationController.SkeletonAnimation.CurrentSkeletonAnimation.Skeleton.SetColor(Color.white);
+
         if (this.portrait != null)
             this.portrait.sprite = UIManager.Instance.GetBasePortrait(character);
 
@@ -1054,8 +1056,10 @@ public class PlayerCharacter : Entity, IInteractable
         dashIcon.fillAmount = fill;
     }
 
-    public override void Stun(float duration, bool resetAttackTimer = false)
+    public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
+        if (showStuntext)
+            TextPopup.Create("Stun !", this.GetHealthPopupOffset + (Vector2)this.transform.position);
         stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
     }
 

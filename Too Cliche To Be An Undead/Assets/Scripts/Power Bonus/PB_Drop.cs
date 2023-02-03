@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class PB_Drop : Collectable
@@ -88,6 +89,9 @@ public class PB_Drop : Collectable
         else val = bonusPower.Amount;
 
         player.AddModifier(bonusPower.ID, val, bonusPower.StatType);
-        UIManager.Instance.AddPBToContainer(bonusPower, player.PlayerIndex);
+
+        string txt = bonusPower.AssociatedCharacter == player.GetCharacterName() ? bonusPower.AC_Description : bonusPower.Description;
+
+        TextPopup.Create(txt, (Vector2)player.transform.position + player.GetHealthPopupOffset, GameAssets.ItemComponents);
     }
 }
