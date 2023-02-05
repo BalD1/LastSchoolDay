@@ -61,7 +61,6 @@ public class UIManager : MonoBehaviour
 
     #region UI Refs
 
-    [SerializeField] private Scrollbar pbContainerBar;
     [SerializeField] private Scrollbar shopBar;
 
     [SerializeField] private Button optionButton_Pause;
@@ -69,9 +68,6 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private PlayerHUD[] playerHUDs;
     [SerializeField] private GameObject minimap;
-
-    [SerializeField] private Button[] pbContainersButtons;
-    [SerializeField] private GameObject[] pbContainers;
 
     [SerializeField] private Image[] blackBars;
 
@@ -141,8 +137,6 @@ public class UIManager : MonoBehaviour
 
     private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
 
-    private List<PBThumbnail> pbThumbnails = new List<PBThumbnail>();
-
     public delegate void D_CloseMenu();
     public D_CloseMenu D_closeMenu;
 
@@ -165,8 +159,6 @@ public class UIManager : MonoBehaviour
     public GameObject ShopMenu { get => shopMenu; }
 
     public GameObject ShopContentMenu { get => shopContentMenu; }
-
-    public GameObject[] PbContainers { get => pbContainers; }
 
     public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
 
@@ -206,14 +198,6 @@ public class UIManager : MonoBehaviour
         else
         {
             SetPlayersCollidersArray();
-            if (DataKeeper.Instance.playersDataKeep.Count > 1)
-            {
-                for (int i = 0; i < DataKeeper.Instance.playersDataKeep.Count; i++)
-                {
-                    Sprite im = GetBasePortrait(DataKeeper.Instance.playersDataKeep[i].character);
-                    pbContainersButtons[i].image.sprite = im;
-                }
-            }
 
             if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto) FadeAllHUD(true);
 
@@ -436,14 +420,6 @@ public class UIManager : MonoBehaviour
             case GameManager.E_GameState.InGame:
                 if (currentHorizontalScrollbar != null) UnsetCurrentHorizontalScrollbar();
 
-                if (DataKeeper.Instance.playersDataKeep.Count > 1)
-                {
-                    for (int i = 0; i < DataKeeper.Instance.playersDataKeep.Count; i++)
-                    {
-                        pbContainersButtons[i].gameObject.SetActive(false);
-                    }
-                }
-
                 if (!firstGameStatePassFlag) firstGameStatePassFlag = true;
                 else if (!GameManager.Instance.IsInTutorial) FadeAllHUD(fadeIn: true);
 
@@ -456,15 +432,7 @@ public class UIManager : MonoBehaviour
 
                 OpenMenuInQueue(pauseMenu);
                 SelectButton("Pause");
-                SetCurrentHorizontalScrollbar(pbContainerBar);
 
-                if (DataKeeper.Instance.playersDataKeep.Count > 1)
-                {
-                    for (int i = 0; i < DataKeeper.Instance.playersDataKeep.Count; i++)
-                    {
-                        pbContainersButtons[i].gameObject.SetActive(true);
-                    }
-                }
                 break;
 
             case GameManager.E_GameState.Restricted:
@@ -610,75 +578,6 @@ public class UIManager : MonoBehaviour
                 item.fillAmount = val;
             });
         }
-    }
-
-    public void AddPBToContainer(SCRPT_PB pb, int playerIdx = 0)
-    {
-        // create the PB and add it to the container
-        PBThumbnail gO = PBThumbnail.Create(pb, pbContainers[playerIdx].transform.childCount);
-        gO.transform.SetParent(pbContainers[playerIdx].transform);
-
-        int childIdx = pbContainers[playerIdx].transform.childCount;
-
-        // Get the navigation component of the new PB
-        Button addedPB = gO.GetComponent<Button>();
-        Navigation nav = addedPB.navigation;
-
-        nav.selectOnRight = firstSelectedButton_Pause;
-
-        // if the added PB is the first, set the navigation with the pause buttons
-        if (pbContainers[playerIdx].transform.childCount <= 1)
-        {
-            nav.selectOnLeft = firstSelectedButton_Pause;
-
-            Navigation fsbNav = firstSelectedButton_Pause.navigation;
-            fsbNav.selectOnLeft = addedPB;
-            fsbNav.selectOnRight = addedPB;
-            firstSelectedButton_Pause.navigation = fsbNav;
-
-            Navigation obpNav = optionButton_Pause.navigation;
-            obpNav.selectOnLeft = addedPB;
-            obpNav.selectOnRight = addedPB;
-            optionButton_Pause.navigation = obpNav;
-
-            Navigation mmbpNav = mainMenuButton_Pause.navigation;
-            mmbpNav.selectOnLeft = addedPB;
-            mmbpNav.selectOnRight = addedPB;
-            mainMenuButton_Pause.navigation = mmbpNav;
-        }
-        else // set the navigation with the neighbours
-        {
-            // Get the left neighbour of the new PB
-            Button leftNeighbour = pbContainers[playerIdx].transform.GetChild(childIdx - 2).GetComponent<Button>();
-
-            // Add the new PB as the right nav of neighbour
-            Navigation neighbourNav = leftNeighbour.navigation;
-
-            // if neighbour is not last of row
-            if ((childIdx - 1) % maxPBImagesByRows != 0 || childIdx - 2 <= 0)
-                neighbourNav.selectOnRight = addedPB;
-            else 
-                neighbourNav.selectOnRight = firstSelectedButton_Pause;
-
-            leftNeighbour.navigation = neighbourNav;
-
-            nav.selectOnLeft = leftNeighbour;
-        }
-
-        // set the vertical navigation if there is more than one row
-        if (childIdx > maxPBImagesByRows)
-        {
-            Button upNeighbour = pbContainers[playerIdx].transform.GetChild(childIdx - (maxPBImagesByRows + 1)).GetComponent<Button>();
-
-            Navigation neighbourNav = upNeighbour.navigation;
-            neighbourNav.selectOnDown = addedPB;
-            upNeighbour.navigation = neighbourNav;
-
-            nav.selectOnUp = upNeighbour;
-        }
-        addedPB.navigation = nav;
-
-        pbThumbnails.Add(gO);
     }
 
     public Sprite GetBasePortrait(GameManager.E_CharactersNames character)

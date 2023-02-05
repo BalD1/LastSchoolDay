@@ -57,11 +57,12 @@ public class VendingMachine : MonoBehaviour, IInteractable
     {
         currentMachineStyle = machineStyle == E_MachineStyle.Blue ? blueMachineStyle : yellowMachineStyle;
 
+        skeletonAnimation.AnimationState.SetAnimation(0, currentMachineStyle.emptyState, false);
+
         isValid = Random.Range(0, 100) <= interactableChances;
 
         if (!isValid)
         {
-            skeletonAnimation.AnimationState.SetAnimation(0, currentMachineStyle.emptyState, false);
             Destroy(priceComponents);
             Destroy(sparkles);
             Destroy(this);

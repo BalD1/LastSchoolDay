@@ -114,6 +114,8 @@ public class DialogueManager : MonoBehaviour
     /// <param name="dialogue"></param>
     public void StartDialogue(SCRPT_SingleDialogue dialogue)
     {
+        dialoguePortrait.enabled = false;
+
         onStartSkipWait_TIMER = onStartSkipWait_DURATION;
         // Sets every player's control map to Dialogue
         foreach (var item in GameManager.Instance.playersByName)
@@ -183,6 +185,7 @@ public class DialogueManager : MonoBehaviour
         dialoguePortrait.sprite = currentLine.customPortrait != null ? 
                                   currentLine.customPortrait :
                                   UIManager.Instance.GetBasePortrait(currentLine.characterName);
+        dialoguePortrait.enabled = true;
 
         dialogueText.text = currentLine.textLine;
 

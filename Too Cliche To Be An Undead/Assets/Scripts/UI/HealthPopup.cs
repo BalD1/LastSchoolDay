@@ -36,13 +36,20 @@ public class HealthPopup : MonoBehaviour
 
     private const float secondLifetimePart = .7f;
 
+    public static Queue<GameObject> popupPool = new Queue<GameObject>();
+
     public static HealthPopup Create(Vector3 position, float amount, bool isHeal, bool isCritialHit = false)
     {
-        GameObject damagePopupGO = Instantiate(GameAssets.Instance.DamagesPopupPF, position, Quaternion.identity);
+        GameObject damagePopupGO;
+
+        if (popupPool.Count > 0) damagePopupGO = popupPool.Dequeue();
+        else damagePopupGO = Instantiate(GameAssets.Instance.DamagesPopupPF, position, Quaternion.identity);
 
         HealthPopup damagePopup = damagePopupGO.GetComponent<HealthPopup>();
 
         damagePopup.Setup(amount, isHeal, isCritialHit);
+
+        damagePopupGO.SetActive(true);
 
         return damagePopup;
     }
@@ -126,7 +133,9 @@ public class HealthPopup : MonoBehaviour
         if (textColor.a <= 0)
         {
             sortingOrder--;
-            Destroy(this.gameObject);
+
+            this.gameObject.SetActive(false);
+            popupPool.Enqueue(this.gameObject);
         }
     }
 

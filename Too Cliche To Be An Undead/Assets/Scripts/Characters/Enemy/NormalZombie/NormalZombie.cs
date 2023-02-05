@@ -71,6 +71,7 @@ public class NormalZombie : EnemyBase
             targetClosest_TIMER = targetClosest_COOLDOWN;
         }
 
+        if (CurrentPlayerTarget == null) this.Vision.TargetClosestPlayer();
         if (Vector2.Distance(this.transform.position, CurrentPlayerTarget.transform.position) > maxDistanceFromPlayer) ForceKill();
     }
 
@@ -108,6 +109,11 @@ public class NormalZombie : EnemyBase
     private void ResetAll()
     {
         StopAllCoroutines();
+        LeanTween.cancel(this.gameObject);
+
+        if (spineHolder != null) spineHolder.transform.localScale = Vector3.one;
+        if (this.sprite != null) sprite.transform.localScale = Vector3.one;
+
         this.RemoveModifiersAll();
         this.RemoveAllTickDamages();
         this.ResetStats();
@@ -123,7 +129,10 @@ public class NormalZombie : EnemyBase
         if (addToSpawner) SpawnersManager.Instance.AddZombie();
 
         if (this.sprite != null)
+        {
             this.sprite.material.SetInt("_Hit", 0);
+            this.sprite.material.SetInt("_Attacking", 0);
+        }
         if (this.skeletonAnimation != null)
             this.skeletonAnimation.skeleton.SetColor(Color.white);
 

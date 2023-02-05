@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TextPopup : MonoBehaviour
 {
@@ -16,13 +17,19 @@ public class TextPopup : MonoBehaviour
 
     private const float secondLifetimePart = .5f;
 
+    public static Queue<GameObject> popupPool = new Queue<GameObject>();
+
     public static TextPopup Create(string text, Vector2 pos)
     {
-        GameObject txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, pos, Quaternion.identity); 
+        GameObject txtPopupGo;
+        if (popupPool.Count > 0) txtPopupGo = popupPool.Dequeue();
+        else txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, pos, Quaternion.identity);
 
         TextPopup txtPopup = txtPopupGo.GetComponent<TextPopup>();
 
         txtPopup.Setup(text);
+
+        txtPopupGo.SetActive(true);
 
         return txtPopup;
     }
@@ -133,6 +140,10 @@ public class TextPopup : MonoBehaviour
     {
         textColor.a -= componentsNeeded.disapearSpeed * Time.deltaTime;
         textMesh.color = textColor;
-        if (textColor.a <= 0) Destroy(this.gameObject);
+        if (textColor.a <= 0)
+        {
+            this.gameObject.SetActive(false);
+            popupPool.Enqueue(this.gameObject);
+        }
     }
 }
