@@ -83,7 +83,7 @@ public class PlayerInteractor : MonoBehaviour
 
         interactPrompt.SetActive(true);
 
-        StringBuilder sb = new StringBuilder("Press ");
+        StringBuilder sb = new StringBuilder();
 
         InputDevice d = owner.Inputs.devices[0];
 
@@ -92,7 +92,6 @@ public class PlayerInteractor : MonoBehaviour
         else if (d is SwitchProControllerHID) sb.Append("X");
         else sb.Append("E");
 
-        sb.Append(" to interact.");
         promptText.text = sb.ToString();
     }
 

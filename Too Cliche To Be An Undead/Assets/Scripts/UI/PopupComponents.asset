@@ -13,26 +13,26 @@ MonoBehaviour:
   m_Name: PopupComponents
   m_EditorClassIdentifier: 
   <baseComponents>k__BackingField:
-    speedMovements: {x: 0, y: 0.3, z: 0}
-    lifetime: 0.5
-    disapearSpeed: 2
-    fontSize: 0.5
-    increaseScaleAmount: 3
-    decreaseScaleAmount: 0
-    color: {r: 1, g: 0.58431375, b: 0, a: 1}
+    <speedMovements>k__BackingField: {x: 0, y: 0.3, z: 0}
+    <lifetime>k__BackingField: 0.5
+    <disapearSpeed>k__BackingField: 2
+    <fontSize>k__BackingField: 0.5
+    <increaseScaleAmount>k__BackingField: 3
+    <decreaseScaleAmount>k__BackingField: 0
+    <color>k__BackingField: {r: 1, g: 0.58431375, b: 0, a: 1}
   <StunComponents>k__BackingField:
-    speedMovements: {x: 0, y: 0, z: 0}
-    lifetime: 0.5
-    disapearSpeed: 2
-    fontSize: 0.5
-    increaseScaleAmount: 3
-    decreaseScaleAmount: 0
-    color: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
+    <speedMovements>k__BackingField: {x: 0, y: 0, z: 0}
+    <lifetime>k__BackingField: 0.5
+    <disapearSpeed>k__BackingField: 2
+    <fontSize>k__BackingField: 0.5
+    <increaseScaleAmount>k__BackingField: 3
+    <decreaseScaleAmount>k__BackingField: 0
+    <color>k__BackingField: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
   <ItemPickupComponents>k__BackingField:
-    speedMovements: {x: 0.1, y: 0.3, z: 0}
-    lifetime: 0.5
-    disapearSpeed: 2
-    fontSize: 0.5
-    increaseScaleAmount: 3
-    decreaseScaleAmount: 0
-    color: {r: 0, g: 0.83644056, b: 1, a: 1}
+    <speedMovements>k__BackingField: {x: 0.1, y: 0.3, z: 0}
+    <lifetime>k__BackingField: 0.5
+    <disapearSpeed>k__BackingField: 2
+    <fontSize>k__BackingField: 0.5
+    <increaseScaleAmount>k__BackingField: 3
+    <decreaseScaleAmount>k__BackingField: 0
+    <color>k__BackingField: {r: 0, g: 0.83644056, b: 1, a: 1}

@@ -42,7 +42,12 @@ public class HealthPopup : MonoBehaviour
     {
         GameObject damagePopupGO;
 
-        if (popupPool.Count > 0) damagePopupGO = popupPool.Dequeue();
+        if (popupPool.Count > 0)
+        {
+            damagePopupGO = popupPool.Dequeue();
+            damagePopupGO.transform.position = position;
+            damagePopupGO.transform.localScale = Vector3.one;
+        }
         else damagePopupGO = Instantiate(GameAssets.Instance.DamagesPopupPF, position, Quaternion.identity);
 
         HealthPopup damagePopup = damagePopupGO.GetComponent<HealthPopup>();
