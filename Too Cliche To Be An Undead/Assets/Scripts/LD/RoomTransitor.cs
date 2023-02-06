@@ -8,30 +8,79 @@ public class RoomTransitor : MonoBehaviour
 
     [SerializeField] private bool isVertical;
 
+    [SerializeField] private BoxCollider2D trigger;
+
+    private List<Transform> playersInTrigger = new List<Transform>();
+
+    private float closestInUpper;
+    private float closestInLower;
+
+    private Vector2 triggerSize;
+
     private int roomTweenID;
 
-    private int playersInRoom;
+    private void Awake()
+    {
+        triggerSize = trigger.size;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponentInParent<PlayerCharacter>() == null) return;
 
-        AreaTransitorManager.PlayersInCorridorCount--;
-
-        if (playersInRoom <= 0) SetRoomHiddenState(false);
-
-        playersInRoom++;
+        playersInTrigger.Add(collision.transform);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponentInParent<PlayerCharacter>() == null) return;
 
-        AreaTransitorManager.PlayersInCorridorCount++;
+        playersInTrigger.Remove(collision.transform);
+    }
 
-        playersInRoom--;
+    private void Update()
+    {
+        if (isVertical) CheckVerticalDistance();
+        else CheckHorizontalDistance();
+    }
 
-        if (playersInRoom <= 0) SetRoomHiddenState(true);
+    private void CheckVerticalDistance()
+    {
+        float playerPosY;
+        float selfPosY;
+        foreach (var item in playersInTrigger)
+        {
+            playerPosY = item.position.y;
+            selfPosY = this.transform.position.y;
+
+            if (playerPosY > selfPosY)
+            {
+                Debug.Log((playerPosY - selfPosY) / triggerSize.y * 100);
+                Color c = targetRoomHidder.color;
+                c.a = (playerPosY - selfPosY) / triggerSize.y;
+                targetRoomHidder.color = c;
+
+                Color d = AreaTransitorManager.Instance.c.color;
+                d.a = 1-(playerPosY - selfPosY) / triggerSize.y;
+                AreaTransitorManager.Instance.c.color = d;
+            }
+            else
+            {
+                Debug.Log((selfPosY - playerPosY) / triggerSize.y * 100);
+                Color c = targetRoomHidder.color;
+                c.a = 1 - (selfPosY - playerPosY) / triggerSize.y;
+                targetRoomHidder.color = c;
+
+                Color d = AreaTransitorManager.Instance.c.color;
+                d.a = 1-(selfPosY - playerPosY) / triggerSize.y;
+                AreaTransitorManager.Instance.c.color = d;
+            }
+        }
+    }
+
+    private void CheckHorizontalDistance()
+    {
+
     }
 
     public void SetRoomHiddenState(bool hidden)

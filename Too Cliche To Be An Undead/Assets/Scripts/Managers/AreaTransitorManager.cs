@@ -29,6 +29,7 @@ public class AreaTransitorManager : MonoBehaviour
     }
 
     [SerializeField] private Tilemap corridorHidder;
+    public Tilemap c { get => corridorHidder; }
 
     public const float fadeTime = .15f;
 
