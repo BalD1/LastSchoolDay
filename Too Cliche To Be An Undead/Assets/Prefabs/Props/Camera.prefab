@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8638541008333867698}
   - component: {fileID: 8638541008333867699}
+  - component: {fileID: 2009790747479355337}
   - component: {fileID: 8638541008333867701}
   - component: {fileID: 8638541008333867700}
   - component: {fileID: 8638541008333867703}
@@ -52,6 +53,23 @@ MonoBehaviour:
   isStatic: 1
   objectRenderer: {fileID: 8638541008333867700}
   debugMode: 0
+--- !u!114 &2009790747479355337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8638541008333867702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e18358f1b7bf2c43af9da0463c56f71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightAnim: Camera droite
+  leftAnim: Camera gauche
+  frontAnim: Camera fixe
+  skeleton: {fileID: 8638541008333867703}
+  xPosThreshold: 0.5
 --- !u!33 &8638541008333867701
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -100,7 +118,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4939
+  m_SortingOrder: -3079
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8638541008333867703
 MonoBehaviour:

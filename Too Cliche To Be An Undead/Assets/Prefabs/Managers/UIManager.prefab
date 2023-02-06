@@ -73,7 +73,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  pbContainerBar: {fileID: 0}
   shopBar: {fileID: 0}
   optionButton_Pause: {fileID: 0}
   mainMenuButton_Pause: {fileID: 0}
@@ -111,16 +110,6 @@ MonoBehaviour:
     dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
   minimap: {fileID: 0}
-  pbContainersButtons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  pbContainers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   blackBars:
   - {fileID: 0}
   - {fileID: 0}
@@ -155,10 +144,10 @@ MonoBehaviour:
       portrait: {fileID: 1861653704, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   - characterName: 1
     portraitRect:
-      offsetMin: {x: 0.4516029, y: 0.3899994}
-      offsetMax: {x: -0.2976036, y: -0.2099991}
-      anchorMin: {x: 0.0645074, y: 0.14}
-      anchorMax: {x: 0.318, y: 0.9860001}
+      offsetMin: {x: 0.4515949, y: -0.9860004}
+      offsetMax: {x: -0.3179974, y: 0.389999}
+      anchorMin: {x: 0.06963257, y: 0.08447451}
+      anchorMax: {x: 0.3231252, y: 0.9304745}
     characterPortraitsByHP:
     - percentage: 0.8
       portrait: {fileID: 364750196, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}

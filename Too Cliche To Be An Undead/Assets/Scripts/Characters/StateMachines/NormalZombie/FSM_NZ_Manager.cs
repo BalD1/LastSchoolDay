@@ -77,6 +77,6 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
         bool targetCanBeAttacked = owner.CurrentPlayerTarget?.Attackers.Count < GameManager.MaxAttackers;
 
-        return (isAtRightDistance && owner.Attack_TIMER <= 0 && targetCanBeAttacked);
+        return (isAtRightDistance && owner.Attack_TIMER <= 0 && targetCanBeAttacked && owner.isVisible);
     }
 }

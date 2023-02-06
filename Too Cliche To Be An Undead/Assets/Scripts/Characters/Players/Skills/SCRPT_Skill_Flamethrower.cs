@@ -48,6 +48,9 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.StartTimer();
         isInUse = false;
 
+        owner.GetSkillHolder.D_enteredTrigger -= EnteredTrigger;
+        owner.GetSkillHolder.D_exitedTrigger -= ExitedTrigger;
+
         owner.SetArmsState(false);
 
         owner.SkillTutoAnimator.SetTrigger("finish");

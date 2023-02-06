@@ -79,7 +79,7 @@ public class TextPopup : MonoBehaviour
         if (popupPool.Count > 0)
         {
             txtPopupGo = popupPool.Dequeue();
-            txtPopupGo.transform.parent = null;
+            txtPopupGo.transform.SetParent(null);
             txtPopupGo.transform.position = pos;
             txtPopupGo.transform.localScale = Vector3.one;
             txtPopupGo.SetActive(true);
@@ -94,7 +94,7 @@ public class TextPopup : MonoBehaviour
         if (popupPool.Count > 0)
         {
             txtPopupGo = popupPool.Dequeue();
-            txtPopupGo.transform.parent = parent;
+            txtPopupGo.transform.SetParent(parent, false);
             txtPopupGo.transform.localPosition = Vector3.zero;
             txtPopupGo.transform.localScale = Vector3.one;
             txtPopupGo.SetActive(true);

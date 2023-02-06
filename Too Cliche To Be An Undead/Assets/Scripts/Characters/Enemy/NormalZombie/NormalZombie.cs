@@ -32,6 +32,8 @@ public class NormalZombie : EnemyBase
 
     [field: SerializeField] public float timeOfDeath;
 
+    public bool isVisible;
+
     public static NormalZombie Create(Vector2 pos, bool seeAtStart)
     {
         NormalZombie res = Instantiate(GameAssets.Instance.GetRandomZombie, pos, Quaternion.identity).GetComponent<NormalZombie>();
