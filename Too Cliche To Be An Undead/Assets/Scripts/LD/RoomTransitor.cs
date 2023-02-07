@@ -21,7 +21,7 @@ public class RoomTransitor : MonoBehaviour
 
     private void Awake()
     {
-        triggerSize = trigger.size;
+        triggerSize = trigger.size * .5f;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -55,7 +55,8 @@ public class RoomTransitor : MonoBehaviour
 
             if (playerPosY > selfPosY)
             {
-                Debug.Log((playerPosY - selfPosY) / triggerSize.y * 100);
+                Debug.Log("n : " + (playerPosY - selfPosY) / triggerSize.y * 100);
+                Debug.Log("-1 : " + (1-(playerPosY - selfPosY) / triggerSize.y * 100));
                 Color c = targetRoomHidder.color;
                 c.a = (playerPosY - selfPosY) / triggerSize.y;
                 targetRoomHidder.color = c;
@@ -66,7 +67,7 @@ public class RoomTransitor : MonoBehaviour
             }
             else
             {
-                Debug.Log((selfPosY - playerPosY) / triggerSize.y * 100);
+                Debug.Log(1-(selfPosY - playerPosY) / triggerSize.y * 100);
                 Color c = targetRoomHidder.color;
                 c.a = 1 - (selfPosY - playerPosY) / triggerSize.y;
                 targetRoomHidder.color = c;
