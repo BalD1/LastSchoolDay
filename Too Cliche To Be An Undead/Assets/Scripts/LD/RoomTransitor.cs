@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class RoomTransitor : MonoBehaviour
@@ -7,6 +8,7 @@ public class RoomTransitor : MonoBehaviour
     [SerializeField] private SpriteRenderer targetRoomHidder;
 
     [SerializeField] private bool isVertical;
+    [SerializeField] private bool reverseEntry;
 
     [SerializeField] private BoxCollider2D trigger;
 
@@ -15,13 +17,15 @@ public class RoomTransitor : MonoBehaviour
     private float closestInUpper;
     private float closestInLower;
 
-    private Vector2 triggerSize;
+    private float triggerSize;
+    private float triggerHalfSize;
 
     private int roomTweenID;
 
     private void Awake()
     {
-        triggerSize = trigger.size * .5f;
+        triggerSize = isVertical ? trigger.size.y : trigger.size.x;
+        triggerHalfSize = triggerSize * .5f;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,48 +44,59 @@ public class RoomTransitor : MonoBehaviour
 
     private void Update()
     {
-        if (isVertical) CheckVerticalDistance();
-        else CheckHorizontalDistance();
-    }
+        if (playersInTrigger.Count <= 0) return;
 
-    private void CheckVerticalDistance()
-    {
-        float playerPosY;
-        float selfPosY;
+        float playerPos;
+        float selfPos = isVertical ? this.transform.position.y : 
+                                     this.transform.position.x;
+
+        float res = -1;
+
+        bool isPlayerPosGreater = false;
+
         foreach (var item in playersInTrigger)
         {
-            playerPosY = item.position.y;
-            selfPosY = this.transform.position.y;
+            playerPos = isVertical ? item.transform.position.y :
+                                     item.transform.position.x;
 
-            if (playerPosY > selfPosY)
-            {
-                Debug.Log("n : " + (playerPosY - selfPosY) / triggerSize.y * 100);
-                Debug.Log("-1 : " + (1-(playerPosY - selfPosY) / triggerSize.y * 100));
-                Color c = targetRoomHidder.color;
-                c.a = (playerPosY - selfPosY) / triggerSize.y;
-                targetRoomHidder.color = c;
+            isPlayerPosGreater = playerPos > selfPos;
 
-                Color d = AreaTransitorManager.Instance.c.color;
-                d.a = 1-(playerPosY - selfPosY) / triggerSize.y;
-                AreaTransitorManager.Instance.c.color = d;
-            }
-            else
-            {
-                Debug.Log(1-(selfPosY - playerPosY) / triggerSize.y * 100);
-                Color c = targetRoomHidder.color;
-                c.a = 1 - (selfPosY - playerPosY) / triggerSize.y;
-                targetRoomHidder.color = c;
+            res = isPlayerPosGreater ?
+                        (playerPos - selfPos + triggerHalfSize) :
+                        (selfPos - playerPos + triggerHalfSize);
 
-                Color d = AreaTransitorManager.Instance.c.color;
-                d.a = 1-(selfPosY - playerPosY) / triggerSize.y;
-                AreaTransitorManager.Instance.c.color = d;
-            }
+            res /= triggerSize;
+
+            res = Mathf.Clamp01(res);
+
+            if (res >= .9f) res = 1;
+            if (reverseEntry) res = 1 - res;
         }
+
+        if (isVertical) CheckVerticalDistance(isPlayerPosGreater, res);
+        else CheckHorizontalDistance(isPlayerPosGreater, res);
     }
 
-    private void CheckHorizontalDistance()
+    private void CheckVerticalDistance(bool _isPlayerPosGreater, float _res)
     {
+        Color targetRoomColor = targetRoomHidder.color;
+        targetRoomColor.a = _isPlayerPosGreater ? _res : 1 - _res;
+        targetRoomHidder.color = targetRoomColor;
 
+        Color corridorColor = AreaTransitorManager.Instance.c.color;
+        corridorColor.a = _isPlayerPosGreater ? 1 - _res : _res;
+        AreaTransitorManager.Instance.c.color = corridorColor;
+    }
+
+    private void CheckHorizontalDistance(bool _isPlayerPosGreater, float _res)
+    {
+        Color targetRoomColor = targetRoomHidder.color;
+        targetRoomColor.a = _isPlayerPosGreater ? 1 - _res : _res;
+        targetRoomHidder.color = targetRoomColor;
+
+        Color corridorColor = AreaTransitorManager.Instance.c.color;
+        corridorColor.a = _isPlayerPosGreater ? _res : 1 - _res;
+        AreaTransitorManager.Instance.c.color = corridorColor;
     }
 
     public void SetRoomHiddenState(bool hidden)
