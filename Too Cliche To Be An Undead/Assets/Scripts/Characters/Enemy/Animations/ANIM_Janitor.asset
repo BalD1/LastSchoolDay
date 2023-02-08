@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc3efa42006f2241b52898a0d8e4794, type: 3}
+  m_Name: ANIM_Janitor
+  m_EditorClassIdentifier: 
+  <character>k__BackingField: 5
+  <skeletonDataAsset>k__BackingField: {fileID: 11400000, guid: 2107b9790397aed4894bcae76179312e, type: 2}
+  <idleAnim>k__BackingField: {fileID: 11400000, guid: 4d65745eccda7654cbf17ff79d7650be, type: 2}
+  <walkAnim>k__BackingField: {fileID: 11400000, guid: 4d65745eccda7654cbf17ff79d7650be, type: 2}
+  <attackAnim_side>k__BackingField: {fileID: 11400000, guid: 5e914211561916d47bc83ac3cc927a00, type: 2}
+  <attackAnim_up>k__BackingField: {fileID: 11400000, guid: beb0e119217c6be428d073808adb4da9, type: 2}
+  <attackAnim_down>k__BackingField: {fileID: 11400000, guid: f94f317b9112b284cac673190d122a94, type: 2}
+  <deathAnim>k__BackingField: {fileID: 0}
+  <attackAnticip_Side>k__BackingField: {fileID: 11400000, guid: a4a3a1f2eab80c3498309d5118860355, type: 2}
+  <attackAnticip_Up>k__BackingField: {fileID: 11400000, guid: 87a8c8115607c694eb2ef883ade5b3fa, type: 2}
+  <attackAnticip_Down>k__BackingField: {fileID: 11400000, guid: d528ac15f4b4d524d853042382851f8e, type: 2}

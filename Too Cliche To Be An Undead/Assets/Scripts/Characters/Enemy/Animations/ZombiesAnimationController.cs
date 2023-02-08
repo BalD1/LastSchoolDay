@@ -9,8 +9,6 @@ public class ZombiesAnimationController : MonoBehaviour
 
     [SerializeField] private NormalZombie owner;
 
-    [SerializeField] private SpriteRenderer placeholderSprite;
-
     [SerializeField] private SkeletonAnimation skeletonAnimation;
     public SkeletonAnimation SkeletonAnimation { get => skeletonAnimation; }
 
@@ -32,17 +30,8 @@ public class ZombiesAnimationController : MonoBehaviour
 
     private void Awake()
     {
-        if (skeletonAnimation == null || owner.animationData == null)
-        {
-            placeholderSprite.enabled = true;
-            this.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-            isValid = false;
-        }
-        else
-        {
-            skeletonAnimation.AnimationState.SetAnimation(0, owner.animationData.walkAnim, true);
-            isValid = true;
-        }
+        skeletonAnimation.AnimationState.SetAnimation(0, owner.animationData.walkAnim, true);
+        isValid = true;
     }
 
     private void Start()
@@ -55,7 +44,6 @@ public class ZombiesAnimationController : MonoBehaviour
         //temp
         if (owner.animationData == null)
         {
-            placeholderSprite.enabled = true;
             skeletonAnimation.gameObject.SetActive(false);
             isValid = false;
             return;
@@ -63,8 +51,6 @@ public class ZombiesAnimationController : MonoBehaviour
 
         //temp
         skeletonAnimation.gameObject.SetActive(true);
-
-        if (placeholderSprite != null) placeholderSprite.sprite = null;
 
         SetAnimation(owner.animationData.walkAnim, true);
 
