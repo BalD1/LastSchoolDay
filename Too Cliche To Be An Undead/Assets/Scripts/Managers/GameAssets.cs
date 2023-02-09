@@ -20,8 +20,7 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject damagesPopupPF;
     [SerializeField] private GameObject textPopupPF;
     [SerializeField] private GameObject trainingDummyPF;
-    [SerializeField] private GameObject dashingZombiePF;
-    [SerializeField] private GameObject cacZombiePF;
+    [SerializeField] private GameObject[] zombiesPF;
     [SerializeField] private GameObject coinPF;
     [SerializeField] private GameObject pbThumbnailPF;
     [SerializeField] private GameObject keycardPF;
@@ -68,10 +67,9 @@ public class GameAssets : MonoBehaviour
     public GameObject DamagesPopupPF { get => damagesPopupPF; }
     public GameObject TextPopupPF { get => textPopupPF; }
     public GameObject TrainingDummyPF { get => trainingDummyPF; }
-    public GameObject DashingZombiePF { get => dashingZombiePF; }
-    public GameObject CacZombiePF { get => cacZombiePF; }
+    public GameObject[] ZombiesPF { get => zombiesPF; }
 
-    public GameObject GetRandomZombie { get => Random.Range(0, 2) == 0 ? DashingZombiePF : CacZombiePF; }
+    public GameObject GetRandomZombie { get => zombiesPF.RandomElement(); }
 
     public GameObject CoinPF { get => coinPF; }
     public GameObject PBThumbnailPF { get => pbThumbnailPF; }

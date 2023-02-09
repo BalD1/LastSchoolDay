@@ -30,7 +30,7 @@ public class ZombiesAnimationController : MonoBehaviour
 
     private void Awake()
     {
-        skeletonAnimation.AnimationState.SetAnimation(0, owner.animationData.walkAnim, true);
+        skeletonAnimation.AnimationState.SetAnimation(0, owner.animationData.WalkAnim, true);
         isValid = true;
     }
 
@@ -52,7 +52,7 @@ public class ZombiesAnimationController : MonoBehaviour
         //temp
         skeletonAnimation.gameObject.SetActive(true);
 
-        SetAnimation(owner.animationData.walkAnim, true);
+        SetAnimation(owner.animationData.WalkAnim, true);
 
         isValid = true;
     }

@@ -46,7 +46,6 @@ public class ElementSpawner : MonoBehaviour
         switch (elementToSpawn)
         {
             case E_ElementToSpawn.RandomBaseZombie:
-                break;
                 Spawn(GameAssets.Instance.GetRandomZombie, GameManager.Instance.InstantiatedEntitiesParent);
                 break;
 
@@ -56,14 +55,6 @@ public class ElementSpawner : MonoBehaviour
 
             case E_ElementToSpawn.Coins:
                 Spawn(GameAssets.Instance.CoinPF, GameManager.Instance.InstantiatedMiscParent);
-                break;
-
-            case E_ElementToSpawn.CaCZombie:
-                Spawn(GameAssets.Instance.CacZombiePF, GameManager.Instance.InstantiatedEntitiesParent);
-                break;
-
-            case E_ElementToSpawn.DashingZombie:
-                Spawn(GameAssets.Instance.DashingZombiePF, GameManager.Instance.InstantiatedEntitiesParent);
                 break;
 
             case E_ElementToSpawn.IdleZombie:

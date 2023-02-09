@@ -25,10 +25,20 @@ public class SCRPT_AnimationsData : ScriptableObject
 
     [field: Header("General Animations")]
 
-    [field: SerializeField] public AnimationReferenceAsset idleAnim { get; private set; }
-    [field: SerializeField] public AnimationReferenceAsset walkAnim { get; private set; }
-    [field: SerializeField] public AnimationReferenceAsset attackAnim_side { get; private set; }
-    [field: SerializeField] public AnimationReferenceAsset attackAnim_up { get; private set; }
-    [field: SerializeField] public AnimationReferenceAsset attackAnim_down { get; private set; }
-    [field: SerializeField] public AnimationReferenceAsset deathAnim { get; private set; }
+    [SerializeField] private AnimationReferenceAsset[] idleAnim;
+    [SerializeField] private AnimationReferenceAsset[] walkAnim;
+    [SerializeField] private AnimationReferenceAsset[] attackAnim_side;
+    [SerializeField] private AnimationReferenceAsset[] attackAnim_up;
+    [SerializeField] private AnimationReferenceAsset[] attackAnim_down;
+    [SerializeField] private AnimationReferenceAsset[] death;
+
+    public AnimationReferenceAsset IdleAnim { get => idleAnim.RandomElement(); }
+    public AnimationReferenceAsset WalkAnim { get => walkAnim.RandomElement(); }
+    public AnimationReferenceAsset AttackAnim_side { get => attackAnim_side.RandomElement(); }
+    public AnimationReferenceAsset GetAttackAnimSide(int idx) => attackAnim_side[idx];
+    public AnimationReferenceAsset AttackAnim_up { get => attackAnim_up.RandomElement(); }
+    public AnimationReferenceAsset GetAttackAnimUp(int idx) => attackAnim_up[idx];
+    public AnimationReferenceAsset AttackAnim_down { get => attackAnim_down.RandomElement(); }
+    public AnimationReferenceAsset GetAttackAnimDown(int idx) => attackAnim_down[idx];
+    public AnimationReferenceAsset DeathAnim { get => death.RandomElement(); }
 }

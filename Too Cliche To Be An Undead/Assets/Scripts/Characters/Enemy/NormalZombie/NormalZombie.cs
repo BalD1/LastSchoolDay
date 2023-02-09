@@ -11,6 +11,8 @@ public class NormalZombie : EnemyBase
     [field: SerializeField] public ZombiesAnimationController animationController { get; private set; }
     [field: SerializeField] public SCRPT_ZombiesAnimDatga animationData { get; private set; }
 
+    [field: SerializeField] public Transform lookAtObject { get; private set; }
+
     [field: SerializeField] public EnemyVision Vision { get; private set; }
     [field: SerializeField] public bool isIdle = false;
 

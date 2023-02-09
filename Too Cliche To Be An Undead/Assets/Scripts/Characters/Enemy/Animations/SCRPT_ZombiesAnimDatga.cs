@@ -8,7 +8,14 @@ public class SCRPT_ZombiesAnimDatga : SCRPT_AnimationsData
 {
     [field: Header("Zombies Animations")]
 
-    [field: SerializeField] public AnimationReferenceAsset attackAnticip_Side { get; private set; }
-    [field: SerializeField] public AnimationReferenceAsset attackAnticip_Up { get; private set; }
-    [field: SerializeField] public AnimationReferenceAsset attackAnticip_Down { get; private set; }
+    [SerializeField] private AnimationReferenceAsset[] attackAnticip_Side;
+    [SerializeField] private AnimationReferenceAsset[] attackAnticip_Up;
+    [SerializeField] private AnimationReferenceAsset[] attackAnticip_Down;
+
+    public AnimationReferenceAsset AttackAnticip_Side { get => attackAnticip_Side.RandomElement(); }
+    public AnimationReferenceAsset GetAnticipAttackAnimSide(int idx) => attackAnticip_Side[idx];
+    public AnimationReferenceAsset AttackAnticip_Up { get => attackAnticip_Up.RandomElement(); }
+    public AnimationReferenceAsset GetAnticipAttackAnimUp(int idx) => attackAnticip_Up[idx];
+    public AnimationReferenceAsset AttackAnticip_Down { get => attackAnticip_Down.RandomElement(); }
+    public AnimationReferenceAsset GetAnticipAttackAnimDown(int idx) => attackAnticip_Down[idx];
 }

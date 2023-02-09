@@ -313,7 +313,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     protected override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F5)) animationController.SetAnimation(animationController.animationsData.attackAnim_down, false);
+        if (Input.GetKeyDown(KeyCode.F5)) animationController.SetAnimation(animationController.animationsData.AttackAnim_down, false);
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         base.Update();
 
@@ -598,8 +598,6 @@ public class PlayerCharacter : Entity, IInteractable
         }
 
         stateManager.SwitchState(stateManager.deadState);
-        NormalZombie zombifiedSelf = Instantiate(GameAssets.Instance.DashingZombiePF, this.transform.position, Quaternion.identity).GetComponent<NormalZombie>();
-        zombifiedSelf.SetAsZombifiedPlayer(this.sprite.sprite, this.maxHP_M, this.maxDamages_M, this.maxSpeed_M, this.maxCritChances_M);
 
         this.minimapMarker.SetActive(false);
 
@@ -1030,7 +1028,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         UpdateHPonUI();
 
-        Spine.Animation attackAnim = animationController.animationsData.attackAnim_side?.Animation;
+        Spine.Animation attackAnim = animationController.animationsData.AttackAnim_side?.Animation;
         if (attackAnim != null)
             weapon.attackDuration = attackAnim.Duration;
 

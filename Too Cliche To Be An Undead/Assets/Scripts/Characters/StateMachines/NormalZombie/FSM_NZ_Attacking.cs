@@ -15,6 +15,16 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     private enum E_AttackOrientation {  Up, Down, Left, Right }
     private E_AttackOrientation attackOrientation;
 
+    private const int upsideMinMargin = 270;
+    private const int upsideMaxMargin = 315;
+
+    private const int downsideMinMargin = 45;
+    private const int downsideMaxMargin = 90;
+
+    private const int leftAngleOrientation = 270;
+
+    private int currentAttackIdx;
+
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
         owner ??= stateManager.Owner;
@@ -41,7 +51,11 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         attack_TIMER = owner.Attack_DURATION;
         attack_flag = false;
 
-        SCRPT_EnemyAttack enemyAttack = owner.Attack;
+        SCRPT_EnemyAttack[] enemyAttacksArray = owner.AttacksArray;
+
+        currentAttackIdx = Random.Range(0, enemyAttacksArray.Length);
+
+        SCRPT_EnemyAttack enemyAttack = enemyAttacksArray[currentAttackIdx];
 
         Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
         float lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -52,45 +66,54 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         if (owner.animationController != null)
         {
+            owner.lookAtObject.LookAt(owner.CurrentTransformTarget, Vector3.forward);
+
+            Vector2 orientation = owner.lookAtObject.eulerAngles;
 
             AnimationReferenceAsset attackAnimation;
-
-            switch(animRot)
+            switch (orientation)
             {
-                case float f when (f > 45 && f <= 135):
-                    attackOrientation = E_AttackOrientation.Down;
-                    attackAnimation = owner.animationData.attackAnticip_Down;
-                    owner.animationController.FlipSkeleton(true);
-                    break;
-
-                case float f when (f > 135 && f <= 225):
-                    attackOrientation = E_AttackOrientation.Right;
-                    attackAnimation = owner.animationData.attackAnticip_Side;
-                    owner.animationController.FlipSkeleton(true);
-                    break;
-
-                case float f when (f > 225 && f <= 315):
+                // upside
+                case Vector2 v when upsideMinMargin < v.x && v.x < upsideMaxMargin:
                     attackOrientation = E_AttackOrientation.Up;
-                    attackAnimation = owner.animationData.attackAnticip_Up;
+                    attackAnimation = owner.animationData.GetAttackAnimUp(currentAttackIdx);
                     owner.animationController.FlipSkeleton(true);
                     break;
 
+                // downside
+                case Vector2 v when downsideMinMargin < v.x && v.x < downsideMaxMargin:
+                    attackOrientation = E_AttackOrientation.Down;
+                    attackAnimation = owner.animationData.GetAttackAnimDown(currentAttackIdx);
+                    owner.animationController.FlipSkeleton(true);
+                    break;
+
+                // left & right
                 default:
-                    attackOrientation = E_AttackOrientation.Left;
-                    attackAnimation = owner.animationData.attackAnticip_Side;
-                    owner.animationController.FlipSkeleton(false);
+                    // left
+                    if (orientation.y == leftAngleOrientation)
+                    {
+                        attackOrientation = E_AttackOrientation.Left;
+                        attackAnimation = owner.animationData.GetAttackAnimSide(currentAttackIdx);
+                        owner.animationController.FlipSkeleton(false);
+                    }
+                    // right
+                    else
+                    {
+                        attackOrientation = E_AttackOrientation.Right;
+                        attackAnimation = owner.animationData.GetAttackAnimSide(currentAttackIdx);
+                        owner.animationController.FlipSkeleton(true);
+                    }
                     break;
             }
 
             owner.animationController.SetAnimation(attackAnimation, false);
         }
 
-
         owner.AttackDirection = -dir;
 
         Vector2 telegraphSize = enemyAttack.telegraphVectorSize != Vector2.zero ? enemyAttack.telegraphVectorSize : new Vector2(enemyAttack.AttackDistance, enemyAttack.AttackDistance);
 
-        owner.attackTelegraph.Setup(telegraphSize, owner.Attack.attackOffset, telegraphRotation, owner.Attack.telegraphSprite, durationBeforeAttack);
+        owner.attackTelegraph.Setup(telegraphSize, enemyAttack.attackOffset, telegraphRotation, enemyAttack.telegraphSprite, durationBeforeAttack);
 
         owner.canBePushed = true;
     }
@@ -100,7 +123,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         if (waitBeforeAttack_TIMER > 0) waitBeforeAttack_TIMER -= Time.deltaTime;
         else if (waitBeforeAttack_TIMER <= 0 && !attack_flag)
         {
-            owner.Attack.OnStart(owner);
+            owner.AttacksArray[currentAttackIdx].OnStart(owner);
 
             if (owner.animationController != null) 
             { 
@@ -110,22 +133,22 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
                 switch (attackOrientation)
                 {
                     case E_AttackOrientation.Down:
-                        attackAnimation = owner.animationData.attackAnim_down;
+                        attackAnimation = owner.animationData.GetAnticipAttackAnimDown(currentAttackIdx);
                     owner.animationController.FlipSkeleton(true);
                         break;
 
                     case E_AttackOrientation.Right:
-                        attackAnimation = owner.animationData.attackAnim_side;
+                        attackAnimation = owner.animationData.GetAnticipAttackAnimSide(currentAttackIdx);
                         owner.animationController.FlipSkeleton(true);
                         break;
 
                     case E_AttackOrientation.Up:
-                        attackAnimation = owner.animationData.attackAnim_up;
+                        attackAnimation = owner.animationData.GetAnticipAttackAnimUp(currentAttackIdx);
                         owner.animationController.FlipSkeleton(true);
                         break;
 
                     default:
-                        attackAnimation = owner.animationData.attackAnim_side;
+                        attackAnimation = owner.animationData.GetAnticipAttackAnimDown(currentAttackIdx);
                         owner.animationController.FlipSkeleton(false);
                         break;
                 }
@@ -146,8 +169,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
-        owner.Attack.OnExit(owner);
-        if (owner.Attack.DamageOnCollision) owner.d_EnteredTrigger -= OnTrigger;
+        owner.AttacksArray[currentAttackIdx].OnExit(owner);
+        if (owner.AttacksArray[currentAttackIdx].DamageOnCollision) owner.d_EnteredTrigger -= OnTrigger;
 
         owner.UnsetAttackedPlayer();
     }

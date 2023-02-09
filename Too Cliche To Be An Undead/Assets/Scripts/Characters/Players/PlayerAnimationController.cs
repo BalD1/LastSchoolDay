@@ -44,7 +44,7 @@ public class PlayerAnimationController : MonoBehaviour
         }
         else
         {
-            skeletonAnimation.SetAnimation(animationsData.idleAnim, true);
+            skeletonAnimation.SetAnimation(animationsData.IdleAnim, true);
             isValid = true;
         }
     }
@@ -79,7 +79,7 @@ public class PlayerAnimationController : MonoBehaviour
         placeholderSprite.sprite = null;
 
         animationsData = animData;
-        SetAnimation(animationsData.idleAnim, true);
+        SetAnimation(animationsData.IdleAnim, true);
 
         isValid = true;
     }
@@ -147,11 +147,11 @@ public class PlayerAnimationController : MonoBehaviour
         switch (state)
         {
             case "Idle":
-                SetAnimation(animationsData.idleAnim, true);
+                SetAnimation(animationsData.IdleAnim, true);
                 break;
 
             case "Moving":
-                SetAnimation(animationsData.walkAnim, true);
+                SetAnimation(animationsData.WalkAnim, true);
                 break;
 
             case "Dashing":
@@ -159,7 +159,7 @@ public class PlayerAnimationController : MonoBehaviour
                 break;
 
             case "Dying":
-                SetAnimation(animationsData.deathAnim, true);
+                SetAnimation(animationsData.DeathAnim, true);
                 break;
 
             default:

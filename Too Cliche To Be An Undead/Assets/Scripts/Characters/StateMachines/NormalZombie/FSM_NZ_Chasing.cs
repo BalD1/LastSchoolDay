@@ -13,7 +13,7 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
         owner.ResetVelocity();
 
         if (owner.animationController != null)
-            owner.animationController.SetAnimation(owner.animationData.walkAnim, true);
+            owner.animationController.SetAnimation(owner.animationData.WalkAnim, true);
 
         owner.Pathfinding.StopUpdatepath();
         owner.Pathfinding.StartUpdatePath();

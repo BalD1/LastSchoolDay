@@ -95,22 +95,22 @@ public class PlayerWeapon : MonoBehaviour
                     {
                         case Vector2 v when v == Vector2.up:
                             ownerAnims.FlipSkeleton(false);
-                            ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_up, false);
+                            ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_up, false);
                             break;
 
                         case Vector2 v when v == Vector2.down:
                             ownerAnims.FlipSkeleton(true);
-                            ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_down, false);
+                            ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_down, false);
                             break;
 
                         case Vector2 v when v == Vector2.left:
                             ownerAnims.FlipSkeleton(false);
-                            ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_side, false);
+                            ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_side, false);
                             break;
 
                         case Vector2 v when v == Vector2.right:
                             ownerAnims.FlipSkeleton(true);
-                            ownerAnims.SetAnimation(ownerAnims.animationsData.attackAnim_side, false);
+                            ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_side, false);
                             break;
                     }
                 }

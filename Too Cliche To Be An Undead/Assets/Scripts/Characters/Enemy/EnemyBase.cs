@@ -6,15 +6,15 @@ using BalDUtilities.VectorUtils;
 
 public abstract class EnemyBase : Entity
 {
-
     [Header("Base - Enemy")]
 
     [Header("Components")]
 
     [SerializeField] private SCRPT_DropTable dropTable;
 
-    [SerializeField] private SCRPT_EnemyAttack attack;
-    public SCRPT_EnemyAttack Attack { get => attack; }
+    [SerializeField] private SCRPT_EnemyAttack[] attack;
+    public SCRPT_EnemyAttack[] AttacksArray { get => attack; }
+    public SCRPT_EnemyAttack Attack { get => attack.RandomElement(); }
 
     [SerializeField] private EnemyPathfinding pathfinding;
     public EnemyPathfinding Pathfinding { get => pathfinding; }
