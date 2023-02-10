@@ -10,11 +10,11 @@ public class RoomArea : MonoBehaviour
 
     public void AskForHidderAlphaChange(float newAlpha)
     {
-        if (playersInRoomCount > 0) return;
+        if (playersInRoomCount > 0) newAlpha = 0;
 
-        Color corridorColor = targetRoomHidder.color;
-        corridorColor.a = newAlpha;
-        targetRoomHidder.color = corridorColor;
+        Color targetRoomColor = targetRoomHidder.color;
+        targetRoomColor.a = newAlpha;
+        targetRoomHidder.color = targetRoomColor;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

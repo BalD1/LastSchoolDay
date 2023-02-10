@@ -53,7 +53,7 @@ public class AreaTransitorManager : MonoBehaviour
 
     public void AskForCorridorAlphaChange(float newAlpha)
     {
-        if (playersInCorridorCount > 0) return;
+        if (playersInCorridorCount > 0) newAlpha = 0;
 
         Color corridorColor = CorridorHidder.color;
         corridorColor.a = newAlpha;
