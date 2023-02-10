@@ -7,6 +7,8 @@ public class RoomTransitor : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer targetRoomHidder;
 
+    [SerializeField] private RoomArea targetRoomArea;
+
     [SerializeField] private bool isVertical;
     [SerializeField] private bool reverseEntry;
 
@@ -20,12 +22,20 @@ public class RoomTransitor : MonoBehaviour
     private float triggerSize;
     private float triggerHalfSize;
 
+    private float minPosBetweenPlayers = float.MaxValue;
+    private float maxPosBetweenPlayers = -1;
+
+    private float selfPos;
+
     private int roomTweenID;
 
     private void Awake()
     {
         triggerSize = isVertical ? trigger.size.y : trigger.size.x;
         triggerHalfSize = triggerSize * .5f;
+
+        selfPos = isVertical ? this.transform.position.y :
+                             this.transform.position.x;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -47,10 +57,10 @@ public class RoomTransitor : MonoBehaviour
         if (playersInTrigger.Count <= 0) return;
 
         float playerPos;
-        float selfPos = isVertical ? this.transform.position.y : 
-                                     this.transform.position.x;
-
         float res = -1;
+
+        minPosBetweenPlayers = float.MaxValue;
+        maxPosBetweenPlayers = -1;
 
         bool isPlayerPosGreater = false;
 
@@ -61,9 +71,8 @@ public class RoomTransitor : MonoBehaviour
 
             isPlayerPosGreater = playerPos > selfPos;
 
-            res = isPlayerPosGreater ?
-                        (playerPos - selfPos + triggerHalfSize) :
-                        (selfPos - playerPos + triggerHalfSize);
+            res = isPlayerPosGreater ? (playerPos - selfPos + triggerHalfSize) :
+                                       (selfPos - playerPos + triggerHalfSize);
 
             res /= triggerSize;
 
@@ -71,6 +80,9 @@ public class RoomTransitor : MonoBehaviour
 
             if (res >= .9f) res = 1;
             if (reverseEntry) res = 1 - res;
+
+            if (res < minPosBetweenPlayers) minPosBetweenPlayers = res;
+            if (res > maxPosBetweenPlayers) maxPosBetweenPlayers = res;
         }
 
         if (isVertical) CheckVerticalDistance(isPlayerPosGreater, res);
@@ -79,24 +91,16 @@ public class RoomTransitor : MonoBehaviour
 
     private void CheckVerticalDistance(bool _isPlayerPosGreater, float _res)
     {
-        Color targetRoomColor = targetRoomHidder.color;
-        targetRoomColor.a = _isPlayerPosGreater ? _res : 1 - _res;
-        targetRoomHidder.color = targetRoomColor;
+        targetRoomArea.AskForHidderAlphaChange(_isPlayerPosGreater ? _res : 1 - _res);
 
-        Color corridorColor = AreaTransitorManager.Instance.c.color;
-        corridorColor.a = _isPlayerPosGreater ? 1 - _res : _res;
-        AreaTransitorManager.Instance.c.color = corridorColor;
+        AreaTransitorManager.Instance.AskForCorridorAlphaChange(_isPlayerPosGreater ? 1 - _res : _res);
     }
 
     private void CheckHorizontalDistance(bool _isPlayerPosGreater, float _res)
     {
-        Color targetRoomColor = targetRoomHidder.color;
-        targetRoomColor.a = _isPlayerPosGreater ? 1 - _res : _res;
-        targetRoomHidder.color = targetRoomColor;
+        targetRoomArea.AskForHidderAlphaChange(_isPlayerPosGreater ? 1 - _res : _res);
 
-        Color corridorColor = AreaTransitorManager.Instance.c.color;
-        corridorColor.a = _isPlayerPosGreater ? _res : 1 - _res;
-        AreaTransitorManager.Instance.c.color = corridorColor;
+        AreaTransitorManager.Instance.AskForCorridorAlphaChange(_isPlayerPosGreater ? _res : 1 - _res);
     }
 
     public void SetRoomHiddenState(bool hidden)

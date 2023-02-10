@@ -234,8 +234,7 @@ public class GameManager : MonoBehaviour
                 playersByName.Add(p);
                 playersCount++;
             }
-
-            AreaTransitorManager.PlayersInCorridorCount = playersCount;
+            //AreaTransitorManager.PlayersInCorridorCount = playersCount;
         }
     }
 

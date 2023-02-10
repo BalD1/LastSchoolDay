@@ -20,16 +20,17 @@ public class AreaTransitorManager : MonoBehaviour
         get => playersInCorridorCount;
         set
         {
-            if (playersInCorridorCount <= 0 && value > 0) instance?.SetCorridorHiddenState(false);
-            
             playersInCorridorCount = value;
-
-            if (playersInCorridorCount <= 0) instance?.SetCorridorHiddenState(true);
         }
     }
 
+#if UNITY_EDITOR
+    [SerializeField]
+    [ReadOnly] private int EDITOR_playersInCorridor; 
+#endif
+
     [SerializeField] private Tilemap corridorHidder;
-    public Tilemap c { get => corridorHidder; }
+    public Tilemap CorridorHidder { get => corridorHidder; }
 
     public const float fadeTime = .15f;
 
@@ -43,14 +44,19 @@ public class AreaTransitorManager : MonoBehaviour
         instance = this;
     }
 
-    public void SetCorridorHiddenState(bool hidden)
+    private void Update()
     {
-        LeanTween.cancel(corridorTweenID);
+#if UNITY_EDITOR
+        EDITOR_playersInCorridor = playersInCorridorCount;
+#endif
+    }
 
-        corridorTweenID = LeanTween.value(corridorHidder.gameObject, corridorHidder.color, hidden ? hiddenColor : transparentColor, fadeTime).setOnUpdate(
-        (Color val) =>
-        {
-            corridorHidder.color = val;
-        }).id;
+    public void AskForCorridorAlphaChange(float newAlpha)
+    {
+        if (playersInCorridorCount > 0) return;
+
+        Color corridorColor = CorridorHidder.color;
+        corridorColor.a = newAlpha;
+        CorridorHidder.color = corridorColor;
     }
 }

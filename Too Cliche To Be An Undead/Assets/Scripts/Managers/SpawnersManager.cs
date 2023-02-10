@@ -82,7 +82,7 @@ public class SpawnersManager : MonoBehaviour
     private void Update()
     {
         if (spawnsAreAllowed == false) return;
-
+        return;
         TrySpawnZombies();
         EvaluateStamp();
     }
