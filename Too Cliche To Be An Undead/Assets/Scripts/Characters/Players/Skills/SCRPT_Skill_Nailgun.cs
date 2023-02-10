@@ -30,6 +30,8 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
         owner.OffsetSkillHolder(offset);
 
+        //owner.SetArmsState(true);
+
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
         finalDamages = _owner.maxDamages_M * damagesPercentageModifier;
@@ -56,6 +58,8 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         isInUse = false;
 
         owner.D_aimInput -= owner.Weapon.SetAimGoal;
+
+        //owner.SetArmsState(false);
 
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();
