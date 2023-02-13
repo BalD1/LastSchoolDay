@@ -18,10 +18,14 @@ MonoBehaviour:
   cooldown: 10
   offset: 0
   range: 0
-  duration: 10
+  duration: 100000
   transitionDurationMultiplier: 1
+  startOffset: 0
   damagesPercentageModifier: 0.25
   canMove: 1
+  canAim: 1
+  loopAnims: 1
+  is4D: 0
   entitiesToAffect:
     serializedVersion: 2
     m_Bits: 768
@@ -29,7 +33,10 @@ MonoBehaviour:
   thumbnail: {fileID: -133322994, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   particles: {fileID: 0}
   projectile: {fileID: 2370581798129389374, guid: ab67f2fad5863b84dbe37f4eb13b2838, type: 3}
+  skeletonIdx: 3
+  skeletonBoneToFollowName: TORSE
   critModifier: 0.5
   rotationMinRandom: -0.1
   rotationMaxRandom: 0.1
+  armsOffset: {x: 0.035, y: -0.015}
   fire_COOLDOWN: 0.09

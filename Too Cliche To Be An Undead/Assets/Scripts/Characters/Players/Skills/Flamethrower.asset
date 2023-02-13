@@ -18,14 +18,21 @@ MonoBehaviour:
   cooldown: 3
   offset: 0.45
   range: 1
-  duration: 3
+  duration: 3e+16
   transitionDurationMultiplier: 1
+  startOffset: 0
   damagesPercentageModifier: 0.7
   canMove: 1
+  canAim: 1
+  loopAnims: 1
+  is4D: 0
   entitiesToAffect:
     serializedVersion: 2
     m_Bits: 768
   animationToPlay: Flamethrower
   thumbnail: {fileID: -1004414947, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   particles: {fileID: 4989879377612929769, guid: 0289ff5f76e4eab48830f4cc23656eec, type: 3}
+  skeletonIdx: 0
+  skeletonBoneToFollowName: Buste
+  armsOffset: {x: 0.046, y: 0.095}
   tickDamagesMultiplier: 0.5

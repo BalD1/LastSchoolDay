@@ -16,6 +16,9 @@ public class PlayerAnimationController : MonoBehaviour
 
     [SerializeField] private Transform armsParent;
 
+    [field: SerializeField] public CustomBoneFollow leftArmBone { get; private set; }
+    [field: SerializeField] public CustomBoneFollow rightArmBone { get; private set; }
+
     [field: SerializeField] public SCRPT_PlayersAnimData animationsData { get; private set; }
 
     [SerializeField][ReadOnly] private string currentState = "N/A";
@@ -110,6 +113,14 @@ public class PlayerAnimationController : MonoBehaviour
         Vector2 scale = skeletonAnimation.gameObject.transform.localScale;
         scale.x *= -1;
         skeletonAnimation.gameObject.transform.localScale = scale;
+
+        Vector2 v = leftArmBone.offset;
+        v.x *= -1;
+        leftArmBone.offset = v;
+
+        v = rightArmBone.offset;
+        v.x *= -1;
+        rightArmBone.offset = v;
     }
 
     public void SetAnimation(string animation, bool loop, float timeScale = 1)
@@ -136,6 +147,11 @@ public class PlayerAnimationController : MonoBehaviour
         if (skeletonAnimation == null || animation == null) return;
 
         skeletonAnimation.SetAnimation(animation, loop).TimeScale = timeScale;
+    }
+
+    public SkeletonAnimation GetSkeleton(int idx)
+    {
+        return skeletonAnimation.transform.GetChild(idx + 1).GetComponent<SkeletonAnimation>();
     }
 
     public void SetCharacterState(string state)

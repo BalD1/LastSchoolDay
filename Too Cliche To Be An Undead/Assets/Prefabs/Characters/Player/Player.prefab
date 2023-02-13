@@ -2078,6 +2078,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1399257753742968110}
   - component: {fileID: 4918047263826536550}
+  - component: {fileID: 4104589945616369395}
   m_Layer: 6
   m_Name: Shadow
   m_TagString: Untagged
@@ -2140,7 +2141,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 5490
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.19278237, g: 0.051664297, b: 0.254717, a: 0.24705882}
   m_FlipX: 0
@@ -2152,6 +2153,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4104589945616369395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6610660807933591452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0198d54c083d8c3408d85d9b3f916ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderOffset: 0
+  pivotOffset: 0
+  isStatic: 0
+  objectRenderer: {fileID: 4918047263826536550}
+  debugMode: 1
 --- !u!1 &7479553859993848444
 GameObject:
   m_ObjectHideFlags: 0
@@ -2438,6 +2456,8 @@ MonoBehaviour:
   placeholderSprite: {fileID: 8823656353503972633}
   skeletonAnimation: {fileID: 6635921152579406509}
   armsParent: {fileID: 1423488751546438909}
+  <leftArmBone>k__BackingField: {fileID: 8658477632741702112}
+  <rightArmBone>k__BackingField: {fileID: 3925588513764982553}
   <animationsData>k__BackingField: {fileID: 11400000, guid: abf34e82765a5b34b83bc5c26c7c9393, type: 2}
   currentState: 
   <isValid>k__BackingField: 0

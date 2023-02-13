@@ -149,8 +149,8 @@ public class CustomBoneFollow : MonoBehaviour
         {
             // Recommended setup: Use local transform properties if Spine GameObject is the immediate parent
             thisTransform.localPosition = new Vector3(followXPosition ? bone.WorldX : thisTransform.localPosition.x,
-                                                    followYPosition ? bone.WorldY : thisTransform.localPosition.y,
-                                                    followZPosition ? 0f : thisTransform.localPosition.z);
+                                                      followYPosition ? bone.WorldY : thisTransform.localPosition.y,
+                                                      followZPosition ? 0f : thisTransform.localPosition.z);
             if (followBoneRotation)
             {
                 float halfRotation = Mathf.Atan2(bone.C, bone.A) * 0.5f;

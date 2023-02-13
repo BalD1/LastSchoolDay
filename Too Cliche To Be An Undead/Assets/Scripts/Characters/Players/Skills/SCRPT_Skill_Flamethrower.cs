@@ -7,6 +7,11 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 {
     private const string inTriggerTickDamages_ID = "SKILL_FT";
 
+    [SerializeField] private int skeletonIdx;
+    [SerializeField] private string skeletonBoneToFollowName;
+
+    [SerializeField] private Vector2 armsOffset;
+
     private List<Entity> entitiesInTrigger = new List<Entity>();
 
     [SerializeField] private float tickDamagesMultiplier = .5f;
@@ -24,7 +29,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
 
         owner.OffsetChild(offset);
-        owner.SetArmsState(true);
+        owner.SetArmsState(true, armsOffset, skeletonIdx, skeletonBoneToFollowName);
 
         playingParticles = Instantiate(particles, owner.GetSkillHolder.transform.GetChild(0));
 
@@ -51,7 +56,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.D_enteredTrigger -= EnteredTrigger;
         owner.GetSkillHolder.D_exitedTrigger -= ExitedTrigger;
 
-        owner.SetArmsState(false);
+        owner.SetArmsState(false, Vector2.zero);
 
         owner.SkillTutoAnimator.SetTrigger("finish");
 

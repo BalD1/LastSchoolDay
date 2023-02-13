@@ -794,8 +794,32 @@ public class PlayerCharacter : Entity, IInteractable
         skillHolder.transform.GetChild(0).localPosition = Vector2.down * offset;
     }
 
-    public void SetArmsState(bool active)
+    public void SetArmsState(bool active, Vector2 newOffset, int skeletonIdx = 0, string boneToFollow = "")
     {
+        if (boneToFollow != "")
+            animationController.leftArmBone.SetBone(boneToFollow);
+        animationController.leftArmBone.SkeletonRenderer = animationController.GetSkeleton(skeletonIdx);
+
+        if (animationController.IsLookingAtRight())
+        {
+            Vector2 v = newOffset;
+            v.x *= -1;
+            newOffset = v;
+        }
+
+        animationController.leftArmBone.offset = newOffset;
+
+        animationController.leftArmBone.followXPosition = newOffset.x != 0;
+        animationController.leftArmBone.followYPosition = newOffset.y != 0;
+
+        if (boneToFollow != "")
+            animationController.rightArmBone.SetBone(boneToFollow);
+        animationController.rightArmBone.SkeletonRenderer = animationController.GetSkeleton(skeletonIdx);
+        animationController.rightArmBone.offset = newOffset;
+
+        animationController.rightArmBone.followXPosition = newOffset.x != 0;
+        animationController.rightArmBone.followYPosition = newOffset.y != 0;
+
         leftArm.gameObject.SetActive(active);
         rightArm.gameObject.SetActive(active);
     }
@@ -992,6 +1016,11 @@ public class PlayerCharacter : Entity, IInteractable
         animationController.Setup(animData);
 
         this.animationController.SkeletonAnimation.CurrentSkeletonAnimation.Skeleton.SetColor(Color.white);
+
+        if (animData != null && animData.arms.Length > 0)
+            this.leftArm.GetComponent<SpriteRenderer>().sprite = animData.arms[0];
+        if (animData != null && animData.arms.Length > 1)
+            this.rightArm.GetComponent<SpriteRenderer>().sprite = animData.arms[1];
 
         if (this.portrait != null)
             this.portrait.sprite = UIManager.Instance.GetBasePortrait(character);

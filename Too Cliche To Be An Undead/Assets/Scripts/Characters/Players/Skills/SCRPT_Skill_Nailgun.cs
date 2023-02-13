@@ -9,9 +9,14 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 {
     [SerializeField] private GameObject projectile;
 
+    [SerializeField] private int skeletonIdx;
+    [SerializeField] private string skeletonBoneToFollowName;
+
     [SerializeField] private float critModifier;
 
     [SerializeField] private float rotationMinRandom, rotationMaxRandom;
+
+    [SerializeField] private Vector2 armsOffset;
 
     [SerializeField] private float fire_COOLDOWN;
     private float fire_TIMER;
@@ -30,7 +35,8 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
         owner.OffsetSkillHolder(offset);
 
-        //owner.SetArmsState(true);
+        owner.OffsetChild(offset);
+        owner.SetArmsState(true, armsOffset, skeletonIdx, skeletonBoneToFollowName);
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
@@ -51,6 +57,8 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         Fire();
 
         owner.Weapon.RotateOnAim();
+        owner.RotateSkillHolder();
+        owner.RotateArms();
     }
 
     public override void StopSkill(PlayerCharacter owner)
@@ -59,7 +67,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
         owner.D_aimInput -= owner.Weapon.SetAimGoal;
 
-        //owner.SetArmsState(false);
+        owner.SetArmsState(false, Vector2.zero, skeletonIdx);
 
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();

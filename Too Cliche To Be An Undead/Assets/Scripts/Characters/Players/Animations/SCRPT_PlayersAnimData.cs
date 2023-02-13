@@ -17,4 +17,6 @@ public class SCRPT_PlayersAnimData : SCRPT_AnimationsData
 
     [field: SerializeField] public AnimationReferenceAsset skillIdleAnimUp { get; private set; }
     [field: SerializeField] public AnimationReferenceAsset skillIdleAnimDown { get; private set; }
+
+    [field: SerializeField] public Sprite[] arms { get; private set; }
 }
