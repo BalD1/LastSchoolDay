@@ -14,6 +14,8 @@ public class WINDOW_Utils : EditorWindow
 
     private bool showScenes;
 
+    private bool showUIUtils;
+
     private GameManager.E_ScenesNames sceneSelect;
 
     [MenuItem("Window/Utils")]
@@ -32,6 +34,9 @@ public class WINDOW_Utils : EditorWindow
         ScenesManagement();
 
         SimpleDraws.HorizontalLine();
+
+        showUIUtils = EditorGUILayout.Foldout(showUIUtils, "UI Utils");
+        if (showUIUtils) UIUtils();
 
         EditorGUILayout.EndScrollView();
     }
@@ -71,6 +76,39 @@ public class WINDOW_Utils : EditorWindow
 
         EditorGUILayout.EndScrollView();
 
+
+        EditorGUILayout.EndVertical();
+    }
+
+    private void UIUtils()
+    {
+        EditorGUILayout.BeginVertical("GroupBox");
+
+        if (GUILayout.Button("Setup every UI elements anchors"))
+        {
+            RectTransform[] elements = Resources.FindObjectsOfTypeAll<RectTransform>();
+
+            for (int i = 0; i < elements.Length; i++)
+            {
+                if (elements[i].parent == null) continue;
+
+                SetupAnchors(ref elements[i]);
+            }
+
+            void SetupAnchors(ref RectTransform itemTransform)
+            {
+                RectTransform parentTransform = itemTransform.parent as RectTransform;
+
+                Vector2 newAnchorsMin = new Vector2(itemTransform.anchorMin.x + itemTransform.offsetMin.x / parentTransform.rect.width,
+                                                    itemTransform.anchorMin.y + itemTransform.offsetMin.y / parentTransform.rect.height);
+                Vector2 newAnchorsMax = new Vector2(itemTransform.anchorMax.x + itemTransform.offsetMax.x / parentTransform.rect.width,
+                                                    itemTransform.anchorMax.y + itemTransform.offsetMax.y / parentTransform.rect.height);
+
+                itemTransform.anchorMin = newAnchorsMin;
+                itemTransform.anchorMax = newAnchorsMax;
+                itemTransform.offsetMin = itemTransform.offsetMax = new Vector2(0, 0);
+            }
+        }
 
         EditorGUILayout.EndVertical();
     }

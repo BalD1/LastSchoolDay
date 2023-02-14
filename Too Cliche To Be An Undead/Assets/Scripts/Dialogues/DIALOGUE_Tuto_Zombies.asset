@@ -13,16 +13,19 @@ MonoBehaviour:
   m_Name: DIALOGUE_Tuto_Zombies
   m_EditorClassIdentifier: 
   <ID>k__BackingField: tuto_zombies
+  <ignoreGameState>k__BackingField: 0
   <dialogueLines>k__BackingField:
   - <characterName>k__BackingField: 2
-    <customPortrait>k__BackingField: {fileID: 0}
+    <speakerNameImage>k__BackingField: {fileID: -573073370, guid: f7e137c2447d1b4478082d6c8c6d20be, type: 3}
+    <customPortrait>k__BackingField: {fileID: 828883140, guid: f7e137c2447d1b4478082d6c8c6d20be, type: 3}
     <textLine>k__BackingField: "Attention il y a des zombies ici ! Pr\xE9parez vous
       \xE0 vous battre !"
     <effects>k__BackingField:
     - <effect>k__BackingField: 0
       <value>k__BackingField: 0.025
   - <characterName>k__BackingField: 0
-    <customPortrait>k__BackingField: {fileID: 0}
+    <speakerNameImage>k__BackingField: {fileID: -814635624, guid: f7e137c2447d1b4478082d6c8c6d20be, type: 3}
+    <customPortrait>k__BackingField: {fileID: 1281520119, guid: f7e137c2447d1b4478082d6c8c6d20be, type: 3}
     <textLine>k__BackingField: "Ils \xE9taient stupides de leur vivant donc \xE7a
       m'\xE9tonnerai que la mort les ait arrang\xE9s !"
     <effects>k__BackingField:

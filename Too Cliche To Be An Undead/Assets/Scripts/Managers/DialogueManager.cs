@@ -26,12 +26,12 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private float onStartSkipWait_DURATION = .3f;
     private float onStartSkipWait_TIMER;
 
+    [SerializeField] private Image speakerName;
     [SerializeField] private Image dialoguePortrait;
 
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI pressKeyToContinue;
 
-        
     [field: SerializeField] public SCRPT_SingleDialogue[] Dialogues { get; private set; }
 
 #if UNITY_EDITOR
@@ -115,6 +115,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(SCRPT_SingleDialogue dialogue)
     {
         dialoguePortrait.enabled = false;
+        speakerName.enabled = false;
 
         onStartSkipWait_TIMER = onStartSkipWait_DURATION;
         // Sets every player's control map to Dialogue
@@ -186,6 +187,9 @@ public class DialogueManager : MonoBehaviour
                                   currentLine.customPortrait :
                                   UIManager.Instance.GetBasePortrait(currentLine.characterName);
         dialoguePortrait.enabled = true;
+
+        speakerName.sprite = currentLine.speakerNameImage;
+        speakerName.enabled = true;
 
         dialogueText.text = currentLine.textLine;
 
