@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class LoadingScreen : MonoBehaviour
 {
     [SerializeField] private Image loadingBar;
-    [SerializeField] private TextMeshProUGUI loadingText;
+    [SerializeField] private Image loadingText;
     [SerializeField] private TextMeshProUGUI pressAnyKeyText;
     
     [SerializeField] private bool waitForInput = false;
@@ -33,8 +33,6 @@ public class LoadingScreen : MonoBehaviour
     public void StartLoad(ButtonArgs_Scene scene)
     {
         string sceneName = EnumsExtension.EnumToString(scene.GetArgs);
-
-        loadingText.GetComponent<SimpleAnimatedTMP>().StartAnim();
 
         StartCoroutine(LoadSceneAsync(sceneName));
     }

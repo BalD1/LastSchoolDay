@@ -86,7 +86,7 @@ public class WINDOW_Utils : EditorWindow
 
         if (GUILayout.Button("Setup every UI elements anchors"))
         {
-            RectTransform[] elements = Resources.FindObjectsOfTypeAll<RectTransform>();
+            RectTransform[] elements = GameObject.FindObjectsOfType<RectTransform>();
 
             for (int i = 0; i < elements.Length; i++)
             {
@@ -98,6 +98,8 @@ public class WINDOW_Utils : EditorWindow
             void SetupAnchors(ref RectTransform itemTransform)
             {
                 RectTransform parentTransform = itemTransform.parent as RectTransform;
+
+                if (parentTransform == null) return;
 
                 Vector2 newAnchorsMin = new Vector2(itemTransform.anchorMin.x + itemTransform.offsetMin.x / parentTransform.rect.width,
                                                     itemTransform.anchorMin.y + itemTransform.offsetMin.y / parentTransform.rect.height);
