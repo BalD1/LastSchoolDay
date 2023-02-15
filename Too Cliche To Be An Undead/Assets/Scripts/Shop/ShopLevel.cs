@@ -111,7 +111,7 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         foreach (var item in glowLiaisons)
         {
             if (item.fillAmount != 0) continue;
-            LeanTween.value(item.fillAmount, 1, .3f).setOnUpdate((float val) => item.fillAmount = val);
+            LeanTween.value(item.fillAmount, 1, .7f).setOnUpdate((float val) => item.fillAmount = val);
         }
 
         this.selfImage.sprite = Data.LevelSprites.BoughedSprite;
