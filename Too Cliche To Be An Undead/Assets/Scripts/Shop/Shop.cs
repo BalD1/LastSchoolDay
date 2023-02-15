@@ -28,7 +28,11 @@ public class Shop : MonoBehaviour, IInteractable
 
         for (int i = 0; i < levels.Length; i++)
         {
-            levels[i] = shop.transform.GetChild(i).GetComponent<ShopLevel>();
+            ShopLevel lvl = shop.transform.GetChild(i).GetComponent<ShopLevel>();
+
+            if (lvl == null) continue;
+
+            levels[i] = lvl;
             levels[i].SetShop(this);
         }
 

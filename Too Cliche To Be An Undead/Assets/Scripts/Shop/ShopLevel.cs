@@ -3,35 +3,28 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ShopLevel : MonoBehaviour
+public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
     [SerializeField] private Button button;
-    [SerializeField] private TextMeshProUGUI buttonText;
-    [SerializeField] private TextMeshProUGUI costText;
+
+    [SerializeField] private Image selfImage;
+
+    [SerializeField] private ShopPanels panels;
 
     [SerializeField] private ShopLevel[] levelsToActivate;
 
+    [field: SerializeField] public SCRPT_LevelData Data { get; private set; }
+
     private Shop shop;
-
-    [SerializeField] private int id;
-    [SerializeField] private int cost;
-
-    [SerializeField] private Modifier[] modifiers;
-    [SerializeField] private int revivesToAdd = 0;
 
     [SerializeField] private bool isActive = false;
     private bool isUnlocked = false;
 
-    [Header("Unlocked Colors")]
-    [SerializeField] private ColorBlock unlockedColors;
-
-    [Header("Locked Colors")]
-    [SerializeField] private ColorBlock lockedColors;
-
     public Button GetButon { get => button; }
-    public int ID { get => id; }
+    public int ID { get => Data.ID; }
 
     private bool isTweening = false;
 
@@ -52,19 +45,8 @@ public class ShopLevel : MonoBehaviour
 
     private void Awake()
     {
-        StringBuilder sb = new StringBuilder();
-
-        foreach (var item in modifiers)
-        {
-            sb.AppendFormat("{0} {1} to your {2} \n", item.amount > 0 ? "Adds" : "Removes", Mathf.Abs(item.amount), StatsModifier.TypeToString_UI(item.stat));
-        }
-
-        if (revivesToAdd > 0)
-            sb.AppendFormat(" +{0} revive{1} \n", revivesToAdd, revivesToAdd > 1 ? "s" : "");
-
-        buttonText.text = sb.ToString();
-
-        SetPlayersMoney();
+        selfImage.sprite = button.interactable ? Data.LevelSprites.UnlockedSprite :
+                                                 Data.LevelSprites.LockedSprite;
     }
 
     public void SetShop(Shop _s)
@@ -75,9 +57,7 @@ public class ShopLevel : MonoBehaviour
     public void SetPlayersMoney()
     {
         StringBuilder sb = new StringBuilder("Cost ");
-        sb.AppendFormat("{0} / {1}", PlayerCharacter.GetMoney(), cost);
-
-        costText.text = sb.ToString();
+        sb.AppendFormat("{0} / {1}", PlayerCharacter.GetMoney(), Data.Cost);
     }
 
     public void SetActive(bool active)
@@ -97,9 +77,9 @@ public class ShopLevel : MonoBehaviour
     public bool TryUnlock()
     {
         if (isUnlocked) return false;
-        if (!PlayerCharacter.HasEnoughMoney(cost)) return false;
+        if (!PlayerCharacter.HasEnoughMoney(Data.Cost)) return false;
 
-        PlayerCharacter.RemoveMoney(cost, false);
+        PlayerCharacter.RemoveMoney(Data.Cost, false);
         Unlock();
 
         return true;
@@ -112,75 +92,29 @@ public class ShopLevel : MonoBehaviour
 
         shop.UpdateCostsMoney();
 
-        if (modifiers != null)
+        if (Data.modifiers != null)
         {
             foreach (var item in GameManager.Instance.playersByName)
             {
-                foreach (var modif in modifiers) item.playerScript.AddModifier(modif.idName, modif.amount, modif.stat);
+                foreach (var modif in Data.modifiers) item.playerScript.AddModifier(modif.idName, modif.amount, modif.stat);
 
-                item.playerScript.selfReviveCount += revivesToAdd;
+                item.playerScript.selfReviveCount += Data.revivesToAdd;
             }
         }
 
-        foreach (var item in levelsToActivate) item.SetActive(true);
+        foreach (var item in levelsToActivate)
+        {
+            item.SetActive(true);
+            item.selfImage.sprite = item.Data.LevelSprites.UnlockedSprite;
+        }
 
-        this.button.colors = unlockedColors;
+        this.selfImage.sprite = Data.LevelSprites.BoughedSprite;
 
         if (!reloadUnlock)
-            DataKeeper.Instance.unlockedLevels.Add(this.id);
+            DataKeeper.Instance.unlockedLevels.Add(this.ID);
 
         PlayerCharacter.LevelUp();
     }
-
-    /*
-    private void UnlockNeighboursAndSetNavigation()
-    {
-        if (unlockLeft) CheckNeighbour(leftNeighbour);
-        if (unlockRight) CheckNeighbour(rightNeighbour);
-        if (unlockDown) CheckNeighbour(downNeighbour);
-        if (unlockUp) CheckNeighbour(upNeighbour);
-
-        SetSelfNavigationIfNeighbourIsActive();
-
-        leftNeighbour?.SetSelfNavigationIfNeighbourIsActive();
-        rightNeighbour?.SetSelfNavigationIfNeighbourIsActive();
-        downNeighbour?.SetSelfNavigationIfNeighbourIsActive();
-        upNeighbour?.SetSelfNavigationIfNeighbourIsActive();
-    }
-    
-
-    private void UnlockNeighboursAndSetNavigation()
-    {
-        foreach (var item in levelsToUnlock) item.Unlock(); 
-    }
-
-    private void CheckNeighbour(ShopLevel target)
-    {
-        if (target == null) return;
-
-        target.SetActive(true);
-    }
-
-    
-    public void SetSelfNavigationIfNeighbourIsActive()
-    {
-        Navigation nav = this.button.navigation;
-
-        if (leftNeighbour != null && leftNeighbour.isActive)
-            nav.selectOnLeft = leftNeighbour.GetComponent<Button>();
-
-        if (rightNeighbour != null && rightNeighbour.isActive)
-            nav.selectOnRight = rightNeighbour.GetComponent<Button>();
-
-        if (downNeighbour != null && downNeighbour.isActive)
-            nav.selectOnDown = downNeighbour.GetComponent<Button>();
-
-        if (upNeighbour != null && upNeighbour.isActive)
-            nav.selectOnUp = upNeighbour.GetComponent<Button>();
-
-        this.button.navigation = nav;
-    }
-    */
 
     public void OnClick()
     {
@@ -228,24 +162,84 @@ public class ShopLevel : MonoBehaviour
 
     private void CantUpgradeFeedback()
     {
-        Color baseC = buttonText.color;
-
-        LeanTween.value(costText.gameObject, UpdateValueExampleCallback, baseC, Color.red, .3f)
+        LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x + 1000, .3f)
         .setOnComplete(() =>
         {
-            LeanTween.value(costText.gameObject, UpdateValueExampleCallback, Color.red, baseC, .3f)
+            Debug.Log("yo");
+            LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x - 10, .3f)
             .setOnComplete(() => isTweening = false);
-        });
-
-        LeanTween.scale(costText.GetComponent<RectTransform>(), new Vector3(1.3f, 1.3f, 1.3f), .3f).setEase(LeanTweenType.easeShake)
-        .setOnComplete(() =>
-        {
-            LeanTween.scale(costText.GetComponent<RectTransform>(), Vector3.one, .3f).setEase(LeanTweenType.easeShake);
         });
     }
 
-    private void UpdateValueExampleCallback(Color val)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        costText.color = val;
+        SetupPanels();
+
+        if (!button.interactable) return;
+
+        selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
+                                           Data.LevelSprites.UnlockedSprite;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        SCRPT_LevelData selectedLevel = panels.currentSelectedLevel;
+
+        if (selectedLevel == null)
+        {
+            panels.SkillName.text = "";
+            panels.SkillDescription.text = "";
+            panels.SkillIcon.enabled = false;
+            panels.SkillIcon.sprite = null;
+        }
+        else
+        {
+            SetupPanels(selectedLevel);
+        }
+
+        if (!button.interactable) return;
+
+        selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
+                                           Data.LevelSprites.UnlockedSprite;
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        panels.currentSelectedLevel = this.Data;
+        SetupPanels();
+
+        if (!button.interactable) return;
+
+        selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
+                                           Data.LevelSprites.UnlockedSprite;
+    }
+
+    private void SetupPanels(SCRPT_LevelData _data = null)
+    {
+        if (_data == null) _data = this.Data;
+
+        panels.SkillName.text = _data.LevelName;
+
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine(_data.LevelDescription);
+
+        sb.Append(PlayerCharacter.GetMoney().ToString());
+        sb.Append(" / ");
+        sb.Append(_data.Cost);
+
+        panels.SkillDescription.text = sb.ToString();
+        panels.SkillIcon.enabled = true;
+        panels.SkillIcon.sprite = _data.LevelSprites.BoughedSprite;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        if (eventData.selectedObject.GetComponent<ShopLevel>() == null)
+            panels.currentSelectedLevel = null;
+
+        if (!button.interactable) return;
+
+        selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
+                                           Data.LevelSprites.UnlockedSprite;
     }
 }
