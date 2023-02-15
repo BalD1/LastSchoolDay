@@ -15,6 +15,7 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [SerializeField] private ShopPanels panels;
 
     [SerializeField] private ShopLevel[] levelsToActivate;
+    [SerializeField] private Image[] glowLiaisons;
 
     [field: SerializeField] public SCRPT_LevelData Data { get; private set; }
 
@@ -107,6 +108,11 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             item.SetActive(true);
             item.selfImage.sprite = item.Data.LevelSprites.UnlockedSprite;
         }
+        foreach (var item in glowLiaisons)
+        {
+            if (item.fillAmount != 0) continue;
+            LeanTween.value(item.fillAmount, 1, .3f).setOnUpdate((float val) => item.fillAmount = val);
+        }
 
         this.selfImage.sprite = Data.LevelSprites.BoughedSprite;
 
@@ -162,12 +168,18 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private void CantUpgradeFeedback()
     {
-        LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x + 1000, .3f)
+        LeanTween.rotate(button.gameObject, new Vector3(0, 0, 5), .15f).setEase(LeanTweenType.easeInSine);
+        LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x + 10, .15f)
         .setOnComplete(() =>
         {
-            Debug.Log("yo");
-            LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x - 10, .3f)
-            .setOnComplete(() => isTweening = false);
+            LeanTween.rotate(button.gameObject, new Vector3(0, 0, 0), .15f).setEase(LeanTweenType.easeInSine);
+            LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x - 20, .15f)
+            .setOnComplete(() =>
+            {
+                LeanTween.rotate(button.gameObject, new Vector3(0, 0, 0), .15f).setEase(LeanTweenType.easeInSine);
+                LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x + 10, .15f)
+                .setOnComplete(() => isTweening = false);
+            });
         });
     }
 

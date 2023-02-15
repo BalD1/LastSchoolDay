@@ -91,6 +91,7 @@ public class WINDOW_Utils : EditorWindow
             for (int i = 0; i < elements.Length; i++)
             {
                 if (elements[i].parent == null) continue;
+                if (elements[i].rotation.eulerAngles != Vector3.zero) return;
 
                 SetupAnchors(ref elements[i]);
             }
