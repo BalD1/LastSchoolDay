@@ -184,6 +184,7 @@ public class CameraManager : MonoBehaviour
 
         LeanTween.move(cam_followPlayers.gameObject, pos, 1).setOnComplete(onCompleteAction);
     }
+    public void MoveCamera(Vector2 pos) => MoveCamera(pos, null);
 
     public void SetTriggerParent(Transform newParent)
     {

@@ -26,7 +26,7 @@ public class ED_AreaSpawner : Editor
             return;
         }
     
-        ReadOnlyDraws.ScriptDraw(typeof(DebugSpawnables), targetScript);
+        ReadOnlyDraws.ScriptDraw(typeof(AreaSpawner), targetScript);
 
         SerializedProperty objectsPoolToSpawn = serializedObject.FindProperty("objectsPoolToSpawn");
         EditorGUILayout.PropertyField(objectsPoolToSpawn);
