@@ -175,16 +175,16 @@ public class CameraManager : MonoBehaviour
         cam_followPlayers.transform.position = pos;
     }
 
-    public void MoveCamera(Vector2 pos, Action onCompleteAction = null)
+    public void MoveCamera(Vector2 pos, Action onCompleteAction = null, float duration = 1)
     {
         cinematicMode = true;
         Array.Clear(tg_players.m_Targets, 0, tg_players.m_Targets.Length);
         tg_players.m_Targets = new CinemachineTargetGroup.Target[0];
         cam_followPlayers.Follow = null;
 
-        LeanTween.move(cam_followPlayers.gameObject, pos, 1).setOnComplete(onCompleteAction);
+        LeanTween.move(cam_followPlayers.gameObject, pos, duration).setOnComplete(onCompleteAction);
     }
-    public void MoveCamera(Vector2 pos) => MoveCamera(pos, null);
+    public void MoveCamera(Vector2 pos, float duration = 1) => MoveCamera(pos, null, duration);
 
     public void SetTriggerParent(Transform newParent)
     {

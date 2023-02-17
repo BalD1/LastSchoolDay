@@ -15,27 +15,6 @@ public class PlayerPanel : MonoBehaviour
     [SerializeField] private Image characterImage;
     public Image CharacterImage { get => characterImage; }
 
-    [SerializeField] private Button leftArrow;
-    [SerializeField] private Button rightArrow;
-
-    private enum Devices
-    {
-        KeyboardMouse,
-        Xbox,
-        PS,
-        Switch,
-    }
-
-    [System.Serializable]
-    private struct ArrowsDependingOfDevice
-    {
-        public Devices device;
-        public Sprite leftArrow;
-        public Sprite rightArrow;
-    }
-
-    [SerializeField] private ArrowsDependingOfDevice[] arrowsDependingOfDevices;
-
     [SerializeField] private LeanTweenType inType = LeanTweenType.easeInSine;
     [SerializeField] private LeanTweenType outType = LeanTweenType.easeOutSine;
 
@@ -55,11 +34,6 @@ public class PlayerPanel : MonoBehaviour
     public void Enable()
     {
         SetImageOpacity(ref characterImage, 1);
-        SetImageOpacity(ref leftArrow, 1);
-        SetImageOpacity(ref rightArrow, 1);
-
-        leftArrow.gameObject.SetActive(true);
-        rightArrow.gameObject.SetActive(true);
 
         ScaleUpAndDown();
     }
@@ -73,17 +47,6 @@ public class PlayerPanel : MonoBehaviour
         Enable();
 
         isSetup = true;
-
-        if (id == 0)
-        {
-            leftArrow.image.sprite = arrowsDependingOfDevices[0].leftArrow;
-            rightArrow.image.sprite = arrowsDependingOfDevices[0].rightArrow;
-        }
-        else
-        {
-            leftArrow.image.sprite = arrowsDependingOfDevices[1].leftArrow;
-            rightArrow.image.sprite = arrowsDependingOfDevices[1].rightArrow;
-        }
     }
 
     public void ChangePreset(bool left)
@@ -110,11 +73,6 @@ public class PlayerPanel : MonoBehaviour
         playerIdxText.text = "Press \"select\" to join";
 
         SetImageOpacity(ref characterImage, 0);
-        SetImageOpacity(ref leftArrow, 0);
-        SetImageOpacity(ref rightArrow, 0);
-
-        leftArrow.gameObject.SetActive(false);
-        rightArrow.gameObject.SetActive(false);
 
         this.playerID = 0;
         this.characterIdx = 0;

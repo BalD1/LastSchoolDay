@@ -4,20 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using static UIVideoPlayer;
 
 public class SplashScreen : MonoBehaviour
 {
-    [SerializeField] private Image splashImage;
+    [SerializeField] private UIVideoPlayer videoPlayer;
 
     [SerializeField] private TextMeshProUGUI pressAnyKey;
 
     [SerializeField] private CanvasGroup mainScreen;
 
+    [SerializeField] private PlayerPanelsManager panelsManager;
+
+    [SerializeField] private float allowMainMenu_DURATION = 1.5f;
+    private float allowMainMenu_TIMER = -1;
+
     private bool allowMainMenu = false;
 
     private void Awake()
     {
+        panelsManager.gameObject.SetActive(false);
         mainScreen.alpha = 0;
+        videoPlayer.SetNewVideo(E_VideoTag.SplashScreen);
     }
 
     private void Start()
@@ -31,29 +39,23 @@ public class SplashScreen : MonoBehaviour
 
         DataKeeper.Instance.firstPassInMainMenu = false;
         mainScreen.alpha = 0;
-        FadeTarget(splashImage, 1, 1, OnFadeInEnded);
+        videoPlayer.FadeVideo(true, 1, OnFadeInEnded);
     }
 
     private void Update()
     {
-        if (Input.anyKey)
+        if (allowMainMenu_TIMER > 0)
         {
-            ManageInput();
+            allowMainMenu_TIMER -= Time.deltaTime;
+
+            if (allowMainMenu_TIMER <= 0)
+            {
+                allowMainMenu = true;
+            }
         }
+        if (Input.anyKey) ManageInput();
     }
 
-    private void FadeTarget(Image target, int goal, float time, Action onCompleteAction)
-    {
-        LeanTween.value(target.color.a, goal, time)
-            .setOnUpdate(
-            (float val) =>
-            {
-                Color c = target.color;
-                c.a = val;
-                target.color = c;
-            }).setIgnoreTimeScale(true)
-            .setOnComplete(onCompleteAction);
-    }
     private void FadeTarget(TextMeshProUGUI target, int goal, float time, Action onCompleteAction)
     {
         LeanTween.value(target.color.a, 1, time)
@@ -69,15 +71,12 @@ public class SplashScreen : MonoBehaviour
 
     private void ManageInput()
     {
-
         if (allowMainMenu) FadeOutScreen();
-        //else CancelFadeIn();
     }
 
     private void OnFadeInEnded()
     {
-        allowMainMenu = true;
-
+        allowMainMenu_TIMER = allowMainMenu_DURATION;
         LeanTween.value(pressAnyKey.color.a, 1, 1)
             .setOnUpdate(
             (float val) =>
@@ -91,27 +90,17 @@ public class SplashScreen : MonoBehaviour
     private void OnFadeOutEnded()
     {
         UIManager.Instance.SelectButton("MainMenu");
-        splashImage.gameObject.SetActive(false);
+        panelsManager.gameObject.SetActive(true);
     }
 
     private void FadeOutScreen()
     {
-        LeanTween.cancel(splashImage.gameObject);
+        allowMainMenu = false;
+        LeanTween.cancel(videoPlayer.gameObject);
         LeanTween.cancel(pressAnyKey.gameObject);
 
-        FadeTarget(splashImage, 0, .5f, OnFadeOutEnded);
+        videoPlayer.FadeVideo(false, 1, OnFadeOutEnded);
+        pressAnyKey.gameObject.SetActive(false);
         mainScreen.LeanAlpha(1, .5f).setIgnoreTimeScale(true);
-    }
-
-    private void CancelFadeIn()
-    {
-        LeanTween.cancel(splashImage.gameObject);
-
-        Color c = splashImage.color;
-        c.a = 1;
-        splashImage.color = c;
-        mainScreen.LeanAlpha(1, .5f).setIgnoreTimeScale(true);
-
-        OnFadeOutEnded();
     }
 }

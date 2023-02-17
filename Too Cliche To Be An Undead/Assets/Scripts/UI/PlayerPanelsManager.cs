@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.Video;
 
 public class PlayerPanelsManager : MonoBehaviour
 {
@@ -12,16 +13,31 @@ public class PlayerPanelsManager : MonoBehaviour
     [SerializeField] private PlayerPanel[] playerPanels;
     public PlayerPanel[] GetPlayerPanels { get => playerPanels; }
 
+    [SerializeField] private UIVideoPlayer videoPlayer;
+
+    [SerializeField] private CanvasGroup canvasGroup;
+
+    private void Start()
+    {
+        videoPlayer.SetClipWithoutPlaying(UIVideoPlayer.E_VideoTag.BookOpening);
+    }
+
     public void Begin()
     {
+        videoPlayer.StartVideo(WaitForAnimation);
+    }
+
+    public void WaitForAnimation(VideoPlayer vp)
+    {
         foreach (var item in playerPanels) item.panelsManager = this;
+
+        canvasGroup.alpha = 1;
 
         PlayersManager.Instance.EnableActions();
         foreach (var item in DataKeeper.Instance.GetCharactersSprites)
         {
             if (item.characterName.Equals(GameManager.E_CharactersNames.Shirley))
             {
-                playerPanels[0].CharacterImage.sprite = item.characterSprite;
                 playerPanels[0].Setup(0);
                 return;
             }
