@@ -6,6 +6,8 @@ public class EnemyVision : MonoBehaviour
 {
     [SerializeField] private EnemyBase owner;
 
+    [SerializeField] private bool updateTarget = false;
+
     [SerializeField] private float targetUpdateRate = 2;
     private float targetUpdate_TIMER;
 
@@ -34,9 +36,11 @@ public class EnemyVision : MonoBehaviour
         owner.SetTarget(closerTarget);
     }
 
-    /*
+    
     private void Update()
     {
+        if (!updateTarget) return;
+
         if (targetUpdate_TIMER > 0) targetUpdate_TIMER = Time.time;
         else UpdateTarget();
     }
@@ -45,10 +49,6 @@ public class EnemyVision : MonoBehaviour
     {
         targetUpdate_TIMER = targetUpdateRate;
 
-        foreach (var item in collection)
-        {
-
-        }
     }
-    */
+    
 }
