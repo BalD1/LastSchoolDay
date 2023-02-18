@@ -99,7 +99,7 @@ public class CameraManager : MonoBehaviour
 
             if (dist > maxDistance)
             {
-                Vector3 newPos = this.transform.position;
+                Vector3 newPos = GameManager.Instance.playersByName[0].playerScript.transform.position;
                 newPos.z = 0;
                 invisiblePlayers[i].transform.position = newPos;
             }
