@@ -590,19 +590,8 @@ public class UIManager : MonoBehaviour
         return characterPortrait[0].characterPortraitsByHP[0].portrait;
     }
 
-    public void PlayerLeftArrowOnPanel(int id)
-    {
-        panelsManager?.GetPlayerPanels[id].ChangePreset(true);
-    }
-
-    public void PlayerRightArrowOnPanel(int id)
-    {
-        panelsManager?.GetPlayerPanels[id].ChangePreset(false);
-    }
-
     public void PlayerQuitLobby(int id)
     {
-        panelsManager?.RemovePanel(id);
     }
 
     public void SkipTutoToggle(bool value) => DataKeeper.Instance.skipTuto = value;

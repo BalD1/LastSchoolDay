@@ -457,6 +457,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2818b723-e22d-43cf-b608-2fb4bf53d19a
     m_ActionName: Dialogue/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8823656354733599271}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: UpArrowInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 48bc11dd-63b4-4701-9186-10b5149c15ae
+    m_ActionName: UI/ArrowsUp[/Keyboard/upArrow,/Keyboard/w,/XInputControllerWindows/leftShoulder,/XInputControllerWindows/dpad/up]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8823656354733599271}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: DownArrowInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8b52273e-ee3a-4899-9e28-7e3d091194fb
+    m_ActionName: UI/ArrowsDown[/Keyboard/downArrow,/Keyboard/s,/XInputControllerWindows/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: InGame

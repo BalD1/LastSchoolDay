@@ -112,6 +112,12 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_AimInput(Vector2 val);
     public D_AimInput D_aimInput;
 
+    public delegate void D_HorizontalArrowInput(bool rightArrow, int playerIdx);
+    public D_HorizontalArrowInput D_horizontalArrowInput;
+
+    public delegate void D_VerticalArrowInput(bool upArrow, int playerIdx);
+    public D_VerticalArrowInput D_verticalArrowInput;
+
     private InputAction movementsAction;
 
     public GameObject PivotOffset { get => pivotOffset; }
@@ -701,14 +707,22 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void LeftArrowInput(InputAction.CallbackContext context)
     {
-        if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
-        if (context.performed) UIManager.Instance.PlayerLeftArrowOnPanel(playerIndex);
+        if (context.performed) D_horizontalArrowInput?.Invoke(false, this.playerIndex);
     }
 
     public void RightArrowInput(InputAction.CallbackContext context)
     {
-        if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
-        if (context.performed) UIManager.Instance.PlayerRightArrowOnPanel(playerIndex);
+        if (context.performed) D_horizontalArrowInput?.Invoke(true, this.playerIndex);
+    }
+
+    public void UpArrowInput(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_verticalArrowInput?.Invoke(true, this.playerIndex);
+    }
+
+    public void DownArrowInput(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_verticalArrowInput?.Invoke(false, this.playerIndex);
     }
 
     public void QuitLobby(InputAction.CallbackContext context)
@@ -909,7 +923,7 @@ public class PlayerCharacter : Entity, IInteractable
         this.playerIndex = DataKeeper.Instance.CreateData(this);
         PlayerCharacter.money = DataKeeper.Instance.money;
 
-        PlayersManager.Instance.SetupPanels(playerIndex);
+        PlayersManager.Instance.SetupPanels(playerIndex, this);
     }
 
     public void ForceSetIndex(int idx)

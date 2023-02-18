@@ -417,6 +417,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ArrowsUp",
+                    "type": "Button",
+                    "id": "48bc11dd-63b4-4701-9186-10b5149c15ae",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ArrowsDown",
+                    "type": "Button",
+                    "id": "8b52273e-ee3a-4899-9e28-7e3d091194fb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "QuitLoby",
                     "type": "Button",
                     "id": "1b599b56-e996-4d42-8c79-a244986140df",
@@ -606,6 +624,17 @@
                 },
                 {
                     "name": "",
+                    "id": "ff0be25e-426b-4c12-bf83-46d3012b7c1d",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse;Gamepad",
+                    "action": "ArrowsLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c8955344-b982-4e72-8938-5414ddeac820",
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
@@ -630,6 +659,17 @@
                     "name": "",
                     "id": "953275be-6bd8-4f32-ac30-dfedc4b9671c",
                     "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse;Gamepad",
+                    "action": "ArrowsRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2dc3a014-d263-4f56-84a7-6e34e901a928",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad",
@@ -1096,6 +1136,94 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "CancelMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b8372ab1-4152-446b-b960-8c88357c4241",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse;Gamepad",
+                    "action": "ArrowsUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4aa268b0-1f6b-4099-8bf1-84a0fcf5de05",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse;Gamepad",
+                    "action": "ArrowsUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "14ab001e-2a0f-471d-9d77-2b04dc76372d",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ArrowsUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "625edb7d-d651-47e4-a16e-803d1aef85a3",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ArrowsUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "05b31833-1152-409b-844b-9315b97dfa1e",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse;Gamepad",
+                    "action": "ArrowsDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3701dbb-3410-493e-84e3-ccefb677119d",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse;Gamepad",
+                    "action": "ArrowsDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64800e66-dccb-4072-a4a5-3f593ddcd4ce",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ArrowsDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1030aa5a-43af-4817-a0c0-f8283ae3cd8a",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ArrowsDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

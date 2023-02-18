@@ -1,10 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
 using UnityEngine.Video;
 
 public class PlayerPanelsManager : MonoBehaviour
@@ -12,6 +6,11 @@ public class PlayerPanelsManager : MonoBehaviour
 
     [SerializeField] private PlayerPanel[] playerPanels;
     public PlayerPanel[] GetPlayerPanels { get => playerPanels; }
+
+    [SerializeField] private int[] playerAssociatedCard = new int[4];
+    public int[] PlayerAssociatedCard { get => playerAssociatedCard; }
+
+    [field: SerializeField] public Sprite[] tokensByIndex { get; private set; }
 
     [SerializeField] private UIVideoPlayer videoPlayer;
 
@@ -33,20 +32,45 @@ public class PlayerPanelsManager : MonoBehaviour
 
         canvasGroup.alpha = 1;
 
-        PlayersManager.Instance.EnableActions();
-        foreach (var item in DataKeeper.Instance.GetCharactersSprites)
+        foreach (var item in playerPanels)
         {
-            if (item.characterName.Equals(GameManager.E_CharactersNames.Shirley))
-            {
-                playerPanels[0].Setup(0);
-                return;
-            }
+            item.isEnabled = true;
         }
+
+        PlayersManager.Instance.EnableActions();
     }
 
-    public void SetupPanel(int idx)
+    public void JoinPanel(int idx, PlayerCharacter player)
     {
-        playerPanels[idx].Setup(idx);
+        playerPanels[0].JoinPanel(idx);
+        player.D_horizontalArrowInput += OnPlayerHorizontalArrow;
+        player.D_verticalArrowInput += OnPlayerHorizontalArrow;
+    }
+
+    public void OnPlayerHorizontalArrow(bool rightArrow, int playerIdx)
+    {
+        int newIndex = playerAssociatedCard[playerIdx] + (rightArrow ? 2 : -2);
+
+        if (newIndex >= playerPanels.Length) newIndex = 0;
+        if (newIndex < 0) newIndex = playerPanels.Length - 1;
+
+        JoinPanelIndex(playerIdx, newIndex);
+    }
+
+    public void OnPlayerVerticalArrow(bool upArrow, int playerIdx)
+    {
+        int newIndex = playerAssociatedCard[playerIdx] + (upArrow ? -1 : 1);
+
+        if (newIndex >= playerPanels.Length) newIndex = 0;
+        if (newIndex < 0) newIndex = playerPanels.Length - 1;
+
+        JoinPanelIndex(playerIdx, newIndex);
+    }
+
+    public void JoinPanelIndex(int playerIdx, int panelIdx)
+    {
+        playerPanels[playerAssociatedCard[playerIdx]].QuitPanel(playerIdx);
+        playerPanels[panelIdx].JoinPanel(playerIdx);
     }
 
     public void RemoveAllJoined()
@@ -62,24 +86,6 @@ public class PlayerPanelsManager : MonoBehaviour
             playerPanels[i].ResetPanel(false);
         }
         PlayersManager.Instance.DisableActions();
-    }
-
-    public void RemovePanel(int idx)
-    {
-        if (idx < 1 || idx > 3) return;
-
-        playerPanels[idx].ResetPanel();
-
-        if (idx < 3)
-        {
-            if (playerPanels[idx + 1].IsSetup)
-            {
-                playerPanels[idx].Setup(idx);
-                playerPanels[idx].CharacterImage.sprite = playerPanels[idx + 1].CharacterImage.sprite;
-                playerPanels[idx + 1].ResetPanel();
-            }
-        }
-
     }
 
     public Sprite GetCharacterSprite(int idx)

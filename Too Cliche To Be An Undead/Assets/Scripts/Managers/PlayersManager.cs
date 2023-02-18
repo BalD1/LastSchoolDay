@@ -136,10 +136,10 @@ public class PlayersManager : MonoBehaviour
         leaveAction.Disable();
     }
 
-    public void SetupPanels(int idx)
+    public void SetupPanels(int idx, PlayerCharacter player)
     {
         if (panelsManager == null) panelsManager = UIManager.Instance.PanelsManager;
-        if (panelsManager != null) panelsManager.SetupPanel(idx);
+        if (panelsManager != null) panelsManager.JoinPanel(idx, player);
     }
 
     private void OnPlayerJoined(PlayerInput input)

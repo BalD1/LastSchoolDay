@@ -18,6 +18,9 @@ public class EditorAssetsHolder : MonoBehaviour
     }
     public static bool exist => instance != null;
 
+    [field: SerializeField] public CanvasGroup WaitForPlayersPanel { get; private set; }
+    [field: SerializeField] public GameObject MainButtons { get; private set; }
+
     private void OnEnable()
     {
         instance = this;

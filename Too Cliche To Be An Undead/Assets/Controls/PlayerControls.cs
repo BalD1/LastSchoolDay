@@ -439,6 +439,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""ArrowsUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""48bc11dd-63b4-4701-9186-10b5149c15ae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ArrowsDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""8b52273e-ee3a-4899-9e28-7e3d091194fb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""QuitLoby"",
                     ""type"": ""Button"",
                     ""id"": ""1b599b56-e996-4d42-8c79-a244986140df"",
@@ -628,6 +646,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ff0be25e-426b-4c12-bf83-46d3012b7c1d"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""action"": ""ArrowsLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c8955344-b982-4e72-8938-5414ddeac820"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
@@ -652,6 +681,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""953275be-6bd8-4f32-ac30-dfedc4b9671c"",
                     ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""action"": ""ArrowsRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2dc3a014-d263-4f56-84a7-6e34e901a928"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Gamepad"",
@@ -1120,6 +1160,94 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""CancelMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8372ab1-4152-446b-b960-8c88357c4241"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""action"": ""ArrowsUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4aa268b0-1f6b-4099-8bf1-84a0fcf5de05"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""action"": ""ArrowsUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14ab001e-2a0f-471d-9d77-2b04dc76372d"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ArrowsUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""625edb7d-d651-47e4-a16e-803d1aef85a3"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ArrowsUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""05b31833-1152-409b-844b-9315b97dfa1e"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""action"": ""ArrowsDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3701dbb-3410-493e-84e3-ccefb677119d"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
+                    ""action"": ""ArrowsDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64800e66-dccb-4072-a4a5-3f593ddcd4ce"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ArrowsDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1030aa5a-43af-4817-a0c0-f8283ae3cd8a"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ArrowsDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1265,6 +1393,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_UI_CancelMenu = m_UI.FindAction("CancelMenu", throwIfNotFound: true);
         m_UI_ArrowsLeft = m_UI.FindAction("ArrowsLeft", throwIfNotFound: true);
         m_UI_ArrowsRight = m_UI.FindAction("ArrowsRight", throwIfNotFound: true);
+        m_UI_ArrowsUp = m_UI.FindAction("ArrowsUp", throwIfNotFound: true);
+        m_UI_ArrowsDown = m_UI.FindAction("ArrowsDown", throwIfNotFound: true);
         m_UI_QuitLoby = m_UI.FindAction("QuitLoby", throwIfNotFound: true);
         m_UI_Select = m_UI.FindAction("Select", throwIfNotFound: true);
         m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
@@ -1445,6 +1575,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_CancelMenu;
     private readonly InputAction m_UI_ArrowsLeft;
     private readonly InputAction m_UI_ArrowsRight;
+    private readonly InputAction m_UI_ArrowsUp;
+    private readonly InputAction m_UI_ArrowsDown;
     private readonly InputAction m_UI_QuitLoby;
     private readonly InputAction m_UI_Select;
     private readonly InputAction m_UI_Start;
@@ -1470,6 +1602,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @CancelMenu => m_Wrapper.m_UI_CancelMenu;
         public InputAction @ArrowsLeft => m_Wrapper.m_UI_ArrowsLeft;
         public InputAction @ArrowsRight => m_Wrapper.m_UI_ArrowsRight;
+        public InputAction @ArrowsUp => m_Wrapper.m_UI_ArrowsUp;
+        public InputAction @ArrowsDown => m_Wrapper.m_UI_ArrowsDown;
         public InputAction @QuitLoby => m_Wrapper.m_UI_QuitLoby;
         public InputAction @Select => m_Wrapper.m_UI_Select;
         public InputAction @Start => m_Wrapper.m_UI_Start;
@@ -1508,6 +1642,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ArrowsRight.started -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsRight;
                 @ArrowsRight.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsRight;
                 @ArrowsRight.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsRight;
+                @ArrowsUp.started -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsUp;
+                @ArrowsUp.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsUp;
+                @ArrowsUp.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsUp;
+                @ArrowsDown.started -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsDown;
+                @ArrowsDown.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsDown;
+                @ArrowsDown.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnArrowsDown;
                 @QuitLoby.started -= m_Wrapper.m_UIActionsCallbackInterface.OnQuitLoby;
                 @QuitLoby.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnQuitLoby;
                 @QuitLoby.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnQuitLoby;
@@ -1575,6 +1715,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ArrowsRight.started += instance.OnArrowsRight;
                 @ArrowsRight.performed += instance.OnArrowsRight;
                 @ArrowsRight.canceled += instance.OnArrowsRight;
+                @ArrowsUp.started += instance.OnArrowsUp;
+                @ArrowsUp.performed += instance.OnArrowsUp;
+                @ArrowsUp.canceled += instance.OnArrowsUp;
+                @ArrowsDown.started += instance.OnArrowsDown;
+                @ArrowsDown.performed += instance.OnArrowsDown;
+                @ArrowsDown.canceled += instance.OnArrowsDown;
                 @QuitLoby.started += instance.OnQuitLoby;
                 @QuitLoby.performed += instance.OnQuitLoby;
                 @QuitLoby.canceled += instance.OnQuitLoby;
@@ -1726,6 +1872,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnCancelMenu(InputAction.CallbackContext context);
         void OnArrowsLeft(InputAction.CallbackContext context);
         void OnArrowsRight(InputAction.CallbackContext context);
+        void OnArrowsUp(InputAction.CallbackContext context);
+        void OnArrowsDown(InputAction.CallbackContext context);
         void OnQuitLoby(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnStart(InputAction.CallbackContext context);

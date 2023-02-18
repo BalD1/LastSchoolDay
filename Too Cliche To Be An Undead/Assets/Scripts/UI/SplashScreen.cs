@@ -14,6 +14,8 @@ public class SplashScreen : MonoBehaviour
 
     [SerializeField] private CanvasGroup mainScreen;
 
+    [SerializeField] private GameObject raycastBlocker;
+
     [SerializeField] private PlayerPanelsManager panelsManager;
 
     [SerializeField] private float allowMainMenu_DURATION = 1.5f;
@@ -90,6 +92,7 @@ public class SplashScreen : MonoBehaviour
     private void OnFadeOutEnded()
     {
         UIManager.Instance.SelectButton("MainMenu");
+        raycastBlocker.gameObject.SetActive(false);
         panelsManager.gameObject.SetActive(true);
     }
 

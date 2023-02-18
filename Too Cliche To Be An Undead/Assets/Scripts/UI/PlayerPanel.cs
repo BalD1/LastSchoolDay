@@ -7,13 +7,29 @@ using UnityEngine.EventSystems;
 
 public class PlayerPanel : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI playerIdxText;
-    public TextMeshProUGUI PlayerIdxText { get => playerIdxText; }
-
     [SerializeField] private RectTransform panel;
 
-    [SerializeField] private Image characterImage;
-    public Image CharacterImage { get => characterImage; }
+    [SerializeField] private Image panelImage;
+    [SerializeField] private Color wrongColor;
+
+    [SerializeField] private Image[] playersTokens;
+
+    [SerializeField] private List<S_TakenTokensByPlayerIndex> tokensQueue = new List<S_TakenTokensByPlayerIndex>();
+
+    public bool isEnabled = false;
+
+    [System.Serializable] 
+    private class S_TakenTokensByPlayerIndex
+    {
+        public int playerIndex;
+        public Image token;
+
+        public S_TakenTokensByPlayerIndex(int _playerIndex, Image _token)
+        {
+            playerIndex = _playerIndex;
+            token = _token;
+        }
+    }
 
     [SerializeField] private LeanTweenType inType = LeanTweenType.easeInSine;
     [SerializeField] private LeanTweenType outType = LeanTweenType.easeOutSine;
@@ -28,57 +44,70 @@ public class PlayerPanel : MonoBehaviour
 
     public PlayerPanelsManager panelsManager;
 
-    private bool isSetup;
-    public bool IsSetup { get => isSetup; }
+    [field: SerializeField] public int panelID { get; private set; }
 
     public void Enable()
     {
-        SetImageOpacity(ref characterImage, 1);
-
         ScaleUpAndDown();
     }
 
-    public void Setup(int id)
+    public void JoinPanel(int id)
     {
-        playerIdxText.text = "Player " + (id + 1);
+        foreach (var item in playersTokens)
+        {
+            if (item.color.a == 0)
+            {
+                S_TakenTokensByPlayerIndex newToken = new S_TakenTokensByPlayerIndex(id, item);
+                this.tokensQueue.Add(newToken);
+                item.sprite = panelsManager.tokensByIndex[id];
+                panelsManager.PlayerAssociatedCard[id] = this.panelID;
+                item.SetAlpha(1);
+                break;
+            }
+        }
 
         playerID = id;
 
         Enable();
-
-        isSetup = true;
     }
 
-    public void ChangePreset(bool left)
+    public void QuitPanel(int id)
     {
-        if (characterImage.isActiveAndEnabled == false) return;
-
-        if (left)
+        bool swapNexts = false;
+        for (int i = 0; i < tokensQueue.Count; i++)
         {
-            characterIdx--;
-            if (characterIdx < 0) characterIdx = 3;
-        }
-        else
-        {
-            characterIdx++;
-            if (characterIdx > 3) characterIdx = 0;
+            if (tokensQueue[i].playerIndex == id)
+                swapNexts = true;
+
+            if (!swapNexts) continue;
+
+            if (i + 1 < tokensQueue.Count)
+            {
+                tokensQueue[i].playerIndex = tokensQueue[i + 1].playerIndex;
+                tokensQueue[i].token.sprite = tokensQueue[i + 1].token.sprite;
+            }
+            else
+                tokensQueue[i].token.SetAlpha(0);
         }
 
-        characterImage.sprite = panelsManager.GetCharacterSprite(characterIdx);
-        DataKeeper.Instance.playersDataKeep[playerID].character = (GameManager.E_CharactersNames)characterIdx;
+        tokensQueue.RemoveAt(tokensQueue.Count - 1); 
     }
 
     public void ResetPanel(bool tweenScale = true)
     {
-        playerIdxText.text = "Press \"select\" to join";
-
-        SetImageOpacity(ref characterImage, 0);
-
         this.playerID = 0;
         this.characterIdx = 0;
 
-        this.characterImage.sprite = panelsManager.GetCharacterSprite(0);
-        isSetup = false;
+        this.panelImage.color = Color.white;
+
+        isEnabled = false;
+
+        foreach (var item in playersTokens)
+        {
+            item.SetAlpha(0);
+        }
+
+        tokensQueue = new List<S_TakenTokensByPlayerIndex>();
 
         if (tweenScale)
             ScaleUpAndDown();
@@ -104,5 +133,11 @@ public class PlayerPanel : MonoBehaviour
         Color c = b.image.color;
         c.a = opacity;
         b.image.color = c;
+    }
+
+    public void OnPointerDown()
+    {
+        if (!isEnabled) return;
+        panelsManager.JoinPanelIndex(0, this.panelID);
     }
 }
