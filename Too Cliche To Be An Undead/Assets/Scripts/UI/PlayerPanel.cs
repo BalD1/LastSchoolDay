@@ -16,6 +16,10 @@ public class PlayerPanel : MonoBehaviour
 
     [SerializeField] private List<S_TakenTokensByPlayerIndex> tokensQueue = new List<S_TakenTokensByPlayerIndex>();
 
+    [field: SerializeField] public GameManager.E_CharactersNames associatedCharacter;
+
+    [field: SerializeField] public bool isValid { get; private set; }
+
     public bool isEnabled = false;
 
     [System.Serializable] 
@@ -38,12 +42,7 @@ public class PlayerPanel : MonoBehaviour
 
     [SerializeField] private float scaleTime = .4f;
 
-    private int playerID;
-
-    private int characterIdx;
-
     public PlayerPanelsManager panelsManager;
-
     [field: SerializeField] public int panelID { get; private set; }
 
     public void Enable()
@@ -66,7 +65,11 @@ public class PlayerPanel : MonoBehaviour
             }
         }
 
-        playerID = id;
+        if (tokensQueue.Count > 1)
+        {
+            this.panelImage.color = wrongColor;
+            isValid = false;
+        }
 
         Enable();
     }
@@ -90,14 +93,19 @@ public class PlayerPanel : MonoBehaviour
                 tokensQueue[i].token.SetAlpha(0);
         }
 
-        tokensQueue.RemoveAt(tokensQueue.Count - 1); 
+        tokensQueue.RemoveAt(tokensQueue.Count - 1);
+
+        if (tokensQueue.Count > 1) return;
+
+        if (this.isValid == false)
+        {
+            this.panelImage.color = Color.white;
+            isValid = true;
+        }
     }
 
     public void ResetPanel(bool tweenScale = true)
     {
-        this.playerID = 0;
-        this.characterIdx = 0;
-
         this.panelImage.color = Color.white;
 
         isEnabled = false;

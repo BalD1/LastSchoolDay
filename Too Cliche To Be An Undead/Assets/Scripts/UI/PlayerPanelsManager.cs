@@ -1,5 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.Video;
+using static UIManager;
+using static UnityEditor.Progress;
 
 public class PlayerPanelsManager : MonoBehaviour
 {
@@ -15,6 +19,9 @@ public class PlayerPanelsManager : MonoBehaviour
     [SerializeField] private UIVideoPlayer videoPlayer;
 
     [SerializeField] private CanvasGroup canvasGroup;
+
+    [SerializeField] private LoadingScreen loadingScreen;
+    [SerializeField] private Toggle startButton;
 
     private void Start()
     {
@@ -44,25 +51,27 @@ public class PlayerPanelsManager : MonoBehaviour
     {
         playerPanels[0].JoinPanel(idx);
         player.D_horizontalArrowInput += OnPlayerHorizontalArrow;
-        player.D_verticalArrowInput += OnPlayerHorizontalArrow;
+        player.D_verticalArrowInput += OnPlayerVerticalArrow;
     }
 
     public void OnPlayerHorizontalArrow(bool rightArrow, int playerIdx)
     {
-        int newIndex = playerAssociatedCard[playerIdx] + (rightArrow ? 2 : -2);
+        int newIndex = playerAssociatedCard[playerIdx] + 2;
 
-        if (newIndex >= playerPanels.Length) newIndex = 0;
-        if (newIndex < 0) newIndex = playerPanels.Length - 1;
+        if (newIndex >= playerPanels.Length) newIndex = newIndex - playerPanels.Length;
+        if (newIndex < 0) newIndex = 2;
 
         JoinPanelIndex(playerIdx, newIndex);
     }
 
     public void OnPlayerVerticalArrow(bool upArrow, int playerIdx)
     {
-        int newIndex = playerAssociatedCard[playerIdx] + (upArrow ? -1 : 1);
+        int currentIndex = playerAssociatedCard[playerIdx];
+        bool add = currentIndex % 2 == 0;
+        int newIndex = currentIndex + (add ? 1 : -1);
 
-        if (newIndex >= playerPanels.Length) newIndex = 0;
-        if (newIndex < 0) newIndex = playerPanels.Length - 1;
+        if (newIndex >= playerPanels.Length) newIndex = 2;
+        if (newIndex < 0) newIndex = 1;
 
         JoinPanelIndex(playerIdx, newIndex);
     }
@@ -96,5 +105,26 @@ public class PlayerPanelsManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void AskForStartGame(ButtonArgs_Scene sceneToLoad)
+    {
+        foreach (var item in playerPanels)
+            if (item.isValid == false)
+            {
+                startButton.SetIsOnWithoutNotify(false);
+                return;
+            }
+
+        for (int i = 0; i < DataKeeper.Instance.playersDataKeep.Count; i++)
+        {
+            int panelOfPlayerIndex = playerAssociatedCard[i];
+            GameManager.E_CharactersNames characterOfPanelI = GetPlayerPanels[panelOfPlayerIndex].associatedCharacter;
+            DataKeeper.Instance.playersDataKeep[i].character = characterOfPanelI;
+        }
+
+        UIManager.Instance.SelectButton("None");
+        loadingScreen.gameObject.SetActive(true);
+        loadingScreen.StartLoad(sceneToLoad);
     }
 }

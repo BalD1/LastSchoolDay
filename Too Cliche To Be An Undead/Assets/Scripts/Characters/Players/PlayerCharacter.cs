@@ -1019,6 +1019,8 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Switch & Set
 
+    public void SwitchCharacter(PlayersManager.PlayerCharacterComponents pcc)
+        => SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character, pcc.animData);
     public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite, GameManager.E_CharactersNames character, SCRPT_PlayersAnimData animData)
     {
         this.playerDash = newDash;

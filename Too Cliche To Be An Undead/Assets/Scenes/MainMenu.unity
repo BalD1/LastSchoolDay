@@ -459,6 +459,10 @@ PrefabInstance:
       propertyPath: panelsManager
       value: 
       objectReference: {fileID: 1110982980}
+    - target: {fileID: 4279800994545012026, guid: 4cfff36e995fb7b45abdadba27ae5b78, type: 3}
+      propertyPath: associatedCharacter
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4279800994545012030, guid: 4cfff36e995fb7b45abdadba27ae5b78, type: 3}
       propertyPath: m_Name
       value: PlayerPanel0_Jason
@@ -745,33 +749,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 356304928}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: SelectButton
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: None
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 30572223}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 30572227}
-        m_TargetAssemblyTypeName: LoadingScreen, Assembly-CSharp
-        m_MethodName: StartLoad
+      - m_Target: {fileID: 1110982980}
+        m_TargetAssemblyTypeName: PlayerPanelsManager, Assembly-CSharp
+        m_MethodName: AskForStartGame
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 195114422}
@@ -1705,6 +1685,10 @@ PrefabInstance:
       propertyPath: panelsManager
       value: 
       objectReference: {fileID: 1110982980}
+    - target: {fileID: 4279800994545012026, guid: 4cfff36e995fb7b45abdadba27ae5b78, type: 3}
+      propertyPath: associatedCharacter
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4279800994545012026, guid: 4cfff36e995fb7b45abdadba27ae5b78, type: 3}
       propertyPath: <panelID>k__BackingField
       value: 2
@@ -2797,6 +2781,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1110982980}
     - target: {fileID: 4279800994545012026, guid: 4cfff36e995fb7b45abdadba27ae5b78, type: 3}
+      propertyPath: associatedCharacter
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279800994545012026, guid: 4cfff36e995fb7b45abdadba27ae5b78, type: 3}
       propertyPath: <panelID>k__BackingField
       value: 3
       objectReference: {fileID: 0}
@@ -3159,6 +3147,8 @@ MonoBehaviour:
   - {fileID: -707356347, guid: 68938681bec08d640b9db2634ea4ee2d, type: 3}
   videoPlayer: {fileID: 351792658}
   canvasGroup: {fileID: 1110982981}
+  loadingScreen: {fileID: 30572227}
+  startButton: {fileID: 195114421}
 --- !u!225 &1110982981
 CanvasGroup:
   m_ObjectHideFlags: 0
