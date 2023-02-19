@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UIManager;
 //using static UnityEditor.Progress;
 
 public class DialogueManager : MonoBehaviour
@@ -183,9 +184,16 @@ public class DialogueManager : MonoBehaviour
 
         currentLine = currentDialogue.dialogueLines[currentLineIndex];
 
-        dialoguePortrait.sprite = currentLine.customPortrait != null ? 
-                                  currentLine.customPortrait :
-                                  UIManager.Instance.GetBasePortrait(currentLine.characterName);
+        if (currentLine.customPortrait != null)
+        {
+            SCRPT_PortraitsWithRect portraitRect = currentLine.customPortrait;
+
+            dialoguePortrait.sprite = currentLine.customPortrait.portrait;
+            dialoguePortrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
+                                                               portraitRect.anchorMin, portraitRect.anchorMax);
+        }
+        else dialoguePortrait.sprite = UIManager.Instance.GetBasePortrait(currentLine.characterName);
+
         dialoguePortrait.enabled = true;
 
         speakerName.sprite = currentLine.speakerNameImage;
