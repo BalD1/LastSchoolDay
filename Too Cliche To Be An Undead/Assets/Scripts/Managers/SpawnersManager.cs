@@ -31,7 +31,6 @@ public class SpawnersManager : MonoBehaviour
     [ReadOnly]
     [SerializeField] private int spawnStamp;
 
-    [ReadOnly]
     [SerializeField] private int maxStamp;
 
     [ReadOnly]
@@ -49,7 +48,7 @@ public class SpawnersManager : MonoBehaviour
 
     public const float timeBetweenStamps = 60;
 
-    private bool spawnsAreAllowed = false;
+    [SerializeField] private bool spawnsAreAllowed = false;
 
     [ReadOnly]
     [SerializeField] private float stamp_TIMER;
@@ -82,7 +81,6 @@ public class SpawnersManager : MonoBehaviour
     private void Update()
     {
         if (spawnsAreAllowed == false) return;
-        return;
         TrySpawnZombies();
         EvaluateStamp();
     }

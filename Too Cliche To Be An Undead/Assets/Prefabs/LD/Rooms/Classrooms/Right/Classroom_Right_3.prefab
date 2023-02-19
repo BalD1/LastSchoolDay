@@ -2329,7 +2329,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8093143248084183654}
-  - component: {fileID: 3917798492035269647}
   m_Layer: 0
   m_Name: Classroom_Right_3
   m_TagString: Untagged
@@ -2355,22 +2354,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3917798492035269647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8093143248084183653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62d9c87781d76804cba079b53bcb8049, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elementToSpawn: 0
-  destroyAfterSpawn: 0
-  spawnAtStart: 1
-  wasInstantiatedInRoom: 0
 --- !u!1 &8198958755909706953
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static SCRPT_DropTable;
 
 [ExecuteInEditMode]
 public class GameAssets : MonoBehaviour
@@ -20,7 +22,6 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject damagesPopupPF;
     [SerializeField] private GameObject textPopupPF;
     [SerializeField] private GameObject trainingDummyPF;
-    [SerializeField] private GameObject[] zombiesPF;
     [SerializeField] private GameObject coinPF;
     [SerializeField] private GameObject pbThumbnailPF;
     [SerializeField] private GameObject keycardPF;
@@ -29,6 +30,14 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject largeCoinDropPF;
 
     [SerializeField] private GameObject basePBPF;
+
+    [SerializeField] private S_ZombiesWithWeight[] zombiesWithWeights;
+    [System.Serializable] public struct S_ZombiesWithWeight
+    {
+        public float weight;
+        public GameObject zombiePF;
+    }
+    [field: SerializeField] public float zombiesTotalWeight { get; private set; }
 
     [field: SerializeField] public SCRPT_TextPopupComponents textComponents { get; private set; }
     public static SCRPT_TextPopupComponents.HitComponents BaseComponents { get => GameAssets.Instance.textComponents.baseComponents; }
@@ -67,9 +76,25 @@ public class GameAssets : MonoBehaviour
     public GameObject DamagesPopupPF { get => damagesPopupPF; }
     public GameObject TextPopupPF { get => textPopupPF; }
     public GameObject TrainingDummyPF { get => trainingDummyPF; }
-    public GameObject[] ZombiesPF { get => zombiesPF; }
 
-    public GameObject GetRandomZombie { get => zombiesPF.RandomElement(); }
+    public GameObject GetRandomZombie
+    {
+        get
+        {
+            float randomValue = Random.Range(0, zombiesTotalWeight);
+            float currentWeight = 0;
+            foreach (S_ZombiesWithWeight current in zombiesWithWeights)
+            {
+                currentWeight += current.weight;
+                if (currentWeight >= randomValue)
+                {
+                    return current.zombiePF;
+                }
+            }
+
+            return zombiesWithWeights[0].zombiePF;
+        }
+    }
 
     public GameObject CoinPF { get => coinPF; }
     public GameObject PBThumbnailPF { get => pbThumbnailPF; }
@@ -88,5 +113,11 @@ public class GameAssets : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        zombiesTotalWeight = 0;
+        foreach (S_ZombiesWithWeight zombie in zombiesWithWeights)
+        {
+            zombiesTotalWeight += zombie.weight;
+        }
     }
 }

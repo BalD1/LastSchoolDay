@@ -813,6 +813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 7821369719249530884}
+  updateTarget: 0
   targetUpdateRate: 2
   targetPlayerAtStart: 1
 --- !u!1 &7821369719249530889
@@ -829,7 +830,7 @@ GameObject:
   - component: {fileID: 7821369719249530891}
   - component: {fileID: 7821369719249530885}
   m_Layer: 9
-  m_Name: DashingZombie
+  m_Name: JanitorZombie
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -924,7 +925,7 @@ MonoBehaviour:
   attackStarted: 0
   targetClosest_COOLDOWN: 3
   timeOfDeath: 1
-  isVisible: 0
+  isVisible: 1
 --- !u!114 &133242913744623205
 MonoBehaviour:
   m_ObjectHideFlags: 0

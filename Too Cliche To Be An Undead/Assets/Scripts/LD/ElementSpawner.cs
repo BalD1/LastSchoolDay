@@ -37,7 +37,6 @@ public class ElementSpawner : MonoBehaviour
     private void Start()
     {
         if (wasInstantiatedInRoom) SpawnersManager.Instance.AddSingleToArray(this.gameObject);
-        return;
         if (spawnAtStart) SpawnElement();
     }
 

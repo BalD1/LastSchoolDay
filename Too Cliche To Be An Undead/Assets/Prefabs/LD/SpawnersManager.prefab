@@ -131,10 +131,12 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   spawnStamp: 0
-  maxStamp: 2
+  maxStamp: 5
   currentZombiesInSchool: 0
   maxZombiesInSchool: 0
   spawnCooldown: 0
+  spawnsAreAllowed: 0
+  stamp_TIMER: 0
   elementSpawners:
   - {fileID: 0}
   - {fileID: 0}
