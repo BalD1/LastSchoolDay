@@ -201,6 +201,9 @@ public class PlayerCharacter : Entity, IInteractable
         this.attackers.Clear();
 
         this.stateManager.SwitchState(stateManager.idleState);
+
+        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
+            PlayersManager.Instance.SetupPanels(playerIndex, this);
     }
 
     private void SetHUD()

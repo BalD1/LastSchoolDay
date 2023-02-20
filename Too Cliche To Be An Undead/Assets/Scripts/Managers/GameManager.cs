@@ -250,6 +250,7 @@ public class GameManager : MonoBehaviour
         if (CompareCurrentScene(E_ScenesNames.MainMenu))
         {
             GameState = E_GameState.MainMenu;
+            Time.timeScale = 1;
             UIManager.Instance.InstantFadeScreen(true);
         }
         else

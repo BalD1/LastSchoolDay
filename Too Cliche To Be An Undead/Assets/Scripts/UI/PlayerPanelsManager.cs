@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -42,11 +43,20 @@ public class PlayerPanelsManager : MonoBehaviour
     {
         foreach (var item in playerPanels) item.panelsManager = this;
 
+        foreach (var item in playerPanels)
+            item.transform.localScale = Vector2.zero;
+
         canvasGroup.alpha = 1;
 
+        StartCoroutine(PanelsAnimation());
+
+        PlayersManager.Instance.EnableActions();
+    }
+
+    private IEnumerator PanelsAnimation()
+    {
         foreach (var item in playerPanels)
         {
-            item.transform.localScale = Vector2.zero;
             item.isEnabled = true;
 
             item.transform.LeanRotateZ(5, .75f);
@@ -57,9 +67,9 @@ public class PlayerPanelsManager : MonoBehaviour
                 item.transform.LeanScale(Vector2.one, .75f);
 
             });
-        }
 
-        PlayersManager.Instance.EnableActions();
+            yield return new WaitForSecondsRealtime(.15f);
+        }
     }
 
     public void JoinPanel(int idx, PlayerCharacter player)

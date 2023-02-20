@@ -12,6 +12,7 @@ public class UIVideoPlayer : MonoBehaviour
     public VideoPlayer GetVideoPlayer { get => videoPlayer; }
 
     [SerializeField] private RawImage image;
+    public RawImage GetImage { get => image; }
 
     [SerializeField] private S_VideoByTag[] videosByTag;
 
@@ -103,7 +104,7 @@ public class UIVideoPlayer : MonoBehaviour
 
     public IEnumerator WaitForAction(float timeToWait, Action actionToPlay)
     {
-        yield return new WaitForSeconds(timeToWait);
+        yield return new WaitForSecondsRealtime(timeToWait);
 
         actionToPlay?.Invoke();
     }

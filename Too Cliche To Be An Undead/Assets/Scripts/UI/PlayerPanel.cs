@@ -147,6 +147,7 @@ public class PlayerPanel : MonoBehaviour
 
     public void OnPointerDown()
     {
+        Debug.Log("yo");
         if (!isEnabled) return;
         panelsManager.JoinPanelIndex(0, this.panelID);
     }

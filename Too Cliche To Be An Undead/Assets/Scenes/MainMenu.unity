@@ -1161,7 +1161,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64.05
+  m_fontSize: 49.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2366,10 +2366,10 @@ RectTransform:
   m_Father: {fileID: 1110982977}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.29020828, y: 0.035340346}
-  m_AnchorMax: {x: 0.4632933, y: 0.12782443}
+  m_AnchorMin: {x: 0.31777197, y: 0.036297265}
+  m_AnchorMax: {x: 0.45178843, y: 0.10761765}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.0000038146973, y: -0.000011444092}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &701432212
 MonoBehaviour:
@@ -3862,6 +3862,7 @@ GameObject:
   - component: {fileID: 1542873267}
   - component: {fileID: 1542873269}
   - component: {fileID: 1542873268}
+  - component: {fileID: 1542873270}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -3903,7 +3904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3927,6 +3928,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542873266}
   m_CullTransparentMesh: 1
+--- !u!114 &1542873270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542873266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922b805bc01c243e5853d9cbb544118c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectMode: 3
+  m_EffectFactor: 0
+  m_TransitionTexture: {fileID: 2800000, guid: 3e04c247fb2604af186173fce0bc62de, type: 3}
+  m_EffectArea: 0
+  m_KeepAspectRatio: 0
+  m_DissolveWidth: 0.094
+  m_DissolveSoftness: 0.256
+  m_DissolveColor: {r: 0.14686084, g: 1, b: 0, a: 1}
+  m_PassRayOnHidden: 1
+  m_Player:
+    play: 0
+    initialPlayDelay: 0
+    duration: 2
+    loop: 0
+    loopDelay: 0
+    updateMode: 2
 --- !u!1 &1566132254
 GameObject:
   m_ObjectHideFlags: 0
@@ -4303,8 +4332,8 @@ MonoBehaviour:
   mainScreen: {fileID: 73316769}
   raycastBlocker: {fileID: 1697344322}
   panelsManager: {fileID: 1110982980}
-  title: {fileID: 1542873268}
-  allowMainMenu_DURATION: 1.5
+  title: {fileID: 1542873270}
+  allowMainMenu_DURATION: 4
 --- !u!1 &1697344322
 GameObject:
   m_ObjectHideFlags: 0
