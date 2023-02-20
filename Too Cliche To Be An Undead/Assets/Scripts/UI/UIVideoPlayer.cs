@@ -9,6 +9,8 @@ using static UnityEditor.Progress;
 public class UIVideoPlayer : MonoBehaviour
 {
     [SerializeField] private VideoPlayer videoPlayer;
+    public VideoPlayer GetVideoPlayer { get => videoPlayer; }
+
     [SerializeField] private RawImage image;
 
     [SerializeField] private S_VideoByTag[] videosByTag;
@@ -97,5 +99,12 @@ public class UIVideoPlayer : MonoBehaviour
             image.color = c;
         }).setIgnoreTimeScale(true)
         .setOnComplete(onCompleteAction);
+    }
+
+    public IEnumerator WaitForAction(float timeToWait, Action actionToPlay)
+    {
+        yield return new WaitForSeconds(timeToWait);
+
+        actionToPlay?.Invoke();
     }
 }

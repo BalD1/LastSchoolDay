@@ -30,10 +30,15 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void Begin()
     {
-        videoPlayer.StartVideo(WaitForAnimation);
+        videoPlayer.StartVideo();
+        StartCoroutine(videoPlayer.WaitForAction(1.65f, WaitForAnimation));
     }
 
     public void WaitForAnimation(VideoPlayer vp)
+    {
+        WaitForAnimation();
+    }
+    public void WaitForAnimation()
     {
         foreach (var item in playerPanels) item.panelsManager = this;
 
@@ -41,7 +46,17 @@ public class PlayerPanelsManager : MonoBehaviour
 
         foreach (var item in playerPanels)
         {
+            item.transform.localScale = Vector2.zero;
             item.isEnabled = true;
+
+            item.transform.LeanRotateZ(5, .75f);
+            item.transform.LeanScale(new Vector2(1.15f, 1.15f), .75f).setOnComplete(
+            () =>
+            {
+                item.transform.LeanRotateZ(0, .75f);
+                item.transform.LeanScale(Vector2.one, .75f);
+
+            });
         }
 
         PlayersManager.Instance.EnableActions();

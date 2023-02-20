@@ -18,6 +18,8 @@ public class SplashScreen : MonoBehaviour
 
     [SerializeField] private PlayerPanelsManager panelsManager;
 
+    [SerializeField] private Image title;
+
     [SerializeField] private float allowMainMenu_DURATION = 1.5f;
     private float allowMainMenu_TIMER = -1;
 
@@ -40,8 +42,15 @@ public class SplashScreen : MonoBehaviour
         }
 
         DataKeeper.Instance.firstPassInMainMenu = false;
+
+        LeanTween.value(0, 1, 1).setOnUpdate(
+        (float val) =>
+        {
+            title.SetAlpha(val);
+        }).setIgnoreTimeScale(true);
+
         mainScreen.alpha = 0;
-        videoPlayer.FadeVideo(true, 1, OnFadeInEnded);
+        videoPlayer.FadeVideo(true, 2, OnFadeInEnded);
     }
 
     private void Update()
@@ -94,6 +103,7 @@ public class SplashScreen : MonoBehaviour
         UIManager.Instance.SelectButton("MainMenu");
         raycastBlocker.gameObject.SetActive(false);
         panelsManager.gameObject.SetActive(true);
+        title.gameObject.SetActive(false);
     }
 
     private void FadeOutScreen()
@@ -105,5 +115,10 @@ public class SplashScreen : MonoBehaviour
         videoPlayer.FadeVideo(false, 1, OnFadeOutEnded);
         pressAnyKey.gameObject.SetActive(false);
         mainScreen.LeanAlpha(1, .5f).setIgnoreTimeScale(true);
+        LeanTween.value(1, 0, .5f).setOnUpdate(
+        (float val) =>
+        {
+            title.SetAlpha(val);
+        }).setIgnoreTimeScale(true);
     }
 }

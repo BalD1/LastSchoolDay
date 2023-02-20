@@ -12,6 +12,8 @@ public class PlayerPanel : MonoBehaviour
     [SerializeField] private Image panelImage;
     [SerializeField] private Color wrongColor;
 
+    public Image PanelImage { get => panelImage; }
+
     [SerializeField] private Image[] playersTokens;
 
     [SerializeField] private List<S_TakenTokensByPlayerIndex> tokensQueue = new List<S_TakenTokensByPlayerIndex>();
