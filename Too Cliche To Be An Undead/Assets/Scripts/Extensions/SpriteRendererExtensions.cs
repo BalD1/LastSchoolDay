@@ -9,8 +9,8 @@ public static class SpriteRendererExtensions
         spriteRenderer.color = c;
     }
 
-    public static void LeanAlpha(this SpriteRenderer spriteRenderer, float alphaGoal, float time)
+    public static LTDescr LeanAlpha(this SpriteRenderer spriteRenderer, float alphaGoal, float time)
     {
-        LeanTween.alpha(spriteRenderer.gameObject, alphaGoal, time);
+        return LeanTween.alpha(spriteRenderer.gameObject, alphaGoal, time);
     }
 }

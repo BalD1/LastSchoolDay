@@ -9,6 +9,11 @@ public class PlayerPanel : MonoBehaviour
 {
     [SerializeField] private RectTransform panel;
 
+    [SerializeField] private Button panelButton;
+    public Button PanelButton { get => panelButton; }
+
+    [field: SerializeField] public TextMeshProUGUI ButtonText { get; private set; }
+
     [SerializeField] private Image panelImage;
     [SerializeField] private Color wrongColor;
 
@@ -110,6 +115,8 @@ public class PlayerPanel : MonoBehaviour
     {
         this.panelImage.color = Color.white;
 
+        this.panelButton.interactable = false;
+
         isEnabled = false;
 
         foreach (var item in playersTokens)
@@ -147,7 +154,6 @@ public class PlayerPanel : MonoBehaviour
 
     public void OnPointerDown()
     {
-        Debug.Log("yo");
         if (!isEnabled) return;
         panelsManager.JoinPanelIndex(0, this.panelID);
     }

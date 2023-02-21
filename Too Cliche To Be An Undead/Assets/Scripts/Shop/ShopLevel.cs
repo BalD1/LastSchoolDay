@@ -68,11 +68,11 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         isActive = active;
         button.interactable = isActive;
 
-        LeanTween.scale(this.GetComponent<RectTransform>(), new Vector3(1.2f, 1.2f, 1.2f), .2f).setEase(LeanTweenType.easeInSine).setIgnoreTimeScale(true).
-            setOnComplete(() =>
-            {
-                LeanTween.scale(this.GetComponent<RectTransform>(), Vector3.one, .2f).setEase(LeanTweenType.easeOutSine).setIgnoreTimeScale(true);
-            });
+        LeanTween.scale(this.GetComponent<RectTransform>(), new Vector3(1.2f, 1.2f, 1.2f), .35f).setEase(LeanTweenType.easeInSine).setIgnoreTimeScale(true).
+        setOnComplete(() =>
+        {
+            LeanTween.scale(this.GetComponent<RectTransform>(), Vector3.one, .35f).setEase(LeanTweenType.easeOutSine).setIgnoreTimeScale(true);
+        });
     }
 
     public bool TryUnlock()
@@ -103,16 +103,20 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             }
         }
 
-        foreach (var item in levelsToActivate)
-        {
-            item.SetActive(true);
-            item.selfImage.sprite = item.Data.LevelSprites.UnlockedSprite;
-        }
         foreach (var item in glowLiaisons)
         {
             if (item.fillAmount != 0) continue;
             LeanTween.value(item.fillAmount, 1, .7f).setOnUpdate((float val) => item.fillAmount = val);
         }
+
+        LeanTween.delayedCall(.7f, () =>
+        {
+            foreach (var item in levelsToActivate)
+            {
+                item.SetActive(true);
+                item.selfImage.sprite = item.Data.LevelSprites.UnlockedSprite;
+            }
+        });
 
         this.selfImage.sprite = Data.LevelSprites.BoughedSprite;
 

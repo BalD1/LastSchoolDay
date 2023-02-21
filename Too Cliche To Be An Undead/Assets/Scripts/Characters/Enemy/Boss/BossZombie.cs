@@ -69,11 +69,6 @@ public class BossZombie : EnemyBase
         this.attackTelegraph.CancelTelegraph();
     }
 
-    protected override void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(this.transform.position, CurrentAttack.attack.AttackDistance);
-    }
-
     public void TargetClosestPlayer()
     {
         PlayerCharacter closerTarget = null;

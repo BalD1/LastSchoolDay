@@ -24,6 +24,8 @@ public class PlayerPanelsManager : MonoBehaviour
     [SerializeField] private LoadingScreen loadingScreen;
     [SerializeField] private Toggle startButton;
 
+    private Coroutine animationCoroutine;
+
     private void Start()
     {
         videoPlayer.SetClipWithoutPlaying(UIVideoPlayer.E_VideoTag.BookOpening);
@@ -44,11 +46,14 @@ public class PlayerPanelsManager : MonoBehaviour
         foreach (var item in playerPanels) item.panelsManager = this;
 
         foreach (var item in playerPanels)
+        {
+            item.PanelButton.interactable = false;
             item.transform.localScale = Vector2.zero;
+        }
 
         canvasGroup.alpha = 1;
 
-        StartCoroutine(PanelsAnimation());
+        animationCoroutine = StartCoroutine(PanelsAnimation());
 
         PlayersManager.Instance.EnableActions();
     }
@@ -64,7 +69,11 @@ public class PlayerPanelsManager : MonoBehaviour
             () =>
             {
                 item.transform.LeanRotateZ(0, .75f);
-                item.transform.LeanScale(Vector2.one, .75f);
+                item.transform.LeanScale(Vector2.one, .75f).setOnComplete( 
+                () =>
+                {
+                    item.PanelButton.interactable = true;
+                });
 
             });
 
@@ -115,8 +124,11 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void ResetPanels()
     {
+        if (animationCoroutine != null) StopCoroutine(animationCoroutine);
+
         for (int i = 1; i < playerPanels.Length; i++)
         {
+            LeanTween.cancel(playerPanels[i].gameObject);
             playerPanels[i].ResetPanel(false);
         }
         PlayersManager.Instance.DisableActions();

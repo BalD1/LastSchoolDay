@@ -11,4 +11,9 @@ public static class ImageExtensions
         c.a = alpha;
         image.color = c;
     }
+
+    public static LTDescr LeanAlpha(this Image image, float alphaGoal, float time)
+    {
+        return LeanTween.alpha(image.rectTransform, alphaGoal, time);
+    }
 }

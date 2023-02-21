@@ -15,6 +15,7 @@ public class SplashScreen : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pressAnyKey;
 
     [SerializeField] private CanvasGroup mainScreen;
+    [SerializeField] private Image mainScreenBackground;
 
     [SerializeField] private GameObject raycastBlocker;
 
@@ -31,6 +32,7 @@ public class SplashScreen : MonoBehaviour
     {
         panelsManager.gameObject.SetActive(false);
         mainScreen.alpha = 0;
+        mainScreenBackground.SetAlpha(0);
         videoPlayer.SetNewVideo(E_VideoTag.SplashScreen);
     }
 
@@ -44,8 +46,6 @@ public class SplashScreen : MonoBehaviour
         }
 
         DataKeeper.Instance.firstPassInMainMenu = false;
-
-        mainScreen.alpha = 0;
 
         Color c = videoPlayer.GetImage.color;
         c.a = 0;
@@ -115,11 +115,14 @@ public class SplashScreen : MonoBehaviour
         LeanTween.cancel(videoPlayer.gameObject);
         LeanTween.cancel(pressAnyKey.gameObject);
 
+        mainScreenBackground.SetAlpha(1);
+
         title.effectPlayer.duration *= .5f;
         title.Hide();
 
         videoPlayer.FadeVideo(false, 1, OnFadeOutEnded);
         pressAnyKey.gameObject.SetActive(false);
         mainScreen.LeanAlpha(1, .5f).setIgnoreTimeScale(true);
+        mainScreenBackground.LeanAlpha(1, .5f).setIgnoreTimeScale(true);
     }
 }

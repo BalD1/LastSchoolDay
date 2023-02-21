@@ -52,11 +52,10 @@ public class UIVideoPlayer : MonoBehaviour
     {
         LeanTween.cancel(image.gameObject);
 
-        Color c = image.color;
-        c.a = 1;
-        image.color = c;
-
+        videoPlayer.Stop();
         videoPlayer.Play();
+
+        FadeVideo(true, .1f, null);
 
         videoPlayer.loopPointReached += onCompleteAction;
     }
@@ -69,16 +68,16 @@ public class UIVideoPlayer : MonoBehaviour
             {
                 LeanTween.cancel(image.gameObject);
 
-                Color c = image.color;
-                c.a = 1;
-                image.color = c;
-
                 videoPlayer.Stop();
                 videoPlayer.clip = item.clip;
                 videoPlayer.isLooping = item.loopVideo;
                 videoPlayer.Play();
 
                 videoPlayer.loopPointReached += onCompleteAction;
+
+                Color c = image.color;
+                c.a = 1;
+                image.color = c;
                 return;
             }
         }
