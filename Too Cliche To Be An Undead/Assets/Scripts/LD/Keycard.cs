@@ -8,12 +8,16 @@ public class Keycard : MonoBehaviour
 
     [SerializeField] private SCRPT_KeycardAssets assets;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer minimapRenderer;
 
     [SerializeField] private Animator animator;
 
     private void Awake()
     {
-        this.spriteRenderer.sprite = assets.KeycardSprites.RandomElement();
+        Sprite randSprite = assets.KeycardSprites.RandomElement();
+
+        this.spriteRenderer.sprite = randSprite;
+        this.minimapRenderer.sprite = randSprite;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
