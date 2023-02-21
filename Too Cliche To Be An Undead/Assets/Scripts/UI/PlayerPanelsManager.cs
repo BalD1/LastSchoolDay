@@ -53,7 +53,7 @@ public class PlayerPanelsManager : MonoBehaviour
         }
 
         playerAssociatedCard = new int[4];
-
+        
         if (playerPanels[0].TokensQueue.Count <= 0) JoinPanel(0, GameManager.Player1Ref);
 
         canvasGroup.alpha = 1;
