@@ -141,19 +141,6 @@ public class PlayerPanel : MonoBehaviour
         });
     }
 
-    private void SetImageOpacity(ref Image i, int opacity)
-    {
-        Color c = i.color;
-        c.a = opacity;
-        i.color = c;
-    }
-    private void SetImageOpacity(ref Button b, int opacity)
-    {
-        Color c = b.image.color;
-        c.a = opacity;
-        b.image.color = c;
-    }
-
     public void OnPointerDown()
     {
         if (!isEnabled) return;

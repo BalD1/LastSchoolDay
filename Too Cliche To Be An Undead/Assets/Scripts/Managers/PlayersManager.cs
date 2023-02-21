@@ -161,9 +161,6 @@ public class PlayersManager : MonoBehaviour
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
 
-        //PlayerInputManager.instance.JoinPlayerFromActionIfNotAlreadyJoined(context);
-
-
         var d = context.control.device;
 
         GameManager.Player1Ref.Inputs.user.UnpairDevices();
@@ -189,10 +186,6 @@ public class PlayersManager : MonoBehaviour
         {
             InputUser.PerformPairingWithDevice(item, GameManager.Player1Ref.Inputs.user);
         }
-
-        //GameManager.Player1Ref.Inputs.neverAutoSwitchControlSchemes = true;
-        //GameManager.Player1Ref.Inputs.user.UnpairDevice(d);
-
     }
 
     public void LeaveAction(InputAction.CallbackContext context)
