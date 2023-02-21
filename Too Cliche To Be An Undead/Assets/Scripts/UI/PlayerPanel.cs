@@ -22,6 +22,7 @@ public class PlayerPanel : MonoBehaviour
     [SerializeField] private Image[] playersTokens;
 
     [SerializeField] private List<S_TakenTokensByPlayerIndex> tokensQueue = new List<S_TakenTokensByPlayerIndex>();
+    public List<S_TakenTokensByPlayerIndex> TokensQueue { get => tokensQueue; }
 
     [field: SerializeField] public GameManager.E_CharactersNames associatedCharacter;
 
@@ -30,7 +31,7 @@ public class PlayerPanel : MonoBehaviour
     public bool isEnabled = false;
 
     [System.Serializable] 
-    private class S_TakenTokensByPlayerIndex
+    public class S_TakenTokensByPlayerIndex
     {
         public int playerIndex;
         public Image token;
@@ -116,6 +117,7 @@ public class PlayerPanel : MonoBehaviour
         this.panelImage.color = Color.white;
 
         this.panelButton.interactable = false;
+        this.ButtonText.raycastTarget = false;
 
         isEnabled = false;
 

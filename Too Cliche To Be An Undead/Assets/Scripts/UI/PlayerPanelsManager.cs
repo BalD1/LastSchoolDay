@@ -48,8 +48,13 @@ public class PlayerPanelsManager : MonoBehaviour
         foreach (var item in playerPanels)
         {
             item.PanelButton.interactable = false;
+            item.ButtonText.raycastTarget = false;
             item.transform.localScale = Vector2.zero;
         }
+
+        playerAssociatedCard = new int[4];
+
+        if (playerPanels[0].TokensQueue.Count <= 0) JoinPanel(0, GameManager.Player1Ref);
 
         canvasGroup.alpha = 1;
 
@@ -73,6 +78,7 @@ public class PlayerPanelsManager : MonoBehaviour
                 () =>
                 {
                     item.PanelButton.interactable = true;
+                    item.ButtonText.raycastTarget = true;
                 });
 
             });
