@@ -35,14 +35,26 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
+        owner.D_aimInput += owner.Weapon.SetAimGoal;
+
         finalDamages = owner.maxDamages_M * damagesPercentageModifier;
         tickDamages = finalDamages * tickDamagesMultiplier;
+
     }
 
     public override void UpdateSkill(PlayerCharacter owner)
     {
-        //owner.OffsetChild(offset);
-        owner.RotateSkillHolder();
+        owner.Weapon.RotateOnAim();
+
+        Quaternion weaponRot = owner.Weapon.transform.rotation;
+
+        Vector3 newRot = weaponRot.eulerAngles;
+        newRot.z -= 90f;
+        weaponRot.eulerAngles = newRot;
+
+        owner.GetSkillHolder.transform.rotation = weaponRot;
+
+        //owner.RotateSkillHolder();
         owner.RotateArms();
     }
 
@@ -52,6 +64,8 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.AnimationEnded();
         owner.GetSkillHolder.StartTimer();
         isInUse = false;
+
+        owner.D_aimInput -= owner.Weapon.SetAimGoal;
 
         owner.GetSkillHolder.D_enteredTrigger -= EnteredTrigger;
         owner.GetSkillHolder.D_exitedTrigger -= ExitedTrigger;

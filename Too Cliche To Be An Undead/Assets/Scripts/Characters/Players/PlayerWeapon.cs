@@ -11,6 +11,7 @@ public class PlayerWeapon : MonoBehaviour
 
     [SerializeField] private GameObject indicatorHolder;
     public GameObject IndicatorHolder { get => indicatorHolder; }
+    public Transform Indicator { get => IndicatorHolder.transform.GetChild(0); }
 
     [SerializeField] private float slerpSpeed = 10f;
     public float SlerpSpeed { get => slerpSpeed; }

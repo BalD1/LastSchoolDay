@@ -46,6 +46,8 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private Transform leftArm;
     [SerializeField] private Transform rightArm;
     [SerializeField] private Transform armsParent;
+    public Transform ArmsParent { get => armsParent; }
+    public Quaternion ArmsRotation { get => leftArm.rotation; }
 
     [SerializeField] private Animator skillTutorialAnimator;
 
