@@ -15,8 +15,6 @@ public class ProjectileBase : MonoBehaviour
     private float damages;
     private int critChances;
 
-    private Vector2 direction;
-
     public void Fire(Vector2 direction, float _damages, int _critChances, SCRPT_EntityStats.E_Team _team)
     {
         this.body.velocity = direction * force;
@@ -27,6 +25,7 @@ public class ProjectileBase : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision);
         IDamageable damageable = collision.GetComponentInParent<IDamageable>();
 
         if (damageable == null)
