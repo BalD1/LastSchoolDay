@@ -139,11 +139,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         owner.SkillDurationIcon.fillAmount = skill_Timer / skill_MaxTimer;
 
         if (owner.GetSkill.canAim)
-        {
-            Vector2 mousePos = MousePosition.GetMouseWorldPosition();
-            Vector2 mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
-            ownerAnimationController.FlipSkeleton(mouseDir.x > 0);
-        }
+            owner.AnimationController.FlipSkeletonOnMouseOrGamepad();
 
         CheckAnimation();
 

@@ -26,9 +26,7 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
     {
         stateManager.OwnerWeapon.SetRotation();
 
-        Vector2 mousePos = MousePosition.GetMouseWorldPosition();
-        Vector2 mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
-        owner.AnimationController.FlipSkeleton(mouseDir.x > 0);
+        owner.AnimationController.FlipSkeletonOnMouseOrGamepad();
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)

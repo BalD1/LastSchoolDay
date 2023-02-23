@@ -92,6 +92,8 @@ public class PlayerCharacter : Entity, IInteractable
 
     private Vector2 lastDirection;
 
+    private Vector2 aimGoal;
+
     [SerializeField] private PlayerInput inputs;
 
     public delegate void D_AttackInput();
@@ -849,18 +851,33 @@ public class PlayerCharacter : Entity, IInteractable
     }
     public void RotateArms()
     {
-        Vector3 rot = weapon.GetRotationOnMouseOrGamepad().eulerAngles;
+        //Vector3 rot = weapon.GetRotationOnMouseOrGamepad().eulerAngles;
+        Quaternion rot = Quaternion.identity;
 
-        bool flipArms = (rot.z < 270) && (rot.z > 90);
+        if (Inputs.currentControlScheme.Equals(SCHEME_GAMEPAD))
+        {
+            float lookAngle = Mathf.Atan2(aimGoal.y, aimGoal.x) * Mathf.Rad2Deg;
+            rot = Quaternion.Slerp(weapon.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * weapon.SlerpSpeed);
+
+            animationController.FlipSkeleton((rot.eulerAngles.z < 270) && (rot.eulerAngles.z > 90));
+        }
+        else rot = weapon.GetRotationOnMouse();
+
+        bool flipArms = (rot.eulerAngles.z < 270) && (rot.eulerAngles.z > 90);
 
         Vector2 armsScale = armsParent.localScale;
         armsScale.x = flipArms ? 1 : -1;
         armsParent.localScale = armsScale;
 
-        if (flipArms) rot.z += 180;
+        if (flipArms)
+        {
+            Vector3 euler = rot.eulerAngles;
+            euler.z += 180;
+            rot.eulerAngles = euler;
+        }
 
-        leftArm.transform.eulerAngles = rot;
-        rightArm.transform.eulerAngles = rot;
+        leftArm.transform.rotation = rot;
+        rightArm.transform.rotation = rot;
     }
 
     #endregion

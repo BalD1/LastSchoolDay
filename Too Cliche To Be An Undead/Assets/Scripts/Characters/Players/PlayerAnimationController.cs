@@ -1,3 +1,4 @@
+using BalDUtilities.MouseUtils;
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
@@ -101,6 +102,16 @@ public class PlayerAnimationController : MonoBehaviour
         }
 
         owner.SkeletonAnimation = skeletonAnimation.CurrentSkeletonAnimation;
+    }
+
+    public void FlipSkeletonOnMouseOrGamepad()
+    {
+        if (owner.Inputs.currentControlScheme == PlayerCharacter.SCHEME_KEYBOARD)
+        {
+            Vector2 mousePos = MousePosition.GetMouseWorldPosition();
+            Vector2 mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
+            FlipSkeleton(mouseDir.x > 0);
+        }
     }
 
     public void FlipSkeleton(bool lookAtRight)

@@ -18,6 +18,8 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
     [SerializeField] private Vector2 armsOffset;
 
+    [SerializeField] private float damageRandomMultiplier = 1.2f;
+
     [SerializeField] private float fire_COOLDOWN;
     private float fire_TIMER;
 
@@ -104,6 +106,9 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         dir.Normalize();
 
         ProjectileBase proj = Instantiate(projectile, skillHolderTransform.position, q).GetComponent<ProjectileBase>();
-        proj.Fire(dir, finalDamages, finalCrit, _owner.GetStats.Team);
+
+        float damagesWithRandom = finalDamages * Random.Range(1 / damageRandomMultiplier, damageRandomMultiplier);
+
+        proj.Fire(dir, damagesWithRandom, finalCrit, _owner.GetStats.Team);
     }
 }

@@ -13,6 +13,7 @@ public class PlayerWeapon : MonoBehaviour
     public GameObject IndicatorHolder { get => indicatorHolder; }
 
     [SerializeField] private float slerpSpeed = 10f;
+    public float SlerpSpeed { get => slerpSpeed; }
 
     [SerializeField] private float onHitKnockback = 2f;
 
@@ -211,11 +212,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_GAMEPAD))
         {
-            //cus.x -= owner.transform.position.x;
-            //cus.y -= owner.transform.position.y;
-
             lookAngle = Mathf.Atan2(aimGoal.y, aimGoal.x) * Mathf.Rad2Deg;
-            //this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * slerpSpeed);
         }
         else RotateOnMouse();

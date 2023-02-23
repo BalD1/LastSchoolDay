@@ -25,7 +25,6 @@ public class ProjectileBase : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision);
         IDamageable damageable = collision.GetComponentInParent<IDamageable>();
 
         if (damageable == null)
