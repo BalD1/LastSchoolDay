@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using static UIManager;
-using static UnityEditor.Progress;
 
 public class PlayerPanelsManager : MonoBehaviour
 {
