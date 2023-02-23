@@ -10,8 +10,8 @@ using UnityEngine.UI;
 
 public class LoadingScreen : MonoBehaviour
 {
-    [SerializeField] private Image loadingBar;
-    [SerializeField] private Image loadingText;
+    [SerializeField] private RectTransform[] loadingIcons;
+    [SerializeField] private GameObject[] imagesToHideOnLoadComplete;
     [SerializeField] private TextMeshProUGUI pressAnyKeyText;
     
     [SerializeField] private bool waitForInput = false;
@@ -22,7 +22,12 @@ public class LoadingScreen : MonoBehaviour
         loadScene = false;
         waitForInput = false;
         pressAnyKeyText.gameObject.SetActive(false);
-        loadingBar.fillAmount = 0;
+    }
+
+    private void Start()
+    {
+        foreach (RectTransform item in loadingIcons)
+            LeanTween.rotate(item, 360, 2).setRepeat(-1);
     }
 
     private void Update()
@@ -46,14 +51,13 @@ public class LoadingScreen : MonoBehaviour
         {
             float progressValue = Mathf.Clamp01(asOp.progress / .9f);
 
-            loadingBar.fillAmount = progressValue;
-
             if (asOp.progress >= .9f)
             {
                 pressAnyKeyText.gameObject.SetActive(true);
                 pressAnyKeyText.GetComponent<SimpleAnimatedTMP>().StartAnim();
 
-                loadingText.gameObject.SetActive(false);
+                foreach (var item in imagesToHideOnLoadComplete) item.SetActive(false);
+
                 waitForInput = true;
 
                 if (loadScene) asOp.allowSceneActivation = true;

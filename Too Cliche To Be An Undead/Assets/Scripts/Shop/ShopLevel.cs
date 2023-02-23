@@ -126,7 +126,7 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         PlayerCharacter.LevelUp();
     }
 
-    public void OnClick()
+    public void OnUnlockButtonClick()
     {
         if (isTweening) return;
 
@@ -187,6 +187,8 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         });
     }
 
+    public void OnClick() => OnSelect(null);
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         SetupPanels();
@@ -194,12 +196,12 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         if (!button.interactable) return;
 
         selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
-                                           Data.LevelSprites.UnlockedSprite;
+                                        Data.LevelSprites.UnlockedSprite;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        SCRPT_LevelData selectedLevel = panels.currentSelectedLevel;
+        SCRPT_LevelData selectedLevel = panels.currentSelectedLevelData;
 
         if (selectedLevel == null)
         {
@@ -216,18 +218,20 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         if (!button.interactable) return;
 
         selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
-                                           Data.LevelSprites.UnlockedSprite;
+                                        Data.LevelSprites.UnlockedSprite;
     }
 
     public void OnSelect(BaseEventData eventData)
     {
-        panels.currentSelectedLevel = this.Data;
+        panels.currentSelectedLevelData = this.Data;
+        panels.currentSelectedLevel = this;
+
         SetupPanels();
 
         if (!button.interactable) return;
 
         selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
-                                           Data.LevelSprites.UnlockedSprite;
+                                        Data.LevelSprites.UnlockedSprite;
     }
 
     private void SetupPanels(SCRPT_LevelData _data = null)
@@ -251,7 +255,11 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnDeselect(BaseEventData eventData)
     {
         if (eventData.selectedObject.GetComponent<ShopLevel>() == null)
+        {
+            panels.currentSelectedLevelData = null;
             panels.currentSelectedLevel = null;
+        }
+            
 
         if (!button.interactable) return;
 
