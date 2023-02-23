@@ -47,10 +47,6 @@ public class SplashScreen : MonoBehaviour
 
         DataKeeper.Instance.firstPassInMainMenu = false;
 
-        Color c = videoPlayer.GetImage.color;
-        c.a = 0;
-        videoPlayer.GetImage.color = c;
-
         videoPlayer.FadeVideo(true, 2, OnFadeInEnded);
     }
 
@@ -71,6 +67,8 @@ public class SplashScreen : MonoBehaviour
                     c.a = val;
                     pressAnyKey.color = c;
                 }).setIgnoreTimeScale(true).setLoopPingPong(-1);
+
+                title.Show();
             }
         }
         if (Input.anyKey) ManageInput();
@@ -97,8 +95,6 @@ public class SplashScreen : MonoBehaviour
     private void OnFadeInEnded()
     {
         allowMainMenu_TIMER = allowMainMenu_DURATION;
-
-        title.Show();
     }
 
     private void OnFadeOutEnded()

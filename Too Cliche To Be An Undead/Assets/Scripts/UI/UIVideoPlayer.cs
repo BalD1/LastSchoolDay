@@ -90,6 +90,10 @@ public class UIVideoPlayer : MonoBehaviour
 
     public void FadeVideo(bool fadeIn, float time, Action onCompleteAction = null)
     {
+        Color c = image.color;
+        c.a = fadeIn ? 0 : 1;
+        image.color = c;
+
         LeanTween.value(image.color.a, fadeIn ? 1 : 0, time)
         .setOnUpdate(
         (float val) =>
