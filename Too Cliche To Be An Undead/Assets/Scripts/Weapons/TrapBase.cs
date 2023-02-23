@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TrapBase : MonoBehaviour
 {
-    private float damages;
+    protected float damages;
     private SCRPT_EntityStats.E_Team team;
 
     private bool destroyOnTrigger;
@@ -12,7 +12,7 @@ public class TrapBase : MonoBehaviour
     private float duration;
     private float timer;
 
-    public void Setup(float _damages, float _duration, SCRPT_EntityStats.E_Team _team, bool _destroyOnTrigger)
+    public virtual void Setup(float _damages, float _duration, SCRPT_EntityStats.E_Team _team, bool _destroyOnTrigger)
     {
         damages = _damages;
         duration = _duration;
@@ -27,7 +27,7 @@ public class TrapBase : MonoBehaviour
         if (timer <= 0) Destroy(this.gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         IDamageable interactable = collision.GetComponent<IDamageable>();
         if (interactable.OnTakeDamages(damages, team) && destroyOnTrigger) Destroy(this.gameObject); 
