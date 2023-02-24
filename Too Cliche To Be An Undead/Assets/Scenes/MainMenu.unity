@@ -3989,7 +3989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectMode: 2
-  m_EffectFactor: 0
+  m_EffectFactor: 1
   m_TransitionTexture: {fileID: 0}
   m_EffectArea: 0
   m_KeepAspectRatio: 0
@@ -4016,8 +4016,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 10, y: -10}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 5, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!1 &1566132254
 GameObject:
@@ -4940,6 +4940,10 @@ PrefabInstance:
       propertyPath: panelsManager
       value: 
       objectReference: {fileID: 1110982980}
+    - target: {fileID: 4279800994545012026, guid: 4cfff36e995fb7b45abdadba27ae5b78, type: 3}
+      propertyPath: associatedCharacter
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4279800994545012026, guid: 4cfff36e995fb7b45abdadba27ae5b78, type: 3}
       propertyPath: <panelID>k__BackingField
       value: 1
