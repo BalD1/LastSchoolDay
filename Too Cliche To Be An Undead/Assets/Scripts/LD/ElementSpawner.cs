@@ -45,7 +45,6 @@ public class ElementSpawner : MonoBehaviour
         switch (elementToSpawn)
         {
             case E_ElementToSpawn.RandomBaseZombie:
-                return;
                 Spawn(GameAssets.Instance.GetRandomZombie, GameManager.Instance.InstantiatedEntitiesParent);
                 break;
 
