@@ -12,6 +12,8 @@ public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager>
         owner ??= stateManager.Owner;
         owner.ResetVelocity();
 
+        owner.animationController.SetAnimation(owner.animationData.WalkAnim, true);
+
         owner.Pathfinding.StopUpdatepath();
         owner.Pathfinding.StartUpdatePath();
 

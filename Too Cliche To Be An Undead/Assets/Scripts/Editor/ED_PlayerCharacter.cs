@@ -82,9 +82,6 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty rb = serializedObject.FindProperty("rb");
         EditorGUILayout.PropertyField(rb);
 
-        SerializedProperty sprite = serializedObject.FindProperty("sprite");
-        EditorGUILayout.PropertyField(sprite);
-
         SerializedProperty skeletonAnimation = serializedObject.FindProperty("skeletonAnimation");
         EditorGUILayout.PropertyField(skeletonAnimation);
 

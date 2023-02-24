@@ -21,9 +21,6 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected Rigidbody2D rb;
     public Rigidbody2D GetRb { get => rb; }
 
-    [SerializeField] protected SpriteRenderer sprite;
-    public SpriteRenderer GetSprite { get => sprite; }
-
     [SerializeField] protected SkeletonAnimation skeletonAnimation;
     public SkeletonAnimation SkeletonAnimation { get => skeletonAnimation; set => skeletonAnimation = value; }
 
@@ -444,31 +441,11 @@ public class Entity : MonoBehaviour, IDamageable
 
     public bool IsAlive() => currentHP > 0;
 
-    public void StartMaterialFlash(string m, float time) => StartCoroutine(MaterialFlash(m, time));
-
     protected virtual IEnumerator MaterialFlash()
     {
-        if (skeletonAnimation != null)
-        {
-            this.skeletonAnimation.Skeleton.SetColor(Color.red);
-            yield return new WaitForSeconds(flashOnHitTime);
-            this.skeletonAnimation.Skeleton.SetColor(Color.white);
-        }
-        else
-        {
-            this.sprite.material.SetInt("_Hit", 1);
-            yield return new WaitForSeconds(flashOnHitTime);
-            this.sprite.material.SetInt("_Hit", 0);
-        }
-    }
-    protected virtual IEnumerator MaterialFlash(string m, float time)
-    {
-        if (this.sprite != null)
-        {
-            this.sprite.material.SetInt(m, 1);
-            yield return new WaitForSeconds(time);
-            this.sprite.material.SetInt(m, 0);
-        }
+        this.skeletonAnimation.Skeleton.SetColor(Color.red);
+        yield return new WaitForSeconds(flashOnHitTime);
+        this.skeletonAnimation.Skeleton.SetColor(Color.white);
     }
 
     #endregion

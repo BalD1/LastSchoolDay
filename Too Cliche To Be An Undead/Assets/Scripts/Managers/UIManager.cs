@@ -231,7 +231,7 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < playersCount; i++)
         {
             // TODO : faire un meilleur moyen de récup les colliders psq là c'est dégueulasse
-            playersColliders[i] = DataKeeper.Instance.playersDataKeep[i].playerInput.GetComponentInParent<PlayerCharacter>().GetSprite.GetComponent<BoxCollider2D>();
+            playersColliders[i] = DataKeeper.Instance.playersDataKeep[i].playerInput.GetComponentInParent<PlayerCharacter>().AnimationController.GetComponent<BoxCollider2D>();
         }
     }
 

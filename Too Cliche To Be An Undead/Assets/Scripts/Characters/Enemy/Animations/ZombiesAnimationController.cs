@@ -41,17 +41,6 @@ public class ZombiesAnimationController : MonoBehaviour
 
     public void Setup()
     {
-        //temp
-        if (owner.animationData == null)
-        {
-            skeletonAnimation.gameObject.SetActive(false);
-            isValid = false;
-            return;
-        }
-
-        //temp
-        skeletonAnimation.gameObject.SetActive(true);
-
         SetAnimation(owner.animationData.WalkAnim, true);
 
         isValid = true;

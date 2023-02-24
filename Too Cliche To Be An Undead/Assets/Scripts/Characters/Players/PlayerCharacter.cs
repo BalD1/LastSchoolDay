@@ -1010,19 +1010,16 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void EnteredInRange(GameObject interactor)
     {
-        sprite.material = outlineMaterial;
     }
 
     public void ExitedRange(GameObject interactor)
     {
-        sprite.material = defaultMaterial;
     }
 
     public void Interact(GameObject interactor)
     {
         Revive();
 
-        sprite.material = defaultMaterial;
     }
 
     public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");
@@ -1049,7 +1046,6 @@ public class PlayerCharacter : Entity, IInteractable
 
         this.skillHolder.ChangeSkill(newSkill);
         this.stats = newStats;
-        this.sprite.sprite = newSprite;
 
         animationController.Setup(animData);
 

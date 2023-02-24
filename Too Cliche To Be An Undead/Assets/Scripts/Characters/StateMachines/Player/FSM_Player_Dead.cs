@@ -10,7 +10,6 @@ public class FSM_Player_Dead : FSM_Base<FSM_Player_Manager>
     {
         owner ??= stateManager.Owner;
 
-        owner.GetSprite.enabled = false;
         owner.Weapon.IndicatorHolder.GetComponentInChildren<SpriteRenderer>().enabled = false;
         PlayersManager.Instance.RemoveAlivePlayer();
     }
@@ -25,7 +24,6 @@ public class FSM_Player_Dead : FSM_Base<FSM_Player_Manager>
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
-        owner.GetSprite.enabled = true;
         owner.Weapon.IndicatorHolder.GetComponentInChildren<SpriteRenderer>().enabled = true;
         owner.StatsModifiers.Clear();
         owner.Attackers.Clear();

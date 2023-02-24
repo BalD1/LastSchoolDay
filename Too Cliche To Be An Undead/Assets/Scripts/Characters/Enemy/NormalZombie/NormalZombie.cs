@@ -116,7 +116,6 @@ public class NormalZombie : EnemyBase
         LeanTween.cancel(this.gameObject);
 
         if (spineHolder != null) spineHolder.transform.localScale = Vector3.one;
-        if (this.sprite != null) sprite.transform.localScale = Vector3.one;
 
         this.RemoveModifiersAll();
         this.RemoveAllTickDamages();
@@ -132,11 +131,6 @@ public class NormalZombie : EnemyBase
 
         if (addToSpawner) SpawnersManager.Instance.AddZombie();
 
-        if (this.sprite != null)
-        {
-            this.sprite.material.SetInt("_Hit", 0);
-            this.sprite.material.SetInt("_Attacking", 0);
-        }
         if (this.skeletonAnimation != null)
             this.skeletonAnimation.skeleton.SetColor(Color.white);
 

@@ -17,6 +17,8 @@ public class SCRPT_AnimationsData : ScriptableObject
         Zombie_02,
         Zombie_03,
         Zombie_04,
+
+        Boss,
     }
 
     [field: SerializeField] public E_Characters character { get; private set; }

@@ -8,6 +8,11 @@ public class BossZombie : EnemyBase
 
     [SerializeField] private SCRPT_EnemyAttack[] attacks;
 
+    [field: SerializeField] public Transform SkeletonHolder { get; private set; }
+
+    [field: SerializeField] public BossAnimationsController animationController { get; private set; }
+    [field: SerializeField] public SCRPT_BossAnimData animationData { get; private set; }
+
     [SerializeField] private SCRPT_BossPatern.S_AttackAndCooldown currentAttack;
     public SCRPT_BossPatern.S_AttackAndCooldown CurrentAttack
     {

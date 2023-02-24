@@ -206,8 +206,6 @@ public abstract class EnemyBase : Entity
 
     public void SetAsZombifiedPlayer(Sprite playerSprite, float playerMaxHP, float playerDamages, float playerSpeed, int playerCrits)
     {
-        this.sprite.sprite = playerSprite;
-        this.sprite.color = Color.green;
         this.maxHP_M = playerMaxHP;
         this.OnHeal(playerMaxHP);
         this.maxDamages_M = playerDamages;

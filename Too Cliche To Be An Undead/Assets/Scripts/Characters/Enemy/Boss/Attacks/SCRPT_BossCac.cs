@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,15 +6,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BossCac", menuName = "Scriptable/Entity/Enemy/Boss/Cac Attack")]
 public class SCRPT_BossCac : SCRPT_EnemyAttack
 {
+    [field: SerializeField] public AnimationReferenceAsset AttackAnim;
+
+    private BossZombie boss;
+
     public override void OnStart(EnemyBase owner)
     {
-        (owner as BossZombie).attackStarted = true;
+        boss = owner as BossZombie;
+        boss.attackStarted = true;
+
+        boss.animationController.SetAnimation(AttackAnim, false);
 
         Collider2D[] hitEntities = Physics2D.OverlapCircleAll((Vector2)owner.attackTelegraph.transform.position, AttackDistance, entitiesToAffect);
 
         foreach (var item in hitEntities)
         {
-            Entity e = item.GetComponentInParent<Entity>();
+            Entity e = item.transform.parent.GetComponent<Entity>();
 
             if (e == null) continue;
 
@@ -29,6 +37,6 @@ public class SCRPT_BossCac : SCRPT_EnemyAttack
     {
         owner.GetRb.velocity = Vector2.zero;
         owner.StartAttackTimer(0, true);
-        (owner as BossZombie).attackStarted = false;
+        boss.attackStarted = false;
     }
 }

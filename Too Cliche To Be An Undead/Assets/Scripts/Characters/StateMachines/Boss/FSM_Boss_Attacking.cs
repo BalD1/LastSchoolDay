@@ -82,17 +82,17 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
 
         if (enemyAttack.DamageOnCollision) owner.d_EnteredTrigger += OnTrigger;
 
-        owner.StartMaterialFlash("_Attacking", .1f);
+        owner.animationController.SetAnimation(owner.animationData.AttackAnticipAnim, false);
 
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
 
         float durationBeforeAttack = Random.Range(enemyAttack.MinDurationBeforeAttack, enemyAttack.MaxDurationBeforeAttack);
 
-        LeanTween.scale(owner.GetSprite.gameObject, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
+        LeanTween.scale(owner.SkeletonAnimation.gameObject, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
             () =>
             {
                 owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
-                LeanTween.scale(owner.GetSprite.gameObject, Vector2.one, durationBeforeAttack / 2).setEase(owner.OutType);
+                LeanTween.scale(owner.SkeletonAnimation.gameObject, Vector2.one, durationBeforeAttack / 2).setEase(owner.OutType);
             });
 
         waitBeforeAttack_TIMER = durationBeforeAttack;

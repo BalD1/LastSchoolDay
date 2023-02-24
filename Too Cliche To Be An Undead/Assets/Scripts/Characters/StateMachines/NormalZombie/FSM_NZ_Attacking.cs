@@ -31,14 +31,11 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         if (owner.Attack.DamageOnCollision) owner.d_EnteredTrigger += OnTrigger;
 
-        owner.StartMaterialFlash("_Attacking", .1f);
-
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
 
         float durationBeforeAttack = Random.Range(owner.MinDurationBeforeAttack, owner.MaxDurationBeforeAttack);
 
         GameObject renderer = owner.spineHolder;
-        if (renderer == null) renderer = owner.GetSprite.gameObject;
 
         LeanTween.scale(renderer, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
             () =>

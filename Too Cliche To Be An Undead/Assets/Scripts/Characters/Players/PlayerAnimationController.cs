@@ -10,8 +10,6 @@ public class PlayerAnimationController : MonoBehaviour
 
     [SerializeField] private PlayerCharacter owner;
 
-    [SerializeField] private SpriteRenderer placeholderSprite;
-
     [SerializeField] private SkeletonAnimationMulti skeletonAnimation;
     public SkeletonAnimationMulti SkeletonAnimation { get => skeletonAnimation; }
 
@@ -40,17 +38,8 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void Awake()
     {
-        if (skeletonAnimation == null || animationsData == null)
-        {
-            placeholderSprite.enabled = true;
-            this.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-            isValid = false;
-        }
-        else
-        {
-            skeletonAnimation.SetAnimation(animationsData.IdleAnim, true);
-            isValid = true;
-        }
+        skeletonAnimation.SetAnimation(animationsData.IdleAnim, true);
+        isValid = true;
     }
 
     private void Start()
@@ -69,19 +58,6 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void Setup(SCRPT_PlayersAnimData animData)
     {
-        //temp
-        if (animData == null)
-        {
-            placeholderSprite.enabled = true;
-            skeletonAnimation.gameObject.SetActive(false);
-            isValid = false;
-            return;
-        }
-
-        //temp
-        skeletonAnimation.gameObject.SetActive(true);
-        placeholderSprite.sprite = null;
-
         animationsData = animData;
         SetAnimation(animationsData.IdleAnim, true);
 
