@@ -18,7 +18,16 @@ public class SCRPT_BossDash : SCRPT_EnemyAttack
         boss = (owner as BossZombie);
         Vector2 dir = boss.AttackDirection;
 
-        Debug.Log(dir);
+        if (-5f < dir.x && dir.x < .5f)
+        {
+            if (dir.y > 0) boss.animationController.SetAnimation(upAnim,false);
+            else boss.animationController.SetAnimation(downAnim,false);
+        }
+        else
+        {
+            if (dir.x < 0) boss.animationController.FlipSkeleton(false);
+            boss.animationController.SetAnimation(sideAnim,false);
+        }
 
         owner.GetRb.AddForce(dir * attackForce, ForceMode2D.Impulse);
         boss.attackStarted = true;
