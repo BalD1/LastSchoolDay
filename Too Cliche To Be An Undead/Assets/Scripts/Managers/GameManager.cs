@@ -217,7 +217,7 @@ public class GameManager : MonoBehaviour
 
         if (GameState == E_GameState.InGame)
         {
-            UIManager.Instance.UpdateKeycardsCounter();
+            UIManager.Instance.UpdateKeycardsCounter(-1);
 
             IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
             if (!IsInTutorial) Destroy(tutorialObject);

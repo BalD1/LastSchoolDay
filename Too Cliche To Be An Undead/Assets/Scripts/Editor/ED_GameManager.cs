@@ -141,11 +141,11 @@ public class ED_GameManager : Editor
 
         int pastAcquired = GameManager.AcquiredCards;
         GameManager.AcquiredCards = EditorGUILayout.DelayedIntField("Acquired Cards ", GameManager.AcquiredCards);
-        if (pastAcquired != GameManager.AcquiredCards) UIManager.Instance.UpdateKeycardsCounter();
+        if (pastAcquired != GameManager.AcquiredCards) UIManager.Instance.UpdateKeycardsCounter(-1);
 
         int neededCards = GameManager.NeededCards;
         GameManager.NeededCards = EditorGUILayout.DelayedIntField("Needed Cards ", GameManager.NeededCards);
-        if (neededCards != GameManager.NeededCards) UIManager.Instance.UpdateKeycardsCounter();
+        if (neededCards != GameManager.NeededCards) UIManager.Instance.UpdateKeycardsCounter(-1);
 
 
         bool checkAllow = EditorGUILayout.Toggle("Allow Enemies", targetScript.AllowEnemies);

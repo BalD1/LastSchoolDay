@@ -57,6 +57,9 @@ public class UIManager : MonoBehaviour
 
     public Collider2D[] playersColliders = new Collider2D[8];
 
+    [SerializeField] private Image[] hudKeycards;
+    public Image[] HudKeycards { get => hudKeycards; }
+
     #endregion
 
     #region UI Refs
@@ -297,7 +300,7 @@ public class UIManager : MonoBehaviour
         playerHUDs[playerID].skillContainer.sprite = active ? skillButton_active : skillButton_inactive;
     }
 
-    public void UpdateKeycardsCounter()
+    public void UpdateKeycardsCounter(int idx)
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(GameManager.AcquiredCards);
@@ -305,15 +308,17 @@ public class UIManager : MonoBehaviour
         sb.Append(GameManager.NeededCards);
         KeycardsCounters.text = sb.ToString();
 
-        if (GameManager.AcquiredCards != 0)
+        if (GameManager.AcquiredCards == 0 || idx < 0 || idx >= HudKeycards.Length) return;
+
+        Image keycard = HudKeycards[idx];
+        keycard.color = Color.white;
+
+        LeanTween.scale(keycard.rectTransform, new Vector2(1.6f, 1.6f), .5f).setEase(LeanTweenType.easeInSine);
+        LeanTween.rotate(keycard.rectTransform, new Vector3(0, 0, 3f), .5f).setEase(LeanTweenType.easeInSine).setOnComplete(() =>
         {
-            LeanTween.scale(KeycardContainer, new Vector2(1.6f, 1.6f), .5f).setEase(LeanTweenType.easeInSine);
-            LeanTween.rotate(KeycardContainer, new Vector3(0, 0, 3f), .5f).setEase(LeanTweenType.easeInSine).setOnComplete(() =>
-            {
-                LeanTween.scale(KeycardContainer, Vector2.one, .5f).setEase(LeanTweenType.easeOutSine);
-                LeanTween.rotate(KeycardContainer, new Vector3(0, 0, -3f), .5f).setEase(LeanTweenType.easeOutSine);
-            });
-        }
+            LeanTween.scale(keycard.rectTransform, Vector2.one, .5f).setEase(LeanTweenType.easeOutSine);
+            LeanTween.rotate(keycard.rectTransform, new Vector3(0, 0, -3f), .5f).setEase(LeanTweenType.easeOutSine);
+        });
     }
 
     #endregion

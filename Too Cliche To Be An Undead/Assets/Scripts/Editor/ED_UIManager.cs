@@ -160,6 +160,9 @@ public class ED_UIManager : Editor
         SerializedProperty keycardsCounter = serializedObject.FindProperty("keycardsCounter");
         EditorGUILayout.PropertyField(keycardsCounter);
 
+        SerializedProperty hudKeycards = serializedObject.FindProperty("hudKeycards");
+        EditorGUILayout.PropertyField(hudKeycards);
+
         SerializedProperty blackBars = serializedObject.FindProperty("blackBars");
         EditorGUILayout.PropertyField(blackBars);
 
