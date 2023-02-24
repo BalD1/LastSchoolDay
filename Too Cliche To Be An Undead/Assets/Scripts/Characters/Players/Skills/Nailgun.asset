@@ -18,7 +18,7 @@ MonoBehaviour:
   cooldown: 10
   offset: 0
   range: 0
-  duration: 100000
+  duration: 7
   transitionDurationMultiplier: 1
   startOffset: 0
   damagesPercentageModifier: 0.25
@@ -39,4 +39,5 @@ MonoBehaviour:
   rotationMinRandom: -0.1
   rotationMaxRandom: 0.1
   armsOffset: {x: 0.035, y: -0.015}
+  damageRandomMultiplier: 1.2
   fire_COOLDOWN: 0.09

@@ -34,6 +34,7 @@ public class SplashScreen : MonoBehaviour
         mainScreen.alpha = 0;
         mainScreenBackground.SetAlpha(0);
         videoPlayer.SetNewVideo(E_VideoTag.SplashScreen);
+        pressAnyKey.raycastTarget = false;
     }
 
     private void Start()

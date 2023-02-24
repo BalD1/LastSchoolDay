@@ -11,6 +11,7 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [SerializeField] private Button button;
 
     [SerializeField] private Image selfImage;
+    [SerializeField] private Image halo;
 
     [SerializeField] private ShopPanels panels;
 
@@ -48,6 +49,8 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         selfImage.sprite = button.interactable ? Data.LevelSprites.UnlockedSprite :
                                                  Data.LevelSprites.LockedSprite;
+
+        halo.sprite = selfImage.sprite;
     }
 
     public void SetShop(Shop _s)
@@ -109,16 +112,21 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             LeanTween.value(item.fillAmount, 1, .7f).setOnUpdate((float val) => item.fillAmount = val);
         }
 
+
+
         LeanTween.delayedCall(.7f, () =>
         {
             foreach (var item in levelsToActivate)
             {
                 item.SetActive(true);
                 item.selfImage.sprite = item.Data.LevelSprites.UnlockedSprite;
+                item.halo.sprite = item.Data.LevelSprites.UnlockedSprite;
             }
         });
 
         this.selfImage.sprite = Data.LevelSprites.BoughedSprite;
+        this.halo.sprite = Data.LevelSprites.BoughedSprite;
+        this.halo.gameObject.SetActive(true);
 
         if (!reloadUnlock)
             DataKeeper.Instance.unlockedLevels.Add(this.ID);
@@ -197,6 +205,8 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
         selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
                                         Data.LevelSprites.UnlockedSprite;
+
+        halo.sprite = selfImage.sprite;
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -219,6 +229,8 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
         selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
                                         Data.LevelSprites.UnlockedSprite;
+
+        halo.sprite = selfImage.sprite;
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -232,6 +244,8 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
         selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
                                         Data.LevelSprites.UnlockedSprite;
+
+        halo.sprite = selfImage.sprite;
     }
 
     private void SetupPanels(SCRPT_LevelData _data = null)
@@ -259,11 +273,12 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             panels.currentSelectedLevelData = null;
             panels.currentSelectedLevel = null;
         }
-            
 
         if (!button.interactable) return;
 
         selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
                                            Data.LevelSprites.UnlockedSprite;
+
+        halo.sprite = selfImage.sprite;
     }
 }
