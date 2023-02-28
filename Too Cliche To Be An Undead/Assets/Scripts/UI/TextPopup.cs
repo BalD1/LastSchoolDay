@@ -79,6 +79,12 @@ public class TextPopup : MonoBehaviour
         if (popupPool.Count > 0)
         {
             txtPopupGo = popupPool.Dequeue();
+
+            if (txtPopupGo == null)
+            {
+                txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, pos, Quaternion.identity);
+            }
+
             txtPopupGo.transform.SetParent(null);
             txtPopupGo.transform.position = pos;
             txtPopupGo.transform.localScale = Vector3.one;
@@ -98,7 +104,6 @@ public class TextPopup : MonoBehaviour
             if(txtPopupGo == null)
             {
                 txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, parent);
-                return txtPopupGo;
             }
 
             if (parent != null)

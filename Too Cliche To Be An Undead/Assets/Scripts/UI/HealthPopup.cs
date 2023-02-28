@@ -40,23 +40,29 @@ public class HealthPopup : MonoBehaviour
 
     public static HealthPopup Create(Vector3 position, float amount, bool isHeal, bool isCritialHit = false)
     {
-        GameObject damagePopupGO;
+        GameObject healthPopupGO;
 
         if (popupPool.Count > 0)
         {
-            damagePopupGO = popupPool.Dequeue();
-            damagePopupGO.transform.position = position;
-            damagePopupGO.transform.localScale = Vector3.one;
+            healthPopupGO = popupPool.Dequeue();
+
+            if (healthPopupGO == null)
+            {
+                healthPopupGO = Instantiate(GameAssets.Instance.DamagesPopupPF, position, Quaternion.identity);
+            }
+
+            healthPopupGO.transform.position = position;
+            healthPopupGO.transform.localScale = Vector3.one;
         }
-        else damagePopupGO = Instantiate(GameAssets.Instance.DamagesPopupPF, position, Quaternion.identity);
+        else healthPopupGO = Instantiate(GameAssets.Instance.DamagesPopupPF, position, Quaternion.identity);
 
-        HealthPopup damagePopup = damagePopupGO.GetComponent<HealthPopup>();
+        HealthPopup healthpopup = healthPopupGO.GetComponent<HealthPopup>();
 
-        damagePopup.Setup(amount, isHeal, isCritialHit);
+        healthpopup.Setup(amount, isHeal, isCritialHit);
 
-        damagePopupGO.SetActive(true);
+        healthPopupGO.SetActive(true);
 
-        return damagePopup;
+        return healthpopup;
     }
 
     public void Setup(float amount, bool isHeal, bool isCritialHit = false)

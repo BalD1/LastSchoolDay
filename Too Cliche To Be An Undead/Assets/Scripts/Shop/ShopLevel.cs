@@ -112,8 +112,6 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             LeanTween.value(item.fillAmount, 1, .7f).setOnUpdate((float val) => item.fillAmount = val);
         }
 
-
-
         LeanTween.delayedCall(.7f, () =>
         {
             foreach (var item in levelsToActivate)
