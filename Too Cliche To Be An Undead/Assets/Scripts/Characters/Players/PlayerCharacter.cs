@@ -1042,6 +1042,8 @@ public class PlayerCharacter : Entity, IInteractable
         => SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character, pcc.animData);
     public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite, GameManager.E_CharactersNames character, SCRPT_PlayersAnimData animData)
     {
+        DataKeeper.Instance.playersDataKeep[this.playerIndex].character = character;
+
         this.playerDash = newDash;
 
         this.skillHolder.ChangeSkill(newSkill);

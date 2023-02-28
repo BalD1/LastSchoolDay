@@ -80,27 +80,26 @@ public class CameraManager : MonoBehaviour
 
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCam);
 
+        Debug.Log(invisiblePlayers.Count);
         for (int i = 0; i < invisiblePlayers.Count; i++)
         {
-            Vector3 minScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(0, 0, 0));
-            Vector3 maxScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+            Vector2 minScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(0, 0));
+            Vector2 maxScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
-            markers[i].position = new Vector3(Mathf.Clamp(invisiblePlayers[i].position.x, minScreenBounds.x + .5f, maxScreenBounds.x - .5f), 
-                                              Mathf.Clamp(invisiblePlayers[i].position.y, minScreenBounds.y + .5f, maxScreenBounds.y - .5f),
-                                              0);
+            markers[i].position = new Vector2(Mathf.Clamp(invisiblePlayers[i].position.x, minScreenBounds.x + .5f, maxScreenBounds.x - .5f),
+                                              Mathf.Clamp(invisiblePlayers[i].position.y, minScreenBounds.y + .5f, maxScreenBounds.y - .5f));
 
             float dist = Vector2.Distance(invisiblePlayers[i].position, markers[i].position);
             float markerScale = Mathf.Clamp01(1 - (dist / maxDistance));
 
-            Vector3 v = markers[i].transform.localScale;
+            Vector2 v = markers[i].transform.localScale;
             v.x = markerScale * scaleMultiplier;
             v.y = markerScale * scaleMultiplier;
             markers[i].transform.localScale = v;
 
             if (dist > maxDistance)
             {
-                Vector3 newPos = GameManager.Instance.playersByName[0].playerScript.transform.position;
-                newPos.z = 0;
+                Vector2 newPos = GameManager.Instance.playersByName[0].playerScript.transform.position;
                 invisiblePlayers[i].transform.position = newPos;
             }
         }

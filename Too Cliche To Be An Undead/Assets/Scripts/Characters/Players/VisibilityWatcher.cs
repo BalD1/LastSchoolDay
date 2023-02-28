@@ -24,6 +24,7 @@ public class VisibilityWatcher : MonoBehaviour
 
     public void ForceVisibility()
     {
+        return;
         if (this.transform.parent == null) return;
         if (owner == null) return;
 
