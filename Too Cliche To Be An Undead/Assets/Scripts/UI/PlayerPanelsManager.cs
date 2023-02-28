@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -41,6 +42,7 @@ public class PlayerPanelsManager : MonoBehaviour
     }
     public void WaitForAnimation()
     {
+        UIManager.Instance.SelectButton("Lobby");
         foreach (var item in playerPanels) item.panelsManager = this;
 
         foreach (var item in playerPanels)
