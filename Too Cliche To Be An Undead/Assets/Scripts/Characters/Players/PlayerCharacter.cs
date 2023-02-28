@@ -165,7 +165,6 @@ public class PlayerCharacter : Entity, IInteractable
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
-        selfInteractor.RemoveEverythingFromList();
 
         stateManager.SwitchState(stateManager.idleState);
         CancelInvoke(nameof(ClearAttackers));
@@ -326,7 +325,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     protected override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F5)) animationController.SetAnimation(animationController.animationsData.AttackAnim_down, false);
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         base.Update();
 

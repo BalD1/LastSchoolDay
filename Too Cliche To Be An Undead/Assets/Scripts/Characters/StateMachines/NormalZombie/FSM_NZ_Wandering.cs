@@ -5,8 +5,7 @@ using UnityEngine;
 public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
 {
     private NormalZombie owner;
-    private bool canSwitchToChase = false;
-    private Vector2 goalPosition;
+    private bool canSwitchToChase = true;
 
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
@@ -23,18 +22,14 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
     {
         if (!owner.allowWander) return;
         if (owner.Pathfinding == null) return;
-        
-        goalPosition = owner.Pathfinding.CheckWayPoint();
     }
 
     public override void FixedUpdateState(FSM_NZ_Manager stateManager)
     {
-        stateManager.Movements(goalPosition);
     }
 
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
-        canSwitchToChase = false;
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
@@ -42,6 +37,5 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
         if (owner.CurrentPlayerTarget != null) stateManager.SwitchState(stateManager.chasingState);
     }
 
-    public void SawPlayer() => canSwitchToChase = true;
     public override string ToString() => "Wandering";
 }

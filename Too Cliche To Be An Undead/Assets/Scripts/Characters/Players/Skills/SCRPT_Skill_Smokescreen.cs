@@ -9,6 +9,8 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
 
     public override void StartSkill(PlayerCharacter owner)
     {
+        Vector2 skillPos = owner.StateManager.inSkillState.SkillHolderPosAtStart;
+
         isInUse = true;
         owner.OffsetSkillHolder(offset);
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
@@ -16,9 +18,9 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
         if (particles != null)
-            Instantiate(particles, owner.GetSkillHolder.transform.position, Quaternion.identity);
+            Instantiate(particles, skillPos, Quaternion.identity);
 
-        Collider2D[] hitTargets = Physics2D.OverlapCircleAll(owner.GetSkillHolder.transform.position, range, entitiesToAffect);
+        Collider2D[] hitTargets = Physics2D.OverlapCircleAll(skillPos, range, entitiesToAffect);
 
         Entity currentEntity;
 

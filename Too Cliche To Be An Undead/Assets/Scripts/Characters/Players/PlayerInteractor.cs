@@ -70,13 +70,6 @@ public class PlayerInteractor : MonoBehaviour
         if (interactablesInRange.Count == 0) interactPrompt.SetActive(false);
     }
 
-    public void RemoveEverythingFromList()
-    {
-        return;
-        interactablesToRemove = interactablesInRange;
-        CleanListAll();
-    }
-
     private void SetPrompt()
     {
         if (owner.StateManager.ToString().Equals("Dying")) return;

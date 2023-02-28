@@ -22,18 +22,6 @@ public class VisibilityWatcher : MonoBehaviour
         playerIdx = owner.PlayerIndex;
     }
 
-    public void ForceVisibility()
-    {
-        return;
-        if (this.transform.parent == null) return;
-        if (owner == null) return;
-
-        if (isVisible == true || owner.IsAlive() == false) return;
-
-        CameraManager.Instance.PlayerBecameVisible(this.owner.transform);
-        isVisible = true;
-    }
-
     private void OnBecameInvisible()
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;

@@ -71,12 +71,6 @@ public class PlayerAnimationController : MonoBehaviour
             arm.GetComponent<CustomBoneFollow>().skeletonRenderer = skeletonAnimation.CurrentSkeletonAnimation;
         }
 
-        foreach (Transform item in skeletonAnimation.transform)
-        {
-            VisibilityWatcher visibilityWatcher = item.GetComponent<VisibilityWatcher>();
-            if (visibilityWatcher != null) visibilityWatcher.ForceVisibility();
-        }
-
         owner.SkeletonAnimation = skeletonAnimation.CurrentSkeletonAnimation;
     }
 

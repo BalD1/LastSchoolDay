@@ -34,10 +34,14 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
     private Vector2 initialDirection;
 
+    public Vector2 SkillHolderPosAtStart { get; private set; }
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         owner ??= stateManager.Owner;
         ownerAnimationController ??= owner.AnimationController;
+
+        SkillHolderPosAtStart = owner.GetSkillHolder.transform.position;
 
         idleAnim = ownerAnimationController.animationsData.skillIdleAnimSide;
         walkAnim = ownerAnimationController.animationsData.skillWalkAnimSide;

@@ -95,6 +95,12 @@ public class TextPopup : MonoBehaviour
         {
             txtPopupGo = popupPool.Dequeue();
 
+            if(txtPopupGo == null)
+            {
+                txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, parent);
+                return txtPopupGo;
+            }
+
             if (parent != null)
                 txtPopupGo.transform.SetParent(parent, false);
 
