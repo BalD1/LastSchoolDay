@@ -408,6 +408,9 @@ public class GameManager : MonoBehaviour
     {
         _onSceneReload?.Invoke();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        TextPopup.popupPool.Clear();
+        HealthPopup.popupPool.Clear();
     }
 
     #endregion

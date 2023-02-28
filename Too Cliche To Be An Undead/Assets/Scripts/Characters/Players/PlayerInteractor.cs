@@ -22,6 +22,20 @@ public class PlayerInteractor : MonoBehaviour
 
     private IInteractable closestInteractable;
 
+    private void Start()
+    {
+        GameManager.Instance._onSceneReload += ResetOnLoad;
+    }
+
+    public void ResetOnLoad()
+    {
+        interactablesInRange.Clear();
+        interactablesToRemove.Clear();
+
+        closestInteractable = null;
+        interactPrompt.SetActive(false);
+    }
+
     public void InvokeInteraction(InputAction.CallbackContext context)
     {
         if (!context.performed) return;

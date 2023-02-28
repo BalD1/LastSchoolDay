@@ -11,19 +11,6 @@ public class DataKeeper : MonoBehaviour
     {
         get
         {
-            if (instance == null)
-            {
-                //Debug.LogError("DataKeeper instance was not set.");
-                //instance = FindObjectOfType<DataKeeper>();
-                //if (instance == null)
-                //{
-                //    Debug.LogError("Could not find DataKeeper object. Force creation");
-                //    GameObject obj = new GameObject();
-                //    obj.name = typeof(DataKeeper).Name;
-                //    instance = obj.AddComponent<DataKeeper>();
-                //}
-                //else Debug.LogError("Found DataKeeper object");
-            }
             return instance;
         }
     }
