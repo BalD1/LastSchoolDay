@@ -68,7 +68,7 @@ public class PlayerNormalWeapon : PlayerWeapon
                 bool isCrit = owner.RollCrit();
 
                 // If the entity can't be damaged, continue to the next hit entity
-                if (damageable.OnTakeDamages(damages, owner.GetStats.Team, isCrit) == false)
+                if (damageable.OnTakeDamages(damages, owner.GetStats.Team, this.owner, isCrit) == false)
                     continue;
 
                 // Check if the entity is the closest one from player

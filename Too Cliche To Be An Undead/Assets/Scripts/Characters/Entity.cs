@@ -419,6 +419,18 @@ public class Entity : MonoBehaviour, IDamageable
         return true;
     }
 
+    public virtual bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, Entity damager, bool isCrit = false)
+    {
+        if (invincible) return false;
+        if (invincibility_TIMER > 0) return false;
+
+        if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return false;
+
+        OnTakeDamages(amount, isCrit);
+
+        return true;
+    }
+
     public virtual void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false)
     {
         if (isCrit) amount *= 1.5f;
@@ -439,7 +451,7 @@ public class Entity : MonoBehaviour, IDamageable
         source.PlayOneShot(audioClips.GetRandomDeathClip());
     }
 
-    public bool IsAlive() => currentHP > 0;
+    public virtual bool IsAlive() => currentHP > 0;
 
     protected virtual IEnumerator MaterialFlash()
     {

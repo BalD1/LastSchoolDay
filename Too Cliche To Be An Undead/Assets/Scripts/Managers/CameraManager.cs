@@ -80,7 +80,6 @@ public class CameraManager : MonoBehaviour
 
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCam);
 
-        Debug.Log(invisiblePlayers.Count);
         for (int i = 0; i < invisiblePlayers.Count; i++)
         {
             Vector2 minScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(0, 0));

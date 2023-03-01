@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
@@ -89,6 +90,18 @@ public class NormalZombie : EnemyBase
         ResetAll();
 
     }
+
+    public override bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, Entity damager, bool isCrit = false)
+    {
+        d_OnDeath += (damager as PlayerCharacter).AddKillCount;
+
+        bool res = base.OnTakeDamages(amount, damagerTeam, damager, isCrit);
+
+        d_OnDeath -= (damager as PlayerCharacter).AddKillCount;
+
+        return res;
+    }
+
     public override void OnDeath(bool forceDeath = false)
     {
         base.OnDeath(forceDeath);
@@ -108,6 +121,11 @@ public class NormalZombie : EnemyBase
         }
         this.gameObject.SetActive(false);
         ResetAll();
+    }
+
+    public override bool IsAlive()
+    {
+        return base.IsAlive();
     }
 
     private void ResetAll()

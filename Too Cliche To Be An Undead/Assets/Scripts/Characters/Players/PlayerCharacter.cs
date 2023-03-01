@@ -145,6 +145,8 @@ public class PlayerCharacter : Entity, IInteractable
     public List<EnemyBase> Attackers { get => attackers; }
     public Vector2 LastDirection { get => lastDirection; set => lastDirection = value; }
 
+    private int killCounts;
+
     public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
     public const string SCHEME_GAMEPAD = "Gamepad";
 
@@ -165,6 +167,8 @@ public class PlayerCharacter : Entity, IInteractable
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
+
+        killCounts = 0;
 
         stateManager.SwitchState(stateManager.idleState);
         CancelInvoke(nameof(ClearAttackers));
@@ -632,6 +636,12 @@ public class PlayerCharacter : Entity, IInteractable
     public void ClearAttackers()
     {
         attackers.Clear();
+    }
+
+    public void AddKillCount()
+    {
+        killCounts += 1;
+        UIManager.Instance.PlayerHUDs[this.PlayerIndex].killsCounter.text = "x " + killCounts.ToString();
     }
 
     #endregion

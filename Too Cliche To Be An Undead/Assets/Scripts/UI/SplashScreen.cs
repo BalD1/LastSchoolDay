@@ -42,6 +42,7 @@ public class SplashScreen : MonoBehaviour
         if (DataKeeper.Instance.firstPassInMainMenu == false)
         {
             mainScreen.alpha = 1;
+            mainScreenBackground.SetAlpha(1);
             OnFadeOutEnded();
             return;
         }
