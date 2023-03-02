@@ -15,7 +15,6 @@ public class NormalZombie : EnemyBase
     [field: SerializeField] public Transform lookAtObject { get; private set; }
 
     [field: SerializeField] public EnemyVision Vision { get; private set; }
-    [field: SerializeField] public bool isIdle = false;
 
     [field:  SerializeField] public bool allowWander { get; private set; }
 
@@ -35,13 +34,14 @@ public class NormalZombie : EnemyBase
 
     [field: SerializeField] public float timeOfDeath;
 
+    private bool isActive;
+
     public bool isVisible;
 
     public static NormalZombie Create(Vector2 pos, bool seeAtStart)
     {
         NormalZombie res = Instantiate(GameAssets.Instance.GetRandomZombie, pos, Quaternion.identity).GetComponent<NormalZombie>();
 
-        res.isIdle = !seeAtStart;
         res.Vision.targetPlayerAtStart = seeAtStart;
 
         if (!seeAtStart) res.ResetTarget();
@@ -54,8 +54,6 @@ public class NormalZombie : EnemyBase
         base.Start();
         Pathfinding?.StartUpdatePath();
 
-        if (tutorialZombie || isIdle) return;
-
         SpawnersManager.Instance.AddZombie();
 
         targetClosest_TIMER = targetClosest_COOLDOWN;
@@ -67,8 +65,6 @@ public class NormalZombie : EnemyBase
     {
         base.Update();
 
-        if (isIdle) return;
-
         if (targetClosest_TIMER > 0) targetClosest_TIMER-= Time.deltaTime;
         else
         {
@@ -77,13 +73,10 @@ public class NormalZombie : EnemyBase
         }
 
         if (CurrentPlayerTarget == null) this.Vision.TargetClosestPlayer();
-        if (Vector2.Distance(this.transform.position, CurrentPlayerTarget.transform.position) > maxDistanceFromPlayer) ForceKill();
     }
 
     public void ForceKill()
     {
-        if (isIdle) return;
-
         attackedPlayer?.RemoveAttacker(this);
         this.gameObject.SetActive(false);
         SpawnersManager.Instance.TeleportZombie(this);
@@ -114,11 +107,6 @@ public class NormalZombie : EnemyBase
         SpawnersManager.Instance.ZombiesPool.Enqueue(this);
         timeOfDeath = Time.timeSinceLevelLoad;
 
-        if (isIdle)
-        {
-            isIdle = false;
-            d_OnDeath += SpawnersManager.Instance.RemoveZombie;
-        }
         this.gameObject.SetActive(false);
         ResetAll();
     }
@@ -183,6 +171,22 @@ public class NormalZombie : EnemyBase
 
         Vector2 targetPosition = this.CurrentPlayerTarget == null ? this.storedTargetPosition : this.CurrentPlayerTarget.transform.position;
         //AttackDirection = (targetPosition - (Vector2)this.transform.position).normalized;
+    }
+
+    public void SetActiveState(bool newState)
+    {
+        isActive = newState;
+
+        if (isActive)
+        {
+            this.skeletonAnimation.gameObject.SetActive(true);
+            this.Pathfinding.StartUpdatePath();
+        }
+        else
+        {
+            this.skeletonAnimation.gameObject.SetActive(false);
+            this.Pathfinding.StopUpdatepath();
+        }
     }
 
     protected override void OnDrawGizmos()
