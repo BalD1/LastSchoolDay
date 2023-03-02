@@ -19,9 +19,13 @@ MonoBehaviour:
   offset: 0
   range: 10
   duration: 2
-  transitionDurationMultiplier: 0.5
+  transitionDurationMultiplier: 0.1
+  startOffset: 0
   damagesPercentageModifier: 0
   canMove: 0
+  canAim: 1
+  loopAnims: 1
+  is4D: 0
   entitiesToAffect:
     serializedVersion: 2
     m_Bits: 320
