@@ -27,6 +27,9 @@ public class ElementSpawner : MonoBehaviour
     public bool DestroyAfterSpawn { get => destroyAfterSpawn; }
     public bool SpawnAtStart { get => spawnAtStart; }
 
+    public delegate void D_SpawnedKeycard(Keycard key);
+    public D_SpawnedKeycard D_spawnedKeycard;
+
     public void Setup(E_ElementToSpawn _elementToSpawn, bool _destroyAfterSpawn, bool _spawnAtStart)
     {
         elementToSpawn = _elementToSpawn;
@@ -49,7 +52,8 @@ public class ElementSpawner : MonoBehaviour
                 break;
 
             case E_ElementToSpawn.Keycard:
-                Spawn(GameAssets.Instance.KeycardPF, GameManager.Instance.InstantiatedKeycardsParent);
+                Keycard key = Spawn(GameAssets.Instance.KeycardPF, GameManager.Instance.InstantiatedKeycardsParent).GetComponent<Keycard>();
+                D_spawnedKeycard?.Invoke(key);
                 break;
 
             case E_ElementToSpawn.Coins:
@@ -77,10 +81,12 @@ public class ElementSpawner : MonoBehaviour
         }
     }
 
-    private void Spawn(GameObject objPF, Transform parent)
+    private GameObject Spawn(GameObject objPF, Transform parent)
     {
         GameObject instantiated = Instantiate(objPF, this.transform.position, Quaternion.identity);
         instantiated.transform.parent = parent;
+
+        return instantiated;
     }
 
     private void OnEnable()

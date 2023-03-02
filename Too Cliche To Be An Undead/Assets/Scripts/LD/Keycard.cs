@@ -8,9 +8,11 @@ public class Keycard : MonoBehaviour
 
     [SerializeField] private SCRPT_KeycardAssets assets;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private SpriteRenderer minimapRenderer;
 
     [SerializeField] private Animator animator;
+
+    public delegate void D_OnPickup();
+    public D_OnPickup D_onPickup;
 
     private int idx;
 
@@ -19,7 +21,6 @@ public class Keycard : MonoBehaviour
         Sprite randSprite = assets.KeycardSprites.RandomElement();
 
         this.spriteRenderer.sprite = randSprite;
-        this.minimapRenderer.sprite = randSprite;
     }
 
     private void Start()
@@ -46,6 +47,7 @@ public class Keycard : MonoBehaviour
             isPicked = true;
             GameManager.AcquiredCards += 1;
             UIManager.Instance.UpdateKeycardsCounter(idx);
+            D_onPickup?.Invoke();
         }
     }
 
