@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DreamTeam
+  companyName: Studio Nounou
   productName: WeMightDie
   defaultCursor: {fileID: 2800000, guid: 67be9f7b7385c4f4fa1bc1eaa51c971a, type: 3}
   cursorHotspot: {x: 0, y: 0}
@@ -41,7 +41,7 @@ PlayerSettings:
     height: 1
   m_SplashScreenLogos:
   - logo: {fileID: 21300000, guid: ef60fdc4ab5ed5446ac35a5f9deea568, type: 3}
-    duration: 4
+    duration: 3
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1920
@@ -136,7 +136,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.01a
+  bundleVersion: 0.3b
   preloadedAssets:
   - {fileID: 0}
   - {fileID: 0}
@@ -160,7 +160,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DreamTeam.WeMightDie
+    Standalone: com.Studio-Nounou.WeMightDie
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -278,7 +278,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: ee4527c60c3c36d4ca76d5013692f841, type: 3}
+      m_Icon: {fileID: 2800000, guid: 7b767dcfe6889b84ea4999269e6ee61d, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0

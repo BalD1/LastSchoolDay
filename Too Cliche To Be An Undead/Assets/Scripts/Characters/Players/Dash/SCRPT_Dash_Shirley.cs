@@ -16,6 +16,8 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
 
     public override void OnDashStart(PlayerCharacter owner)
     {
+        base.OnDashStart(owner);
+
         finalDamages = owner.maxDamages_M * damagesPercentageModifier;
         critChances = owner.maxCritChances_M;
         team = owner.GetStats.Team;
@@ -25,12 +27,9 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
         owner.d_EnteredTrigger += EnteredTrigger;
     }
 
-    public override void OnDashUpdate(PlayerCharacter owner)
-    {
-    }
-
     public override void OnDashStop(PlayerCharacter owner)
     {
+        base.OnDashStop(owner);
         owner.d_EnteredTrigger -= EnteredTrigger;
     }
 

@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class ParticlesDestroyOnEnd : MonoBehaviour
 {
-    private ParticleSystem particles;
+    private ParticleSystem.MainModule main;
 
-    void Start()
+    private void Start()
     {
-        particles = this.GetComponent<ParticleSystem>();
+        main = this.GetComponent<ParticleSystem>().main;
 
-        Destroy(this.gameObject, particles.main.duration);
+        main.stopAction = ParticleSystemStopAction.Callback;
+    }
+
+    private void EndAction()
+    {
+        Destroy(this.gameObject);
     }
 
 }

@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class DebugConsole : MonoBehaviour
 {
+    #region Modifiers const IDs;
     private const string MODIF_HEALTH_ID = "DC_CHEAT_HEALTH_X";
     private const string MODIF_DAMAGES_ID = "DC_CHEAT_DAMAGES_X";
     private const string MODIF_RANGE_ID = "DC_CHEAT_RANGE_X";
@@ -12,7 +13,10 @@ public class DebugConsole : MonoBehaviour
     private const string MODIF_SPEED_ID = "DC_CHEAT_SPEED_X";
     private const string MODIF_CRIT_ID = "DC_CHEAT_CRIT_X";
     private const string MODIF_DASHCD_ID = "DC_CHEAT_DASH-CD_X";
-    private const string MODIF_SKILLCD_ID = "DC_CHEAT_SKILL-CD_X";
+    private const string MODIF_SKILLCD_ID = "DC_CHEAT_SKILL-CD_X"; 
+    #endregion
+
+    private TextEditor editor;
 
     private bool showConsole;
     private bool showHelp;
@@ -20,6 +24,8 @@ public class DebugConsole : MonoBehaviour
     private string input;
 
     private int currentSelectedSuggestion;
+
+    #region Commands
 
     private DebugCommand HELP;
 
@@ -30,6 +36,8 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand<int> KILL;
 
     private DebugCommand FORCEWIN;
+
+    private DebugCommand<int> SWITCH_CHARACTER;
 
     private DebugCommand<int> ADD_KEYCARD;
 
@@ -44,13 +52,13 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand<float> ADDM_SELF_HP;
     private DebugCommand<float, float> ADDM_SELF_HP_T;
     private DebugCommand<float> ADDM_SELF_DAMAGES;
-    private DebugCommand<float,float> ADDM_SELF_DAMAGES_T;
+    private DebugCommand<float, float> ADDM_SELF_DAMAGES_T;
     private DebugCommand<float> ADDM_SELF_ATTRANGE;
-    private DebugCommand<float,float> ADDM_SELF_ATTRANGE_T;
+    private DebugCommand<float, float> ADDM_SELF_ATTRANGE_T;
     private DebugCommand<float> ADDM_SELF_ATTCD;
-    private DebugCommand<float,float> ADDM_SELF_ATTCD_T;
+    private DebugCommand<float, float> ADDM_SELF_ATTCD_T;
     private DebugCommand<float> ADDM_SELF_SPEED;
-    private DebugCommand<float,float> ADDM_SELF_SPEED_T;
+    private DebugCommand<float, float> ADDM_SELF_SPEED_T;
     private DebugCommand<int> ADDM_SELF_CRIT;
     private DebugCommand<int, float> ADDM_SELF_CRIT_T;
     private DebugCommand<float> ADDM_SELF_DASHCD;
@@ -62,8 +70,8 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand PAYDAY;
     private DebugCommand RICH_AF;
     private DebugCommand<int> ADD_MONEY;
- 
-    private DebugCommand<int> TEST_INT;
+
+    #endregion
 
     private Vector2 helpScroll;
     private Vector2 suggestionsScroll;
@@ -134,6 +142,20 @@ public class DebugConsole : MonoBehaviour
         #endregion
 
         #region Int commands
+
+        SWITCH_CHARACTER = new DebugCommand<int>("SWITCH_CHARACTER", "Switchs to the desired character \n 0 = Shirley \n 1 = Whitney \n 2 = Jason \n 3 = Nelson", "SWITCH_CHARACTER <int>", (val) =>
+        {
+            GameManager.E_CharactersNames desiredCharacter = GameManager.E_CharactersNames.Shirley;
+
+            if (0 < val && val < 4) desiredCharacter = (GameManager.E_CharactersNames)val;
+
+            PlayersManager.PlayerCharacterComponents newPCC = PlayersManager.Instance.GetCharacterComponents(desiredCharacter);
+
+            foreach (var item in GameManager.Instance.playersByName)
+            {
+                item.playerScript.SwitchCharacter(newPCC);
+            }
+        });
 
         KILL = new DebugCommand<int>("KILL", "Kills the given player index", "KILL <int>", (val) =>
         {
@@ -269,6 +291,8 @@ public class DebugConsole : MonoBehaviour
 
             FORCEWIN,
 
+            SWITCH_CHARACTER,
+
             ADD_KEYCARD,
 
             HEAL_SELF,
@@ -318,17 +342,22 @@ public class DebugConsole : MonoBehaviour
             OnReturn();
     }
 
+    /// <summary>
+    /// Toggles or untoggles console when <seealso cref="KeyCode.Quote"/> button is pressed
+    /// </summary>
     public void OnToggleConsole()
     {
         showConsole = !showConsole;
 
         if (showConsole)
         {
+            // Toggles the console, reset the field and blocks the game
             ResetField();
             GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
         }
         else
         {
+            // Untoggles the console and unblocks the game
             GameManager.E_GameState currentState = GameManager.Instance.GameState;
             if (currentState == GameManager.E_GameState.Restricted)
                 GameManager.Instance.GameState = GameManager.E_GameState.InGame;
@@ -347,37 +376,6 @@ public class DebugConsole : MonoBehaviour
             GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
     }
-
-    /*
-    public void OnToggleConsole(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-
-        showConsole = !showConsole;
-
-        if (showConsole)
-        {
-            ResetField();
-            GameManager.PlayerRef.SetInGameControlsState(false);
-        }
-        else
-        {
-            GameManager.PlayerRef.SetInGameControlsState(true);
-        }
-    }
-
-    public void OnReturn(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-
-        // if the command field is displayed, check the input and reset
-        if (showConsole)
-        {
-            HandleInput();
-            input = "";
-        }
-    }
-    */
 
     private void ResetField()
     {
@@ -491,12 +489,16 @@ public class DebugConsole : MonoBehaviour
         input = GUI.TextField(inputRect, input);
         GUI.FocusControl("InputField");
 
+        // will be useful if we need to manually set the selected text
+        editor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.keyboardControl);
+
         if (input == "" || input == null) return;
 
+        // automaticaly set the input to upper case
         if (char.IsLower(input[input.Length - 1]))
             input = input.ToUpper();
-
         
+        // close the console if the player presses the button
         if (input == "²")
         {
             showConsole = false;
@@ -506,6 +508,7 @@ public class DebugConsole : MonoBehaviour
                 GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
 
+        // Check if the player pressed Quote or Return
         if (Event.current.isKey)
         {
             if (Event.current.keyCode == KeyCode.Return)
@@ -563,6 +566,7 @@ public class DebugConsole : MonoBehaviour
 
     private void ChoseSuggestion(float height)
     {
+
         if (Event.current.isKey && Event.current.keyCode == KeyCode.DownArrow)
         {
             currentSelectedSuggestion += 1;
@@ -579,6 +583,19 @@ public class DebugConsole : MonoBehaviour
 
 
         if (Event.current.isKey && Event.current.keyCode == KeyCode.Tab && currentSelectedSuggestion < suggestions.Count)
+        {
             input = suggestions[currentSelectedSuggestion];
+            
+            editor.text = input;
+   
+            int textIdx = input.Length - 1;
+            while (textIdx >= 0 && input[textIdx] != '<')
+            {
+                textIdx -= 1;
+            }
+
+            editor.cursorIndex = textIdx;
+            editor.selectIndex = input.Length;
+        }
     }
 }
