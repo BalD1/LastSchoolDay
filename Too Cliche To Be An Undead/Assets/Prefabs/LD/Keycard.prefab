@@ -50,7 +50,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assets: {fileID: 11400000, guid: f5c36e904ecefac4095072e20cc9f36d, type: 2}
   spriteRenderer: {fileID: 7441331001678916852}
-  minimapRenderer: {fileID: 58309096827514385}
   animator: {fileID: 8435801021599636147}
 --- !u!61 &4759275655565604857
 BoxCollider2D:
@@ -282,7 +281,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6137351037054757930
 Transform:
   m_ObjectHideFlags: 0
