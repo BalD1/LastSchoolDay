@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
@@ -40,11 +41,9 @@ public class TilemapSpawner : MonoBehaviour
     [InspectorButton(nameof(DestroyAllObjects), ButtonWidth = 150)]
     [SerializeField] private bool destroyall;
 
-    private void Update()
-    {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(tilemap.WorldToCell(mousePos));
-    }
+#if UNITY_EDITOR
+    [SerializeField] private bool debugMode = false;
+#endif
 
     private void SetupBounds()
     {
@@ -126,4 +125,36 @@ public class TilemapSpawner : MonoBehaviour
                                             Quaternion.identity);
         }
     }
+
+#if UNITY_EDITOR
+
+    private void OnEnable()
+    {
+        SceneView.duringSceneGui -= this.OnSceneGUI;
+        SceneView.duringSceneGui += this.OnSceneGUI;
+    }
+
+    private void OnDisable()
+    {
+        SceneView.duringSceneGui -= this.OnSceneGUI;
+    }
+
+    private void OnDestroy()
+    {
+        SceneView.duringSceneGui -= this.OnSceneGUI;
+    }
+
+    private void OnSceneGUI(SceneView sceneView)
+    {
+        if (!debugMode) return;
+
+        Vector3 mousePosition = Event.current.mousePosition;
+        mousePosition.y = sceneView.camera.pixelHeight - mousePosition.y;
+        mousePosition = sceneView.camera.ScreenToWorldPoint(mousePosition);
+        mousePosition.y = -mousePosition.y;
+
+        Debug.Log(tilemap.WorldToCell(mousePosition));
+    }
+
+#endif
 }
