@@ -27,7 +27,8 @@ public class SurroundingTiles : MonoBehaviour
 
     private void Update()
     {
-        if (updateSurroundingTiles == false) return;
+        if (updateSurroundingTiles == false || tilesRange.x == 0 || tilesRange.y == 0) return;
+
         currentPositionInMap = (Vector2Int)targetMap.WorldToCell(this.transform.position);
 
         if (currentPositionInMap != lastPositionInMap) CheckSurroundingTiles();
