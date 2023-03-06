@@ -67,7 +67,7 @@ public class PolygonGenerator : MonoBehaviour
     }
     #endregion
 
-    void DrawFilled(int sides, float radius)
+    private void DrawFilled(int sides, float radius)
     {
         polygonPoints = GetCircumferencePoints(sides, radius).ToArray();
         polygonTriangles = DrawFilledTriangles(polygonPoints);
@@ -76,7 +76,7 @@ public class PolygonGenerator : MonoBehaviour
         mesh.triangles = polygonTriangles;
     }
 
-    void DrawHollow(int sides, float outerRadius, float innerRadius)
+    private void DrawHollow(int sides, float outerRadius, float innerRadius)
     {
         List<Vector3> pointsList = new List<Vector3>();
         List<Vector3> outerPoints = GetCircumferencePoints(sides, outerRadius);
@@ -92,7 +92,7 @@ public class PolygonGenerator : MonoBehaviour
         mesh.triangles = polygonTriangles;
     }
 
-    int[] DrawHollowTriangles(Vector3[] points)
+    private int[] DrawHollowTriangles(Vector3[] points)
     {
         int sides = points.Length / 2;
         int triangleAmount = sides * 2;
@@ -116,7 +116,7 @@ public class PolygonGenerator : MonoBehaviour
         return newTriangles.ToArray();
     }
 
-    List<Vector3> GetCircumferencePoints(int sides, float radius)
+    private List<Vector3> GetCircumferencePoints(int sides, float radius)
     {
         List<Vector3> points = new List<Vector3>();
         float circumferenceProgressPerStep = (float)1 / sides;
@@ -131,7 +131,7 @@ public class PolygonGenerator : MonoBehaviour
         return points;
     }
 
-    int[] DrawFilledTriangles(Vector3[] points)
+    private int[] DrawFilledTriangles(Vector3[] points)
     {
         int triangleAmount = points.Length - 2;
         List<int> newTriangles = new List<int>();
