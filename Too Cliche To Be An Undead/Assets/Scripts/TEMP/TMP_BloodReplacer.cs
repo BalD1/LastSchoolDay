@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -24,13 +25,14 @@ public class TMP_BloodReplacer : MonoBehaviour
             {
                 if (sr.sprite == pf.GetComponent<SpriteRenderer>().sprite)
                 {
-                    pf.Create(bloods[i].transform.position);
+                    GameObject gO = PrefabUtility.InstantiatePrefab(pf, bloods[i].transform.parent) as GameObject;
+                    gO.transform.position = bloods[i].transform.position;
+                    gO.transform.rotation = bloods[i].transform.rotation;
+                    gO.transform.localScale = bloods[i].transform.localScale;
 
-                    DestroyImmediate(bloods[i]);
+                    DestroyImmediate(bloods[i], true);
 
-                    i--;
-
-                    continue;
+                    break;
                 }
             }
         }

@@ -98,6 +98,9 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private PlayerInput inputs;
 
+    public delegate void D_SteppedIntoTrigger(Type triggerType);
+    public D_SteppedIntoTrigger d_SteppedIntoTrigger;
+
     public delegate void D_AttackInput();
     public D_AttackInput D_attackInput;
 

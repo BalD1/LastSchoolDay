@@ -1096,8 +1096,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 8823656354733599271}
+  allowfootprints_DURATION: 5
   footprintsSpawn_COOLDOWN: 0.25
-  footprints_LIFETIME: 1
+  footprints_LIFETIME: 10
 --- !u!1 &1984837536546022064
 GameObject:
   m_ObjectHideFlags: 0

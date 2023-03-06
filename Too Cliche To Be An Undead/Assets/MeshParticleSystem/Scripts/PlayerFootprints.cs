@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,9 @@ using UnityEngine;
 public class PlayerFootprints : MonoBehaviour
 {
     [SerializeField] private PlayerCharacter owner;
+
+    [SerializeField] private float allowfootprints_DURATION = 2;
+    private float allowfootprints_TIMER;
 
     [SerializeField] private float footprintsSpawn_COOLDOWN;
     private float footprintsSpawn_TIMER;
@@ -19,15 +23,21 @@ public class PlayerFootprints : MonoBehaviour
         footprintsSpawn_TIMER = footprintsSpawn_COOLDOWN;
         meshParticleSystem = this.GetComponent<MeshParticleSystem>();
 
-        if (owner != null) return;
+        owner.d_SteppedIntoTrigger += OwnerSteppedInTrigger;
+    }
 
-        owner = this.GetComponentInParent<PlayerCharacter>();
-
-        if (owner == null) Destroy(this);
+    private void OwnerSteppedInTrigger(Type triggerType)
+    {
+        if (triggerType.Equals(typeof(BloodStamps)))
+            allowfootprints_TIMER = allowfootprints_DURATION;
     }
 
     private void Update()
     {
+        if (allowfootprints_TIMER <= 0) return;
+
+        allowfootprints_TIMER -= Time.deltaTime;
+
         if (footprintsSpawn_TIMER > 0)
         {
             footprintsSpawn_TIMER -= Time.deltaTime;
