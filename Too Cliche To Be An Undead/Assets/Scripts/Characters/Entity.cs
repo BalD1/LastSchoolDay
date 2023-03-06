@@ -97,6 +97,12 @@ public class Entity : MonoBehaviour, IDamageable
     public delegate void D_onDeath();
     public D_onDeath d_OnDeath;
 
+    public delegate void D_OnTakeDamages(bool crit);
+    public D_OnTakeDamages D_onTakeDamages;
+
+    public delegate void D_OnTakeDamagesFromEntity(bool crit, Entity damager);
+    public D_OnTakeDamagesFromEntity D_onTakeDamagesFromEntity;
+
     [SerializeField] private List<TickDamages> appliedTickDamages = new List<TickDamages>();
     public List<TickDamages> AppliedTickDamages { get => appliedTickDamages; }
 
@@ -381,10 +387,12 @@ public class Entity : MonoBehaviour, IDamageable
 
     #region Damages / Heal
 
-    public virtual bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false)
+    public virtual bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         if (invincible) return false;
         if (invincibility_TIMER > 0) return false;
+
+        if (callDelegate) D_onTakeDamages?.Invoke(isCrit);
 
         if (isCrit) amount *= 1.5f;
 
@@ -426,7 +434,9 @@ public class Entity : MonoBehaviour, IDamageable
 
         if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return false;
 
-        OnTakeDamages(amount, isCrit);
+        D_onTakeDamagesFromEntity?.Invoke(isCrit, damager);
+
+        OnTakeDamages(amount, isCrit, false, false);
 
         return true;
     }

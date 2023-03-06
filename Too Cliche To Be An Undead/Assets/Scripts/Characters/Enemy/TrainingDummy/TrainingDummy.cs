@@ -66,7 +66,7 @@ public class TrainingDummy : EnemyBase
 #endif
     }
 
-    public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false)
+    public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         bool res = base.OnTakeDamages(amount, isCrit);
         if (!res) return res;

@@ -104,6 +104,9 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_AttackInput();
     public D_AttackInput D_attackInput;
 
+    public delegate void D_SuccessfulAttack();
+    public D_SuccessfulAttack D_successfulAttack;
+
     public delegate void D_StartHoldAttackInput();
     public D_StartHoldAttackInput D_startHoldAttackInput;
 
@@ -454,7 +457,7 @@ public class PlayerCharacter : Entity, IInteractable
         weapon.ResetAttack();
     }
 
-    public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false)
+    public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         if (!IsAlive()) return false;
 

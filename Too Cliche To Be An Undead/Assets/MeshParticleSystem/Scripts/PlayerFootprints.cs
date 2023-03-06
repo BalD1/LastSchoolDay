@@ -15,15 +15,13 @@ public class PlayerFootprints : MonoBehaviour
 
     [SerializeField] private float footprints_LIFETIME;
 
-    private MeshParticleSystem meshParticleSystem;
-
-
     private void Awake()
     {
         footprintsSpawn_TIMER = footprintsSpawn_COOLDOWN;
-        meshParticleSystem = this.GetComponent<MeshParticleSystem>();
 
         owner.d_SteppedIntoTrigger += OwnerSteppedInTrigger;
+
+        owner.D_successfulAttack += OwnerAttacked;
     }
 
     private void OwnerSteppedInTrigger(Type triggerType)
@@ -31,6 +29,8 @@ public class PlayerFootprints : MonoBehaviour
         if (triggerType.Equals(typeof(BloodStamps)))
             allowfootprints_TIMER = allowfootprints_DURATION;
     }
+
+    private void OwnerAttacked() => allowfootprints_TIMER = allowfootprints_DURATION;
 
     private void Update()
     {
@@ -50,6 +50,4 @@ public class PlayerFootprints : MonoBehaviour
 
         footprintsSpawn_TIMER = footprintsSpawn_COOLDOWN;
     }
-
-
 }

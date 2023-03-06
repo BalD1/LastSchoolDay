@@ -45,7 +45,7 @@ public class BossZombie : EnemyBase
         base.Update();
     }
 
-    public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false)
+    public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         bool res = base.OnTakeDamages(amount, isCrit, fakeDamages);
 

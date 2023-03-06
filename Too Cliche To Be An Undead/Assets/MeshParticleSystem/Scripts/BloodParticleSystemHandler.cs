@@ -8,6 +8,9 @@ public class BloodParticleSystemHandler : MonoBehaviour
 
     [SerializeField] private Vector2 quadSize;
 
+    [SerializeField] private float minSpeedRange;
+    [SerializeField] private float maxSpeedRange;
+
     private MeshParticleSystem meshParticleSystem;
     private List<Single> singleList;
 
@@ -38,7 +41,10 @@ public class BloodParticleSystemHandler : MonoBehaviour
         float bloodParticleCount = 3;
         for (int i = 0; i < bloodParticleCount; i++)
         {
-            singleList.Add(new Single(position, ApplyRotationToVector(direction, Random.Range(-15f, 15f)), meshParticleSystem, lifetime));
+            Vector3 finalDirection = ApplyRotationToVector(direction, Random.Range(-15f, 15f));
+            float speed = Random.Range(minSpeedRange, maxSpeedRange);
+
+            singleList.Add(new Single(position, finalDirection, meshParticleSystem, lifetime, speed));
         }
     }
 
@@ -49,7 +55,6 @@ public class BloodParticleSystemHandler : MonoBehaviour
 
     private class Single
     {
-
         private MeshParticleSystem meshParticleSystem;
         private Vector3 position;
         private Vector3 direction;
@@ -60,14 +65,14 @@ public class BloodParticleSystemHandler : MonoBehaviour
 
         private float lifetime;
 
-        public Single(Vector3 position, Vector3 direction, MeshParticleSystem meshParticleSystem, float lifetime)
+        public Single(Vector3 position, Vector3 direction, MeshParticleSystem meshParticleSystem, float lifetime, float speed)
         {
             this.position = position;
             this.direction = direction;
             this.meshParticleSystem = meshParticleSystem;
 
             rotation = Random.Range(0, 360f);
-            moveSpeed = Random.Range(50f, 70f);
+            moveSpeed = speed;
             uvIndex = Random.Range(0, 8);
 
             quadIndex = meshParticleSystem.AddQuad(position, rotation, Instance.quadSize, false, uvIndex);
