@@ -87,7 +87,7 @@ public class BloodParticleSystemHandler : MonoBehaviour
 
             meshParticleSystem.UpdateQuad(quadIndex, position, rotation, Instance.quadSize, false, uvIndex);
 
-            float slowDownFactor = 3.5f;
+            float slowDownFactor = 7f;
             moveSpeed -= moveSpeed * slowDownFactor * Time.deltaTime;
 
             lifetime -= Time.deltaTime;
