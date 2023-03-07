@@ -15,8 +15,8 @@ public class Loot : MonoBehaviour
     [System.Serializable]
     private struct VelocityCurves
     {
-        public AnimationCurve xVelocity;
-        public AnimationCurve yVelocity;
+        public ParticleSystem.MinMaxCurve xVelocity;
+        public ParticleSystem.MinMaxCurve yVelocity;
 
         public float GetVelocity_X(float time) => xVelocity.Evaluate(time);
         public float GetVelocity_Y(float time) => yVelocity.Evaluate(time);
@@ -25,13 +25,13 @@ public class Loot : MonoBehaviour
 
         public float MaxTime()
         {
-            float resX = xVelocity[xVelocity.length - 1].time;
-            float resY = yVelocity[yVelocity.length - 1].time;
+            float resX = xVelocity.curve[xVelocity.curve.length - 1].time;
+            float resY = yVelocity.curve[yVelocity.curve.length - 1].time;
 
             return resX > resY ? resX : resY;
         }
     }
-    [SerializeField] private List<VelocityCurves> velocityCurves = new List<VelocityCurves>();
+    [SerializeField] private VelocityCurves[] velocityCurves;
     private VelocityCurves curveToFollow;
 
     private float offset;
@@ -46,6 +46,12 @@ public class Loot : MonoBehaviour
 
     private void Awake()
     {
+        if (velocityCurves == null || velocityCurves.Length <= 0)
+        {
+            Stop();
+            return;
+        }
+
         collectable.enabled = false;
 
         childBody = collectable.GetComponent<Rigidbody2D>();
@@ -56,7 +62,7 @@ public class Loot : MonoBehaviour
         inverseX = Random.Range(0, 2) == 0;
         inverseY = Random.Range(0, 2) == 0;
 
-        curveToFollow = velocityCurves[Random.Range(0, velocityCurves.Count)];
+        curveToFollow = velocityCurves[Random.Range(0, velocityCurves.Length)];
     }
 
     private void Update()
@@ -72,6 +78,7 @@ public class Loot : MonoBehaviour
         if (inverseX) vel.x = -vel.x;
 
         vel.y = curveToFollow.GetVelocity_Y(elapsedTime) * offset * velocityMultiplier;
+        if (inverseY) vel.y = -vel.y;
 
         this.rb.velocity = vel;
     }

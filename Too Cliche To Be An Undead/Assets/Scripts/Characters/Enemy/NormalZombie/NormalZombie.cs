@@ -182,12 +182,5 @@ public class NormalZombie : EnemyBase
         base.SetAttackedPlayer(target);
 
         Vector2 targetPosition = this.CurrentPlayerTarget == null ? this.storedTargetPosition : this.CurrentPlayerTarget.transform.position;
-        //AttackDirection = (targetPosition - (Vector2)this.transform.position).normalized;
     }
-
-    protected override void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(this.transform.position, Attack.AttackDistance);
-    }
-
 }
