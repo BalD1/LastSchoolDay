@@ -25,6 +25,8 @@ public class PlayerPanelsManager : MonoBehaviour
 
     private Coroutine animationCoroutine;
 
+    private bool allowMovements = false;
+
     private void Start()
     {
         videoPlayer.SetClipWithoutPlaying(UIVideoPlayer.E_VideoTag.BookOpening);
@@ -34,6 +36,8 @@ public class PlayerPanelsManager : MonoBehaviour
     {
         videoPlayer.StartVideo();
         StartCoroutine(videoPlayer.WaitForAction(1.65f, WaitForAnimation));
+
+        GameManager.Player1Ref.SwitchControlMapToCharacterSelect();
     }
 
     public void WaitForAnimation(VideoPlayer vp)
@@ -79,6 +83,7 @@ public class PlayerPanelsManager : MonoBehaviour
                 {
                     item.PanelButton.interactable = true;
                     item.ButtonText.raycastTarget = true;
+                    allowMovements = true;
                 });
 
             });
@@ -96,6 +101,8 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void OnPlayerHorizontalArrow(bool rightArrow, int playerIdx)
     {
+        if (!allowMovements) return;
+
         int newIndex = playerAssociatedCard[playerIdx] + 2;
 
         if (newIndex >= playerPanels.Length) newIndex = newIndex - playerPanels.Length;
@@ -106,6 +113,8 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void OnPlayerVerticalArrow(bool upArrow, int playerIdx)
     {
+        if (!allowMovements) return;
+
         int currentIndex = playerAssociatedCard[playerIdx];
         bool add = currentIndex % 2 == 0;
         int newIndex = currentIndex + (add ? 1 : -1);
@@ -131,6 +140,16 @@ public class PlayerPanelsManager : MonoBehaviour
     public void ResetPanels()
     {
         if (animationCoroutine != null) StopCoroutine(animationCoroutine);
+
+        allowMovements = false;
+
+        GameManager.Player1Ref.SwitchControlMapToUI();
+
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            item.playerScript.D_horizontalArrowInput -= OnPlayerHorizontalArrow;
+            item.playerScript.D_verticalArrowInput -= OnPlayerVerticalArrow;
+        }
 
         for (int i = 1; i < playerPanels.Length; i++)
         {

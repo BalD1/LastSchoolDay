@@ -385,7 +385,16 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void SwitchControlMap(string map) => inputs.SwitchCurrentActionMap(map);
     public void SwitchControlMapToInGame() => inputs.SwitchCurrentActionMap("InGame");
-    public void SwitchControlMapToUI() => inputs.SwitchCurrentActionMap("UI");
+    public void SwitchControlMapToUI()
+    {
+        inputs.SwitchCurrentActionMap("UI");
+        EventSystemSwitch.Instance?.SwitchModuleNavigation();
+    }
+    public void SwitchControlMapToCharacterSelect()
+    {
+        inputs.SwitchCurrentActionMap("CharacterSelect");
+        EventSystemSwitch.Instance?.SwitchModuleNavigation();
+    }
     public void SwitchControlMapToDialogue() => inputs.SwitchCurrentActionMap("Dialogue");
 
     public void ReadMovementsInputs(InputAction.CallbackContext context)
