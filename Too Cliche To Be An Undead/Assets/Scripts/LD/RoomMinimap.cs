@@ -9,11 +9,16 @@ public class RoomMinimap : MonoBehaviour
 
     [SerializeField] private ElementSpawner roomKeycardSpawner;
 
+    [SerializeField] private SCRPT_RoomMinimap roomMinimap;
+
     private bool hasKeycard;
 
     private void Awake()
     {
         roomKeycardSpawner.D_spawnedKeycard += OnRoomSpawnedCard;
+
+        minimapSprite_room.color = roomMinimap.UndiscoveredColor;
+        minimapSprite_entry.color = roomMinimap.UndiscoveredColor;
     }
 
     private void OnRoomSpawnedCard(Keycard key)
@@ -33,8 +38,8 @@ public class RoomMinimap : MonoBehaviour
 
     private void ValidateRoom()
     {
-        minimapSprite_room.LeanAlpha(1, .5f);
-        minimapSprite_entry.LeanAlpha(1, .5f);
+        minimapSprite_room.LeanColor(roomMinimap.DiscoveredColor, roomMinimap.DiscoveryColorBlendSpeed);
+        minimapSprite_entry.LeanColor(roomMinimap.DiscoveredColor, roomMinimap.DiscoveryColorBlendSpeed);
         Destroy(this, 1f);
     }
 }

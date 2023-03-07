@@ -13,4 +13,9 @@ public static class SpriteRendererExtensions
     {
         return LeanTween.alpha(spriteRenderer.gameObject, alphaGoal, time);
     }
+
+    public static LTDescr LeanColor(this SpriteRenderer spriteRenderer, Color colorGoal, float time)
+    {
+        return LeanTween.color(spriteRenderer.gameObject, colorGoal, time);
+    }
 }

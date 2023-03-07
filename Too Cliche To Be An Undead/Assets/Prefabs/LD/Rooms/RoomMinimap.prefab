@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: -2
   m_SortingOrder: -99
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.22864723, a: 0}
+  m_Color: {r: 0.4, g: 0.8901961, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayer: -2
   m_SortingOrder: -99
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.22864723, a: 0}
+  m_Color: {r: 0.4, g: 0.8901961, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -217,6 +217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimapSprite_room: {fileID: 8954521304313764032}
   minimapSprite_entry: {fileID: 1200201986}
+  roomKeycardSpawner: {fileID: 0}
+  roomMinimap: {fileID: 11400000, guid: f9518ae13d59ced499c97ce65f4caa9b, type: 2}
 --- !u!61 &8954521304548093723
 BoxCollider2D:
   m_ObjectHideFlags: 0
