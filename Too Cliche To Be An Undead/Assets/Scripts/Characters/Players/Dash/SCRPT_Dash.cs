@@ -23,10 +23,14 @@ public class SCRPT_Dash : ScriptableObject
 
     protected ParticleSystem currentParticles;
 
-    public virtual void OnDashStart(PlayerCharacter owner)
+    public virtual void OnDashStart(PlayerCharacter owner, Vector2 direction)
     {
         currentParticles = particlesPF?.Create(parent: owner.SkeletonAnimation.transform).GetComponent<ParticleSystem>();
 
+        if (direction.y <= -.65f)
+            currentParticles.gameObject.transform.Rotate(-90, 0, 0);
+        else if (direction.y >= .65f)
+            currentParticles.gameObject.transform.Rotate(90, 0, 0);
     }
     public virtual void OnDashUpdate(PlayerCharacter owner)
     {

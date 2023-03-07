@@ -14,9 +14,9 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
     private float finalDamages;
     private int critChances;
 
-    public override void OnDashStart(PlayerCharacter owner)
+    public override void OnDashStart(PlayerCharacter owner, Vector2 direction)
     {
-        base.OnDashStart(owner);
+        base.OnDashStart(owner, direction);
 
         finalDamages = owner.maxDamages_M * damagesPercentageModifier;
         critChances = owner.maxCritChances_M;

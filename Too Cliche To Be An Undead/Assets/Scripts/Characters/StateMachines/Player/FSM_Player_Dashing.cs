@@ -34,7 +34,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         }
         else mouseDir = (owner.LastDirection).normalized;
 
-        owner.PlayerDash.OnDashStart(owner);
+        owner.PlayerDash.OnDashStart(owner, mouseDir);
 
         owner.SetSelfVelocity(mouseDir * owner.PlayerDash.DashSpeedCurve.Evaluate(0));
 

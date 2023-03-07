@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Jason", menuName = "Scriptable/Entity/Dash/Jason")]
 public class SCRPT_Dash_Jason : SCRPT_Dash
 {
-    public override void OnDashStart(PlayerCharacter owner)
+    public override void OnDashStart(PlayerCharacter owner, Vector2 direction)
     {
-        base.OnDashStart(owner);
+        base.OnDashStart(owner, direction);
         owner.SetInvincibility(true);
     }
 

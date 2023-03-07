@@ -13,9 +13,9 @@ public class SCRPT_Dash_Nelson : SCRPT_Dash
 
     [SerializeField] private bool destroyTrapOnTrigger = true;
 
-    public override void OnDashStart(PlayerCharacter owner)
+    public override void OnDashStart(PlayerCharacter owner, Vector2 direction)
     {
-        base.OnDashStart(owner);
+        base.OnDashStart(owner, direction);
 
         TrapBase tb = Instantiate(trapPF, owner.transform.position, Quaternion.identity).GetComponent<TrapBase>();
 

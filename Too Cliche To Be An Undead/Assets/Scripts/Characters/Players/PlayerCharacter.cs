@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +9,6 @@ using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.Users;
 using System.Linq;
-using UnityEngine.TextCore.Text;
 using System.Text;
 using Spine.Unity;
 

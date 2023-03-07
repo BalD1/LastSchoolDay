@@ -13,6 +13,8 @@ public class BloodSpiller : MonoBehaviour
 
     [SerializeField] private float spillLifetime = 30;
 
+    [SerializeField] private float onDamageDirectionRandomRange;
+
     private void Awake()
     {
         owner.D_onTakeDamagesFromEntity += SpillBloodOnDamages;
@@ -41,6 +43,11 @@ public class BloodSpiller : MonoBehaviour
 
     private void SpillBlood(int amount, Vector2 direction)
     {
+        direction.x += Random.Range(-onDamageDirectionRandomRange, onDamageDirectionRandomRange);
+        direction.y += Random.Range(-onDamageDirectionRandomRange, onDamageDirectionRandomRange);
+
+        direction.Normalize();
+
         for (int i = 0; i < amount; i++)
         {
             BloodParticleSystemHandler.Instance.SpawnBlood(this.transform.position, direction, spillLifetime);
