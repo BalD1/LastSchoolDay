@@ -36,7 +36,7 @@ public class BloodSpiller : MonoBehaviour
     {
         int amountToSpawn = Random.Range(minBloodSpill, maxBloodSpill);
 
-        amountToSpawn *= 2;
+        amountToSpawn *= 4;
 
         SpillBlood(amountToSpawn, Random.insideUnitCircle.normalized);
     }
