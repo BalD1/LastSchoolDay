@@ -9,6 +9,9 @@ public class Locker : MonoBehaviour, IInteractable
 
     [SerializeField] private int openableChance = 50;
 
+    [SerializeField] private AudioClip openSound;
+    [SerializeField] private AudioSource source;
+
     [System.Serializable]
     private struct S_Animations
     {
@@ -87,6 +90,8 @@ public class Locker : MonoBehaviour, IInteractable
         sparkles.SetActive(false);
 
         outline.SetActive(false);
+
+        source.PlayOneShot(openSound);
 
         Destroy(this);
     }

@@ -39,12 +39,9 @@ public class SoundManager : MonoBehaviour
     [System.Serializable]
     public enum E_ClipsTags
     {
-        // SFX
-
-        // Musics
-
         MainMenu,
-        MainScene
+        MainScene,
+        Clic,
     }
 
     [System.Serializable]

@@ -338,6 +338,7 @@ RectTransform:
   - {fileID: 1450752698}
   - {fileID: 356304927}
   - {fileID: 30572224}
+  - {fileID: 408584948}
   - {fileID: 788885046}
   m_Father: {fileID: 1412577364}
   m_RootOrder: 2
@@ -578,6 +579,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 696370800}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: Play2DSFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Clic
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
@@ -1135,6 +1148,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc865f0ae96c46d46afee6e6872dd833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &408584947
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 408584948}
+  - component: {fileID: 408584949}
+  m_Layer: 5
+  m_Name: Buttons Actions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &408584948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408584947}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.000061035156, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 73316768}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &408584949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408584947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386f1ba2e5b555e499968f7fc900963b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &469167752
 GameObject:
   m_ObjectHideFlags: 0
@@ -1296,18 +1353,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1110982976}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1450752697}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -1354,6 +1399,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 696370800}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: Play2DSFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Clic
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!222 &480925998
@@ -2155,6 +2212,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8939497524165870758, guid: b9439b133ff47ae4b9f41134232b192b, type: 3}
   m_PrefabInstance: {fileID: 696370798}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &696370800 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8939497524165870753, guid: b9439b133ff47ae4b9f41134232b192b, type: 3}
+  m_PrefabInstance: {fileID: 696370798}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29583a24a2a44e045a93218b6983a968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &700865290
 GameObject:
   m_ObjectHideFlags: 0
@@ -2240,6 +2308,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 696370800}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: Play2DSFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Clic
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1091037484}
         m_TargetAssemblyTypeName: ButtonAction, Assembly-CSharp
         m_MethodName: Quit
@@ -2421,6 +2501,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 696370800}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: Play2DSFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Clic
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!114 &701432213
 MonoBehaviour:
@@ -2574,11 +2666,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731970010}
   m_CullTransparentMesh: 1
---- !u!1 &788885045 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 57275634922166312, guid: b32290a731630844caca0a4cc74af917, type: 3}
-  m_PrefabInstance: {fileID: 57275634603750941}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &788885046 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 57275634922166315, guid: b32290a731630844caca0a4cc74af917, type: 3}
@@ -3516,7 +3603,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1110982976}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &1123291840 stripped
@@ -4316,22 +4403,34 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1110982976}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 696370800}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: Play2DSFX
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Clic
           m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 1110982980}
         m_TargetAssemblyTypeName: PlayerPanelsManager, Assembly-CSharp
         m_MethodName: Begin
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1450752697}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5007,24 +5106,24 @@ MonoBehaviour:
         m_MethodName: OpenMenuInQueue
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 788885045}
+          m_ObjectArgument: {fileID: 57275634603750943}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1450752697}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 696370800}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: Play2DSFX
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
+          m_StringArgument: Clic
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 356304928}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
@@ -5036,6 +5135,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Options
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1450752697}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1820244030
@@ -5734,7 +5845,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2108095593}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 696370800}
+        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+        m_MethodName: Play2DSFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Clic
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2108095593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5834,7 +5957,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -5847,7 +5974,7 @@ PrefabInstance:
     - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 696370800}
     - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CloseYoungerMenu
@@ -5857,8 +5984,24 @@ PrefabInstance:
       value: SetActive
       objectReference: {fileID: 0}
     - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Play2DSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: SoundManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
+      value: Clic
+      objectReference: {fileID: 0}
+    - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 57275633676163587, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -5926,7 +6069,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 57275634922166315, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 57275634922166315, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6060,6 +6203,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.6501465
       objectReference: {fileID: 0}
+    - target: {fileID: 7068680868029249981, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7068680868029249981, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 408584949}
+    - target: {fileID: 7068680868029249981, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 696370800}
+    - target: {fileID: 7068680868029249981, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OPTION_DashToMouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 7068680868029249981, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play2DSFX
+      objectReference: {fileID: 0}
     - target: {fileID: 7165573583068661259, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -6097,6 +6260,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &57275634603750943 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 57275634922166312, guid: b32290a731630844caca0a4cc74af917, type: 3}
+  m_PrefabInstance: {fileID: 57275634603750941}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5271613097002643629
 PrefabInstance:
   m_ObjectHideFlags: 0

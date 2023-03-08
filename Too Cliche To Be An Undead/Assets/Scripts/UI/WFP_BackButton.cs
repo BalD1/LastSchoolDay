@@ -12,6 +12,7 @@ public class WFP_BackButton : MonoBehaviour
     {
         videoPlayer.GetVideoPlayer.Stop();
         canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
         videoPlayer.FadeVideo(false, 0);
 
         foreach (var item in panelsManager.GetPlayerPanels)

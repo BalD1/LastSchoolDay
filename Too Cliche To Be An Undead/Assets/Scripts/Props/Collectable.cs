@@ -11,6 +11,9 @@ public class Collectable : MonoBehaviour, IInteractable
     public ParticleSystem particle;
     public int coinValue = 1;
 
+    [SerializeField] protected AudioClip pickupSound;
+    [SerializeField] private AudioSource source;
+
     [SerializeField] private float pickupDistance = 1f;
 
     [SerializeField] protected bool pickupOnCollision = true;
@@ -97,7 +100,7 @@ public class Collectable : MonoBehaviour, IInteractable
 
     protected virtual void TouchedPlayer(PlayerCharacter player)
     {
-
+        source?.PlayOneShot(pickupSound);
     }
 
     public void EnteredInRange(GameObject interactor)
@@ -119,6 +122,8 @@ public class Collectable : MonoBehaviour, IInteractable
         spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
 
         isPicked = true;
+
+        source?.PlayOneShot(pickupSound);
 
         LeanTween.scale(this.gameObject, new Vector2(1.2f, 1.2f), .3f).setOnComplete(
         () =>

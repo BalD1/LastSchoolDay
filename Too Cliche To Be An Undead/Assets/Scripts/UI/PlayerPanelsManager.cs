@@ -61,6 +61,7 @@ public class PlayerPanelsManager : MonoBehaviour
         if (playerPanels[0].TokensQueue.Count <= 0) JoinPanel(0, GameManager.Player1Ref);
 
         canvasGroup.alpha = 1;
+        canvasGroup.interactable = true;
 
         animationCoroutine = StartCoroutine(PanelsAnimation());
 

@@ -27,6 +27,8 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject smallCoinDropPF;
     [SerializeField] private GameObject largeCoinDropPF;
 
+    [field: SerializeField] public GameObject AudioclipPlayerPF { get; private set; }
+
     [SerializeField] private GameObject basePBPF;
 
     [SerializeField] private S_ZombiesWithWeight[] zombiesWithWeights;
