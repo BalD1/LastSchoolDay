@@ -21,7 +21,10 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
     public override void StartSkill(PlayerCharacter owner)
     {
-        isInUse = true; 
+        isInUse = true;
+
+        owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+
         owner.GetSkillHolder.D_enteredTrigger += EnteredTrigger;
         owner.GetSkillHolder.D_exitedTrigger += ExitedTrigger;
 

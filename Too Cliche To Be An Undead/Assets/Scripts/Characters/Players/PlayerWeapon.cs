@@ -270,11 +270,11 @@ public class PlayerWeapon : MonoBehaviour
         isAttacking = true;
     }
 
-    public void SuccessfulHit(Vector3 hitPosition, Entity e, bool addKnockback, float speedModifier)
+    public void SuccessfulHit(Vector3 hitPosition, Entity e, bool addKnockback, float speedModifier, bool bigHit)
     {
         if (e == null) return;
 
-        owner.D_successfulAttack?.Invoke();
+        owner.D_successfulAttack?.Invoke(bigHit);
 
         Vector3 effectObjectPos = slashParticles.gameObject.transform.position;
         float dist = Vector2.Distance(effectObjectPos, hitPosition) / 2;

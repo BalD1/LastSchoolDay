@@ -758,6 +758,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6161561677637227253}
+  - component: {fileID: 9034290970493158934}
   - component: {fileID: 5349493360846741203}
   m_Layer: 6
   m_Name: Audio
@@ -781,6 +782,19 @@ Transform:
   m_Father: {fileID: 2115303102819014780}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9034290970493158934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243239743051457181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbd48c6b06829434aba2e8bf97ae1565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 8823656354733599271}
 --- !u!82 &5349493360846741203
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2658,7 +2672,6 @@ MonoBehaviour:
   skeletonAnimation: {fileID: 0}
   animator: {fileID: 3934805327378046947}
   healthPopupOffset: {x: 0, y: 1}
-  audioClips: {fileID: 11400000, guid: 16996d08a168bd545875040b1188965a, type: 2}
   source: {fileID: 5349493360846741203}
   stats: {fileID: 11400000, guid: 641691dcbebbce04793993d719e9f9fe, type: 2}
   currentHP: 100
@@ -2674,6 +2687,7 @@ MonoBehaviour:
     m_Bits: 0
   playerIndex: 0
   stateManager: {fileID: 5207945969965588748}
+  audioClips: {fileID: 11400000, guid: 5df749090b24af648a1e13b11745a35a, type: 2}
   animationController: {fileID: 8621487532268834906}
   minimapMarker: {fileID: 5962262701401338645}
   selfInteractor: {fileID: 3790402285985648515}

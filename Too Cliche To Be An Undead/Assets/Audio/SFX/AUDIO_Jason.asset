@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7ba61f3f411e794fa3a44a0eaca8161, type: 3}
+  m_Name: AUDIO_Jason
+  m_EditorClassIdentifier: 
+  attackClips:
+  - {fileID: 8300000, guid: 56d4859f8516ed14e890975987b6c7fd, type: 3}
+  - {fileID: 8300000, guid: c67a89df385e6904cbc8959132a3c6ca, type: 3}
+  bigAttackClips:
+  - {fileID: 8300000, guid: 1537f40c39db08c45a7f00572720a561, type: 3}
+  hurtClips:
+  - {fileID: 8300000, guid: 08d9184f7386c9b48ae58e1be1ca7791, type: 3}
+  deathClips:
+  - {fileID: 8300000, guid: 08d9184f7386c9b48ae58e1be1ca7791, type: 3}
+  skillStartClips:
+  - {fileID: 8300000, guid: c8d6dbcde9b78824eae38dc7a74c8be2, type: 3}
+  skillHoldClips: []
+  skillEndClips: []
+  dashClips:
+  - {fileID: 8300000, guid: c8f2e3c6a5fbe554bb8e6c0d2a4f6caf, type: 3}

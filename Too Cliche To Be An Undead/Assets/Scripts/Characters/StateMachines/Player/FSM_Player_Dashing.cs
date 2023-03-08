@@ -23,6 +23,8 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         max_DURATION = owner.PlayerDash.DashSpeedCurve[owner.PlayerDash.DashSpeedCurve.length - 1].time;
         dash_dur_TIMER = max_DURATION;
 
+        owner.D_onDash?.Invoke();
+
         alreadyPushedEntities = new List<Collider2D>();
 
         owner.SetAllVelocity(Vector2.zero);

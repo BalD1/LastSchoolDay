@@ -30,7 +30,7 @@ public class PlayerFootprints : MonoBehaviour
             allowfootprints_TIMER = allowfootprints_DURATION;
     }
 
-    private void OwnerAttacked() => allowfootprints_TIMER = allowfootprints_DURATION;
+    private void OwnerAttacked(bool isBigHit) => allowfootprints_TIMER = allowfootprints_DURATION;
 
     private void Update()
     {

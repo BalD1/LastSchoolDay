@@ -127,6 +127,8 @@ public class DataKeeper : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+
+            this.transform.SetParent(null);
             DontDestroyOnLoad(this.gameObject);
         }
         else

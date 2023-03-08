@@ -51,6 +51,9 @@ public class PlayerNormalWeapon : PlayerWeapon
         owner.GetRb.AddForce(onAttackMovementSpeed * attackMovementDirection, ForceMode2D.Impulse);
 
         hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.maxAttRange_M, damageablesLayer);
+
+        bool successfulhit = false;
+
         foreach (var item in hitEntities)
         {
             var damageable = item.GetComponentInParent<IDamageable>();
@@ -71,6 +74,8 @@ public class PlayerNormalWeapon : PlayerWeapon
                 if (damageable.OnTakeDamages(damages, owner.GetStats.Team, this.owner, isCrit) == false)
                     continue;
 
+                successfulhit = true;
+
                 // Check if the entity is the closest one from player
                 float dist = Vector2.Distance(item.transform.position, effectObject.transform.position);
                 if ((closestEnemy == null || closestEnemyDist == -1) || (dist <= distanceForAutoAim && dist < closestEnemyDist) )
@@ -89,10 +94,12 @@ public class PlayerNormalWeapon : PlayerWeapon
                     shakeDuration = bigShakeDuration;
                 }
 
-                SuccessfulHit(item.transform.position, item.GetComponentInParent<Entity>(), performKnockback, speedModifier);
+                SuccessfulHit(item.transform.position, item.GetComponentInParent<Entity>(), performKnockback, speedModifier, (isLastAttack || isCrit));
                 CameraManager.Instance.ShakeCamera(shakeIntensity, shakeDuration);
             }
         }
+
+        if (!successfulhit) owner.D_swif?.Invoke();
 
         if (isLastAttack) owner.StartGamepadShake(bigHitGamepadShake);
         else owner.StartGamepadShake(bigHitGamepadShake);

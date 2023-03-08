@@ -10,6 +10,9 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
     public override void StartSkill(PlayerCharacter owner)
     {
         isInUse = true;
+
+        owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+
         owner.SetInvincibility(true);
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);

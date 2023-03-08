@@ -21,6 +21,9 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
     [SerializeField] private float damageRandomMultiplier = 1.2f;
 
     [SerializeField] private float fire_COOLDOWN;
+
+    [SerializeField] private AudioClip fireClip;
+
     private float fire_TIMER;
 
     private int finalCrit;
@@ -33,6 +36,9 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
     {
         _owner = owner;
         isInUse = true;
+
+        owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
         owner.OffsetSkillHolder(offset);
@@ -81,6 +87,8 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
     private void Fire()
     {
         if (fire_TIMER > 0) return;
+
+        _owner.TryPlayAudioclip(fireClip);
 
         fire_TIMER = fire_COOLDOWN;
 

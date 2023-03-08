@@ -36,10 +36,8 @@ public class Entity : MonoBehaviour, IDamageable
 
     [Header("Audio")]
 
-    [SerializeField] protected SCRPT_EntityAudio audioClips;
-    public SCRPT_EntityAudio GetAudioClips { get => audioClips; }
-
     [SerializeField] protected AudioSource source;
+    public AudioSource GetAudioSource { get => source; }
 
     //************************************
     //************* STATS ****************
@@ -410,7 +408,6 @@ public class Entity : MonoBehaviour, IDamageable
             currentHP = 0;
             OnDeath();
         }
-        else source.PlayOneShot(audioClips.GetRandomHurtClip());
 
         return true;
     }
@@ -457,8 +454,6 @@ public class Entity : MonoBehaviour, IDamageable
         if (!forceDeath && IsAlive()) return;
 
         d_OnDeath?.Invoke();
-
-        source.PlayOneShot(audioClips.GetRandomDeathClip());
     }
 
     public virtual bool IsAlive() => currentHP > 0;

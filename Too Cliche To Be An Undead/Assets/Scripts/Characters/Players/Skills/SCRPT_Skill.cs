@@ -42,6 +42,8 @@ public abstract class SCRPT_Skill : ScriptableObject
 
     [SerializeField] protected GameObject particles;
 
+    [field: SerializeField] public bool holdSkillAudio { get; private set; }
+
     protected bool isInUse;
     public bool IsInUse { get => isInUse; }
 

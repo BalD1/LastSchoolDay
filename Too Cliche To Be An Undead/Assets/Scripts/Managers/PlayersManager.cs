@@ -50,7 +50,7 @@ public class PlayersManager : MonoBehaviour
         public SCRPT_Dash dash;
         public SCRPT_Skill skill;
         public SCRPT_EntityStats stats;
-        public Sprite sprite;
+        public SCRPT_PlayerAudio audioClips;
         public SCRPT_PlayersAnimData animData;
     }
 

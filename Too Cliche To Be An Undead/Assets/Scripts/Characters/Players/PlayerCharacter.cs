@@ -32,6 +32,9 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private FSM_Player_Manager stateManager;
 
+    [SerializeField] private SCRPT_PlayerAudio audioClips;
+    public SCRPT_PlayerAudio GetAudioClips { get => audioClips; }
+
     [SerializeField] private PlayerAnimationController animationController;
     [SerializeField] private GameObject minimapMarker;
     [SerializeField] private PlayerInteractor selfInteractor;
@@ -96,14 +99,20 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private PlayerInput inputs;
 
+    public delegate void D_SwitchCharacter();
+    public D_SwitchCharacter D_switchCharacter;
+
     public delegate void D_SteppedIntoTrigger(Type triggerType);
     public D_SteppedIntoTrigger d_SteppedIntoTrigger;
 
     public delegate void D_AttackInput();
     public D_AttackInput D_attackInput;
 
-    public delegate void D_SuccessfulAttack();
+    public delegate void D_SuccessfulAttack(bool isBigHit);
     public D_SuccessfulAttack D_successfulAttack;
+
+    public delegate void D_Swiff();
+    public D_Swiff D_swif;
 
     public delegate void D_StartHoldAttackInput();
     public D_StartHoldAttackInput D_startHoldAttackInput;
@@ -114,8 +123,17 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_SkillInput();
     public D_SkillInput D_skillInput;
 
+    public delegate void D_StartSkill(bool holdAudio);
+    public D_StartSkill D_startSkill;
+
+    public delegate void D_EndSkill(bool holdAudio);
+    public D_EndSkill D_endSkill;
+
     public delegate void D_DashInput();
     public D_DashInput D_dashInput;
+
+    public delegate void D_OnDash();
+    public D_OnDash D_onDash;
 
     public delegate void D_AimInput(Vector2 val);
     public D_AimInput D_aimInput;
@@ -256,7 +274,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
 
-        SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character, pcc.animData);
+        SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips);
     }
 
     private void OnDestroy()
@@ -319,7 +337,7 @@ public class PlayerCharacter : Entity, IInteractable
 
             PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(GameManager.E_CharactersNames.Shirley);
 
-            SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character, pcc.animData);
+            SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips);
 
             this.currentHP = maxHP_M;
 
@@ -1060,8 +1078,8 @@ public class PlayerCharacter : Entity, IInteractable
     #region Switch & Set
 
     public void SwitchCharacter(PlayersManager.PlayerCharacterComponents pcc)
-        => SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.sprite, pcc.character, pcc.animData);
-    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, Sprite newSprite, GameManager.E_CharactersNames character, SCRPT_PlayersAnimData animData)
+        => SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips);
+    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, GameManager.E_CharactersNames character, SCRPT_PlayersAnimData animData, SCRPT_PlayerAudio audioData)
     {
         DataKeeper.Instance.playersDataKeep[this.playerIndex].character = character;
 
@@ -1069,6 +1087,8 @@ public class PlayerCharacter : Entity, IInteractable
 
         this.skillHolder.ChangeSkill(newSkill);
         this.stats = newStats;
+
+        this.audioClips = audioData;
 
         animationController.Setup(animData);
 
@@ -1120,6 +1140,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         CameraManager.Instance.Markers[this.playerIndex].gameObject.SetActive(false);
 
+        D_switchCharacter?.Invoke();
     }
 
     public void SetAttack(GameObject newWeapon)
@@ -1165,6 +1186,11 @@ public class PlayerCharacter : Entity, IInteractable
         if (idx > DataKeeper.Instance.playersDataKeep.Count) return GameManager.E_CharactersNames.Shirley;
         
         return DataKeeper.Instance.playersDataKeep[idx].character;
+    }
+
+    public void TryPlayAudioclip(AudioClip clip)
+    {
+        this.source?.PlayOneShot(clip);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

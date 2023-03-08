@@ -12,6 +12,9 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
         Vector2 skillPos = owner.StateManager.inSkillState.SkillHolderPosAtStart;
 
         isInUse = true;
+
+        owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+
         owner.OffsetSkillHolder(offset);
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
 
