@@ -13,6 +13,7 @@ public class SplashScreen : MonoBehaviour
     [SerializeField] private UIVideoPlayer videoPlayer;
 
     [SerializeField] private TextMeshProUGUI pressAnyKey;
+    [SerializeField] private TextMeshProUGUI skipText;
 
     [SerializeField] private CanvasGroup mainScreen;
     [SerializeField] private Image mainScreenBackground;
@@ -27,6 +28,9 @@ public class SplashScreen : MonoBehaviour
     private float allowMainMenu_TIMER = -1;
 
     private bool allowMainMenu = false;
+
+    private bool skipTextIsVisible = false;
+    private bool skippedScreen = false;
 
     private void Awake()
     {
@@ -60,7 +64,10 @@ public class SplashScreen : MonoBehaviour
 
             if (allowMainMenu_TIMER <= 0)
             {
+                if (skippedScreen) return;
+
                 allowMainMenu = true;
+                skipText.alpha = 0;
                 LeanTween.value(pressAnyKey.color.a, 1, .5f)
                 .setOnUpdate(
                 (float val) =>
@@ -91,7 +98,28 @@ public class SplashScreen : MonoBehaviour
 
     private void ManageInput()
     {
+        if (skippedScreen) return;
+
         if (allowMainMenu) FadeOutScreen();
+        else
+        {
+            if (!skipTextIsVisible)
+            {
+                LeanTween.value(skipText.color.a, 1, .15f)
+                .setOnUpdate(
+                (float val) =>
+                {
+                    Color c = skipText.color;
+                    c.a = val;
+                    skipText.color = c;
+                }).setIgnoreTimeScale(true).setOnComplete(() => skipTextIsVisible = true);
+            }
+            else
+            {
+                skippedScreen = true;
+                FadeOutScreen();
+            }
+        }
     }
 
     private void OnFadeInEnded()
@@ -109,9 +137,12 @@ public class SplashScreen : MonoBehaviour
 
     private void FadeOutScreen()
     {
-        allowMainMenu = false;
+        LeanTween.cancel(skipText.gameObject);
         LeanTween.cancel(videoPlayer.gameObject);
         LeanTween.cancel(pressAnyKey.gameObject);
+
+        skipTextIsVisible = false;
+        allowMainMenu = false;
 
         mainScreenBackground.SetAlpha(1);
 
@@ -120,6 +151,7 @@ public class SplashScreen : MonoBehaviour
 
         videoPlayer.FadeVideo(false, 1, OnFadeOutEnded);
         pressAnyKey.gameObject.SetActive(false);
+        skipText.gameObject.SetActive(false);
         mainScreen.LeanAlpha(1, .5f).setIgnoreTimeScale(true);
         mainScreenBackground.LeanAlpha(1, .5f).setIgnoreTimeScale(true);
     }
