@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class SCRPT_Dash : ScriptableObject
 {
@@ -19,18 +20,26 @@ public class SCRPT_Dash : ScriptableObject
     [SerializeField] private float maxScreenShakeDuration = .1f;
     public float MaxScreenShakeDuration { get => maxScreenShakeDuration; }
 
-    [SerializeField] protected GameObject particlesPF;
+    [SerializeField] protected GameObject[] particlesPF;
 
-    protected ParticleSystem currentParticles;
+    protected List<ParticleSystem> currentParticles;
 
     public virtual void OnDashStart(PlayerCharacter owner, Vector2 direction)
     {
-        currentParticles = particlesPF?.Create(parent: owner.SkeletonAnimation.transform).GetComponent<ParticleSystem>();
+        currentParticles = new List<ParticleSystem>();
+
+        float particlesRotation = 0;
 
         if (direction.y <= -.65f)
-            currentParticles.gameObject.transform.Rotate(-90, 0, 0);
+            particlesRotation = -90;
         else if (direction.y >= .65f)
-            currentParticles.gameObject.transform.Rotate(90, 0, 0);
+            particlesRotation = 90;
+
+        for (int i = 0; i < particlesPF.Length; i++)
+        {
+            currentParticles.Add(particlesPF[i].Create(parent: owner.SkeletonAnimation.transform).GetComponent<ParticleSystem>());
+            currentParticles[i].gameObject.transform.Rotate(particlesRotation, 0, 0);
+        }
     }
     public virtual void OnDashUpdate(PlayerCharacter owner)
     {
@@ -38,6 +47,7 @@ public class SCRPT_Dash : ScriptableObject
     }
     public virtual void OnDashStop(PlayerCharacter owner)
     {
-        currentParticles.Stop();
+        foreach (var item in currentParticles)
+            item.Stop();
     }
 }
