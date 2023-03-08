@@ -11,6 +11,8 @@ public class YardDoor : MonoBehaviour
 
     [SerializeField] private BoxCollider2D blockCollision;
 
+    [SerializeField] private bool destroyScriptOnOpen = true;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<PlayerCharacter>() == null) return;

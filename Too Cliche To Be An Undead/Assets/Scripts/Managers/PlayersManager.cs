@@ -91,6 +91,7 @@ public class PlayersManager : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
+        this.transform.SetParent(null);
         DontDestroyOnLoad(this);
     }
 

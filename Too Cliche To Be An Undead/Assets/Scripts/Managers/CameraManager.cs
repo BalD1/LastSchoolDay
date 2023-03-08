@@ -47,6 +47,9 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
+        cam_followPlayers.transform.SetParent(null);
+        tg_players.transform.SetParent(null);
+
         DontDestroyOnLoad(cam_followPlayers);
         DontDestroyOnLoad(tg_players);
 

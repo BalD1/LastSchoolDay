@@ -37,7 +37,7 @@ public class PlayerPanelsManager : MonoBehaviour
         videoPlayer.StartVideo();
         StartCoroutine(videoPlayer.WaitForAction(1.65f, WaitForAnimation));
 
-        GameManager.Player1Ref.SwitchControlMapToCharacterSelect();
+        //GameManager.Player1Ref.SwitchControlMapToCharacterSelect();
     }
 
     public void WaitForAnimation(VideoPlayer vp)

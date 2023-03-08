@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,71 +6,38 @@ using UnityEngine.InputSystem;
 
 public class OpenableDoor : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private SkeletonAnimation skeleton;
+
+    [SerializeField][SpineAnimation] private string openAnimation;
+    [SerializeField][SpineAnimation] private string closeAnimation;
+
+    [SerializeField] private BoxCollider2D blocker;
 
     [SerializeField] private bool isClosed = false;
 
-    [SerializeField] private bool isVertical = true;
-
-    [SerializeField] private Vector2 baseHeight;
-
     private void Start()
     {
-        if (isClosed) return;
-
-        Vector2 doorSize = spriteRenderer.size;
-        doorSize.y = 0;
-        spriteRenderer.size = doorSize;
+        if (isClosed) Close(true);
+        else Open(true);
     }
 
-    public void Close(bool ignoreTimeScale = false)
+    public void Close(bool force = false)
     {
-        if (isClosed) return;
+        if (isClosed && !force) return;
 
-        SetTweenDependingOnOrientation(false, ignoreTimeScale);
+        skeleton.AnimationState.SetAnimation(0, closeAnimation, false);
+        blocker.gameObject.SetActive(true);
 
         isClosed = true;
     }
 
-    public void Open(bool ignoreTimeScale = false)
+    public void Open(bool force = false)
     {
-        if (!isClosed) return;
+        if (!isClosed && !force) return;
 
-        SetTweenDependingOnOrientation(true, ignoreTimeScale);
+        skeleton.AnimationState.SetAnimation(0, openAnimation, false);
+        blocker.gameObject.SetActive(false);
 
         isClosed = false;
-    }
-
-    /// <summary>
-    /// Opens or closes the door. Depending on the orientation (<see cref="isVertical"/>)."
-    /// </summary>
-    /// <param name="open"></param>
-    private void SetTweenDependingOnOrientation(bool open, bool ignoreTimeScale)
-    {
-        float goal = 0;
-
-        // sets the goal depending on the orientation
-        if (!open) goal = isVertical ? baseHeight.y : baseHeight.x;
-
-        LeanTween.value(from: isVertical ? spriteRenderer.size.y : spriteRenderer.size.x,
-                        to: goal, 
-                        time: .5f)
-        .setOnUpdate((float val) =>
-        {
-            Vector2 size = spriteRenderer.size;
-
-            if (isVertical) size.y = val;
-            else size.x = val;
-
-            spriteRenderer.size = size;
-        }).setIgnoreTimeScale(ignoreTimeScale);
-    }
-
-    private void OnEnable()
-    {
-#if UNITY_EDITOR
-        spriteRenderer ??= this.GetComponent<SpriteRenderer>();
-        baseHeight = spriteRenderer.size; 
-#endif
     }
 }

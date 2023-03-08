@@ -19,6 +19,8 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private OpenableDoor doorToCloseOnZombies;
     [SerializeField] private NormalZombie[] tutorialZombies;
 
+    [SerializeField] private Transform onZombiesPlayersTeleportGoal;
+
     private int zombiesCount;
 
     private bool enteredInTriggerFlag = false;
@@ -51,12 +53,14 @@ public class Tutorial : MonoBehaviour
     public void StartFirstDialogue() => DialogueManager.Instance.TryStartDialogue(startDialogue);
     public void StartZombiesDialogue()
     {
-        doorToCloseOnZombies.Close(true);
+        doorToCloseOnZombies.Close();
         DialogueManager.Instance.TryStartDialogue(zombiesDialogue, EnableTutorialZombies);
     }
 
     private void EnableTutorialZombies()
     {
+        GameManager.Instance.TeleportAllPlayers(onZombiesPlayersTeleportGoal.position);
+
         foreach (var item in tutorialZombies)
         {
             item.gameObject.SetActive(true);
@@ -117,7 +121,7 @@ public class Tutorial : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlayerCharacter>() != null && enteredInTriggerFlag == false)
+        if (collision.GetComponentInParent<PlayerCharacter>() != null && enteredInTriggerFlag == false)
         {
             enteredInTriggerFlag = true;
             StartZombiesDialogue();
