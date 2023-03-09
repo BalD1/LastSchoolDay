@@ -17,13 +17,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   <AttackDistance>k__BackingField: 2
+  <AttackDuration>k__BackingField: 0
   <MinDurationBeforeAttack>k__BackingField: 0.5
   <MaxDurationBeforeAttack>k__BackingField: 0.5
   <telegraphRotationOffset>k__BackingField: 90
   <DamageOnCollision>k__BackingField: 1
   <telegraphSprite>k__BackingField: {fileID: 21300000, guid: dc2ecf1eac8e9174284eef8dccfffbba, type: 3}
   <attackOffset>k__BackingField: {x: 0, y: 0}
-  <telegraphVectorSize>k__BackingField: {x: 0.3, y: 4.4}
+  <telegraphVectorSize>k__BackingField: {x: 0.6, y: 4.4}
+  <SetTelegraphOnStart>k__BackingField: 0
   upAnim: {fileID: 11400000, guid: 3c19ff2dec434c6499b3bfac19f40c43, type: 2}
   downAnim: {fileID: 11400000, guid: 720350140da127541a1ad962b0cb136c, type: 2}
   sideAnim: {fileID: 11400000, guid: 92ed8324b3f5edd438d7597041c8c4b3, type: 2}
