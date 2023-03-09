@@ -1248,6 +1248,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""ArrowsDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""290d0381-59fc-4e38-81e3-0543de2f171b"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
