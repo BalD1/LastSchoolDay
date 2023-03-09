@@ -58,7 +58,7 @@ MonoBehaviour:
     m_SingletonActionBindings:
     - m_Name: 
       m_Id: bea4d992-5c1b-4d68-be8e-5e58cb471d13
-      m_Path: <Gamepad>/select
+      m_Path: <Gamepad>/start
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -72,15 +72,7 @@ MonoBehaviour:
     m_Id: 67cb2398-8765-4b55-982e-045d84100085
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 3691d78f-e38f-4d91-a9a7-9c8db6519bd6
-      m_Path: <Gamepad>/leftTrigger
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Leave
-      m_Flags: 0
+    m_SingletonActionBindings: []
     m_Flags: 0
   alivePlayersCount: 0
   characterComponents:
