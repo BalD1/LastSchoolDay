@@ -273,6 +273,16 @@ public class DialogueManager : MonoBehaviour
         //PostproManager.Instance.SetBlurState(true);
     }
 
+    public void ForceStopDialogue()
+    {
+        StopAllCoroutines();
+        LeanTween.cancel(this.gameObject);
+
+        UIManager.Instance.SetBlackBars(false, 0);
+        dialogueContainer.alpha = 0;
+        ResetDialogue();
+    }
+
     private void ResetDialogue()
     {
         UnfinishedEffectsCount = 0;

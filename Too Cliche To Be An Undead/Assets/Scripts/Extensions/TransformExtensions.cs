@@ -21,4 +21,23 @@ public static class TransformExtensions
         pos.z = newPosZ;
         transform.localPosition = pos;
     }
+
+    public static void AddToLocalPositionX(this Transform transform, float x)
+    {
+        Vector3 pos = transform.localPosition;
+        pos.x += x;
+        transform.localPosition = pos;
+    }
+    public static void AddToLocalPositionY(this Transform transform, float y)
+    {
+        Vector3 pos = transform.localPosition;
+        pos.y += y;
+        transform.localPosition = pos;
+    }
+    public static void AddToLocalPositionZ(this Transform transform, float z)
+    {
+        Vector3 pos = transform.localPosition;
+        pos.z += z;
+        transform.localPosition = pos;
+    }
 }

@@ -19,7 +19,7 @@ public class GymnasiumCinematic : MonoBehaviour
 
     [SerializeField] private Transform playersTeleportPosition;
 
-    [SerializeField] private GameObject boss;
+    [SerializeField] private BossZombie boss;
 
     public delegate void D_CinematicEnded();
     public D_CinematicEnded D_cinematicEnded;
@@ -50,22 +50,26 @@ public class GymnasiumCinematic : MonoBehaviour
                 {
                     CameraManager.Instance.MoveCamera(bossTarget.position, () =>
                     {
-                        boss.SetActive(true);
-                        boss.GetComponent<BossZombie>().TargetClosestPlayer();
-
-                        DialogueManager.Instance.TryStartDialogue(bossSpawnDialogue, () =>
+                        boss.PlayAppearAnimation(() =>
                         {
-                            UIManager.Instance.FadeScreen(true, () =>
-                            {
-                                GameManager.Instance.TeleportAllPlayers(playersTeleportPosition.position);
-                                CameraManager.Instance.EndCinematic();
+                            boss.GetComponent<BossZombie>().TargetClosestPlayer();
 
-                                UIManager.Instance.FadeScreen(false, () =>
+                            DialogueManager.Instance.TryStartDialogue(bossSpawnDialogue, () =>
+                            {
+                                UIManager.Instance.FadeScreen(true, () =>
                                 {
-                                    UIManager.Instance.SetBlackBars(false);
-                                    UIManager.Instance.FadeAllHUD(true);
-                                    D_cinematicEnded?.Invoke();
-                                    GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+                                    GameManager.Instance.TeleportAllPlayers(playersTeleportPosition.position);
+                                    CameraManager.Instance.EndCinematic();
+
+                                    UIManager.Instance.FadeScreen(false, () =>
+                                    {
+                                        UIManager.Instance.SetBlackBars(false);
+                                        UIManager.Instance.FadeAllHUD(true);
+                                        DialogueManager.Instance.ForceStopDialogue();
+                                        D_cinematicEnded?.Invoke();
+                                        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+                                        boss.SetIsAppeared();
+                                    });
                                 });
                             });
                         });

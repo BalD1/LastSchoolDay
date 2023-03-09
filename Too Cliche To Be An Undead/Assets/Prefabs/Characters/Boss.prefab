@@ -648,7 +648,6 @@ MonoBehaviour:
   skeletonAnimation: {fileID: 2594995619587814015}
   animator: {fileID: 0}
   healthPopupOffset: {x: 0, y: 0}
-  audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
   source: {fileID: 6684974879034983664}
   stats: {fileID: 11400000, guid: 3a7cf8fdfcf407543866e4dc54ec155b, type: 2}
   currentHP: 0
@@ -698,6 +697,7 @@ MonoBehaviour:
   attackStarted: 0
   <AttackDirection>k__BackingField: {x: 0, y: 0}
   <hpThresholdBeforeNextStage>k__BackingField: 0.5
+  <isAppeared>k__BackingField: 0
 --- !u!114 &2327177842620200974
 MonoBehaviour:
   m_ObjectHideFlags: 0

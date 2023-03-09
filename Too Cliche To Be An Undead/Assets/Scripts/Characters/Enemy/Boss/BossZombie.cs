@@ -1,3 +1,6 @@
+using Spine;
+using Spine.Unity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,7 +36,23 @@ public class BossZombie : EnemyBase
 
     [field: SerializeField] public StatsModifier[] secondStageModifiers;
 
+    [field: SerializeField] public bool isAppeared { get; private set; }
+
     protected override void Start()
+    {
+        if (isAppeared) OnStart();
+        else
+        {
+            Skeleton sk = skeletonAnimation.skeleton;
+
+            Color goal = sk.GetColor();
+            goal.a = 0;
+
+            sk.SetColor(goal);
+        }
+    }
+
+    private void OnStart()
     {
         TargetClosestPlayer();
         base.Start();
@@ -42,6 +61,8 @@ public class BossZombie : EnemyBase
 
     protected override void Update()
     {
+        if (!isAppeared) return;
+
         base.Update();
     }
 
@@ -89,6 +110,46 @@ public class BossZombie : EnemyBase
         }
 
         this.SetTarget(closerTarget);
+    }
+
+    public void PlayAppearAnimation(Action actionToPlayAtEnd)
+    {
+        skeletonAnimation.AnimationState.SetAnimation(0, "SAUT DEBUT", false);
+
+        this.SkeletonHolder.AddToLocalPositionY(5);
+        Skeleton sk = skeletonAnimation.skeleton;
+
+        Color goalColor = sk.GetColor();
+        goalColor.a = 1;
+        LeanTween.value(this.SkeletonAnimation.gameObject, sk.GetColor(), goalColor, .25f).setOnUpdate((Color c) =>
+        {
+            sk.SetColor(c);
+        }).setIgnoreTimeScale(true);
+
+        LeanTween.delayedCall(.25f, () =>
+        {
+            skeletonAnimation.AnimationState.SetAnimation(0, "SAUT FIN", false);
+            skeletonAnimation.AnimationState.AddAnimation(0, "IDLE", false, .1f);
+
+        });
+        LeanTween.moveLocalY(this.SkeletonHolder.gameObject, 0, .5f).setOnComplete(() =>
+        {
+            this.SkeletonHolder.SetLocalPositionY(0);
+            sk.SetColor(goalColor);
+
+            float cameraShakeDuration = 2;
+
+            CameraManager.Instance.ShakeCamera(2.5f, cameraShakeDuration);
+            LeanTween.delayedCall(cameraShakeDuration, () => actionToPlayAtEnd?.Invoke());
+
+        }).setIgnoreTimeScale(true);
+    }
+
+    public void SetIsAppeared()
+    {
+        isAppeared = true;
+        OnStart();
+        stateManager.OnStart();
     }
 
 }
