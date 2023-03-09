@@ -21,7 +21,7 @@ public class SCRPT_BossCac : SCRPT_EnemyAttack
 
         foreach (var item in hitEntities)
         {
-            Entity e = item.transform.parent.GetComponent<Entity>();
+            Entity e = item.GetComponentInParent<Entity>();
 
             if (e == null) continue;
 

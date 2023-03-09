@@ -10,6 +10,7 @@ public abstract class SCRPT_EnemyAttack : ScriptableObject
     [SerializeField] protected LayerMask entitiesToAffect;
 
     [field: SerializeField] public float AttackDistance { get; private set; }
+    [field: SerializeField] public float AttackDuration { get; private set; }
     [field: SerializeField] public float MinDurationBeforeAttack { get; private set; }
     [field: SerializeField] public float MaxDurationBeforeAttack { get; private set; }
     [field: SerializeField] public float telegraphRotationOffset { get; private set; }
@@ -17,6 +18,8 @@ public abstract class SCRPT_EnemyAttack : ScriptableObject
     [field: SerializeField] public Sprite telegraphSprite { get; private set; }
     [field: SerializeField] public Vector2 attackOffset { get; private set; }
     [field: SerializeField] public Vector2 telegraphVectorSize { get; private set; }
+
+    [field: SerializeField] public bool SetTelegraphOnStart { get; private set; }
 
 
     public abstract void OnStart(EnemyBase owner);

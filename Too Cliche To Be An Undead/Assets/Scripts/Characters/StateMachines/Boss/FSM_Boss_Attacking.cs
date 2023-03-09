@@ -78,16 +78,23 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
 
     private void SetupNextAttack()
     {
+        owner.d_EnteredTrigger -= OnTrigger;
+
         SCRPT_EnemyAttack enemyAttack = owner.CurrentAttack.attack;
 
+        // if the attack uses enemy's collisions trigger
         if (enemyAttack.DamageOnCollision) owner.d_EnteredTrigger += OnTrigger;
 
+        // Set the anticipation anim
         owner.animationController.SetAnimation(owner.animationData.AttackAnticipAnim, false);
 
+        // Create a text feedback
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
 
+        // how long should the enemy wait before attacking ?
         float durationBeforeAttack = Random.Range(enemyAttack.MinDurationBeforeAttack, enemyAttack.MaxDurationBeforeAttack);
 
+        // Second feedback using the enemy scale
         LeanTween.scale(owner.SkeletonAnimation.gameObject, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
             () =>
             {
@@ -96,19 +103,23 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
             });
 
         waitBeforeAttack_TIMER = durationBeforeAttack;
-        attack_TIMER = enemyAttack.MaxDurationBeforeAttack + owner.CurrentAttack.timeBeforeNext;
+        attack_TIMER = enemyAttack.MaxDurationBeforeAttack + enemyAttack.AttackDuration + owner.CurrentAttack.timeBeforeNext;
         attack_flag = false;
 
-        Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
-        float lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        lookAngle += enemyAttack.telegraphRotationOffset;
-        Quaternion telegraphRotation = Quaternion.AngleAxis(lookAngle, Vector3.forward);
+        // should we set the telegraph now or wait for the attack OnStart ?
+        if (enemyAttack.SetTelegraphOnStart == false)
+        {
+            Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
+            float lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            lookAngle += enemyAttack.telegraphRotationOffset;
+            Quaternion telegraphRotation = Quaternion.AngleAxis(lookAngle, Vector3.forward);
 
-        owner.AttackDirection = -dir;
+            owner.AttackDirection = -dir;
 
-        Vector2 telegraphSize = enemyAttack.telegraphVectorSize != Vector2.zero ? enemyAttack.telegraphVectorSize : new Vector2(enemyAttack.AttackDistance, enemyAttack.AttackDistance);
+            Vector2 telegraphSize = enemyAttack.telegraphVectorSize != Vector2.zero ? enemyAttack.telegraphVectorSize : new Vector2(enemyAttack.AttackDistance, enemyAttack.AttackDistance);
 
-        owner.attackTelegraph.Setup(telegraphSize, enemyAttack.attackOffset, telegraphRotation, enemyAttack.telegraphSprite, durationBeforeAttack);
+            owner.attackTelegraph.Setup(telegraphSize, enemyAttack.attackOffset, telegraphRotation, enemyAttack.telegraphSprite, durationBeforeAttack);
+        }
 
         owner.canBePushed = true;
     }
@@ -119,6 +130,7 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         if (collider == null) return;
 
         if (collider.transform.parent == null) return;
+
 
         PlayerCharacter p = collider.transform.parent.GetComponent<PlayerCharacter>();
         if (p == null) return;

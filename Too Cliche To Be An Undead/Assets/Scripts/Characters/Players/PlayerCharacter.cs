@@ -672,7 +672,6 @@ public class PlayerCharacter : Entity, IInteractable
     public void AddKillCount()
     {
         killCounts += 1;
-        UIManager.Instance.PlayerHUDs[this.PlayerIndex].killsCounter.text = "x " + killCounts.ToString();
     }
 
     #endregion

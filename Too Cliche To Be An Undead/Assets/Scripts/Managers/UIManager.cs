@@ -98,8 +98,6 @@ public class UIManager : MonoBehaviour
 
         public Image dashContainer;
         public Image dashThumbnail;
-
-        public TextMeshProUGUI killsCounter;
     }
 
     [SerializeField] private Sprite skillButton_active;

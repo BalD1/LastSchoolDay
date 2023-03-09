@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class TMP_BloodReplacer : MonoBehaviour
 {
+#if UNITY_EDITOR
     [SerializeField] private GameObject[] bloodPrefabs;
 
     [InspectorButton(nameof(ReplaceBlood), ButtonWidth = 150)]
@@ -36,5 +36,6 @@ public class TMP_BloodReplacer : MonoBehaviour
                 }
             }
         }
-    }
+    } 
+#endif
 }
