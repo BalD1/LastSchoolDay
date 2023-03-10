@@ -35,7 +35,10 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand KILLALL;
     private DebugCommand<int> KILL;
 
+    private DebugCommand FORCEOPEN_GYMNASIUM;
+
     private DebugCommand FORCEWIN;
+    private DebugCommand FORCEKILL_BOSS;
 
     private DebugCommand<int> SWITCH_CHARACTER;
 
@@ -84,6 +87,8 @@ public class DebugConsole : MonoBehaviour
     public GUIStyle suggestionSkin;
     public GUIStyle greyedText;
 
+    private bool allowGameChange = true;
+
     private void Awake()
     {
         // Create commands
@@ -119,6 +124,11 @@ public class DebugConsole : MonoBehaviour
             GameManager.Instance.GameState = GameManager.E_GameState.Win;
         });
 
+        FORCEKILL_BOSS = new DebugCommand("FORCEKILL_BOSS", "Instantly kills the boss", "FORCEKILL_BOSS", () =>
+        {
+            FindObjectOfType<BossZombie>().OnTakeDamages(1000000);
+        });
+
         REMOVE_ALL_MODIFIERS = new DebugCommand("REMOVE_ALL_MODIFIERS", "Removes every modifiers of self", "REMOVE_ALL_MODIFIERS", () =>
         {
             GameManager.Player1Ref.RemoveModifiersAll();
@@ -137,6 +147,12 @@ public class DebugConsole : MonoBehaviour
         RICH_AF = new DebugCommand("RICH_AF", "Adds 5000 gold", "RICH_AF", () =>
         {
             PlayerCharacter.AddMoney(5000);
+        });
+
+        FORCEOPEN_GYMNASIUM = new DebugCommand("FORCEOPEN_GYMNASIUM", "Opens the gymnasium door and plays the cutscene", "FORCEOPEN_GYMNASIUM", () =>
+        {
+            allowGameChange = false;
+            FindObjectOfType<SpineGymnasiumDoor>()?.ForceOpen();
         });
 
         #endregion
@@ -290,6 +306,9 @@ public class DebugConsole : MonoBehaviour
             KILL,
 
             FORCEWIN,
+            FORCEKILL_BOSS,
+
+            FORCEOPEN_GYMNASIUM,
 
             SWITCH_CHARACTER,
 
@@ -359,7 +378,7 @@ public class DebugConsole : MonoBehaviour
         {
             // Untoggles the console and unblocks the game
             GameManager.E_GameState currentState = GameManager.Instance.GameState;
-            if (currentState == GameManager.E_GameState.Restricted)
+            if (currentState == GameManager.E_GameState.Restricted && allowGameChange)
                 GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
     }
@@ -373,12 +392,15 @@ public class DebugConsole : MonoBehaviour
             input = "";
             showConsole = false;
             showHelp = false;
-            GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+
+            if (allowGameChange)
+                 GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
     }
 
     private void ResetField()
     {
+        allowGameChange = true;
         showHelp = false;
         input = "";
     }
@@ -504,7 +526,7 @@ public class DebugConsole : MonoBehaviour
             showConsole = false;
             ResetField();
             GameManager.E_GameState currentState = GameManager.Instance.GameState;
-            if (currentState == GameManager.E_GameState.Restricted)
+            if (currentState == GameManager.E_GameState.Restricted && allowGameChange)
                 GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
 
@@ -519,7 +541,7 @@ public class DebugConsole : MonoBehaviour
                 ResetField();
 
                 GameManager.E_GameState currentState = GameManager.Instance.GameState;
-                if (currentState == GameManager.E_GameState.Restricted)
+                if (currentState == GameManager.E_GameState.Restricted && allowGameChange)
                     GameManager.Instance.GameState = GameManager.E_GameState.InGame;
             }
         }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1297398526916696452}
   - component: {fileID: 1297398526916696451}
+  - component: {fileID: 3375115424910339286}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -54,6 +55,7 @@ MonoBehaviour:
   firstSelectedButton_Options: {fileID: 0}
   pauseMenu: {fileID: 0}
   winMenu: {fileID: 0}
+  winScreen: {fileID: 3375115424910339286}
   gameoverMenu: {fileID: 0}
   shopMenu: {fileID: 0}
   shopContentMenu: {fileID: 0}
@@ -89,7 +91,6 @@ MonoBehaviour:
     skillThumbnail: {fileID: 0}
     dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
-    killsCounter: {fileID: 0}
   - container: {fileID: 0}
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
@@ -98,7 +99,6 @@ MonoBehaviour:
     skillThumbnail: {fileID: 0}
     dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
-    killsCounter: {fileID: 0}
   - container: {fileID: 0}
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
@@ -107,7 +107,6 @@ MonoBehaviour:
     skillThumbnail: {fileID: 0}
     dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
-    killsCounter: {fileID: 0}
   - container: {fileID: 0}
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
@@ -116,7 +115,6 @@ MonoBehaviour:
     skillThumbnail: {fileID: 0}
     dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
-    killsCounter: {fileID: 0}
   minimap: {fileID: 0}
   blackBars:
   - {fileID: 0}
@@ -209,3 +207,19 @@ MonoBehaviour:
       portrait: {fileID: 1861653704, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   panelsManager: {fileID: 0}
   EDITOR_openMenusQueues: []
+--- !u!114 &3375115424910339286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297398526916696450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb19fb9717bb4443b73f14afcf2ac86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winGroup: {fileID: 0}
+  videoPlayer: {fileID: 0}
+  buttonsPanel: {fileID: 0}
+  panelShowCount: 1

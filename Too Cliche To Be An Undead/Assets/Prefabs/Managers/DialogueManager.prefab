@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2259415053421020166
 Transform:
@@ -48,6 +48,7 @@ MonoBehaviour:
   leanFadeTime: 0.2
   allowSkip_COOLDOWN: 0.15
   onStartSkipWait_DURATION: 0.3
+  speakerName: {fileID: 0}
   dialoguePortrait: {fileID: 0}
   dialogueText: {fileID: 0}
   pressKeyToContinue: {fileID: 0}
@@ -61,12 +62,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ca14fe399794d894b870a947806f080e, type: 2}
   - {fileID: 11400000, guid: d2f3ed4918d99cc4b86ab92ee85d6f3a, type: 2}
   - {fileID: 11400000, guid: 7696550e2d324b74bb9d05619dd6c352, type: 2}
+  - {fileID: 11400000, guid: e60fd3c646ef02c4693398d33e780fe7, type: 2}
   updateNamesList: 0
-  dialogueNamePopupTest: test
+  dialogueNamePopupTest: tuto_zombies
   currentDialogue: {fileID: 0}
   currentLine:
     <characterName>k__BackingField: 0
+    <speakerNameImage>k__BackingField: {fileID: 0}
     <customPortrait>k__BackingField: {fileID: 0}
     <textLine>k__BackingField: 
     <effects>k__BackingField: []
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
   currentLineIndex: -1

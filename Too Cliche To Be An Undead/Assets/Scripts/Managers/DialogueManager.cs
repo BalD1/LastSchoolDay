@@ -177,6 +177,8 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        currentLine.eventToPlayBeforeText?.Invoke();
+
         if (revealCoroutine != null)  StopCoroutine(revealCoroutine);
 
         pauseOnIndexQueue.Clear();
@@ -226,6 +228,9 @@ public class DialogueManager : MonoBehaviour
     }
     private void OnIsReadyToShowNextLine()
     {
+        currentLine.eventToPlayAfterText?.Invoke();
+
+        LeanTween.cancel(pressKeyToContinue.gameObject);
         LeanTween.value(pressKeyToContinue.alpha, 1, .2f).setOnUpdate(
             (float val) =>
             {
@@ -239,6 +244,9 @@ public class DialogueManager : MonoBehaviour
     private void PressKeyTextVisibleEffects()
     {
         if (pressKeyToContinue == null) return;
+
+        LeanTween.scale(pressKeyToContinue.rectTransform, Vector3.one * 1.2f, 0.5f).setLoopPingPong();
+        return; 
         LeanTween.delayedCall(3, () => {
 
             if (pressKeyToContinue.alpha <= 0) return;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "Dialogue", menuName = "Scriptable/Dialogue")]
 public class SCRPT_SingleDialogue : ScriptableObject
@@ -20,6 +21,8 @@ public class SCRPT_SingleDialogue : ScriptableObject
         [field: SerializeField] public SCRPT_PortraitsWithRect customPortrait { get; private set; }
         [field: SerializeField] [field: TextArea] public string textLine { get; private set; }
         [field: SerializeField] public DialogueEffect[] effects { get; private set; }
+        [field: SerializeField] public UnityEvent eventToPlayBeforeText { get; private set; }
+        [field: SerializeField] public UnityEvent eventToPlayAfterText { get; private set; }
     }
 
     [System.Serializable]

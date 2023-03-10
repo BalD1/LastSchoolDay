@@ -29,6 +29,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     {
         owner ??= stateManager.Owner;
 
+        owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
+
         if (owner.Attack.DamageOnCollision) owner.d_EnteredTrigger += OnTrigger;
 
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
@@ -40,7 +42,6 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         LeanTween.scale(renderer, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
             () =>
             {
-                owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
                 LeanTween.scale(renderer, Vector2.one, durationBeforeAttack / 2).setEase(owner.OutType);
             });
 

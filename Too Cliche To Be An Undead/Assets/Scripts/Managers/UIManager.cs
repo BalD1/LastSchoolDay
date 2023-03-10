@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject winMenu;
+    [SerializeField] private WinScreen winScreen;
     [SerializeField] private GameObject gameoverMenu;
     [SerializeField] private GameObject shopMenu;
     [SerializeField] private GameObject shopContentMenu;
@@ -444,8 +445,7 @@ public class UIManager : MonoBehaviour
                 break;
 
             case GameManager.E_GameState.Win:
-                winMenu.SetActive(true);
-                SelectButton("Win");
+                winScreen.Begin();
                 break;
 
             case GameManager.E_GameState.GameOver:

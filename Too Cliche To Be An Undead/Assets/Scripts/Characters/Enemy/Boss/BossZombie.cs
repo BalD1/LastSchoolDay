@@ -34,7 +34,11 @@ public class BossZombie : EnemyBase
 
     [field: SerializeField] public float hpThresholdBeforeNextStage { get; set; }
 
-    [field: SerializeField] public StatsModifier[] secondStageModifiers;
+    [field: SerializeField]
+    private StatsModifier[] secondStageModifiers = new StatsModifier[]
+    {
+        new StatsModifier("2NDSTAGE_DAMAGES", 5, StatsModifier.E_StatType.Damages),
+    };
 
     [field: SerializeField] public bool isAppeared { get; private set; }
 
@@ -86,7 +90,6 @@ public class BossZombie : EnemyBase
 
     public override void OnDeath(bool forceDeath = false)
     {
-        base.OnDeath(forceDeath);
     }
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
@@ -126,11 +129,10 @@ public class BossZombie : EnemyBase
             sk.SetColor(c);
         }).setIgnoreTimeScale(true);
 
-        LeanTween.delayedCall(.25f, () =>
+        LeanTween.delayedCall(.5f, () =>
         {
             skeletonAnimation.AnimationState.SetAnimation(0, "SAUT FIN", false);
-            skeletonAnimation.AnimationState.AddAnimation(0, "IDLE", false, .1f);
-
+            skeletonAnimation.AnimationState.AddAnimation(0, "IDLE", true, .2f);
         });
         LeanTween.moveLocalY(this.SkeletonHolder.gameObject, 0, .5f).setOnComplete(() =>
         {

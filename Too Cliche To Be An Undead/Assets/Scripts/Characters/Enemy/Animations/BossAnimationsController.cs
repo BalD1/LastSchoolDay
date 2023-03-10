@@ -75,13 +75,13 @@ public class BossAnimationsController : MonoBehaviour
     {
         if (skeletonAnimation == null || animation == null) return;
 
-        skeletonAnimation.AnimationState.SetAnimation(0, animation, loop).TimeScale = timeScale;
+        skeletonAnimation.AnimationState.AddAnimation(0, animation, loop, .25f).TimeScale = timeScale;
     }
     public void AddAnimation(Spine.Animation animation, bool loop, float timeScale = 1)
     {
         if (skeletonAnimation == null || animation == null) return;
 
-        skeletonAnimation.AnimationState.SetAnimation(0, animation, loop).TimeScale = timeScale;
+        skeletonAnimation.AnimationState.AddAnimation(0, animation, loop, .25f).TimeScale = timeScale;
     }
 
     public bool IsLookingAtRight() => skeletonAnimation.gameObject.transform.localScale.x > 0;

@@ -86,7 +86,7 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         if (enemyAttack.DamageOnCollision) owner.d_EnteredTrigger += OnTrigger;
 
         // Set the anticipation anim
-        owner.animationController.SetAnimation(owner.animationData.AttackAnticipAnim, false);
+        owner.animationController.SetAnimation(owner.animationData.AttackAnticipAnim, true);
 
         // Create a text feedback
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;

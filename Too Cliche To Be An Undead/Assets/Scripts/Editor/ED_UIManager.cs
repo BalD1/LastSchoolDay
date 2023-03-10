@@ -112,9 +112,6 @@ public class ED_UIManager : Editor
         SerializedProperty shopContentMenu = serializedObject.FindProperty("shopContentMenu");
         EditorGUILayout.PropertyField(shopContentMenu);
 
-        SerializedProperty shopBar = serializedObject.FindProperty("shopBar");
-        EditorGUILayout.PropertyField(shopBar);
-
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("References", EditorStyles.boldLabel);
 
@@ -165,6 +162,9 @@ public class ED_UIManager : Editor
 
         SerializedProperty blackBars = serializedObject.FindProperty("blackBars");
         EditorGUILayout.PropertyField(blackBars);
+
+        SerializedProperty winScreen = serializedObject.FindProperty("winScreen");
+        EditorGUILayout.PropertyField(winScreen);
 
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Buttons Selection", EditorStyles.boldLabel);

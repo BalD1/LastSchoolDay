@@ -54,16 +54,15 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
         currentInteractors.Remove(interactor);
     }
 
+    public void ForceOpen() => OnOpen();
+
     public void Interact(GameObject interactor)
     {
         if (isOpen) return;
 
         if (keycardsOfferedToDoor >= GameManager.NeededCards)
         {
-            skeleton.AnimationState.SetAnimation(0, doorOpenAnim, false);
-            canBeInteracted = false;
-            isOpen = true;
-            cinematic.Begin();
+            OnOpen();
             return;
         }
 
@@ -83,6 +82,14 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
         keycardsOfferedToDoor++;
 
         StartCoroutine(WaitForNextAnimation());
+    }
+
+    private void OnOpen()
+    {
+        skeleton.AnimationState.SetAnimation(0, doorOpenAnim, false);
+        canBeInteracted = false;
+        isOpen = true;
+        cinematic.Begin();
     }
 
     private void CloseDoor() => skeleton.AnimationState.SetAnimation(0, baseState, false);
