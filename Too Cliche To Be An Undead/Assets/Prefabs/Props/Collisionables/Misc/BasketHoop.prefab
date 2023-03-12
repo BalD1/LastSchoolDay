@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3441047028466627839}
   - component: {fileID: 3441047028466627832}
   - component: {fileID: 3441047028466627833}
-  - component: {fileID: 3441047028466627834}
+  - component: {fileID: 5988474056799590808}
   m_Layer: 0
   m_Name: BasketHoop
   m_TagString: Untagged
@@ -103,8 +103,8 @@ MonoBehaviour:
   isStatic: 1
   objectRenderer: {fileID: 3441047028466627832}
   debugMode: 0
---- !u!61 &3441047028466627834
-BoxCollider2D:
+--- !u!70 &5988474056799590808
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -116,16 +116,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.004743129, y: -0.6122554}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.79, y: 1.445}
-    newSize: {x: 0.7875, y: 1.445}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.25581065, y: 0.21548927}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.0022951881, y: -0.6244909}
+  m_Size: {x: 0.25947168, y: 0.19601747}
+  m_Direction: 1

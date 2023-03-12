@@ -75,37 +75,26 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 5891
       objectReference: {fileID: 0}
+    - target: {fileID: 5244021063601046924, guid: 3d6ee1e7e281b844282b49ce5cab5c80, type: 3}
+      propertyPath: m_Size.x
+      value: 0.93250036
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244021063601046924, guid: 3d6ee1e7e281b844282b49ce5cab5c80, type: 3}
+      propertyPath: m_Size.y
+      value: 0.35566399
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244021063601046924, guid: 3d6ee1e7e281b844282b49ce5cab5c80, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.0000000066309025
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244021063601046924, guid: 3d6ee1e7e281b844282b49ce5cab5c80, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.05562405
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244021063601046924, guid: 3d6ee1e7e281b844282b49ce5cab5c80, type: 3}
+      propertyPath: m_Direction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1495262291347008130, guid: 3d6ee1e7e281b844282b49ce5cab5c80, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3d6ee1e7e281b844282b49ce5cab5c80, type: 3}
---- !u!1 &3916813911193617397 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1495262291347008128, guid: 3d6ee1e7e281b844282b49ce5cab5c80, type: 3}
-  m_PrefabInstance: {fileID: 2493706260609198453}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &323404290599819947
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3916813911193617397}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.94, y: 0.4775}
-    newSize: {x: 0.405, y: 0.9325}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.94, y: 0.4775}
-  m_EdgeRadius: 0
