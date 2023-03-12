@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2410138365477043637}
   - component: {fileID: 4612489060700852522}
-  - component: {fileID: 7814906499588491552}
   - component: {fileID: 5677630709221564871}
+  - component: {fileID: 3849444216353558301}
   m_Layer: 0
   m_Name: Casier_Sol_1
   m_TagString: Untagged
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -16803
+  m_SortingOrder: -16498
   m_Sprite: {fileID: -1949564841, guid: 5c76d73077f34d4468e386e4d5f1c213, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -86,32 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &7814906499588491552
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4858770237173453773}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.10140529}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.01, y: 0.515}
-    newSize: {x: 1.01, y: 0.515}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.01, y: 0.3121894}
-  m_EdgeRadius: 0
 --- !u!114 &5677630709221564871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +99,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingOrderOffset: 0
-  pivotOffset: -0.055
+  pivotOffset: 0.25
   isStatic: 1
   objectRenderer: {fileID: 4612489060700852522}
   debugMode: 0
+--- !u!70 &3849444216353558301
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858770237173453773}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.000000014779669, y: -0.123980865}
+  m_Size: {x: 1.0100002, y: 0.26703963}
+  m_Direction: 1

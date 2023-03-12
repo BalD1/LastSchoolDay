@@ -61,38 +61,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6495268446873041431, guid: d1be7123811f2be43846dc5f62db948c, type: 3}
       propertyPath: m_Name
-      value: Group_Side_Medium_1
+      value: Group_Side_Medium
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132975908284225500, guid: d1be7123811f2be43846dc5f62db948c, type: 3}
+      propertyPath: m_Size.x
+      value: 1.8187796
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132975908284225500, guid: d1be7123811f2be43846dc5f62db948c, type: 3}
+      propertyPath: m_Size.y
+      value: 0.37000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132975908284225500, guid: d1be7123811f2be43846dc5f62db948c, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.90939116
+      objectReference: {fileID: 0}
+    - target: {fileID: 9132975908284225500, guid: d1be7123811f2be43846dc5f62db948c, type: 3}
+      propertyPath: m_Offset.y
+      value: 7.0033637e-15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1be7123811f2be43846dc5f62db948c, type: 3}
---- !u!1 &4993772241897647659 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6495268446873041431, guid: d1be7123811f2be43846dc5f62db948c, type: 3}
-  m_PrefabInstance: {fileID: 2264929461720339516}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &991963718
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4993772241897647659}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.92304623, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 1, y: 0.5}
-    oldSize: {x: 1.955, y: 0.37}
-    newSize: {x: 3.1675, y: 0.37}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.8460925, y: 0.37}
-  m_EdgeRadius: 0

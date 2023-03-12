@@ -69,7 +69,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5784500948107224132, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}
       propertyPath: pivotOffset
-      value: 0
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036005011786198840, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8300624919969781876, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}
       propertyPath: m_Sprite
@@ -77,7 +81,8 @@ PrefabInstance:
       objectReference: {fileID: 773495455, guid: 214fdc8738448974788eb8b540a862a8, type: 3}
     - target: {fileID: 8300624919969781876, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}
       propertyPath: m_SortingOrder
-      value: 3299
+      value: 11006
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7036005011786198840, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 86cf5dbd5f83bdb49b2863c59937ad82, type: 3}

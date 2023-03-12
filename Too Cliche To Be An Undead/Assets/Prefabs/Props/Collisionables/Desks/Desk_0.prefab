@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5428927463039551927}
   - component: {fileID: 6284395358425226483}
   - component: {fileID: 5428927463039551926}
-  - component: {fileID: 5428927463039551880}
+  - component: {fileID: 7927279452806407829}
   m_Layer: 0
   m_Name: Desk_0
   m_TagString: Untagged
@@ -104,8 +104,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!61 &5428927463039551880
-BoxCollider2D:
+--- !u!70 &7927279452806407829
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -117,19 +117,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.2343104}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.09, y: 0.735}
-    newSize: {x: 1.09, y: 0.735}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.09, y: 0.48819748}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.000000033793818, y: 0.21651702}
+  m_Size: {x: 1.0900002, y: 0.43303624}
+  m_Direction: 1
 --- !u!1 &6404860958249556170
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6448237833325912005}
   - component: {fileID: 7332498445394006440}
-  - component: {fileID: 2117076798739391615}
   - component: {fileID: 5334942311796566507}
+  - component: {fileID: 249111798512895816}
   m_Layer: 0
   m_Name: Casier_sol_3
   m_TagString: Untagged
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1972
+  m_SortingOrder: 3139
   m_Sprite: {fileID: -939702988, guid: 5c76d73077f34d4468e386e4d5f1c213, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -86,32 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2117076798739391615
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4841795791618824099}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.4225, y: 1.185}
-    newSize: {x: 0.4225, y: 1.185}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.4225, y: 1.185}
-  m_EdgeRadius: 0
 --- !u!114 &5334942311796566507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +99,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingOrderOffset: 0
-  pivotOffset: -0.587
+  pivotOffset: 0.58
   isStatic: 1
   objectRenderer: {fileID: 7332498445394006440}
   debugMode: 0
+--- !u!70 &249111798512895816
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4841795791618824099}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.09309018}
+  m_Size: {x: 0.4225, y: 0.9988196}
+  m_Direction: 0

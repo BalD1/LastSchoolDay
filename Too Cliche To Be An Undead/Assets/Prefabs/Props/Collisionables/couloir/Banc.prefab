@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1411841482364310139}
   - component: {fileID: 5288932686649154819}
-  - component: {fileID: 136440431305739796}
   - component: {fileID: 4013613475855573717}
+  - component: {fileID: 2621480713767798916}
   m_Layer: 0
   m_Name: Banc
   m_TagString: Untagged
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -18116
+  m_SortingOrder: -17641
   m_Sprite: {fileID: -314993618, guid: 5c76d73077f34d4468e386e4d5f1c213, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -86,32 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &136440431305739796
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7747925107908530965}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.94, y: 0.4775}
-    newSize: {x: 0.94, y: 0.4775}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.94, y: 0.4775}
-  m_EdgeRadius: 0
 --- !u!114 &4013613475855573717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +99,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingOrderOffset: 0
-  pivotOffset: -0.235
+  pivotOffset: 0.24
   isStatic: 1
   objectRenderer: {fileID: 5288932686649154819}
   debugMode: 0
+--- !u!70 &2621480713767798916
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747925107908530965}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0049521555, y: -0.06356243}
+  m_Size: {x: 0.9300966, y: 0.35037622}
+  m_Direction: 1

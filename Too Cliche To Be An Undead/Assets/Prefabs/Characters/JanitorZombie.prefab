@@ -702,7 +702,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8282167873633085189}
-  - component: {fileID: 6097676613780922560}
+  - component: {fileID: 5935978033540662077}
   m_Layer: 22
   m_Name: EnemiesBlocker
   m_TagString: Untagged
@@ -725,8 +725,8 @@ Transform:
   m_Father: {fileID: 7821369719249530890}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &6097676613780922560
-BoxCollider2D:
+--- !u!70 &5935978033540662077
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -738,19 +738,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.002775073, y: 0.0971255}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.33399653, y: 0.23964614}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.00070758484, y: 0.099080786}
+  m_Size: {x: 0.34465334, y: 0.23849735}
+  m_Direction: 1
 --- !u!1 &4675508764070962940
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,7 +1035,6 @@ MonoBehaviour:
   skeletonAnimation: {fileID: 4202492399607673763}
   animator: {fileID: 0}
   healthPopupOffset: {x: 0, y: 1}
-  audioClips: {fileID: 11400000, guid: e43af881fcef4d54da3c5d707d0dbe72, type: 2}
   source: {fileID: 6684974879034983664}
   stats: {fileID: 11400000, guid: 5dbeb4889de8c4149afb3603f40a41ad, type: 2}
   currentHP: 0
@@ -1057,7 +1046,7 @@ MonoBehaviour:
   attack:
   - {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
   pathfinding: {fileID: 4564975985439888221}
-  enemiesBlocker: {fileID: 6097676613780922560}
+  enemiesBlocker: {fileID: 0}
   <attackTelegraph>k__BackingField: {fileID: 4710964697575941834}
   attackMaterial: {fileID: 2100000, guid: 5a33867b0a9dba74ab4ca4588e7db1ea, type: 2}
   wallsMask:

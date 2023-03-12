@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1440324739009473354}
   - component: {fileID: 7924425825467489707}
   - component: {fileID: 5660503398436397467}
-  - component: {fileID: 507367642986627005}
+  - component: {fileID: 6637024906080868055}
   m_Layer: 0
   m_Name: Locker_Side_Up_Broken
   m_TagString: Untagged
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3300
+  m_SortingOrder: 7190
   m_Sprite: {fileID: 757044892, guid: 214fdc8738448974788eb8b540a862a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -103,8 +103,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &507367642986627005
-BoxCollider2D:
+--- !u!70 &6637024906080868055
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -116,16 +116,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.4225, y: 1.185}
-    newSize: {x: 0.4225, y: 1.185}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.4225, y: 1.185}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: -0.113667846}
+  m_Size: {x: 0.4225, y: 0.95766425}
+  m_Direction: 0

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4152859283056590926}
   - component: {fileID: 5769366038462534812}
   - component: {fileID: 218455732503391115}
-  - component: {fileID: 7363177188065636561}
+  - component: {fileID: 3985459942339845989}
   m_Layer: 0
   m_Name: Spine GameObject (Aquarium_1)
   m_TagString: Untagged
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingOrderOffset: 0
-  pivotOffset: 0.76
+  pivotOffset: 1.31
   isStatic: 1
   objectRenderer: {fileID: 5769366038462534812}
   debugMode: 0
@@ -101,7 +101,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 17088
+  m_SortingOrder: 17638
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &218455732503391115
 MonoBehaviour:
@@ -140,8 +140,8 @@ MonoBehaviour:
   _animationName: Poisson rouge
   loop: 1
   timeScale: 1
---- !u!61 &7363177188065636561
-BoxCollider2D:
+--- !u!70 &3985459942339845989
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -153,19 +153,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.6252501, y: -0.7513696}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.2065, y: 0.4202609}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.62525, y: -0.8207883}
+  m_Size: {x: 1.2065003, y: 0.28142458}
+  m_Direction: 1
 --- !u!1 &5487054679487722856
 GameObject:
   m_ObjectHideFlags: 0

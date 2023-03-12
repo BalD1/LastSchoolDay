@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 970135835907297234}
   - component: {fileID: 8318893510624786739}
-  - component: {fileID: 970135835907297245}
   - component: {fileID: 5799790056869572329}
   - component: {fileID: 1119402533186445763}
   - component: {fileID: 4945283823115410320}
+  - component: {fileID: 2623090453690155520}
   m_Layer: 0
   m_Name: Locker_Side_Up_Closed
   m_TagString: Untagged
@@ -53,32 +53,6 @@ MonoBehaviour:
   isStatic: 1
   objectRenderer: {fileID: 1119402533186445763}
   debugMode: 0
---- !u!61 &970135835907297245
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 970135835907297232}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.15123248}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.38, y: 1.1075}
-    newSize: {x: 0.3875, y: 1.11}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.3875, y: 0.3079834}
-  m_EdgeRadius: 0
 --- !u!33 &5799790056869572329
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -166,3 +140,19 @@ MonoBehaviour:
   _animationName: Casier ferme 01
   loop: 0
   timeScale: 10
+--- !u!70 &2623090453690155520
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970135835907297232}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0018550009, y: 0.23293751}
+  m_Size: {x: 0.38850003, y: 0.47736514}
+  m_Direction: 0

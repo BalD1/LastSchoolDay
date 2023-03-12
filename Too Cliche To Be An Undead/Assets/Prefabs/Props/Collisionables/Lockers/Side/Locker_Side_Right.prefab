@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9192995369480119267}
   - component: {fileID: 1339177397887322329}
   - component: {fileID: 9192995369480119266}
-  - component: {fileID: 9192995369480119276}
+  - component: {fileID: 631966718328415160}
   m_Layer: 0
   m_Name: Locker_Side_Right
   m_TagString: Untagged
@@ -103,8 +103,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &9192995369480119276
-BoxCollider2D:
+--- !u!70 &631966718328415160
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -116,16 +116,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.29366064}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.3875, y: 1.11}
-    newSize: {x: 0.3875, y: 1.11}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.3875, y: 0.5579462}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: 0.19375}
+  m_Size: {x: 0.3875, y: 0.3875}
+  m_Direction: 0

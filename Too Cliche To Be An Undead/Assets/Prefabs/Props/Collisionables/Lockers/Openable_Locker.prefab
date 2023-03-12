@@ -125,7 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2610078122621152387}
   - component: {fileID: 6239897972503032784}
-  - component: {fileID: 166674998}
+  - component: {fileID: 3373541517853669706}
   m_Layer: 14
   m_Name: Openable_Locker
   m_TagString: Untagged
@@ -181,8 +181,8 @@ MonoBehaviour:
     - Porte ouverte 02
   lootSpawnPoint: {fileID: 749276473408036085}
   dropTable: {fileID: 11400000, guid: 1db90e021ba6e8446b6d5e397cfdbd6f, type: 2}
---- !u!61 &166674998
-BoxCollider2D:
+--- !u!70 &3373541517853669706
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -194,19 +194,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.02, y: 0.15123248}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.38, y: 1.1075}
-    newSize: {x: 0.3875, y: 1.11}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.3875, y: 0.3079834}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.011756171, y: 0.27785516}
+  m_Size: {x: 0.4012481, y: 0.46888298}
+  m_Direction: 0
 --- !u!1 &5220591801981342434
 GameObject:
   m_ObjectHideFlags: 0

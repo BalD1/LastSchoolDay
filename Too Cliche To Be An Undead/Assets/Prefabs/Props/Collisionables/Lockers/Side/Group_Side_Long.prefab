@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6495268446873041430}
   - component: {fileID: 6495268446873041424}
   - component: {fileID: 6495268446873041425}
+  - component: {fileID: 9132975908284225500}
   m_Layer: 0
   m_Name: Group_Side_Long
   m_TagString: Untagged
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 13291
+  m_SortingOrder: 13298
   m_Sprite: {fileID: 81372925, guid: da7a03e247ccd7f43bc3920e0e1b5940, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -102,3 +103,19 @@ MonoBehaviour:
   isStatic: 1
   objectRenderer: {fileID: 6495268446873041424}
   debugMode: 0
+--- !u!70 &9132975908284225500
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6495268446873041431}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.4176447, y: 7.961826e-15}
+  m_Size: {x: 2.835289, y: 0.3700001}
+  m_Direction: 1

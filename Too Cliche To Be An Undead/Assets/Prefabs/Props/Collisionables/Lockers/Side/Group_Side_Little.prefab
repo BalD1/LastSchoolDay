@@ -83,5 +83,27 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 12475
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 991963718, guid: da6f5b7e0b21f844494b4cc0eb407787, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: da6f5b7e0b21f844494b4cc0eb407787, type: 3}
+--- !u!1 &8561237332925192915 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4993772241897647659, guid: da6f5b7e0b21f844494b4cc0eb407787, type: 3}
+  m_PrefabInstance: {fileID: 3711791396241437944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!70 &5685884907493990504
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8561237332925192915}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.72321016, y: -0.01289849}
+  m_Size: {x: 1.446414, y: 0.3714908}
+  m_Direction: 1
