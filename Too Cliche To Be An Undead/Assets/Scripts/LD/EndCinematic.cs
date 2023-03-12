@@ -15,7 +15,11 @@ public class EndCinematic : MonoBehaviour, IInteractable
 
     [SerializeField]
     [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
-    private string dialogueToPlay;
+    private string onBossKillDialogue;
+
+    [SerializeField]
+    [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
+    private string showExitDoorDialogue;
 
     private bool canBeOpened = false;
 
@@ -30,17 +34,31 @@ public class EndCinematic : MonoBehaviour, IInteractable
     {
         UIManager.Instance.SetBlackBars(true);
 
-        boss.animationController.SetAnimation(boss.animationData.DeathAnim, false);
         CameraManager.Instance.MoveCamera(boss.transform.position, () =>
         {
+            boss.animationController.SetAnimation(boss.animationData.DeathAnim, false);
+
             LeanTween.delayedCall(1, () =>
             {
-                DialogueManager.Instance.TryStartDialogue(dialogueToPlay);
+                DialogueManager.Instance.TryStartDialogue(onBossKillDialogue,
+                    () => CameraManager.Instance.MoveCamera(this.transform.position, 
+                        () => DialogueManager.Instance.TryStartDialogue(showExitDoorDialogue, () =>
+                        {
+                            CameraManager.Instance.MoveCamera(GameManager.Player1Ref.transform.position, StopCinematic);
+                        }))
+                    );
             });
         }, .5f);
 
         canBeOpened = true;
         skeletonAnimation.AnimationState.SetAnimation(0, unlockedAnim, false);
+    }
+
+    private void StopCinematic()
+    {
+        CameraManager.Instance.EndCinematic();
+        UIManager.Instance.SetBlackBars(false);
+        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
     }
 
     public bool CanBeInteractedWith() => canBeOpened;

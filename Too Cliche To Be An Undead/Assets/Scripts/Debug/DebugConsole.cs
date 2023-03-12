@@ -368,18 +368,25 @@ public class DebugConsole : MonoBehaviour
     /// </summary>
     public void OnToggleConsole()
     {
+        GameManager.E_GameState currentState = GameManager.Instance.GameState;
+
+        if (showConsole == false && currentState != GameManager.E_GameState.InGame)
+            allowGameChange = false;
+
         showConsole = !showConsole;
+
 
         if (showConsole)
         {
             // Toggles the console, reset the field and blocks the game
+            if (allowGameChange)
+                GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
+
             ResetField();
-            GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
         }
         else
         {
-            // Untoggles the console and unblocks the game
-            GameManager.E_GameState currentState = GameManager.Instance.GameState;
+            // if the game wasn't in cinematic or paused, reset the state
             if (currentState == GameManager.E_GameState.Restricted && allowGameChange)
                 GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         }
@@ -395,6 +402,8 @@ public class DebugConsole : MonoBehaviour
 
             if (allowGameChange)
                  GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+
+            showConsole = false;
         }
     }
 
@@ -603,8 +612,25 @@ public class DebugConsole : MonoBehaviour
         // Check if the player pressed Quote or Return
         if (Event.current.isKey)
         {
-            if (Event.current.keyCode == KeyCode.Return) OnReturn();
-            if (Event.current.keyCode == KeyCode.Quote) OnToggleConsole();
+            switch (Event.current.keyCode)
+            {
+                case KeyCode.Return:
+                    OnReturn();
+                    break;
+
+                case KeyCode.Quote:
+                    OnToggleConsole();
+                    break;
+
+                case KeyCode.Escape:
+                    OnToggleConsole();
+                    break;
+
+                case KeyCode.Backspace:
+                    currentSelectedSuggestion = 0;
+                    suggestionsScroll = Vector2.zero;
+                    break;
+            }
         }
     }
 

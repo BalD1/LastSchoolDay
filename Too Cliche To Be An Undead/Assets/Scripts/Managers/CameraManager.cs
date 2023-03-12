@@ -157,6 +157,7 @@ public class CameraManager : MonoBehaviour
         int indexOfPlayer = invisiblePlayers.IndexOf(player);
 
         if (indexOfPlayer >= markers.Length) return;
+        if (indexOfPlayer < 0) return;
 
         markers[indexOfPlayer].gameObject.SetActive(false);
         playersToRemoveFromList.Add(player);
@@ -176,7 +177,7 @@ public class CameraManager : MonoBehaviour
         cam_followPlayers.transform.position = pos;
     }
 
-    public void MoveCamera(Vector2 pos, Action onCompleteAction, float duration = 1, LeanTweenType type = LeanTweenType.easeInSine)
+    public void MoveCamera(Vector2 pos, Action onCompleteAction, float duration = 2, LeanTweenType type = LeanTweenType.easeInOutQuart)
     {
         cinematicMode = true;
         Array.Clear(tg_players.m_Targets, 0, tg_players.m_Targets.Length);
@@ -185,7 +186,7 @@ public class CameraManager : MonoBehaviour
 
         LeanTween.move(cam_followPlayers.gameObject, pos, duration).setEase(type).setOnComplete(onCompleteAction);
     }
-    public void MoveCamera(Vector2 pos, float duration = 1, LeanTweenType type = LeanTweenType.easeInSine) => MoveCamera(pos, null, duration, type);
+    public void MoveCamera(Vector2 pos, float duration = 2, LeanTweenType type = LeanTweenType.easeInOutQuart) => MoveCamera(pos, null, duration, type);
 
     public void SetTriggerParent(Transform newParent)
     {

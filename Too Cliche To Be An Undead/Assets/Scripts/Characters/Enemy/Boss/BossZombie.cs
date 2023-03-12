@@ -42,6 +42,8 @@ public class BossZombie : EnemyBase
 
     [field: SerializeField] public bool isAppeared { get; private set; }
 
+    [field: SerializeField] private float onSpawnAttackCooldown = 1.5f;
+
     protected override void Start()
     {
         if (isAppeared) OnStart();
@@ -58,6 +60,7 @@ public class BossZombie : EnemyBase
 
     private void OnStart()
     {
+        attack_TIMER = onSpawnAttackCooldown;
         TargetClosestPlayer();
         base.Start();
         Pathfinding?.StartUpdatePath();
@@ -66,6 +69,7 @@ public class BossZombie : EnemyBase
     protected override void Update()
     {
         if (!isAppeared) return;
+        if (!IsAlive()) return;
 
         base.Update();
     }
@@ -90,6 +94,7 @@ public class BossZombie : EnemyBase
 
     public override void OnDeath(bool forceDeath = false)
     {
+        d_OnDeath?.Invoke();
     }
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abd21a50e2dcf641b7a1b85e22aa21d, type: 3}
+  m_Name: DIALOGUE_Gym_ShowExitDoor
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: gym_showexitdoor
+  <ignoreGameState>k__BackingField: 1
+  <dialogueLines>k__BackingField:
+  - <characterName>k__BackingField: 2
+    <speakerNameImage>k__BackingField: {fileID: 0}
+    <customPortrait>k__BackingField: {fileID: 0}
+    <textLine>k__BackingField: PLACEHOLDER
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+  - <characterName>k__BackingField: 0
+    <speakerNameImage>k__BackingField: {fileID: 0}
+    <customPortrait>k__BackingField: {fileID: 0}
+    <textLine>k__BackingField: PLACEHOLDER
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
