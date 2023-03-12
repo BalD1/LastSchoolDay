@@ -546,6 +546,11 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
+    public void SetMinimapActiveState(bool active)
+    {
+        minimap.SetActive(active);
+    }
+
     public void FadeScreen(bool fadeOut, float time = .5f)
     {
         if (fadeImage == null) return;

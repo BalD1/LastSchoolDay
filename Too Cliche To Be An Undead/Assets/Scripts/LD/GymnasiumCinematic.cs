@@ -42,6 +42,9 @@ public class GymnasiumCinematic : MonoBehaviour
 
         yield return new WaitForSeconds(.7f);
 
+        UIManager.Instance.SetMinimapActiveState(false);
+        UIManager.Instance.KeycardContainer.gameObject.SetActive(false);
+
         DialogueManager.Instance.TryStartDialogue(entryDialogue, () =>
         {
             CameraManager.Instance.MoveCamera(doorTarget.position, () =>
@@ -59,6 +62,7 @@ public class GymnasiumCinematic : MonoBehaviour
                                 UIManager.Instance.FadeScreen(true, () =>
                                 {
                                     GameManager.Instance.TeleportAllPlayers(playersTeleportPosition.position);
+                                    AreaTransitorManager.Instance.ForceHideCorridor();
                                     CameraManager.Instance.EndCinematic();
 
                                     UIManager.Instance.FadeScreen(false, () =>

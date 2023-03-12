@@ -59,4 +59,11 @@ public class AreaTransitorManager : MonoBehaviour
         corridorColor.a = newAlpha;
         CorridorHidder.color = corridorColor;
     }
+
+    public void ForceHideCorridor()
+    {
+        Color corridorColor = CorridorHidder.color;
+        corridorColor.a = 1;
+        CorridorHidder.color = corridorColor;
+    }
 }
