@@ -171,6 +171,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         if (owner.AttacksArray[currentAttackIdx].DamageOnCollision) owner.d_EnteredTrigger -= OnTrigger;
 
         owner.UnsetAttackedPlayer();
+        owner.Vision.TargetClosestPlayer();
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
