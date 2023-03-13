@@ -75,6 +75,8 @@ public class CameraManager : MonoBehaviour
             shake_TIMER -= Time.deltaTime;
             bmcp.m_AmplitudeGain = Mathf.Lerp(shake_startingIntensity, 0f, 1 - (shake_TIMER / shake_DURATION));
         }
+
+        volumeTrigger.SetLocalPositionZ(this.transform.position.z * -1);
     }
 
     private void LateUpdate()

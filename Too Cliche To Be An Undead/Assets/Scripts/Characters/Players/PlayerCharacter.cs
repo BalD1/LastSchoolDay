@@ -428,17 +428,6 @@ public class PlayerCharacter : Entity, IInteractable
         movementsAction.Enable();
     }
 
-    public void StartAction(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-
-        InputDevice d = context.control.device;
-
-        if (!InputUser.all[0].pairedDevices.Contains(d)) return;
-
-        GameManager.ChangeScene(GameManager.E_ScenesNames.MainScene);
-    }
-
     public void Movements()
     {
         if (stayStatic) return;

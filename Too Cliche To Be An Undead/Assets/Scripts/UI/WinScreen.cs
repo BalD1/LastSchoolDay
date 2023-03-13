@@ -28,6 +28,10 @@ public class WinScreen : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(1);
 
-        buttonsPanel.LeanAlpha(1, .25f).setIgnoreTimeScale(true);
+        buttonsPanel.LeanAlpha(1, .25f).setIgnoreTimeScale(true).setOnComplete(() =>
+        {
+            winGroup.blocksRaycasts = true;
+            winGroup.interactable = true;
+        });
     }
 }

@@ -19,7 +19,7 @@ public abstract class EnemyBase : Entity
     [SerializeField] private EnemyPathfinding pathfinding;
     public EnemyPathfinding Pathfinding { get => pathfinding; }
 
-    [field: SerializeField] public BoxCollider2D enemiesBlocker;
+    [field: SerializeField] public Collider2D enemiesBlocker;
 
     [field: SerializeField] public AttackTelegraph attackTelegraph { get; private set; }
 

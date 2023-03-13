@@ -34,6 +34,14 @@ public class SplashScreen : MonoBehaviour
 
     private void Awake()
     {
+        if (DataKeeper.Instance.firstPassInMainMenu == false)
+        {
+            OnFadeOutEnded();
+            mainScreen.alpha = 1;
+
+            return;
+        }
+
         panelsManager.gameObject.SetActive(false);
         mainScreen.alpha = 0;
         mainScreenBackground.SetAlpha(0);
@@ -43,13 +51,7 @@ public class SplashScreen : MonoBehaviour
 
     private void Start()
     {
-        if (DataKeeper.Instance.firstPassInMainMenu == false)
-        {
-            mainScreen.alpha = 1;
-            mainScreenBackground.SetAlpha(1);
-            OnFadeOutEnded();
-            return;
-        }
+        if (DataKeeper.Instance.firstPassInMainMenu == false) return;
 
         DataKeeper.Instance.firstPassInMainMenu = false;
 
@@ -133,6 +135,7 @@ public class SplashScreen : MonoBehaviour
         raycastBlocker.gameObject.SetActive(false);
         panelsManager.gameObject.SetActive(true);
         title.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
     private void FadeOutScreen()
