@@ -8,13 +8,13 @@ public class Corridor : MonoBehaviour
     {
         if (collision.GetComponent<PlayerCharacter>() == null) return;
 
-        AreaTransitorManager.PlayersInCorridorCount++;
+        AreaTransitorManager.Instance.PlayerEnteredCorridor();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponent<PlayerCharacter>() == null) return;
 
-        AreaTransitorManager.PlayersInCorridorCount--;
+        AreaTransitorManager.Instance.PlayerExitedCorridor();
     }
 }

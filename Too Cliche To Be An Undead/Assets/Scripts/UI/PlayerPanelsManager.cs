@@ -34,6 +34,8 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void Begin()
     {
+        playerPanels[0].SoftReset();
+
         videoPlayer.StartVideo();
         StartCoroutine(videoPlayer.WaitForAction(1.65f, WaitForAnimation));
 
@@ -152,6 +154,7 @@ public class PlayerPanelsManager : MonoBehaviour
             item.playerScript.D_verticalArrowInput -= OnPlayerVerticalArrow;
         }
 
+        playerPanels[0].SoftReset();
         for (int i = 1; i < playerPanels.Length; i++)
         {
             LeanTween.cancel(playerPanels[i].gameObject);

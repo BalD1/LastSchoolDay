@@ -11,6 +11,7 @@ using UnityEngine.InputSystem.Users;
 using System.Linq;
 using System.Text;
 using Spine.Unity;
+using UnityEditor;
 
 public class PlayerCharacter : Entity, IInteractable
 {
@@ -144,6 +145,22 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_VerticalArrowInput(bool upArrow, int playerIdx);
     public D_VerticalArrowInput D_verticalArrowInput;
 
+    public delegate void D_ValidateInput();
+    public D_ValidateInput D_validateInput;
+    public void ValidateInput() => D_validateInput?.Invoke();
+
+    public delegate void D_CancelInput();
+    public D_CancelInput D_cancelInput;
+    public void CancelInput() => D_cancelInput?.Invoke();
+
+    public delegate void D_ThirdActionButton();
+    public D_ThirdActionButton D_thirdActionButton;
+    public void ThirdActionButton() => D_thirdActionButton?.Invoke();
+
+    public delegate void D_FourthActionButton();
+    public D_FourthActionButton D_fourthActionButton;
+    public void FourthActionButton() => D_fourthActionButton?.Invoke();
+
     private InputAction movementsAction;
 
     public GameObject PivotOffset { get => pivotOffset; }
@@ -197,13 +214,8 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (scene.name.Equals("MainMenu"))
         {
-            if (this.playerIndex > 0)
-            {
-                DataKeeper.Instance.RemoveData(this.playerIndex);
-                Destroy(this.gameObject);
-                return;
-            }
-            SwitchControlMapToUI();
+            DataKeeper.Instance.RemoveData(this.playerIndex);
+            Destroy(this.gameObject);
         }
         else
         {
@@ -370,7 +382,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (gamepadShake_TIMER > 0)
         {
-            gamepadShake_TIMER -= Time.deltaTime;
+            gamepadShake_TIMER -= Time.unscaledDeltaTime;
             if (gamepadShake_TIMER <= 0) StopGamepadShake();
         }
     }
@@ -667,16 +679,25 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Money
 
-    public static void AddMoney(int amount) => money += amount;
+    public static void AddMoney(int amount)
+    {
+        money += amount;
+        UIManager.Instance.UpdateMoney();
+    }
     public static void RemoveMoney(int amount, bool canGoInDebt)
     {
         if (!canGoInDebt && money < 0) return;
 
         money -= amount;
+        UIManager.Instance.UpdateMoney();
 
         if (!canGoInDebt && money < 0) money = 0;
     }
-    public static void SetMoney(int newMoney) => money = newMoney;
+    public static void SetMoney(int newMoney)
+    {
+        money = newMoney;
+        UIManager.Instance.UpdateMoney();
+    }
     public static int GetMoney() => money;
     public static bool HasEnoughMoney(int price) => money >= price ? true : false;
 

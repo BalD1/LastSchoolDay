@@ -40,6 +40,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private float maxDistance;
     [SerializeField] private float scaleMultiplier = .5f;
 
+    [SerializeField] private bool hardFocusOnP1 = false;
+
     [SerializeField] private List<Transform> invisiblePlayers = new List<Transform>();
     [SerializeField] private List<Transform> playersToRemoveFromList = new List<Transform>();
 
@@ -126,14 +128,13 @@ public class CameraManager : MonoBehaviour
 
         List<GameManager.PlayersByName> pbn = GameManager.Instance.playersByName;
 
-        tg_players.AddMember(pbn[0].playerScript.transform, 2, 0);
-
-        if (pbn.Count <= 1) return;
-
-        for (int i = 1; i < pbn.Count; i++)
+        for (int i = 0; i < pbn.Count; i++)
         {
             tg_players.AddMember(pbn[i].playerScript.transform, 1, 0);
         }
+
+        if (hardFocusOnP1)
+            tg_players.m_Targets[0].weight++;
     }
 
     public void PlayerBecameInvisible(Transform player, int playerIdx)

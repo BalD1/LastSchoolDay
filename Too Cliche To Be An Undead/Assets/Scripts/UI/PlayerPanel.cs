@@ -131,6 +131,20 @@ public class PlayerPanel : MonoBehaviour
         if (tweenScale)
             ScaleUpAndDown();
     }
+    public void SoftReset()
+    {
+        while (tokensQueue.Count > 1)
+        {
+            int lastIdx = tokensQueue.Count - 1;
+
+            isEnabled = false;
+            isValid = true;
+            this.panelImage.color = Color.white;
+
+            tokensQueue[lastIdx].token.SetAlpha(0);
+            tokensQueue.RemoveAt(lastIdx);
+        }
+    }
 
     private void ScaleUpAndDown()
     {

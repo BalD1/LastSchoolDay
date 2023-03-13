@@ -104,7 +104,7 @@ public class DataKeeper : MonoBehaviour
     {
         if (GameManager.isAppQuitting) return;
 
-        if (idx < 0 && idx >= playersDataKeep.Count) return;
+        if (idx < 0 || idx >= playersDataKeep.Count) return;
 
         // Get the object's root
         GameObject player = playersDataKeep[idx].playerInput.GetComponentInParent<PlayerCharacter>().gameObject;
@@ -113,13 +113,13 @@ public class DataKeeper : MonoBehaviour
         Destroy(player);
         PlayersManager.Instance.CleanInputs();
 
-        if (playersDataKeep.Count <= 0) return;
-
-        for (int i = 0; i < playersDataKeep.Count; i++)
+        if (playersDataKeep.Count > 0)
         {
-            playersDataKeep[i].playerInput.GetComponentInParent<PlayerCharacter>().ForceSetIndex(i);
+            for (int i = 0; i < playersDataKeep.Count; i++)
+            {
+                playersDataKeep[i].playerInput.GetComponentInParent<PlayerCharacter>().ForceSetIndex(i);
+            }
         }
-
     }
 
     private void Awake()

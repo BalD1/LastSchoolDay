@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Text;
 using System;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -60,6 +61,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Image[] hudKeycards;
     public Image[] HudKeycards { get => hudKeycards; }
+
+    [SerializeField] private TextMeshProUGUI moneyCounter;
 
     #endregion
 
@@ -184,6 +187,9 @@ public class UIManager : MonoBehaviour
 
     private bool firstGameStatePassFlag = false;
 
+    private int currentDisplayedMoney = 0;
+    private bool isTweeningMoney = false;
+
     #region Awake / Start / Updates
 
     private void Awake()
@@ -206,6 +212,8 @@ public class UIManager : MonoBehaviour
             if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto) FadeAllHUD(true);
 
             keycardsContainer.SetActive(false);
+
+            moneyCounter.text = "x " + 0;
         }
     }
 
@@ -320,6 +328,11 @@ public class UIManager : MonoBehaviour
             LeanTween.scale(keycard.rectTransform, Vector2.one, .5f).setEase(LeanTweenType.easeOutSine);
             LeanTween.rotate(keycard.rectTransform, new Vector3(0, 0, -3f), .5f).setEase(LeanTweenType.easeOutSine);
         });
+    }
+
+    public void UpdateMoney()
+    {
+        moneyCounter.text = "x " + PlayerCharacter.GetMoney();
     }
 
     #endregion

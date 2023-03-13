@@ -6,6 +6,7 @@ using UnityEngine;
 public class Shop : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject shop;
+    [SerializeField] private ShopPanels panelsManager;
 
     [SerializeField] private SkeletonAnimation skeleton;
     [SerializeField] private GameObject outline;
@@ -96,6 +97,8 @@ public class Shop : MonoBehaviour, IInteractable
         shopIsOpen = true;
         GameManager.Player1Ref.SetAllVelocity(Vector2.zero);
 
+        GameManager.Player1Ref.D_validateInput += panelsManager.OnClickRelay;
+        GameManager.Player1Ref.D_cancelInput += CloseShop;
 
         foreach (var item in levels)
         {
@@ -110,12 +113,18 @@ public class Shop : MonoBehaviour, IInteractable
         UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
         shopIsOpen = false;
 
+        GameManager.Player1Ref.D_validateInput -= panelsManager.OnClickRelay;
+        GameManager.Player1Ref.D_cancelInput -= CloseShop;
+
         LeanTween.delayedCall(animationDelay, DelayedIdle);
     }
     public void CloseShopFromUI()
     {
         UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
         shopIsOpen = false;
+
+        GameManager.Player1Ref.D_validateInput -= panelsManager.OnClickRelay;
+        GameManager.Player1Ref.D_cancelInput -= CloseShop;
 
         LeanTween.delayedCall(animationDelay, DelayedIdle);
     }

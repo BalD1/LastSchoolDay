@@ -608,6 +608,42 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Validate"",
+                    ""type"": ""Button"",
+                    ""id"": ""315b59c8-a397-4c9b-93f5-8291e665ff3a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CancelButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""38f4b660-11c2-4198-950f-7a12958f11f1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ThirdAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""fd96a27a-3ebc-4706-b7df-21fd8708bb2d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FourthAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""0f793c73-1ea4-4444-ac74-ee7b1062927f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1259,6 +1295,50 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4a3f754-b74f-475f-9fd5-19847426573e"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Validate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff564483-86e6-4218-95eb-93565cc5c209"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""CancelButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e340249-64aa-4371-8f2e-f2bc3d1103da"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ThirdAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c319c216-a321-4f3c-9d29-8da857dd7157"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""FourthAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1423,6 +1503,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_UI_ScrollUp = m_UI.FindAction("ScrollUp", throwIfNotFound: true);
         m_UI_ScrollLeft = m_UI.FindAction("ScrollLeft", throwIfNotFound: true);
         m_UI_ScrollRight = m_UI.FindAction("ScrollRight", throwIfNotFound: true);
+        m_UI_Validate = m_UI.FindAction("Validate", throwIfNotFound: true);
+        m_UI_CancelButton = m_UI.FindAction("CancelButton", throwIfNotFound: true);
+        m_UI_ThirdAction = m_UI.FindAction("ThirdAction", throwIfNotFound: true);
+        m_UI_FourthAction = m_UI.FindAction("FourthAction", throwIfNotFound: true);
         // Dialogue
         m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
         m_Dialogue_ShowNextLine = m_Dialogue.FindAction("ShowNextLine", throwIfNotFound: true);
@@ -1605,6 +1689,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_ScrollUp;
     private readonly InputAction m_UI_ScrollLeft;
     private readonly InputAction m_UI_ScrollRight;
+    private readonly InputAction m_UI_Validate;
+    private readonly InputAction m_UI_CancelButton;
+    private readonly InputAction m_UI_ThirdAction;
+    private readonly InputAction m_UI_FourthAction;
     public struct UIActions
     {
         private @PlayerControls m_Wrapper;
@@ -1632,6 +1720,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @ScrollUp => m_Wrapper.m_UI_ScrollUp;
         public InputAction @ScrollLeft => m_Wrapper.m_UI_ScrollLeft;
         public InputAction @ScrollRight => m_Wrapper.m_UI_ScrollRight;
+        public InputAction @Validate => m_Wrapper.m_UI_Validate;
+        public InputAction @CancelButton => m_Wrapper.m_UI_CancelButton;
+        public InputAction @ThirdAction => m_Wrapper.m_UI_ThirdAction;
+        public InputAction @FourthAction => m_Wrapper.m_UI_FourthAction;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1710,6 +1802,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ScrollRight.started -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollRight;
                 @ScrollRight.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollRight;
                 @ScrollRight.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollRight;
+                @Validate.started -= m_Wrapper.m_UIActionsCallbackInterface.OnValidate;
+                @Validate.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnValidate;
+                @Validate.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnValidate;
+                @CancelButton.started -= m_Wrapper.m_UIActionsCallbackInterface.OnCancelButton;
+                @CancelButton.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnCancelButton;
+                @CancelButton.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnCancelButton;
+                @ThirdAction.started -= m_Wrapper.m_UIActionsCallbackInterface.OnThirdAction;
+                @ThirdAction.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnThirdAction;
+                @ThirdAction.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnThirdAction;
+                @FourthAction.started -= m_Wrapper.m_UIActionsCallbackInterface.OnFourthAction;
+                @FourthAction.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnFourthAction;
+                @FourthAction.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnFourthAction;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1783,6 +1887,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ScrollRight.started += instance.OnScrollRight;
                 @ScrollRight.performed += instance.OnScrollRight;
                 @ScrollRight.canceled += instance.OnScrollRight;
+                @Validate.started += instance.OnValidate;
+                @Validate.performed += instance.OnValidate;
+                @Validate.canceled += instance.OnValidate;
+                @CancelButton.started += instance.OnCancelButton;
+                @CancelButton.performed += instance.OnCancelButton;
+                @CancelButton.canceled += instance.OnCancelButton;
+                @ThirdAction.started += instance.OnThirdAction;
+                @ThirdAction.performed += instance.OnThirdAction;
+                @ThirdAction.canceled += instance.OnThirdAction;
+                @FourthAction.started += instance.OnFourthAction;
+                @FourthAction.performed += instance.OnFourthAction;
+                @FourthAction.canceled += instance.OnFourthAction;
             }
         }
     }
@@ -1902,6 +2018,10 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnScrollUp(InputAction.CallbackContext context);
         void OnScrollLeft(InputAction.CallbackContext context);
         void OnScrollRight(InputAction.CallbackContext context);
+        void OnValidate(InputAction.CallbackContext context);
+        void OnCancelButton(InputAction.CallbackContext context);
+        void OnThirdAction(InputAction.CallbackContext context);
+        void OnFourthAction(InputAction.CallbackContext context);
     }
     public interface IDialogueActions
     {

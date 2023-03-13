@@ -217,10 +217,15 @@ public class GameManager : MonoBehaviour
 
         if (GameState == E_GameState.InGame)
         {
+
             UIManager.Instance.UpdateKeycardsCounter(-1);
 
             IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
             if (!IsInTutorial) Destroy(tutorialObject);
+        }
+        else if (CompareCurrentScene(E_ScenesNames.MainMenu))
+        {
+            LeanTween.delayedCall(1, () =>PlayersManager.Instance.CreateP1()).setIgnoreTimeScale(true);
         }
     }
 

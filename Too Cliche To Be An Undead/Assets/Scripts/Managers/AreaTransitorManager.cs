@@ -14,20 +14,7 @@ public class AreaTransitorManager : MonoBehaviour
         }
     }
 
-    private static int playersInCorridorCount;
-    public static int PlayersInCorridorCount
-    {
-        get => playersInCorridorCount;
-        set
-        {
-            playersInCorridorCount = value;
-        }
-    }
-
-#if UNITY_EDITOR
-    [SerializeField]
-    [ReadOnly] private int EDITOR_playersInCorridor; 
-#endif
+    [field: SerializeField] public int playersInCorridorCount { get; private set; }
 
     [SerializeField] private Tilemap corridorHidder;
     public Tilemap CorridorHidder { get => corridorHidder; }
@@ -44,11 +31,13 @@ public class AreaTransitorManager : MonoBehaviour
         instance = this;
     }
 
-    private void Update()
+    public void PlayerEnteredCorridor()
     {
-#if UNITY_EDITOR
-        EDITOR_playersInCorridor = playersInCorridorCount;
-#endif
+        playersInCorridorCount++;
+    }
+    public void PlayerExitedCorridor()
+    {
+        playersInCorridorCount--;
     }
 
     public void AskForCorridorAlphaChange(float newAlpha)
