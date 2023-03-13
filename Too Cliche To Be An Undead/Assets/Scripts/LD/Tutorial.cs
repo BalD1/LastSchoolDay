@@ -102,22 +102,27 @@ public class Tutorial : MonoBehaviour
 
             for (int i = 0; i < players.Count; i++)
             {
+                PlayerCharacter player = players[i].playerScript;
+
+                player.StateManager.SwitchState(player.StateManager.idleState);
+                player.SetAllVelocity(Vector2.zero);
+
                 goalPos = GameManager.Instance.IngameSpawnPoints[i].position;
-                players[i].playerScript.transform.position = goalPos;
+                player.transform.position = goalPos;
             }
 
             // Fade the screen in, then re-enable players controls
             UIManager.Instance.FadeScreen(false, () =>
             {
-                PlayersManager.Instance.SetAllPlayersControlMapToInGame();
                 GameManager.Instance.IsInTutorial = false;
                 DataKeeper.Instance.alreadyPlayedTuto = true;
 
                 GameManager.Instance.ShopTuto.StartTutorial();
             });
         });
-
     }
+
+    public void ForceEndTutorial() => TeleportPlayersToInGameHUB();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

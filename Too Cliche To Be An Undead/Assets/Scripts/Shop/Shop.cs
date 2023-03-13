@@ -15,6 +15,9 @@ public class Shop : MonoBehaviour, IInteractable
 
     [SerializeField] private float animationDelay = .35f;
 
+    public delegate void D_CloseShop();
+    public D_CloseShop D_closeShop;
+
     private List<GameObject> currentInteractors = new List<GameObject>();
 
     private ShopLevel[] levels;
@@ -110,21 +113,20 @@ public class Shop : MonoBehaviour, IInteractable
     {
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         UIManager.Instance.CloseShop();
-        UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
-        shopIsOpen = false;
 
-        GameManager.Player1Ref.D_validateInput -= panelsManager.OnClickRelay;
-        GameManager.Player1Ref.D_cancelInput -= CloseShop;
-
-        LeanTween.delayedCall(animationDelay, DelayedIdle);
+        OnShopClose();
     }
-    public void CloseShopFromUI()
+    public void CloseShopFromUI() => OnShopClose();
+
+    private void OnShopClose()
     {
         UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
         shopIsOpen = false;
 
         GameManager.Player1Ref.D_validateInput -= panelsManager.OnClickRelay;
         GameManager.Player1Ref.D_cancelInput -= CloseShop;
+
+        D_closeShop?.Invoke();
 
         LeanTween.delayedCall(animationDelay, DelayedIdle);
     }

@@ -246,18 +246,6 @@ public class DialogueManager : MonoBehaviour
         if (pressKeyToContinue == null) return;
 
         LeanTween.scale(pressKeyToContinue.rectTransform, Vector3.one * 1.2f, 0.5f).setLoopPingPong();
-        return; 
-        LeanTween.delayedCall(3, () => {
-
-            if (pressKeyToContinue.alpha <= 0) return;
-
-            LeanTween.scale(pressKeyToContinue.rectTransform, Vector3.one * 1.2f, 0.5f)
-            .setEase(LeanTweenType.easeInOutBack).setOnComplete(() =>
-            {
-                LeanTween.scale(pressKeyToContinue.rectTransform, Vector3.one, 0.5f);
-            });
-
-        }).setRepeat(-1);
     }
 
     /// <summary>

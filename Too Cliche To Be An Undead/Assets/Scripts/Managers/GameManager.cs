@@ -50,9 +50,6 @@ public class GameManager : MonoBehaviour
         set
         {
             isInTutorial = value;
-
-            if (value == false)
-                UIManager.Instance.FadeAllHUD(true);
         }
     }
 

@@ -26,11 +26,24 @@ public class ShopTutorial : MonoBehaviour
     private void OnDialogueEnd()
     {
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
-        UIManager.Instance.FadeAllHUD(fadeIn: false);
 
-        GameManager.Instance.GetShop.OpenShop();
+        Shop shop = GameManager.Instance.GetShop;
+        shop.OpenShop();
+        shop.D_closeShop += OnShopClosed;
+    }
 
+    private void OnShopClosed()
+    {
+        GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
+        UIManager.Instance.FadeAllHUD(false, 0);
+        CameraManager.Instance.MoveCamera(GameManager.Player1Ref.transform.position, CameraTravelEnded);
+    }
+
+    private void CameraTravelEnded()
+    {
         CameraManager.Instance.EndCinematic();
+        UIManager.Instance.FadeAllHUD(true);
+        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
     }
 
     private void DelegateUpdateNmaesOnList()

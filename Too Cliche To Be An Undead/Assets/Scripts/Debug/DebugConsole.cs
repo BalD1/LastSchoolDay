@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class DebugConsole : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand KILLALL;
     private DebugCommand<int> KILL;
 
+    private DebugCommand SKIP_TUTO;
+    private DebugCommand RESTART_IN_TUTO;
     private DebugCommand FORCEOPEN_GYMNASIUM;
 
     private DebugCommand FORCEWIN;
@@ -149,6 +152,20 @@ public class DebugConsole : MonoBehaviour
         RICH_AF = new DebugCommand("RICH_AF", "Adds 5000 gold", "RICH_AF", () =>
         {
             PlayerCharacter.AddMoney(5000);
+        });
+
+        SKIP_TUTO = new DebugCommand("SKIP_TUTO", "Skips the tutorial", "SKIP_TUTO", () =>
+        {
+            if (GameManager.Instance.IsInTutorial == false) return;
+
+            GameObject.FindObjectOfType<Tutorial>().ForceEndTutorial();
+        });
+
+        RESTART_IN_TUTO = new DebugCommand("RESTART_IN_TUTO", "Restarts the game, starting in the tutorial", "RESTART_IN_TUTO", () =>
+        {
+            DataKeeper.Instance.skipTuto = false;
+            DataKeeper.Instance.alreadyPlayedTuto = false;
+            SceneManager.LoadScene("MainScene");
         });
 
         FORCEOPEN_GYMNASIUM = new DebugCommand("FORCEOPEN_GYMNASIUM", "Opens the gymnasium door and plays the cutscene", "FORCEOPEN_GYMNASIUM", () =>
@@ -310,6 +327,8 @@ public class DebugConsole : MonoBehaviour
             FORCEWIN,
             FORCEKILL_BOSS,
 
+            SKIP_TUTO,
+            RESTART_IN_TUTO,
             FORCEOPEN_GYMNASIUM,
 
             SWITCH_CHARACTER,
@@ -352,7 +371,7 @@ public class DebugConsole : MonoBehaviour
             GOLD_BAG,
             PAYDAY,
             RICH_AF,
-    };
+        };
     }
 
     private void Update()
