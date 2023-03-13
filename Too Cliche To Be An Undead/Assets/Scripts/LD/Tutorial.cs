@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,11 +22,17 @@ public class Tutorial : MonoBehaviour
 
     [SerializeField] private Transform onZombiesPlayersTeleportGoal;
 
+    [SerializeField] private CanvasGroup[] tutorialsArray;
+    private Queue<CanvasGroup> tutorialsQueue;
+
+    [SerializeField] private float tutorialImagesAnimScaleMultiplier = 2;
+
     private int zombiesCount;
 
     private bool enteredInTriggerFlag = false;
 
     private bool tutoFinished = false;
+
 
     private void Awake()
     {
@@ -39,6 +46,13 @@ public class Tutorial : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
+
+        tutorialsQueue = new Queue<CanvasGroup>();
+        foreach (var item in tutorialsArray)
+        {
+            item.alpha = 0;
+            tutorialsQueue.Enqueue(item);
+        }
     }
 
     private void Start()
@@ -50,7 +64,65 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    public void StartFirstDialogue() => DialogueManager.Instance.TryStartDialogue(startDialogue);
+    public void AnimateNextTutorial() => AnimateNextTutorial(null);
+    public void AnimateNextTutorial(Action actionToPlayAtEnd)
+    {
+        if (tutorialsQueue.Count <= 0) return;
+
+        CanvasGroup cg = tutorialsQueue.Dequeue();
+
+        Transform cgTransform = cg.transform;
+        Vector2 basePos = cgTransform.localPosition;
+
+        cgTransform.localPosition = Vector2.zero;
+        cgTransform.localScale *= tutorialImagesAnimScaleMultiplier;
+
+        cg.LeanAlpha(1, .5f).setOnComplete(() =>
+        {
+            LeanTween.delayedCall(1, () =>
+            {
+                cgTransform.LeanScale(Vector2.one, 2).setEaseInOutQuart().setIgnoreTimeScale(true);
+                cg.transform.LeanMoveLocal(basePos, 2).setEaseInOutQuart().setIgnoreTimeScale(true).setOnComplete(actionToPlayAtEnd);
+            });
+        });
+    }
+
+    public void AnimateNextTutorialMultiple(int count, Action actionToPlayAtEnd = null)
+    {
+        float x = 0;
+        for (int i = 0; i < count; i++)
+        {
+            CanvasGroup cg = tutorialsQueue.Dequeue();
+
+            Transform cgTransform = cg.transform;
+            Vector2 basePos = cgTransform.localPosition;
+
+            // Get the size of the element
+            float transformSizeX = cg.GetComponent<RectTransform>().rect.width * tutorialImagesAnimScaleMultiplier;
+
+            // Calculate the offset
+            // Add to the left if at first half of loop
+            // Add to the right if at 2nd half of loop
+            x = i < count / 2 ? x - transformSizeX : x + transformSizeX;
+
+            // Apply offset on x
+            cgTransform.localPosition = new Vector2(
+                x: x * (i + 1),
+                y: 0);
+            cgTransform.localScale *= tutorialImagesAnimScaleMultiplier;
+
+            cg.LeanAlpha(1, .5f).setOnComplete(() =>
+            {
+                LeanTween.delayedCall(1, () =>
+                {
+                    cgTransform.LeanScale(Vector2.one, 2).setEaseInOutQuart().setIgnoreTimeScale(true);
+                    cg.transform.LeanMoveLocal(basePos, 2).setEaseInOutQuart().setIgnoreTimeScale(true).setOnComplete(actionToPlayAtEnd);
+                });
+            });
+        }
+    }
+
+    public void StartFirstDialogue() => DialogueManager.Instance.TryStartDialogue(startDialogue, AnimateNextTutorial);
     public void StartZombiesDialogue()
     {
         doorToCloseOnZombies.Close();
@@ -61,11 +133,18 @@ public class Tutorial : MonoBehaviour
     {
         GameManager.Instance.TeleportAllPlayers(onZombiesPlayersTeleportGoal.position);
 
+        GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
+
         foreach (var item in tutorialZombies)
         {
             item.gameObject.SetActive(true);
             item.Vision.TargetClosestPlayer();
         }
+
+        AnimateNextTutorialMultiple(2, () =>
+        {
+            GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+        });
     }
 
     private void OnZombieDeath()

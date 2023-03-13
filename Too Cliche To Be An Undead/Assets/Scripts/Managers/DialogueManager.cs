@@ -262,6 +262,9 @@ public class DialogueManager : MonoBehaviour
             {
                 if (currentDialogue.ignoreGameState == false)
                     GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+
+                if (GameManager.Instance.IsInTutorial) UIManager.Instance.FadeTutoHUD(true);
+
                 endDialogueAction?.Invoke();
                 ResetDialogue();
             });

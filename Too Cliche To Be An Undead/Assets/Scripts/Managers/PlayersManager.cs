@@ -109,8 +109,8 @@ public class PlayersManager : MonoBehaviour
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) return;
 
-        if (player1 != null)
-            CameraManager.Instance.SetTriggerParent(player1.transform);
+        //if (player1 != null)
+        //    CameraManager.Instance.SetTriggerParent(player1.transform);
     }
 
     public void SetAllPlayersControlMapToInGame()

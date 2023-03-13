@@ -9,11 +9,11 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField] private bool updateDialoguesNames;
 
     [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
-    [SerializeField] private string dialogueToStart;
+    [SerializeField] protected string dialogueToStart;
 
-    private bool triggerFlag = false;
+    protected bool triggerFlag = false;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && !triggerFlag)
         {

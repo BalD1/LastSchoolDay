@@ -95,6 +95,9 @@ public class Entity : MonoBehaviour, IDamageable
     public delegate void D_onDeath();
     public D_onDeath d_OnDeath;
 
+    public delegate void D_OnDeathOf(Entity e);
+    public D_OnDeathOf D_onDeathOf;
+
     public delegate void D_OnTakeDamages(bool crit);
     public D_OnTakeDamages D_onTakeDamages;
 
@@ -454,6 +457,7 @@ public class Entity : MonoBehaviour, IDamageable
         if (!forceDeath && IsAlive()) return;
 
         d_OnDeath?.Invoke();
+        D_onDeathOf?.Invoke(this);
     }
 
     public virtual bool IsAlive() => currentHP > 0;

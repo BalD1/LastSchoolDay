@@ -84,6 +84,10 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private CanvasGroup hudContainer;
     public CanvasGroup HUDContainer { get => hudContainer; }
+    [SerializeField] private CanvasGroup tutoHUD;
+
+    public CanvasGroup TutoHUD { get => tutoHUD; }
+
     [SerializeField] private CanvasGroup dialogueContainer;
 
     #endregion
@@ -438,7 +442,11 @@ public class UIManager : MonoBehaviour
                 if (currentHorizontalScrollbar != null) UnsetCurrentHorizontalScrollbar();
 
                 if (!firstGameStatePassFlag) firstGameStatePassFlag = true;
-                else if (!GameManager.Instance.IsInTutorial) FadeAllHUD(fadeIn: true);
+                else
+                {
+                    if (GameManager.Instance.IsInTutorial) FadeTutoHUD(fadeIn: true);
+                    else FadeInGameHUD(true);
+                }
 
                 PostproManager.Instance.SetBlurState(false);
                 break;
@@ -474,10 +482,20 @@ public class UIManager : MonoBehaviour
         SelectButton("Gameover");
     }
 
+
     public void FadeAllHUD(bool fadeIn, float time = .2f)
     {
-        if (hudContainer == null) return;
+        FadeInGameHUD(fadeIn, time);
+        FadeTutoHUD(fadeIn, time);
+    }
+
+    public void FadeInGameHUD(bool fadeIn, float time = .2f)
+    {
         hudContainer.LeanAlpha(fadeIn ? 1 : 0, time).setIgnoreTimeScale(true);
+    }
+    public void FadeTutoHUD(bool fadeIn, float time = .2f)
+    {
+        tutoHUD.LeanAlpha(fadeIn ? 1 : 0, time).setIgnoreTimeScale(true);
     }
 
     public void OpenMenuInQueue(GameObject newMenu)

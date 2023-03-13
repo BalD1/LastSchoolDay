@@ -6,25 +6,40 @@ public class Tree : MonoBehaviour
 {
     [SerializeField] private SpineColorModifier spineColor;
 
-    private int playersBehindCount = 0;
+    private int entitiesBehindCount = 0;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.parent.GetComponent<PlayerCharacter>() == null) return;
+        Entity e = collision.transform.GetComponentInParent<Entity>();
 
-        playersBehindCount++;
+        if (e == null) return;
 
-        if (playersBehindCount <= 1)
+        AddEntity();
+        e.D_onDeathOf += OnEntityDeath;
+
+        if (entitiesBehindCount <= 1)
             spineColor.SwitchToModifiedColor(.5f);
+    }
+
+    private void AddEntity() => entitiesBehindCount++;
+    private void RemoveEntity() => entitiesBehindCount--;
+
+    private void OnEntityDeath(Entity e)
+    {
+        RemoveEntity();
+        e.D_onDeathOf -= OnEntityDeath;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.transform.parent.GetComponent<PlayerCharacter>() == null) return;
+        Entity e = collision.transform.GetComponentInParent<Entity>();
 
-        playersBehindCount--;
+        if (e == null) return;
 
-        if (playersBehindCount <= 0)
+        RemoveEntity();
+        e.D_onDeathOf -= OnEntityDeath;
+
+        if (entitiesBehindCount <= 0)
             spineColor.SwitchToBaseColor(.5f);
     }
 }

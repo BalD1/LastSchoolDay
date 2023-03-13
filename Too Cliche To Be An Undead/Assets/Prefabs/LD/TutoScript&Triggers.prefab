@@ -89,6 +89,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   onZombiesPlayersTeleportGoal: {fileID: 1231533475}
+  tutorialsArray: []
 --- !u!61 &1389600611721218791
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -182,10 +183,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4296908915352656104, guid: 7cb47c6d889f73945b82908b88b839ea, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7cb47c6d889f73945b82908b88b839ea, type: 3}
 --- !u!4 &1389600610807553411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4296908915352656105, guid: 7cb47c6d889f73945b82908b88b839ea, type: 3}
   m_PrefabInstance: {fileID: 2948016627348948330}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1389600610807553420 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4296908915352656102, guid: 7cb47c6d889f73945b82908b88b839ea, type: 3}
+  m_PrefabInstance: {fileID: 2948016627348948330}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5569130434770664604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389600610807553420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2785d2d60907c0540a6a47c296a30345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateDialoguesNames: 0
+  dialogueToStart: tuto_push
+  tutorial: {fileID: 1389600611721218784}
