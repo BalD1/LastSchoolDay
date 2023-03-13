@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2098219483488785580}
   - component: {fileID: 5651327844898176532}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Table Shadow 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,10 +93,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7893791300203902335}
+  - component: {fileID: 4827755012189444802}
   - component: {fileID: -192336749126743213}
   - component: {fileID: 7893791300203902332}
   - component: {fileID: 3031820127577881923}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Table_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,6 +120,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4827755012189444802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893791300203902330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2daf924d21d15458086f6384037e92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles: {fileID: 0}
+  currentHP: 50
 --- !u!114 &-192336749126743213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +191,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4750
+  m_SortingOrder: 13013
   m_Sprite: {fileID: -687713213, guid: da7a03e247ccd7f43bc3920e0e1b5940, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

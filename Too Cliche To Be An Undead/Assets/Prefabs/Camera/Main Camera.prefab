@@ -572,6 +572,7 @@ MonoBehaviour:
   - {fileID: 28432788}
   maxDistance: 2.5
   scaleMultiplier: 0.5
+  hardFocusOnP1: 0
   invisiblePlayers: []
   playersToRemoveFromList: []
 --- !u!20 &8881682705105635700
@@ -605,7 +606,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 133693439
+    m_Bits: 267911167
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

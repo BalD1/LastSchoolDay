@@ -4,6 +4,7 @@ using UnityEditor.SceneManagement;
 using UnityEditor;
 using BalDUtilities.EditorUtils;
 using BalDUtilities.Misc;
+using System;
 
 public class WINDOW_Utils : EditorWindow
 {
@@ -54,23 +55,22 @@ public class WINDOW_Utils : EditorWindow
         if (showScenes)
         {
             EditorGUI.indentLevel++;
-            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginVertical("GroupBox");
 
-            sceneSelect = (GameManager.E_ScenesNames)EditorGUILayout.EnumPopup(sceneSelect);
-            if (GUILayout.Button("Select"))
+            foreach (var item in Enum.GetNames(typeof(GameManager.E_ScenesNames)))
             {
-                if (GameManager.CompareCurrentScene(sceneSelect))
-                    Debug.LogError("Already in scene.");
-                else
+                if (item == SceneManager.GetActiveScene().name) continue;
+
+                if (GUILayout.Button("Go to " + item))
                 {
                     if (Application.isPlaying)
                         SceneManager.LoadScene(EnumsExtension.EnumToString(sceneSelect));
                     else
-                        EditorSceneManager.OpenScene("Assets/Scenes/" + EnumsExtension.EnumToString(sceneSelect) + ".unity");
+                        EditorSceneManager.OpenScene("Assets/Scenes/" + item + ".unity");
                 }
             }
 
-            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
             EditorGUI.indentLevel--;
         }
 

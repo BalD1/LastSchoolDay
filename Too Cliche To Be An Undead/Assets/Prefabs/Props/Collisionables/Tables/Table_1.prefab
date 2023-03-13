@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8859905764505010892}
   - component: {fileID: 145086927547270595}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: OMBRES DE LAS TABLES 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,10 +93,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7291476125428976527}
+  - component: {fileID: 3027842466971113652}
   - component: {fileID: -5808590291515664414}
   - component: {fileID: 7291476125428976526}
   - component: {fileID: 9013076663189015967}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Table_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,6 +120,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3027842466971113652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7291476125428976525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2daf924d21d15458086f6384037e92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles: {fileID: 0}
+  currentHP: 50
 --- !u!114 &-5808590291515664414
 MonoBehaviour:
   m_ObjectHideFlags: 0

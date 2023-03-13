@@ -696,8 +696,11 @@ public class PlayerCharacter : Entity, IInteractable
     public static void SetMoney(int newMoney)
     {
         money = newMoney;
-        UIManager.Instance.UpdateMoney();
+#if UNITY_EDITOR == false
+        UIManager.Instance.UpdateMoney(); 
+#endif
     }
+
     public static int GetMoney() => money;
     public static bool HasEnoughMoney(int price) => money >= price ? true : false;
 
