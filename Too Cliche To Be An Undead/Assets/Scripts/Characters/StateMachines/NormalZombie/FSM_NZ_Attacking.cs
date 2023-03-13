@@ -31,8 +31,6 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
 
-        if (owner.Attack.DamageOnCollision) owner.d_EnteredTrigger += OnTrigger;
-
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
 
         float durationBeforeAttack = Random.Range(owner.MinDurationBeforeAttack, owner.MaxDurationBeforeAttack);
@@ -54,6 +52,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         currentAttackIdx = Random.Range(0, enemyAttacksArray.Length);
 
         SCRPT_EnemyAttack enemyAttack = enemyAttacksArray[currentAttackIdx];
+
+        if (enemyAttack.DamageOnCollision) owner.d_EnteredTrigger += OnTrigger;
 
         Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
         float lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -180,6 +180,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
     private void OnTrigger(Collider2D collider)
     {
+        Debug.Log(collider);
         if (!owner.attackStarted) return;
         if (collider == null) return;
         if (collider.transform.parent == null) return;

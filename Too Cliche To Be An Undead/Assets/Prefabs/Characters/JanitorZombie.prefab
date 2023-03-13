@@ -987,7 +987,7 @@ GameObject:
   - component: {fileID: 7821369719249530884}
   - component: {fileID: 133242913744623205}
   - component: {fileID: 7821369719249530891}
-  - component: {fileID: 7821369719249530885}
+  - component: {fileID: 7576748423123913130}
   m_Layer: 9
   m_Name: JanitorZombie
   m_TagString: Enemy
@@ -1075,6 +1075,7 @@ MonoBehaviour:
   <animationController>k__BackingField: {fileID: 7538745840159332978}
   <animationData>k__BackingField: {fileID: 11400000, guid: 8cf0a16a404bd1b438301638b196ca2c, type: 2}
   <lookAtObject>k__BackingField: {fileID: 2554358786262311739}
+  attackTrigger: {fileID: 1615009067644983288}
   <Vision>k__BackingField: {fileID: 4416858856468475856}
   isIdle: 0
   <allowWander>k__BackingField: 0
@@ -1118,8 +1119,8 @@ Rigidbody2D:
   m_SleepingMode: 2
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &7821369719249530885
-BoxCollider2D:
+--- !u!70 &7576748423123913130
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1131,19 +1132,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.014974594, y: 0.05}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.25120163, y: 0.16008347}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.0048457175, y: 0.070263185}
+  m_Size: {x: 0.26021656, y: 0.113228515}
+  m_Direction: 1
 --- !u!1 &8111128747481886548
 GameObject:
   m_ObjectHideFlags: 0

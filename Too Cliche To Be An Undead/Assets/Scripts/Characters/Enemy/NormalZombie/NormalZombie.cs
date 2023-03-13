@@ -14,8 +14,11 @@ public class NormalZombie : EnemyBase
 
     [field: SerializeField] public Transform lookAtObject { get; private set; }
 
+    [field: SerializeField] public BoxCollider2D attackTrigger;
+
     [field: SerializeField] public EnemyVision Vision { get; private set; }
     [field: SerializeField] public bool isIdle = false;
+
 
     [field:  SerializeField] public bool allowWander { get; private set; }
 

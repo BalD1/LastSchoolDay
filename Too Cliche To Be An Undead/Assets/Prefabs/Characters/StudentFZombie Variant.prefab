@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3596926216301818569, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5217
+      objectReference: {fileID: 0}
     - target: {fileID: 4202492399607673763, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: _animationName
       value: MARCHE
@@ -22,6 +26,10 @@ PrefabInstance:
     - target: {fileID: 7821369719249530884, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: attack.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7821369719249530884, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
+      propertyPath: distanceBeforeStop
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7821369719249530884, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: attack.Array.data[0]

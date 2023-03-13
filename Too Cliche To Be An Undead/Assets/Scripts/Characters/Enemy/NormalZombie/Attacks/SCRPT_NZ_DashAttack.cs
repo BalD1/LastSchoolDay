@@ -9,10 +9,17 @@ public class SCRPT_NZ_DashAttack : SCRPT_EnemyAttack
 
     public override void OnStart(EnemyBase owner)
     {
+        NormalZombie _owner = owner as NormalZombie;
+
         owner.enemiesBlocker.enabled = false;
-        Vector2 dir = (owner as NormalZombie).AttackDirection;
+        Vector2 dir = _owner.AttackDirection;
+
         owner.GetRb.AddForce(dir * attackForce, ForceMode2D.Impulse);
-        (owner as NormalZombie).attackStarted = true;
+
+        _owner.attackStarted = true;
+
+        _owner.attackTrigger.enabled = false;
+        _owner.attackTrigger.enabled = true;
     }
 
     public override void OnUpdate(EnemyBase owner)
