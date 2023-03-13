@@ -180,7 +180,6 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
     private void OnTrigger(Collider2D collider)
     {
-        Debug.Log(collider);
         if (!owner.attackStarted) return;
         if (collider == null) return;
         if (collider.transform.parent == null) return;

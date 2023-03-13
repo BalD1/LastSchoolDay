@@ -24,15 +24,13 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
 
         owner.SetAnimatorArgs("Dying", true);
 
-        owner.AnimationController.SetAnimation(owner.AnimationController.animationsData.DeathAnim, false);
-
         owner.canBePushed = false;
 
         removedAlive = false;
 
         if (owner.selfReviveCount <= 0)
         {
-            PlayersManager.Instance.RemoveAlivePlayer();
+            PlayersManager.Instance.RemoveAlivePlayer(owner.transform);
             removedAlive = true;
         }
         else

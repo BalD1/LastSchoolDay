@@ -11,7 +11,7 @@ public class FSM_Player_Dead : FSM_Base<FSM_Player_Manager>
         owner ??= stateManager.Owner;
 
         owner.Weapon.IndicatorHolder.GetComponentInChildren<SpriteRenderer>().enabled = false;
-        PlayersManager.Instance.RemoveAlivePlayer();
+        PlayersManager.Instance.RemoveAlivePlayer(owner.transform);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

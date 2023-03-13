@@ -156,7 +156,7 @@ public class PlayerAnimationController : MonoBehaviour
                 break;
 
             case "Dying":
-                SetAnimation(animationsData.DeathAnim, true);
+                SetAnimation(animationsData.DeathAnim, false);
                 break;
 
             default:

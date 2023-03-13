@@ -171,8 +171,14 @@ public class GameManager : MonoBehaviour
                 break;
 
             case E_GameState.GameOver:
-                Time.timeScale = 0;
                 PlayersManager.Instance.SetAllPlayersControlMapToUI();
+
+                UIManager.Instance.FadeAllHUD(false);
+                UIManager.Instance.SetBlackBars(true, .2f);
+                CameraManager.Instance.MoveCamera(PlayersManager.Instance.LastDeadPlayerTransform.position, () =>
+                {
+                    LeanTween.delayedCall(2, () => UIManager.Instance.ShowGameOverScreen());
+                }, 1); 
                 break;
 
             default:

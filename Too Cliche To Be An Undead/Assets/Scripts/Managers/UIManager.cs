@@ -83,6 +83,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI keycardsCounter;
 
     [SerializeField] private CanvasGroup hudContainer;
+    public CanvasGroup HUDContainer { get => hudContainer; }
     [SerializeField] private CanvasGroup dialogueContainer;
 
     #endregion
@@ -186,9 +187,6 @@ public class UIManager : MonoBehaviour
     public const float scrollbarSensibility = .1f;
 
     private bool firstGameStatePassFlag = false;
-
-    private int currentDisplayedMoney = 0;
-    private bool isTweeningMoney = false;
 
     #region Awake / Start / Updates
 
@@ -462,14 +460,18 @@ public class UIManager : MonoBehaviour
                 break;
 
             case GameManager.E_GameState.GameOver:
-                gameoverMenu.SetActive(true);
-                SelectButton("Gameover");
                 break;
 
             default:
                 Debug.LogError(newState + "not found in switch statement.");
                 break;
         }
+    }
+
+    public void ShowGameOverScreen()
+    {
+        gameoverMenu.SetActive(true);
+        SelectButton("Gameover");
     }
 
     public void FadeAllHUD(bool fadeIn, float time = .2f)

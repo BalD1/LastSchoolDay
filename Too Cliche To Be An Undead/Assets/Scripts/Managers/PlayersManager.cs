@@ -57,6 +57,8 @@ public class PlayersManager : MonoBehaviour
     [SerializeField] private PlayerCharacterComponents[] characterComponents;
     public PlayerCharacterComponents[] CharacterComponents { get => characterComponents; }
 
+    public Transform LastDeadPlayerTransform { get; private set; }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         alivePlayersCount = DataKeeper.Instance.playersDataKeep.Count;
@@ -240,10 +242,15 @@ public class PlayersManager : MonoBehaviour
     {
         alivePlayersCount = Mathf.Clamp(alivePlayersCount + 1, 0, DataKeeper.Instance.playersDataKeep.Count);
     }
-    public void RemoveAlivePlayer()
+    public void RemoveAlivePlayer(Transform deadPlayer)
     {
         alivePlayersCount--;
-        if (alivePlayersCount <= 0) GameManager.Instance.GameState = GameManager.E_GameState.GameOver;
+
+        if (alivePlayersCount <= 0)
+        {
+            LastDeadPlayerTransform = deadPlayer;
+            GameManager.Instance.GameState = GameManager.E_GameState.GameOver;
+        }
     }
 
     public void DefinitiveDeath(PlayerCharacter player)
