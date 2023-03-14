@@ -27,6 +27,9 @@ public class SplashScreen : MonoBehaviour
     [SerializeField] private float allowMainMenu_DURATION = 1.5f;
     private float allowMainMenu_TIMER = -1;
 
+    [SerializeField] private float allowSkipText_DURATION = .5f;
+    private float allowSkipText_TIMER = -1;
+
     private bool allowMainMenu = false;
 
     private bool skipTextIsVisible = false;
@@ -47,6 +50,8 @@ public class SplashScreen : MonoBehaviour
         mainScreenBackground.SetAlpha(0);
         videoPlayer.SetNewVideo(E_VideoTag.SplashScreen);
         pressAnyKey.raycastTarget = false;
+
+        allowSkipText_TIMER = allowSkipText_DURATION;
     }
 
     private void Start()
@@ -82,20 +87,9 @@ public class SplashScreen : MonoBehaviour
                 title.Show();
             }
         }
-        if (Input.anyKey) ManageInput();
-    }
 
-    private void FadeTarget(TextMeshProUGUI target, int goal, float time, Action onCompleteAction)
-    {
-        LeanTween.value(target.color.a, 1, time)
-            .setOnUpdate(
-            (float val) =>
-            {
-                Color c = target.color;
-                c.a = val;
-                target.color = c;
-            }).setIgnoreTimeScale(true)
-            .setOnComplete(onCompleteAction);
+        if (allowSkipText_TIMER > 0) allowSkipText_TIMER -= Time.deltaTime;
+        else if (Input.anyKey) ManageInput();
     }
 
     private void ManageInput()

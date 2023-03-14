@@ -145,6 +145,9 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_VerticalArrowInput(bool upArrow, int playerIdx);
     public D_VerticalArrowInput D_verticalArrowInput;
 
+    public delegate void D_NavigationArrowInput(Vector2 value, int playerIdx);
+    public D_NavigationArrowInput D_navigationArrowInput;
+
     public delegate void D_ValidateInput();
     public D_ValidateInput D_validateInput;
     public void ValidateInput() => D_validateInput?.Invoke();
@@ -244,9 +247,6 @@ public class PlayerCharacter : Entity, IInteractable
         this.attackers.Clear();
 
         this.stateManager.SwitchState(stateManager.idleState);
-
-        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
-            PlayersManager.Instance.SetupPanels(playerIndex, this);
     }
 
     private void SetHUD()
@@ -785,6 +785,11 @@ public class PlayerCharacter : Entity, IInteractable
         if (context.performed) D_verticalArrowInput?.Invoke(false, this.playerIndex);
     }
 
+    public void NavigationInputs(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_navigationArrowInput?.Invoke(context.ReadValue<Vector2>(), PlayerIndex);
+    }
+
     public void QuitLobby(InputAction.CallbackContext context)
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
@@ -997,8 +1002,6 @@ public class PlayerCharacter : Entity, IInteractable
     {
         this.playerIndex = DataKeeper.Instance.CreateData(this);
         PlayerCharacter.money = DataKeeper.Instance.money;
-
-        PlayersManager.Instance.SetupPanels(playerIndex, this);
     }
 
     public void ForceSetIndex(int idx)

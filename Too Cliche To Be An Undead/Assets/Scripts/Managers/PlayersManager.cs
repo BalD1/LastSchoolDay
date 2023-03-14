@@ -57,6 +57,8 @@ public class PlayersManager : MonoBehaviour
     [SerializeField] private PlayerCharacterComponents[] characterComponents;
     public PlayerCharacterComponents[] CharacterComponents { get => characterComponents; }
 
+    [field: SerializeField] public Color[] PlayerColorByIndex { get; private set; }
+
     public Transform LastDeadPlayerTransform { get; private set; }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -145,12 +147,6 @@ public class PlayersManager : MonoBehaviour
     {
         joinAction.Disable();
         leaveAction.Disable();
-    }
-
-    public void SetupPanels(int idx, PlayerCharacter player)
-    {
-        if (panelsManager == null) panelsManager = UIManager.Instance.PanelsManager;
-        if (panelsManager != null) panelsManager.JoinPanel(idx, player);
     }
 
     private void OnPlayerJoined(PlayerInput input)

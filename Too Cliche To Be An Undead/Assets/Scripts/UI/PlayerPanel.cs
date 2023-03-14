@@ -16,19 +16,29 @@ public class PlayerPanel : MonoBehaviour
 
     [SerializeField] private Image panelImage;
     [SerializeField] private Color wrongColor;
+    [field: SerializeField] public Color DisabledColor { get; private set; }
+
+    [SerializeField] private CanvasGroup arrows;
+
+    [SerializeField] private CanvasGroup cornersGroup;
+    [SerializeField] private Image[] cornersImages;
 
     public Image PanelImage { get => panelImage; }
 
-    [SerializeField] private Image[] playersTokens;
+    [SerializeField] private Image playerToken;
 
-    [SerializeField] private List<S_TakenTokensByPlayerIndex> tokensQueue = new List<S_TakenTokensByPlayerIndex>();
-    public List<S_TakenTokensByPlayerIndex> TokensQueue { get => tokensQueue; }
+    [SerializeField] private TextMeshProUGUI pressToJoin;
 
-    [field: SerializeField] public GameManager.E_CharactersNames associatedCharacter;
+    [field: SerializeField] public PlayerPanelsManager.S_ImageByCharacter currentCharacter { get; private set; }
+    private int currentCharacterIdx;
+    private int currentPlayerIdx;
+
+    public int CurrentCharacterIdx { get => currentCharacterIdx; }
 
     [field: SerializeField] public bool isValid { get; private set; }
 
-    public bool isEnabled = false;
+    private bool isEnabled = false;
+    public bool IsEnabled { get => isEnabled; }
 
     [System.Serializable] 
     public class S_TakenTokensByPlayerIndex
@@ -56,94 +66,64 @@ public class PlayerPanel : MonoBehaviour
     public void Enable()
     {
         ScaleUpAndDown();
+        this.panelImage.color = Color.white;
+
+        if (pressToJoin != null)
+            pressToJoin.alpha = 0;
+
+        isEnabled = true;
+
+        foreach (var item in cornersImages)
+        {
+            item.color = PlayersManager.Instance.PlayerColorByIndex[currentPlayerIdx];
+        }
+        cornersGroup.alpha = 1;
+        arrows.alpha = 1;
+    }
+
+    public void Disable()
+    {
+        isEnabled = false;
+        this.panelImage.color = DisabledColor;
+
+        if (pressToJoin != null)
+            pressToJoin.alpha = 1;
+
+        cornersGroup.alpha = 0;
+        arrows.alpha = 0;
     }
 
     public void JoinPanel(int id)
     {
-        foreach (var item in playersTokens)
-        {
-            if (item.color.a == 0)
-            {
-                S_TakenTokensByPlayerIndex newToken = new S_TakenTokensByPlayerIndex(id, item);
-                this.tokensQueue.Add(newToken);
-                item.sprite = panelsManager.tokensByIndex[id];
-                panelsManager.PlayerAssociatedCard[id] = this.panelID;
-                item.SetAlpha(1);
-                break;
-            }
-        }
+        playerToken.sprite = panelsManager.tokensByIndex[id];
+        playerToken.SetAlpha(1);
 
-        if (tokensQueue.Count > 1)
-        {
-            this.panelImage.color = wrongColor;
-            isValid = false;
-        }
+        currentPlayerIdx = id;
 
         Enable();
     }
 
     public void QuitPanel(int id)
     {
-        bool swapNexts = false;
-        for (int i = 0; i < tokensQueue.Count; i++)
-        {
-            if (tokensQueue[i].playerIndex == id)
-                swapNexts = true;
+        playerToken.SetAlpha(0);
 
-            if (!swapNexts) continue;
-
-            if (i + 1 < tokensQueue.Count)
-            {
-                tokensQueue[i].playerIndex = tokensQueue[i + 1].playerIndex;
-                tokensQueue[i].token.sprite = tokensQueue[i + 1].token.sprite;
-            }
-            else
-                tokensQueue[i].token.SetAlpha(0);
-        }
-
-        tokensQueue.RemoveAt(tokensQueue.Count - 1);
-
-        if (tokensQueue.Count > 1) return;
-
-        if (this.isValid == false)
-        {
-            this.panelImage.color = Color.white;
-            isValid = true;
-        }
+        Disable();
     }
 
     public void ResetPanel(bool tweenScale = true)
     {
-        this.panelImage.color = Color.white;
+        Disable();
 
-        this.panelButton.interactable = false;
-        this.ButtonText.raycastTarget = false;
-
-        isEnabled = false;
-
-        foreach (var item in playersTokens)
-        {
-            item.SetAlpha(0);
-        }
-
-        tokensQueue = new List<S_TakenTokensByPlayerIndex>();
+        playerToken.SetAlpha(0);
 
         if (tweenScale)
             ScaleUpAndDown();
     }
     public void SoftReset()
     {
-        while (tokensQueue.Count > 1)
-        {
-            int lastIdx = tokensQueue.Count - 1;
-
-            isEnabled = false;
-            isValid = true;
-            this.panelImage.color = Color.white;
-
-            tokensQueue[lastIdx].token.SetAlpha(0);
-            tokensQueue.RemoveAt(lastIdx);
-        }
+        Disable();
+        isValid = true;
+        playerToken.SetAlpha(0);
     }
 
     private void ScaleUpAndDown()
@@ -155,9 +135,33 @@ public class PlayerPanel : MonoBehaviour
         });
     }
 
-    public void OnPointerDown()
+    public void SetCharacterToLast()
     {
-        if (!isEnabled) return;
-        panelsManager.JoinPanelIndex(0, this.panelID);
+        currentCharacterIdx--;
+        if (currentCharacterIdx < 0)
+            currentCharacterIdx = panelsManager.ImagesByCharacter.Length - 1;
+
+        ChangeCharacter(panelsManager.ImagesByCharacter[currentCharacterIdx], currentCharacterIdx);
+    }
+    public void SetCharacterToNext()
+    {
+        currentCharacterIdx++;
+        if (currentCharacterIdx >= panelsManager.ImagesByCharacter.Length)
+            currentCharacterIdx = 0;
+
+        ChangeCharacter(panelsManager.ImagesByCharacter[currentCharacterIdx], currentCharacterIdx);
+    }
+    public void ChangeCharacter(PlayerPanelsManager.S_ImageByCharacter newChar, int characterIdx)
+    {
+        currentCharacter = newChar;
+
+        currentCharacterIdx = characterIdx;
+
+        panelImage.sprite = newChar.image;
+    }
+
+    public void AssociateCharacterToPlayer()
+    {
+        DataKeeper.Instance.playersDataKeep[currentPlayerIdx].character = currentCharacter.character;
     }
 }

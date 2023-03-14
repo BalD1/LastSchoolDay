@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.iOS;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -11,9 +12,6 @@ public class PlayerPanelsManager : MonoBehaviour
     [SerializeField] private PlayerPanel[] playerPanels;
     public PlayerPanel[] GetPlayerPanels { get => playerPanels; }
 
-    [SerializeField] private int[] playerAssociatedCard = new int[4];
-    public int[] PlayerAssociatedCard { get => playerAssociatedCard; }
-
     [field: SerializeField] public Sprite[] tokensByIndex { get; private set; }
 
     [SerializeField] private UIVideoPlayer videoPlayer;
@@ -23,6 +21,18 @@ public class PlayerPanelsManager : MonoBehaviour
     [SerializeField] private LoadingScreen loadingScreen;
     [SerializeField] private Toggle startButton;
 
+    [SerializeField] private ButtonArgs_Scene sceneArgs;
+    [SerializeField] private Button backButton;
+
+    [System.Serializable]
+    public struct S_ImageByCharacter
+    {
+        public GameManager.E_CharactersNames character;
+        public Sprite image;
+    }
+
+    [field: SerializeField] public S_ImageByCharacter[] ImagesByCharacter { get; private set; } 
+
     private Coroutine animationCoroutine;
 
     private bool allowMovements = false;
@@ -30,6 +40,32 @@ public class PlayerPanelsManager : MonoBehaviour
     private void Start()
     {
         videoPlayer.SetClipWithoutPlaying(UIVideoPlayer.E_VideoTag.BookOpening);
+
+        for (int i = 1; i < playerPanels.Length; i++)
+        {
+            playerPanels[i].Disable();
+        }
+
+        DataKeeper.Instance.D_playerCreated += JoinPanel;
+    }
+
+    private void OnValidateInput()
+    {
+        if (sceneArgs == null)
+        {
+            sceneArgs = new ButtonArgs_Scene();
+            sceneArgs.args = GameManager.E_ScenesNames.MainScene;
+        }
+
+        AskForStartGame(sceneArgs);
+    }
+
+    private void OnBackInput()
+    {
+        backButton.onClick?.Invoke();
+
+        GameManager.Player1Ref.D_validateInput -= OnValidateInput;
+        GameManager.Player1Ref.D_cancelInput -= OnBackInput;
     }
 
     public void Begin()
@@ -38,14 +74,8 @@ public class PlayerPanelsManager : MonoBehaviour
 
         videoPlayer.StartVideo();
         StartCoroutine(videoPlayer.WaitForAction(1.65f, WaitForAnimation));
-
-        //GameManager.Player1Ref.SwitchControlMapToCharacterSelect();
     }
 
-    public void WaitForAnimation(VideoPlayer vp)
-    {
-        WaitForAnimation();
-    }
     public void WaitForAnimation()
     {
         UIManager.Instance.SelectButton("Lobby");
@@ -58,14 +88,16 @@ public class PlayerPanelsManager : MonoBehaviour
             item.transform.localScale = Vector2.zero;
         }
 
-        playerAssociatedCard = new int[4];
-        
-        if (playerPanels[0].TokensQueue.Count <= 0) JoinPanel(0, GameManager.Player1Ref);
+        JoinPanel(0, GameManager.Player1Ref);
 
         canvasGroup.alpha = 1;
         canvasGroup.interactable = true;
 
         animationCoroutine = StartCoroutine(PanelsAnimation());
+
+        GameManager.Player1Ref.D_validateInput += OnValidateInput;
+        GameManager.Player1Ref.D_cancelInput += OnBackInput;
+
 
         PlayersManager.Instance.EnableActions();
     }
@@ -74,8 +106,6 @@ public class PlayerPanelsManager : MonoBehaviour
     {
         foreach (var item in playerPanels)
         {
-            item.isEnabled = true;
-
             item.transform.LeanRotateZ(5, .75f);
             item.transform.LeanScale(new Vector2(1.15f, 1.15f), .75f).setOnComplete(
             () =>
@@ -97,41 +127,53 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void JoinPanel(int idx, PlayerCharacter player)
     {
-        playerPanels[0].JoinPanel(idx);
+        playerPanels[idx].JoinPanel(idx);
+        player.D_navigationArrowInput += OnPlayerNavigationInput;
         player.D_horizontalArrowInput += OnPlayerHorizontalArrow;
         player.D_verticalArrowInput += OnPlayerVerticalArrow;
     }
 
+    private void OnPlayerNavigationInput(Vector2 value, int playerIdx)
+    {
+        switch(value)
+        {
+            case Vector2 v when value == Vector2.up:
+                OnPlayerVerticalArrow(true, playerIdx);
+                break;
+
+            case Vector2 v when value == Vector2.down:
+                OnPlayerVerticalArrow(false, playerIdx);
+                break;
+
+            case Vector2 v when value == Vector2.left:
+                OnPlayerHorizontalArrow(true, playerIdx);
+                break;
+
+            case Vector2 v when value == Vector2.right:
+                OnPlayerHorizontalArrow(false, playerIdx);
+                break;
+        }
+    }
+
     public void OnPlayerHorizontalArrow(bool rightArrow, int playerIdx)
     {
-        if (!allowMovements) return;
+        int newCharIdx = playerPanels[playerIdx].CurrentCharacterIdx;
 
-        int newIndex = playerAssociatedCard[playerIdx] + 2;
+        if (rightArrow) newCharIdx++;
+        else newCharIdx--;
 
-        if (newIndex >= playerPanels.Length) newIndex = newIndex - playerPanels.Length;
-        if (newIndex < 0) newIndex = 2;
+        int maxArrayIdx = ImagesByCharacter.Length - 1;
+        if (newCharIdx > maxArrayIdx) newCharIdx = 0;
+        else if (newCharIdx < 0) newCharIdx = maxArrayIdx;
 
-        JoinPanelIndex(playerIdx, newIndex);
+        S_ImageByCharacter newChar = ImagesByCharacter[newCharIdx];
+
+        playerPanels[playerIdx].ChangeCharacter(newChar, newCharIdx);
     }
 
     public void OnPlayerVerticalArrow(bool upArrow, int playerIdx)
     {
-        if (!allowMovements) return;
 
-        int currentIndex = playerAssociatedCard[playerIdx];
-        bool add = currentIndex % 2 == 0;
-        int newIndex = currentIndex + (add ? 1 : -1);
-
-        if (newIndex >= playerPanels.Length) newIndex = 2;
-        if (newIndex < 0) newIndex = 1;
-
-        JoinPanelIndex(playerIdx, newIndex);
-    }
-
-    public void JoinPanelIndex(int playerIdx, int panelIdx)
-    {
-        playerPanels[playerAssociatedCard[playerIdx]].QuitPanel(playerIdx);
-        playerPanels[panelIdx].JoinPanel(playerIdx);
     }
 
     public void RemoveAllJoined()
@@ -152,6 +194,7 @@ public class PlayerPanelsManager : MonoBehaviour
         {
             item.playerScript.D_horizontalArrowInput -= OnPlayerHorizontalArrow;
             item.playerScript.D_verticalArrowInput -= OnPlayerVerticalArrow;
+            item.playerScript.D_navigationArrowInput -= OnPlayerNavigationInput;
         }
 
         playerPanels[0].SoftReset();
@@ -176,21 +219,22 @@ public class PlayerPanelsManager : MonoBehaviour
     public void AskForStartGame(ButtonArgs_Scene sceneToLoad)
     {
         foreach (var item in playerPanels)
-            if (item.isValid == false)
+            if (item.IsEnabled && !item.isValid)
             {
                 startButton.SetIsOnWithoutNotify(false);
                 return;
             }
 
-        for (int i = 0; i < DataKeeper.Instance.playersDataKeep.Count; i++)
-        {
-            int panelOfPlayerIndex = playerAssociatedCard[i];
-            GameManager.E_CharactersNames characterOfPanelI = GetPlayerPanels[panelOfPlayerIndex].associatedCharacter;
-            DataKeeper.Instance.playersDataKeep[i].character = characterOfPanelI;
-        }
+        foreach (var item in playerPanels)
+            if (item.IsEnabled) item.AssociateCharacterToPlayer();
 
         UIManager.Instance.SelectButton("None");
         loadingScreen.gameObject.SetActive(true);
         loadingScreen.StartLoad(sceneToLoad);
+    }
+
+    private void OnDestroy()
+    {
+        DataKeeper.Instance.D_playerCreated -= JoinPanel;
     }
 }

@@ -39,6 +39,10 @@ public class DataKeeper : MonoBehaviour
             character = _character;
         }
     }
+
+    public delegate void D_PlayerCreated(int playerIndx, PlayerCharacter player);
+    public D_PlayerCreated D_playerCreated;
+
     public List<PlayerDataKeep> playersDataKeep = new List<PlayerDataKeep>();
     public List<int> unlockedLevels = new List<int>();
     public int money;
@@ -62,7 +66,11 @@ public class DataKeeper : MonoBehaviour
         PlayerDataKeep pdk = new PlayerDataKeep(newPlayer.name, newPlayer.Inputs, GameManager.E_CharactersNames.Shirley);
         playersDataKeep.Add(pdk);
 
-        return playersDataKeep.Count - 1;
+        int playerIdx = playersDataKeep.Count - 1;
+
+        D_playerCreated?.Invoke(playerIdx, newPlayer);
+
+        return playerIdx;
     }
         
     public bool IsPlayerDataKeepSet() => (playersDataKeep != null && playersDataKeep.Count > 0);
