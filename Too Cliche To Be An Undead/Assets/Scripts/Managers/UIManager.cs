@@ -561,12 +561,10 @@ public class UIManager : MonoBehaviour
     public void CloseShop()
     {
         CloseYoungerMenu();
-
-        CloseShopFromBack();
     } 
     private void CloseShopFromBack()
     {
-        FadeAllHUD(fadeIn: true);
+        FadeInGameHUD(fadeIn: true);
         PostproManager.Instance.SetBlurState(false);
 
         PlayersManager.Instance.SetAllPlayersControlMapToInGame();

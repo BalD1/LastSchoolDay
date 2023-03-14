@@ -175,6 +175,7 @@ public class Tutorial : MonoBehaviour
         // Wait for the screen to fade out
         UIManager.Instance.FadeScreen(true, () =>
         {
+            UIManager.Instance.FadeTutoHUD(false);
             // Teleport every players to the HUB
             List<GameManager.PlayersByName> players = GameManager.Instance.playersByName;
             Vector2 goalPos;

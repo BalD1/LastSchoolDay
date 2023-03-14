@@ -12,6 +12,13 @@ public class ShopTutorial : MonoBehaviour
 
     [SerializeField] private Transform shopTransform;
 
+    private Shop shop;
+
+    private void Start()
+    {
+        shop = GameManager.Instance.GetShop;
+    }
+
     public void StartTutorial()
     {
         Vector2 shopPos = shopTransform.position;
@@ -20,16 +27,15 @@ public class ShopTutorial : MonoBehaviour
             {
                 DialogueManager.Instance.TryStartDialogue(shopTutoDialogue, OnDialogueEnd);
             });
-        
+        shop.D_closeShop += OnShopClosed;
     }
 
     private void OnDialogueEnd()
     {
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
 
-        Shop shop = GameManager.Instance.GetShop;
         shop.OpenShop();
-        shop.D_closeShop += OnShopClosed;
+        
     }
 
     private void OnShopClosed()
@@ -41,8 +47,9 @@ public class ShopTutorial : MonoBehaviour
 
     private void CameraTravelEnded()
     {
+        shop.D_closeShop -= OnShopClosed;
         CameraManager.Instance.EndCinematic();
-        UIManager.Instance.FadeAllHUD(true);
+        UIManager.Instance.FadeInGameHUD(true);
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
     }
 

@@ -212,6 +212,8 @@ public class PlayerCharacter : Entity, IInteractable
         stateManager.SwitchState(stateManager.idleState);
         CancelInvoke(nameof(ClearAttackers));
 
+        selfInteractor.ResetOnLoad();
+
         if (scene.name.Equals("MainMenu"))
         {
             DataKeeper.Instance.RemoveData(this.playerIndex);
