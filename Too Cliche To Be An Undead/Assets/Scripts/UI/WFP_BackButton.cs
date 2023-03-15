@@ -15,6 +15,8 @@ public class WFP_BackButton : MonoBehaviour
         canvasGroup.interactable = false;
         videoPlayer.FadeVideo(false, 0);
 
+        panelsManager.ResetPanels();
+
         foreach (var item in panelsManager.GetPlayerPanels)
         {
             item.transform.localScale = Vector2.zero;

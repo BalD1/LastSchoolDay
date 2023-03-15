@@ -114,6 +114,8 @@ public class GameManager : MonoBehaviour
 
     private bool firstPassInGameStateFlag = false;
 
+    public bool allowQuitLobby = true;
+
     #region GameStates
 
     public enum E_GameState
@@ -220,7 +222,6 @@ public class GameManager : MonoBehaviour
 
         if (GameState == E_GameState.InGame)
         {
-
             UIManager.Instance.UpdateKeycardsCounter(-1);
 
             IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
@@ -248,6 +249,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitLobby(int id)
     {
+        if (allowQuitLobby == false) return;
         if (id <= 0) return;
         DataKeeper.Instance.RemoveData(id);
         UIManager.Instance.PlayerQuitLobby(id);

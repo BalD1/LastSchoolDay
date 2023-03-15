@@ -150,19 +150,18 @@ public class PlayerCharacter : Entity, IInteractable
 
     public delegate void D_ValidateInput();
     public D_ValidateInput D_validateInput;
-    public void ValidateInput() => D_validateInput?.Invoke();
 
     public delegate void D_CancelInput();
     public D_CancelInput D_cancelInput;
-    public void CancelInput() => D_cancelInput?.Invoke();
 
     public delegate void D_ThirdActionButton();
     public D_ThirdActionButton D_thirdActionButton;
-    public void ThirdActionButton() => D_thirdActionButton?.Invoke();
 
     public delegate void D_FourthActionButton();
     public D_FourthActionButton D_fourthActionButton;
-    public void FourthActionButton() => D_fourthActionButton?.Invoke();
+
+    public delegate void D_IndexChange(int newIdx);
+    public D_IndexChange D_indexChange;
 
     private InputAction movementsAction;
 
@@ -812,6 +811,26 @@ public class PlayerCharacter : Entity, IInteractable
         }
     }
 
+    public void ValidateInput(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_validateInput?.Invoke();
+    }
+
+    public void CancelInput(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_cancelInput?.Invoke();
+    }
+
+    public void ThirdActionButton(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_thirdActionButton?.Invoke();
+    }
+
+    public void FourthActionButton(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_fourthActionButton?.Invoke();
+    }
+
     public void ScrollCurrentVerticalBarDown(InputAction.CallbackContext context)
     {
         UIManager.Instance.ScrollCurrentVerticalBarDown(context);
@@ -1008,6 +1027,8 @@ public class PlayerCharacter : Entity, IInteractable
     {
         this.playerIndex = idx;
         this.gameObject.name = "Player " + idx;
+
+        D_indexChange?.Invoke(idx);
     }
 
     private void OnSceneReload()

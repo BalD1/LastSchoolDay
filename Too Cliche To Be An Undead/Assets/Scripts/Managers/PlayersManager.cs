@@ -57,13 +57,17 @@ public class PlayersManager : MonoBehaviour
     [SerializeField] private PlayerCharacterComponents[] characterComponents;
     public PlayerCharacterComponents[] CharacterComponents { get => characterComponents; }
 
-    [field: SerializeField] public Color[] PlayerColorByIndex { get; private set; }
+    [field: SerializeField] public Color[] PlayersColor { get; private set; }
+
+    public Queue<Color> playersColorQueue;
 
     public Transform LastDeadPlayerTransform { get; private set; }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         alivePlayersCount = DataKeeper.Instance.playersDataKeep.Count;
+
+        PopulateColorsQueue();
 
         if (scene.name.Equals(GameManager.E_ScenesNames.MainScene))
         {
@@ -97,6 +101,18 @@ public class PlayersManager : MonoBehaviour
 
         this.transform.SetParent(null);
         DontDestroyOnLoad(this);
+
+        PopulateColorsQueue();
+    }
+
+    private void PopulateColorsQueue()
+    {
+        playersColorQueue = new Queue<Color>();
+
+        foreach (var item in PlayersColor)
+        {
+            playersColorQueue.Enqueue(item);
+        }
     }
 
     public void CreateP1()
@@ -171,12 +187,21 @@ public class PlayersManager : MonoBehaviour
         var d = context.control.device;
 
         InputUser p1 = GameManager.Player1Ref.Inputs.user;
-
         p1.UnpairDevices();
         for (int i = 1; i < PlayerInput.all.Count; i++)
         {
-            if (PlayerInput.all[i].devices.Contains(d))
+            PlayerInput playerInput = PlayerInput.all[i];
+            if (playerInput.devices.Contains(d))
             {
+                if (GameManager.Instance.allowQuitLobby == false)
+                {
+                    GiveUnpairedDevicesToP1();
+                    return;
+                }
+                playerInput.user.UnpairDevices();
+
+                DataKeeper.Instance.RemoveData(playerInput);
+
                 GiveUnpairedDevicesToP1();
                 return;
             }

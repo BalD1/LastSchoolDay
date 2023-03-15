@@ -45,7 +45,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image fadeImage;
 
     [SerializeField] private Toggle OPTION_DashOnMovementsToggle;
-    [SerializeField] private Toggle skipTutorialToggle;
 
     #endregion
 
@@ -205,7 +204,6 @@ public class UIManager : MonoBehaviour
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {   
-            skipTutorialToggle.SetIsOnWithoutNotify(DataKeeper.Instance.skipTuto);
         }
         else
         {

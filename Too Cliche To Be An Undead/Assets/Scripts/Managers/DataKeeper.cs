@@ -43,6 +43,9 @@ public class DataKeeper : MonoBehaviour
     public delegate void D_PlayerCreated(int playerIndx, PlayerCharacter player);
     public D_PlayerCreated D_playerCreated;
 
+    public delegate void D_PlayerDestroyed(int playerIdx, PlayerCharacter player);
+    public D_PlayerDestroyed D_playerDestroyed;
+
     public List<PlayerDataKeep> playersDataKeep = new List<PlayerDataKeep>();
     public List<int> unlockedLevels = new List<int>();
     public int money;
@@ -115,8 +118,11 @@ public class DataKeeper : MonoBehaviour
         if (idx < 0 || idx >= playersDataKeep.Count) return;
 
         // Get the object's root
-        GameObject player = playersDataKeep[idx].playerInput.GetComponentInParent<PlayerCharacter>().gameObject;
+        PlayerCharacter playerScript = playersDataKeep[idx].playerInput.GetComponentInParent<PlayerCharacter>();
+        GameObject player = playerScript.gameObject;
         playersDataKeep.RemoveAt(idx);
+
+        D_playerDestroyed?.Invoke(idx, playerScript);
 
         Destroy(player);
         PlayersManager.Instance.CleanInputs();

@@ -29,16 +29,17 @@ public class PlayerPanel : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI pressToJoin;
 
-    [field: SerializeField] public PlayerPanelsManager.S_ImageByCharacter currentCharacter { get; private set; }
-    private int currentCharacterIdx;
-    private int currentPlayerIdx;
+    private PlayerCharacter playerOnPanel;
 
+    [field: SerializeField] public PlayerPanelsManager.S_ImageByCharacter currentCharacter { get; private set; }
+    [field: SerializeField] [field: ReadOnly] public int CurrentPlayerIdx { get; private set; }
+
+    private int currentCharacterIdx;
     public int CurrentCharacterIdx { get => currentCharacterIdx; }
 
     [field: SerializeField] public bool isValid { get; private set; }
 
-    private bool isEnabled = false;
-    public bool IsEnabled { get => isEnabled; }
+    [field: SerializeField] public bool IsEnabled { get; private set; }
 
     [System.Serializable] 
     public class S_TakenTokensByPlayerIndex
@@ -71,11 +72,11 @@ public class PlayerPanel : MonoBehaviour
         if (pressToJoin != null)
             pressToJoin.alpha = 0;
 
-        isEnabled = true;
+        IsEnabled = true;
 
         foreach (var item in cornersImages)
         {
-            item.color = PlayersManager.Instance.PlayerColorByIndex[currentPlayerIdx];
+            item.color = PlayersManager.Instance.PlayersColor[CurrentPlayerIdx];
         }
         cornersGroup.alpha = 1;
         arrows.alpha = 1;
@@ -83,7 +84,7 @@ public class PlayerPanel : MonoBehaviour
 
     public void Disable()
     {
-        isEnabled = false;
+        IsEnabled = false;
         this.panelImage.color = DisabledColor;
 
         if (pressToJoin != null)
@@ -93,28 +94,41 @@ public class PlayerPanel : MonoBehaviour
         arrows.alpha = 0;
     }
 
-    public void JoinPanel(int id)
+    public void JoinPanel(int id, PlayerCharacter newPlayer)
     {
-        playerToken.sprite = panelsManager.tokensByIndex[id];
+        if (panelsManager.tokensQueue.Count > 0)
+            playerToken.sprite = panelsManager.tokensQueue.Dequeue();
+        else 
+            playerToken.sprite = panelsManager.PlayerTokens[0];
+
         playerToken.SetAlpha(1);
 
-        currentPlayerIdx = id;
+        CurrentPlayerIdx = id;
+
+        playerOnPanel = newPlayer;
+        playerOnPanel.D_indexChange += OnPlayerIndexChange;
 
         Enable();
     }
 
     public void QuitPanel(int id)
     {
-        playerToken.SetAlpha(0);
+        playerOnPanel.D_indexChange -= OnPlayerIndexChange;
 
-        Disable();
+        panelsManager.tokensQueue.Enqueue(playerToken.sprite);
+
+        ResetPanel();
     }
+
+    private void OnPlayerIndexChange(int newIdx) => CurrentPlayerIdx = newIdx;
 
     public void ResetPanel(bool tweenScale = true)
     {
         Disable();
 
         playerToken.SetAlpha(0);
+
+        CurrentPlayerIdx = -1;
 
         if (tweenScale)
             ScaleUpAndDown();
@@ -162,6 +176,6 @@ public class PlayerPanel : MonoBehaviour
 
     public void AssociateCharacterToPlayer()
     {
-        DataKeeper.Instance.playersDataKeep[currentPlayerIdx].character = currentCharacter.character;
+        DataKeeper.Instance.playersDataKeep[CurrentPlayerIdx].character = currentCharacter.character;
     }
 }
