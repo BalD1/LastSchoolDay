@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PreloadScreen : MonoBehaviour
 {
@@ -10,38 +11,41 @@ public class PreloadScreen : MonoBehaviour
 
     [SerializeField] private ButtonArgs_Scene sceneArgs;
 
-    [SerializeField] private float waitBeforeInputs_DURATION =.5f;
-    private float waitBeforeInputs_TIMER;
+    [SerializeField] private CanvasGroup canvasGroup;
+
+    [SerializeField] private Image mainScreenImage;
+    [SerializeField] private RawImage videoPlayerImage;
+
+    [SerializeField] private float fadeDuration = .5f;
 
     PlayerCharacter p1;
 
     public void BeginScreen()
     {
         GameManager.Instance.allowQuitLobby = false;
-        waitBeforeInputs_TIMER = waitBeforeInputs_DURATION;
-        p1 = GameManager.Player1Ref;
 
-        p1.D_validateInput += PlayTutorial;
-        p1.D_fourthActionButton += SkipTutorial;
-        p1.D_cancelInput += Back;
-    }
+        mainScreenImage.SetAlpha(0);
+        videoPlayerImage.LeanAlpha(0, fadeDuration);
+        panelsManager.GetComponent<PlayerPanelsManager>().CanvasGroup.LeanAlpha(0, fadeDuration).setOnComplete( () =>
+        {
+            canvasGroup.LeanAlpha(1, fadeDuration).setOnComplete(() =>
+            {
+                p1 = GameManager.Player1Ref;
 
-    private void Update()
-    {
-        if (waitBeforeInputs_TIMER > 0) waitBeforeInputs_TIMER -= Time.deltaTime;
+                p1.D_validateInput += PlayTutorial;
+                p1.D_fourthActionButton += SkipTutorial;
+                p1.D_cancelInput += Back;
+            });
+        });
     }
 
     public void PlayTutorial()
     {
-        if (waitBeforeInputs_TIMER > 0) return;
-
         Launch(false);
     }
 
     public void SkipTutorial()
     {
-        if (waitBeforeInputs_TIMER > 0) return;
-
         Launch(true);
     }
 
@@ -68,17 +72,22 @@ public class PreloadScreen : MonoBehaviour
 
     public void Back()
     {
-        if (waitBeforeInputs_TIMER > 0) return;
-
-        panelsManager.SetActive(true);
+        PlayerPanelsManager ppm = panelsManager.GetComponent<PlayerPanelsManager>();
 
         p1.D_validateInput -= PlayTutorial;
         p1.D_fourthActionButton -= SkipTutorial;
         p1.D_cancelInput -= Back;
 
-        panelsManager.GetComponent<PlayerPanelsManager>().Refocus();
-
-        this.gameObject.SetActive(false);
-        GameManager.Instance.allowQuitLobby = true;
+        canvasGroup.LeanAlpha(0, fadeDuration).setOnComplete(() =>
+        {
+            videoPlayerImage.LeanAlpha(1, fadeDuration);
+            ppm.CanvasGroup.LeanAlpha(1, fadeDuration).setOnComplete(() =>
+            {
+                mainScreenImage.SetAlpha(1);
+                this.gameObject.SetActive(false);
+                ppm.Refocus();
+                GameManager.Instance.allowQuitLobby = true;
+            });
+        });
     }
 }

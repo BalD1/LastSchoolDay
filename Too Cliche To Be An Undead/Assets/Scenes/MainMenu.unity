@@ -3599,7 +3599,7 @@ MonoBehaviour:
   - {fileID: 553138111, guid: 68938681bec08d640b9db2634ea4ee2d, type: 3}
   - {fileID: -707356347, guid: 68938681bec08d640b9db2634ea4ee2d, type: 3}
   videoPlayer: {fileID: 351792658}
-  canvasGroup: {fileID: 1110982981}
+  <CanvasGroup>k__BackingField: {fileID: 1110982981}
   preLoadingScreen: {fileID: 1192546672}
   startButton: {fileID: 195114421}
   backButton: {fileID: 480925996}
@@ -3859,6 +3859,7 @@ GameObject:
   - component: {fileID: 1192546676}
   - component: {fileID: 1192546677}
   - component: {fileID: 1192546674}
+  - component: {fileID: 1192546678}
   m_Layer: 5
   m_Name: 'Pre-load screen '
   m_TagString: Untagged
@@ -3943,7 +3944,8 @@ MonoBehaviour:
   loadingScreen: {fileID: 30572223}
   panelsManager: {fileID: 1110982976}
   sceneArgs: {fileID: 1192546677}
-  waitBeforeInputs_DURATION: 0.5
+  canvasGroup: {fileID: 1192546678}
+  fadeDuration: 0.5
 --- !u!114 &1192546677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3957,6 +3959,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   args: 1
+--- !u!225 &1192546678
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192546672}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1328264970
 PrefabInstance:
   m_ObjectHideFlags: 0

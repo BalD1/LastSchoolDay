@@ -17,7 +17,7 @@ public class PlayerPanelsManager : MonoBehaviour
 
     [SerializeField] private UIVideoPlayer videoPlayer;
 
-    [SerializeField] private CanvasGroup canvasGroup;
+    [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
 
     [SerializeField] private GameObject preLoadingScreen;
     [SerializeField] private Toggle startButton;
@@ -97,13 +97,12 @@ public class PlayerPanelsManager : MonoBehaviour
         PopulateTokensQueue();
         JoinPanel(0, GameManager.Player1Ref);
 
-        canvasGroup.alpha = 1;
-        canvasGroup.interactable = true;
+        CanvasGroup.alpha = 1;
+        CanvasGroup.interactable = true;
 
         animationCoroutine = StartCoroutine(PanelsAnimation());
 
-        GameManager.Player1Ref.D_validateInput += OnValidateInput;
-        GameManager.Player1Ref.D_cancelInput += OnBackInput;
+        AttachInputsToP1();
 
         PlayersManager.Instance.EnableActions();
     }
@@ -146,9 +145,7 @@ public class PlayerPanelsManager : MonoBehaviour
                 panelsCharacterIdx[item.panelID] = 0;
 
                 item.JoinPanel(idx, player);
-                player.D_navigationArrowInput += OnPlayerNavigationInput;
-                player.D_horizontalArrowInput += OnPlayerHorizontalArrow;
-                player.D_verticalArrowInput += OnPlayerVerticalArrow;
+                AttachArrowsToPlayer(player);
 
                 VerifyPanelsValidity();
                 return;
@@ -168,9 +165,7 @@ public class PlayerPanelsManager : MonoBehaviour
                 item.ChangeCharacter(ImagesByCharacter[0], 0);
 
                 item.QuitPanel(idx);
-                player.D_navigationArrowInput -= OnPlayerNavigationInput;
-                player.D_horizontalArrowInput -= OnPlayerHorizontalArrow;
-                player.D_verticalArrowInput -= OnPlayerVerticalArrow;
+                DetachArrowsToPlayer(player);
 
                 VerifyPanelsValidity();
                 return;
@@ -283,15 +278,9 @@ public class PlayerPanelsManager : MonoBehaviour
 
         GameManager.Player1Ref.SwitchControlMapToUI();
 
-        GameManager.Player1Ref.D_validateInput -= OnValidateInput;
-        GameManager.Player1Ref.D_cancelInput -= OnBackInput;
+        DetachInputsToP1();
 
-        foreach (var item in GameManager.Instance.playersByName)
-        {
-            item.playerScript.D_horizontalArrowInput -= OnPlayerHorizontalArrow;
-            item.playerScript.D_verticalArrowInput -= OnPlayerVerticalArrow;
-            item.playerScript.D_navigationArrowInput -= OnPlayerNavigationInput;
-        }
+        DetachOnArrowsToAllPlayers();
 
         playerPanels[0].SoftReset();
         for (int i = 1; i < playerPanels.Length; i++)
@@ -315,16 +304,11 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void Refocus()
     {
-        GameManager.Player1Ref.D_validateInput += OnValidateInput;
-        GameManager.Player1Ref.D_cancelInput += OnBackInput;
+        AttachInputsToP1();
+
         PlayersManager.Instance.EnableActions();
 
-        foreach (var item in GameManager.Instance.playersByName)
-        {
-            item.playerScript.D_horizontalArrowInput += OnPlayerHorizontalArrow;
-            item.playerScript.D_verticalArrowInput += OnPlayerVerticalArrow;
-            item.playerScript.D_navigationArrowInput += OnPlayerNavigationInput;
-        }
+        AttachOnArrowsToAllPlayers();
     }
 
     public void AskForStartGame()
@@ -336,15 +320,9 @@ public class PlayerPanelsManager : MonoBehaviour
                 return;
             }
 
-        foreach (var item in GameManager.Instance.playersByName)
-        {
-            item.playerScript.D_horizontalArrowInput -= OnPlayerHorizontalArrow;
-            item.playerScript.D_verticalArrowInput -= OnPlayerVerticalArrow;
-            item.playerScript.D_navigationArrowInput -= OnPlayerNavigationInput;
-        }
+        DetachOnArrowsToAllPlayers();
 
-        GameManager.Player1Ref.D_validateInput -= OnValidateInput;
-        GameManager.Player1Ref.D_cancelInput -= OnBackInput;
+        DetachInputsToP1();
 
         foreach (var item in playerPanels)
             if (item.IsEnabled) item.AssociateCharacterToPlayer();
@@ -395,7 +373,7 @@ public class PlayerPanelsManager : MonoBehaviour
     private void DetachInputsToP1()
     {
         GameManager.Player1Ref.D_validateInput -= OnValidateInput;
-        GameManager.Player1Ref.D_cancelInput = OnBackInput;
+        GameManager.Player1Ref.D_cancelInput -= OnBackInput;
     }
 
     private void OnDestroy()
