@@ -317,6 +317,14 @@ public class PlayerPanelsManager : MonoBehaviour
     {
         GameManager.Player1Ref.D_validateInput += OnValidateInput;
         GameManager.Player1Ref.D_cancelInput += OnBackInput;
+        PlayersManager.Instance.EnableActions();
+
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            item.playerScript.D_horizontalArrowInput += OnPlayerHorizontalArrow;
+            item.playerScript.D_verticalArrowInput += OnPlayerVerticalArrow;
+            item.playerScript.D_navigationArrowInput += OnPlayerNavigationInput;
+        }
     }
 
     public void AskForStartGame()
@@ -328,6 +336,13 @@ public class PlayerPanelsManager : MonoBehaviour
                 return;
             }
 
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            item.playerScript.D_horizontalArrowInput -= OnPlayerHorizontalArrow;
+            item.playerScript.D_verticalArrowInput -= OnPlayerVerticalArrow;
+            item.playerScript.D_navigationArrowInput -= OnPlayerNavigationInput;
+        }
+
         GameManager.Player1Ref.D_validateInput -= OnValidateInput;
         GameManager.Player1Ref.D_cancelInput -= OnBackInput;
 
@@ -336,9 +351,51 @@ public class PlayerPanelsManager : MonoBehaviour
 
         startButton.SetIsOnWithoutNotify(false);
 
+        PlayersManager.Instance.DisableActions();
+
         UIManager.Instance.SelectButton("None");
         preLoadingScreen.SetActive(true);
         preLoadingScreen.GetComponent<PreloadScreen>().BeginScreen();
+    }
+
+    private void AttachOnArrowsToAllPlayers()
+    {
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            AttachArrowsToPlayer(item.playerScript);
+        }
+    }
+
+    private void DetachOnArrowsToAllPlayers()
+    {
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            DetachArrowsToPlayer(item.playerScript);
+        }
+    }
+
+    private void AttachArrowsToPlayer(PlayerCharacter p)
+    {
+         p.D_horizontalArrowInput += OnPlayerHorizontalArrow;
+         p.D_verticalArrowInput += OnPlayerVerticalArrow;
+         p.D_navigationArrowInput += OnPlayerNavigationInput;
+    }
+    private void DetachArrowsToPlayer(PlayerCharacter p)
+    {
+        p.D_horizontalArrowInput -= OnPlayerHorizontalArrow;
+        p.D_verticalArrowInput -= OnPlayerVerticalArrow;
+        p.D_navigationArrowInput -= OnPlayerNavigationInput;
+    }
+
+    private void AttachInputsToP1()
+    {
+        GameManager.Player1Ref.D_validateInput += OnValidateInput;
+        GameManager.Player1Ref.D_cancelInput += OnBackInput;
+    }
+    private void DetachInputsToP1()
+    {
+        GameManager.Player1Ref.D_validateInput -= OnValidateInput;
+        GameManager.Player1Ref.D_cancelInput = OnBackInput;
     }
 
     private void OnDestroy()

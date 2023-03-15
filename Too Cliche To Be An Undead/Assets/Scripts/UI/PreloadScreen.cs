@@ -18,7 +18,6 @@ public class PreloadScreen : MonoBehaviour
     public void BeginScreen()
     {
         GameManager.Instance.allowQuitLobby = false;
-        panelsManager.SetActive(false);
         waitBeforeInputs_TIMER = waitBeforeInputs_DURATION;
         p1 = GameManager.Player1Ref;
 
