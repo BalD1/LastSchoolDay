@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +25,8 @@ public class PlayerPanelsManager : MonoBehaviour
     [SerializeField] private Button backButton;
 
     private bool p1Joined = false;
+
+    private int[] panelsCharacterIdx = new int[4] { -1, -1, -1, -1 };
 
     [System.Serializable]
     public struct S_ImageByCharacter
@@ -139,10 +143,14 @@ public class PlayerPanelsManager : MonoBehaviour
             {
                 if (isP1) p1Joined = true;
 
+                panelsCharacterIdx[item.panelID] = 0;
+
                 item.JoinPanel(idx, player);
                 player.D_navigationArrowInput += OnPlayerNavigationInput;
                 player.D_horizontalArrowInput += OnPlayerHorizontalArrow;
                 player.D_verticalArrowInput += OnPlayerVerticalArrow;
+
+                VerifyPanelsValidity();
                 return;
             }
         }
@@ -155,10 +163,16 @@ public class PlayerPanelsManager : MonoBehaviour
         {
             if (item.CurrentPlayerIdx == idx)
             {
+                panelsCharacterIdx[item.panelID] = -1;
+
+                item.ChangeCharacter(ImagesByCharacter[0], 0);
+
                 item.QuitPanel(idx);
                 player.D_navigationArrowInput -= OnPlayerNavigationInput;
                 player.D_horizontalArrowInput -= OnPlayerHorizontalArrow;
                 player.D_verticalArrowInput -= OnPlayerVerticalArrow;
+
+                VerifyPanelsValidity();
                 return;
             }
         }
@@ -188,6 +202,7 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void OnPlayerHorizontalArrow(bool rightArrow, int playerIdx)
     {
+        // Get the panel idx associated to the targeted player
         int panelIdx = -1;
         for (int i = 0; i < playerPanels.Length; i++)
         {
@@ -200,18 +215,49 @@ public class PlayerPanelsManager : MonoBehaviour
 
         if (panelIdx == -1) return;
 
+        // get the current character on the panel
         int newCharIdx = playerPanels[panelIdx].CurrentCharacterIdx;
 
+        // get next if right arrow
         if (rightArrow) newCharIdx++;
         else newCharIdx--;
 
+        // array bounds
         int maxArrayIdx = ImagesByCharacter.Length - 1;
         if (newCharIdx > maxArrayIdx) newCharIdx = 0;
         else if (newCharIdx < 0) newCharIdx = maxArrayIdx;
 
+        // get the new character image
         S_ImageByCharacter newChar = ImagesByCharacter[newCharIdx];
 
+        // keep character idx in array
+        panelsCharacterIdx[panelIdx] = newCharIdx;
+
         playerPanels[panelIdx].ChangeCharacter(newChar, newCharIdx);
+
+        VerifyPanelsValidity();
+    }
+
+    private void VerifyPanelsValidity()
+    {
+        foreach (var item in playerPanels)
+            if (item.IsEnabled) item.SetValidity(true);
+
+        for (int i = 0; i < playerPanels.Length - 2; i++)
+        {
+            if (playerPanels[i].IsEnabled == false) continue;
+
+            for (int j = 1; j < playerPanels.Length - 1; j++)
+            {
+                if (playerPanels[i + j].IsEnabled == false) continue;
+
+                if (playerPanels[i].CurrentCharacterIdx == playerPanels[i + j].CurrentCharacterIdx)
+                {
+                    playerPanels[i].SetValidity(false);
+                    playerPanels[i + j].SetValidity(false);
+                }
+            }
+        }
     }
 
     public void OnPlayerVerticalArrow(bool upArrow, int playerIdx)
@@ -251,6 +297,7 @@ public class PlayerPanelsManager : MonoBehaviour
         for (int i = 1; i < playerPanels.Length; i++)
         {
             LeanTween.cancel(playerPanels[i].gameObject);
+            playerPanels[i].ChangeCharacter(ImagesByCharacter[0], 0);
             playerPanels[i].ResetPanel(false);
         }
         PlayersManager.Instance.DisableActions();

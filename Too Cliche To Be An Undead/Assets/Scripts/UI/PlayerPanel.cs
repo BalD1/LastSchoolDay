@@ -94,6 +94,13 @@ public class PlayerPanel : MonoBehaviour
         arrows.alpha = 0;
     }
 
+    public void SetValidity(bool validity)
+    {
+        isValid = validity;
+
+        this.panelImage.color = isValid ? Color.white : wrongColor;
+    }
+
     public void JoinPanel(int id, PlayerCharacter newPlayer)
     {
         if (panelsManager.tokensQueue.Count > 0)
