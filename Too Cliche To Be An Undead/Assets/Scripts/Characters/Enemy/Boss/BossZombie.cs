@@ -44,6 +44,8 @@ public class BossZombie : EnemyBase
 
     [field: SerializeField] private float onSpawnAttackCooldown = 1.5f;
 
+    private bool deathFlag = false;
+
     protected override void Start()
     {
         if (isAppeared) OnStart();
@@ -76,6 +78,13 @@ public class BossZombie : EnemyBase
 
     public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
+        if (deathFlag)
+        {
+            if (callDelegate) D_onTakeDamages?.Invoke(isCrit);
+            StartCoroutine(MaterialFlash());
+            return false;
+        }
+
         bool res = base.OnTakeDamages(amount, isCrit, fakeDamages);
 
         if (this.currentHP <= (this.maxHP_M * hpThresholdBeforeNextStage) && attacksPatern.currentStage == 0) AdvanceToNextStage();
@@ -94,6 +103,9 @@ public class BossZombie : EnemyBase
 
     public override void OnDeath(bool forceDeath = false)
     {
+        if (deathFlag) return;
+
+        deathFlag = true;
         d_OnDeath?.Invoke();
     }
 
@@ -122,7 +134,7 @@ public class BossZombie : EnemyBase
 
     public void PlayAppearAnimation(Action actionToPlayAtEnd)
     {
-        skeletonAnimation.AnimationState.SetAnimation(0, "SAUT DEBUT", false);
+        skeletonAnimation.AnimationState.SetAnimation(0, animationData.JumpStartAnim, false);
 
         this.SkeletonHolder.AddToLocalPositionY(5);
         Skeleton sk = skeletonAnimation.skeleton;
@@ -134,10 +146,11 @@ public class BossZombie : EnemyBase
             sk.SetColor(c);
         }).setIgnoreTimeScale(true);
 
-        LeanTween.delayedCall(.5f, () =>
+        LeanTween.delayedCall(.4f, () =>
         {
-            skeletonAnimation.AnimationState.SetAnimation(0, "SAUT FIN", false);
-            skeletonAnimation.AnimationState.AddAnimation(0, "IDLE", true, .2f);
+            skeletonAnimation.AnimationState.SetAnimation(0, animationData.JumpEndAnim, false);
+            skeletonAnimation.AnimationState.AddAnimation(0, animationData.YellAnim, false, animationData.JumpEndAnim.Animation.Duration + .2f);
+            skeletonAnimation.AnimationState.AddAnimation(0, animationData.IdleAnim, true, animationData.YellAnim.Animation.Duration);
         });
         LeanTween.moveLocalY(this.SkeletonHolder.gameObject, 0, .5f).setOnComplete(() =>
         {

@@ -6,14 +6,14 @@ public class BloodSpiller : MonoBehaviour
 {
     [SerializeField] private Entity owner;
 
-    [SerializeField] private int minBloodSpill;
-    [SerializeField] private int maxBloodSpill;
+    [SerializeField] private int minBloodSpill = 2;
+    [SerializeField] private int maxBloodSpill = 4;
 
-    [SerializeField] private float onCritSpillMultiplier;
+    [SerializeField] private float onCritSpillMultiplier = 1.5f;
 
     [SerializeField] private float spillLifetime = 30;
 
-    [SerializeField] private float onDamageDirectionRandomRange;
+    [SerializeField] private float onDamageDirectionRandomRange = 0.5f;
 
     private void Awake()
     {
@@ -52,5 +52,20 @@ public class BloodSpiller : MonoBehaviour
         {
             BloodParticleSystemHandler.Instance.SpawnBlood(this.transform.position, direction, spillLifetime);
         }
+    }
+
+    private void OnDestroy()
+    {
+        owner.D_onTakeDamagesFromEntity -= SpillBloodOnDamages;
+        owner.d_OnDeath -= SpillBloodOnDeath;
+    }
+
+    private void Reset()
+    {
+        Entity e = this.GetComponent<Entity>();
+
+        if (e == null) e = this.GetComponentInParent<Entity>();
+
+        owner = e;
     }
 }

@@ -1,69 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent (typeof(MeshRenderer))]
 public class PolygonGenerator : MonoBehaviour
 {
     #region setup
-    //mesh properties
-    Mesh mesh;
-    public Vector3[] polygonPoints;
-    public int[] polygonTriangles;
-
-    [SerializeField] private GameObject cc;
+    private Mesh mesh;
+    [SerializeField] private Vector3[] polygonPoints;
+    [SerializeField] private int[] polygonTriangles;
 
     //polygon properties
-    public bool isFilled;
-    public int polygonSides;
-    public float polygonRadius;
-    public float centerRadius;
+    [SerializeField] private bool isFilled;
+    [SerializeField] private int polygonSides = 3;
+    [SerializeField] private float polygonRadius = 2;
+    [SerializeField] private float centerRadius;
 
-    public bool spawnObjs;
-
-    public int objectsNum = 5;
-    public float radius = 2;
-    public float angleOffset;
-
-    private List<GameObject> lol = new List<GameObject>();
-
-    void Start()
+    private void Reset()
     {
-        mesh = new Mesh();
+        this.mesh = new Mesh();
         this.GetComponent<MeshFilter>().mesh = mesh;
+        this.GetComponent<MeshRenderer>().material = AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
+        isFilled = false;
     }
 
-    void Update()
+    private void Start()
     {
-        if (isFilled)
-        {
-            DrawFilled(polygonSides, polygonRadius);
-        }
-        else
-        {
-            DrawHollow(polygonSides, polygonRadius, centerRadius);
-        }
+        this.mesh = new Mesh();
+        this.GetComponent<MeshFilter>().mesh = mesh;
+        this.GetComponent<MeshRenderer>().material = AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
+    }
 
-        if (spawnObjs)
-        {
-            foreach (var item in lol)
-            {
-                DestroyImmediate(item);
-            }
-            lol.Clear();
-            spawnObjs = false;
-            for (var i = 1; i < objectsNum; i++)
-            {
-                var angle = i * Mathf.PI * radius * .5f / objectsNum;
-                var AngleOffset = Mathf.Atan2(angle, angle) * Mathf.Deg2Rad;
-                angle += AngleOffset;
-                var pos = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle),0) * radius;
-
-                GameObject gO = Instantiate(cc, pos, Quaternion.identity);
-
-                lol.Add(gO);
-            }
-        }
+    private void Update()
+    {
+        if (isFilled)  DrawFilled(polygonSides, polygonRadius);
+        else DrawHollow(polygonSides, polygonRadius, centerRadius);
     }
     #endregion
 

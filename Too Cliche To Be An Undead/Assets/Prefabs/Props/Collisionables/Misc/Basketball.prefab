@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6320661065332254132}
+  - component: {fileID: 5646034831223056597}
   - component: {fileID: 6320661065332254133}
   - component: {fileID: 6320661065332254135}
   - component: {fileID: 6320661065332254138}
   - component: {fileID: 6320661065332254139}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Basketball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35,6 +36,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5646034831223056597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6320661065332254136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091075f677ec40a40a218cf21fdab8b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 6320661065332254139}
+  speedMultiplier: 0.25
 --- !u!212 &6320661065332254133
 SpriteRenderer:
   m_ObjectHideFlags: 0

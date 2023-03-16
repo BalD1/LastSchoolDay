@@ -17,7 +17,11 @@ public class SCRPT_BossAnimData : ScriptableObject
 
     [field: SerializeField] public AnimationReferenceAsset YellAnim { get; private set; }
 
+    [field: SerializeField] public AnimationReferenceAsset JumpStartAnim { get; private set; }
+    [field: SerializeField] public AnimationReferenceAsset JumpEndAnim { get; private set; }
+
     [field: SerializeField] public AnimationReferenceAsset DeathAnim { get; private set; }
+
 
     public AnimationReferenceAsset IdleAnim { get => idleAnim.RandomElement(); }
     public AnimationReferenceAsset WalkAnim { get => walkAnim.RandomElement(); }

@@ -32,6 +32,7 @@ public class WinScreen : MonoBehaviour
         {
             winGroup.blocksRaycasts = true;
             winGroup.interactable = true;
+            UIManager.Instance.SelectButton("Win");
         });
     }
 }

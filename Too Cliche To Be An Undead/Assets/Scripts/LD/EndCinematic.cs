@@ -75,7 +75,11 @@ public class EndCinematic : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
+        if (!canBeOpened) return;
+
         skeletonAnimation.AnimationState.SetAnimation(0, openAnim, false);
+
+        canBeOpened = false;
 
         LeanTween.delayedCall(animDuration, () =>
         {

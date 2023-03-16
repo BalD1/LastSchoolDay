@@ -12,6 +12,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
 
     private void Start()
     {
+        if (damagesParticles == null) damagesParticles = GameAssets.Instance.BasePropDamagesParticlesPF;
         if (destroyParticles == null) destroyParticles = GameAssets.Instance.BaseDestructionParticlesPF;
     }
 
@@ -33,7 +34,8 @@ public class DestroyableProp : MonoBehaviour, IDamageable
     {
         currentHP -= amount;
 
-        damagesParticles?.Create(this.transform.position);
+        if (damagesParticles != null)
+            damagesParticles.Create(this.transform.position);
 
         if (currentHP <= 0) OnDeath();
         return true;
@@ -56,7 +58,8 @@ public class DestroyableProp : MonoBehaviour, IDamageable
 
     public void OnDeath(bool forceDeath = false)
     {
-        destroyParticles?.Create(this.transform.position);
+        if (destroyParticles != null)
+            destroyParticles.Create(this.transform.position);
 
         Destroy(this.gameObject);
     }

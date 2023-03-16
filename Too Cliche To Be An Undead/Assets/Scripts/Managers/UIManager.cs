@@ -417,6 +417,25 @@ public class UIManager : MonoBehaviour
                     eventSystem.SetSelectedGameObject(null);
                 break;
 
+            case "Context":
+
+                switch (GameManager.Instance.GameState)
+                {
+                    case GameManager.E_GameState.Pause:
+                        SelectButton("Pause");
+                        break;
+
+                    case GameManager.E_GameState.Win:
+                        SelectButton("Win");
+                        break;
+
+                    case GameManager.E_GameState.GameOver:
+                        SelectButton("Gameover");
+                        break;
+                }
+
+                break;
+
             default:
                 Debug.LogError(context + " was not found in switch statement.");
                 break;

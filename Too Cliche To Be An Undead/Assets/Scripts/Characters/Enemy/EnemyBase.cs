@@ -184,7 +184,9 @@ public abstract class EnemyBase : Entity
     public void SetTarget(PlayerCharacter playerTarget)
     {
         currentPlayerTarget = playerTarget;
-        currentTransformTarget = playerTarget.transform;
+
+        if (playerTarget == null) currentTransformTarget = null;
+        else currentTransformTarget = playerTarget.transform;
     }
     public void ResetTarget()
     {
