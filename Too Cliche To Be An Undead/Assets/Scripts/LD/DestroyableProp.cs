@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class DestroyableProp : MonoBehaviour, IDamageable
 {
-    [SerializeField] private GameObject particles;
+    [SerializeField] private GameObject destroyParticles;
+
+    [SerializeField] private GameObject damagesParticles;
 
     [SerializeField] private float currentHP = 50;
+
+    private void Start()
+    {
+        if (destroyParticles == null) destroyParticles = GameAssets.Instance.BaseDestructionParticlesPF;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -26,7 +33,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
     {
         currentHP -= amount;
 
-        //HealthPopup.Create(this.transform.position, amount, fakeDamages);
+        damagesParticles?.Create(this.transform.position);
 
         if (currentHP <= 0) OnDeath();
         return true;
@@ -49,12 +56,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
 
     public void OnDeath(bool forceDeath = false)
     {
-        GameObject obj;
-
-        if (particles != null)
-            obj = particles.Create(this.transform.position);
-        else
-            obj = GameAssets.Instance.BaseDestructionParticlesPF.Create(this.transform.position);
+        destroyParticles?.Create(this.transform.position);
 
         Destroy(this.gameObject);
     }

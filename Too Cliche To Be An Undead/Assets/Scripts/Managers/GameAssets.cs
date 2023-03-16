@@ -28,6 +28,7 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject largeCoinDropPF;
 
     [field: SerializeField] public GameObject BaseDestructionParticlesPF { get; private set; }
+    [field: SerializeField] public GameObject BasePropDamagesParticlesPF { get; private set; }
 
     [field: SerializeField] public GameObject AudioclipPlayerPF { get; private set; }
 
