@@ -13,6 +13,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
     private void Start()
     {
         if (destroyParticles == null) destroyParticles = GameAssets.Instance.BaseDestructionParticlesPF;
+        if (damagesParticles == null) damagesParticles = GameAssets.Instance.BasePropDamagesParticlesPF;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

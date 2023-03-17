@@ -27,6 +27,17 @@ public class SpawnersManager : MonoBehaviour
 
     [field: SerializeField] public AnimationCurve maxZombiesInSchoolByTime { get; private set; }
     [field: SerializeField] public AnimationCurve zombiesSpawnCooldown { get; private set; }
+    [field: SerializeField] public AnimationCurve spawnsBreakupsDurations { get; private set; }
+    [field: SerializeField] public AnimationCurve spawnsBreakupsCooldowns { get; private set; }
+
+    [ReadOnly]
+    [SerializeField] private float currentBreakup_TIMER;
+
+    [ReadOnly]
+    [SerializeField] private float timerBeforeNextBreakup = 10;
+
+    [ReadOnly]
+    [SerializeField] private bool isInBreakup;
 
     [ReadOnly]
     [SerializeField] private int spawnStamp;
@@ -70,7 +81,9 @@ public class SpawnersManager : MonoBehaviour
     public GameObject Spawner_PF { get => spawner_PF; }
 
 #if UNITY_EDITOR
-    [HideInInspector] public bool showAreaSpawnersBounds = false; 
+    [HideInInspector] public bool showAreaSpawnersBounds = false;
+
+    [SerializeField] private bool debugMode;
 #endif
 
     private void Awake()
@@ -83,6 +96,29 @@ public class SpawnersManager : MonoBehaviour
         if (spawnsAreAllowed == false) return;
         TrySpawnZombies();
         EvaluateStamp();
+        ManageBreakups();
+    }
+
+    private void ManageBreakups()
+    {
+        if (isInBreakup)
+        {
+            // manage current breakup timer
+            currentBreakup_TIMER -= Time.deltaTime;
+            if (currentBreakup_TIMER > 0) return;
+
+            // when the timer is <= 0, exit the breakup, set the duration before next, return
+            isInBreakup = false;
+            timerBeforeNextBreakup = spawnsBreakupsCooldowns.Evaluate(SpawnStamp);
+
+            return;
+        }
+
+        timerBeforeNextBreakup -= Time.deltaTime;
+        if (timerBeforeNextBreakup > 0) return;
+
+        isInBreakup = true;
+        currentBreakup_TIMER = spawnsBreakupsDurations.Evaluate(SpawnStamp);
     }
 
     public void AllowSpawns(bool allow)
@@ -98,6 +134,8 @@ public class SpawnersManager : MonoBehaviour
 
     private void TrySpawnZombies()
     {
+        if (isInBreakup) return;
+
         if (currentZombiesInSchool < maxZombiesInSchool) SpawnNext();
     }
 
@@ -261,5 +299,32 @@ public class SpawnersManager : MonoBehaviour
     private void OnEnable()
     {
         if (minKeycardsToSpawn > maxKeycardsToSpawn) minKeycardsToSpawn = maxKeycardsToSpawn;
+    }
+
+    private void OnGUI()
+    {
+        if (!debugMode) return;
+
+        StringBuilder sb = new StringBuilder();
+        sb.Append("Stamp : ");
+        sb.AppendLine(SpawnStamp.ToString());
+
+        sb.Append("Next Stamp Timer : ");
+        sb.AppendLine(stamp_TIMER.ToString("F1"));
+
+        sb.Append("Max Zombies in School : ");
+        sb.AppendLine(maxZombiesInSchool.ToString());
+
+        sb.Append("Zombies Spawn cooldown : ");
+        sb.AppendLine(spawnCooldown.ToString("F1"));
+
+        sb.Append("Is in breakup ? ");
+        sb.AppendLine(isInBreakup.ToString());
+
+        sb.Append(isInBreakup ? "Breakup Timer : " : "Next breakup : ");
+        sb.AppendLine(isInBreakup ? currentBreakup_TIMER.ToString("F1") : timerBeforeNextBreakup.ToString("F1"));
+
+        Rect r = new Rect(10, Screen.height / 2, Screen.width, 100);
+        GUI.Label(r, sb.ToString());
     }
 }
