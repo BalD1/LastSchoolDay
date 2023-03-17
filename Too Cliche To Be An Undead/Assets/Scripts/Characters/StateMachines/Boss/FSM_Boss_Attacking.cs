@@ -135,7 +135,7 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         PlayerCharacter p = collider.transform.parent.GetComponent<PlayerCharacter>();
         if (p == null) return;
 
-        p.OnTakeDamages(owner.maxDamages_M, owner.RollCrit());
+        p.OnTakeDamages(owner.MaxDamages_M, owner.RollCrit());
     }
 
     public override string ToString() => "Attacking";

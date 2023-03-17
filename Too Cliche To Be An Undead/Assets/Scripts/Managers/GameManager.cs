@@ -50,8 +50,12 @@ public class GameManager : MonoBehaviour
         set
         {
             isInTutorial = value;
+
+            D_tutorialState?.Invoke(value);
         }
     }
+    public delegate void D_TutorialState(bool isActive);
+    public D_TutorialState D_tutorialState;
 
     [SerializeField] private GameObject tutorialObject;
 

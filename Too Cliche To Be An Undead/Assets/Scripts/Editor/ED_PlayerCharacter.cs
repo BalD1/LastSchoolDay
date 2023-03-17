@@ -338,7 +338,7 @@ public class ED_PlayerCharacter : Editor
         GUI.enabled = false;
 
         StringBuilder sb = new StringBuilder("Current HP ");
-        sb.AppendFormat("{0} / {1} ({2}%)", targetScript.CurrentHP, targetScript.maxHP_M, targetScript.CurrentHP / targetScript.maxHP_M * 100);
+        sb.AppendFormat("{0} / {1} ({2}%)", targetScript.CurrentHP, targetScript.MaxHP_M, targetScript.CurrentHP / targetScript.MaxHP_M * 100);
 
         EditorGUILayout.LabelField(sb.ToString());
 
@@ -358,12 +358,12 @@ public class ED_PlayerCharacter : Editor
             EditorGUILayout.BeginVertical("GroupBox");
 
             EditorGUILayout.TextField("Entity Type", playerStats.EntityType);
-            DrawBaseAndModified("Max HP", playerStats.MaxHP, targetScript.maxHP_M);
-            DrawBaseAndModified("Damages", playerStats.BaseDamages, targetScript.maxDamages_M);
-            DrawBaseAndModified("Attack Range", playerStats.AttackRange, targetScript.maxAttRange_M);
-            DrawBaseAndModified("Attack Cooldown", playerStats.Attack_COOLDOWN, targetScript.maxAttCD_M);
-            DrawBaseAndModified("Speed", playerStats.Speed, targetScript.maxSpeed_M);
-            DrawBaseAndModified("Crit Chances", playerStats.CritChances, targetScript.maxCritChances_M);
+            DrawBaseAndModified("Max HP", playerStats.MaxHP, targetScript.MaxHP_M);
+            DrawBaseAndModified("Damages", playerStats.BaseDamages, targetScript.MaxDamages_M);
+            DrawBaseAndModified("Attack Range", playerStats.AttackRange, targetScript.MaxAttRange_M);
+            DrawBaseAndModified("Attack Cooldown", playerStats.Attack_COOLDOWN, targetScript.MaxAttCD_M);
+            DrawBaseAndModified("Speed", playerStats.Speed, targetScript.MaxSpeed_M);
+            DrawBaseAndModified("Crit Chances", playerStats.CritChances, targetScript.MaxCritChances_M);
             DrawBaseAndModified("Dash Cooldown", targetScript.PlayerDash.Dash_COOLDOWN, targetScript.MaxDashCD_M);
             DrawBaseAndModified("Skill Cooldown", targetScript.GetSkillHolder.Skill.Cooldown, targetScript.MaxSkillCD_M);
             EditorGUILayout.FloatField("Invincibility Cooldown", playerStats.Invincibility_COOLDOWN);

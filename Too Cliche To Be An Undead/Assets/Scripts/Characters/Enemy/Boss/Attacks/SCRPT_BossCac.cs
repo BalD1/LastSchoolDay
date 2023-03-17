@@ -26,7 +26,7 @@ public class SCRPT_BossCac : SCRPT_EnemyAttack
 
             if (e == null) continue;
 
-            e.OnTakeDamages(owner.maxDamages_M, owner.RollCrit());
+            e.OnTakeDamages(owner.MaxDamages_M, owner.RollCrit());
         }
     }
 

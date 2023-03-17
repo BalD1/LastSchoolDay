@@ -54,7 +54,7 @@ public class Collectable : MonoBehaviour, IInteractable
 
             stepp = (animationCurve.Evaluate(1 - dist / drawdistance) / 90);
 
-            float playerAddedSpeed = detectedPlayers[0].maxSpeed_M - detectedPlayers[0].GetStats.Speed;
+            float playerAddedSpeed = detectedPlayers[0].MaxSpeed_M - detectedPlayers[0].GetStats.Speed;
             if (playerAddedSpeed != 0) stepp += (playerAddedSpeed / 90);
 
             this.transform.position = Vector2.MoveTowards(transform.position, detectedPlayers[0].transform.position, stepp);

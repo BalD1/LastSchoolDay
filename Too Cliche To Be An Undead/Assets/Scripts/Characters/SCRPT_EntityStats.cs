@@ -7,12 +7,33 @@ public class SCRPT_EntityStats : ScriptableObject
 {
     [SerializeField] private string entityName;
     [SerializeField] private float maxHP;
+    [SerializeField] private float maxHP_MAX = float.MaxValue;
+    [Space]
+
     [SerializeField] private float baseDamages;
+    [SerializeField] private float baseDamages_MAX = float.MaxValue;
+    [Space]
+
     [SerializeField] private float attackRange;
+    [SerializeField] private float attackRange_MAX = float.MaxValue;
+    [Space]
+
     [SerializeField] private float attack_COOLDOWN;
+    [SerializeField] private float attack_COOLDOWN_MAX = float.MaxValue;
+    [Space]
+
     [SerializeField] private float invincibility_COOLDOWN;
+    [SerializeField] private float invincibility_COOLDOWN_MAX = float.MaxValue;
+    [Space]
+
     [SerializeField] private float speed;
+    [SerializeField] private float speed_MAX = float.MaxValue;
+    [Space]
+
     [SerializeField] private int critChances;
+    [SerializeField] private int critChances_MAX = int.MaxValue;
+    [Space]
+
     [SerializeField] private float weight;
     [SerializeField] private E_Team team;
 
@@ -25,38 +46,27 @@ public class SCRPT_EntityStats : ScriptableObject
 
     public string EntityType { get => name; }
     public float MaxHP { get => maxHP; } 
+    public float MaxHP_MAX { get => maxHP_MAX; }
 
     public float BaseDamages { get => baseDamages; }
+    public float BaseDamages_MAX { get => baseDamages_MAX; }
+
     public float AttackRange { get => attackRange; }
+    public float AttackRange_MAX { get => attackRange_MAX; }
+
     public float Attack_COOLDOWN { get => attack_COOLDOWN; }
+    public float Attack_COOLDOWN_MAX { get => attack_COOLDOWN_MAX; }
+
     public float Invincibility_COOLDOWN { get => invincibility_COOLDOWN; }
+    public float Invincibility_MAX { get => invincibility_COOLDOWN_MAX; }
+
     public float Speed { get => speed; }
+    public float Speed_MAX { get => speed_MAX; }
+
     public int CritChances { get => critChances; }
+    public int CritChances_MAX { get => critChances_MAX; }
     public float Weight { get => weight; }
     public E_Team Team { get => team; }
-
-    private float GetValueWithModifier(float baseVal, StatsModifier.E_StatType type, List<StatsModifier> modifiers)
-    {
-        float m = 0;
-        foreach (var item in modifiers)
-        {
-            if (item.StatType == type)
-                m += item.Modifier;
-        }
-
-        return baseVal + m;
-    }
-    private int GetValueWithModifier(int baseVal, StatsModifier.E_StatType type, List<StatsModifier> modifiers)
-    {
-        int m = 0;
-        foreach (var item in modifiers)
-        {
-            if (item.StatType == type)
-                m += (int)item.Modifier;
-        }
-
-        return baseVal + m;
-    }
 
     public override string ToString()
     {

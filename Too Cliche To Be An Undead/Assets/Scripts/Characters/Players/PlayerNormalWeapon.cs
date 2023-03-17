@@ -40,7 +40,7 @@ public class PlayerNormalWeapon : PlayerWeapon
         float onAttackMovementSpeed = onAttackMovementForce;
 
         // If the player was moving, add its speed to the attack movements
-        if (owner.Velocity != Vector2.zero) speedModifier = owner.maxSpeed_M;
+        if (owner.Velocity != Vector2.zero) speedModifier = owner.MaxSpeed_M;
         else speedModifier = 0;
 
         onAttackMovementSpeed += speedModifier;
@@ -50,7 +50,7 @@ public class PlayerNormalWeapon : PlayerWeapon
 
         owner.GetRb.AddForce(onAttackMovementSpeed * attackMovementDirection, ForceMode2D.Impulse);
 
-        hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.maxAttRange_M, damageablesLayer);
+        hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.MaxAttRange_M, damageablesLayer);
 
         bool successfulhit = false;
 
@@ -59,7 +59,7 @@ public class PlayerNormalWeapon : PlayerWeapon
             var damageable = item.GetComponentInParent<IDamageable>();
             if (damageable != null)
             {
-                float damages = owner.maxDamages_M;
+                float damages = owner.MaxDamages_M;
 
                 bool performKnockback = true;
                 if (isLastAttack)
@@ -114,7 +114,7 @@ public class PlayerNormalWeapon : PlayerWeapon
 #if UNITY_EDITOR
         if (!debugMode || owner == null) return;
 
-        Gizmos.DrawWireSphere(effectObject.transform.position, owner.maxAttRange_M);
+        Gizmos.DrawWireSphere(effectObject.transform.position, owner.MaxAttRange_M);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(owner.transform.position, maxRange);
 #endif

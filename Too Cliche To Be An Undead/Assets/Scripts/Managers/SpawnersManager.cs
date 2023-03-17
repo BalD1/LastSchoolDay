@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class SpawnersManager : MonoBehaviour
 {
@@ -24,6 +25,10 @@ public class SpawnersManager : MonoBehaviour
 
     private Queue<NormalZombie> zombiesToTeleport = new Queue<NormalZombie>();
     public Queue<NormalZombie> ZombiesToTeleport { get => zombiesToTeleport; }
+
+    [SerializeField] private CanvasGroup stampsCounter;
+    [SerializeField] private Image uiFiller;
+    [SerializeField] private TextMeshProUGUI uiCounter;
 
     [field: SerializeField] public AnimationCurve maxZombiesInSchoolByTime { get; private set; }
     [field: SerializeField] public AnimationCurve zombiesSpawnCooldown { get; private set; }
@@ -89,7 +94,17 @@ public class SpawnersManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        ManageStampsUIState(GameManager.Instance.IsInTutorial == false && spawnsAreAllowed);
+        GameManager.Instance.D_tutorialState += ManageStampsUIState;
     }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.D_tutorialState -= ManageStampsUIState;
+    }
+
+    private void ManageStampsUIState(bool state) => stampsCounter.alpha = state ? 1 : 0;
 
     private void Update()
     {
@@ -124,8 +139,15 @@ public class SpawnersManager : MonoBehaviour
     public void AllowSpawns(bool allow)
     {
         spawnsAreAllowed = allow;
+        ManageStampsUIState(GameManager.Instance.IsInTutorial == false && spawnsAreAllowed);
 
         if (allow == false) return;
+
+        LeanTween.cancel(uiFiller.gameObject);
+        LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+        {
+            uiFiller.fillAmount = val;
+        });
 
         stamp_TIMER = timeBetweenStamps;
         maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
@@ -151,8 +173,16 @@ public class SpawnersManager : MonoBehaviour
         if (stamp_TIMER > 0)
         {
             stamp_TIMER -= Time.deltaTime;
+            uiCounter.text = stamp_TIMER.ToString("F0");
+
             return;
         }
+
+        LeanTween.cancel(uiFiller.gameObject);
+        LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+        {
+            uiFiller.fillAmount = val;
+        });
 
         spawnStamp++;
 

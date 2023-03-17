@@ -7,6 +7,6 @@ public class TrainingDummy_NoText : EnemyBase
 {
     public override void OnDeath(bool forceDeath = false)
     {
-        this.OnHeal(this.maxHP_M);
+        this.OnHeal(this.MaxHP_M);
     }
 }
