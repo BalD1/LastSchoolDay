@@ -352,7 +352,7 @@ public class PlayerCharacter : Entity, IInteractable
 
             SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips);
 
-            this.currentHP = maxHP_M;
+            this.currentHP = MaxHP_M;
 
             SwitchControlMapToDialogue();
         }
@@ -444,12 +444,12 @@ public class PlayerCharacter : Entity, IInteractable
     public void Movements()
     {
         if (stayStatic) return;
-        velocity = Vector2.ClampMagnitude(velocity, maxSpeed_M);
+        velocity = Vector2.ClampMagnitude(velocity, MaxSpeed_M);
 
         if (velocity.x != 0)
             animationController.FlipSkeleton(velocity.x > 0);
 
-        this.rb.MovePosition(this.rb.position + velocity * maxSpeed_M * Time.fixedDeltaTime);
+        this.rb.MovePosition(this.rb.position + velocity * MaxSpeed_M * Time.fixedDeltaTime);
     }
 
     public void StartGamepadShake(PlayersManager.GamepadShakeData shakeData) 
@@ -524,7 +524,7 @@ public class PlayerCharacter : Entity, IInteractable
     private bool SetPortrait(float currentMaxHP = -1)
     {
         if (currentMaxHP == -1)
-            currentMaxHP = maxHP_M;
+            currentMaxHP = MaxHP_M;
 
         if (currentPortraitIdx + 1 <= characterPortrait.characterPortraitsByHP.Length)
         {
@@ -565,27 +565,27 @@ public class PlayerCharacter : Entity, IInteractable
         switch (m.StatType)
         {
             case StatsModifier.E_StatType.MaxHP:
-                maxHP_M += m.Modifier;
+                MaxHP_M += m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.Damages:
-                maxDamages_M += m.Modifier;
+                MaxDamages_M += m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.AttackRange:
-                maxAttRange_M += m.Modifier;
+                MaxAttRange_M += m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.Attack_CD:
-                maxAttCD_M += m.Modifier;
+                MaxAttCD_M += m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.Speed:
-                maxSpeed_M += m.Modifier;
+                MaxSpeed_M += m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.CritChances:
-                maxCritChances_M += (int)m.Modifier;
+                MaxCritChances_M += (int)m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.DASH_CD:
@@ -610,13 +610,13 @@ public class PlayerCharacter : Entity, IInteractable
     private void UpdateHPonUI()
     {
         if (hpBar != null)
-            hpBar.fillAmount = (currentHP / maxHP_M);
+            hpBar.fillAmount = (currentHP / MaxHP_M);
         if (hpText != null)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(currentHP);
             sb.Append(" / ");
-            sb.Append(maxHP_M);
+            sb.Append(MaxHP_M);
             hpText.text = sb.ToString();
         }
     }
@@ -632,7 +632,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void Revive()
     {
-        this.OnHeal(this.maxHP_M * reviveHealPercentage);
+        this.OnHeal(this.MaxHP_M * reviveHealPercentage);
         stateManager.SwitchState(stateManager.idleState);
     }
 
@@ -1036,7 +1036,7 @@ public class PlayerCharacter : Entity, IInteractable
         this.StatsModifiers.Clear();
         this.attackers.Clear();
 
-        this.currentHP = this.maxHP_M;
+        this.currentHP = this.MaxHP_M;
         if (this.hpBar != null)
             this.hpBar.fillAmount = 1;
 
@@ -1152,12 +1152,12 @@ public class PlayerCharacter : Entity, IInteractable
         this.MaxDashCD_M = newDash.Dash_COOLDOWN;
         this.MaxSkillCD_M = newSkill.Cooldown;
 
-        this.maxHP_M = newStats.MaxHP;
-        this.maxDamages_M = newStats.BaseDamages;
-        this.maxAttRange_M = newStats.AttackRange;
-        this.maxAttCD_M = newStats.Attack_COOLDOWN;
-        this.maxSpeed_M = newStats.Speed;
-        this.maxCritChances_M = newStats.CritChances;
+        this.MaxHP_M = newStats.MaxHP;
+        this.MaxDamages_M = newStats.BaseDamages;
+        this.MaxAttRange_M = newStats.AttackRange;
+        this.MaxAttCD_M = newStats.Attack_COOLDOWN;
+        this.MaxSpeed_M = newStats.Speed;
+        this.MaxCritChances_M = newStats.CritChances;
 
         UIManager.PortraitRect portraitRect = characterPortrait.portraitRect;
         portrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
@@ -1168,7 +1168,7 @@ public class PlayerCharacter : Entity, IInteractable
             this.ApplyModifier(item);
         }
 
-        this.currentHP = this.maxHP_M;
+        this.currentHP = this.MaxHP_M;
 
         UpdateHPonUI();
 

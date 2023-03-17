@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class SpawnersManager : MonoBehaviour
 {
@@ -25,8 +26,23 @@ public class SpawnersManager : MonoBehaviour
     private Queue<NormalZombie> zombiesToTeleport = new Queue<NormalZombie>();
     public Queue<NormalZombie> ZombiesToTeleport { get => zombiesToTeleport; }
 
+    [SerializeField] private CanvasGroup stampsCounter;
+    [SerializeField] private Image uiFiller;
+    [SerializeField] private TextMeshProUGUI uiCounter;
+
     [field: SerializeField] public AnimationCurve maxZombiesInSchoolByTime { get; private set; }
     [field: SerializeField] public AnimationCurve zombiesSpawnCooldown { get; private set; }
+    [field: SerializeField] public AnimationCurve spawnsBreakupsDurations { get; private set; }
+    [field: SerializeField] public AnimationCurve spawnsBreakupsCooldowns { get; private set; }
+
+    [ReadOnly]
+    [SerializeField] private float currentBreakup_TIMER;
+
+    [ReadOnly]
+    [SerializeField] private float timerBeforeNextBreakup = 10;
+
+    [ReadOnly]
+    [SerializeField] private bool isInBreakup;
 
     [ReadOnly]
     [SerializeField] private int spawnStamp;
@@ -70,26 +86,68 @@ public class SpawnersManager : MonoBehaviour
     public GameObject Spawner_PF { get => spawner_PF; }
 
 #if UNITY_EDITOR
-    [HideInInspector] public bool showAreaSpawnersBounds = false; 
+    [HideInInspector] public bool showAreaSpawnersBounds = false;
+
+    [SerializeField] private bool debugMode;
 #endif
 
     private void Awake()
     {
         instance = this;
+
+        ManageStampsUIState(GameManager.Instance.IsInTutorial == false && spawnsAreAllowed);
+        GameManager.Instance.D_tutorialState += ManageStampsUIState;
     }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.D_tutorialState -= ManageStampsUIState;
+    }
+
+    private void ManageStampsUIState(bool state) => stampsCounter.alpha = state ? 1 : 0;
 
     private void Update()
     {
         if (spawnsAreAllowed == false) return;
         TrySpawnZombies();
         EvaluateStamp();
+        ManageBreakups();
+    }
+
+    private void ManageBreakups()
+    {
+        if (isInBreakup)
+        {
+            // manage current breakup timer
+            currentBreakup_TIMER -= Time.deltaTime;
+            if (currentBreakup_TIMER > 0) return;
+
+            // when the timer is <= 0, exit the breakup, set the duration before next, return
+            isInBreakup = false;
+            timerBeforeNextBreakup = spawnsBreakupsCooldowns.Evaluate(SpawnStamp);
+
+            return;
+        }
+
+        timerBeforeNextBreakup -= Time.deltaTime;
+        if (timerBeforeNextBreakup > 0) return;
+
+        isInBreakup = true;
+        currentBreakup_TIMER = spawnsBreakupsDurations.Evaluate(SpawnStamp);
     }
 
     public void AllowSpawns(bool allow)
     {
         spawnsAreAllowed = allow;
+        ManageStampsUIState(GameManager.Instance.IsInTutorial == false && spawnsAreAllowed);
 
         if (allow == false) return;
+
+        LeanTween.cancel(uiFiller.gameObject);
+        LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+        {
+            uiFiller.fillAmount = val;
+        });
 
         stamp_TIMER = timeBetweenStamps;
         maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
@@ -98,6 +156,8 @@ public class SpawnersManager : MonoBehaviour
 
     private void TrySpawnZombies()
     {
+        if (isInBreakup) return;
+
         if (currentZombiesInSchool < maxZombiesInSchool) SpawnNext();
     }
 
@@ -113,8 +173,16 @@ public class SpawnersManager : MonoBehaviour
         if (stamp_TIMER > 0)
         {
             stamp_TIMER -= Time.deltaTime;
+            uiCounter.text = stamp_TIMER.ToString("F0");
+
             return;
         }
+
+        LeanTween.cancel(uiFiller.gameObject);
+        LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+        {
+            uiFiller.fillAmount = val;
+        });
 
         spawnStamp++;
 
@@ -261,5 +329,32 @@ public class SpawnersManager : MonoBehaviour
     private void OnEnable()
     {
         if (minKeycardsToSpawn > maxKeycardsToSpawn) minKeycardsToSpawn = maxKeycardsToSpawn;
+    }
+
+    private void OnGUI()
+    {
+        if (!debugMode) return;
+
+        StringBuilder sb = new StringBuilder();
+        sb.Append("Stamp : ");
+        sb.AppendLine(SpawnStamp.ToString());
+
+        sb.Append("Next Stamp Timer : ");
+        sb.AppendLine(stamp_TIMER.ToString("F1"));
+
+        sb.Append("Max Zombies in School : ");
+        sb.AppendLine(maxZombiesInSchool.ToString());
+
+        sb.Append("Zombies Spawn cooldown : ");
+        sb.AppendLine(spawnCooldown.ToString("F1"));
+
+        sb.Append("Is in breakup ? ");
+        sb.AppendLine(isInBreakup.ToString());
+
+        sb.Append(isInBreakup ? "Breakup Timer : " : "Next breakup : ");
+        sb.AppendLine(isInBreakup ? currentBreakup_TIMER.ToString("F1") : timerBeforeNextBreakup.ToString("F1"));
+
+        Rect r = new Rect(10, Screen.height / 2, Screen.width, 100);
+        GUI.Label(r, sb.ToString());
     }
 }

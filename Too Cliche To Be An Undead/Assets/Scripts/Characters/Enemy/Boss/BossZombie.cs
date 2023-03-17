@@ -87,7 +87,7 @@ public class BossZombie : EnemyBase
 
         bool res = base.OnTakeDamages(amount, isCrit, fakeDamages);
 
-        if (this.currentHP <= (this.maxHP_M * hpThresholdBeforeNextStage) && attacksPatern.currentStage == 0) AdvanceToNextStage();
+        if (this.currentHP <= (this.MaxHP_M * hpThresholdBeforeNextStage) && attacksPatern.currentStage == 0) AdvanceToNextStage();
 
         return res;
     }

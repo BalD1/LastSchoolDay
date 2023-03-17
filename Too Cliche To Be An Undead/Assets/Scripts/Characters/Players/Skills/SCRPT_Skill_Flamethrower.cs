@@ -40,7 +40,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
         owner.D_aimInput += owner.Weapon.SetAimGoal;
 
-        finalDamages = owner.maxDamages_M * damagesPercentageModifier;
+        finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
         tickDamages = finalDamages * tickDamagesMultiplier;
 
     }

@@ -18,8 +18,8 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
     {
         base.OnDashStart(owner, direction);
 
-        finalDamages = owner.maxDamages_M * damagesPercentageModifier;
-        critChances = owner.maxCritChances_M;
+        finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
+        critChances = owner.MaxCritChances_M;
         team = owner.GetStats.Team;
 
         hitEntities = new List<Entity>();

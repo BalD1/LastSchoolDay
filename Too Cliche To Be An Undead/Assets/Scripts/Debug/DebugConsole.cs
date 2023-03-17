@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -29,8 +30,6 @@ public class DebugConsole : MonoBehaviour
     #region Commands
 
     private DebugCommand HELP;
-
-    private DebugCommand START_ARENA;
 
     private DebugCommand KILLSELF;
     private DebugCommand KILLALL;
@@ -94,25 +93,82 @@ public class DebugConsole : MonoBehaviour
 
     private float labelsHeight = 20;
 
+    private GameManager.E_GameState stateBeforeConsole;
+
     private void Awake()
     {
-        // Create commands
+        CreateSimpleCommands();
+        CreateIntCommands();
+        CreateFloatCommands();
 
-        #region Simple commands
+        commandList = new List<object>()
+        {
+            HELP,
 
+            KILLSELF,
+            KILLALL,
+            KILL,
+
+            FORCEWIN,
+            FORCEKILL_BOSS,
+
+            SKIP_TUTO,
+            RESTART_IN_TUTO,
+            FORCEOPEN_GYMNASIUM,
+
+            SWITCH_CHARACTER,
+
+            ADD_KEYCARD,
+
+            HEAL_SELF,
+            HEAL_SELF_C,
+
+            DAMAGE_SELF,
+            DAMAGE_SELF_C,
+
+            REMOVE_ALL_MODIFIERS,
+
+            ADDM_SELF_HP,
+            ADDM_SELF_HP_T,
+
+            ADDM_SELF_DAMAGES,
+            ADDM_SELF_DAMAGES_T,
+
+            ADDM_SELF_ATTRANGE,
+            ADDM_SELF_ATTRANGE_T,
+
+            ADDM_SELF_ATTCD,
+            ADDM_SELF_ATTCD_T,
+
+            ADDM_SELF_SPEED,
+            ADDM_SELF_SPEED_T,
+
+            ADDM_SELF_CRIT,
+            ADDM_SELF_CRIT_T,
+
+            ADDM_SELF_DASHCD,
+            ADDM_SELF_DASHCD_T,
+
+            ADDM_SELF_SKILLCD,
+            ADDM_SELF_SKILLCD_T,
+
+            ADD_MONEY,
+            GOLD_BAG,
+            PAYDAY,
+            RICH_AF,
+        };
+    }
+
+    private void CreateSimpleCommands()
+    {
         HELP = new DebugCommand("HELP", "Shows all commands", "HELP", () =>
         {
             showHelp = !showHelp;
         });
 
-        START_ARENA = new DebugCommand("START_ARENA", "Starts the fight arena's waves spawn", "START_ARENA", () =>
-        {
-            GameManager.Instance.StartArena();
-        });
-
         KILLSELF = new DebugCommand("KILL_SELF", "Kills the currently controlled character", "KILL_SELF", () =>
         {
-            GameManager.Player1Ref.OnTakeDamages(GameManager.Player1Ref.maxHP_M);
+            GameManager.Player1Ref.OnTakeDamages(GameManager.Player1Ref.MaxHP_M);
         });
 
         KILLALL = new DebugCommand("KILL_ALL", "Kills every players", "KILL_ALL", () =>
@@ -120,12 +176,13 @@ public class DebugConsole : MonoBehaviour
             foreach (var item in DataKeeper.Instance.playersDataKeep)
             {
                 PlayerCharacter pc = item.playerInput.GetComponentInParent<PlayerCharacter>();
-                pc.OnTakeDamages(pc.maxHP_M);
+                pc.OnTakeDamages(pc.MaxHP_M);
             }
         });
 
         FORCEWIN = new DebugCommand("FORCE_WIN", "Forces the win conditions", "FORCE_WIN", () =>
         {
+            allowGameChange = false;
             GameManager.Instance.GameState = GameManager.E_GameState.Win;
         });
 
@@ -173,11 +230,10 @@ public class DebugConsole : MonoBehaviour
             allowGameChange = false;
             FindObjectOfType<SpineGymnasiumDoor>()?.ForceOpen();
         });
+    }
 
-        #endregion
-
-        #region Int commands
-
+    private void CreateIntCommands()
+    {
         SWITCH_CHARACTER = new DebugCommand<int>("SWITCH_CHARACTER", "Switchs to the desired character \n 0 = Shirley \n 1 = Whitney \n 2 = Jason \n 3 = Nelson", "SWITCH_CHARACTER <int>", (val) =>
         {
             GameManager.E_CharactersNames desiredCharacter = GameManager.E_CharactersNames.Shirley;
@@ -195,7 +251,7 @@ public class DebugConsole : MonoBehaviour
         KILL = new DebugCommand<int>("KILL", "Kills the given player index", "KILL <int>", (val) =>
         {
             PlayerCharacter pc = DataKeeper.Instance.playersDataKeep[val].playerInput.GetComponentInParent<PlayerCharacter>();
-            pc.OnTakeDamages(pc.maxHP_M);
+            pc.OnTakeDamages(pc.MaxHP_M);
         });
 
         ADDM_SELF_CRIT = new DebugCommand<int>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self", "ADDM_SELF_CRIT <float>", (val) =>
@@ -217,11 +273,10 @@ public class DebugConsole : MonoBehaviour
         {
             GameManager.AcquiredCards += val;
         });
+    }
 
-        #endregion
-
-        #region Float commands
-
+    private void CreateFloatCommands()
+    {
         HEAL_SELF = new DebugCommand<float>("HEAL_SELF", "Heals the currently played character", "HEAL_SELF <float>", (val) =>
         {
             GameManager.Player1Ref.OnHeal(val);
@@ -311,67 +366,6 @@ public class DebugConsole : MonoBehaviour
         {
             GameManager.Player1Ref.AddModifier(MODIF_SKILLCD_ID, val_1, val_2, StatsModifier.E_StatType.SKILL_CD);
         });
-
-        #endregion
-
-        commandList = new List<object>()
-        {
-            HELP,
-
-            START_ARENA,
-
-            KILLSELF,
-            KILLALL,
-            KILL,
-
-            FORCEWIN,
-            FORCEKILL_BOSS,
-
-            SKIP_TUTO,
-            RESTART_IN_TUTO,
-            FORCEOPEN_GYMNASIUM,
-
-            SWITCH_CHARACTER,
-
-            ADD_KEYCARD,
-
-            HEAL_SELF,
-            HEAL_SELF_C,
-
-            DAMAGE_SELF,
-            DAMAGE_SELF_C,
-
-            REMOVE_ALL_MODIFIERS,
-
-            ADDM_SELF_HP,
-            ADDM_SELF_HP_T,
-
-            ADDM_SELF_DAMAGES,
-            ADDM_SELF_DAMAGES_T,
-
-            ADDM_SELF_ATTRANGE,
-            ADDM_SELF_ATTRANGE_T,
-
-            ADDM_SELF_ATTCD,
-            ADDM_SELF_ATTCD_T,
-
-            ADDM_SELF_SPEED,
-            ADDM_SELF_SPEED_T,
-
-            ADDM_SELF_CRIT,
-            ADDM_SELF_CRIT_T,
-
-            ADDM_SELF_DASHCD,
-            ADDM_SELF_DASHCD_T,
-
-            ADDM_SELF_SKILLCD,
-            ADDM_SELF_SKILLCD_T,
-
-            ADD_MONEY,
-            GOLD_BAG,
-            PAYDAY,
-            RICH_AF,
-        };
     }
 
     private void Update()
@@ -387,13 +381,11 @@ public class DebugConsole : MonoBehaviour
     /// </summary>
     public void OnToggleConsole()
     {
-        GameManager.E_GameState currentState = GameManager.Instance.GameState;
+        stateBeforeConsole = GameManager.Instance.GameState;
 
-        if (showConsole == false && currentState != GameManager.E_GameState.InGame)
-            allowGameChange = false;
+        allowGameChange = stateBeforeConsole == GameManager.E_GameState.InGame;
 
         showConsole = !showConsole;
-
 
         if (showConsole)
         {
@@ -405,9 +397,7 @@ public class DebugConsole : MonoBehaviour
         }
         else
         {
-            // if the game wasn't in cinematic or paused, reset the state
-            if (currentState == GameManager.E_GameState.Restricted && allowGameChange)
-                GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+            if (allowGameChange) GameManager.Instance.GameState = stateBeforeConsole;
         }
     }
 

@@ -48,8 +48,8 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
-        finalDamages = _owner.maxDamages_M * damagesPercentageModifier;
-        finalCrit = (int)(_owner.maxCritChances_M * critModifier);
+        finalDamages = _owner.MaxDamages_M * damagesPercentageModifier;
+        finalCrit = (int)(_owner.MaxCritChances_M * critModifier);
 
         fire_TIMER = 0;
 

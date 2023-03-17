@@ -6,6 +6,7 @@ using System.IO;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Rendering;
 
 public class Entity : MonoBehaviour, IDamageable
 {
@@ -48,12 +49,71 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected SCRPT_EntityStats stats;
     public SCRPT_EntityStats GetStats { get => stats; }
 
-    public float maxHP_M { get; protected set; }
-    public float maxDamages_M { get; protected set; }
-    public float maxAttRange_M { get; protected set; }
-    public float maxAttCD_M { get; protected set; }
-    public float maxSpeed_M { get; protected set; }
-    public int maxCritChances_M { get; protected set; }
+    private float maxHP_M;
+    public float MaxHP_M 
+    { 
+        get
+        {
+            if (maxHP_M >= stats.MaxHP_MAX) return stats.MaxHP_MAX;
+            return maxHP_M;
+        }
+        protected set { maxHP_M = value; } 
+    }
+
+    private float maxDamages_M;
+    public float MaxDamages_M
+    {
+        get
+        {
+            if (maxDamages_M >= stats.BaseDamages_MAX) return stats.BaseDamages_MAX;
+            return maxDamages_M;
+        }
+        protected set { maxDamages_M = value;}
+    }
+
+    private float maxAttRange_M;
+    public float MaxAttRange_M
+    {
+        get
+        {
+            if (maxAttRange_M >= stats.AttackRange_MAX) return stats.AttackRange_MAX;
+            return maxAttRange_M;
+        }
+        protected set { maxAttRange_M = value; }
+    }
+
+    private float maxAttCD_M;
+    public float MaxAttCD_M
+    {
+        get
+        {
+            if (maxAttCD_M >= stats.Attack_COOLDOWN_MAX) return stats.Attack_COOLDOWN_MAX;
+            return maxAttCD_M;
+        }
+        protected set { maxAttCD_M = value; }
+    }
+
+    private float maxSpeed_M;
+    public float MaxSpeed_M
+    {
+        get
+        {
+            if (maxSpeed_M >= stats.Speed_MAX) return stats.Speed_MAX;
+            return maxSpeed_M;
+        }
+        protected set { maxSpeed_M = value; }
+    }
+
+    private int maxCritChances_M;
+    public int MaxCritChances_M
+    {
+        get
+        {
+            if (maxCritChances_M >= stats.CritChances_MAX) return stats.CritChances_MAX;
+            return maxCritChances_M;
+        }
+        protected set { maxCritChances_M = value; }
+    }
 
     [SerializeField] protected List<StatsModifier> statsModifiers = new List<StatsModifier>();
     public List<StatsModifier> StatsModifiers { get => statsModifiers; }
@@ -245,27 +305,27 @@ public class Entity : MonoBehaviour, IDamageable
         switch (m.StatType)
         {
             case StatsModifier.E_StatType.MaxHP:
-                maxHP_M += m.Modifier;
+                MaxHP_M += m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.Damages:
-                maxDamages_M += m.Modifier;
+                MaxDamages_M += m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.AttackRange:
-                maxAttRange_M += m.Modifier;
+                MaxAttRange_M += m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.Attack_CD:
-                maxAttCD_M += m.Modifier;
+                MaxAttCD_M += m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.Speed:
-                maxSpeed_M += m.Modifier;
+                MaxSpeed_M += m.Modifier;
                 break;
 
             case StatsModifier.E_StatType.CritChances:
-                maxCritChances_M += (int)m.Modifier;
+                MaxCritChances_M += (int)m.Modifier;
                 break;
         }
     }
@@ -446,7 +506,7 @@ public class Entity : MonoBehaviour, IDamageable
         if (isCrit) amount *= 1.5f;
 
         if (canExceedMaxHP) currentHP += amount;
-        else currentHP = Mathf.Clamp(currentHP += amount, 0, maxHP_M);
+        else currentHP = Mathf.Clamp(currentHP += amount, 0, MaxHP_M);
 
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: true, isCrit);
     }
@@ -483,7 +543,7 @@ public class Entity : MonoBehaviour, IDamageable
     public void SetInvincibility(bool _i) => invincible = _i;
     public void SetTimedInvincibility(float time) => invincibility_TIMER = time;
 
-    public bool RollCrit() => UnityEngine.Random.Range(0, 100) <= maxCritChances_M ? true : false;
+    public bool RollCrit() => UnityEngine.Random.Range(0, 100) <= MaxCritChances_M ? true : false;
 
     public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
     {
@@ -500,7 +560,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     public void StartAttackTimer(float durationModifier = 0, bool addRandom = false)
     {
-        float finalDuration = UnityEngine.Random.Range(maxAttCD_M, maxAttCD_M * 2);
+        float finalDuration = UnityEngine.Random.Range(MaxAttCD_M, MaxAttCD_M * 2);
         finalDuration += durationModifier;
 
         attack_TIMER = finalDuration;
@@ -509,14 +569,14 @@ public class Entity : MonoBehaviour, IDamageable
 
     protected virtual void ResetStats()
     {
-        this.maxHP_M = GetStats.MaxHP;
-        this.maxDamages_M = GetStats.BaseDamages;
-        this.maxAttRange_M = GetStats.AttackRange;
-        this.maxAttCD_M = GetStats.Attack_COOLDOWN;
-        this.maxSpeed_M = GetStats.Speed;
-        this.maxCritChances_M = GetStats.CritChances;
+        this.MaxHP_M = GetStats.MaxHP;
+        this.MaxDamages_M = GetStats.BaseDamages;
+        this.MaxAttRange_M = GetStats.AttackRange;
+        this.MaxAttCD_M = GetStats.Attack_COOLDOWN;
+        this.MaxSpeed_M = GetStats.Speed;
+        this.MaxCritChances_M = GetStats.CritChances;
 
-        this.currentHP = maxHP_M;
+        this.currentHP = MaxHP_M;
     }
 
     #region Debug
@@ -525,7 +585,7 @@ public class Entity : MonoBehaviour, IDamageable
     {
 #if UNITY_EDITOR
         string col = GetStats.GetMarkdownColor();
-        Debug.Log("<b><color=" + col + ">" + this.gameObject.name + "</color></b> : " + currentHP + " / " + maxHP_M + " (" + (currentHP / maxHP_M * 100) + "% ) ", this.gameObject); ;
+        Debug.Log("<b><color=" + col + ">" + this.gameObject.name + "</color></b> : " + currentHP + " / " + MaxHP_M + " (" + (currentHP / MaxHP_M * 100) + "% ) ", this.gameObject); ;
 #endif
     }
 

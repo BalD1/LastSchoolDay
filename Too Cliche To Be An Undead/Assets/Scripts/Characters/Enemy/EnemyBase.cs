@@ -48,7 +48,7 @@ public abstract class EnemyBase : Entity
 
     [SerializeField] private bool allowSlowdown = true;
 
-    public float MaxSpeed { get => this.maxSpeed_M * this.SpeedMultiplier * speedMultiplierWhenOutsideOfCamera; }
+    public float MaxSpeed { get => this.MaxSpeed_M * this.SpeedMultiplier * speedMultiplierWhenOutsideOfCamera; }
 
     [SerializeField] private float randomWanderPositionRadius = 5f;
     public float RandomWanderPositionRadius { get => randomWanderPositionRadius; }
@@ -208,11 +208,11 @@ public abstract class EnemyBase : Entity
 
     public void SetAsZombifiedPlayer(Sprite playerSprite, float playerMaxHP, float playerDamages, float playerSpeed, int playerCrits)
     {
-        this.maxHP_M = playerMaxHP;
+        this.MaxHP_M = playerMaxHP;
         this.OnHeal(playerMaxHP);
-        this.maxDamages_M = playerDamages;
-        this.maxSpeed_M = playerSpeed;
-        this.maxCritChances_M = playerCrits;
+        this.MaxDamages_M = playerDamages;
+        this.MaxSpeed_M = playerSpeed;
+        this.MaxCritChances_M = playerCrits;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

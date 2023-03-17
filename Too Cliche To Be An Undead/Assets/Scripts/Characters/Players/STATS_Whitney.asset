@@ -13,12 +13,19 @@ MonoBehaviour:
   m_Name: STATS_Whitney
   m_EditorClassIdentifier: 
   entityName: Whitney
-  maxHP: 40
+  maxHP: 50
+  maxHP_MAX: 100
   baseDamages: 25
+  baseDamages_MAX: 70
   attackRange: 0.5
+  attackRange_MAX: 0.5
   attack_COOLDOWN: 0.1
+  attack_COOLDOWN_MAX: 0.1
   invincibility_COOLDOWN: 0.1
+  invincibility_COOLDOWN_MAX: 0.1
   speed: 3.8
+  speed_MAX: 10
   critChances: 10
+  critChances_MAX: 100
   weight: 0
   team: 0
