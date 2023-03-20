@@ -12,6 +12,9 @@ using System.Linq;
 using System.Text;
 using Spine.Unity;
 using UnityEditor;
+using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.Switch;
+using UnityEngine.InputSystem.XInput;
 
 public class PlayerCharacter : Entity, IInteractable
 {
@@ -82,6 +85,15 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private float dyingState_DURATION = 20f;
     [SerializeField][Range(0, 1)] private float reviveHealPercentage = 0.25f;
 
+    public enum E_Devices
+    {
+        Keyboard,
+        Xbox,
+        DualShock,
+        Switch,
+        None,
+    }
+
     public int selfReviveCount;
 
     public float MaxSkillCD_M { get; private set; }
@@ -105,6 +117,9 @@ public class PlayerCharacter : Entity, IInteractable
 
     public delegate void D_SteppedIntoTrigger(Type triggerType);
     public D_SteppedIntoTrigger d_SteppedIntoTrigger;
+
+    public delegate void D_OnDeviceChange(E_Devices newDevice);
+    public D_OnDeviceChange D_onDeviceChange;
 
     public delegate void D_AttackInput();
     public D_AttackInput D_attackInput;
@@ -190,6 +205,9 @@ public class PlayerCharacter : Entity, IInteractable
 
     public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
     public const string SCHEME_GAMEPAD = "Gamepad";
+
+    public E_Devices currentDeviceType { get; private set; }
+    private string currentDeviceName = "";
 
     private float gamepadShake_TIMER;
 
@@ -360,10 +378,13 @@ public class PlayerCharacter : Entity, IInteractable
         if (GameManager.Instance.playersByName.Count <= 0) GameManager.Instance.SetPlayersByNameList();
 
         this.minimapMarker.SetActive(true);
+
+        CheckCurrentDevice();
     }
 
     protected override void Update()
     {
+        CheckCurrentDevice();
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         base.Update();
 
@@ -709,7 +730,40 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Inputs
 
-        #region InGame
+    private void CheckCurrentDevice()
+    {
+        InputDevice device = Inputs.devices[0];
+
+        if (currentDeviceName == device.name) return;
+
+        currentDeviceName = device.name;
+
+        E_Devices newType;
+
+        switch (device)
+        {
+            case InputDevice d when device is XInputController:
+                newType = E_Devices.Xbox;
+                break;
+
+            case InputDevice d when device is DualShockGamepad:
+                newType = E_Devices.DualShock;
+                break;
+
+            case InputDevice d when device is SwitchProControllerHID:
+                newType = E_Devices.Switch;
+                break;
+
+            default:
+                newType = E_Devices.Keyboard;
+                break;
+        }
+
+        currentDeviceType = newType;
+        D_onDeviceChange?.Invoke(newType);
+    }
+
+    #region InGame
 
     public void AttackInput(InputAction.CallbackContext context)
     {

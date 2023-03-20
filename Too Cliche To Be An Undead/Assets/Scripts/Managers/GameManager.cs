@@ -214,6 +214,8 @@ public class GameManager : MonoBehaviour
 
         isAppQuitting = false;
         Application.quitting += () => isAppQuitting = true;
+
+        InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
     }
 
     private void Start()

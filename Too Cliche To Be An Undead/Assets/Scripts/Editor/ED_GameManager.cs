@@ -48,6 +48,9 @@ public class ED_GameManager : Editor
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("General", EditorStyles.boldLabel);
 
+        SerializedProperty player1Ref = serializedObject.FindProperty("player1Ref");
+        EditorGUILayout.PropertyField(player1Ref);
+
         if (Application.isPlaying && GameManager.Instance)
             currentState = GameManager.Instance.GameState;
 

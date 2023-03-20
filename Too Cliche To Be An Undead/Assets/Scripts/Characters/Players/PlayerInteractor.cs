@@ -6,14 +6,15 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
 using UnityEngine.InputSystem.Switch;
 using UnityEngine.InputSystem.XInput;
+using static ButtonsImageByDevice;
 
 public class PlayerInteractor : MonoBehaviour
 {
     [SerializeField] private CircleCollider2D trigger;
     [SerializeField] private GameObject interactPrompt;
-    [SerializeField] private TextMeshPro promptText;
+    [SerializeField] private SpriteRenderer promptText;
 
-    public TextMeshPro PromptText { get => promptText; }
+    public SpriteRenderer PromptText { get => promptText; }
 
     [SerializeField] private PlayerCharacter owner;
 
@@ -25,6 +26,19 @@ public class PlayerInteractor : MonoBehaviour
     private void Start()
     {
         GameManager.Instance._onSceneReload += ResetOnLoad;
+
+        owner.D_onDeviceChange += CheckDevice;
+        CheckDevice(owner.currentDeviceType);
+    }
+
+    private void CheckDevice(PlayerCharacter.E_Devices device)
+    {
+        promptText.sprite = ButtonsImageByDevice.Instance.GetButtonImage(E_ButtonType.Third, device);
+    }
+
+    private void OnDestroy()
+    {
+        owner.D_onDeviceChange -= CheckDevice;
     }
 
     public void ResetOnLoad()
@@ -56,19 +70,6 @@ public class PlayerInteractor : MonoBehaviour
         }
     }
 
-    /*
-    private void InteractWithAllInRange()
-    {
-        foreach (var item in interactablesInRange)
-        {
-            item.Interact(this.gameObject);
-            if (item.CanBeInteractedWith() == false)
-                interactablesToRemove.Add(item);
-        }
-        CleanListAll();
-    }
-    */
-
     public void CleanListSingle(IInteractable i)
     {
         interactablesInRange.Remove(i);
@@ -82,24 +83,6 @@ public class PlayerInteractor : MonoBehaviour
         interactablesToRemove.Clear();
 
         if (interactablesInRange.Count == 0) interactPrompt.SetActive(false);
-    }
-
-    private void SetPrompt()
-    {
-        if (owner.StateManager.ToString().Equals("Dying")) return;
-
-        interactPrompt.SetActive(true);
-
-        StringBuilder sb = new StringBuilder();
-
-        InputDevice d = owner.Inputs.devices[0];
-
-        if (d is XInputController) sb.Append("Y");
-        else if (d is DualShockGamepad) sb.Append("TRIANGLE");
-        else if (d is SwitchProControllerHID) sb.Append("X");
-        else sb.Append("E");
-
-        promptText.text = sb.ToString();
     }
 
     public void ResetCollider()
@@ -134,7 +117,8 @@ public class PlayerInteractor : MonoBehaviour
         }
 
         interactablesInRange.Add(interactable);
-        SetPrompt();
+
+        interactPrompt.SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
