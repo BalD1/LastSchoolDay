@@ -191,6 +191,16 @@ public class CameraManager : MonoBehaviour
     }
     public void MoveCamera(Vector2 pos, float duration = 2, LeanTweenType type = LeanTweenType.easeInOutQuart) => MoveCamera(pos, null, duration, type);
 
+    public void ZoomCamera(float amount, float duration, Action onCompleteAction, LeanTweenType type = LeanTweenType.easeInOutQuart)
+    {
+        if (cinematicMode == false) return;
+
+        LeanTween.value(cam_followPlayers.gameObject, cam_followPlayers.m_Lens.OrthographicSize, cam_followPlayers.m_Lens.OrthographicSize + amount, duration).setEase(type).setOnUpdate((float val) =>
+        {
+            cam_followPlayers.m_Lens.OrthographicSize = val;
+        }).setOnComplete(onCompleteAction);
+    }
+
     public void SetTriggerParent(Transform newParent)
     {
         volumeTrigger.parent = newParent;

@@ -149,8 +149,7 @@ public class BossZombie : EnemyBase
         LeanTween.delayedCall(.4f, () =>
         {
             skeletonAnimation.AnimationState.SetAnimation(0, animationData.JumpEndAnim, false);
-            skeletonAnimation.AnimationState.AddAnimation(0, animationData.YellAnim, false, animationData.JumpEndAnim.Animation.Duration + .2f);
-            skeletonAnimation.AnimationState.AddAnimation(0, animationData.IdleAnim, true, animationData.YellAnim.Animation.Duration);
+            skeletonAnimation.AnimationState.AddAnimation(0, animationData.IdleAnim, true, animationData.JumpEndAnim.Animation.Duration + .2f);
         });
         LeanTween.moveLocalY(this.SkeletonHolder.gameObject, 0, .5f).setOnComplete(() =>
         {
@@ -160,8 +159,23 @@ public class BossZombie : EnemyBase
             float cameraShakeDuration = 2;
 
             CameraManager.Instance.ShakeCamera(2.5f, cameraShakeDuration);
-            LeanTween.delayedCall(cameraShakeDuration, () => actionToPlayAtEnd?.Invoke());
 
+            LeanTween.delayedCall(cameraShakeDuration, () =>
+            {
+                skeletonAnimation.AnimationState.SetAnimation(0, animationData.YellAnim, false);
+                skeletonAnimation.AnimationState.AddAnimation(0, animationData.IdleAnim, true, animationData.YellAnim.Animation.Duration + .2f);
+
+                BossHUDManager.Instance.AddBoss(this);
+                BossHUDManager.Instance.LeanContainer(true);
+
+                CameraManager.Instance.ZoomCamera(-.25f, .5f, () =>
+                {
+                    CameraManager.Instance.ShakeCamera(2.5f, 1);
+                    LeanTween.delayedCall(1, () => actionToPlayAtEnd?.Invoke());
+                });
+            });
+
+            
         }).setIgnoreTimeScale(true);
     }
 

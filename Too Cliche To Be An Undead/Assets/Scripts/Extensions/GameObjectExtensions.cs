@@ -22,4 +22,10 @@ public static class GameObjectExtensions
         GameObject gO = GameObject.Instantiate(gameObject, parent);
         return gO;
     }
+    public static GameObject Create(this GameObject gameObject, RectTransform parent)
+    {
+        if (gameObject == null) return null;
+        GameObject gO = GameObject.Instantiate(gameObject, parent);
+        return gO;
+    }
 }
