@@ -44,6 +44,8 @@ public class GymnasiumCinematic : MonoBehaviour
 
         UIManager.Instance.SetMinimapActiveState(false);
         UIManager.Instance.KeycardContainer.gameObject.SetActive(false);
+        UIManager.Instance.CoinsContainer.gameObject.SetActive(false);
+        UIManager.Instance.StampTimer.SetActive(false);
 
         DialogueManager.Instance.TryStartDialogue(entryDialogue, () =>
         {

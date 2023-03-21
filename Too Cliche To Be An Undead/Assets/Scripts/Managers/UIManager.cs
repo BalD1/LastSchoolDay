@@ -61,7 +61,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image[] hudKeycards;
     public Image[] HudKeycards { get => hudKeycards; }
 
+    [SerializeField] private GameObject coinsContainer;
+    public GameObject CoinsContainer { get => coinsContainer; }
+
     [SerializeField] private TextMeshProUGUI moneyCounter;
+
+    [SerializeField] private GameObject stampTimer;
+    public GameObject StampTimer { get => stampTimer; }
 
     #endregion
 
