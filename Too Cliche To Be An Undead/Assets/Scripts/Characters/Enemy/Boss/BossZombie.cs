@@ -162,6 +162,7 @@ public class BossZombie : EnemyBase
 
             LeanTween.delayedCall(cameraShakeDuration, () =>
             {
+                actionToPlayAtEnd?.Invoke();
                 skeletonAnimation.AnimationState.SetAnimation(0, animationData.YellAnim, false);
                 skeletonAnimation.AnimationState.AddAnimation(0, animationData.IdleAnim, true, animationData.YellAnim.Animation.Duration + .2f);
 
@@ -171,7 +172,6 @@ public class BossZombie : EnemyBase
                 CameraManager.Instance.ZoomCamera(-.25f, .5f, () =>
                 {
                     CameraManager.Instance.ShakeCamera(2.5f, 1);
-                    LeanTween.delayedCall(1, () => actionToPlayAtEnd?.Invoke());
                 });
             });
 

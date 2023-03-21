@@ -16,14 +16,28 @@ MonoBehaviour:
   <ignoreGameState>k__BackingField: 1
   <dialogueLines>k__BackingField:
   - <characterName>k__BackingField: 2
-    <customPortrait>k__BackingField: {fileID: 0}
-    <textLine>k__BackingField: 'PLACEHOLDER '
+    <speakerNameImage>k__BackingField: {fileID: -573073370, guid: f7e137c2447d1b4478082d6c8c6d20be, type: 3}
+    <customPortrait>k__BackingField: {fileID: 11400000, guid: 440e96af46078ef40b68eb1cad11a6fe, type: 2}
+    <textLine>k__BackingField: 'Bien ! On a reussi a ouvrir la porte ! '
     <effects>k__BackingField:
     - <effect>k__BackingField: 0
       <value>k__BackingField: 0.025
-  - <characterName>k__BackingField: 0
-    <customPortrait>k__BackingField: {fileID: 0}
-    <textLine>k__BackingField: PLACEHOLDER
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+  - <characterName>k__BackingField: 3
+    <speakerNameImage>k__BackingField: {fileID: 1573432537, guid: 311258fe9f392ab47b8fc69b4e01101c, type: 3}
+    <customPortrait>k__BackingField: {fileID: 11400000, guid: e8ae418065e62574b91e14c3c0c59304, type: 2}
+    <textLine>k__BackingField: La sortie devrait se trouver au fond du gymnase.
     <effects>k__BackingField:
     - <effect>k__BackingField: 0
       <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
