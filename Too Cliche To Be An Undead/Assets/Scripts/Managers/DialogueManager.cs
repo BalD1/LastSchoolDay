@@ -193,12 +193,19 @@ public class DialogueManager : MonoBehaviour
             dialoguePortrait.sprite = currentLine.customPortrait.portrait;
             dialoguePortrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
                                                                portraitRect.anchorMin, portraitRect.anchorMax);
+            dialoguePortrait.SetAlpha(1);
         }
-        else dialoguePortrait.sprite = UIManager.Instance.GetBasePortrait(currentLine.characterName);
+        else dialoguePortrait.SetAlpha(0);
 
         dialoguePortrait.enabled = true;
 
-        speakerName.sprite = currentLine.speakerNameImage;
+        if (currentLine.speakerNameImage != null)
+        {
+            speakerName.sprite = currentLine.speakerNameImage;
+            speakerName.SetAlpha(1);
+        }
+        else speakerName.SetAlpha(0);
+
         speakerName.enabled = true;
 
         dialogueText.text = currentLine.textLine;

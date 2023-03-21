@@ -1416,6 +1416,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""FourthAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dfdaa894-74f5-4226-bdb4-d210c69a90fe"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""FourthAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
