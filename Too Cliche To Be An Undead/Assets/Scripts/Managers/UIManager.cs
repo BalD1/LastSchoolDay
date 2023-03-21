@@ -216,6 +216,7 @@ public class UIManager : MonoBehaviour
             SetPlayersCollidersArray();
 
             if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto) FadeAllHUD(true);
+            else tutoHUD.gameObject.SetActive(true);
 
             keycardsContainer.SetActive(false);
 
