@@ -23,7 +23,9 @@ public class PolygonGenerator : MonoBehaviour
     {
         this.mesh = new Mesh();
         this.GetComponent<MeshFilter>().mesh = mesh;
-        this.GetComponent<MeshRenderer>().material = AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
+#if UNITY_EDITOR
+        this.GetComponent<MeshRenderer>().material = AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat"); 
+#endif
         isFilled = false;
     }
 
@@ -31,7 +33,9 @@ public class PolygonGenerator : MonoBehaviour
     {
         this.mesh = new Mesh();
         this.GetComponent<MeshFilter>().mesh = mesh;
+#if UNITY_EDITOR
         this.GetComponent<MeshRenderer>().material = AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
+#endif
     }
 
     private void Update()

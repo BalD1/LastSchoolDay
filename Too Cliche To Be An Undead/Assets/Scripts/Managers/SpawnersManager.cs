@@ -333,6 +333,7 @@ public class SpawnersManager : MonoBehaviour
 
     private void OnGUI()
     {
+#if UNITY_EDITOR
         if (!debugMode) return;
 
         StringBuilder sb = new StringBuilder();
@@ -356,5 +357,6 @@ public class SpawnersManager : MonoBehaviour
 
         Rect r = new Rect(10, Screen.height / 2, Screen.width, 100);
         GUI.Label(r, sb.ToString());
+#endif
     }
 }

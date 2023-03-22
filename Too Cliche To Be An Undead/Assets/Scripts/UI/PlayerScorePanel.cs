@@ -40,14 +40,14 @@ public class PlayerScorePanel : MonoBehaviour
 
         playerImage.sprite = playerImages.neutralImage;
 
-        animQueue.Enqueue(AnimateValue(Random.Range(0, 100), controller.SingleKillValue, 1, killsCount));
-        animQueue.Enqueue(AnimateValue(Random.Range(0, 5000), controller.SingleDamageDealtValue, 1, dealtDamagesCount));
-        animQueue.Enqueue(AnimateValue(Random.Range(0, 100), controller.SingleDamageTakenValue, 1, takenDamagesCount));
-        /*
-        animQueue.Enqueue(AnimateValue(_relatedPlayer.KillsCount, 1, killsCount));
-        animQueue.Enqueue(AnimateValue(_relatedPlayer.DamagesDealt, 1, dealtDamagesCount));
-        animQueue.Enqueue(AnimateValue(_relatedPlayer.DamagesTaken, 1, takenDamagesCount));
-        */
+        //animQueue.Enqueue(AnimateValue(Random.Range(0, 100), controller.SingleKillValue, 1, killsCount));
+        //animQueue.Enqueue(AnimateValue(Random.Range(0, 5000), controller.SingleDamageDealtValue, 1, dealtDamagesCount));
+        //animQueue.Enqueue(AnimateValue(Random.Range(0, 100), controller.SingleDamageTakenValue, 1, takenDamagesCount));
+        
+        animQueue.Enqueue(AnimateValue(_relatedPlayer.KillsCount, controller.SingleKillValue, 1, killsCount));
+        animQueue.Enqueue(AnimateValue(_relatedPlayer.DamagesDealt, controller.SingleDamageDealtValue, 1, dealtDamagesCount));
+        animQueue.Enqueue(AnimateValue(_relatedPlayer.DamagesTaken, controller.SingleDamageTakenValue, 1, takenDamagesCount));
+        
     }
 
     public void SetImageToSad()
@@ -90,23 +90,15 @@ public class PlayerScorePanel : MonoBehaviour
             LeanTween.value(scoreAdditionPop.gameObject, scoreAdditionPop.rectTransform.position, totalScore.rectTransform.position, 1f).setEaseInOutBack().setOnUpdate((Vector3 pos) =>
             {
                 scoreAdditionPop.rectTransform.position = pos;
-            }).setOnComplete(() =>
+            }).setIgnoreTimeScale(true)
+            .setOnComplete(() =>
             {
                 totalScore.text = finalScore.ToString();
                 scoreAdditionPop.text = "";
                 if (animQueue.Count > 0) animQueue.Dequeue().resume();
                 else D_animationEnded?.Invoke();
-            });
-            /*
-            LeanTween.move(scoreAdditionPop.rectTransform, totalScore.rectTransform.localPosition, .5f).setEaseInOutBounce().setOnComplete(() =>
-            {
-                totalScore.text = finalScore.ToString();
-                scoreAdditionPop.text = "";
-                if (animQueue.Count > 0) animQueue.Dequeue().resume();
-                else D_animationEnded?.Invoke();
-            });
-            */
-        });
+            }).setIgnoreTimeScale(true);
+        }).setIgnoreTimeScale(true);
 
         return tween;
     }
