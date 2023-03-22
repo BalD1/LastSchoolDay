@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 5633651585038158272}
   - component: {fileID: 1090053234246759262}
   - component: {fileID: 4007977205788589892}
-  m_Layer: 9
+  - component: {fileID: 3184863655774163165}
+  m_Layer: 8
   m_Name: Spine GameObject (decoupe-zombies-terre)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +84,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -16996
+  m_SortingOrder: -14367
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1090053234246759262
 MonoBehaviour:
@@ -139,6 +140,32 @@ MonoBehaviour:
   isStatic: 1
   objectRenderer: {fileID: 5633651585038158272}
   debugMode: 0
+--- !u!61 &3184863655774163165
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5514666144576479292}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.002961427, y: 0.22741747}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.52977705, y: 0.49400997}
+  m_EdgeRadius: 0
 --- !u!1 &6355442991514030920
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +178,7 @@ GameObject:
   - component: {fileID: 6355442991514030917}
   - component: {fileID: 6355442991514030916}
   - component: {fileID: 5288105979731889750}
-  m_Layer: 9
+  m_Layer: 18
   m_Name: GroundedZombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,10 +238,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.00000023841858, y: 0.25671005}
+  m_Offset: {x: 0.00000023841858, y: 0.07741547}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -225,7 +252,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.35960436, y: 0.4865799}
+  m_Size: {x: 0.35960436, y: 0.12799072}
   m_EdgeRadius: 0
 --- !u!50 &5288105979731889750
 Rigidbody2D:
@@ -258,7 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5127116359211649428}
   - component: {fileID: 3289105931903229853}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -7,15 +7,22 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
 {
     [SerializeField] private float stunDuration;
 
+    [SerializeField] private bool addPoison;
+    [SerializeField] private float poisonDamages;
+    [SerializeField] private float poisonTimeBetweenTicks;
+    [SerializeField] private float poisonDuration;
+
+    private const string poisonID = "SKILL_PS";
+
     public override void StartSkill(PlayerCharacter owner)
     {
-        Vector2 skillPos = owner.StateManager.inSkillState.SkillHolderPosAtStart;
-
         isInUse = true;
 
         owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.OffsetSkillHolder(offset);
+        Vector2 skillPos = owner.GetSkillHolder.transform.position;
+
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
@@ -35,6 +42,10 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
             if (isFromSameTeam) continue;
 
             currentEntity.Stun(stunDuration, false, true);
+
+            if (addPoison == false) continue;
+
+            currentEntity.AddTickDamages(poisonID, poisonDamages, poisonTimeBetweenTicks, poisonDuration, owner, true);
         }
     }
 
