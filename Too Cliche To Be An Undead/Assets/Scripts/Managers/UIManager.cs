@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Text;
 using System;
-using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -52,11 +51,13 @@ public class UIManager : MonoBehaviour
 
     private RectTransform hudRect;
     private bool isHUDTransparent = false;
+    private bool isBossHUDTransparent = false;
 
     [SerializeField] private float hudTransparencyValue = .3f;
     [SerializeField] private float hudTransparencyTime = .3f;
 
     public Collider2D[] playersColliders = new Collider2D[8];
+    public List<Collider2D> bossesColliders = new List<Collider2D>();
 
     [SerializeField] private Image[] hudKeycards;
     public Image[] HudKeycards { get => hudKeycards; }
@@ -103,6 +104,7 @@ public class UIManager : MonoBehaviour
     public struct PlayerHUD
     {
         public GameObject container;
+        public RectTransform rect;
         public Image portrait;
         public Image hpBar;
         public TextMeshProUGUI hpText;
@@ -250,8 +252,17 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < playersCount; i++)
         {
             // TODO : faire un meilleur moyen de récup les colliders psq là c'est dégueulasse
-            playersColliders[i] = DataKeeper.Instance.playersDataKeep[i].playerInput.GetComponentInParent<PlayerCharacter>().AnimationController.GetComponent<BoxCollider2D>();
+            playersColliders[i] = GameManager.Instance.playersByName[i].playerScript.HUDBoundsTrigger;
         }
+    }
+
+    public void AddBossCollider(Collider2D collider)
+    {
+        bossesColliders.Add(collider);
+    }
+    public void RemoveBossCollider(Collider2D collider)
+    {
+        bossesColliders.Remove(collider);
     }
 
     public void AddMakersInCollidersArray(BoxCollider2D[] collider2Ds)
@@ -264,37 +275,93 @@ public class UIManager : MonoBehaviour
 
     private void CheckIfPlayerIsCoveredByHUD()
     {
+        bool fade = false;
         foreach (var item in playersColliders)
         {
             if (item == null) continue;
             if (item.isActiveAndEnabled == false) continue;
 
-            Vector3 boundsMin = RectTransformUtility.WorldToScreenPoint(Camera.main, item.bounds.min);
-            Vector3 boundsMax = RectTransformUtility.WorldToScreenPoint(Camera.main, item.bounds.max);
+            fade = CheckCollider(item);
+            if (fade) return;
+        }
 
-            for (int i = 0; i < GameManager.Instance.PlayersCount; i++)
-            {
-                bool minP = RectTransformUtility.RectangleContainsScreenPoint(playerHUDs[i].portrait.rectTransform, boundsMin);
-                bool maxP = RectTransformUtility.RectangleContainsScreenPoint(playerHUDs[i].portrait.rectTransform, boundsMax);
+        foreach (var item in bossesColliders)
+        {
+            if (item == null) continue;
+            if (item.isActiveAndEnabled == false) continue;
 
-                if (minP && maxP)
-                {
-                    FadeHUD(true);
-                    return;
-                }
-            }
+            fade = CheckCollider(item);
+            if (fade) return;
+        }
 
-            bool minK = RectTransformUtility.RectangleContainsScreenPoint(keycardsContainerRect, boundsMin);
-            bool maxK = RectTransformUtility.RectangleContainsScreenPoint(keycardsContainerRect, boundsMax);
+        if (!fade)
+        FadeHUD(false);
+    }
 
-            if (minK && maxK)
+    private bool CheckCollider(Collider2D collider)
+    {
+        Vector3 boundsMin = RectTransformUtility.WorldToScreenPoint(Camera.main, collider.bounds.min);
+        Vector3 boundsMax = RectTransformUtility.WorldToScreenPoint(Camera.main, collider.bounds.max);
+
+        Vector2 point = RectTransformUtility.WorldToScreenPoint(Camera.main, collider.transform.position);
+
+        boundsMin.y *= 1.5f;
+        boundsMax.y *= 1f;
+
+        for (int i = 0; i < GameManager.Instance.PlayersCount; i++)
+        {
+            RectTransform rt = playerHUDs[i].rect;
+            Rect rect = rt.rect;
+
+            // remplacer les 4 rect d'hud par le hud local
+
+            float leftSide = rt.anchoredPosition.x;
+            // The below width is multiplied by 1.3f just to expand the width a slight bit, because it doesn't seem to measure properly (cuts short)
+            float rightSide = rt.anchoredPosition.x + (rect.width * 1.3f);
+            float topSide = rt.anchoredPosition.y + rect.height;
+            float bottomSide = rt.anchoredPosition.y - (rect.height * 1.3f);
+
+          if(point.x >= leftSide &&
+             point.x <= rightSide &&
+             point.y >= bottomSide &&
+             point.y <= topSide)
             {
                 FadeHUD(true);
-                return;
+                return true;
+            }
+
+            //bool minP = RectTransformUtility.RectangleContainsScreenPoint(playerHUDs[i].rect, boundsMin);
+            //bool maxP = RectTransformUtility.RectangleContainsScreenPoint(playerHUDs[i].rect, boundsMax);
+
+            //if (minP && maxP)
+            //{
+            //FadeHUD(true);
+            //return true;
+            //}
+        }
+
+        bool minK = RectTransformUtility.RectangleContainsScreenPoint(keycardsContainerRect, boundsMin);
+        bool maxK = RectTransformUtility.RectangleContainsScreenPoint(keycardsContainerRect, boundsMax);
+
+        if (minK && maxK)
+        {
+            FadeHUD(true);
+            return true;
+        }
+
+        if (BossHUDManager.Instance.GetBossHUDsCount() > 0)
+        {
+            bool minB = RectTransformUtility.RectangleContainsScreenPoint(BossHUDManager.Instance.hudParent, boundsMin);
+            bool maxB = RectTransformUtility.RectangleContainsScreenPoint(BossHUDManager.Instance.hudParent, boundsMax);
+
+            if (minB && maxB)
+            {
+                FadeHUD(true);
+                return true;
             }
         }
 
-        FadeHUD(false);
+        return false;
     }
 
     private void FadeHUD(bool makeTransparent)
@@ -304,6 +371,14 @@ public class UIManager : MonoBehaviour
 
         LeanTween.alphaCanvas(localHUD.GetComponent<CanvasGroup>(), makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
         LeanTween.alphaCanvas(keycardsContainer.GetComponent<CanvasGroup>(), makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
+    }
+
+    private void FadeBossHUD(bool makeTransparent)
+    {
+        if (isBossHUDTransparent == makeTransparent) return;
+        isBossHUDTransparent = makeTransparent;
+
+        LeanTween.alphaCanvas(BossHUDManager.Instance.hudContainer, makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
     }
 
     public void SetDashIconState(int playerID, bool active)

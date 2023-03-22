@@ -13,6 +13,8 @@ public class BossZombie : EnemyBase
 
     [field: SerializeField] public Transform SkeletonHolder { get; private set; }
 
+    [field: SerializeField] public Collider2D hudTrigger;
+
     [field: SerializeField] public BossAnimationsController animationController { get; private set; }
     [field: SerializeField] public SCRPT_BossAnimData animationData { get; private set; }
 
@@ -106,6 +108,8 @@ public class BossZombie : EnemyBase
 
         deathFlag = true;
         d_OnDeath?.Invoke();
+
+        UIManager.Instance.RemoveBossCollider(this.hudTrigger);
     }
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
@@ -183,6 +187,7 @@ public class BossZombie : EnemyBase
         isAppeared = true;
         OnStart();
         stateManager.OnStart();
+        UIManager.Instance.AddBossCollider(this.hudTrigger);
     }
 
 }

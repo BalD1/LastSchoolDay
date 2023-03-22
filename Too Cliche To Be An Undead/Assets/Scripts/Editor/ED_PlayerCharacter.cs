@@ -97,6 +97,12 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty pivotOffset = serializedObject.FindProperty("pivotOffset");
         EditorGUILayout.PropertyField(pivotOffset);
 
+        SerializedProperty bodyTrigger = serializedObject.FindProperty("bodyTrigger");
+        EditorGUILayout.PropertyField(bodyTrigger);
+
+        SerializedProperty hudBoundsTrigger = serializedObject.FindProperty("hudBoundsTrigger");
+        EditorGUILayout.PropertyField(hudBoundsTrigger);
+
         SerializedProperty outlineMaterial = serializedObject.FindProperty("outlineMaterial");
         EditorGUILayout.PropertyField(outlineMaterial);
 

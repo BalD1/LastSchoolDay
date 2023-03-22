@@ -1177,6 +1177,8 @@ MonoBehaviour:
   allowfootprints_DURATION: 5
   footprintsSpawn_COOLDOWN: 0.25
   footprints_LIFETIME: 10
+  delayBetweenSteps: 0.1
+  yOffset: 0
 --- !u!1 &1984837536546022064
 GameObject:
   m_ObjectHideFlags: 0
@@ -2097,6 +2099,64 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &5989509180398628128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1934628544625858285}
+  - component: {fileID: 2605544640695813191}
+  m_Layer: 28
+  m_Name: HUDBounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1934628544625858285
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5989509180398628128}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8823656354733599273}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2605544640695813191
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5989509180398628128}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.4}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.75, y: 1.25}
+  m_EdgeRadius: 0
 --- !u!1 &6079729821347107844
 GameObject:
   m_ObjectHideFlags: 0
@@ -2629,6 +2689,7 @@ Transform:
   - {fileID: 9143576218684820820}
   - {fileID: 7701711035597185519}
   - {fileID: 7988471722059678481}
+  - {fileID: 1934628544625858285}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2672,6 +2733,8 @@ MonoBehaviour:
   playerDash: {fileID: 11400000, guid: 5687414b9e30e6d499e7df1d67a5701d, type: 2}
   selfReviveText: {fileID: 7454060687585340113}
   pivotOffset: {fileID: 6079729821347107844}
+  bodyTrigger: {fileID: 8823656353503972632}
+  hudBoundsTrigger: {fileID: 2605544640695813191}
   leftArm: {fileID: 3961767359042658185}
   rightArm: {fileID: 3310727593560656710}
   armsParent: {fileID: 1423488751546438909}
@@ -2706,6 +2769,9 @@ MonoBehaviour:
   selfReviveCount: 0
   isDashing: 0
   inputs: {fileID: 616387204}
+  <KillsCount>k__BackingField: 0
+  <DamagesDealt>k__BackingField: 0
+  <DamagesTaken>k__BackingField: 0
   debugPush: 0
 --- !u!114 &5207945969965588748
 MonoBehaviour:

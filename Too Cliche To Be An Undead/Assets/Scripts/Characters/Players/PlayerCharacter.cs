@@ -48,6 +48,11 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private TextMeshPro selfReviveText;
     [SerializeField] private GameObject pivotOffset;
 
+    [SerializeField] private Collider2D bodyTrigger;
+    [SerializeField] private Collider2D hudBoundsTrigger;
+    public Collider2D BodyTrigger { get => bodyTrigger; }
+    public Collider2D HUDBoundsTrigger { get => hudBoundsTrigger; }
+
     [SerializeField] private Transform leftArm;
     [SerializeField] private Transform rightArm;
     [SerializeField] private Transform armsParent;

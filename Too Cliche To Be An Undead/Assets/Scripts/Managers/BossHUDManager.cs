@@ -40,6 +40,8 @@ public class BossHUDManager : MonoBehaviour
 
         bossHUD.Setup(boss);
     }
+    
+    public int GetBossHUDsCount() => bossesHUD.Count;
 
     public void DeleteElement(GameObject gO)
     {
