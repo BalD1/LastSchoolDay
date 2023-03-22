@@ -24,14 +24,14 @@ public class DestroyableProp : MonoBehaviour, IDamageable
 
         if (player.StateManager.CurrentState.ToString() != "Dashing") return;
 
-        OnTakeDamages(currentHP);
+        OnTakeDamages(currentHP, null);
     }
 
     public void DestroyObject()
     {
     }
 
-    public bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
+    public bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         currentHP -= amount;
 
@@ -40,16 +40,6 @@ public class DestroyableProp : MonoBehaviour, IDamageable
 
         if (currentHP <= 0) OnDeath();
         return true;
-    }
-
-    public bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false, bool fakeDamages = false)
-    {
-        return OnTakeDamages(amount, isCrit, fakeDamages);
-    }
-
-    public bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, Entity damager, bool isCrit = false)
-    {
-        return OnTakeDamages(amount, isCrit);
     }
 
     public void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false)

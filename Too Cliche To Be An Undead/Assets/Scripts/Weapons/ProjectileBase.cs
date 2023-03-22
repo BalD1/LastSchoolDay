@@ -9,18 +9,64 @@ public class ProjectileBase : MonoBehaviour
 
     [SerializeField] private float force;
 
-    private SCRPT_EntityStats.E_Team team;
-    public SCRPT_EntityStats.E_Team Team { get => team; }
+    [SerializeField] private bool pierceEffect;
+
+    [SerializeField] private int maxPierceCount;
+    private int pierceCount;
+
+    [SerializeField] private float maxLifetime = 5;
+
+    private static Queue<ProjectileBase> ProjectilesPool;
+
+    public static ProjectileBase GetProjectile(Vector2 position, Quaternion rotation)
+    {
+        if (ProjectilesPool == null) ProjectilesPool = new Queue<ProjectileBase>();
+
+        ProjectileBase proj;
+
+        if (ProjectilesPool.Count > 0)
+        {
+            proj = ProjectilesPool.Dequeue();
+
+            GameObject projObj = proj.gameObject;
+            projObj.SetActive(true);
+            projObj.transform.SetPositionAndRotation(position, rotation);
+
+            return proj;
+        }
+
+        proj = Instantiate(GameAssets.Instance.BaseProjectilePF, position, rotation).GetComponent<ProjectileBase>();
+        proj.transform.SetParent(GameManager.Instance.InstantiatedProjectilesParent, true);
+        return proj;
+    }
+
+    private float currentLifetime;
+
+    public SCRPT_EntityStats.E_Team Team { get; private set; }
+
+    private Entity owner;
 
     private float damages;
     private int critChances;
 
-    public void Fire(Vector2 direction, float _damages, int _critChances, SCRPT_EntityStats.E_Team _team)
+    private void Update()
     {
+        currentLifetime -= Time.deltaTime;
+
+        if (currentLifetime <= 0) Deactivate();
+    }
+
+    public void Fire(Vector2 direction, float _damages, int _critChances, Entity _owner)
+    {
+        currentLifetime = maxLifetime;
+        pierceCount = maxPierceCount;
+
         this.body.velocity = direction * force;
         damages = _damages;
         critChances = _critChances;
-        team = _team;
+
+        owner = _owner;
+        Team = owner.GetStats.Team;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,14 +77,33 @@ public class ProjectileBase : MonoBehaviour
         {
             ProjectileBase proj = collision.GetComponent<ProjectileBase>();
             if (proj != null)
-                if (proj.Team.Equals(this.team)) return;
+                if (proj.Team.Equals(this.Team)) return;
 
-            Destroy(this.gameObject);
+            if (collision.CompareTag("Wall")) Deactivate();
+            else CheckDestroySelf();
+
             return;
         }
 
         bool isCrit = Random.Range(0, 100) <= critChances;
 
-        if (damageable.OnTakeDamages(damages, team, isCrit)) Destroy(this.gameObject);
+        if (damageable.OnTakeDamages(damages, owner, isCrit)) CheckDestroySelf();
+    }
+
+    private void CheckDestroySelf()
+    {
+        if (!pierceEffect || pierceCount <= 0)
+        {
+            Deactivate();
+            return;
+        }
+
+        pierceCount--;
+    }
+
+    private void Deactivate()
+    {
+        ProjectilesPool.Enqueue(this);
+        this.gameObject.SetActive(false);
     }
 }

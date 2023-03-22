@@ -14,8 +14,11 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
     private float finalDamages;
     private int critChances;
 
+    private PlayerCharacter player;
+
     public override void OnDashStart(PlayerCharacter owner, Vector2 direction)
     {
+        player = owner;
         base.OnDashStart(owner, direction);
 
         finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
@@ -41,7 +44,7 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
 
         if (!hitEntities.Contains(e))
         {
-            e.OnTakeDamages(finalDamages, team, Random.Range(0, 100) <= critChances);
+            e.OnTakeDamages(finalDamages, player, Random.Range(0, 100) <= critChances);
             hitEntities.Add(e);
         }
     }

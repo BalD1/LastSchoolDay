@@ -18,7 +18,7 @@ public class NelsonTrap : TrapBase
         if (nz == null) return;
 
         nz.AddModifier(TRAP_MODIFIER_ID, speedModifier, StatsModifier.E_StatType.Speed);
-        nz.AddTickDamages(TRAP_TICK_ID, damages, timeBetweenTicks, 999);
+        nz.AddTickDamages(TRAP_TICK_ID, damages, timeBetweenTicks, 999, owner);
     }
 
     private void OnTriggerExit2D(Collider2D collision)

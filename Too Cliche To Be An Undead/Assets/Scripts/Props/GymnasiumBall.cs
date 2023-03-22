@@ -23,7 +23,7 @@ public class GymnasiumBall : MonoBehaviour, IDamageable
     {
     }
 
-    public bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
+    public bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         if (dir == Vector2.zero) return false;
 
@@ -32,19 +32,6 @@ public class GymnasiumBall : MonoBehaviour, IDamageable
         body.AddForce(dir * amount * speedMultiplier, ForceMode2D.Impulse);
 
         return true;
-    }
-
-    public bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false, bool fakeDamages = false)
-    {
-        return false;
-    }
-
-    public bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, Entity damager, bool isCrit = false)
-    {
-        dir = this.transform.position - damager.transform.position;
-        dir.Normalize();
-
-        return OnTakeDamages(amount, isCrit);
     }
 
     private void Reset()

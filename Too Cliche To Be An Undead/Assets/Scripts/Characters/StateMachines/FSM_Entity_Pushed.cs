@@ -62,7 +62,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         float damages = (owner.LastVelocity.magnitude + owner.GetStats.Weight) * wallHitDamagesModifier;
         damages = Mathf.Round(damages);
 
-        owner.OnTakeDamages(damages);
+        owner.OnTakeDamages(damages, originalPusher);
     }
 
     protected virtual void TriggerEnter(Collider2D collider)

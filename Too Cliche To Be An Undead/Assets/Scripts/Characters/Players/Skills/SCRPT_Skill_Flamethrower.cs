@@ -19,8 +19,11 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
     private GameObject playingParticles;
 
+    private Entity player;
+
     public override void StartSkill(PlayerCharacter owner)
     {
+        player = owner;
         isInUse = true;
 
         owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
@@ -90,7 +93,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         TickDamages appliedTickDamages = entity.GetAppliedTickDamages(inTriggerTickDamages_ID);
 
         if (appliedTickDamages == null)
-            entity.AddTickDamages(inTriggerTickDamages_ID, finalDamages, .5f, 3f, true);
+            entity.AddTickDamages(inTriggerTickDamages_ID, finalDamages, .5f, 3f, player, true);
         else
         {
             appliedTickDamages.ResetTimer();

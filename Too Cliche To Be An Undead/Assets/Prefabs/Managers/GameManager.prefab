@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &874000493620210162
 Transform:
@@ -47,9 +47,11 @@ MonoBehaviour:
   player1Ref: {fileID: 0}
   playersCount: 0
   shop: {fileID: 0}
+  tutorialObject: {fileID: 0}
   instantiatedEntitiesParent: {fileID: 0}
   instantiatedKeycardsParent: {fileID: 0}
   instantiatedMiscParent: {fileID: 0}
+  instantiatedProjectilesParent: {fileID: 0}
   tutoSpawnPoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -66,3 +68,4 @@ MonoBehaviour:
   fightArena: {fileID: 0}
   playersByName: []
   hasKey: 0
+  allowQuitLobby: 1

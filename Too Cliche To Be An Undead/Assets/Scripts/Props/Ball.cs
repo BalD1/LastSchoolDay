@@ -17,21 +17,11 @@ public class Ball : MonoBehaviour, IDamageable
     {
     }
 
-    public bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
-    {
-        return false;
-    }
-
-    public bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false, bool fakeDamages = false)
-    {
-        return false;
-    }
-
-    public bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, Entity damager, bool isCrit = false)
+    public bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         Vector2 dir = this.transform.position - damager.transform.position;
 
-        body.AddForce(dir * amount * speedMultiplier, ForceMode2D.Impulse); 
+        body.AddForce(dir * amount * speedMultiplier, ForceMode2D.Impulse);
 
         return true;
     }

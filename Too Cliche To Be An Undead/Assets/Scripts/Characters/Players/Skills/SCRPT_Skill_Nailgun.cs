@@ -113,10 +113,10 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
         dir.Normalize();
 
-        ProjectileBase proj = Instantiate(projectile, skillHolderTransform.position, q).GetComponent<ProjectileBase>();
+        ProjectileBase proj = ProjectileBase.GetProjectile(skillHolderTransform.position, q);
 
         float damagesWithRandom = finalDamages * Random.Range(1 / damageRandomMultiplier, damageRandomMultiplier);
 
-        proj.Fire(dir, damagesWithRandom, finalCrit, _owner.GetStats.Team);
+        proj.Fire(dir, damagesWithRandom, finalCrit, _owner);
     }
 }

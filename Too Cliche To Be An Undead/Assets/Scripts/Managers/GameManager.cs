@@ -62,10 +62,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform instantiatedEntitiesParent;
     [SerializeField] private Transform instantiatedKeycardsParent;
     [SerializeField] private Transform instantiatedMiscParent;
+    [SerializeField] private Transform instantiatedProjectilesParent;
 
     public Transform InstantiatedEntitiesParent { get => instantiatedEntitiesParent; }
     public Transform InstantiatedKeycardsParent { get => instantiatedKeycardsParent; }
     public Transform InstantiatedMiscParent { get => instantiatedMiscParent; }
+    public Transform InstantiatedProjectilesParent { get => instantiatedProjectilesParent; }
 
     [System.Serializable]
     public class PlayersByName

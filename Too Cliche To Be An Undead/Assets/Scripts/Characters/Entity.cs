@@ -158,9 +158,6 @@ public class Entity : MonoBehaviour, IDamageable
     public delegate void D_OnDeathOf(Entity e);
     public D_OnDeathOf D_onDeathOf;
 
-    public delegate void D_OnTakeDamages(bool crit);
-    public D_OnTakeDamages D_onTakeDamages;
-
     public delegate void D_OnTakeDamagesFromEntity(bool crit, Entity damager);
     public D_OnTakeDamagesFromEntity D_onTakeDamagesFromEntity;
 
@@ -249,9 +246,9 @@ public class Entity : MonoBehaviour, IDamageable
 
         appliedTickDamages.Add(tick);
     }
-    public void AddTickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime, bool damageInstantly = false)
+    public void AddTickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime, Entity origin, bool damageInstantly = false)
     {
-        TickDamages t = new TickDamages(_id, _damages, _timeBetweenDamages, _lifetime, this, damageInstantly);
+        TickDamages t = new TickDamages(_id, _damages, _timeBetweenDamages, _lifetime, _owner: this, _origin: origin, damageInstantly);
         AddTickDamages(t);
     }
 
@@ -448,55 +445,41 @@ public class Entity : MonoBehaviour, IDamageable
 
     #region Damages / Heal
 
-    public virtual bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
+    public virtual bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         if (invincible) return false;
         if (invincibility_TIMER > 0) return false;
 
-        if (callDelegate) D_onTakeDamages?.Invoke(isCrit);
+        // if the damager is from the same team, return
+        if (damager != null)
+            if (damager.stats.Team != SCRPT_EntityStats.E_Team.Neutral 
+             && damager.stats.Team == this.GetStats.Team) return false;
+
+        if (callDelegate) D_onTakeDamagesFromEntity?.Invoke(isCrit, damager);
 
         if (isCrit) amount *= 1.5f;
 
         amount = MathF.Round(amount);
 
-        if (!fakeDamages) currentHP -= amount;
+        if (!fakeDamages)
+        {
+            currentHP -= amount;
+
+            PlayerCharacter player = damager as PlayerCharacter;
+            if (player != null)
+            {
+                player.AddDealtDamages((int)amount);
+            }
+        }
 
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: false, isCrit);
         StartCoroutine(MaterialFlash());
-
-        // Si les pv sont <= à 0, on meurt, sinon on joue un son de Hurt
 
         if (currentHP <= 0)
         {
             currentHP = 0;
             OnDeath();
         }
-
-        return true;
-    }
-    public virtual bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, bool isCrit = false, bool fakeDamages = false)
-    {
-        if (invincible) return false;
-        if (invincibility_TIMER > 0) return false;
-
-        // si la team de l'attaquant est la même que la nôtre, on ne subit pas de dégâts
-        if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return false;
-
-        OnTakeDamages(amount, isCrit, fakeDamages);
-
-        return true;
-    }
-
-    public virtual bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, Entity damager, bool isCrit = false)
-    {
-        if (invincible) return false;
-        if (invincibility_TIMER > 0) return false;
-
-        if (damagerTeam != SCRPT_EntityStats.E_Team.Neutral && damagerTeam.Equals(this.GetStats.Team)) return false;
-
-        D_onTakeDamagesFromEntity?.Invoke(isCrit, damager);
-
-        OnTakeDamages(amount, isCrit, false, false);
 
         return true;
     }

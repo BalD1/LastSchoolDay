@@ -76,16 +76,15 @@ public class BossZombie : EnemyBase
         base.Update();
     }
 
-    public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
+    public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         if (deathFlag)
         {
-            if (callDelegate) D_onTakeDamages?.Invoke(isCrit);
             StartCoroutine(MaterialFlash());
             return false;
         }
 
-        bool res = base.OnTakeDamages(amount, isCrit, fakeDamages);
+        bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
 
         if (this.currentHP <= (this.MaxHP_M * hpThresholdBeforeNextStage) && attacksPatern.currentStage == 0) AdvanceToNextStage();
 

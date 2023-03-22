@@ -46,6 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxKeycardsToSpawn: 3
   minKeycardsToSpawn: 3
+  stampsCounter: {fileID: 0}
+  uiFiller: {fileID: 0}
+  uiCounter: {fileID: 0}
   <maxZombiesInSchoolByTime>k__BackingField:
     serializedVersion: 2
     m_Curve:
@@ -247,3 +250,4 @@ MonoBehaviour:
   validAreaSpawners: []
   spawner_PF: {fileID: 7153798975222276529, guid: b695abb064cd91b4e819e28a9e3aa125, type: 3}
   showAreaSpawnersBounds: 1
+  debugMode: 0

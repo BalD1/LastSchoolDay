@@ -94,11 +94,11 @@ public class NormalZombie : EnemyBase
 
     }
 
-    public override bool OnTakeDamages(float amount, SCRPT_EntityStats.E_Team damagerTeam, Entity damager, bool isCrit = false)
+    public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         d_OnDeath += (damager as PlayerCharacter).AddKillCount;
 
-        bool res = base.OnTakeDamages(amount, damagerTeam, damager, isCrit);
+        bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
 
         d_OnDeath -= (damager as PlayerCharacter).AddKillCount;
 

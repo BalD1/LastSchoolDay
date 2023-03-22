@@ -6,6 +6,8 @@ public class TickDamages
 {
     private Entity owner;
 
+    private Entity origin;
+
     private string id;
 
     private float damages;
@@ -27,7 +29,7 @@ public class TickDamages
     public bool showInEditor;
 #endif
 
-    public TickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime, Entity _owner, bool damageInstantly = false)
+    public TickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime, Entity _owner, Entity _origin, bool damageInstantly = false)
     {
         this.id = _id;
 
@@ -40,6 +42,8 @@ public class TickDamages
         this.lifetime_TIMER = _lifetime;
 
         this.owner = _owner;
+
+        this.origin = _origin;
     }
 
     public void Update(float time)
@@ -58,7 +62,7 @@ public class TickDamages
     {
         damages_TIMER = timeBetweenDamages;
 
-        owner.OnTakeDamages(damages);
+        owner.OnTakeDamages(damages, origin);
     }
 
     public void ForceEnd(float delay = 0) => lifetime_TIMER = delay;

@@ -21,6 +21,6 @@ public class SCRPT_Dash_Nelson : SCRPT_Dash
 
         float finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
 
-        tb.Setup(finalDamages, trapsDuration, SCRPT_EntityStats.E_Team.Players, destroyTrapOnTrigger);
+        tb.Setup(finalDamages, trapsDuration, owner, destroyTrapOnTrigger);
     }
 }

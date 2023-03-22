@@ -201,7 +201,9 @@ public class PlayerCharacter : Entity, IInteractable
     public List<EnemyBase> Attackers { get => attackers; }
     public Vector2 LastDirection { get => lastDirection; set => lastDirection = value; }
 
-    private int killCounts;
+    [field: SerializeField] public int KillsCount { get; private set; }
+    [field: SerializeField] public int DamagesDealt { get; private set; }
+    [field: SerializeField] public int DamagesTaken { get; private set; }
 
     public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
     public const string SCHEME_GAMEPAD = "Gamepad";
@@ -227,7 +229,7 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
 
-        killCounts = 0;
+        ResetEndStats();
 
         stateManager.SwitchState(stateManager.idleState);
         CancelInvoke(nameof(ClearAttackers));
@@ -264,6 +266,13 @@ public class PlayerCharacter : Entity, IInteractable
         this.attackers.Clear();
 
         this.stateManager.SwitchState(stateManager.idleState);
+    }
+
+    private void ResetEndStats()
+    {
+        KillsCount = 0;
+        DamagesDealt = 0;
+        DamagesTaken = 0;
     }
 
     private void SetHUD()
@@ -505,15 +514,17 @@ public class PlayerCharacter : Entity, IInteractable
         weapon.ResetAttack();
     }
 
-    public override bool OnTakeDamages(float amount, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
+    public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
     {
         if (!IsAlive()) return false;
 
         if (GameManager.Instance.IsInTutorial) fakeDamages = true;
 
-        bool res = base.OnTakeDamages(amount, isCrit, fakeDamages);
+        bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
 
         if (res == false) return res;
+
+        if (!fakeDamages) DamagesTaken += (int)amount;
 
         if (portrait != null)
         {
@@ -541,6 +552,8 @@ public class PlayerCharacter : Entity, IInteractable
 
         return res;
     }
+
+    public void AddDealtDamages(int amount) => DamagesDealt += amount;
 
     private bool SetPortrait(float currentMaxHP = -1)
     {
@@ -694,7 +707,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void AddKillCount()
     {
-        killCounts += 1;
+        KillsCount++;
     }
 
     #endregion
@@ -1316,6 +1329,37 @@ public class PlayerCharacter : Entity, IInteractable
         if (!debugMode) return;
         base.OnDrawGizmos();
         GizmosDrawDashPush();
+#endif
+    }
+
+    private void OnGUI()
+    {
+#if UNITY_EDITOR
+        if (!debugMode) return;
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append("Player ");
+        sb.AppendLine(playerIndex.ToString());
+
+        sb.Append("Kills Count : ");
+        sb.AppendLine(KillsCount.ToString());
+
+        sb.Append("Damages Dealt : ");
+        sb.AppendLine(DamagesDealt.ToString());
+
+        sb.Append("Damages Taken : ");
+        sb.AppendLine(DamagesTaken.ToString());
+
+        float height = 100;
+        int playersCount = GameManager.Instance.PlayersCount;
+
+        int posY = Screen.height / 2;
+
+        posY += (int)(height * (playerIndex - (playersCount / 2)));
+
+        Rect r = new Rect(10, posY, Screen.width, height);
+        GUI.Label(r, sb.ToString());
 #endif
     }
 

@@ -16,7 +16,6 @@ public class PlayerAudio : MonoBehaviour
         SetAudioClips();
         owner.D_switchCharacter += SetAudioClips;
 
-        owner.D_onTakeDamages += PlayHurtAudio;
         owner.D_onTakeDamagesFromEntity += PlayHurtAudio;
 
         owner.d_OnDeath += PlayDeathAudio;

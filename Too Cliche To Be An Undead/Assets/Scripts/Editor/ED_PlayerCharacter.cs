@@ -501,7 +501,7 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Damage", GUILayout.MaxWidth(70)))
-            targetScript.OnTakeDamages(damagesAmount, critDamages);
+            targetScript.OnTakeDamages(damagesAmount, null, critDamages);
         damagesAmount = EditorGUILayout.FloatField(damagesAmount, GUILayout.MaxWidth(200));
         critDamages = EditorGUILayout.Toggle(critDamages);
 

@@ -168,7 +168,7 @@ public class DebugConsole : MonoBehaviour
 
         KILLSELF = new DebugCommand("KILL_SELF", "Kills the currently controlled character", "KILL_SELF", () =>
         {
-            GameManager.Player1Ref.OnTakeDamages(GameManager.Player1Ref.MaxHP_M);
+            GameManager.Player1Ref.OnTakeDamages(GameManager.Player1Ref.MaxHP_M, null);
         });
 
         KILLALL = new DebugCommand("KILL_ALL", "Kills every players", "KILL_ALL", () =>
@@ -176,7 +176,7 @@ public class DebugConsole : MonoBehaviour
             foreach (var item in DataKeeper.Instance.playersDataKeep)
             {
                 PlayerCharacter pc = item.playerInput.GetComponentInParent<PlayerCharacter>();
-                pc.OnTakeDamages(pc.MaxHP_M);
+                pc.OnTakeDamages(pc.MaxHP_M, null);
             }
         });
 
@@ -188,7 +188,7 @@ public class DebugConsole : MonoBehaviour
 
         FORCEKILL_BOSS = new DebugCommand("FORCEKILL_BOSS", "Instantly kills the boss", "FORCEKILL_BOSS", () =>
         {
-            FindObjectOfType<BossZombie>().OnTakeDamages(1000000);
+            FindObjectOfType<BossZombie>().OnTakeDamages(1000000, null);
         });
 
         REMOVE_ALL_MODIFIERS = new DebugCommand("REMOVE_ALL_MODIFIERS", "Removes every modifiers of self", "REMOVE_ALL_MODIFIERS", () =>
@@ -251,7 +251,7 @@ public class DebugConsole : MonoBehaviour
         KILL = new DebugCommand<int>("KILL", "Kills the given player index", "KILL <int>", (val) =>
         {
             PlayerCharacter pc = DataKeeper.Instance.playersDataKeep[val].playerInput.GetComponentInParent<PlayerCharacter>();
-            pc.OnTakeDamages(pc.MaxHP_M);
+            pc.OnTakeDamages(pc.MaxHP_M, null);
         });
 
         ADDM_SELF_CRIT = new DebugCommand<int>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self", "ADDM_SELF_CRIT <float>", (val) =>
@@ -289,12 +289,12 @@ public class DebugConsole : MonoBehaviour
 
         DAMAGE_SELF = new DebugCommand<float>("DAMAGE_SELF", "Damages the currently played character", "DAMAGE_SELF <float>", (val) =>
         {
-            GameManager.Player1Ref.OnTakeDamages(val);
+            GameManager.Player1Ref.OnTakeDamages(val, null);
         });
 
         DAMAGE_SELF_C = new DebugCommand<float, bool>("DAMAGE_SELF", "Damages the currently played character", "DAMAGE_SELF <float> <bool>", (val_1, val_2) =>
         {
-            GameManager.Player1Ref.OnTakeDamages(val_1, val_2);
+            GameManager.Player1Ref.OnTakeDamages(val_1, null, val_2);
         });
 
         ADDM_SELF_HP = new DebugCommand<float>("ADDM_SELF_HP", "Adds a HP modifier of <float> to self", "ADDM_SELF_HP <float>", (val) =>
