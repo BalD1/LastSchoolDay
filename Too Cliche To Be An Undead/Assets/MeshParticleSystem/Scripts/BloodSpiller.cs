@@ -23,6 +23,8 @@ public class BloodSpiller : MonoBehaviour
 
     private void SpillBloodOnDamages(bool isCrit, Entity damager)
     {
+        if (damager == null) return;
+
         int amountToSpawn = Random.Range(minBloodSpill, maxBloodSpill);
 
         if (isCrit) amountToSpawn = Mathf.RoundToInt(amountToSpawn * onCritSpillMultiplier);

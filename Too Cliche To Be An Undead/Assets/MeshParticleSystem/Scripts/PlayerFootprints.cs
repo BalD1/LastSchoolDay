@@ -15,6 +15,12 @@ public class PlayerFootprints : MonoBehaviour
 
     [SerializeField] private float footprints_LIFETIME;
 
+    [SerializeField] private float delayBetweenSteps = .1f;
+
+    [SerializeField] private float yOffset;
+
+    private bool leftPrint;
+
     private void Awake()
     {
         footprintsSpawn_TIMER = footprintsSpawn_COOLDOWN;
@@ -46,8 +52,19 @@ public class PlayerFootprints : MonoBehaviour
 
         if (owner.Velocity == Vector2.zero) return;
 
-        FootprintParticleSystemHandler.Instance.SpawnFootprint(this.transform.position, owner.LastDirection, footprints_LIFETIME);
+        SpawnFootprint();
+        LeanTween.delayedCall(delayBetweenSteps, SpawnFootprint);
 
         footprintsSpawn_TIMER = footprintsSpawn_COOLDOWN;
+    }
+
+    private void SpawnFootprint()
+    {
+        Vector2 pos = this.transform.position;
+
+        pos.y += leftPrint ? yOffset : -yOffset;
+        leftPrint = !leftPrint;
+
+        FootprintParticleSystemHandler.Instance.SpawnFootprint(pos, owner.LastDirection, footprints_LIFETIME);
     }
 }

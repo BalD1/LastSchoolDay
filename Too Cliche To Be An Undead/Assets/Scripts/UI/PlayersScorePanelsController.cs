@@ -35,23 +35,34 @@ public class PlayersScorePanelsController : MonoBehaviour
 
         for (int i = 0; i < playersCount; i++)
         {
+            // Create panel
             GameObject panel = playerPanel_PF.Create(playerPanelsContainer);
             PlayerScorePanel scorePanel = panel.GetComponent<PlayerScorePanel>();
 
+            // Listen to the end of the last panel animation
             if (i == playersCount - 1) scorePanel.D_animationEnded += AllowNextScreen;
 
+            // get the i player
             PlayerCharacter player = GameManager.Instance.playersByName[i].playerScript;
 
+            // get the images of the player's character
             foreach (var item in PlayersImages)
             {
                 if (item.character == player.GetCharacterName())
                 {
-                    scorePanel.Setup(item, Random.Range(0, 1000), Random.Range(0, 1000));
+                    scorePanel.Setup(item, player);
                     break;
                 }
             }
-
         }
+
+        int completitionTimeSeconds = (int)(Time.time - GameManager.Instance.TimeAtRunStart);
+
+        completitionTimeSeconds += Random.Range(10000, 10000000);
+
+        System.TimeSpan time = System.TimeSpan.FromSeconds(completitionTimeSeconds);
+
+        completitionTime.text = time.ToString(@"hh\:mm\:ss");
     }
 
     private void AllowNextScreen()

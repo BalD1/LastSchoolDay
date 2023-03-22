@@ -122,6 +122,8 @@ public class GameManager : MonoBehaviour
 
     public bool allowQuitLobby = true;
 
+    public float TimeAtRunStart { get; private set; }
+
     #region GameStates
 
     public enum E_GameState
@@ -222,6 +224,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        TimeAtRunStart = Time.time;
+
         AcquiredCards = 0;
         NeededCards = 0;
 

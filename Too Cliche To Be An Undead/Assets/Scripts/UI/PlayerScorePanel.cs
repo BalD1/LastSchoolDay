@@ -9,21 +9,26 @@ public class PlayerScorePanel : MonoBehaviour
     [field: SerializeField] public Image playerImage;
 
     [field: SerializeField] public TextMeshProUGUI killsCount;
-    [field: SerializeField] public TextMeshProUGUI deathsCount;
+    [field: SerializeField] public TextMeshProUGUI dealtDamagesCount;
+    [field: SerializeField] public TextMeshProUGUI takenDamagesCount;
 
     private PlayersScorePanelsController.S_PlayerImages playerImages;
 
     public delegate void D_AnimationEnded();
     public D_AnimationEnded D_animationEnded;
 
-    public void Setup(PlayersScorePanelsController.S_PlayerImages _playerImages, int _killsCount, int _deathsCount)
+    private PlayerCharacter relatedPlayer;
+
+    public void Setup(PlayersScorePanelsController.S_PlayerImages _playerImages, PlayerCharacter _relatedPlayer)
     {
+        relatedPlayer = _relatedPlayer;
         playerImages = _playerImages;
 
         playerImage.sprite = playerImages.happyImage;
 
-        killsCount.text = "x " + _killsCount;
-        deathsCount.text = "x " + _deathsCount;
+        killsCount.text = "x " + _relatedPlayer.KillsCount;
+        dealtDamagesCount.text = "x " + _relatedPlayer.DamagesDealt;
+        takenDamagesCount.text = "x " + _relatedPlayer.DamagesTaken;
 
         D_animationEnded?.Invoke();
     }
