@@ -28,6 +28,8 @@ public class PlayersScorePanelsController : MonoBehaviour
 
     private Queue<PlayerScorePanel> panelsQueue;
 
+    private PlayerScorePanel[] panels;
+
     [System.Serializable]
     public struct S_PlayerImages
     {
@@ -44,6 +46,8 @@ public class PlayersScorePanelsController : MonoBehaviour
         panelsQueue = new Queue<PlayerScorePanel>();
         int playersCount = GameManager.Instance.PlayersCount;
 
+        panels = new PlayerScorePanel[playersCount];
+
         for (int i = 0; i < playersCount; i++)
         {
             // Create panel
@@ -51,6 +55,7 @@ public class PlayersScorePanelsController : MonoBehaviour
             PlayerScorePanel scorePanel = panel.GetComponent<PlayerScorePanel>();
 
             panelsQueue.Enqueue(scorePanel);
+            panels[i] = scorePanel;
 
             scorePanel.D_animationEnded += PlayNextPanel;
 
@@ -85,6 +90,32 @@ public class PlayersScorePanelsController : MonoBehaviour
 
     private void AllowNextScreen()
     {
+        int maxScore = int.MinValue;
+        int minScore = int.MaxValue;
+
+        int lowestScoreIdx = -1;
+        int highestScoreIdx = -1;
+
+        for (int i = 0; i < panels.Length; i++)
+        {
+            int score = panels[i].FinalScore;
+
+            if (panels[i].FinalScore > maxScore)
+            {
+                maxScore = score;
+                highestScoreIdx = i;
+            }
+
+            if (panels[i].FinalScore < minScore)
+            {
+                minScore = score;
+                lowestScoreIdx = i;
+            }
+        }
+
+        panels[lowestScoreIdx].SetImageToSad();
+        panels[highestScoreIdx].SetImageToHappy();
+
         GameManager.Player1Ref.D_validateInput += ShowButtonsPanel;
         PressToSkipToggle.gameObject.SetActive(true);
     }

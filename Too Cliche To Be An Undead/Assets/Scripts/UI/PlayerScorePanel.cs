@@ -27,6 +27,7 @@ public class PlayerScorePanel : MonoBehaviour
     private Queue<LTDescr> animQueue;
 
     private int finalScore;
+    public int FinalScore { get => finalScore; }
 
     public void Setup(PlayersScorePanelsController.S_PlayerImages _playerImages, PlayerCharacter _relatedPlayer, PlayersScorePanelsController _controller)
     {
@@ -37,7 +38,7 @@ public class PlayerScorePanel : MonoBehaviour
         relatedPlayer = _relatedPlayer;
         playerImages = _playerImages;
 
-        playerImage.sprite = playerImages.happyImage;
+        playerImage.sprite = playerImages.neutralImage;
 
         animQueue.Enqueue(AnimateValue(Random.Range(0, 100), controller.SingleKillValue, 1, killsCount));
         animQueue.Enqueue(AnimateValue(Random.Range(0, 5000), controller.SingleDamageDealtValue, 1, dealtDamagesCount));
@@ -47,6 +48,16 @@ public class PlayerScorePanel : MonoBehaviour
         animQueue.Enqueue(AnimateValue(_relatedPlayer.DamagesDealt, 1, dealtDamagesCount));
         animQueue.Enqueue(AnimateValue(_relatedPlayer.DamagesTaken, 1, takenDamagesCount));
         */
+    }
+
+    public void SetImageToSad()
+    {
+        playerImage.sprite = playerImages.sadImage;
+    }
+
+    public void SetImageToHappy()
+    {
+        playerImage.sprite = playerImages.happyImage;
     }
 
     public void BeginAnim()
