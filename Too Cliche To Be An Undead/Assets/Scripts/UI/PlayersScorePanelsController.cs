@@ -14,13 +14,13 @@ public class PlayersScorePanelsController : MonoBehaviour
 
     [SerializeField] private WinScreen winScreen;
 
-    [SerializeField] private float singleKillValue = 100;
-    [SerializeField] private float singleDamageDealtValue = 10;
-    [SerializeField] private float singleDamageTakenValue = -5;
+    [SerializeField] private int singleKillValue = 100;
+    [SerializeField] private int singleDamageDealtValue = 10;
+    [SerializeField] private int singleDamageTakenValue = -5;
 
-    public float SingleKillValue { get => singleKillValue; } 
-    public float SingleDamageDealtValue { get => singleDamageDealtValue; }
-    public float SingleDamageTakenValue { get => singleDamageTakenValue; }
+    public int SingleKillValue { get => singleKillValue; } 
+    public int SingleDamageDealtValue { get => singleDamageDealtValue; }
+    public int SingleDamageTakenValue { get => singleDamageTakenValue; }
 
     [field: SerializeField] public Toggle PressToSkipToggle { get; private set; }
 
@@ -62,7 +62,7 @@ public class PlayersScorePanelsController : MonoBehaviour
             {
                 if (item.character == player.GetCharacterName())
                 {
-                    scorePanel.Setup(item, player);
+                    scorePanel.Setup(item, player, this);
                     break;
                 }
             }
