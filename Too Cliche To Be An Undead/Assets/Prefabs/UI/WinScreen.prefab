@@ -1024,7 +1024,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4390268860930432092}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -1415,6 +1415,9 @@ MonoBehaviour:
   playerPanelsContainer: {fileID: 89210381928250493}
   completitionTime: {fileID: 5316802844213415606}
   winScreen: {fileID: 0}
+  singleKillValue: 100
+  singleDamageDealtValue: 10
+  singleDamageTakenValue: -5
   <PressToSkipToggle>k__BackingField: {fileID: 2833631296366288713}
   <PlayersImages>k__BackingField:
   - character: 0
@@ -1471,7 +1474,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8916450510185845221}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

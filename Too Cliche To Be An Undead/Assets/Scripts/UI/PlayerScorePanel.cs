@@ -19,17 +19,54 @@ public class PlayerScorePanel : MonoBehaviour
 
     private PlayerCharacter relatedPlayer;
 
+    private Queue<LTDescr> animQueue;
+
+    private int finalScore;
+
     public void Setup(PlayersScorePanelsController.S_PlayerImages _playerImages, PlayerCharacter _relatedPlayer)
     {
+        animQueue = new Queue<LTDescr>();
+
         relatedPlayer = _relatedPlayer;
         playerImages = _playerImages;
 
         playerImage.sprite = playerImages.happyImage;
 
-        killsCount.text = "x " + _relatedPlayer.KillsCount;
-        dealtDamagesCount.text = "x " + _relatedPlayer.DamagesDealt;
-        takenDamagesCount.text = "x " + _relatedPlayer.DamagesTaken;
+        animQueue.Enqueue(AnimateValue(Random.Range(0, 100), 1, killsCount));
+        animQueue.Enqueue(AnimateValue(Random.Range(0, 5000), 1, dealtDamagesCount));
+        animQueue.Enqueue(AnimateValue(Random.Range(0, 100), 1, takenDamagesCount));
+        /*
+        animQueue.Enqueue(AnimateValue(_relatedPlayer.KillsCount, 1, killsCount));
+        animQueue.Enqueue(AnimateValue(_relatedPlayer.DamagesDealt, 1, dealtDamagesCount));
+        animQueue.Enqueue(AnimateValue(_relatedPlayer.DamagesTaken, 1, takenDamagesCount));
+        */
+    }
 
-        D_animationEnded?.Invoke();
+    public void BeginAnim()
+    {
+        animQueue.Dequeue().resume();
+    }
+
+    private LTDescr AnimateValue(int maxVal, float time, TextMeshProUGUI tmp)
+    {
+        LTDescr tween;
+
+        int currentVal = 0;
+        tween = LeanTween.value(this.gameObject, 0, maxVal, time).setOnUpdate((float val) =>
+        {
+            currentVal = (int)val;
+            tmp.text = "x " + currentVal;
+        }).pause();
+
+        tween.setIgnoreTimeScale(true);
+        tween.setEaseInOutQuart();
+
+        tween.setOnComplete(() =>
+        {
+            if (animQueue.Count > 0) animQueue.Dequeue().resume();
+            else D_animationEnded?.Invoke();
+        });
+
+        return tween;
     }
 }
