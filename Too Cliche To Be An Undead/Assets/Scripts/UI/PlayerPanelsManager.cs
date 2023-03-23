@@ -28,6 +28,9 @@ public class PlayerPanelsManager : MonoBehaviour
 
     private int[] panelsCharacterIdx = new int[4] { -1, -1, -1, -1 };
 
+    private float[] timeOfLastChange = new float[4];
+    [SerializeField] private float characterChangeCooldown = .5f;
+
     [System.Serializable]
     public struct S_ImageByCharacter
     {
@@ -177,14 +180,6 @@ public class PlayerPanelsManager : MonoBehaviour
     {
         switch(value)
         {
-            case Vector2 v when value == Vector2.up:
-                OnPlayerVerticalArrow(true, playerIdx);
-                break;
-
-            case Vector2 v when value == Vector2.down:
-                OnPlayerVerticalArrow(false, playerIdx);
-                break;
-
             case Vector2 v when value == Vector2.left:
                 OnPlayerHorizontalArrow(true, playerIdx);
                 break;
@@ -197,6 +192,12 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void OnPlayerHorizontalArrow(bool rightArrow, int playerIdx)
     {
+        float currentTime = Time.timeSinceLevelLoad;
+
+        if (currentTime - timeOfLastChange[playerIdx] < characterChangeCooldown) return;
+
+        timeOfLastChange[playerIdx] = currentTime;
+
         // Get the panel idx associated to the targeted player
         int panelIdx = -1;
         for (int i = 0; i < playerPanels.Length; i++)
