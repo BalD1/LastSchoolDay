@@ -8,6 +8,9 @@ public class DestroyableProp : MonoBehaviour, IDamageable
 
     [SerializeField] private GameObject damagesParticles;
 
+    [SerializeField] private AudioSource source;
+    [SerializeField] private SCRPT_DestroyablePropsAudio audioData;
+
     [SerializeField] private float currentHP = 50;
 
     private void Start()
@@ -39,6 +42,11 @@ public class DestroyableProp : MonoBehaviour, IDamageable
             damagesParticles.Create(this.transform.position);
 
         if (currentHP <= 0) OnDeath();
+        else
+        {
+            if (audioData != null)
+                if (audioData.HurtClips.Length > 0) source.PlayOneShot(audioData.HurtClips.RandomElement());
+        }
         return true;
     }
 
@@ -52,6 +60,8 @@ public class DestroyableProp : MonoBehaviour, IDamageable
         if (destroyParticles != null)
             destroyParticles.Create(this.transform.position);
 
+        if (audioData != null)
+            if (audioData.DeathClips.Length > 0) AudioPlayerOneShot.Create(this.transform.position, audioData.DeathClips.RandomElement());
         Destroy(this.gameObject);
     }
 

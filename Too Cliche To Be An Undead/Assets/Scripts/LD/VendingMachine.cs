@@ -29,6 +29,8 @@ public class VendingMachine : MonoBehaviour, IInteractable
 
     [SerializeField] private TextMeshPro priceText;
 
+    [SerializeField] private AudioSource source;
+
 #if UNITY_EDITOR
     [SerializeField] private bool debugMode;
 #endif
@@ -65,6 +67,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
         {
             Destroy(priceComponents);
             Destroy(sparkles);
+            Destroy(source);
             Destroy(this);
             return;
         }
@@ -128,6 +131,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
         outline.SetActive(false);
         priceComponents.SetActive(false);
         Destroy(sparkles);
+        Destroy(source);
 
         isValid = false;
     }

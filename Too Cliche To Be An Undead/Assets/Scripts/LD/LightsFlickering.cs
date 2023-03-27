@@ -103,6 +103,7 @@ public class LightsFlickering : MonoBehaviour
 
         float r = Random.Range(baseIntensity - intensityRange, baseIntensity + intensityRange);
         if (r <= 0) r = 0;
+
         lightComp.intensity = r;
     }
 
