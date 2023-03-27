@@ -310,8 +310,20 @@ MonoBehaviour:
   musicSlider: {fileID: 0}
   sfxSlider: {fileID: 0}
   volMultiplier: 30
-  musicClipsByTag: []
-  sfxClipsByTag:
-  - inEditorName: 
+  musicClipsByTag:
+  - inEditorName: Main Menu
+    tag: 0
+    clip: {fileID: 8300000, guid: b3a122d11943b524fbc26af4c0f4159f, type: 3}
+  - inEditorName: InGame
+    tag: 1
+    clip: {fileID: 8300000, guid: 3e6d8f41f379f9d4ab8dfe734a426e62, type: 3}
+  - inEditorName: BossMusic
     tag: 2
+    clip: {fileID: 8300000, guid: 4e0779ce7bc809f499133a6540520f81, type: 3}
+  - inEditorName: InLobby
+    tag: 3
+    clip: {fileID: 8300000, guid: b3a122d11943b524fbc26af4c0f4159f, type: 3}
+  sfxClipsByTag:
+  - inEditorName: Clic
+    tag: 0
     clip: {fileID: 8300000, guid: 3c30ada269b2961429a08f11781736d7, type: 3}

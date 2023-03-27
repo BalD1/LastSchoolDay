@@ -57,6 +57,14 @@ public class GameManager : MonoBehaviour
     public delegate void D_TutorialState(bool isActive);
     public D_TutorialState D_tutorialState;
 
+    public delegate void D_BossFightStarted();
+    public D_BossFightStarted D_bossFightStarted;
+
+    public delegate void D_BossFightEnded();
+    public D_BossFightEnded D_bossFightEnded;
+
+    public int currentAliveBossesCount = 0;
+
     [SerializeField] private GameObject tutorialObject;
 
     [SerializeField] private Transform instantiatedEntitiesParent;
@@ -220,6 +228,9 @@ public class GameManager : MonoBehaviour
         Application.quitting += () => isAppQuitting = true;
 
         InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
+
+        D_bossFightStarted += () => currentAliveBossesCount++;
+        D_bossFightEnded += () => currentAliveBossesCount--;
     }
 
     private void Start()
@@ -237,11 +248,17 @@ public class GameManager : MonoBehaviour
             UIManager.Instance.UpdateKeycardsCounter(-1);
 
             IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
-            if (!IsInTutorial) Destroy(tutorialObject);
+            if (!IsInTutorial)
+            {
+                Destroy(tutorialObject);
+                SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.InLobby);
+            }
+            else SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainScene);
         }
         else if (CompareCurrentScene(E_ScenesNames.MainMenu))
         {
             LeanTween.delayedCall(1, () =>PlayersManager.Instance.CreateP1()).setIgnoreTimeScale(true);
+            SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainMenu);
         }
     }
 

@@ -166,6 +166,8 @@ public class HUBDoor : MonoBehaviour, IInteractable
         // Re-enable players controllers
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         SpawnersManager.Instance.AllowSpawns(true);
+
+        SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainScene);
     }
 
     public bool CanBeInteractedWith()

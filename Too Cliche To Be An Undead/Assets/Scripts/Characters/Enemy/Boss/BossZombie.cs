@@ -68,6 +68,8 @@ public class BossZombie : EnemyBase
         TargetClosestPlayer();
         base.Start();
         Pathfinding?.StartUpdatePath();
+
+        GameManager.Instance.D_bossFightStarted?.Invoke();
     }
 
     protected override void Update()
@@ -108,6 +110,7 @@ public class BossZombie : EnemyBase
 
         deathFlag = true;
         d_OnDeath?.Invoke();
+        GameManager.Instance.D_bossFightEnded?.Invoke();
 
         UIManager.Instance.RemoveBossCollider(this.hudTrigger);
     }

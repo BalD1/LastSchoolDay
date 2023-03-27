@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using BalDUtilities.Misc;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -37,25 +38,32 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private float volMultiplier = 30f;
 
     [System.Serializable]
-    public enum E_ClipsTags
+    public enum E_SFXClipsTags
     {
-        MainMenu,
-        MainScene,
         Clic,
     }
 
     [System.Serializable]
-    public struct ClipByTag
+    public enum E_MusicClipsTags
+    {
+        MainMenu,
+        MainScene,
+        BossMusic,
+        InLobby,
+    }
+
+    [System.Serializable]
+    public struct ClipByTag<T>
     {
 #if UNITY_EDITOR
         public string inEditorName;
 #endif
-        public E_ClipsTags tag;
+        public T tag;
         public AudioClip clip;
     }
 
-    [SerializeField] private ClipByTag[] musicClipsByTag;
-    [SerializeField] private ClipByTag[] sfxClipsByTag;
+    [SerializeField] private ClipByTag<E_MusicClipsTags>[] musicClipsByTag;
+    [SerializeField] private ClipByTag<E_SFXClipsTags>[] sfxClipsByTag;
 
     private void Awake()
     {
@@ -65,6 +73,23 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         LoadSlidersValue();
+
+        GameManager.Instance.D_bossFightStarted += TryStartBossMusic;
+        GameManager.Instance.D_bossFightEnded += TryEndBossMusic;
+    }
+
+    private void TryStartBossMusic()
+    {
+        if (GameManager.Instance.currentAliveBossesCount > 1) return;
+
+        PlayMusic(E_MusicClipsTags.BossMusic);
+    }
+
+    private void TryEndBossMusic()
+    {
+        if (GameManager.Instance.currentAliveBossesCount > 0) return;
+
+        PlayMusic(E_MusicClipsTags.MainScene);
     }
 
     /// <summary>
@@ -101,7 +126,7 @@ public class SoundManager : MonoBehaviour
     /// Plays the sound with <paramref name="key"/> as tag, stored in <seealso cref="sfxClipsByTag"/>.
     /// </summary>
     /// <param name="key"></param>
-    public void Play2DSFX(E_ClipsTags key)
+    public void Play2DSFX(E_SFXClipsTags key)
     {
         foreach (var item in sfxClipsByTag)
         {
@@ -136,7 +161,7 @@ public class SoundManager : MonoBehaviour
     public void PauseMusic() => musicSource.Pause();
     public void ResumeMusic() => musicSource.UnPause();
     public void StopMusic() => musicSource.Stop();
-    public void PlayMusic(E_ClipsTags musicTag)
+    public void PlayMusic(E_MusicClipsTags musicTag)
     {
         foreach (var item in musicClipsByTag)
         {
