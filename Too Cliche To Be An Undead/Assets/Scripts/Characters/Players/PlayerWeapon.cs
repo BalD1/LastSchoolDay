@@ -274,8 +274,6 @@ public class PlayerWeapon : MonoBehaviour
     {
         if (e == null) return;
 
-        owner.D_successfulAttack?.Invoke(bigHit);
-
         Vector3 effectObjectPos = slashParticles.gameObject.transform.position;
         float dist = Vector2.Distance(effectObjectPos, hitPosition) / 2;
         Vector2 dir = (hitPosition - effectObjectPos).normalized;

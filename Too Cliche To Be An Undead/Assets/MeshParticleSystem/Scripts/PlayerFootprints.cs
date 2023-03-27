@@ -19,11 +19,15 @@ public class PlayerFootprints : MonoBehaviour
 
     [SerializeField] private float yOffset;
 
+    [SerializeField] private float delayBetweenStepsAudio = .2f;
+    private float footSteps_TIMER;
+
     private bool leftPrint;
 
     private void Awake()
     {
         footprintsSpawn_TIMER = footprintsSpawn_COOLDOWN;
+        footSteps_TIMER = delayBetweenStepsAudio;
 
         owner.d_SteppedIntoTrigger += OwnerSteppedInTrigger;
 
@@ -39,6 +43,12 @@ public class PlayerFootprints : MonoBehaviour
     private void OwnerAttacked(bool isBigHit) => allowfootprints_TIMER = allowfootprints_DURATION;
 
     private void Update()
+    {
+        UpdateFootPrint();
+        UpdateFootStep();
+    }
+
+    private void UpdateFootPrint()
     {
         if (allowfootprints_TIMER <= 0) return;
 
@@ -56,6 +66,21 @@ public class PlayerFootprints : MonoBehaviour
         LeanTween.delayedCall(delayBetweenSteps, SpawnFootprint);
 
         footprintsSpawn_TIMER = footprintsSpawn_COOLDOWN;
+    }
+
+    private void UpdateFootStep()
+    {
+        if (footSteps_TIMER > 0)
+        {
+            footSteps_TIMER -= Time.deltaTime;
+            return;
+        }
+
+        if (owner.StateManager.CurrentState.ToString() == "Idle") return;
+
+        footSteps_TIMER = delayBetweenStepsAudio;
+
+        owner.D_onFootPrint?.Invoke();
     }
 
     private void SpawnFootprint()

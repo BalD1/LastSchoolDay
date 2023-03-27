@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4862402530373847254}
+  - component: {fileID: 3589328087065027438}
   - component: {fileID: 6684974879034983664}
   m_Layer: 0
   m_Name: Audio
@@ -32,6 +33,19 @@ Transform:
   m_Father: {fileID: 3110682095013553420}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3589328087065027438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556235305165011134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bea5856bcb75a0e48beaa9d24eb789e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 7821369719249530884}
 --- !u!82 &6684974879034983664
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1078,6 +1092,7 @@ MonoBehaviour:
   attackTrigger: {fileID: 1615009067644983288}
   <Vision>k__BackingField: {fileID: 4416858856468475856}
   isIdle: 0
+  <AudioData>k__BackingField: {fileID: 11400000, guid: c0489040a4de07a41893d3fbf0b84276, type: 2}
   <allowWander>k__BackingField: 0
   <tutorialZombie>k__BackingField: 0
   attack_DURATION: 0.75

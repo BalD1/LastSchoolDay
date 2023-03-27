@@ -19,6 +19,13 @@ public class NormalZombie : EnemyBase
     [field: SerializeField] public EnemyVision Vision { get; private set; }
     [field: SerializeField] public bool isIdle = false;
 
+    public delegate void D_OnAttack();
+    public D_OnAttack D_onAttack;
+
+    public delegate void D_OnHurt();
+    public D_OnHurt D_onHurt;
+
+    [field: SerializeField] public SCRPT_ZombieAudio AudioData { get; private set; }
 
     [field:  SerializeField] public bool allowWander { get; private set; }
 
@@ -79,7 +86,12 @@ public class NormalZombie : EnemyBase
             targetClosest_TIMER = targetClosest_COOLDOWN;
         }
 
-        if (CurrentPlayerTarget == null) this.Vision.TargetClosestPlayer();
+        if (CurrentPlayerTarget == null)
+        {
+            this.Vision.TargetClosestPlayer();
+            return;
+        }
+
         if (Vector2.Distance(this.transform.position, CurrentPlayerTarget.transform.position) > maxDistanceFromPlayer) ForceKill();
     }
 
@@ -99,6 +111,8 @@ public class NormalZombie : EnemyBase
         d_OnDeath += (damager as PlayerCharacter).AddKillCount;
 
         bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
+
+        if (res) D_onHurt?.Invoke();
 
         d_OnDeath -= (damager as PlayerCharacter).AddKillCount;
 

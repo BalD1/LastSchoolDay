@@ -5,20 +5,29 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Audio", menuName = "Scriptable/Entity/Audio/Player")]
 public class SCRPT_PlayerAudio : SCRPT_EntityAudio
 {
-    [SerializeField] private AudioClip[] swifClips;
+    [SerializeField] private S_AudioClips[] attackConnectedClips;
 
-    [SerializeField] private AudioClip[] skillStartClips;
+    [SerializeField] private S_AudioClips[] bigAttackConnectedClips;
 
-    [SerializeField] private AudioClip[] skillHoldClips;
+    [SerializeField] private S_AudioClips[] skillStartClips;
 
-    [SerializeField] private AudioClip[] skillEndClips;
+    [SerializeField] private S_AudioClips[] skillHoldClips;
 
-    [SerializeField] private AudioClip[] dashClips;
+    [SerializeField] private S_AudioClips[] skillEndClips;
 
-    public AudioClip GetRandomSwifClip() => swifClips.RandomElement();
+    [SerializeField] private S_AudioClips[] dashClips;
 
-    public AudioClip GetRandomSkillStartClip() => skillStartClips.RandomElement();
-    public AudioClip GetRandomSkillHoldClip() => skillHoldClips.RandomElement();
-    public AudioClip GetRandomSkillEndClip() => skillEndClips.RandomElement();
-    public AudioClip GetRandomDashClip() => dashClips.RandomElement();
+    [SerializeField] private S_AudioClips[] footsteps_inSchool;
+    [SerializeField] private S_AudioClips[] footsteps_outdoor;
+
+    public S_AudioClips GetRandomSkillStartClip() => skillStartClips.RandomElement();
+    public S_AudioClips GetRandomSkillHoldClip() => skillHoldClips.RandomElement();
+    public S_AudioClips GetRandomSkillEndClip() => skillEndClips.RandomElement();
+    public S_AudioClips GetRandomDashClip() => dashClips.RandomElement();
+    public S_AudioClips GetRandomBigAttackConnectedClip() => bigAttackConnectedClips.RandomElement();
+    public S_AudioClips GetRandomAttackConnectedClip() => attackConnectedClips.RandomElement();
+
+    public S_AudioClips GetRandomIndoorFootsteps() => footsteps_inSchool.RandomElement();
+    public S_AudioClips GetRandomOOutdoorFootsteps() => footsteps_outdoor.RandomElement();
+
 }

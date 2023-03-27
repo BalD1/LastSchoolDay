@@ -7,9 +7,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1511909437829132570, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3596926216301818569, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: m_SortingOrder
-      value: -27010
+      value: 2963
       objectReference: {fileID: 0}
     - target: {fileID: 4202492399607673763, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: skeletonDataAsset
@@ -36,6 +40,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d9036b66a6bd8a64cb0d545ebd60322d, type: 2}
     - target: {fileID: 7821369719249530884, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
+      propertyPath: <AudioData>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 9c8e660772291f44188dcff6321b7402, type: 2}
+    - target: {fileID: 7821369719249530884, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: <animationData>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: 2f6d3887fe1d84d43ab4c70d6d70f63f, type: 2}
@@ -45,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7821369719249530889, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: m_Name
-      value: TutorialZombie
+      value: TutorialZombie Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7821369719249530890, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: m_RootOrder
@@ -93,7 +101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8415205070134194233, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: m_SortingOrder
-      value: -27007
+      value: 2966
       objectReference: {fileID: 0}
     - target: {fileID: 8415205070134194233, guid: 4cda3f3c7b73ed74f897dc0714b8624d, type: 3}
       propertyPath: m_Materials.Array.data[0]

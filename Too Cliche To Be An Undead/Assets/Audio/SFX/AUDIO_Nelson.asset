@@ -13,17 +13,42 @@ MonoBehaviour:
   m_Name: AUDIO_Nelson
   m_EditorClassIdentifier: 
   attackClips:
-  - {fileID: 8300000, guid: 56d4859f8516ed14e890975987b6c7fd, type: 3}
-  - {fileID: 8300000, guid: c67a89df385e6904cbc8959132a3c6ca, type: 3}
+  - clip: {fileID: 8300000, guid: a42883e7f5c57214690fe9198eda9238, type: 3}
+    pitchRange: 0.2
   bigAttackClips:
-  - {fileID: 8300000, guid: 1537f40c39db08c45a7f00572720a561, type: 3}
+  - clip: {fileID: 8300000, guid: a42883e7f5c57214690fe9198eda9238, type: 3}
+    pitchRange: 0.2
   hurtClips:
-  - {fileID: 8300000, guid: 08d9184f7386c9b48ae58e1be1ca7791, type: 3}
+  - clip: {fileID: 0}
+    pitchRange: 0
   deathClips:
-  - {fileID: 8300000, guid: 08d9184f7386c9b48ae58e1be1ca7791, type: 3}
-  swifClips: []
+  - clip: {fileID: 0}
+    pitchRange: 0
+  attackConnectedClips:
+  - clip: {fileID: 8300000, guid: 2b35fb6b1f6abd64683a08f3450ee978, type: 3}
+    pitchRange: 0.2
+  - clip: {fileID: 8300000, guid: 00cd4804a35ca884fa366cc5bc33e069, type: 3}
+    pitchRange: 0.2
+  - clip: {fileID: 8300000, guid: ca9b22a85993a2046afc07b93f60a17d, type: 3}
+    pitchRange: 0.2
+  bigAttackConnectedClips:
+  - clip: {fileID: 8300000, guid: 201e866c30b2c6d47981072f33e9a92c, type: 3}
+    pitchRange: 0.2
+  - clip: {fileID: 8300000, guid: 7893e0032b8b2624eb888e055ef6a285, type: 3}
+    pitchRange: 0.2
   skillStartClips: []
   skillHoldClips: []
   skillEndClips: []
   dashClips:
-  - {fileID: 8300000, guid: c8f2e3c6a5fbe554bb8e6c0d2a4f6caf, type: 3}
+  - clip: {fileID: 0}
+    pitchRange: 0
+  footsteps_inSchool:
+  - clip: {fileID: 8300000, guid: ffa5441258224694690169f4bd95b969, type: 3}
+    pitchRange: 0.4
+  - clip: {fileID: 8300000, guid: 062aac8f0463d7945a5a16732efbea51, type: 3}
+    pitchRange: 0.4
+  - clip: {fileID: 8300000, guid: 8c2c6c300bd8fc441878f426377bec64, type: 3}
+    pitchRange: 0.4
+  - clip: {fileID: 8300000, guid: f8e559768bed7ed4680ab0449da7ec3a, type: 3}
+    pitchRange: 0.4
+  footsteps_outdoor: []

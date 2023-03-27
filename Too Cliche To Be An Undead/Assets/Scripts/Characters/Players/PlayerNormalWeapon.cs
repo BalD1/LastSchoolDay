@@ -35,6 +35,8 @@ public class PlayerNormalWeapon : PlayerWeapon
     {
         base.StartWeaponAttack(isLastAttack);
 
+        owner.D_onAttack?.Invoke(isLastAttack);
+
         slashParticles.Play();
 
         float onAttackMovementSpeed = onAttackMovementForce;
@@ -53,12 +55,16 @@ public class PlayerNormalWeapon : PlayerWeapon
         hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.MaxAttRange_M, damageablesLayer);
 
         bool successfulhit = false;
+        bool connectedEntity = false;
+        bool hadBigHit = false;
 
         foreach (var item in hitEntities)
         {
             var damageable = item.GetComponentInParent<IDamageable>();
             if (damageable != null)
             {
+                Entity e = item.GetComponentInParent<Entity>();
+
                 float damages = owner.MaxDamages_M;
 
                 bool performKnockback = true;
@@ -76,6 +82,8 @@ public class PlayerNormalWeapon : PlayerWeapon
 
                 successfulhit = true;
 
+                if (connectedEntity == false) connectedEntity = e != null;
+
                 // Check if the entity is the closest one from player
                 float dist = Vector2.Distance(item.transform.position, effectObject.transform.position);
                 if ((closestEnemy == null || closestEnemyDist == -1) || (dist <= distanceForAutoAim && dist < closestEnemyDist) )
@@ -86,20 +94,23 @@ public class PlayerNormalWeapon : PlayerWeapon
 
                 float shakeIntensity = normalShakeIntensity;
                 float shakeDuration = normalShakeDuration;
+
+                hadBigHit = isLastAttack || isCrit;
                 
-                if (isLastAttack || isCrit)
+                if (hadBigHit)
                 {
-                    item.GetComponentInParent<Entity>()?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage, owner);
+                    e?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage, owner);
                     shakeIntensity = bigShakeIntensity;
                     shakeDuration = bigShakeDuration;
                 }
 
-                SuccessfulHit(item.transform.position, item.GetComponentInParent<Entity>(), performKnockback, speedModifier, (isLastAttack || isCrit));
+                SuccessfulHit(item.transform.position, e, performKnockback, speedModifier, (hadBigHit));
                 CameraManager.Instance.ShakeCamera(shakeIntensity, shakeDuration);
             }
         }
 
         if (!successfulhit) owner.D_swif?.Invoke();
+        if (connectedEntity) owner.D_successfulAttack?.Invoke(hadBigHit);
 
         if (isLastAttack) owner.StartGamepadShake(bigHitGamepadShake);
         else owner.StartGamepadShake(bigHitGamepadShake);

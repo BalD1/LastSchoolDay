@@ -186,6 +186,9 @@ public class SpawnersManager : MonoBehaviour
 
         spawnStamp++;
 
+        RectTransform stampContainerRT = stampsCounter.GetComponent<RectTransform>();
+        LeanTween.scale(stampContainerRT, Vector3.one * 1.3f, .25f).setLoopPingPong(1);
+
         stamp_TIMER = timeBetweenStamps;
         maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
         spawnCooldown = zombiesSpawnCooldown.Evaluate(spawnStamp);

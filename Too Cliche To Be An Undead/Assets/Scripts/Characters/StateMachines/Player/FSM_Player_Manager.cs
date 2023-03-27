@@ -22,6 +22,9 @@ public class FSM_Player_Manager : FSM_ManagerBase
     private FSM_Base<FSM_Player_Manager> currentState;
     public FSM_Base<FSM_Player_Manager> CurrentState { get => currentState; }
 
+    public delegate void D_StateChange(string newState);
+    public D_StateChange D_stateChange;
+
     private void Awake()
     {
         pushedState.SetOwner(Owner);
@@ -50,8 +53,12 @@ public class FSM_Player_Manager : FSM_ManagerBase
         currentState.FixedUpdateState(this);
     }
 
-    public void SwitchState(FSM_Base<FSM_Player_Manager> newState)
+    public void SwitchState(FSM_Base<FSM_Player_Manager> newState, bool forceSwitch = false)
     {
+        if (currentState.ToString() == "Dead" && !forceSwitch) return;
+
+        D_stateChange?.Invoke(newState.ToString());
+
         currentState?.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);

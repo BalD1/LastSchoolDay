@@ -129,6 +129,9 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_AttackInput();
     public D_AttackInput D_attackInput;
 
+    public delegate void D_OnAttack(bool isBig);
+    public D_OnAttack D_onAttack;
+
     public delegate void D_SuccessfulAttack(bool isBigHit);
     public D_SuccessfulAttack D_successfulAttack;
 
@@ -182,6 +185,9 @@ public class PlayerCharacter : Entity, IInteractable
 
     public delegate void D_IndexChange(int newIdx);
     public D_IndexChange D_indexChange;
+
+    public delegate void D_OnFootPrint();
+    public D_OnFootPrint D_onFootPrint;
 
     private InputAction movementsAction;
 
@@ -270,7 +276,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         this.attackers.Clear();
 
-        this.stateManager.SwitchState(stateManager.idleState);
+        this.stateManager.SwitchState(stateManager.idleState, true);
     }
 
     private void ResetEndStats()

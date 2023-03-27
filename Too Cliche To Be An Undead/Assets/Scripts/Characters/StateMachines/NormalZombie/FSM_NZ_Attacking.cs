@@ -122,6 +122,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         else if (waitBeforeAttack_TIMER <= 0 && !attack_flag)
         {
             owner.AttacksArray[currentAttackIdx].OnStart(owner);
+            owner.D_onAttack?.Invoke();
 
             if (owner.animationController != null) 
             { 

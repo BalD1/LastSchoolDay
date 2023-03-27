@@ -268,56 +268,6 @@ public class ED_PlayerCharacter : Editor
         if (GUILayout.Button("Edit")) PopUpAssetInspector.Create(targetScript.GetAudioClips);
         EditorGUILayout.EndHorizontal();
 
-        GUIStyle style = new GUIStyle(EditorStyles.foldout);
-        style.fixedWidth = 0;
-        style.hover.textColor = Color.blue;
-        EditorGUI.indentLevel++;
-        showScrptAudio = EditorGUILayout.Foldout(showScrptAudio, "", style);
-        EditorGUI.indentLevel--;
-
-        if (showScrptAudio)
-        {
-            SCRPT_EntityAudio playerAudio = targetScript.GetAudioClips;
-
-            EditorGUI.indentLevel++;
-            EditorGUILayout.BeginVertical("GroupBox");
-
-            GUIStyle labelStyle = new GUIStyle();
-            style.normal.textColor = Color.white;
-            style.fontStyle = FontStyle.Bold;
-
-            GUI.enabled = false;
-            EditorGUILayout.LabelField("Attack Clips");
-            EditorGUI.indentLevel++;
-            for (int i = 0; i < playerAudio.AttackClips.Length; i++)
-            {
-                EditorGUILayout.ObjectField("Clip " + i, playerAudio.AttackClips[i], typeof(AudioClip), false);
-            }
-            EditorGUI.indentLevel--;
-
-            EditorGUILayout.Space(3);
-            EditorGUILayout.LabelField("Hurt Clips");
-            EditorGUI.indentLevel++;
-            for (int i = 0; i < playerAudio.HurtClips.Length; i++)
-            {
-                EditorGUILayout.ObjectField("Clip " + i, playerAudio.HurtClips[i], typeof(AudioClip), false);
-            }
-            EditorGUI.indentLevel--;
-
-            EditorGUILayout.Space(3);
-            EditorGUILayout.LabelField("Death Clips");
-            EditorGUI.indentLevel++;
-            for (int i = 0; i < playerAudio.DeathClips.Length; i++)
-            {
-                EditorGUILayout.ObjectField("Clip " + i, playerAudio.DeathClips[i], typeof(AudioClip), false);
-            }
-            GUI.enabled = true;
-            EditorGUI.indentLevel--;
-
-            EditorGUILayout.EndVertical();
-            EditorGUI.indentLevel--;
-        }
-
         EditorGUILayout.EndVertical();
     }
 

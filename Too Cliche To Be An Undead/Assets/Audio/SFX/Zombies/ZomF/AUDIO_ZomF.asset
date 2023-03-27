@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94302c96a92b204419fc223e6bbb573b, type: 3}
+  m_Name: AUDIO_ZomF
+  m_EditorClassIdentifier: 
+  attackClips:
+  - clip: {fileID: 8300000, guid: 3671fa0d0fa80ad4888ed59c90648589, type: 3}
+    pitchRange: 0.2
+  - clip: {fileID: 8300000, guid: 35c4a05649106544aa90f8eb24bab475, type: 3}
+    pitchRange: 0.2
+  bigAttackClips:
+  - clip: {fileID: 8300000, guid: 35c4a05649106544aa90f8eb24bab475, type: 3}
+    pitchRange: 0.2
+  - clip: {fileID: 8300000, guid: 3671fa0d0fa80ad4888ed59c90648589, type: 3}
+    pitchRange: 0.2
+  hurtClips:
+  - clip: {fileID: 8300000, guid: 0ffb05cfd8726964fb14e4a036e1be55, type: 3}
+    pitchRange: 0.3
+  - clip: {fileID: 8300000, guid: 59eb4f579926c304dbc1420dede8d497, type: 3}
+    pitchRange: 0.3
+  - clip: {fileID: 8300000, guid: 3b8f81609d551d9499d7ce429b4210b6, type: 3}
+    pitchRange: 0.3
+  deathClips:
+  - clip: {fileID: 8300000, guid: eca729cd78e438744b9025f830170930, type: 3}
+    pitchRange: 0.4
+  miscAudio:
+  - clip: {fileID: 8300000, guid: 05a6f7de38a8e89469af1cad2bf52b31, type: 3}
+    pitchRange: 0.2
+  - clip: {fileID: 8300000, guid: 2b487cca9c1348f45a4fc9abc5a290bf, type: 3}
+    pitchRange: 0.2
+  - clip: {fileID: 8300000, guid: 3c1793930da1898468de7ebd5b865bce, type: 3}
+    pitchRange: 0.2
