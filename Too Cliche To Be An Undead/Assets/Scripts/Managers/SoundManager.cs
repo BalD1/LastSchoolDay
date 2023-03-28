@@ -200,11 +200,9 @@ public class SoundManager : MonoBehaviour
                 break;
             }
         }
-        Debug.Log("start fade out");
 
         if (musicSource.isPlaying) FadeMusic(true, () =>
         {
-        Debug.Log("start fade in");
             musicSource.clip = musicToPlay;
             FadeMusic(false);
         });

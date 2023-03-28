@@ -54,6 +54,10 @@ public class GameManager : MonoBehaviour
             D_tutorialState?.Invoke(value);
         }
     }
+
+    public delegate void D_OnPlayerIsSetup(int playerIdx);
+    public D_OnPlayerIsSetup D_onPlayerIsSetup;
+
     public delegate void D_TutorialState(bool isActive);
     public D_TutorialState D_tutorialState;
 

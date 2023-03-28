@@ -118,6 +118,9 @@ public class ED_UIManager : Editor
         SerializedProperty hudContainer = serializedObject.FindProperty("hudContainer");
         EditorGUILayout.PropertyField(hudContainer);
 
+        SerializedProperty hudContainerRect = serializedObject.FindProperty("hudContainerRect");
+        EditorGUILayout.PropertyField(hudContainerRect);
+
         SerializedProperty tutoHUD = serializedObject.FindProperty("tutoHUD");
         EditorGUILayout.PropertyField(tutoHUD);
 

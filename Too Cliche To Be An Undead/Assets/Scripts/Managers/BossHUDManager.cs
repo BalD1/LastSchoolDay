@@ -13,6 +13,7 @@ public class BossHUDManager : MonoBehaviour
 
     [field: SerializeField] public CanvasGroup hudContainer { get; private set; }
     [field: SerializeField] public RectTransform hudParent { get; private set; }
+    [field: SerializeField] public RectTransform hudFadeTarget { get; private set; }
 
     [SerializeField] private GameObject bossHUD_PF;
 

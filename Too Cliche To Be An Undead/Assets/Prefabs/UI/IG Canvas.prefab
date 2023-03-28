@@ -3851,6 +3851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <hudContainer>k__BackingField: {fileID: 7476158611778479322}
   <hudParent>k__BackingField: {fileID: 2893967205864082538}
+  <hudFadeTarget>k__BackingField: {fileID: 3897226173500015154}
   bossHUD_PF: {fileID: 2235852747724589450, guid: f5c03a4cd63bb264b9892e6fd224a71e, type: 3}
   bossesHUD: []
 --- !u!222 &2092065645908770877
@@ -4500,6 +4501,7 @@ RectTransform:
   - {fileID: 3933587939779347387}
   - {fileID: 3517984361152156528}
   - {fileID: 2893967205864082538}
+  - {fileID: 3897226173500015154}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7757,6 +7759,51 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &7390756989711940255
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3897226173500015154}
+  - component: {fileID: 2260254909953200043}
+  m_Layer: 5
+  m_Name: BossFadeTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3897226173500015154
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7390756989711940255}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4647886569459204930}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.40500003, y: 0.018000001}
+  m_AnchorMax: {x: 0.60441655, y: 0.3662806}
+  m_AnchoredPosition: {x: -1.8371582, y: -1.9648438}
+  m_SizeDelta: {x: -1.3075981, y: 2.9272003}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2260254909953200043
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7390756989711940255}
+  m_CullTransparentMesh: 1
 --- !u!1 &7464243602111632485
 GameObject:
   m_ObjectHideFlags: 0
@@ -9908,6 +9955,10 @@ PrefabInstance:
       propertyPath: shopContentMenu
       value: 
       objectReference: {fileID: 18486397}
+    - target: {fileID: 1297398526916696451, guid: b73ba4b4f864b824a9ca6719ef7fd364, type: 3}
+      propertyPath: hudContainerRect
+      value: 
+      objectReference: {fileID: 2526245624121578099}
     - target: {fileID: 1297398526916696451, guid: b73ba4b4f864b824a9ca6719ef7fd364, type: 3}
       propertyPath: dialogueContainer
       value: 

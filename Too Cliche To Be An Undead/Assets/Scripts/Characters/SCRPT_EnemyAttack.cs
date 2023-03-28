@@ -14,6 +14,7 @@ public abstract class SCRPT_EnemyAttack : ScriptableObject
     [field: SerializeField] public float MinDurationBeforeAttack { get; private set; }
     [field: SerializeField] public float MaxDurationBeforeAttack { get; private set; }
     [field: SerializeField] public float telegraphRotationOffset { get; private set; }
+    [field: SerializeField] public bool DamageOnTrigger { get; private set; }
     [field: SerializeField] public bool DamageOnCollision { get; private set; }
     [field: SerializeField] public Sprite telegraphSprite { get; private set; }
     [field: SerializeField] public Vector2 attackOffset { get; private set; }

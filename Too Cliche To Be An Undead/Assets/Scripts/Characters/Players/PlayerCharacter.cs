@@ -277,6 +277,8 @@ public class PlayerCharacter : Entity, IInteractable
         this.attackers.Clear();
 
         this.stateManager.SwitchState(stateManager.idleState, true);
+
+        GameManager.Instance.D_onPlayerIsSetup(this.PlayerIndex);
     }
 
     private void ResetEndStats()
@@ -400,6 +402,8 @@ public class PlayerCharacter : Entity, IInteractable
         this.minimapMarker.SetActive(true);
 
         CheckCurrentDevice();
+
+        GameManager.Instance.D_onPlayerIsSetup(this.PlayerIndex);
     }
 
     protected override void Update()
