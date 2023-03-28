@@ -88,6 +88,8 @@ public class PlayerAudio : MonoBehaviour
         SCRPT_EntityAudio.S_AudioClips clipData = ownerAudioClips.GetRandomSkillHoldClip();
         AudioClip holdClip = clipData.clip;
 
+        if (holdClip == null) return;
+
         skillSource.loop = true;
         skillSource.clip = ownerAudioClips.GetRandomSkillHoldClip().clip;
 
@@ -141,6 +143,8 @@ public class PlayerAudio : MonoBehaviour
     }
     private void PlayAudioWithPitch(SCRPT_PlayerAudio.S_AudioClips clipData)
     {
+        if (clipData.clip == null) return;
+
         ownerSource.pitch = Random.Range(1 - clipData.pitchRange, 1 + clipData.pitchRange);
         ownerSource.PlayOneShot(clipData.clip);
     }

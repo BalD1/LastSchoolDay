@@ -254,6 +254,8 @@ public class GameManager : MonoBehaviour
                 SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.InLobby);
             }
             else SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainScene);
+
+            ZombieAudio.currentZombiesHurtCount = 0;
         }
         else if (CompareCurrentScene(E_ScenesNames.MainMenu))
         {

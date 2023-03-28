@@ -14,7 +14,14 @@ public class ProjectileBase : MonoBehaviour
     [SerializeField] private int maxPierceCount;
     private int pierceCount;
 
+    [SerializeField] private TrailRenderer trail;
+
     [SerializeField] private float maxLifetime = 5;
+
+    [SerializeField] private AudioSource source;
+
+    [SerializeField] private SCRPT_EntityAudio.S_AudioClips entityHitAudioData;
+    [SerializeField] private SCRPT_EntityAudio.S_AudioClips objectHitAudioData;
 
     private static Queue<ProjectileBase> ProjectilesPool;
 
@@ -79,7 +86,11 @@ public class ProjectileBase : MonoBehaviour
             if (proj != null)
                 if (proj.Team.Equals(this.Team)) return;
 
-            if (collision.CompareTag("Wall")) Deactivate();
+            if (collision.CompareTag("Wall"))
+            {
+                PlayAudio(objectHitAudioData);
+                Deactivate();
+            }
             else CheckDestroySelf();
 
             return;
@@ -87,7 +98,18 @@ public class ProjectileBase : MonoBehaviour
 
         bool isCrit = Random.Range(0, 100) <= critChances;
 
-        if (damageable.OnTakeDamages(damages, owner, isCrit)) CheckDestroySelf();
+        if (damageable.OnTakeDamages(damages, owner, isCrit))
+        {
+            CheckDestroySelf();
+
+            if (collision.GetComponentInParent<NormalZombie>() != null) PlayAudio(entityHitAudioData);
+            else PlayAudio(objectHitAudioData);
+        }
+    }
+
+    private void PlayAudio(SCRPT_EntityAudio.S_AudioClips audioData)
+    {
+        AudioclipPlayer.Create(this.transform.position, audioData);
     }
 
     private void CheckDestroySelf()
@@ -103,6 +125,7 @@ public class ProjectileBase : MonoBehaviour
 
     private void Deactivate()
     {
+        trail.Clear();
         ProjectilesPool.Enqueue(this);
         this.gameObject.SetActive(false);
     }

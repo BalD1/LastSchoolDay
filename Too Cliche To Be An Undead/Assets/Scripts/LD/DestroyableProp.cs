@@ -61,7 +61,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
             destroyParticles.Create(this.transform.position);
 
         if (audioData != null)
-            if (audioData.DeathClips.Length > 0) AudioPlayerOneShot.Create(this.transform.position, audioData.DeathClips.RandomElement());
+            if (audioData.DeathClips.Length > 0) AudioclipPlayer.Create(this.transform.position, audioData.DeathClips.RandomElement());
         Destroy(this.gameObject);
     }
 

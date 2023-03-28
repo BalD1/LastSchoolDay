@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [ExecuteInEditMode]
 public class GameAssets : MonoBehaviour
@@ -23,9 +24,12 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject coinPF;
     [SerializeField] private GameObject pbThumbnailPF;
     [SerializeField] private GameObject keycardPF;
+    [SerializeField] private GameObject audioPlayerPF;
 
     [SerializeField] private GameObject smallCoinDropPF;
     [SerializeField] private GameObject largeCoinDropPF;
+
+    [field: SerializeField] public AudioMixerGroup MixerGroup_SFX { get; private set; }
 
     [field: SerializeField] public GameObject BaseDestructionParticlesPF { get; private set; }
     [field: SerializeField] public GameObject BasePropDamagesParticlesPF { get; private set; }
@@ -111,6 +115,8 @@ public class GameAssets : MonoBehaviour
     public GameObject BasePBPF { get => basePBPF; }
     public PBWithRarity[] PBWithRarities { get => pBWithRarities; }
     public List<SCRPT_PB> UniquePBs { get => uniquePBs; }
+
+    public GameObject AudioPlayerPF { get => audioPlayerPF; }
 
     public Material OutlineMaterial { get => outlineMaterial; }
     public Material DefaultMaterial { get => defaultMaterial; }

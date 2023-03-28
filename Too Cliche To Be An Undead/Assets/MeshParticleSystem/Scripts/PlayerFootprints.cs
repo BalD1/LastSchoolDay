@@ -76,7 +76,7 @@ public class PlayerFootprints : MonoBehaviour
             return;
         }
 
-        if (owner.StateManager.CurrentState.ToString() == "Idle") return;
+        if (owner.StateManager.CurrentState.ToString() == "Idle" || owner.Velocity == Vector2.zero) return;
 
         footSteps_TIMER = delayBetweenStepsAudio;
 

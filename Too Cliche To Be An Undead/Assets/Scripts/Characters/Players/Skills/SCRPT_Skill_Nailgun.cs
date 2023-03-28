@@ -23,6 +23,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
     [SerializeField] private float fire_COOLDOWN;
 
     [SerializeField] private AudioClip fireClip;
+    [SerializeField] private float pitchRange = .1f;
 
     private float fire_TIMER;
 
@@ -88,7 +89,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
     {
         if (fire_TIMER > 0) return;
 
-        _owner.TryPlayAudioclip(fireClip);
+        _owner.TryPlayAudioclip(fireClip, pitchRange);
 
         fire_TIMER = fire_COOLDOWN;
 

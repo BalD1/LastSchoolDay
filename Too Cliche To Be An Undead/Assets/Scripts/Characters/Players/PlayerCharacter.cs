@@ -1304,8 +1304,9 @@ public class PlayerCharacter : Entity, IInteractable
         return DataKeeper.Instance.playersDataKeep[idx].character;
     }
 
-    public void TryPlayAudioclip(AudioClip clip)
+    public void TryPlayAudioclip(AudioClip clip, float pitchRange = 0)
     {
+        this.source.pitch = UnityEngine.Random.Range(1 - pitchRange, 1 + pitchRange);
         this.source?.PlayOneShot(clip);
     }
 

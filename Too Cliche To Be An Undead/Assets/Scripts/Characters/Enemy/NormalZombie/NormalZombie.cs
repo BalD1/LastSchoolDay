@@ -25,6 +25,9 @@ public class NormalZombie : EnemyBase
     public delegate void D_OnHurt();
     public D_OnHurt D_onHurt;
 
+    public delegate void D_OnRespawn();
+    public D_OnRespawn D_onRespawn;
+
     [field: SerializeField] public SCRPT_ZombieAudio AudioData { get; private set; }
 
     [field:  SerializeField] public bool allowWander { get; private set; }
@@ -171,6 +174,8 @@ public class NormalZombie : EnemyBase
 
         this.gameObject.SetActive(true);
         this.Vision.TargetClosestPlayer();
+
+        D_onRespawn?.Invoke();
     }
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
