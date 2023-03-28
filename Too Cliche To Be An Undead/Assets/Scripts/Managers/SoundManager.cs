@@ -53,27 +53,17 @@ public class SoundManager : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct MusicClips
+    public struct ClipByTag<T>
     {
 #if UNITY_EDITOR
         public string inEditorName;
 #endif
-        public E_MusicClipsTags tag;
+        public T tag;
         public AudioClip clip;
     }
 
-    [System.Serializable]
-    public struct SFXClips
-    {
-#if UNITY_EDITOR
-        public string inEditorName;
-#endif
-        public E_SFXClipsTags tag;
-        public AudioClip clip;
-    }
-
-    [SerializeField] private MusicClips[] musicClipsByTag;
-    [SerializeField] private SFXClips[] sfxClipsByTag;
+    [SerializeField] private ClipByTag<E_MusicClipsTags>[] musicClipsByTag;
+    [SerializeField] private ClipByTag<E_SFXClipsTags>[] sfxClipsByTag;
 
     private void Awake()
     {
