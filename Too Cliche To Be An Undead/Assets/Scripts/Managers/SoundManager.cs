@@ -37,6 +37,16 @@ public class SoundManager : MonoBehaviour
     [Space]
     [SerializeField] private float volMultiplier = 30f;
 
+
+
+
+
+
+
+
+
+
+
     [System.Serializable]
     public enum E_SFXClipsTags
     {
@@ -66,6 +76,14 @@ public class SoundManager : MonoBehaviour
 
 
 
+
+
+
+
+
+
+
+
     [System.Serializable]
     public struct SFXClipByTag
     {
@@ -88,6 +106,17 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private MusicClipByTag[] musicClipsByTag2;
     [SerializeField] private SFXClipByTag[] sfxClipsByTag2;
+
+
+
+
+
+
+
+
+
+
+
 
     private void Awake()
     {
