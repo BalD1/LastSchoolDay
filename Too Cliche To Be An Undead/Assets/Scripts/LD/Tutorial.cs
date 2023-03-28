@@ -172,6 +172,8 @@ public class Tutorial : MonoBehaviour
     {
         PlayersManager.Instance.SetAllPlayersControlMap("Dialogue");
 
+        SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.InLobby);
+
         // Wait for the screen to fade out
         UIManager.Instance.FadeScreen(true, () =>
         {

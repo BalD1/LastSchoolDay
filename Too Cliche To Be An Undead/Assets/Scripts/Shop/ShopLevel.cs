@@ -94,6 +94,8 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         if (isUnlocked) return;
         isUnlocked = true;
 
+        shop.PlayAudio(shop.ShopAudioData.buyAudio);
+
         shop.UpdateCostsMoney();
 
         if (Data.modifiers != null)
@@ -178,6 +180,7 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private void CantUpgradeFeedback()
     {
+        shop.PlayAudio(shop.ShopAudioData.notEnoughMoneyAudio);
         LeanTween.rotate(button.gameObject, new Vector3(0, 0, 5), .15f).setEase(LeanTweenType.easeInSine);
         LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x + 10, .15f)
         .setOnComplete(() =>

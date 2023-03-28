@@ -11,6 +11,9 @@ public class Shop : MonoBehaviour, IInteractable
     [SerializeField] private SkeletonAnimation skeleton;
     [SerializeField] private GameObject outline;
 
+    [SerializeField] private AudioSource source;
+    [field: SerializeField] public SCRPT_ShopAudio ShopAudioData { get; private set; }
+
     [SerializeField] [SpineAnimation] private string idle, open;
 
     [SerializeField] private float animationDelay = .35f;
@@ -91,6 +94,8 @@ public class Shop : MonoBehaviour, IInteractable
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
         UIManager.Instance.FadeAllHUD(fadeIn: false);
 
+        PlayAudio(ShopAudioData.openShopAudio);
+
         LeanTween.delayedCall(animationDelay, DelayedOpen);
     }
     private void DelayedOpen()
@@ -120,6 +125,8 @@ public class Shop : MonoBehaviour, IInteractable
 
     private void OnShopClose()
     {
+        PlayAudio(ShopAudioData.closeShopAudio);
+
         UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
         shopIsOpen = false;
 
@@ -163,5 +170,13 @@ public class Shop : MonoBehaviour, IInteractable
         {
             if (DataKeeper.Instance.unlockedLevels.Contains(item.ID)) item.Unlock(reloadUnlock: true);
         }
+    }
+
+    public void PlayAudio(SCRPT_EntityAudio.S_AudioClips audioData)
+    {
+        if (audioData.clip == null) return;
+
+        source.pitch = Random.Range(1 - audioData.pitchRange, 1 + audioData.pitchRange);
+        source.PlayOneShot(audioData.clip);
     }
 }
