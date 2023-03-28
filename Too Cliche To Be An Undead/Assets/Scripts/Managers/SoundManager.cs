@@ -61,9 +61,33 @@ public class SoundManager : MonoBehaviour
         public T tag;
         public AudioClip clip;
     }
-
     [SerializeField] private ClipByTag<E_MusicClipsTags>[] musicClipsByTag;
     [SerializeField] private ClipByTag<E_SFXClipsTags>[] sfxClipsByTag;
+
+
+
+    [System.Serializable]
+    public struct SFXClipByTag
+    {
+#if UNITY_EDITOR
+        public string inEditorName;
+#endif
+        public E_SFXClipsTags tag;
+        public AudioClip clip;
+    }
+
+    [System.Serializable]
+    public struct MusicClipByTag
+    {
+#if UNITY_EDITOR
+        public string inEditorName;
+#endif
+        public E_MusicClipsTags tag;
+        public AudioClip clip;
+    }
+
+    [SerializeField] private MusicClipByTag[] musicClipsByTag2;
+    [SerializeField] private SFXClipByTag[] sfxClipsByTag2;
 
     private void Awake()
     {
@@ -128,7 +152,7 @@ public class SoundManager : MonoBehaviour
     /// <param name="key"></param>
     public void Play2DSFX(E_SFXClipsTags key)
     {
-        foreach (var item in sfxClipsByTag)
+        foreach (var item in sfxClipsByTag2)
         {
             if (item.tag.Equals(key))
             {
@@ -146,7 +170,7 @@ public class SoundManager : MonoBehaviour
     /// <param name="key"></param>
     public void Play2DSFX(string key)
     {
-        foreach (var item in sfxClipsByTag)
+        foreach (var item in sfxClipsByTag2)
         {
             if (EnumsExtension.EnumToString(item.tag).Equals(key))
             {
@@ -163,7 +187,7 @@ public class SoundManager : MonoBehaviour
     public void StopMusic() => musicSource.Stop();
     public void PlayMusic(E_MusicClipsTags musicTag)
     {
-        foreach (var item in musicClipsByTag)
+        foreach (var item in musicClipsByTag2)
         {
             if (item.tag.Equals(musicTag))
             {
