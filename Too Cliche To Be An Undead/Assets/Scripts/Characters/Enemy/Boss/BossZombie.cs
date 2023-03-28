@@ -112,6 +112,7 @@ public class BossZombie : EnemyBase
         d_OnDeath?.Invoke();
         GameManager.Instance.D_bossFightEnded?.Invoke();
 
+        SoundManager.Instance.ChangeMusicMixerPitch(1);
         UIManager.Instance.RemoveBossCollider(this.hudTrigger);
     }
 

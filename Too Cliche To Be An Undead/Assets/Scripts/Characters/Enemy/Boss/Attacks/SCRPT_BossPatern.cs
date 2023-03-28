@@ -18,6 +18,7 @@ public class SCRPT_BossPatern : ScriptableObject
         [field: SerializeField] public float recoverTime { get; private set; }
     }
 
+    [field: SerializeField] public float pitchModifierOnStageChange { get; private set; } 
     [field: SerializeField] public S_Paterns[] firstStagePaterns { get; private set; }
     [field: SerializeField] public S_Paterns[] secondStagePaterns { get; private set; }
 

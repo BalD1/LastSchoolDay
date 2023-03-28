@@ -49,5 +49,6 @@ public class AttacksPatern : MonoBehaviour
     {
         currentStage++;
         StartNewPatern();
+        SoundManager.Instance.ChangeMusicMixerPitch(paterns.pitchModifierOnStageChange);
     }
 }

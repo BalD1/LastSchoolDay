@@ -27,7 +27,6 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
 
     public override void OnStart(EnemyBase owner)
     {
-
         boss = owner as BossZombie;
         SCRPT_EnemyAttack currentAttack = boss.CurrentAttack.attack;
         baseSkeletonPositionY = boss.SkeletonHolder.transform.localPosition.y;
@@ -77,6 +76,8 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
                     // force reset position and color, safeguard to offsets
                     boss.SkeletonHolder.transform.SetLocalPositionY(0);
                     bossSkeleton.SetColor(goalColor);
+
+                    CameraManager.Instance.ShakeCamera(2.5f, 1);
 
                     // get target in range and damage them
                     Collider2D[] hitEntities = Physics2D.OverlapCircleAll((Vector2)owner.attackTelegraph.transform.position, attackRange, entitiesToAffect);
