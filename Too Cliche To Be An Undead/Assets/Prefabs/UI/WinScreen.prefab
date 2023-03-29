@@ -1006,8 +1006,8 @@ RectTransform:
   - {fileID: 4353166607625301098}
   - {fileID: 6148584315206463873}
   - {fileID: 8327771355243325683}
-  - {fileID: 3896239710614701274}
   - {fileID: 4460879795631060465}
+  - {fileID: 3896239710614701274}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1290,7 +1290,7 @@ RectTransform:
   - {fileID: 3483688621934870441}
   - {fileID: 8353589895536721269}
   m_Father: {fileID: 5454868367978839001}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.31708306, y: 0.11626926}
   m_AnchorMax: {x: 0.68685377, y: 0.85679734}
@@ -1384,7 +1384,7 @@ RectTransform:
   - {fileID: 1317029002737335240}
   - {fileID: 8718457190175968586}
   m_Father: {fileID: 5454868367978839001}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1415,6 +1415,7 @@ MonoBehaviour:
   playerPanelsContainer: {fileID: 89210381928250493}
   completitionTime: {fileID: 5316802844213415606}
   winScreen: {fileID: 0}
+  selfGroup: {fileID: 174884205130368917}
   singleKillValue: 100
   singleDamageDealtValue: 10
   singleDamageTakenValue: -5
@@ -1475,8 +1476,8 @@ CanvasGroup:
   m_GameObject: {fileID: 8916450510185845221}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &8919284932362487608
 GameObject:
