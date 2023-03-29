@@ -208,30 +208,31 @@ public class CameraManager : MonoBehaviour
         }).setOnComplete(onCompleteAction);
     }
 
-    public void SetMinimapToOverview()
+    public void SetMinimapToOverview(float leanTime = .5f)
     {
-        if (minimapCamera == null) return;
+        ChangeMiniampCameraState(null, false, minimapCenterPosition, minimapOverviewSize, leanTime);
 
-        minimapCamera.transform.parent = null;
-
-        Vector3 minimapCamPos = minimapCenterPosition;
-        minimapCamPos.z = this.transform.position.z;
-        minimapCamera.transform.position = minimapCamPos;
-
-        minimapCamera.orthographicSize = minimapOverviewSize;
     }
-
-    public void AttachMinimapCamera()
+    public void AttachMinimapCamera(float leanTime = .5f)
+    {
+        ChangeMiniampCameraState(this.transform, true, Vector2.zero, minimapNormalSize, leanTime);
+    }
+    private void ChangeMiniampCameraState(Transform parent, bool localPos, Vector2 targetPos, float targetSize, float leanTime)
     {
         if (minimapCamera == null) return;
 
-        minimapCamera.transform.parent = this.transform;
+        minimapCamera.transform.parent = parent;
 
-        Vector3 minimapCamPos = Vector2.zero;
+        Vector3 minimapCamPos = targetPos;
         minimapCamPos.z = this.transform.position.z;
-        minimapCamera.transform.localPosition = minimapCamPos;
 
-        minimapCamera.orthographicSize = minimapNormalSize;
+        if (localPos) LeanTween.moveLocal(minimapCamera.gameObject, minimapCamPos, leanTime).setEaseSpring();
+        else LeanTween.move(minimapCamera.gameObject, minimapCamPos, leanTime).setEaseSpring();
+
+        LeanTween.value(minimapCamera.gameObject, minimapCamera.orthographicSize, targetSize, leanTime).setOnUpdate((float val) =>
+        {
+            minimapCamera.orthographicSize = val;
+        }).setEaseSpring();
     }
 
     public void SetTriggerParent(Transform newParent)
