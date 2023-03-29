@@ -270,7 +270,7 @@ public class DebugConsole : MonoBehaviour
 
         ADD_KEYCARD = new DebugCommand<int>("ADD_KEYCARD", "Adds <int> keycards", "ADD_KEYCARD <int>", (val) =>
         {
-            GameManager.AcquiredCards += val;
+            GameManager.Instance.AcquiredCards += val;
         });
     }
 

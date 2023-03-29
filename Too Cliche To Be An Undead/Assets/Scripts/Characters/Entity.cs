@@ -152,6 +152,9 @@ public class Entity : MonoBehaviour, IDamageable
     public delegate void D_enteredCollider(Collision2D collision);
     public D_enteredCollider d_EnteredCollider;
 
+    public delegate void D_EntityEnteredCollider(Entity entity);
+    public D_EntityEnteredCollider D_entityEnteredCollider;
+
     public delegate void D_onDeath();
     public D_onDeath d_OnDeath;
 

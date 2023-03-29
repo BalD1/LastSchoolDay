@@ -11,6 +11,8 @@ public class Keycard : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
+    [SerializeField] private GameObject minimapSprites;
+
     public delegate void D_OnPickup();
     public D_OnPickup D_onPickup;
 
@@ -43,12 +45,19 @@ public class Keycard : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
+            minimapSprites.SetActive(false);
             animator.SetTrigger("pickup");
             isPicked = true;
-            GameManager.AcquiredCards += 1;
+            GameManager.Instance.AcquiredCards += 1;
             UIManager.Instance.UpdateKeycardsCounter(idx);
             D_onPickup?.Invoke();
         }
+    }
+
+    public void SetMinimapState(bool active)
+    {
+        minimapSprites.SetActive(active);
+        animator.Play("ANIM_Keycard_Idle");
     }
 
     public void OnPickAnimationEnd()

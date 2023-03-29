@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ElementSpawner : MonoBehaviour
 {
-
     public enum E_ElementToSpawn
     {
         RandomBaseZombie,

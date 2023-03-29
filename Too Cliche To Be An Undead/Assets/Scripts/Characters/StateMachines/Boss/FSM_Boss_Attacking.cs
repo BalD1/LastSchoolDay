@@ -54,7 +54,11 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
     {
         owner.CurrentAttack.attack.OnExit(owner);
         if (owner.CurrentAttack.attack.DamageOnTrigger) owner.d_EnteredTrigger -= OnTrigger;
-        if (owner.CurrentAttack.attack.DamageOnCollision) owner.d_EnteredCollider -= OnCollision;
+        if (owner.CurrentAttack.attack.DamageOnCollision)
+        {
+            owner.d_EnteredCollider -= OnCollision;
+            owner.D_entityEnteredCollider -= OnEntityCollision;
+        }
 
         owner.attacksPatern.D_paterneEnded -= SwitchToRecover;
         switchToRecover = false;
@@ -81,12 +85,17 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
     {
         owner.d_EnteredTrigger -= OnTrigger;
         owner.d_EnteredCollider -= OnCollision;
+        owner.D_entityEnteredCollider -= OnEntityCollision;
 
         SCRPT_EnemyAttack enemyAttack = owner.CurrentAttack.attack;
 
         // if the attack uses enemy's collisions trigger
         if (enemyAttack.DamageOnTrigger) owner.d_EnteredTrigger += OnTrigger;
-        if (enemyAttack.DamageOnCollision) owner.d_EnteredCollider += OnCollision;
+        if (owner.CurrentAttack.attack.DamageOnCollision)
+        {
+            owner.d_EnteredCollider += OnCollision;
+            owner.D_entityEnteredCollider += OnEntityCollision;
+        }
 
         // Set the anticipation anim
         owner.animationController.SetAnimation(owner.animationData.AttackAnticipAnim, true);
@@ -139,6 +148,13 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         if (p == null) return;
 
         p.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+    }
+    private void OnEntityCollision(Entity entity)
+    {
+        if (!owner.attackStarted) return;
+        if (entity == null) return;
+
+        entity.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
     }
     private void OnTrigger(Collider2D collider)
     {

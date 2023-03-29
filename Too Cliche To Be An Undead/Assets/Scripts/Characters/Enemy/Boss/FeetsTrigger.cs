@@ -8,10 +8,10 @@ public class FeetsTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision);
-        if (collision.GetComponent<PlayerCharacter>() == null) return;
+        PlayerCharacter player = collision.GetComponent<PlayerCharacter>();
+        if (player == null) return;
 
-        owner.d_EnteredCollider?.Invoke(null);
+        owner.D_entityEnteredCollider?.Invoke(player);
     }
 
     private void Reset()

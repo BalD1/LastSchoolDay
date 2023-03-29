@@ -118,8 +118,8 @@ public class ED_GameManager : Editor
         SerializedProperty shop = serializedObject.FindProperty("shop");
         EditorGUILayout.PropertyField(shop);
 
-        SerializedProperty fightArena = serializedObject.FindProperty("fightArena");
-        EditorGUILayout.PropertyField(fightArena);
+        SerializedProperty gymnasiumDoor = serializedObject.FindProperty("gymnasiumDoor");
+        EditorGUILayout.PropertyField(gymnasiumDoor);
 
         SerializedProperty tutorialObject = serializedObject.FindProperty("tutorialObject");
         EditorGUILayout.PropertyField(tutorialObject);
@@ -145,14 +145,16 @@ public class ED_GameManager : Editor
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Misc", EditorStyles.boldLabel);
 
-        int pastAcquired = GameManager.AcquiredCards;
-        GameManager.AcquiredCards = EditorGUILayout.DelayedIntField("Acquired Cards ", GameManager.AcquiredCards);
-        if (pastAcquired != GameManager.AcquiredCards) UIManager.Instance.UpdateKeycardsCounter(-1);
+        if (Application.isPlaying)
+        {
+            int pastAcquired = GameManager.Instance.AcquiredCards;
+            GameManager.Instance.AcquiredCards = EditorGUILayout.DelayedIntField("Acquired Cards ", GameManager.Instance.AcquiredCards);
+            if (pastAcquired != GameManager.Instance.AcquiredCards) UIManager.Instance.UpdateKeycardsCounter(-1);
 
-        int neededCards = GameManager.NeededCards;
-        GameManager.NeededCards = EditorGUILayout.DelayedIntField("Needed Cards ", GameManager.NeededCards);
-        if (neededCards != GameManager.NeededCards) UIManager.Instance.UpdateKeycardsCounter(-1);
-
+            int neededCards = GameManager.Instance.NeededCards;
+            GameManager.Instance.NeededCards = EditorGUILayout.DelayedIntField("Needed Cards ", GameManager.Instance.NeededCards);
+            if (neededCards != GameManager.Instance.NeededCards) UIManager.Instance.UpdateKeycardsCounter(-1);
+        }
 
         bool checkAllow = EditorGUILayout.Toggle("Allow Enemies", targetScript.AllowEnemies);
         if (checkAllow != targetScript.AllowEnemies) targetScript.AllowEnemies = checkAllow;

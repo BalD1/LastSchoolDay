@@ -14,6 +14,8 @@ public class PlayersScorePanelsController : MonoBehaviour
 
     [SerializeField] private WinScreen winScreen;
 
+    [SerializeField] private CanvasGroup canvasGroup;
+
     [SerializeField] private int singleKillValue = 100;
     [SerializeField] private int singleDamageDealtValue = 10;
     [SerializeField] private int singleDamageTakenValue = -5;
@@ -123,6 +125,10 @@ public class PlayersScorePanelsController : MonoBehaviour
     public void ShowButtonsPanel()
     {
         GameManager.Player1Ref.D_validateInput -= ShowButtonsPanel;
+
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+
         winScreen.ShowButtonsPanel();
     }
 }

@@ -363,12 +363,12 @@ public class UIManager : MonoBehaviour
     public void UpdateKeycardsCounter(int idx)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(GameManager.AcquiredCards);
+        sb.Append(GameManager.Instance.AcquiredCards);
         sb.Append(" / ");
-        sb.Append(GameManager.NeededCards);
+        sb.Append(GameManager.Instance.NeededCards);
         KeycardsCounters.text = sb.ToString();
 
-        if (GameManager.AcquiredCards == 0 || idx < 0 || idx >= HudKeycards.Length) return;
+        if (GameManager.Instance.AcquiredCards == 0 || idx < 0 || idx >= HudKeycards.Length) return;
 
         Image keycard = HudKeycards[idx];
         keycard.color = Color.white;

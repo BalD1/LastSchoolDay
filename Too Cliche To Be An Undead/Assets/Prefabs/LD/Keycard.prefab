@@ -51,6 +51,7 @@ MonoBehaviour:
   assets: {fileID: 11400000, guid: f5c36e904ecefac4095072e20cc9f36d, type: 2}
   spriteRenderer: {fileID: 7441331001678916852}
   animator: {fileID: 8435801021599636147}
+  minimapSprites: {fileID: 8869349945105264326}
 --- !u!61 &4759275655565604857
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -123,8 +124,8 @@ Transform:
   m_GameObject: {fileID: 6608008992214417120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.343, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4411075114079108187}
   m_RootOrder: 0
@@ -207,7 +208,7 @@ Transform:
   m_GameObject: {fileID: 8250468027851095285}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6137351037054757930}
@@ -291,8 +292,8 @@ Transform:
   m_GameObject: {fileID: 8869349945105264326}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.35, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8385174101528252762}
   m_Father: {fileID: 4411075114079108187}

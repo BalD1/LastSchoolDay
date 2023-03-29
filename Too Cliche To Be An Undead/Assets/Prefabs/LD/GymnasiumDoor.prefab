@@ -49,6 +49,7 @@ MonoBehaviour:
   skeleton: {fileID: 7397713013866692264}
   blocker: {fileID: 6438991138573227554}
   cinematic: {fileID: 0}
+  minimapGoal: {fileID: 775648357168590154}
   baseState: Porte 0 cles debloques
   firstKeyAnim: Porte 1 cles debloques
   secondKeyAnim: Porte 2 cles debloques
@@ -107,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 1794632116651097053}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.701, z: 0}
-  m_LocalScale: {x: 0.825, y: 1, z: 1}
+  m_LocalScale: {x: 2.77926, y: 3.3688, z: 3.3688}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6979774645651605812}
@@ -219,7 +220,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 215591473
   m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7397713013866692264
 MonoBehaviour:
@@ -336,7 +337,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -420,7 +421,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

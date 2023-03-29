@@ -11,6 +11,8 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
 
     [SerializeField] private GymnasiumCinematic cinematic;
 
+    [SerializeField] private Animator minimapGoal;
+
     [Header("Animations")]
 
     [SpineAnimation] [SerializeField] private string baseState;
@@ -37,6 +39,12 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
         animationsToPlay.Enqueue(thirdKeyAnim);
 
         cinematic.D_cinematicEnded += CloseDoor;
+        SetMiniampGoalState(false);
+    }
+
+    public void SetMiniampGoalState(bool state)
+    {
+        minimapGoal.gameObject.SetActive(state);
     }
 
     public bool CanBeInteractedWith()
@@ -60,13 +68,13 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
     {
         if (isOpen) return;
 
-        if (keycardsOfferedToDoor >= GameManager.NeededCards)
+        if (keycardsOfferedToDoor >= GameManager.Instance.NeededCards)
         {
             OnOpen();
             return;
         }
 
-        int keysToOffer = GameManager.AcquiredCards - keycardsOfferedToDoor;
+        int keysToOffer = GameManager.Instance.AcquiredCards - keycardsOfferedToDoor;
 
         if (keysToOffer <= 0)
         {
@@ -90,6 +98,8 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
         canBeInteracted = false;
         isOpen = true;
         cinematic.Begin();
+
+        SetMiniampGoalState(false);
     }
 
     private void CloseDoor() => skeleton.AnimationState.SetAnimation(0, baseState, false);
@@ -104,7 +114,7 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
 
     public void TryOpen()
     {
-        if (keycardsOfferedToDoor >= GameManager.NeededCards)
+        if (keycardsOfferedToDoor >= GameManager.Instance.NeededCards)
         {
             canBeInteracted = false;
         }

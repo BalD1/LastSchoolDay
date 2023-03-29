@@ -114,7 +114,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] public Tutorial Tuto;
     [SerializeField] public ShopTutorial ShopTuto;
 
-    [SerializeField] private FightArena fightArena;
+    [SerializeField] private SpineGymnasiumDoor gymnasiumDoor;
+    public SpineGymnasiumDoor GymnasiumDoor { get => gymnasiumDoor; }
 
     public List<PlayersByName> playersByName;
 
@@ -219,9 +220,20 @@ public class GameManager : MonoBehaviour
 
     public static float gameTimeSpeed = 1f;
 
-    public static int AcquiredCards { get; set; }
+    private int acquiredCards;
+    public int AcquiredCards
+    {
+        get => acquiredCards;
+        set
+        {
+            acquiredCards = value;
 
-    public static int NeededCards { get; set; }
+            if (acquiredCards >= neededCards && neededCards > 0) GymnasiumDoor.SetMiniampGoalState(true);
+        }
+    }
+
+    private int neededCards;
+    public int NeededCards { get => neededCards; set => neededCards = value; }
 
     private void Awake()
     {
@@ -376,11 +388,6 @@ public class GameManager : MonoBehaviour
     public void TeleportPlayerAtCameraCenter(int playerIdx)
     {
         playersByName[playerIdx].playerScript.gameObject.transform.position = CameraManager.Instance.gameObject.transform.position;
-    }
-
-    public void StartArena()
-    {
-        fightArena?.SpawnNext(0);
     }
 
     public Transform GetSpawnPoint(int playerId)

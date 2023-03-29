@@ -9,6 +9,8 @@ public class RoomMinimap : MonoBehaviour
 
     [SerializeField] private ElementSpawner roomKeycardSpawner;
 
+    private Keycard key;
+
     [SerializeField] private SCRPT_RoomMinimap roomMinimap;
 
     private bool hasKeycard;
@@ -21,15 +23,20 @@ public class RoomMinimap : MonoBehaviour
         minimapSprite_entry.color = roomMinimap.UndiscoveredColor;
     }
 
-    private void OnRoomSpawnedCard(Keycard key)
+    private void OnRoomSpawnedCard(Keycard _key)
     {
+        key = _key;
         hasKeycard = true;
         key.D_onPickup += ValidateRoom;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (hasKeycard) return;
+        if (hasKeycard)
+        {
+            key.SetMinimapState(true);
+            return;
+        }
 
         if (collision.GetComponent<PlayerCharacter>() == null) return;
 

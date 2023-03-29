@@ -248,7 +248,7 @@ public class SpawnersManager : MonoBehaviour
         if (randomSpawner >= keycardSpawners.Count) return;
 
         keycardSpawners[randomSpawner].SpawnElement();
-        GameManager.NeededCards += 1;
+        GameManager.Instance.NeededCards += 1;
 
         Destroy(keycardSpawners[randomSpawner].gameObject);
 

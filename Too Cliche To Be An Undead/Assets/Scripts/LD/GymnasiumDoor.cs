@@ -39,7 +39,7 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     private void InstantiateKeycardHolders()
     {
-        int neededCards = GameManager.NeededCards;
+        int neededCards = GameManager.Instance.NeededCards;
         keycardsHolders = new GameObject[neededCards];
         holderPosition = new Vector2[neededCards];
 
@@ -147,7 +147,7 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        int keysToOffer = GameManager.AcquiredCards - keycardsOfferedToDoor;
+        int keysToOffer = GameManager.Instance.AcquiredCards - keycardsOfferedToDoor;
 
         if (keysToOffer <= 0) return;
 
@@ -191,7 +191,7 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
 
     public void TryOpen()
     {
-        if (keycardsOfferedToDoor >= GameManager.NeededCards)
+        if (keycardsOfferedToDoor >= GameManager.Instance.NeededCards)
         {
             canBeInteracted = false;
             animator.SetTrigger("Open");
