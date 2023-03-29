@@ -21,6 +21,11 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineTargetGroup tg_players;
     private CinemachineBasicMultiChannelPerlin bmcp;
 
+    [field: SerializeField] public Camera minimapCamera { get; private set; }
+    [field: SerializeField] public Vector2 minimapCenterPosition { get; private set; }
+    [field: SerializeField] public float minimapOverviewSize { get; private set; }
+    [field: SerializeField] public float minimapNormalSize { get; private set; }
+
     [SerializeField] private Transform volumeTrigger;
 
     private float shake_TIMER;
@@ -68,6 +73,8 @@ public class CameraManager : MonoBehaviour
         mainCam = this.GetComponent<Camera>();
 
         UIManager.Instance.AddMakersInCollidersArray(markersColliders);
+
+        AttachMinimapCamera();
     }
 
     private void Update()
@@ -199,6 +206,32 @@ public class CameraManager : MonoBehaviour
         {
             cam_followPlayers.m_Lens.OrthographicSize = val;
         }).setOnComplete(onCompleteAction);
+    }
+
+    public void SetMinimapToOverview()
+    {
+        if (minimapCamera == null) return;
+
+        minimapCamera.transform.parent = null;
+
+        Vector3 minimapCamPos = minimapCenterPosition;
+        minimapCamPos.z = this.transform.position.z;
+        minimapCamera.transform.position = minimapCamPos;
+
+        minimapCamera.orthographicSize = minimapOverviewSize;
+    }
+
+    public void AttachMinimapCamera()
+    {
+        if (minimapCamera == null) return;
+
+        minimapCamera.transform.parent = this.transform;
+
+        Vector3 minimapCamPos = Vector2.zero;
+        minimapCamPos.z = this.transform.position.z;
+        minimapCamera.transform.localPosition = minimapCamPos;
+
+        minimapCamera.orthographicSize = minimapNormalSize;
     }
 
     public void SetTriggerParent(Transform newParent)

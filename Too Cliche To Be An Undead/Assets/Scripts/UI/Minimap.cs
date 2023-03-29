@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class Minimap : MonoBehaviour
 {
-    [SerializeField] private RectTransform selfRect;
+    [SerializeField] private RectTransform selfRectTransform;
 
-    [SerializeField] private RectTransform coinsRect;
-    [SerializeField] private RectTransform buttonTutoRect;
+    [SerializeField] private RectTransform coinsRectTransform;
+    [SerializeField] private RectTransform buttonTutoRectTransform;
 
-    private S_TargetRect baseSelfRect;
-    [SerializeField] private S_TargetRect selfRectScaledTarget;
+    private S_TargetRect selfRectScaleBase;
+    private S_TargetRect coinsRectScaleBase;
+    private S_TargetRect buttonTutoRectScaleBase;
+
+    [SerializeField] private S_TargetRect selfRectScaleTarget;
+    [SerializeField] private S_TargetRect coinsRectScaleTarget;
+    [SerializeField] private S_TargetRect buttonTutoRectScaleTarget;
 
     [SerializeField] private float scaleTime = .5f;
 
@@ -63,63 +68,97 @@ public class Minimap : MonoBehaviour
 
     [SerializeField] [ReadOnly]private bool isTweening = false;
 
-    [SerializeField] [ReadOnly]private bool baseScale = true;
+    [SerializeField] [ReadOnly]private bool isAtBaseScale = true;
 
     private void Start()
     {
-        baseSelfRect = new S_TargetRect(selfRect.anchorMin, selfRect.anchorMax);
+        // Get the base Rect of the elements;
+        selfRectScaleBase = new S_TargetRect(selfRectTransform.anchorMin, selfRectTransform.anchorMax);
+        coinsRectScaleBase = new S_TargetRect(coinsRectTransform.anchorMin, coinsRectTransform.anchorMax);
+        buttonTutoRectScaleBase = new S_TargetRect(buttonTutoRectTransform.anchorMin, buttonTutoRectTransform.anchorMax);
 
         GameManager.Player1Ref.D_secondContextAction += OnAskForScale;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            selfRect.anchorMin = baseSelfRect.min;
-            selfRect.anchorMax = baseSelfRect.max;
-            baseScale = true;
-            return;
-
-        }
-    }
-
     private void Reset()
     {
-        selfRect = this.GetComponent<RectTransform>();
+        selfRectTransform = this.GetComponent<RectTransform>();
     }
 
     private void OnAskForScale()
     {
         if (isTweening) return;
-
         isTweening = true;
+
+        if (isAtBaseScale) CameraManager.Instance.SetMinimapToOverview();
+        else CameraManager.Instance.AttachMinimapCamera();
 
         PerformScale();
     }
 
     private void PerformScale()
     {
-        S_TargetRect targetRect = new S_TargetRect();
+        S_TargetRect selfAlphaTarget = new S_TargetRect();
+        S_TargetRect coinsAlphaTarget = new S_TargetRect();
+        S_TargetRect buttonTutoAlphaTarget = new S_TargetRect();
 
-        if (baseScale)
+        if (isAtBaseScale)
         {
-            targetRect = selfRectScaledTarget;
-            targetRect -= baseSelfRect;
+            selfAlphaTarget = selfRectScaleTarget - selfRectScaleBase;
+            coinsAlphaTarget = coinsRectScaleTarget - coinsRectScaleBase;
+            buttonTutoAlphaTarget = buttonTutoRectScaleTarget - buttonTutoRectScaleBase;
         }
         else
         {
-            targetRect = baseSelfRect;
-            targetRect -= selfRectScaledTarget;
+            selfAlphaTarget = selfRectScaleBase - selfRectScaleTarget;
+            coinsAlphaTarget = coinsRectScaleBase - coinsRectScaleTarget;
+            buttonTutoAlphaTarget = buttonTutoRectScaleBase - buttonTutoRectScaleTarget;
         }
 
         LeanTween.value(0.1f, 1, scaleTime).setOnUpdate((float alpha) =>
         {
-            selfRect.anchorMin = (targetRect.min * alpha) + (baseScale ? baseSelfRect.min : selfRectScaledTarget.min);
-        }).setOnComplete(() =>
+            Vector2 selfScaleTo = isAtBaseScale ? selfRectScaleBase.min : selfRectScaleTarget.min;
+            CalculateMinRectDisplacement(ref selfRectTransform, selfScaleTo, selfAlphaTarget, alpha);
+
+            Vector2 coinsMinScaleTo = isAtBaseScale ? coinsRectScaleBase.min : coinsRectScaleTarget.min;
+            Vector2 coinsMaxScaleTo = isAtBaseScale ? coinsRectScaleBase.max : coinsRectScaleTarget.max;
+            CalculateRectDisplacement(ref coinsRectTransform, coinsMinScaleTo, coinsMaxScaleTo, coinsAlphaTarget, alpha);
+
+            Vector2 buttonMinScaleTo = isAtBaseScale ? buttonTutoRectScaleBase.min : buttonTutoRectScaleTarget.min;
+            Vector2 buttonMaxScaleTo = isAtBaseScale ? buttonTutoRectScaleBase.max : buttonTutoRectScaleTarget.max;
+            CalculateRectDisplacement(ref buttonTutoRectTransform, buttonMinScaleTo, buttonMaxScaleTo, buttonTutoAlphaTarget, alpha);
+
+        }).setEaseSpring().setOnComplete(() =>
         {
             isTweening = false;
-            baseScale = !baseScale;
+            isAtBaseScale = !isAtBaseScale;
         });
+    }
+
+    private void CalculateMinRectDisplacement(ref RectTransform rt, Vector2 scaleTo, S_TargetRect alphaTarget, float alpha)
+    {
+        Vector2 anchMin = DisplaceAnchors(alphaTarget.min,
+                                          alpha,
+                                          scaleTo);
+
+        rt.anchorMin = anchMin;
+    }
+    private void CalculateMaxRectDisplacement(ref RectTransform rt, Vector2 scaleTo, S_TargetRect alphaTarget, float alpha)
+    {
+        Vector2 anchMax = DisplaceAnchors(alphaTarget.min,
+                                          alpha,
+                                          scaleTo);
+
+        rt.anchorMax = anchMax;
+    }
+    private void CalculateRectDisplacement(ref RectTransform rt, Vector2 minScaleTo, Vector2 maxScaleTo, S_TargetRect alphaTarget, float alpha)
+    {
+        CalculateMinRectDisplacement(ref rt, minScaleTo, alphaTarget, alpha);
+        CalculateMaxRectDisplacement(ref rt, maxScaleTo, alphaTarget, alpha);
+    }
+
+    private Vector2 DisplaceAnchors(Vector2 alphaTarget, float alpha, Vector2 target)
+    {
+        return (alphaTarget * alpha) + target;
     }
 }
