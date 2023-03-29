@@ -107,6 +107,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SecondContextual"",
+                    ""type"": ""Button"",
+                    ""id"": ""8e210310-eda8-4476-b4f5-caaf17d5a970"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -393,6 +402,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""SelfRevive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dddd14d3-f45d-476e-b77b-f9094020cc07"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SecondContextual"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dec65bc4-43ef-4d7f-915f-0faae560eb15"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SecondContextual"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1566,6 +1597,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_InGame_StayStatic = m_InGame.FindAction("StayStatic", throwIfNotFound: true);
         m_InGame_Aim = m_InGame.FindAction("Aim", throwIfNotFound: true);
         m_InGame_SelfRevive = m_InGame.FindAction("SelfRevive", throwIfNotFound: true);
+        m_InGame_SecondContextual = m_InGame.FindAction("SecondContextual", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
@@ -1666,6 +1698,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_StayStatic;
     private readonly InputAction m_InGame_Aim;
     private readonly InputAction m_InGame_SelfRevive;
+    private readonly InputAction m_InGame_SecondContextual;
     public struct InGameActions
     {
         private @PlayerControls m_Wrapper;
@@ -1679,6 +1712,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @StayStatic => m_Wrapper.m_InGame_StayStatic;
         public InputAction @Aim => m_Wrapper.m_InGame_Aim;
         public InputAction @SelfRevive => m_Wrapper.m_InGame_SelfRevive;
+        public InputAction @SecondContextual => m_Wrapper.m_InGame_SecondContextual;
         public InputActionMap Get() { return m_Wrapper.m_InGame; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1715,6 +1749,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @SelfRevive.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnSelfRevive;
                 @SelfRevive.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnSelfRevive;
                 @SelfRevive.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnSelfRevive;
+                @SecondContextual.started -= m_Wrapper.m_InGameActionsCallbackInterface.OnSecondContextual;
+                @SecondContextual.performed -= m_Wrapper.m_InGameActionsCallbackInterface.OnSecondContextual;
+                @SecondContextual.canceled -= m_Wrapper.m_InGameActionsCallbackInterface.OnSecondContextual;
             }
             m_Wrapper.m_InGameActionsCallbackInterface = instance;
             if (instance != null)
@@ -1746,6 +1783,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @SelfRevive.started += instance.OnSelfRevive;
                 @SelfRevive.performed += instance.OnSelfRevive;
                 @SelfRevive.canceled += instance.OnSelfRevive;
+                @SecondContextual.started += instance.OnSecondContextual;
+                @SecondContextual.performed += instance.OnSecondContextual;
+                @SecondContextual.canceled += instance.OnSecondContextual;
             }
         }
     }
@@ -2080,6 +2120,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnStayStatic(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnSelfRevive(InputAction.CallbackContext context);
+        void OnSecondContextual(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

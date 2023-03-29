@@ -553,6 +553,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0f793c73-1ea4-4444-ac74-ee7b1062927f
     m_ActionName: UI/FourthAction
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8823656354733599271}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: SecondContextual
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8e210310-eda8-4476-b4f5-caaf17d5a970
+    m_ActionName: InGame/SecondContextual[/Keyboard/tab,/XInputControllerWindows/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: InGame

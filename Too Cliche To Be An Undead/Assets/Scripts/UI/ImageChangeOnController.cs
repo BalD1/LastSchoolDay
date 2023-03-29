@@ -1,13 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem.DualShock;
-using UnityEngine.InputSystem.Switch;
-using UnityEngine.InputSystem.XInput;
-using UnityEngine.InputSystem;
-using static ButtonsImageByDevice;
 
 public class ImageChangeOnController : MonoBehaviour
 {

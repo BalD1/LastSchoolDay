@@ -183,6 +183,9 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_FourthActionButton();
     public D_FourthActionButton D_fourthActionButton;
 
+    public delegate void D_SecondContextAction();
+    public D_SecondContextAction D_secondContextAction;
+
     public delegate void D_IndexChange(int newIdx);
     public D_IndexChange D_indexChange;
 
@@ -840,6 +843,11 @@ public class PlayerCharacter : Entity, IInteractable
             selfReviveCount -= 1;
             Revive();
         }
+    }
+
+    public void SecondContextual(InputAction.CallbackContext context)
+    {
+        if (context.performed) D_secondContextAction?.Invoke();
     }
 
     #endregion

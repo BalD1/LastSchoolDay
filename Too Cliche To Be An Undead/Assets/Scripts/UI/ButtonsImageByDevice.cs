@@ -1,11 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.DualShock;
-using UnityEngine.InputSystem.Switch;
-using UnityEngine.InputSystem.XInput;
-using UnityEngine.UI;
 
 public class ButtonsImageByDevice : MonoBehaviour
 {
@@ -24,6 +17,7 @@ public class ButtonsImageByDevice : MonoBehaviour
     [field: SerializeField] public S_ImageByDevice[] ValidateButtonImagesByDevice { get; private set; }
     [field: SerializeField] public S_ImageByDevice[] ThirdButtonImagesByDevice { get; private set; }
     [field: SerializeField] public S_ImageByDevice[] FourthButtonImagesByDevice { get; private set; }
+    [field: SerializeField] public S_ImageByDevice[] SecondaryContextualImagesByDevice { get; private set; }
 
     [System.Serializable]
     public struct S_ImageByDevice
@@ -37,7 +31,8 @@ public class ButtonsImageByDevice : MonoBehaviour
         Back,
         Validate,
         Third,
-        Fourth
+        Fourth,
+        SecondaryContextual,
     }
 
     public Sprite GetButtonImage(E_ButtonType buttonType, PlayerCharacter.E_Devices device)
@@ -55,6 +50,9 @@ public class ButtonsImageByDevice : MonoBehaviour
 
             case E_ButtonType.Fourth:
                 return GetImageFromArray(device, FourthButtonImagesByDevice);
+
+            case E_ButtonType.SecondaryContextual:
+                return GetImageFromArray(device, SecondaryContextualImagesByDevice);
         }
 
         return null;
