@@ -136,6 +136,12 @@ public class DataKeeper : MonoBehaviour
         }
     }
 
+    public PlayerCharacter GetPlayerFromIndex(int idx)
+    {
+        PlayerDataKeep playerData = playersDataKeep[idx];
+        return playerData.playerInput.GetComponentInParent<PlayerCharacter>();
+    }
+
     private void Awake()
     {
         if (instance == null)

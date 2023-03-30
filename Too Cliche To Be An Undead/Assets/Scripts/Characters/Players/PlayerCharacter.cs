@@ -406,7 +406,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         CheckCurrentDevice();
 
-        GameManager.Instance.D_onPlayerIsSetup(this.PlayerIndex);
+        GameManager.Instance.D_onPlayerIsSetup?.Invoke(this.playerIndex);
     }
 
     protected override void Update()

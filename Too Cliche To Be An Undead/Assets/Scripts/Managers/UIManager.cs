@@ -250,7 +250,9 @@ public class UIManager : MonoBehaviour
 
     private void SetPlayerColliderArray(int idx)
     {
-        playersColliders[idx] = GameManager.Instance.playersByName[idx].playerScript.HUDBoundsTrigger;
+        // TEMP
+        PlayerCharacter player = DataKeeper.Instance.GetPlayerFromIndex(idx);
+        playersColliders[idx] = player.HUDBoundsTrigger;
     }
 
     public void AddBossCollider(Collider2D collider)
