@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UIManager;
-//using static UnityEditor.Progress;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -161,7 +159,6 @@ public class DialogueManager : MonoBehaviour
 
             return;
         }
-
         ShowNextLine();
     }
 
@@ -267,7 +264,7 @@ public class DialogueManager : MonoBehaviour
             .setOnComplete(
             () =>
             {
-                if (currentDialogue.ignoreGameState == false)
+                if (currentDialogue?.ignoreGameState == false)
                     GameManager.Instance.GameState = GameManager.E_GameState.InGame;
 
                 if (GameManager.Instance.IsInTutorial) UIManager.Instance.FadeTutoHUD(true);
@@ -275,8 +272,6 @@ public class DialogueManager : MonoBehaviour
                 endDialogueAction?.Invoke();
                 ResetDialogue();
             });
-
-        //PostproManager.Instance.SetBlurState(true);
     }
 
     public void ForceStopDialogue()
@@ -291,6 +286,7 @@ public class DialogueManager : MonoBehaviour
 
     private void ResetDialogue()
     {
+        currentDialogue = null;
         UnfinishedEffectsCount = 0;
         currentLineIndex = -1;
         pressKeyToContinue.alpha = 0;

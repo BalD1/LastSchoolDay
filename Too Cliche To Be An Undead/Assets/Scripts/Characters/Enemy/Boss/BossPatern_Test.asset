@@ -16,6 +16,22 @@ MonoBehaviour:
   <firstStagePaterns>k__BackingField:
   - <attackWithCooldown>k__BackingField:
     - <attack>k__BackingField: {fileID: 11400000, guid: 6450b3503ca96ce4ca9157cde91c237d, type: 2}
-      <timeBeforeNext>k__BackingField: 0
-    <recoverTime>k__BackingField: 1e+16
-  <secondStagePaterns>k__BackingField: []
+      <timeBeforeNext>k__BackingField: 0.2
+    - <attack>k__BackingField: {fileID: 11400000, guid: 6450b3503ca96ce4ca9157cde91c237d, type: 2}
+      <timeBeforeNext>k__BackingField: 0.2
+    - <attack>k__BackingField: {fileID: 11400000, guid: 6450b3503ca96ce4ca9157cde91c237d, type: 2}
+      <timeBeforeNext>k__BackingField: 0.2
+    - <attack>k__BackingField: {fileID: 11400000, guid: 6450b3503ca96ce4ca9157cde91c237d, type: 2}
+      <timeBeforeNext>k__BackingField: 0.2
+    <recoverTime>k__BackingField: 1
+  <secondStagePaterns>k__BackingField:
+  - <attackWithCooldown>k__BackingField:
+    - <attack>k__BackingField: {fileID: 11400000, guid: 6450b3503ca96ce4ca9157cde91c237d, type: 2}
+      <timeBeforeNext>k__BackingField: 0.2
+    - <attack>k__BackingField: {fileID: 11400000, guid: 6450b3503ca96ce4ca9157cde91c237d, type: 2}
+      <timeBeforeNext>k__BackingField: 0.2
+    - <attack>k__BackingField: {fileID: 11400000, guid: 6450b3503ca96ce4ca9157cde91c237d, type: 2}
+      <timeBeforeNext>k__BackingField: 0.2
+    - <attack>k__BackingField: {fileID: 11400000, guid: 6450b3503ca96ce4ca9157cde91c237d, type: 2}
+      <timeBeforeNext>k__BackingField: 0.2
+    <recoverTime>k__BackingField: 1

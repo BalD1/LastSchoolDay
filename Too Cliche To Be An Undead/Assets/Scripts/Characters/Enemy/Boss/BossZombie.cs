@@ -46,7 +46,22 @@ public class BossZombie : EnemyBase
 
     [field: SerializeField] private float onSpawnAttackCooldown = 1.5f;
 
+    [field: SerializeField] public bool IsAttacking = false;
+
+    public delegate void D_StartedAttack();
+    public D_StartedAttack D_startedAttack;
+
+    public delegate void D_CurrentAttackEnded();
+    public D_CurrentAttackEnded D_currentAttackEnded;
+
     private bool deathFlag = false;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        D_startedAttack += () => IsAttacking = true;
+        D_currentAttackEnded += () => IsAttacking = false;
+    }
 
     protected override void Start()
     {
@@ -109,6 +124,9 @@ public class BossZombie : EnemyBase
         if (deathFlag) return;
 
         deathFlag = true;
+
+        stateManager.SwitchState(stateManager.deadState);
+
         d_OnDeath?.Invoke();
         GameManager.Instance.D_bossFightEnded?.Invoke();
 
@@ -118,8 +136,7 @@ public class BossZombie : EnemyBase
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
-        stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
-        this.attackTelegraph.CancelTelegraph();
+        this.AddModifier("SLOW", -1, duration, StatsModifier.E_StatType.Speed);
     }
 
     public void TargetClosestPlayer()

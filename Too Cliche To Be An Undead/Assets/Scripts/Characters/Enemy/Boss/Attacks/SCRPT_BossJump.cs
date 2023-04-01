@@ -79,22 +79,28 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
 
                     CameraManager.Instance.ShakeCamera(2.5f, 1);
 
-                    // get target in range and damage them
-                    Collider2D[] hitEntities = Physics2D.OverlapCircleAll((Vector2)owner.attackTelegraph.transform.position, attackRange, entitiesToAffect);
-
-                    foreach (var item in hitEntities)
+                    if (owner.IsAlive())
                     {
-                        Entity e = item.GetComponent<Entity>();
+                        // get target in range and damage them
+                        Collider2D[] hitEntities = Physics2D.OverlapCircleAll((Vector2)owner.attackTelegraph.transform.position, attackRange, entitiesToAffect);
 
-                        if (e == null) continue;
+                        foreach (var item in hitEntities)
+                        {
+                            Entity e = item.GetComponent<Entity>();
 
-                        e.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+                            if (e == null) continue;
+
+                            e.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+                        }
                     }
                 });
 
-                Vector2 telegraphSize = currentAttack.telegraphVectorSize != Vector2.zero ? currentAttack.telegraphVectorSize : new Vector2(currentAttack.AttackDistance, currentAttack.AttackDistance);
+                if (owner.IsAlive())
+                {
+                    Vector2 telegraphSize = currentAttack.telegraphVectorSize != Vector2.zero ? currentAttack.telegraphVectorSize : new Vector2(currentAttack.AttackDistance, currentAttack.AttackDistance);
 
-                owner.attackTelegraph.Setup(telegraphSize, currentAttack.attackOffset, Quaternion.identity, currentAttack.telegraphSprite, 1);
+                    owner.attackTelegraph.Setup(telegraphSize, currentAttack.attackOffset, Quaternion.identity, currentAttack.telegraphSprite, 1);
+                }
             });
         });
     }

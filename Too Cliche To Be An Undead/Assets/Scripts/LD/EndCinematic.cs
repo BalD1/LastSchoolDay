@@ -36,8 +36,6 @@ public class EndCinematic : MonoBehaviour, IInteractable
 
         CameraManager.Instance.MoveCamera(boss.transform.position, () =>
         {
-            boss.animationController.SetAnimation(boss.animationData.DeathAnim, false);
-
             LeanTween.delayedCall(1, () =>
             {
                 DialogueManager.Instance.TryStartDialogue(onBossKillDialogue,

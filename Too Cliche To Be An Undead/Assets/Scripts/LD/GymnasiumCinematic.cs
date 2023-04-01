@@ -71,7 +71,7 @@ public class GymnasiumCinematic : MonoBehaviour
                                     {
                                         UIManager.Instance.SetBlackBars(false);
                                         UIManager.Instance.FadeAllHUD(true);
-                                        DialogueManager.Instance.ForceStopDialogue();
+                                        //DialogueManager.Instance.ForceStopDialogue();
                                         D_cinematicEnded?.Invoke();
                                         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
                                         boss.SetIsAppeared();

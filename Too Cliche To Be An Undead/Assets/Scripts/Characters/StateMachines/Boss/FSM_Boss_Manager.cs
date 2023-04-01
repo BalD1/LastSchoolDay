@@ -11,6 +11,7 @@ public class FSM_Boss_Manager : FSM_ManagerBase
     public FSM_Boss_Chasing chasingState = new FSM_Boss_Chasing();
     public FSM_Boss_Stun stunnedState = new FSM_Boss_Stun();
     public FSM_Boss_Recovering recoveringState = new FSM_Boss_Recovering();
+    public FSM_Boss_Dead deadState = new FSM_Boss_Dead();
 
     private FSM_Base<FSM_Boss_Manager> currentState;
     public FSM_Base<FSM_Boss_Manager> CurrentState { get => currentState; }
@@ -54,6 +55,8 @@ public class FSM_Boss_Manager : FSM_ManagerBase
 
     public void SwitchState(FSM_Base<FSM_Boss_Manager> newState)
     {
+        if (currentState == deadState) return;
+
         currentState?.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
