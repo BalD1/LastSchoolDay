@@ -14,12 +14,12 @@ public class SCRPT_NZ_DashAttack : SCRPT_EnemyAttack
         owner.enemiesBlocker.enabled = false;
         Vector2 dir = _owner.AttackDirection;
 
+        _owner.attackTrigger.enabled = false;
+        _owner.attackTrigger.enabled = true;
+
         owner.GetRb.AddForce(dir * attackForce, ForceMode2D.Impulse);
 
         _owner.attackStarted = true;
-
-        _owner.attackTrigger.enabled = false;
-        _owner.attackTrigger.enabled = true;
     }
 
     public override void OnUpdate(EnemyBase owner)

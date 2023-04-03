@@ -146,7 +146,8 @@ public class GameManager : MonoBehaviour
         Pause,
         Restricted,
         Win,
-        GameOver
+        GameOver,
+        None,
     }
 
     private E_GameState gameState;

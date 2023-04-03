@@ -18,6 +18,8 @@ public class ButtonsImageByDevice : MonoBehaviour
     [field: SerializeField] public S_ImageByDevice[] ThirdButtonImagesByDevice { get; private set; }
     [field: SerializeField] public S_ImageByDevice[] FourthButtonImagesByDevice { get; private set; }
     [field: SerializeField] public S_ImageByDevice[] SecondaryContextualImagesByDevice { get; private set; }
+    [field: SerializeField] public S_ImageByDevice[] DialogueLineSkipImagesByDevice { get; private set; }
+    [field: SerializeField] public S_ImageByDevice[] DialogueWholeSkipImagesByDevice { get; private set; }
 
     [System.Serializable]
     public struct S_ImageByDevice
@@ -33,6 +35,8 @@ public class ButtonsImageByDevice : MonoBehaviour
         Third,
         Fourth,
         SecondaryContextual,
+        DialogueLineSkip,
+        DialogeWholeSkip,
     }
 
     public Sprite GetButtonImage(E_ButtonType buttonType, PlayerCharacter.E_Devices device)
@@ -53,6 +57,12 @@ public class ButtonsImageByDevice : MonoBehaviour
 
             case E_ButtonType.SecondaryContextual:
                 return GetImageFromArray(device, SecondaryContextualImagesByDevice);
+
+            case E_ButtonType.DialogueLineSkip:
+                return GetImageFromArray(device, DialogueLineSkipImagesByDevice);
+
+            case E_ButtonType.DialogeWholeSkip:
+                return GetImageFromArray(device, DialogueWholeSkipImagesByDevice);
         }
 
         return null;

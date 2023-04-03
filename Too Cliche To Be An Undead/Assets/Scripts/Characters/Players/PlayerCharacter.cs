@@ -117,6 +117,53 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private PlayerInput inputs;
 
+    private InputAction movementsAction;
+
+    public GameObject PivotOffset { get => pivotOffset; }
+    public PlayerAnimationController AnimationController { get => animationController; }
+    public FSM_Player_Manager StateManager { get => stateManager; }
+    public PlayerInteractor GetInteractor { get => selfInteractor; }
+    public PlayerWeapon Weapon { get => weapon; }
+    public SkillHolder GetSkillHolder { get => skillHolder; }
+    public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
+    public Animator SkillTutoAnimator { get => skillTutorialAnimator; }
+    public Image SkillDurationIcon { get => skillDurationIcon; }
+    public Image GetSkillIcon { get => skillIcon; }
+    public TextMeshPro SelfReviveText { get => selfReviveText; }
+    public Vector2 Velocity { get => velocity; }
+    public PlayerInput Inputs { get => inputs; }
+    public int Money { get => money; }
+    public int PlayerIndex { get => playerIndex; }
+    public int Level { get => level; }
+    public float DyingState_DURATION { get => dyingState_DURATION; }
+    public SCRPT_Dash PlayerDash { get => playerDash; }
+    public List<EnemyBase> Attackers { get => attackers; }
+    public Vector2 LastDirection { get => lastDirection; set => lastDirection = value; }
+
+    [field: SerializeField] public int KillsCount { get; private set; }
+    [field: SerializeField] public int DamagesDealt { get; private set; }
+    [field: SerializeField] public int DamagesTaken { get; private set; }
+
+    public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
+    public const string SCHEME_GAMEPAD = "Gamepad";
+
+    public E_Devices currentDeviceType { get; private set; }
+    private string currentDeviceName = "";
+
+    private float gamepadShake_TIMER;
+
+#if UNITY_EDITOR
+    public bool debugPush;
+    private Vector2 gizmosMouseDir;
+    private Ray gizmosPushRay;
+    private float gizmosPushEnd;
+    private float gizmosPushDrag;
+#endif
+
+    #endregion
+
+    #region Delegates
+
     public delegate void D_SwitchCharacter();
     public D_SwitchCharacter D_switchCharacter;
 
@@ -191,50 +238,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     public delegate void D_OnFootPrint();
     public D_OnFootPrint D_onFootPrint;
-
-    private InputAction movementsAction;
-
-    public GameObject PivotOffset { get => pivotOffset; }
-    public PlayerAnimationController AnimationController { get => animationController; }
-    public FSM_Player_Manager StateManager { get => stateManager; }
-    public PlayerInteractor GetInteractor { get => selfInteractor; }
-    public PlayerWeapon Weapon { get => weapon; }
-    public SkillHolder GetSkillHolder { get => skillHolder; }
-    public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
-    public Animator SkillTutoAnimator { get => skillTutorialAnimator; }
-    public Image SkillDurationIcon { get => skillDurationIcon; }
-    public Image GetSkillIcon { get => skillIcon; }
-    public TextMeshPro SelfReviveText { get => selfReviveText; }
-    public Vector2 Velocity { get => velocity; }
-    public PlayerInput Inputs { get => inputs; }
-    public int Money { get => money; }
-    public int PlayerIndex { get => playerIndex; }
-    public int Level { get => level; }
-    public float DyingState_DURATION { get => dyingState_DURATION; }
-    public SCRPT_Dash PlayerDash { get => playerDash; }
-    public List<EnemyBase> Attackers { get => attackers; }
-    public Vector2 LastDirection { get => lastDirection; set => lastDirection = value; }
-
-    [field: SerializeField] public int KillsCount { get; private set; }
-    [field: SerializeField] public int DamagesDealt { get; private set; }
-    [field: SerializeField] public int DamagesTaken { get; private set; }
-
-    public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
-    public const string SCHEME_GAMEPAD = "Gamepad";
-
-    public E_Devices currentDeviceType { get; private set; }
-    private string currentDeviceName = "";
-
-    private float gamepadShake_TIMER;
-
-#if UNITY_EDITOR
-    public bool debugPush;
-    private Vector2 gizmosMouseDir;
-    private Ray gizmosPushRay;
-    private float gizmosPushEnd;
-    private float gizmosPushDrag;
-#endif
-
     #endregion
 
     #region A/S/U/F
@@ -281,7 +284,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         this.stateManager.SwitchState(stateManager.idleState, true);
 
-        GameManager.Instance.D_onPlayerIsSetup(this.PlayerIndex);
+        GameManager.Instance.D_onPlayerIsSetup?.Invoke(this.playerIndex);
     }
 
     private void ResetEndStats()
@@ -946,6 +949,11 @@ public class PlayerCharacter : Entity, IInteractable
     public void ContinueDialogue(InputAction.CallbackContext context)
     {
         if (context.performed) DialogueManager.Instance.TryNextLine();
+    }
+
+    public void SkipDialogue(InputAction.CallbackContext context)
+    {
+        if (context.performed) DialogueManager.Instance.TrySkip();
     }
 
         #endregion

@@ -29,6 +29,7 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] private CanvasGroup stampsCounter;
     [SerializeField] private Image uiFiller;
     [SerializeField] private TextMeshProUGUI uiCounter;
+    [SerializeField] private TextMeshProUGUI uiStamp;
 
     [field: SerializeField] public AnimationCurve maxZombiesInSchoolByTime { get; private set; }
     [field: SerializeField] public AnimationCurve zombiesSpawnCooldown { get; private set; }
@@ -185,6 +186,8 @@ public class SpawnersManager : MonoBehaviour
         });
 
         spawnStamp++;
+
+        uiStamp.text = spawnStamp.ToString();
 
         RectTransform stampContainerRT = stampsCounter.GetComponent<RectTransform>();
         LeanTween.scale(stampContainerRT, Vector3.one * 1.3f, .25f).setLoopPingPong(1);

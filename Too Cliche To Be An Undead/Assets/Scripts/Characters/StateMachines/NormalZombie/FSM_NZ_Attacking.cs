@@ -54,6 +54,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         SCRPT_EnemyAttack enemyAttack = enemyAttacksArray[currentAttackIdx];
 
         if (enemyAttack.DamageOnTrigger) owner.d_EnteredTrigger += OnTrigger;
+        if (enemyAttack.DamageOnCollision) owner.d_EnteredCollider += OnCollision;
 
         Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
         float lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -180,6 +181,25 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         if (attack_TIMER <= 0) stateManager.SwitchState(stateManager.chasingState);
     }
 
+    private void OnCollision(Collision2D collision)
+    {
+        if (!owner.attackStarted) return;
+        if (collision == null) return;
+
+        if (collision.transform.parent == null) return;
+
+        PlayerCharacter p = collision.gameObject.GetComponent<PlayerCharacter>();
+        if (p == null) return;
+
+        p.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+    }
+    private void OnEntityCollision(Entity entity)
+    {
+        if (!owner.attackStarted) return;
+        if (entity == null) return;
+
+        entity.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+    }
     private void OnTrigger(Collider2D collider)
     {
         if (!owner.attackStarted) return;

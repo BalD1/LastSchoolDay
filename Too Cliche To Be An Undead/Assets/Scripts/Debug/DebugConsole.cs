@@ -380,14 +380,14 @@ public class DebugConsole : MonoBehaviour
     /// </summary>
     public void OnToggleConsole()
     {
-        stateBeforeConsole = GameManager.Instance.GameState;
-
-        allowGameChange = stateBeforeConsole == GameManager.E_GameState.InGame;
-
         showConsole = !showConsole;
 
         if (showConsole)
         {
+            stateBeforeConsole = GameManager.Instance.GameState;
+
+            allowGameChange = stateBeforeConsole == GameManager.E_GameState.InGame;
+
             // Toggles the console, reset the field and blocks the game
             if (allowGameChange)
                 GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
@@ -396,7 +396,7 @@ public class DebugConsole : MonoBehaviour
         }
         else
         {
-            if (allowGameChange) GameManager.Instance.GameState = stateBeforeConsole;
+            if (allowGameChange && stateBeforeConsole != GameManager.E_GameState.None) GameManager.Instance.GameState = stateBeforeConsole;
         }
     }
 
@@ -410,6 +410,9 @@ public class DebugConsole : MonoBehaviour
 
             if (allowGameChange)
                  GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+
+            allowGameChange = false;
+            stateBeforeConsole = GameManager.E_GameState.None;
 
             showConsole = false;
         }

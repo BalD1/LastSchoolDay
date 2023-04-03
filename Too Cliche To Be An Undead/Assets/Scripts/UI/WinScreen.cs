@@ -37,6 +37,8 @@ public class WinScreen : MonoBehaviour
     {
         float leanTime = .25f;
 
+        UIManager.Instance.FadeScreen(false);
+
         yield return new WaitForSecondsRealtime(2);
 
         youSurvivedImage.LeanAlpha(1, leanTime).setIgnoreTimeScale(true);

@@ -379,6 +379,21 @@ public class Entity : MonoBehaviour, IDamageable
     {
         AddModifierUnique(id, value, -1, type);
     }
+    public void AddModifierUnique(string id, float value, float time, StatsModifier.E_StatType type)
+    {
+        StatsModifier sM = SearchModifier(id);
+        if (sM != null)
+        {
+            sM.ResetTimer();
+            return;
+        }
+
+        AddModifier(id, value, type);
+    }
+    public void AddModifierUnique(string id, float value, StatsModifier.E_StatType type)
+    {
+        AddModifier(id, value, -1, type);
+    }
 
     public void RemoveModifier(string id)
     {

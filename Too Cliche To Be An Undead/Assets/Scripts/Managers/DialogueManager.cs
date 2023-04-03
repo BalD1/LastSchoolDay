@@ -29,7 +29,13 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Image dialoguePortrait;
 
     [SerializeField] private TextMeshProUGUI dialogueText;
-    [SerializeField] private TextMeshProUGUI pressKeyToContinue;
+    [SerializeField] private CanvasGroup pressKeyToContinue;
+    [SerializeField] private RectTransform pressKeyToContinueRT;
+
+    [SerializeField] private Button skipButton;
+
+    public delegate void D_SkipDialogue();
+    public D_SkipDialogue D_skipDialogue;
 
     [field: SerializeField] public SCRPT_SingleDialogue[] Dialogues { get; private set; }
 
@@ -66,6 +72,11 @@ public class DialogueManager : MonoBehaviour
         instance = this;
 
         ResetDialogue();
+    }
+
+    private void Start()
+    {
+        skipButton?.onClick.AddListener(TrySkip);
     }
 
     private void Update()
@@ -105,6 +116,15 @@ public class DialogueManager : MonoBehaviour
         Debug.LogErrorFormat($"{searchedID} was not found in {Dialogues} array."); 
 #endif
         return false;
+    }
+
+    public void TrySkip()
+    {
+        Debug.Log("try skip");
+        D_skipDialogue?.Invoke();
+        D_skipDialogue = null;
+
+        EndDialogue();
     }
 
     /// <summary>
@@ -168,7 +188,10 @@ public class DialogueManager : MonoBehaviour
     private void ShowNextLine()
     {
         if (currentLineIndex == -1) currentLineIndex = 0;
-        if (currentLineIndex >= currentDialogue.dialogueLines.Length)
+        if (currentDialogue == null || currentDialogue.dialogueLines == null) End();
+        if (currentLineIndex >= currentDialogue.dialogueLines.Length) End();
+
+        void End()
         {
             EndDialogue();
             return;
@@ -235,6 +258,7 @@ public class DialogueManager : MonoBehaviour
         currentLine.eventToPlayAfterText?.Invoke();
 
         LeanTween.cancel(pressKeyToContinue.gameObject);
+        LeanTween.cancel(pressKeyToContinueRT.gameObject);
         LeanTween.value(pressKeyToContinue.alpha, 1, .2f).setOnUpdate(
             (float val) =>
             {
@@ -249,7 +273,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (pressKeyToContinue == null) return;
 
-        LeanTween.scale(pressKeyToContinue.rectTransform, Vector3.one * 1.2f, 0.5f).setLoopPingPong();
+        LeanTween.scale(pressKeyToContinueRT, Vector3.one * 1.2f, 0.5f).setLoopPingPong();
     }
 
     /// <summary>
@@ -292,6 +316,9 @@ public class DialogueManager : MonoBehaviour
         pressKeyToContinue.alpha = 0;
         endDialogueAction = null;
         pauseOnIndexQueue.Clear();
+
+        LeanTween.cancel(pressKeyToContinue.gameObject);
+        LeanTween.cancel(pressKeyToContinueRT.gameObject);
     }
 
     private void ManageEffects(SCRPT_SingleDialogue.DialogueEffect lineEffect)

@@ -1473,6 +1473,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SkipDialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""17682a32-681e-4ba1-a92a-9f9318feeab9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1517,6 +1526,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Gamepad"",
                     ""action"": ""ShowNextLine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b3fcf62-f07d-441b-9c21-2c92a3b834fb"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SkipDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb061427-5091-425c-807f-ced1b99e6453"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SkipDialogue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1630,6 +1661,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // Dialogue
         m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
         m_Dialogue_ShowNextLine = m_Dialogue.FindAction("ShowNextLine", throwIfNotFound: true);
+        m_Dialogue_SkipDialogue = m_Dialogue.FindAction("SkipDialogue", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -2036,11 +2068,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Dialogue;
     private IDialogueActions m_DialogueActionsCallbackInterface;
     private readonly InputAction m_Dialogue_ShowNextLine;
+    private readonly InputAction m_Dialogue_SkipDialogue;
     public struct DialogueActions
     {
         private @PlayerControls m_Wrapper;
         public DialogueActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @ShowNextLine => m_Wrapper.m_Dialogue_ShowNextLine;
+        public InputAction @SkipDialogue => m_Wrapper.m_Dialogue_SkipDialogue;
         public InputActionMap Get() { return m_Wrapper.m_Dialogue; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2053,6 +2087,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShowNextLine.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnShowNextLine;
                 @ShowNextLine.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnShowNextLine;
                 @ShowNextLine.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnShowNextLine;
+                @SkipDialogue.started -= m_Wrapper.m_DialogueActionsCallbackInterface.OnSkipDialogue;
+                @SkipDialogue.performed -= m_Wrapper.m_DialogueActionsCallbackInterface.OnSkipDialogue;
+                @SkipDialogue.canceled -= m_Wrapper.m_DialogueActionsCallbackInterface.OnSkipDialogue;
             }
             m_Wrapper.m_DialogueActionsCallbackInterface = instance;
             if (instance != null)
@@ -2060,6 +2097,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShowNextLine.started += instance.OnShowNextLine;
                 @ShowNextLine.performed += instance.OnShowNextLine;
                 @ShowNextLine.canceled += instance.OnShowNextLine;
+                @SkipDialogue.started += instance.OnSkipDialogue;
+                @SkipDialogue.performed += instance.OnSkipDialogue;
+                @SkipDialogue.canceled += instance.OnSkipDialogue;
             }
         }
     }
@@ -2155,5 +2195,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IDialogueActions
     {
         void OnShowNextLine(InputAction.CallbackContext context);
+        void OnSkipDialogue(InputAction.CallbackContext context);
     }
 }

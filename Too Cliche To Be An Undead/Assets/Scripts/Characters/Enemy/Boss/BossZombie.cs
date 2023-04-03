@@ -136,7 +136,7 @@ public class BossZombie : EnemyBase
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
-        this.AddModifier("SLOW", -1, duration, StatsModifier.E_StatType.Speed);
+        this.AddModifierUnique("SLOW", -1, duration, StatsModifier.E_StatType.Speed);
     }
 
     public void TargetClosestPlayer()
