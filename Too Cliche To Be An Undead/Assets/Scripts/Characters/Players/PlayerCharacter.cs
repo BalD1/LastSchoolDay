@@ -1335,6 +1335,11 @@ public class PlayerCharacter : Entity, IInteractable
         d_EnteredCollider?.Invoke(collision);
     }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        d_ExitedCollider?.Invoke(collision);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))

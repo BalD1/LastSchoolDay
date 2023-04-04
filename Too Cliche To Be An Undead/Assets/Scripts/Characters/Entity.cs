@@ -152,6 +152,9 @@ public class Entity : MonoBehaviour, IDamageable
     public delegate void D_enteredCollider(Collision2D collision);
     public D_enteredCollider d_EnteredCollider;
 
+    public delegate void D_exitedCollider(Collision2D collision);
+    public D_exitedCollider d_ExitedCollider;
+
     public delegate void D_EntityEnteredCollider(Entity entity);
     public D_EntityEnteredCollider D_entityEnteredCollider;
 
@@ -392,7 +395,7 @@ public class Entity : MonoBehaviour, IDamageable
     }
     public void AddModifierUnique(string id, float value, StatsModifier.E_StatType type)
     {
-        AddModifier(id, value, -1, type);
+        AddModifierUnique(id, value, -1, type);
     }
 
     public void RemoveModifier(string id)
