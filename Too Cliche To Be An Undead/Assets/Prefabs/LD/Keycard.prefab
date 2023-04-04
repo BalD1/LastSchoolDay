@@ -48,6 +48,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43325879cb1fdb04f9834020b4ca2e22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.01
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.023465728
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   assets: {fileID: 11400000, guid: f5c36e904ecefac4095072e20cc9f36d, type: 2}
   spriteRenderer: {fileID: 7441331001678916852}
   animator: {fileID: 8435801021599636147}
