@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Collectable : MonoBehaviour, IInteractable
 {
     private float dist;
     private float stepp;
     public float drawdistance = 3;
+    public float baseDrawLerpAlpha = 2;
     public AnimationCurve animationCurve;
     public ParticleSystem particle;
     public int coinValue = 1;
@@ -26,75 +28,78 @@ public class Collectable : MonoBehaviour, IInteractable
 
     [SerializeField] protected SpriteRenderer spriteRenderer;
 
-    [SerializeField] private List<PlayerCharacter> detectedPlayers = new List<PlayerCharacter>();
+    [SerializeField] protected PlayerCharacter detectedPlayer;
+    private Transform goalTarget;
+    private bool allowTravel;
 
-    // Start is called before the first frame update
-    protected virtual void Start()
-    {
+    public delegate void D_OnPickUp();
+    public D_OnPickUp D_onPickUp;
 
-    }
-
-    // Update is called once per frame
     protected virtual void Update()
     {
-        //avant d'attirer la pièce, faire qu'elle soit "expulsée" d'un ennemi, et après activer l'attirance
-        //actuellement la pièce ne se dirige que vers un seul joueur
-        //potentiellement faire une draw distance sur le joueur et que ce soit lui qui attire les pièces
+        if (allowTravel) TravelToGoal();
+    }
 
-        if (!pickupOnCollision) return;
+    private void TravelToGoal()
+    {
+        dist = Vector2.Distance(this.transform.position, detectedPlayer.transform.position);
 
-        if (detectedPlayers.Count == 0) return;
-
-        dist = Vector2.Distance(this.transform.position, detectedPlayers[0].transform.position);
+        bool allowDraw = drawdistance < 0 || dist <= drawdistance;
 
         //Draw Coin toward Player
-        if (dist <= drawdistance)
+        if (allowDraw)
         {
             //l'attirance est définie par une courbe
 
-            stepp = (animationCurve.Evaluate(1 - dist / drawdistance) / 90);
+            float drawLerp = drawdistance > 0 ? drawdistance : baseDrawLerpAlpha;
+            stepp = (animationCurve.Evaluate(1 - dist / drawLerp) / 90);
 
-            float playerAddedSpeed = detectedPlayers[0].MaxSpeed_M - detectedPlayers[0].GetStats.Speed;
+            float playerAddedSpeed = detectedPlayer.MaxSpeed_M - detectedPlayer.GetStats.Speed;
             if (playerAddedSpeed != 0) stepp += (playerAddedSpeed / 90);
 
-            this.transform.position = Vector2.MoveTowards(transform.position, detectedPlayers[0].transform.position, stepp);
+            this.transform.position = Vector2.MoveTowards(transform.position, goalTarget.position, stepp);
         }
 
-        foreach (var item in detectedPlayers)
+        dist = Vector2.Distance(this.transform.position, goalTarget.position);
+
+        if (dist <= pickupDistance)
         {
-            dist = Vector2.Distance(this.transform.position, item.transform.position);
+            //spawn particle
+            if (particle != null)
+                Instantiate(particle, this.transform.position, Quaternion.identity);
 
-            if (dist <= pickupDistance)
-            {
-                //spawn particle
-                if (particle != null)
-                    Instantiate(particle, this.transform.position, Quaternion.identity);
+            TouchedPlayer(detectedPlayer);
 
-                //play sound
+            D_onPickUp?.Invoke();
 
-                //add coin
-                TouchedPlayer(item);
-
-                Destroy(this.gameObject);
-                return;
-            }
+            Destroy(this.gameObject);
+            return;
         }
+    }
 
+    private void TravelToDetectedPlayer()
+    {
+        StartTravelToPlayer(detectedPlayer);
+    }
+
+    private void StartTravelToPlayer(PlayerCharacter goal)
+    {
+        detectedPlayer = goal;
+        goalTarget = goal.transform;
+        allowTravel = true;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Player"))
-        {
-            detectedPlayers.Add(collision.GetComponentInParent<PlayerCharacter>());
-        }
-    }
+        if (pickupOnCollision == false) return;
 
-    protected virtual void OnTriggerExit2D(Collider2D collision)
-    {
         if (collision.tag.Equals("Player"))
         {
-            detectedPlayers.Remove(collision.GetComponentInParent<PlayerCharacter>());
+            if (detectedPlayer == null)
+            {
+                detectedPlayer = collision.GetComponentInParent<PlayerCharacter>();
+                TravelToDetectedPlayer();
+            }
         }
     }
 
@@ -125,16 +130,7 @@ public class Collectable : MonoBehaviour, IInteractable
 
         source?.PlayOneShot(pickupSound);
 
-        LeanTween.scale(this.gameObject, new Vector2(1.2f, 1.2f), .3f).setOnComplete(
-        () =>
-        {
-            LeanTween.scale(this.gameObject, Vector2.zero, .7f);
-            LeanTween.alpha(this.spriteRenderer.gameObject, 0f, 1).setOnComplete(
-            () =>
-            {
-                Destroy(this.gameObject, .1f);
-            });
-        });
+        StartTravelToPlayer(interactor.GetComponentInParent<PlayerCharacter>());
     }
 
     public bool CanBeInteractedWith()

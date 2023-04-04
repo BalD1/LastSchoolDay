@@ -14,6 +14,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     private List<Collider2D> alreadyPushedEntities;
 
     private const float remainingForceOnCollision = .9f;
+    private const float remainingTimeReductionOnCollision = .95f;
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
@@ -94,6 +95,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         alreadyPushedEntities.Add(collider);
 
         owner.GetRb.velocity *= remainingForceOnCollision;
+        dash_dur_TIMER *= remainingTimeReductionOnCollision;
 
         // lessen the PushForce depending on the remaining push time
         float remainingPushForce = owner.PlayerDash.PushForce * GetRemainingTimeByMax();

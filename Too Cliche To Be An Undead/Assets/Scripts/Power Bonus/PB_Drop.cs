@@ -55,6 +55,7 @@ public class PB_Drop : Collectable
 
     protected override void Update()
     {
+        base.Update();
         if (animationTimer > minTime) return;
 
         animationTimer += Time.deltaTime;
@@ -90,8 +91,13 @@ public class PB_Drop : Collectable
 
         player.AddModifier(bonusPower.ID, val, bonusPower.StatType);
 
-        string txt = bonusPower.AssociatedCharacter == player.GetCharacterName() ? bonusPower.AC_Description : bonusPower.Description;
+        D_onPickUp += CreateText;
+    }
 
-        TextPopup.Create(txt, (Vector2)player.transform.position + player.GetHealthPopupOffset, GameAssets.ItemComponents);
+    private void CreateText()
+    {
+        string txt = bonusPower.AssociatedCharacter == detectedPlayer.GetCharacterName() ? bonusPower.AC_Description : bonusPower.Description;
+
+        TextPopup.Create(txt, (Vector2)detectedPlayer.transform.position + detectedPlayer.GetHealthPopupOffset, GameAssets.ItemComponents);
     }
 }

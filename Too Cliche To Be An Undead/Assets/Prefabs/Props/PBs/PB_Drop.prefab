@@ -134,13 +134,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b265f271e7f234eb07e37639659846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawdistance: 0
+  drawdistance: 2
   animationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0
+      value: 7
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -163,12 +163,12 @@ MonoBehaviour:
   coinValue: 0
   pickupSound: {fileID: 8300000, guid: 5af2b48cffb007241bb847d1b41809b5, type: 3}
   source: {fileID: 8302144188479151816}
-  pickupDistance: 0
+  pickupDistance: 0.2
   pickupOnCollision: 0
   rb: {fileID: 5984426657660484130}
   canBePickedUp: 1
   spriteRenderer: {fileID: 6452018326270742997}
-  detectedPlayers: []
+  detectedPlayer: {fileID: 0}
   bonusPower: {fileID: 11400000, guid: 3cb9ac68c10e77a4cbf0c78492d7602c, type: 2}
   fallSpeedY:
     serializedVersion: 2
