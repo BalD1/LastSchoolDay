@@ -91,7 +91,7 @@ public class PB_Drop : Collectable
 
         player.AddModifier(bonusPower.ID, val, bonusPower.StatType);
 
-        D_onPickUp += CreateText;
+        D_onPickUp += CreateText;//UwU
     }
 
     private void CreateText()

@@ -13,6 +13,7 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private CircleCollider2D trigger;
     [SerializeField] private GameObject interactPrompt;
     [SerializeField] private SpriteRenderer promptText;
+    [SerializeField] private SpriteRenderer promptGlow;
 
     public SpriteRenderer PromptText { get => promptText; }
 
@@ -34,6 +35,7 @@ public class PlayerInteractor : MonoBehaviour
     private void CheckDevice(PlayerCharacter.E_Devices device)
     {
         promptText.sprite = ButtonsImageByDevice.Instance.GetButtonImage(E_ButtonType.Third, device);
+        promptGlow.sprite = ButtonsImageByDevice.Instance.GetButtonImage(E_ButtonType.Third, device);
     }
 
     private void OnDestroy()

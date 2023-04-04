@@ -51,12 +51,25 @@ public class PostproManager : MonoBehaviour
             MainVolume_vignette = tmp_Vignette;
     }
 
+    private void OnDestroy()
+    {
+        GameManager.Instance.D_onPlayerIsSetup -= SubscribeToPlayerEvents;
+
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            item.playerScript.D_onTakeDamagesFromEntity -= SetVignetteHurtColor_Event;
+        }
+    }
+
     private void SubscribeToPlayerEvents(int playerIdx)
     {
+        Debug.Log(playerIdx);
         PlayerCharacter player = GameManager.Instance.playersByName[playerIdx].playerScript;
 
-        player.D_onTakeDamagesFromEntity += (bool c, Entity e) => SetVignetteHurtColor();
+        player.D_onTakeDamagesFromEntity += SetVignetteHurtColor_Event;
     }
+
+    private void SetVignetteHurtColor_Event(bool c, Entity e) => SetVignetteHurtColor();
 
     private void SearchForVolume()
     {

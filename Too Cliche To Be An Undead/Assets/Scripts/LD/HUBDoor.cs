@@ -59,6 +59,7 @@ public class HUBDoor : MonoBehaviour, IInteractable
             if (currentCounter < maxPlayers)
             {
                 currentCounter++;
+
                 UpdateText();
             }
 

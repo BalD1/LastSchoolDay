@@ -56,6 +56,11 @@ public class ProjectileBase : MonoBehaviour
     private float damages;
     private int critChances;
 
+    private void Awake()
+    {
+        ProjectilesPool = new Queue<ProjectileBase>();
+    }
+
     private void Update()
     {
         currentLifetime -= Time.deltaTime;

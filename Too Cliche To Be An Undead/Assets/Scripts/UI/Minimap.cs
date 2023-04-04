@@ -80,6 +80,11 @@ public class Minimap : MonoBehaviour
         GameManager.Player1Ref.D_secondContextAction += OnAskForScale;
     }
 
+    private void OnDestroy()
+    {
+        GameManager.Player1Ref.D_secondContextAction -= OnAskForScale;
+    }
+
     private void Reset()
     {
         selfRectTransform = this.GetComponent<RectTransform>();
