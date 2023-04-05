@@ -1,6 +1,4 @@
-using Cinemachine.Utility;
 using Spine.Unity;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,6 +65,8 @@ public class NormalZombie : EnemyBase
         base.Start();
         Pathfinding?.StartUpdatePath();
 
+        ZombiesScalingManager.Instance.D_onSendModifiers += ReceiveStampModifiers;
+
         if (tutorialZombie || isIdle) return;
 
         SpawnersManager.Instance.AddZombie();
@@ -96,6 +96,15 @@ public class NormalZombie : EnemyBase
         }
 
         if (Vector2.Distance(this.transform.position, CurrentPlayerTarget.transform.position) > maxDistanceFromPlayer) ForceKill();
+    }
+
+    private void ReceiveStampModifiers(List<ZombiesScalingManager.S_ModifierData> modifiers)
+    {
+        foreach (var item in modifiers)
+        {
+            this.AddModifier(item.ModifierID, item.Value, item.StatType);
+            Debug.Log(this.ToString() + " received " + item.ModifierID +" " + item.Value);
+        }
     }
 
     public void ForceKill()

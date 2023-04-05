@@ -13,7 +13,7 @@ public class SCRPT_NZ_CaCAttack : SCRPT_EnemyAttack
 
         foreach (var item in hitEntities)
         {
-            Entity e = item.transform.parent.GetComponent<Entity>();
+            Entity e = item.transform.GetComponent<Entity>();
 
             if (e == null) continue;
 

@@ -48,6 +48,9 @@ public class SpawnersManager : MonoBehaviour
     [ReadOnly]
     [SerializeField] private int spawnStamp;
 
+    public delegate void D_StampChange(int newStamp);
+    public D_StampChange D_stampChange;
+
     [SerializeField] private int maxStamp;
 
     [ReadOnly]
@@ -63,7 +66,7 @@ public class SpawnersManager : MonoBehaviour
 
     public const int minValidDistanceFromPlayer = 5;
 
-    public const float timeBetweenStamps = 60;
+    public const float timeBetweenStamps = 3;
 
     [SerializeField] private bool spawnsAreAllowed = false;
 
@@ -180,12 +183,20 @@ public class SpawnersManager : MonoBehaviour
         }
 
         LeanTween.cancel(uiFiller.gameObject);
-        LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
-        {
-            uiFiller.fillAmount = val;
-        });
+
 
         spawnStamp++;
+
+        if (spawnStamp < maxStamp)
+        {
+            LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+            {
+                uiFiller.fillAmount = val;
+            });
+        }
+        else uiFiller.fillAmount = 1;
+
+        D_stampChange?.Invoke(spawnStamp);
 
         uiStamp.text = spawnStamp.ToString();
 

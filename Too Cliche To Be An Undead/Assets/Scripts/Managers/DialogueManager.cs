@@ -120,7 +120,6 @@ public class DialogueManager : MonoBehaviour
 
     public void TrySkip()
     {
-        Debug.Log("try skip");
         D_skipDialogue?.Invoke();
         D_skipDialogue = null;
 
@@ -188,10 +187,8 @@ public class DialogueManager : MonoBehaviour
     private void ShowNextLine()
     {
         if (currentLineIndex == -1) currentLineIndex = 0;
-        if (currentDialogue == null || currentDialogue.dialogueLines == null) End();
-        if (currentLineIndex >= currentDialogue.dialogueLines.Length) End();
-
-        void End()
+        if (currentDialogue == null || currentDialogue.dialogueLines == null ||
+            currentLineIndex >= currentDialogue.dialogueLines.Length)
         {
             EndDialogue();
             return;

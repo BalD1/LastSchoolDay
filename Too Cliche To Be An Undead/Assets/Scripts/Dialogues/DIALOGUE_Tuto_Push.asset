@@ -18,19 +18,31 @@ MonoBehaviour:
   - <characterName>k__BackingField: 0
     <speakerNameImage>k__BackingField: {fileID: -814635624, guid: f7e137c2447d1b4478082d6c8c6d20be, type: 3}
     <customPortrait>k__BackingField: {fileID: 11400000, guid: f27ef7294c7c32b4aaf7c536e7a3d286, type: 2}
-    <textLine>k__BackingField: Si jamais un zombie approche de moi poussez le, je
-      les supporte pas !
+    <textLine>k__BackingField: Si jamais un <color=#FF0000>zombie</color> approche
+      de moi poussez le, je les supporte pas !
     <effects>k__BackingField:
     - <effect>k__BackingField: 0
       <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
   - <characterName>k__BackingField: 1
     <speakerNameImage>k__BackingField: {fileID: 1199636280, guid: 311258fe9f392ab47b8fc69b4e01101c, type: 3}
     <customPortrait>k__BackingField: {fileID: 11400000, guid: 63818778ca5fc4143b4a4d1e0d25ebb8, type: 2}
-    <textLine>k__BackingField: Ou sinon on peut se pousser vers les zombies, peut
-      etre que ca marchera...
+    <textLine>k__BackingField: Ou sinon on peut se pousser vers les <color=#FF0000>zombies</color>,
+      peut etre que ca marchera...
     <effects>k__BackingField:
     - <effect>k__BackingField: 0
       <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
   - <characterName>k__BackingField: 3
     <speakerNameImage>k__BackingField: {fileID: 1573432537, guid: 311258fe9f392ab47b8fc69b4e01101c, type: 3}
     <customPortrait>k__BackingField: {fileID: 11400000, guid: fbc181485d403af44a44de8fa7024aa1, type: 2}
@@ -39,3 +51,9 @@ MonoBehaviour:
     <effects>k__BackingField:
     - <effect>k__BackingField: 0
       <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
