@@ -7,10 +7,9 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
 {
     [SerializeField] private float stunDuration;
 
+
     [SerializeField] private bool addPoison;
-    [SerializeField] private float poisonDamages;
-    [SerializeField] private float poisonTimeBetweenTicks;
-    [SerializeField] private float poisonDuration;
+    [SerializeField] private SCRPT_PoisonData poisonData;
 
     private const string poisonID = "SKILL_PS";
 
@@ -45,7 +44,9 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
 
             if (addPoison == false) continue;
 
-            currentEntity.AddTickDamages(poisonID, poisonDamages, poisonTimeBetweenTicks, poisonDuration, owner, true);
+            float finalDamages = owner.MaxDamages_M * poisonData.OwnerDamagesMultiplier;
+
+            currentEntity.AddTickDamages(poisonID, finalDamages, poisonData.PoisonTimeBetweenTicks, poisonData.PoisonDuration, owner, true, poisonData.PoisonCritChances);
         }
     }
 

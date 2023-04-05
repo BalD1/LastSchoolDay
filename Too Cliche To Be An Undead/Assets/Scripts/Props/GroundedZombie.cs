@@ -16,7 +16,7 @@ public class GroundedZombie : Entity
     {
         base.Awake();
 
-        this.D_onTakeDamagesFromEntity += (bool crit, Entity damager) => PlayAudio(audioData.GetRandomHurtClip());
+        this.D_onTakeDamagesFromEntity += (bool crit, Entity damager, bool tickDamages) => PlayAudio(audioData.GetRandomHurtClip());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

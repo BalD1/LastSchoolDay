@@ -23,6 +23,7 @@ public abstract class SCRPT_Skill : ScriptableObject
     [SerializeField] protected float offset;
     [SerializeField] protected float range;
     [SerializeField] protected float duration;
+    [SerializeField] protected float animationSpeedScale = 1;
     [SerializeField] protected float transitionDurationMultiplier = 1;
     [SerializeField] protected float startOffset = 0;
 
@@ -51,6 +52,7 @@ public abstract class SCRPT_Skill : ScriptableObject
     public float Cooldown { get => cooldown; }
     public float Range { get => range; }
     public float Duration { get => duration; }
+    public float AnimationSpeedScale { get => animationSpeedScale; }
     public float TransitionDurationMultiplier { get => transitionDurationMultiplier; }
     public float StartOffset { get => startOffset; }
 

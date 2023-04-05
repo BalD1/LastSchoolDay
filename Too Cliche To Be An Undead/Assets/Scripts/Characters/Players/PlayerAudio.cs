@@ -60,7 +60,7 @@ public class PlayerAudio : MonoBehaviour
     {
         PlayAudioWithPitch(ownerAudioClips.GetRandomHurtClip());
     }
-    private void PlayHurtAudio(bool isCrit, Entity damager) => PlayHurtAudio(isCrit);
+    private void PlayHurtAudio(bool isCrit, Entity damager, bool tickDamages = false) => PlayHurtAudio(isCrit);
 
     private void PlayDeathAudio() => PlayAudioWithPitch(ownerAudioClips.GetRandomDeathClip());
 

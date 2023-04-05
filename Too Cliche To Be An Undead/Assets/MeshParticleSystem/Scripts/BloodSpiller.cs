@@ -21,9 +21,10 @@ public class BloodSpiller : MonoBehaviour
         owner.d_OnDeath += SpillBloodOnDeath;
     }
 
-    private void SpillBloodOnDamages(bool isCrit, Entity damager)
+    private void SpillBloodOnDamages(bool isCrit, Entity damager, bool tickDamages = false)
     {
         if (damager == null) return;
+        if (tickDamages) return;
 
         int amountToSpawn = Random.Range(minBloodSpill, maxBloodSpill);
 

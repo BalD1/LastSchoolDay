@@ -10,7 +10,7 @@ public class ParticlesDestroyOnEnd : MonoBehaviour
     {
         main = this.GetComponent<ParticleSystem>().main;
 
-        main.stopAction = ParticleSystemStopAction.Callback;
+        main.stopAction = ParticleSystemStopAction.Destroy;
     }
 
     private void EndAction()

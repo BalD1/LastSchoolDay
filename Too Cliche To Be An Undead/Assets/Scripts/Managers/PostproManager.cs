@@ -69,7 +69,7 @@ public class PostproManager : MonoBehaviour
         player.D_onTakeDamagesFromEntity += SetVignetteHurtColor_Event;
     }
 
-    private void SetVignetteHurtColor_Event(bool c, Entity e) => SetVignetteHurtColor();
+    private void SetVignetteHurtColor_Event(bool c, Entity e, bool takeDamages = false) => SetVignetteHurtColor();
 
     private void SearchForVolume()
     {

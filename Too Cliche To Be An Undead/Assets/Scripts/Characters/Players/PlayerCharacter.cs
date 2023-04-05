@@ -531,7 +531,7 @@ public class PlayerCharacter : Entity, IInteractable
         weapon.ResetAttack();
     }
 
-    public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
+    public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         if (!IsAlive()) return false;
 

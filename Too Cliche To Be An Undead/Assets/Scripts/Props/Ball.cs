@@ -17,7 +17,7 @@ public class Ball : MonoBehaviour, IDamageable
     {
     }
 
-    public bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
+    public bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         Vector2 dir = this.transform.position - damager.transform.position;
 

@@ -78,24 +78,26 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
                 owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
 
+                float animationSpeedScale = owner.GetSkill.AnimationSpeedScale;
+
                 if (owner.GetSkill.is4D)
                 {
                     switch (initialDirection)
                     {
                         case Vector2 v when v == Vector2.up:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimUp, loopAnims);
+                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimUp, loopAnims, animationSpeedScale);
                             break;
 
                         case Vector2 v when v == Vector2.down:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimDown, loopAnims);
+                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimDown, loopAnims, animationSpeedScale);
                             break;
 
                         case Vector2 v when v == Vector2.left:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimSide, loopAnims);
+                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimSide, loopAnims, animationSpeedScale);
                             break;
 
                         case Vector2 v when v == Vector2.right:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimSide, loopAnims);
+                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimSide, loopAnims, animationSpeedScale);
                             break;
                     }
                 }
@@ -103,12 +105,12 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
                 {
                     if (owner.Velocity == Vector2.zero)
                     {
-                        ownerAnimationController.SetAnimation(idleAnim, loopAnims);
+                        ownerAnimationController.SetAnimation(idleAnim, loopAnims, animationSpeedScale);
                         isPlayingIdle = isIdle = true;
                     }
                     else
                     {
-                        ownerAnimationController.SetAnimation(walkAnim, loopAnims);
+                        ownerAnimationController.SetAnimation(walkAnim, loopAnims, animationSpeedScale);
                         isPlayingIdle = isIdle = false;
                     }
                 }
@@ -154,14 +156,16 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     {
         isIdle = owner.Velocity == Vector2.zero;
 
+        float animationSpeedScale = owner.GetSkill.AnimationSpeedScale;
+
         if (isIdle && !isPlayingIdle)
         {
-            ownerAnimationController.SetAnimation(idleAnim, loopAnims);
+            ownerAnimationController.SetAnimation(idleAnim, loopAnims, animationSpeedScale);
             isPlayingIdle = true;
         }
         else if (!isIdle && isPlayingIdle)
         {
-            ownerAnimationController.SetAnimation(walkAnim, loopAnims);
+            ownerAnimationController.SetAnimation(walkAnim, loopAnims, animationSpeedScale);
             isPlayingIdle = false;
         }
     }

@@ -19,8 +19,9 @@ MonoBehaviour:
   offset: 0.8
   range: 1
   duration: 0.1
+  animationSpeedScale: 2
   transitionDurationMultiplier: 1
-  startOffset: 0.5
+  startOffset: 0.25
   damagesPercentageModifier: 0
   canMove: 0
   canAim: 0
@@ -32,4 +33,7 @@ MonoBehaviour:
   animationToPlay: Smokescreen
   thumbnail: {fileID: 2074523375, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   particles: {fileID: 2961946062666285324, guid: b092efa8b2dd1ea4fb7ae95f5151dd4f, type: 3}
+  <holdSkillAudio>k__BackingField: 0
   stunDuration: 4
+  addPoison: 1
+  poisonData: {fileID: 11400000, guid: f5559ac6bdfbac74eabf1742d5c0f0e7, type: 2}

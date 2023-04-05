@@ -25,7 +25,7 @@ public class BossHUD : MonoBehaviour
         relatedBoss.d_OnDeath += OnDeath;
     }
 
-    public void UpdateFillAmount(bool critDamages, Entity damager)
+    public void UpdateFillAmount(bool critDamages, Entity damager, bool tickDamages)
     {
         fillImage.fillAmount = relatedBoss.CurrentHP / relatedBoss.MaxHP_M;
     }

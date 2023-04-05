@@ -10,6 +10,8 @@ public class TickDamages
 
     private string id;
 
+    private int critChances;
+
     private float damages;
 
     private float timeBetweenDamages;
@@ -29,7 +31,7 @@ public class TickDamages
     public bool showInEditor;
 #endif
 
-    public TickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime, Entity _owner, Entity _origin, bool damageInstantly = false)
+    public TickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime, Entity _owner, Entity _origin, bool damageInstantly = false, int _critChances = 0)
     {
         this.id = _id;
 
@@ -44,6 +46,8 @@ public class TickDamages
         this.owner = _owner;
 
         this.origin = _origin;
+
+        critChances = _critChances;
     }
 
     public void Update(float time)
@@ -62,7 +66,8 @@ public class TickDamages
     {
         damages_TIMER = timeBetweenDamages;
 
-        owner.OnTakeDamages(damages, origin);
+        bool isCrit = Random.Range(0, 100) <= critChances;
+        owner.OnTakeDamages(damages, origin, isCrit, false, true, true);
     }
 
     public void ForceEnd(float delay = 0) => lifetime_TIMER = delay;

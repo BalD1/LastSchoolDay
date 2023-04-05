@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    public abstract bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true);
+    public abstract bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false);
 
     public abstract void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false);
 

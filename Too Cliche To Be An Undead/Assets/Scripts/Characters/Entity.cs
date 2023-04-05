@@ -164,7 +164,7 @@ public class Entity : MonoBehaviour, IDamageable
     public delegate void D_OnDeathOf(Entity e);
     public D_OnDeathOf D_onDeathOf;
 
-    public delegate void D_OnTakeDamagesFromEntity(bool crit, Entity damager);
+    public delegate void D_OnTakeDamagesFromEntity(bool crit, Entity damager, bool tickDamage = false);
     public D_OnTakeDamagesFromEntity D_onTakeDamagesFromEntity;
 
     [SerializeField] private List<TickDamages> appliedTickDamages = new List<TickDamages>();
@@ -252,9 +252,9 @@ public class Entity : MonoBehaviour, IDamageable
 
         appliedTickDamages.Add(tick);
     }
-    public void AddTickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime, Entity origin, bool damageInstantly = false)
+    public void AddTickDamages(string _id, float _damages, float _timeBetweenDamages, float _lifetime, Entity origin, bool damageInstantly = false, int critChances = 0)
     {
-        TickDamages t = new TickDamages(_id, _damages, _timeBetweenDamages, _lifetime, _owner: this, _origin: origin, damageInstantly);
+        TickDamages t = new TickDamages(_id, _damages, _timeBetweenDamages, _lifetime, _owner: this, _origin: origin, damageInstantly, critChances);
         AddTickDamages(t);
     }
 
@@ -466,7 +466,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     #region Damages / Heal
 
-    public virtual bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true)
+    public virtual bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         if (invincible) return false;
         if (invincibility_TIMER > 0) return false;
@@ -476,7 +476,7 @@ public class Entity : MonoBehaviour, IDamageable
             if (damager.stats.Team != SCRPT_EntityStats.E_Team.Neutral 
              && damager.stats.Team == this.GetStats.Team) return false;
 
-        if (callDelegate) D_onTakeDamagesFromEntity?.Invoke(isCrit, damager);
+        if (callDelegate) D_onTakeDamagesFromEntity?.Invoke(isCrit, damager, tickDamages);
 
         if (isCrit) amount *= 1.5f;
 
