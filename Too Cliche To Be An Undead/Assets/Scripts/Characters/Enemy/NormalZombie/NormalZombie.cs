@@ -103,7 +103,6 @@ public class NormalZombie : EnemyBase
         foreach (var item in modifiers)
         {
             this.AddModifier(item.ModifierID, item.Value, item.StatType);
-            Debug.Log(this.ToString() + " received " + item.ModifierID +" " + item.Value);
         }
     }
 

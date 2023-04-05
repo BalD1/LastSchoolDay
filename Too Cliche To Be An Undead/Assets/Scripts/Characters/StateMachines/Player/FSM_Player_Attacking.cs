@@ -10,9 +10,12 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     {
         owner ??= stateManager.Owner;
 
+        owner.Weapon.attackEnded = false;
+
         Vector2 mouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();
 
         owner.canBePushed = true;
+
 
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
@@ -69,6 +72,10 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
+        if (owner.IsAlive() == false) return;
+
+        if (owner.Weapon.attackEnded) owner.StateManager.SwitchState(owner.StateManager.idleState);
+
         if (owner.isDashing)
         {
             owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);

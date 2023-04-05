@@ -53,6 +53,8 @@ public class PlayerWeapon : MonoBehaviour
     public bool prepareNextAttack;
     public bool inputStored;
 
+    public bool attackEnded;
+
     public delegate void NextAttack(int attackIdx);
     public NextAttack D_nextAttack;
 
@@ -116,7 +118,7 @@ public class PlayerWeapon : MonoBehaviour
                             break;
                     }
                 }
-                else owner.StateManager.SwitchState(owner.StateManager.idleState);
+                else attackEnded = true;
             }
         }
 
@@ -268,6 +270,7 @@ public class PlayerWeapon : MonoBehaviour
         attacksComboReset_TIMER = attacksComboResetTime;
         attack_TIMER = attackDuration;
         isAttacking = true;
+        attackEnded = false;
     }
 
     public void SuccessfulHit(Vector3 hitPosition, Entity e, bool addKnockback, float speedModifier, bool bigHit)
