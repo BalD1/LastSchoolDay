@@ -1,3 +1,4 @@
+using System.Text;
 using UnityEngine;
 
 public class ElementSpawner : MonoBehaviour
@@ -89,6 +90,47 @@ public class ElementSpawner : MonoBehaviour
     {
 #if UNITY_EDITOR
         if (this.gameObject.CompareTag("ElementSpawner") == false) this.gameObject.tag = "ElementSpawner";
+#endif
+    }
+
+    private void OnValidate()
+    {
+#if UNITY_EDITOR
+        CreateObjectName();
+#endif
+    }
+
+    public void CreateObjectName()
+    {
+#if UNITY_EDITOR
+        StringBuilder objectName = new StringBuilder("SPAWNER");
+        switch (this.ElementToSpawn)
+        {
+            case ElementSpawner.E_ElementToSpawn.RandomBaseZombie:
+                objectName.Append("_ZOM");
+                break;
+
+            case ElementSpawner.E_ElementToSpawn.Keycard:
+                objectName.Append("_KEY");
+                break;
+
+            case ElementSpawner.E_ElementToSpawn.Coins:
+                objectName.Append("_COIN");
+                break;
+
+            case ElementSpawner.E_ElementToSpawn.IdleZombie:
+                objectName.Append("_IDLEZOM");
+                break;
+
+            default:
+                objectName.Append("_UNDEFINED");
+                break;
+        }
+
+        objectName.Append(this.DestroyAfterSpawn ? "_DESTR" : "");
+        objectName.Append(this.SpawnAtStart ? "_START" : "");
+
+        this.gameObject.name = objectName.ToString();
 #endif
     }
 }

@@ -188,6 +188,8 @@ public class NormalZombie : EnemyBase
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
+        if (stateManager.ToString() == "Attacking" && duration <= .5f) return;
+
         if (showStuntext)
             TextPopup.Create("Stun !", this.GetHealthPopupOffset + (Vector2)this.transform.position, GameAssets.StunComponents);
         stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));

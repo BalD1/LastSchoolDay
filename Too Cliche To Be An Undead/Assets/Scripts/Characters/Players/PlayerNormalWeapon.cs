@@ -42,12 +42,11 @@ public class PlayerNormalWeapon : PlayerWeapon
         float onAttackMovementSpeed = onAttackMovementForce;
 
         // If the player was moving, add its speed to the attack movements
-        if (owner.Velocity != Vector2.zero) speedModifier = owner.MaxSpeed_M;
+        if (owner.Velocity != Vector2.zero) speedModifier = owner.MaxSpeed_M * .5f;
         else speedModifier = 0;
 
         onAttackMovementSpeed += speedModifier;
         
-        //Vector2 attackMovementDirection = (effectObject.transform.position - owner.transform.position).normalized;
         Vector2 attackMovementDirection = owner.Weapon.GetPreciseDirectionOfMouseOrGamepad().normalized;
 
         owner.GetRb.AddForce(onAttackMovementSpeed * attackMovementDirection, ForceMode2D.Impulse);

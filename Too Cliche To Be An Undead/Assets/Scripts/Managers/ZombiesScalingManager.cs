@@ -23,6 +23,8 @@ public class ZombiesScalingManager : MonoBehaviour
     }
     [SerializeField] private S_ModifiersByStamp[] modifiersByStamp;
 
+    public S_ModifiersByStamp[] ModifiersByStamps { get => modifiersByStamp; }
+
     [System.Serializable]
     public class S_ModifierData
     {
@@ -30,6 +32,11 @@ public class ZombiesScalingManager : MonoBehaviour
         public string ModifierID { get => modifierID; }
         [field: SerializeField] public float Value { get; private set; }
         [field: SerializeField] public StatsModifier.E_StatType StatType { get; private set; }
+
+        public void SetID(string newID)
+        {
+            modifierID = newID;
+        }
     }
 
     public delegate void D_OnSendModifiers(List<S_ModifierData> modifiers);

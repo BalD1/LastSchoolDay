@@ -81,7 +81,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   indicatorHolder: {fileID: 3852056659885133262}
   slerpSpeed: 5
-  onHitKnockback: 2
+  onHitKnockback: 1
   attacksComboResetTime: 0.5
   attackDuration: 0.2
   afterCombo_COOLDOWN: 0.3
@@ -103,9 +103,10 @@ MonoBehaviour:
   isAttacking: 0
   prepareNextAttack: 0
   inputStored: 0
+  attackEnded: 0
   maxRange: 0.75
   lastAttackDamagesMultiplier: 1.5
-  lastAttackPushPercentage: 0.6
+  lastAttackPushPercentage: 0.3
   onAttackMovementForce: 1
   normalShakeIntensity: 0.9
   normalShakeDuration: 0.15

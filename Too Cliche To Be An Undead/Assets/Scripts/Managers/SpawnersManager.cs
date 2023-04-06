@@ -66,7 +66,7 @@ public class SpawnersManager : MonoBehaviour
 
     public const int minValidDistanceFromPlayer = 5;
 
-    public const float timeBetweenStamps = 3;
+    public const float timeBetweenStamps = 60;
 
     [SerializeField] private bool spawnsAreAllowed = false;
 
@@ -173,39 +173,41 @@ public class SpawnersManager : MonoBehaviour
 
     private void EvaluateStamp()
     {
-        if (spawnStamp >= maxStamp) return;
-        if (stamp_TIMER > 0)
-        {
-            stamp_TIMER -= Time.deltaTime;
-            uiCounter.text = stamp_TIMER.ToString("F0");
+        //if (spawnStamp >= maxStamp) return;
+        //if (stamp_TIMER > 0)
+        //{
+        //    stamp_TIMER -= Time.deltaTime;
+        //    uiCounter.text = stamp_TIMER.ToString("F0");
 
-            return;
-        }
+        //    return;
+        //}
 
-        LeanTween.cancel(uiFiller.gameObject);
+        if (Input.GetKeyDown(KeyCode.Return))
+        { 
+            LeanTween.cancel(uiFiller.gameObject);
 
+            spawnStamp++;
 
-        spawnStamp++;
-
-        if (spawnStamp < maxStamp)
-        {
-            LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+            if (spawnStamp < maxStamp)
             {
-                uiFiller.fillAmount = val;
-            });
+                LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+                {
+                    uiFiller.fillAmount = val;
+                });
+            }
+            else uiFiller.fillAmount = 1;
+
+            D_stampChange?.Invoke(spawnStamp);
+
+            uiStamp.text = spawnStamp.ToString();
+
+            RectTransform stampContainerRT = stampsCounter.GetComponent<RectTransform>();
+            LeanTween.scale(stampContainerRT, Vector3.one * 1.3f, .25f).setLoopPingPong(1);
+
+            stamp_TIMER = timeBetweenStamps;
+            maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
+            spawnCooldown = zombiesSpawnCooldown.Evaluate(spawnStamp);
         }
-        else uiFiller.fillAmount = 1;
-
-        D_stampChange?.Invoke(spawnStamp);
-
-        uiStamp.text = spawnStamp.ToString();
-
-        RectTransform stampContainerRT = stampsCounter.GetComponent<RectTransform>();
-        LeanTween.scale(stampContainerRT, Vector3.one * 1.3f, .25f).setLoopPingPong(1);
-
-        stamp_TIMER = timeBetweenStamps;
-        maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
-        spawnCooldown = zombiesSpawnCooldown.Evaluate(spawnStamp);
     }
 
     private void SpawnNext()
@@ -302,45 +304,11 @@ public class SpawnersManager : MonoBehaviour
         else elementSpawners[idx] = element.GetComponent<ElementSpawner>();
 
 #if UNITY_EDITOR
-        CreateObjectName(element, elementSpawners[idx]);
+        elementSpawners[idx].CreateObjectName();
 #endif
 
         if (elementSpawners[idx].ElementToSpawn == ElementSpawner.E_ElementToSpawn.Keycard)
             keycardSpawners.Add(elementSpawners[idx]);
-    }
-
-    private void CreateObjectName(GameObject gO, ElementSpawner es)
-    {
-#if UNITY_EDITOR
-        StringBuilder objectName = new StringBuilder("SPAWNER");
-        switch (es.ElementToSpawn)
-        {
-            case ElementSpawner.E_ElementToSpawn.RandomBaseZombie:
-                objectName.Append("_ZOM");
-                break;
-
-            case ElementSpawner.E_ElementToSpawn.Keycard:
-                objectName.Append("_KEY");
-                break;
-
-            case ElementSpawner.E_ElementToSpawn.Coins:
-                objectName.Append("_COIN");
-                break;
-
-            case ElementSpawner.E_ElementToSpawn.IdleZombie:
-                objectName.Append("_IDLEZOM");
-                break;
-
-            default:
-                objectName.Append("_UNDEFINED");
-                break;
-        }
-
-        objectName.Append(es.DestroyAfterSpawn ? "_DESTR" : "");
-        objectName.Append(es.SpawnAtStart ? "_START" : "");
-
-        gO.name = objectName.ToString();
-#endif
     }
 
     private void OnEnable()
