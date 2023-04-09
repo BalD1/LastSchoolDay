@@ -11,7 +11,7 @@ public class ED_ZombiesScalingManager : Editor
 {
 	private ZombiesScalingManager targetScript;
     
-    private bool showDefaultInspector = false;
+    private bool showDefaultInspector = true;
     
 	private void OnEnable()
     {

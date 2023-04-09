@@ -11961,6 +11961,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4647886569459204930}
     m_Modifications:
+    - target: {fileID: 619005816789941511, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 619005816789941511, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 619005816789941511, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 720262010623394481, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -11969,9 +11981,45 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnMusicSliderValueChange
       objectReference: {fileID: 0}
+    - target: {fileID: 5022260727063627894, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5022260727063627894, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7716235710935598720, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7716235710935598720, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7716235710935598720, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7722941451989847783, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7722941451989847783, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7722941451989847783, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7722941452086616868, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
       propertyPath: m_Name
       value: Options Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7722941452086616868, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7722941452086616871, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
       propertyPath: m_Pivot.x
@@ -12065,9 +12113,25 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1194735478487628730}
+    - target: {fileID: 7722941453129063962, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7722941453129063962, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7767748707923416891, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnSFXSliderValueChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 8923910229748658569, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8923910229748658569, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c0f40afb17a5f946b1d9365b2387a19, type: 3}

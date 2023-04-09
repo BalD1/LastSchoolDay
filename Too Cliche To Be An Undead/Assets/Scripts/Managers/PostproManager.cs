@@ -63,7 +63,6 @@ public class PostproManager : MonoBehaviour
 
     private void SubscribeToPlayerEvents(int playerIdx)
     {
-        Debug.Log(playerIdx);
         PlayerCharacter player = GameManager.Instance.playersByName[playerIdx].playerScript;
 
         player.D_onTakeDamagesFromEntity += SetVignetteHurtColor_Event;

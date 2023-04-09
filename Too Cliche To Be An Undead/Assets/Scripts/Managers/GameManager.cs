@@ -248,6 +248,8 @@ public class GameManager : MonoBehaviour
 
         D_bossFightStarted += () => currentAliveBossesCount++;
         D_bossFightEnded += () => currentAliveBossesCount--;
+
+        SetPlayersByNameList();
     }
 
     private void Start()
@@ -257,7 +259,6 @@ public class GameManager : MonoBehaviour
         AcquiredCards = 0;
         NeededCards = 0;
 
-        SetPlayersByNameList();
         InitState();
 
         if (GameState == E_GameState.InGame)
