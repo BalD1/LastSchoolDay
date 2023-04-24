@@ -32,7 +32,7 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
 
     public override void StopSkill(PlayerCharacter owner)
     {
-        isInUse = false; isInUse = false;
+        isInUse = false;
         owner.SetInvincibility(false);
         owner.SetTimedInvincibility(1.5f);
 

@@ -37,8 +37,6 @@ public class PlayerNormalWeapon : PlayerWeapon
 
         owner.D_onAttack?.Invoke(isLastAttack);
 
-        slashParticles.Play();
-
         float onAttackMovementSpeed = onAttackMovementForce;
 
         // If the player was moving, add its speed to the attack movements
@@ -51,7 +49,7 @@ public class PlayerNormalWeapon : PlayerWeapon
 
         owner.GetRb.AddForce(onAttackMovementSpeed * attackMovementDirection, ForceMode2D.Impulse);
 
-        hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.MaxAttRange_M, damageablesLayer);
+        hitEntities = Physics2D.OverlapCircleAll(effectObject.transform.position, owner.MaxAttRange_M * rangeModifier_M, damageablesLayer);
 
         bool successfulhit = false;
         bool connectedEntity = false;
@@ -64,7 +62,7 @@ public class PlayerNormalWeapon : PlayerWeapon
             {
                 Entity e = item.GetComponentInParent<Entity>();
 
-                float damages = owner.MaxDamages_M;
+                float damages = owner.MaxDamages_M * damagesModifier_M;
 
                 bool performKnockback = true;
                 if (isLastAttack)
@@ -91,15 +89,17 @@ public class PlayerNormalWeapon : PlayerWeapon
                     closestEnemyDist = dist;
                 }
 
-                float shakeIntensity = normalShakeIntensity;
+                float shakeIntensity = normalShakeIntensity * cameraShakeIntensityModifier_M;
                 float shakeDuration = normalShakeDuration;
 
                 hadBigHit = isLastAttack || isCrit;
+
+                foreach (var effect in onHitEffects) if (effect.IsBigHit) hadBigHit = true;
                 
                 if (hadBigHit)
                 {
-                    e?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage, owner);
-                    shakeIntensity = bigShakeIntensity;
+                    e?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage * knockbackModifier_M, owner);
+                    shakeIntensity = bigShakeIntensity * cameraShakeIntensityModifier_M;
                     shakeDuration = bigShakeDuration;
                 }
 

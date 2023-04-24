@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BalDUtilities.MouseUtils;
 using BalDUtilities.VectorUtils;
+using Unity.VisualScripting;
 
 public class PlayerWeapon : MonoBehaviour
 {
@@ -35,12 +36,22 @@ public class PlayerWeapon : MonoBehaviour
 
     [SerializeField] protected LayerMask damageablesLayer;
 
-    [SerializeField] public ParticleSystem slashParticles;
+    [SerializeField] private ParticleSystem slashParticles;
 
     [SerializeField] protected ParticleSystem hitParticles;
 
     [SerializeField] protected PlayersManager.GamepadShakeData normalHitGamepadShake;
     [SerializeField] protected PlayersManager.GamepadShakeData bigHitGamepadShake;
+
+    protected List<OnHitEffects> onHitEffects = new List<OnHitEffects>();
+    protected List<OnHitEffects> effectsToRemove = new List<OnHitEffects>();
+
+    protected float rangeModifier_M = 1;
+    protected float damagesModifier_M = 1;
+    protected float knockbackModifier_M = 1;
+    protected float cameraShakeIntensityModifier_M = 1;
+
+    protected List<TickDamages> onHitTickDamages = new List<TickDamages>();
 
     private int attackCount;
 
@@ -67,6 +78,12 @@ public class PlayerWeapon : MonoBehaviour
 
     private void Update()
     {
+        foreach (var item in onHitEffects)
+        {
+            item.Update(Time.deltaTime);
+            if (item.IsFInished()) if (!effectsToRemove.Contains(item)) effectsToRemove.Add(item);
+        }
+
         if (attacksComboReset_TIMER > 0)
         {
             attacksComboReset_TIMER -= Time.deltaTime;
@@ -123,6 +140,17 @@ public class PlayerWeapon : MonoBehaviour
         }
 
         if (afterCombo_TIMER > 0) afterCombo_TIMER -= Time.deltaTime;
+    }
+
+    private void LateUpdate()
+    {
+        foreach (var item in effectsToRemove)
+        {
+            RemoveOnHitEffect(item);
+            onHitEffects.Remove(item);
+        }
+
+        effectsToRemove = new List<OnHitEffects>();
     }
 
     #region Rotations
@@ -250,6 +278,8 @@ public class PlayerWeapon : MonoBehaviour
 
     #endregion
 
+    #region Attacks
+
     public virtual void AskForAttack()
     {
         if (afterCombo_TIMER > 0) return;
@@ -262,9 +292,15 @@ public class PlayerWeapon : MonoBehaviour
         StartWeaponAttack(attackCount >= maxAttacksCombo - 1);
     }
 
-    public virtual void StartWeaponAttack(bool isLastAttack) 
+    public virtual void StartWeaponAttack(bool isLastAttack)
     {
         SetRotation();
+
+        if (slashParticles != null)
+        {
+            slashParticles.transform.localScale = new Vector3(rangeModifier_M, rangeModifier_M);
+            slashParticles.Play();
+        }
 
         attackCount++;
         attacksComboReset_TIMER = attacksComboResetTime;
@@ -281,15 +317,23 @@ public class PlayerWeapon : MonoBehaviour
         float dist = Vector2.Distance(effectObjectPos, hitPosition) / 2;
         Vector2 dir = (hitPosition - effectObjectPos).normalized;
 
-        Instantiate(hitParticles, effectObjectPos + (Vector3)(dist * dir), Quaternion.identity);
+        GameObject hitEffect = Instantiate(hitParticles, effectObjectPos + (Vector3)(dist * dir), Quaternion.identity).gameObject;
 
-        float finalKnockback = onHitKnockback - e.GetStats.Weight + speedModifier;
+        float finalKnockback = (onHitKnockback - e.GetStats.Weight + speedModifier) * knockbackModifier_M;
         if (finalKnockback > 0 && addKnockback)
         {
             e.Stun(.1f, true);
 
             Vector2 dirToPlayer = (e.transform.position - owner.transform.position).normalized;
             e.GetRb.AddForce(finalKnockback * dirToPlayer, ForceMode2D.Impulse);
+        }
+
+        foreach (var item in onHitTickDamages) e.AddTickDamages(item);
+
+        foreach (var item in onHitEffects)
+        {
+            item.SuccessfulyApplied();
+            if (item.IsFInished()) if (!effectsToRemove.Contains(item)) effectsToRemove.Add(item);
         }
     }
 
@@ -300,4 +344,34 @@ public class PlayerWeapon : MonoBehaviour
         prepareNextAttack = false;
         inputStored = false;
     }
+
+    #endregion
+
+    #region OnHit Effects
+
+    public void AddOnHitEffect(OnHitEffects newEffect)
+    {
+        onHitEffects.Add(newEffect);
+
+        rangeModifier_M += newEffect.RangeModifier;
+        damagesModifier_M += newEffect.DamagesModifier;
+        knockbackModifier_M += newEffect.KnockbackModifier;
+        cameraShakeIntensityModifier_M += newEffect.CameraShakeIntensityModifier;
+
+        if (newEffect.TickDamagesToAdd != null)
+            onHitTickDamages.Add(newEffect.TickDamagesToAdd);
+    }
+
+    public void RemoveOnHitEffect(OnHitEffects targetEffect)
+    {
+        rangeModifier_M -= targetEffect.RangeModifier;
+        damagesModifier_M -= targetEffect.DamagesModifier;
+        knockbackModifier_M -= targetEffect.KnockbackModifier;
+        cameraShakeIntensityModifier_M -= targetEffect.CameraShakeIntensityModifier;
+
+        if (targetEffect.TickDamagesToAdd != null)
+            onHitTickDamages.Remove(targetEffect.TickDamagesToAdd);
+    }
+
+    #endregion
 }

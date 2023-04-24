@@ -65,8 +65,10 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
+        // if the skill hasn't started yet
         if (started == false)
         {
+            // if we must wait for the transition
             if (transition_Timer > 0)
             {
                 transition_Timer -= Time.deltaTime;
@@ -74,12 +76,14 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
             }
             else
             {
+                // start the skill
                 started = true;
 
                 owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
 
                 float animationSpeedScale = owner.GetSkill.AnimationSpeedScale;
 
+                // if the skill got 4D anims, set the anim depending on orientation
                 if (owner.GetSkill.is4D)
                 {
                     switch (initialDirection)
@@ -103,6 +107,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
                 }
                 else
                 {
+                    // else, just check if player is idle or not
                     if (owner.Velocity == Vector2.zero)
                     {
                         ownerAnimationController.SetAnimation(idleAnim, loopAnims, animationSpeedScale);
@@ -115,6 +120,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
                     }
                 }
 
+                // if there is no offset timer for the skill, call it
                 if (skill_Start_Offset <= 0)
                 {
                     owner.GetSkillHolder.Trigger.enabled = true;
@@ -124,6 +130,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         }
         else
         {
+            // if the skill has started, but there is an offset still
             if (skill_Start_Offset > 0 && !startOffsetFlag)
             {
                 if (skill_Start_Timer >= 0) skill_Start_Timer -= Time.deltaTime;
