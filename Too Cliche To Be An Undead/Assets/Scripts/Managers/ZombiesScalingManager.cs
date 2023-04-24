@@ -49,12 +49,11 @@ public class ZombiesScalingManager : MonoBehaviour
 
     private void Start()
     {
-        //SpawnersManager.Instance.D_stampChange += OnStampChange;
+        SpawnersManager.Instance.D_stampChange += OnStampChange;
     }
 
     private void OnStampChange(int newStamp)
     {
-        return;
         if (newStamp >= modifiersByStamp.Length) return;
 
         List<S_ModifierData> modifList = new List<S_ModifierData>();
