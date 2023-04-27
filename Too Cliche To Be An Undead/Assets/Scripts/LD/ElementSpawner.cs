@@ -27,6 +27,11 @@ public class ElementSpawner : MonoBehaviour
     public delegate void D_SpawnedKeycard(Keycard key);
     public D_SpawnedKeycard D_spawnedKeycard;
 
+    private void Awake()
+    {
+        if (SpawnersManager.Instance == null) Destroy(this.gameObject);
+    }
+
     public void Setup(E_ElementToSpawn _elementToSpawn, bool _destroyAfterSpawn, bool _spawnAtStart)
     {
         elementToSpawn = _elementToSpawn;

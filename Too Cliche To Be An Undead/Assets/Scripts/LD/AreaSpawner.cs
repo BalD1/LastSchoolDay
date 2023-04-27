@@ -26,6 +26,8 @@ public class AreaSpawner : MonoBehaviour
 
     private void Awake()
     {
+        if (SpawnersManager.Instance == null) Destroy(this.gameObject);
+
         isValid = false;
     }
 

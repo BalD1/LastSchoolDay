@@ -39,6 +39,12 @@ public class ZombiesScalingManager : MonoBehaviour
         }
     }
 
+    [field: SerializeField, ReadOnly] public float TotalSpeedAddition { get; private set; }
+
+    [field: SerializeField] public float MaxSteeringMaxForce { get; private set; }
+    [field: SerializeField] public float MaxSteeringMass { get; private set; }
+    [field: SerializeField] public float MaxTargetPositionPredictTime { get; private set; }
+
     public delegate void D_OnSendModifiers(List<S_ModifierData> modifiers);
     public D_OnSendModifiers D_onSendModifiers;
 
@@ -50,6 +56,15 @@ public class ZombiesScalingManager : MonoBehaviour
     private void Start()
     {
         SpawnersManager.Instance.D_stampChange += OnStampChange;
+
+        foreach (var item in ModifiersByStamps)
+        {
+            foreach (var modifier in item.Modifiers)
+            {
+                if (modifier.StatType == StatsModifier.E_StatType.Speed)
+                    TotalSpeedAddition += modifier.Value;
+            }
+        }
     }
 
     private void OnStampChange(int newStamp)

@@ -146,7 +146,7 @@ public class HUBDoor : MonoBehaviour, IInteractable
         }
 
         // Setup Scene
-        SpawnersManager.Instance.ManageKeycardSpawn();
+        SpawnersManager.Instance?.ManageKeycardSpawn();
         hasSpawnedKeys = true;
 
         UIManager.Instance.KeycardContainer.SetActive(true);
@@ -166,7 +166,7 @@ public class HUBDoor : MonoBehaviour, IInteractable
 
         // Re-enable players controllers
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-        SpawnersManager.Instance.AllowSpawns(true);
+        SpawnersManager.Instance?.AllowSpawns(true);
 
         SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainScene);
     }

@@ -173,17 +173,17 @@ public class SpawnersManager : MonoBehaviour
 
     private void EvaluateStamp()
     {
-        if (spawnStamp >= maxStamp) return;
-        if (stamp_TIMER > 0)
+        //if (spawnStamp >= maxStamp) return;
+        //if (stamp_TIMER > 0)
+        //{
+        //    stamp_TIMER -= Time.deltaTime;
+        //    uiCounter.text = stamp_TIMER.ToString("F0");
+
+        //    return;
+        //}
+
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            stamp_TIMER -= Time.deltaTime;
-            uiCounter.text = stamp_TIMER.ToString("F0");
-
-            return;
-        }
-
-        //if (Input.GetKeyDown(KeyCode.Return))
-        //{ 
             LeanTween.cancel(uiFiller.gameObject);
 
             spawnStamp++;
@@ -207,7 +207,7 @@ public class SpawnersManager : MonoBehaviour
             stamp_TIMER = timeBetweenStamps;
             maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
             spawnCooldown = zombiesSpawnCooldown.Evaluate(spawnStamp);
-        //}
+        }
     }
 
     private void SpawnNext()

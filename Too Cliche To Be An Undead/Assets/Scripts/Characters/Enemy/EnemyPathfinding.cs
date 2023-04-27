@@ -17,6 +17,10 @@ public class EnemyPathfinding : MonoBehaviour
 
     [SerializeField] private bool chaoticTargetPosition = false;
 
+    [SerializeField] private bool predictTargetFuturePosition = true;
+    [SerializeField] private float futureTimeToPredict = .25f;
+    private float baseFutureTimeToPredict;
+
 #if UNITY_EDITOR
     [SerializeField] private bool debugMode = false; 
 #endif
@@ -30,9 +34,21 @@ public class EnemyPathfinding : MonoBehaviour
     public void StartUpdatePath() => InvokeRepeating(nameof(TryUpdatePath), 0f, updatePathCooldown);
     public void StopUpdatepath() => CancelInvoke();
 
-    private void Update()
+    private void Start()
     {
-        
+        baseFutureTimeToPredict = futureTimeToPredict;
+
+        owner.D_receivedStampModifier += ModifyPredictOnSpeedModifier;
+    }
+
+    public void ModifyPredictOnSpeedModifier()
+    {
+        float step = ZombiesScalingManager.Instance.TotalSpeedAddition;
+        float maxTargetPosPredict = ZombiesScalingManager.Instance.MaxTargetPositionPredictTime;
+
+        futureTimeToPredict += (baseFutureTimeToPredict - maxTargetPosPredict) * step;
+
+        futureTimeToPredict = Mathf.Clamp(futureTimeToPredict, maxTargetPosPredict, baseFutureTimeToPredict);
     }
 
     public void TryUpdatePath()
@@ -56,6 +72,12 @@ public class EnemyPathfinding : MonoBehaviour
 
     private void SetPath(Vector2 targetPosition)
     {
+        if (predictTargetFuturePosition)
+        {
+            PlayerCharacter target = owner.CurrentPlayerTarget;
+            targetPosition = targetPosition + target.Velocity * target.MaxSpeed_M * futureTimeToPredict;
+        }
+
         if (chaoticTargetPosition)
         {
             float offset = owner.Attack_TIMER > 0 ? targetRandomOffsetAfterAttack : targetRandomOffset;

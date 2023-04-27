@@ -610,6 +610,8 @@ MonoBehaviour:
   targetRandomOffset: 0.5
   targetRandomOffsetAfterAttack: 3
   chaoticTargetPosition: 0
+  predictTargetFuturePosition: 1
+  futureTimeToPredict: 1
   debugMode: 0
 --- !u!114 &7491649661066783789
 MonoBehaviour:

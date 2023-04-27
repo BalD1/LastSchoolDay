@@ -65,15 +65,17 @@ public class NormalZombie : EnemyBase
         base.Start();
         Pathfinding?.StartUpdatePath();
 
+        if (ZombiesScalingManager.Instance != null)
         ZombiesScalingManager.Instance.D_onSendModifiers += ReceiveStampModifiers;
 
         if (tutorialZombie || isIdle) return;
 
-        SpawnersManager.Instance.AddZombie();
+        SpawnersManager.Instance?.AddZombie();
 
         targetClosest_TIMER = targetClosest_COOLDOWN;
 
-        d_OnDeath += SpawnersManager.Instance.RemoveZombie;
+        if (SpawnersManager.Instance != null)
+            d_OnDeath += SpawnersManager.Instance.RemoveZombie;
     }
 
     protected override void Update()
@@ -100,10 +102,28 @@ public class NormalZombie : EnemyBase
 
     private void ReceiveStampModifiers(List<ZombiesScalingManager.S_ModifierData> modifiers)
     {
+        float speedAddition = 0;
         foreach (var item in modifiers)
         {
             this.AddModifier(item.ModifierID, item.Value, item.StatType);
+
+            if (item.StatType == StatsModifier.E_StatType.Speed) speedAddition += item.Value;
         }
+
+        float totalSpeedAddition = ZombiesScalingManager.Instance.TotalSpeedAddition;
+        float maxSteeringMaxForce = ZombiesScalingManager.Instance.MaxSteeringMaxForce;
+        float maxSteeringMass = ZombiesScalingManager.Instance.MaxSteeringMass;
+
+        for (int i = 0; i < speedAddition; i++)
+        {
+            this.maxForce += (maxSteeringMaxForce - BaseMaxForce) / (totalSpeedAddition );
+            this.movementMass -= (BaseMovementMass - maxSteeringMass) / (totalSpeedAddition );
+        }
+
+        maxForce = Mathf.Clamp(maxForce, BaseMaxForce, maxSteeringMaxForce);
+        movementMass = Mathf.Clamp(movementMass, maxSteeringMass, BaseMovementMass);
+
+        D_receivedStampModifier?.Invoke();
     }
 
     public void ForceKill()
@@ -114,7 +134,6 @@ public class NormalZombie : EnemyBase
         this.gameObject.SetActive(false);
         SpawnersManager.Instance.TeleportZombie(this);
         ResetAll();
-
     }
 
     public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
@@ -139,13 +158,14 @@ public class NormalZombie : EnemyBase
             Destroy(this.gameObject);
             return;
         }
-        SpawnersManager.Instance.ZombiesPool.Enqueue(this);
+        SpawnersManager.Instance?.ZombiesPool.Enqueue(this);
         timeOfDeath = Time.timeSinceLevelLoad;
 
         if (isIdle)
         {
             isIdle = false;
-            d_OnDeath += SpawnersManager.Instance.RemoveZombie;
+            if (SpawnersManager.Instance != null)
+                d_OnDeath += SpawnersManager.Instance.RemoveZombie;
         }
         this.gameObject.SetActive(false);
         ResetAll();

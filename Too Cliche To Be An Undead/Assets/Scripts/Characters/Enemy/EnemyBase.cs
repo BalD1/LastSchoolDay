@@ -38,11 +38,13 @@ public abstract class EnemyBase : Entity
 
     public float speedMultiplierWhenOutsideOfCamera = 1;
 
-    [SerializeField] private float maxForce;
+    [SerializeField] protected float maxForce;
     public float MaxForce { get => maxForce; }
+    [field: SerializeField, ReadOnly] public float BaseMaxForce { get; protected set; }
 
-    [SerializeField] private float movementMass;
+    [SerializeField] protected float movementMass;
     public float MovementMass { get => movementMass; }
+    [field: SerializeField, ReadOnly] public float BaseMovementMass { get; protected set; }
 
     private Vector2 steeredVelocity;
 
@@ -90,6 +92,9 @@ public abstract class EnemyBase : Entity
     public delegate void D_LostPlayer();
     public D_LostPlayer D_lostPlayer;
 
+    public delegate void D_ReceivedStampModifier();
+    public D_ReceivedStampModifier D_receivedStampModifier;
+
     [Header("Misc")]
 
 #if UNITY_EDITOR
@@ -106,6 +111,9 @@ public abstract class EnemyBase : Entity
     {
         base.Awake();
         basePosition = this.transform.position;
+
+        BaseMaxForce = maxForce;
+        BaseMovementMass = movementMass;
     }
 
     protected override void Start()
@@ -126,15 +134,14 @@ public abstract class EnemyBase : Entity
         steering = Vector3.ClampMagnitude(steering, this.MaxForce);
         if (this.MovementMass != 0)
             steering /= this.MovementMass;
-        
+
         float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
-        if (distance < distanceBeforeStop && slowdownOnApproach && allowSlowdown) 
+        if (distance < distanceBeforeStop && slowdownOnApproach && allowSlowdown)
             steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * (distance / distanceBeforeStop);
-        else 
+        else
             steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed);
-        
-        this.GetRb.velocity =  steeredVelocity * Time.fixedDeltaTime;
-        //this.GetRb.velocity = goalPosition * this.GetStats.Speed(this.StatsModifiers) * this.SpeedMultiplier * Time.fixedDeltaTime;
+
+        this.GetRb.velocity = steeredVelocity * Time.fixedDeltaTime;
     }
 
     public void ChooseRandomPosition()
