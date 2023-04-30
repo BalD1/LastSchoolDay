@@ -36,8 +36,6 @@ public abstract class EnemyBase : Entity
     [SerializeField] private float speedMultiplier;
     public float SpeedMultiplier { get => speedMultiplier; }
 
-    public float speedMultiplierWhenOutsideOfCamera = 1;
-
     [SerializeField] protected float maxForce;
     public float MaxForce { get => maxForce; }
     [field: SerializeField, ReadOnly] public float BaseMaxForce { get; protected set; }
@@ -50,7 +48,7 @@ public abstract class EnemyBase : Entity
 
     [SerializeField] private bool allowSlowdown = true;
 
-    public float MaxSpeed { get => this.MaxSpeed_M * this.SpeedMultiplier * speedMultiplierWhenOutsideOfCamera; }
+    public float MaxSpeed { get => this.MaxSpeed_M * this.SpeedMultiplier; }
 
     [SerializeField] private float randomWanderPositionRadius = 5f;
     public float RandomWanderPositionRadius { get => randomWanderPositionRadius; }
@@ -205,7 +203,7 @@ public abstract class EnemyBase : Entity
     {
         base.OnDeath(forceDeath);
 
-        if (dropTable != null)
+        if (dropTable != null && !forceDeath)
         {
             dropTable.DropRandom(this.transform.position);
         }

@@ -55,13 +55,16 @@ public class EnemyPathfinding : MonoBehaviour
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
 
-        if (seeker.IsDone())
-        {
-            UpdatePath();
-        }
+        if (!owner.IsAlive()) return;
+        if (!seeker.IsDone()) return;
+        if (owner.CurrentPositionTarget == null || owner.CurrentPlayerTarget == null) return;
+
+        UpdatePath();
     }
     public void UpdatePath()
     {
+        if (owner.CurrentPositionTarget == null) return;
+
         if (fleeFromTarget)
         {
             Vector2 direction = (Vector2)this.transform.position - owner.CurrentPositionTarget;

@@ -1080,9 +1080,10 @@ MonoBehaviour:
     m_Bits: 3072
   pivotOffset: {fileID: 3110682095013553420}
   speedMultiplier: 40
-  speedMultiplierWhenOutsideOfCamera: 1
   maxForce: 100
+  <BaseMaxForce>k__BackingField: 0
   movementMass: 30
+  <BaseMovementMass>k__BackingField: 0
   allowSlowdown: 1
   randomWanderPositionRadius: 6
   minWaitBeforeNewWanderPoint: 1

@@ -14,11 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityName: NormalZombie
   maxHP: 100
+  maxHP_MAX: 3.4028235e+38
   baseDamages: 5
+  baseDamages_MAX: 3.4028235e+38
   attackRange: 0
+  attackRange_MAX: 3.4028235e+38
   attack_COOLDOWN: 3
+  attack_COOLDOWN_MAX: 3.4028235e+38
   invincibility_COOLDOWN: 0.1
-  speed: 2
+  invincibility_COOLDOWN_MAX: 3.4028235e+38
+  speed: 3
+  speed_MAX: 3.4028235e+38
   critChances: 0
+  critChances_MAX: 2147483647
   weight: 0
   team: 1

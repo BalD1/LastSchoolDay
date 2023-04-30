@@ -5,6 +5,7 @@ using UnityEngine;
 public class NormalZombie : EnemyBase
 {
     [SerializeField] private FSM_NZ_Manager stateManager;
+    public FSM_NZ_Manager StateManager { get => stateManager; }
 
     [field: SerializeField] public GameObject spineHolder { get; private set; }
     [field: SerializeField] public ZombiesAnimationController animationController { get; private set; }
@@ -128,12 +129,7 @@ public class NormalZombie : EnemyBase
 
     public void ForceKill()
     {
-        if (isIdle) return;
-
-        attackedPlayer?.RemoveAttacker(this);
-        this.gameObject.SetActive(false);
-        SpawnersManager.Instance.TeleportZombie(this);
-        ResetAll();
+        OnDeath(true);
     }
 
     public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
