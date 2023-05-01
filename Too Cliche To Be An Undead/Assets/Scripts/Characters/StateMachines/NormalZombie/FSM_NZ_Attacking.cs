@@ -31,6 +31,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
 
+        owner.enemiesBlocker.enabled = false;
+
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
 
         float durationBeforeAttack = Random.Range(owner.MinDurationBeforeAttack, owner.MaxDurationBeforeAttack);
@@ -174,6 +176,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         owner.UnsetAttackedPlayer();
         owner.Vision.TargetClosestPlayer();
+
+        owner.enemiesBlocker.enabled = true;
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)

@@ -133,11 +133,20 @@ public abstract class EnemyBase : Entity
         if (this.MovementMass != 0)
             steering /= this.MovementMass;
 
-        float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
-        if (distance < distanceBeforeStop && slowdownOnApproach && allowSlowdown)
-            steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * (distance / distanceBeforeStop);
-        else
-            steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed);
+        void SteerVelocity(float multiplier = 1)
+        {
+            steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * multiplier;
+        }
+
+        bool isTargetIdle = currentPlayerTarget != null && currentPlayerTarget.Velocity == Vector2.zero;
+        if ((slowdownOnApproach && allowSlowdown) && isTargetIdle)
+        {
+            float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
+
+            if (distance < distanceBeforeStop) SteerVelocity(distance / distanceBeforeStop);
+            else SteerVelocity();
+        }
+        else SteerVelocity();
 
         this.GetRb.velocity = steeredVelocity * Time.fixedDeltaTime;
     }

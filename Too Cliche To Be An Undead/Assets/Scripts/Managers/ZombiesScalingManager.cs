@@ -55,6 +55,8 @@ public class ZombiesScalingManager : MonoBehaviour
 
     private void Start()
     {
+        if (SpawnersManager.Instance == null) return;
+
         SpawnersManager.Instance.D_stampChange += OnStampChange;
 
         foreach (var item in ModifiersByStamps)

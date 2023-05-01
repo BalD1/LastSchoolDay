@@ -49,12 +49,13 @@ MonoBehaviour:
   stampsCounter: {fileID: 0}
   uiFiller: {fileID: 0}
   uiCounter: {fileID: 0}
+  uiStamp: {fileID: 0}
   <maxZombiesInSchoolByTime>k__BackingField:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -96,7 +97,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 5
+      value: 3
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -138,18 +139,18 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 30
-      inSlope: -2
-      outSlope: -2
+      value: 15
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 5
-      value: 20
-      inSlope: -2
-      outSlope: -2
+      value: 15
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -162,18 +163,18 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 20
-      inSlope: 2
-      outSlope: 2
+      value: 10
+      inSlope: 3
+      outSlope: 3
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 5
-      value: 30
-      inSlope: 2
-      outSlope: 2
+      value: 25
+      inSlope: 3
+      outSlope: 3
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -192,6 +193,11 @@ MonoBehaviour:
   spawnsAreAllowed: 0
   stamp_TIMER: 0
   elementSpawners:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -249,5 +255,5 @@ MonoBehaviour:
   - {fileID: 0}
   validAreaSpawners: []
   spawner_PF: {fileID: 7153798975222276529, guid: b695abb064cd91b4e819e28a9e3aa125, type: 3}
-  showAreaSpawnersBounds: 1
+  showAreaSpawnersBounds: 0
   debugMode: 0

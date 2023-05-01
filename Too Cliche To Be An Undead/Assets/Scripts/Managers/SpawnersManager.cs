@@ -173,41 +173,38 @@ public class SpawnersManager : MonoBehaviour
 
     private void EvaluateStamp()
     {
-        //if (spawnStamp >= maxStamp) return;
-        //if (stamp_TIMER > 0)
-        //{
-        //    stamp_TIMER -= Time.deltaTime;
-        //    uiCounter.text = stamp_TIMER.ToString("F0");
-
-        //    return;
-        //}
-
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (spawnStamp >= maxStamp) return;
+        if (stamp_TIMER > 0)
         {
-            LeanTween.cancel(uiFiller.gameObject);
+            stamp_TIMER -= Time.deltaTime;
+            uiCounter.text = stamp_TIMER.ToString("F0");
 
-            spawnStamp++;
-
-            if (spawnStamp < maxStamp)
-            {
-                LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
-                {
-                    uiFiller.fillAmount = val;
-                });
-            }
-            else uiFiller.fillAmount = 1;
-
-            D_stampChange?.Invoke(spawnStamp);
-
-            uiStamp.text = spawnStamp.ToString();
-
-            RectTransform stampContainerRT = stampsCounter.GetComponent<RectTransform>();
-            LeanTween.scale(stampContainerRT, Vector3.one * 1.3f, .25f).setLoopPingPong(1);
-
-            stamp_TIMER = timeBetweenStamps;
-            maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
-            spawnCooldown = zombiesSpawnCooldown.Evaluate(spawnStamp);
+            return;
         }
+
+        LeanTween.cancel(uiFiller.gameObject);
+
+        spawnStamp++;
+
+        if (spawnStamp < maxStamp)
+        {
+            LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+            {
+                uiFiller.fillAmount = val;
+            });
+        }
+        else uiFiller.fillAmount = 1;
+
+        D_stampChange?.Invoke(spawnStamp);
+
+        uiStamp.text = spawnStamp.ToString();
+
+        RectTransform stampContainerRT = stampsCounter.GetComponent<RectTransform>();
+        LeanTween.scale(stampContainerRT, Vector3.one * 1.3f, .25f).setLoopPingPong(1);
+
+        stamp_TIMER = timeBetweenStamps;
+        maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
+        spawnCooldown = zombiesSpawnCooldown.Evaluate(spawnStamp);
     }
 
     private void SpawnNext()

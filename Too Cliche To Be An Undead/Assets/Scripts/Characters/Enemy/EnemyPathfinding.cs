@@ -21,6 +21,8 @@ public class EnemyPathfinding : MonoBehaviour
     [SerializeField] private float futureTimeToPredict = .25f;
     private float baseFutureTimeToPredict;
 
+    [SerializeField] private LayerMask predictRaycastMask;
+
 #if UNITY_EDITOR
     [SerializeField] private bool debugMode = false; 
 #endif
@@ -75,11 +77,7 @@ public class EnemyPathfinding : MonoBehaviour
 
     private void SetPath(Vector2 targetPosition)
     {
-        if (predictTargetFuturePosition)
-        {
-            PlayerCharacter target = owner.CurrentPlayerTarget;
-            targetPosition = targetPosition + target.Velocity * target.MaxSpeed_M * futureTimeToPredict;
-        }
+        if (predictTargetFuturePosition) PredictFuturePosition(ref targetPosition);
 
         if (chaoticTargetPosition)
         {
@@ -89,6 +87,20 @@ public class EnemyPathfinding : MonoBehaviour
         }
 
         seeker.StartPath(this.transform.position, targetPosition, OnPathComplete);
+    }
+
+    private void PredictFuturePosition(ref Vector2 targetPosition)
+    {
+        PlayerCharacter target = owner.CurrentPlayerTarget;
+
+        // do not predict if the target is headed toward self
+        if (target.Velocity.x > 0 ^ (targetPosition.x - this.transform.position.x > 0)) return;
+        if (target.Velocity.y > 0 ^ (targetPosition.y - this.transform.position.y > 0)) return;
+
+        Vector2 predictedPosition = targetPosition + target.Velocity * target.MaxSpeed_M * futureTimeToPredict;
+
+        RaycastHit2D raycast = Physics2D.Raycast(targetPosition, predictedPosition, futureTimeToPredict, predictRaycastMask);
+        if (raycast.collider == null) targetPosition = predictedPosition;
     }
 
     private void OnPathComplete(Path p)
