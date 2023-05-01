@@ -986,7 +986,7 @@ public class PlayerCharacter : Entity, IInteractable
         skillHolder.transform.GetChild(0).localPosition = Vector2.down * offset;
     }
 
-    public void SetArmsState(bool active, Vector2 newOffset, int skeletonIdx = 0, string boneToFollow = "")
+    public void SetArmsState(bool active, Vector3 newOffset, int skeletonIdx = 0, string boneToFollow = "")
     {
         if (boneToFollow != "")
             animationController.leftArmBone.SetBone(boneToFollow);
@@ -994,7 +994,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (animationController.IsLookingAtRight())
         {
-            Vector2 v = newOffset;
+            Vector3 v = newOffset;
             v.x *= -1;
             newOffset = v;
         }

@@ -10,7 +10,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
     [SerializeField] private int skeletonIdx;
     [SerializeField] private string skeletonBoneToFollowName;
 
-    [SerializeField] private Vector2 armsOffset;
+    [SerializeField] private Vector3 armsOffset;
 
     private List<Entity> entitiesInTrigger = new List<Entity>();
 
@@ -76,7 +76,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.D_enteredTrigger -= EnteredTrigger;
         owner.GetSkillHolder.D_exitedTrigger -= ExitedTrigger;
 
-        owner.SetArmsState(false, Vector2.zero);
+        owner.SetArmsState(false, Vector3.zero);
 
         owner.SkillTutoAnimator.SetTrigger("finish");
 

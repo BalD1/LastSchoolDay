@@ -19,10 +19,18 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: a42883e7f5c57214690fe9198eda9238, type: 3}
     pitchRange: 0.4
   hurtClips:
-  - clip: {fileID: 0}
-    pitchRange: 0
+  - clip: {fileID: 8300000, guid: f7046813c124a3e45adbd4295dcec22f, type: 3}
+    pitchRange: 0.1
+  - clip: {fileID: 8300000, guid: 4e81e8e8e2fd3da4dac90f11ecc8263e, type: 3}
+    pitchRange: 0.1
+  - clip: {fileID: 8300000, guid: aa3ffc1543c59c34683cd9b89e8c5462, type: 3}
+    pitchRange: 0.1
+  - clip: {fileID: 8300000, guid: e490c9d848c2c2e499db38835b8398f0, type: 3}
+    pitchRange: 0.1
   deathClips:
-  - clip: {fileID: 0}
+  - clip: {fileID: 8300000, guid: a7b67bb9c83576e40bdba4e179a43a06, type: 3}
+    pitchRange: 0
+  - clip: {fileID: 8300000, guid: e73d81c7899237442b106fc993e30789, type: 3}
     pitchRange: 0
   attackConnectedClips:
   - clip: {fileID: 8300000, guid: 2b35fb6b1f6abd64683a08f3450ee978, type: 3}
@@ -58,3 +66,20 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: f8e559768bed7ed4680ab0449da7ec3a, type: 3}
     pitchRange: 0.4
   footsteps_outdoor: []
+  voice_skillStartClips:
+  - clip: {fileID: 8300000, guid: fa17452e600cf164eb459f7286818bdd, type: 3}
+    pitchRange: 0.2
+  voice_dashStartClips:
+  - clip: {fileID: 8300000, guid: ed20e2c4d6378f846b7397211cdd74d2, type: 3}
+    pitchRange: 0.2
+  voice_attackClips:
+  - clip: {fileID: 8300000, guid: 3b57fe7f72c393746abd22cf20039da1, type: 3}
+    pitchRange: 0.1
+  - clip: {fileID: 8300000, guid: e4f9093547c710042bff40c3cc4c6684, type: 3}
+    pitchRange: 0.1
+  - clip: {fileID: 8300000, guid: 882e24e9287e06c44acbcb62eb58f861, type: 3}
+    pitchRange: 0.1
+  - clip: {fileID: 8300000, guid: 9969869e4a31d9d488d2beff4309b64f, type: 3}
+    pitchRange: 0.1
+  - clip: {fileID: 8300000, guid: 9210768f3cb27804a9f72c912cba2d27, type: 3}
+    pitchRange: 0.1

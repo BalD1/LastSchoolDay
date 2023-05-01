@@ -76,7 +76,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
         owner.D_aimInput -= owner.Weapon.SetAimGoal;
 
-        owner.SetArmsState(false, Vector2.zero, skeletonIdx);
+        owner.SetArmsState(false, Vector3.zero, skeletonIdx);
 
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();

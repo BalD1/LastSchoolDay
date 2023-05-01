@@ -95,7 +95,7 @@ public class PlayerAnimationController : MonoBehaviour
         scale.x *= -1;
         skeletonAnimation.gameObject.transform.localScale = scale;
 
-        Vector2 v = leftArmBone.offset;
+        Vector3 v = leftArmBone.offset;
         v.x *= -1;
         leftArmBone.offset = v;
 
