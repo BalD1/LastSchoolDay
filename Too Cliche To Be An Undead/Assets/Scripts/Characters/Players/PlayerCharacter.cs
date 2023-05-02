@@ -66,9 +66,16 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private Image portrait;
     [SerializeField] private Image hpBar;
+    [SerializeField] private Image hpBarContainer;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private Image skillIcon;
+    [SerializeField] private Image skillFill;
+    [SerializeField] private RectTransform skillContainer;
+    [SerializeField] private TextMeshProUGUI skillTimerTXT;
     [SerializeField] private Image dashIcon;
+    [SerializeField] private Image dashFill;
+    [SerializeField] private RectTransform dashContainer;
+    [SerializeField] private TextMeshProUGUI dashTimerTXT;
     [SerializeField] private Image skillDurationIcon;
 
     [SerializeField] private UIManager.CharacterPortrait characterPortrait;
@@ -303,14 +310,17 @@ public class PlayerCharacter : Entity, IInteractable
 
             this.portrait = pHUD.portrait;
             this.hpBar = pHUD.hpBar;
+            this.hpBarContainer = pHUD.hpBarContainer;
             this.hpText = pHUD.hpText;
             this.skillIcon = pHUD.skillThumbnail;
+            this.skillFill = pHUD.skillFill;
+            this.skillContainer = pHUD.skillContainer;
+            this.skillTimerTXT = pHUD.skillTimerTXT;
             this.dashIcon = pHUD.dashThumbnail;
+            this.dashFill = pHUD.dashFill;
+            this.dashContainer = pHUD.dashContainer;
+            this.dashTimerTXT = pHUD.dashTimerTXT;
         }
-
-        UIManager.PortraitRect portraitRect = characterPortrait.portraitRect;
-        portrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
-                                                   portraitRect.anchorMin, portraitRect.anchorMax);
 
         UIManager.Instance.KeycardContainer.SetActive(false);
     }
@@ -329,7 +339,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
 
-        SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips);
+        SwitchCharacter(pcc);
     }
 
     private void OnDestroy()
@@ -392,7 +402,7 @@ public class PlayerCharacter : Entity, IInteractable
 
             PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(GameManager.E_CharactersNames.Shirley);
 
-            SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips);
+            SwitchCharacter(pcc);
 
             this.currentHP = MaxHP_M;
 
@@ -418,14 +428,8 @@ public class PlayerCharacter : Entity, IInteractable
         {
             dash_CD_TIMER -= Time.deltaTime;
 
-            float fillAmount = (dash_CD_TIMER / MaxDashCD_M) - 1;
-            UpdateDashThumbnailFill(fillAmount * -1);
-
-            if (dash_CD_TIMER <= 0)
-            {
-                ScaleTweenObject(dashIcon.gameObject);
-                UIManager.Instance.SetDashIconState(PlayerIndex, true);
-            }
+            float fillAmount = dash_CD_TIMER / MaxDashCD_M;
+            UpdateDashThumbnailFill(fillAmount);
         }
 
         if (gamepadShake_TIMER > 0)
@@ -964,11 +968,20 @@ public class PlayerCharacter : Entity, IInteractable
 
         skillIcon.sprite = image;
     }
-    public void UpdateSkillThumbnailFill(float fill)
+    public void UpdateSkillThumbnailFill(float fill, bool allowTween = true)
     {
-        if (skillIcon == null) return;
+        if (skillFill == null) return;
 
-        skillIcon.fillAmount = fill;
+        skillFill.fillAmount = fill;
+
+        skillTimerTXT.text = (fill * MaxSkillCD_M).ToString("F0");
+
+        if (fill <= 0)
+        {
+            skillTimerTXT.text = "";
+            if (allowTween)
+                ScaleTweenObject(skillContainer.gameObject, LeanTweenType.linear, LeanTweenType.easeOutSine);
+        }
     }
 
     public void ResetSkillAnimator()
@@ -1148,6 +1161,8 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (target == null) return;
 
+        LeanTween.cancel(target);
+
         LeanTween.scale(target, iconsMaxScale, maxScaleTime).setEase(inType)
         .setOnComplete(() =>
         {
@@ -1158,6 +1173,8 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (target == null) return;
 
+        LeanTween.cancel(target);
+
         LeanTween.scale(target, iconsMaxScale, maxScaleTime).setEase(_inType)
         .setOnComplete(() =>
         {
@@ -1167,6 +1184,8 @@ public class PlayerCharacter : Entity, IInteractable
     public void ScaleTweenObject(RectTransform target)
     {
         if (target == null) return;
+
+        LeanTween.cancel(target);
 
         LeanTween.scale(target, iconsMaxScale, maxScaleTime).setEase(inType)
         .setOnComplete(() =>
@@ -1253,10 +1272,6 @@ public class PlayerCharacter : Entity, IInteractable
         this.MaxSpeed_M = newStats.Speed;
         this.MaxCritChances_M = newStats.CritChances;
 
-        UIManager.PortraitRect portraitRect = characterPortrait.portraitRect;
-        portrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
-                                                   portraitRect.anchorMin, portraitRect.anchorMax);
-
         foreach (var item in statsModifiers)
         {
             this.ApplyModifier(item);
@@ -1288,9 +1303,17 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void UpdateDashThumbnailFill(float fill)
     {
-        if (dashIcon == null) return;
+        if (dashFill == null) return;
 
-        dashIcon.fillAmount = fill;
+        dashFill.fillAmount = fill;
+
+        dashTimerTXT.text = (MaxDashCD_M * fill).ToString("F0");
+
+        if (fill <= 0)
+        {
+            ScaleTweenObject(dashContainer.gameObject);
+            dashTimerTXT.text = "";
+        }
     }
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)

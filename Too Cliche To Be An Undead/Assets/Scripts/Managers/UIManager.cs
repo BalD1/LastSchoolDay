@@ -109,19 +109,19 @@ public class UIManager : MonoBehaviour
         public RectTransform rect;
         public Image portrait;
         public Image hpBar;
+        public Image hpBarContainer;
         public TextMeshProUGUI hpText;
 
-        public Image skillContainer;
+        public RectTransform skillContainer;
+        public Image skillFill;
         public Image skillThumbnail;
+        public TextMeshProUGUI skillTimerTXT;
 
-        public Image dashContainer;
+        public RectTransform dashContainer;
+        public Image dashFill;
         public Image dashThumbnail;
+        public TextMeshProUGUI dashTimerTXT;
     }
-
-    [SerializeField] private Sprite skillButton_active;
-    [SerializeField] private Sprite skillButton_inactive;
-    [SerializeField] private Sprite dashButton_active;
-    [SerializeField] private Sprite dashButton_inactive;
 
     [SerializeField] private CharacterPortrait[] characterPortrait;
     public CharacterPortrait[] CharacterPortraits { get => characterPortrait; }
@@ -131,7 +131,6 @@ public class UIManager : MonoBehaviour
     {
         public GameManager.E_CharactersNames characterName;
 
-        public PortraitRect portraitRect;
 
         public CharacterPortraitByHP[] characterPortraitsByHP;
     }
@@ -141,15 +140,6 @@ public class UIManager : MonoBehaviour
     {
         public float percentage;
         public Sprite portrait;
-    }
-    [System.Serializable]
-    public struct PortraitRect
-    {
-        public Vector2 offsetMin;
-        public Vector2 offsetMax;
-
-        public Vector2 anchorMin;
-        public Vector2 anchorMax;
     }
 
     #endregion
@@ -350,16 +340,6 @@ public class UIManager : MonoBehaviour
         isBossHUDTransparent = makeTransparent;
 
         LeanTween.alphaCanvas(BossHUDManager.Instance.hudContainer, makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
-    }
-
-    public void SetDashIconState(int playerID, bool active)
-    {
-        playerHUDs[playerID].dashContainer.sprite = active ? dashButton_active : dashButton_inactive;
-    }
-
-    public void SetSkillIconState(int playerID, bool active)
-    {
-        playerHUDs[playerID].skillContainer.sprite = active ? skillButton_active : skillButton_inactive;
     }
 
     public void UpdateKeycardsCounter(int idx)

@@ -63,7 +63,6 @@ MonoBehaviour:
   mainMenu_mainPanel: {fileID: 0}
   fadeImage: {fileID: 0}
   OPTION_DashOnMovementsToggle: {fileID: 0}
-  skipTutorialToggle: {fileID: 0}
   hudTransparencyValue: 0.3
   hudTransparencyTime: 0.3
   playersColliders:
@@ -75,16 +74,21 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  bossesColliders: []
+  hudContainerRect: {fileID: 0}
   hudKeycards:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  coinsContainer: {fileID: 0}
   moneyCounter: {fileID: 0}
+  stampTimer: {fileID: 0}
   shopBar: {fileID: 0}
   optionButton_Pause: {fileID: 0}
   mainMenuButton_Pause: {fileID: 0}
   playerHUDs:
   - container: {fileID: 0}
+    rect: {fileID: 0}
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
     hpText: {fileID: 0}
@@ -93,6 +97,7 @@ MonoBehaviour:
     dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
   - container: {fileID: 0}
+    rect: {fileID: 0}
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
     hpText: {fileID: 0}
@@ -101,6 +106,7 @@ MonoBehaviour:
     dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
   - container: {fileID: 0}
+    rect: {fileID: 0}
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
     hpText: {fileID: 0}
@@ -109,6 +115,7 @@ MonoBehaviour:
     dashContainer: {fileID: 0}
     dashThumbnail: {fileID: 0}
   - container: {fileID: 0}
+    rect: {fileID: 0}
     portrait: {fileID: 0}
     hpBar: {fileID: 0}
     hpText: {fileID: 0}
@@ -124,6 +131,7 @@ MonoBehaviour:
   keycardsContainerRect: {fileID: 0}
   keycardsCounter: {fileID: 0}
   hudContainer: {fileID: 0}
+  tutoHUD: {fileID: 0}
   dialogueContainer: {fileID: 0}
   skillButton_active: {fileID: 997046631, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   skillButton_inactive: {fileID: -480677608, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
@@ -131,11 +139,6 @@ MonoBehaviour:
   dashButton_inactive: {fileID: 427296786, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   characterPortrait:
   - characterName: 0
-    portraitRect:
-      offsetMin: {x: 0.3147545, y: 1.173247}
-      offsetMax: {x: 0.3307457, y: -0.1015482}
-      anchorMin: {x: 0.03973891, y: 0.1316185}
-      anchorMax: {x: 0.3482463, y: 0.8352444}
     characterPortraitsByHP:
     - percentage: 0.8
       portrait: {fileID: 813413951, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
@@ -150,11 +153,6 @@ MonoBehaviour:
     - percentage: -0.1
       portrait: {fileID: 1861653704, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   - characterName: 1
-    portraitRect:
-      offsetMin: {x: 0.4515949, y: -0.9860004}
-      offsetMax: {x: -0.3179974, y: 0.389999}
-      anchorMin: {x: 0.06963257, y: 0.08447451}
-      anchorMax: {x: 0.3231252, y: 0.9304745}
     characterPortraitsByHP:
     - percentage: 0.8
       portrait: {fileID: 364750196, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
@@ -169,11 +167,6 @@ MonoBehaviour:
     - percentage: -0.1
       portrait: {fileID: 1861653704, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   - characterName: 2
-    portraitRect:
-      offsetMin: {x: 0.2749939, y: 0.02500153}
-      offsetMax: {x: 0.4750061, y: -0.7750015}
-      anchorMin: {x: 0.0507537, y: 0.07300001}
-      anchorMax: {x: 0.3042611, y: 0.8650001}
     characterPortraitsByHP:
     - percentage: 0.8
       portrait: {fileID: -425222623, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
@@ -188,11 +181,6 @@ MonoBehaviour:
     - percentage: -0.1
       portrait: {fileID: 1861653704, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   - characterName: 3
-    portraitRect:
-      offsetMin: {x: -1.147807, y: 0.3205495}
-      offsetMax: {x: -0.2183938, y: -0.5004497}
-      anchorMin: {x: 0.05349261, y: 0.1455836}
-      anchorMax: {x: 0.3207389, y: 0.9020001}
     characterPortraitsByHP:
     - percentage: 0.8
       portrait: {fileID: 1430529025, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
@@ -208,6 +196,9 @@ MonoBehaviour:
       portrait: {fileID: 1861653704, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   panelsManager: {fileID: 0}
   EDITOR_openMenusQueues: []
+  right: 1.3
+  top: 1
+  bottom: 1.3
 --- !u!114 &3375115424910339286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,3 +215,6 @@ MonoBehaviour:
   videoPlayer: {fileID: 0}
   buttonsPanel: {fileID: 0}
   panelShowCount: 1
+  scorePanel: {fileID: 0}
+  scorePanelsController: {fileID: 0}
+  youSurvivedImage: {fileID: 0}

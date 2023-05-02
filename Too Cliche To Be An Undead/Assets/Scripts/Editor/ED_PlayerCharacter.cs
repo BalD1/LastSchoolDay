@@ -243,7 +243,7 @@ public class ED_PlayerCharacter : Editor
         if (GUILayout.Button("Force new character", GUILayout.MaxWidth(150)))
         {
             PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(characterToForce);
-            targetScript.SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips);
+            targetScript.SwitchCharacter(pcc);
         }
         characterToForce = (GameManager.E_CharactersNames)EditorGUILayout.EnumPopup(characterToForce, GUILayout.MaxWidth(100));
 

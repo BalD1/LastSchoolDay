@@ -19,6 +19,7 @@ MonoBehaviour:
   offset: 0
   range: 0
   duration: 7
+  animationSpeedScale: 1
   transitionDurationMultiplier: 1
   startOffset: 0
   damagesPercentageModifier: 0.25
@@ -30,7 +31,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 768
   animationToPlay: Nailgun
-  thumbnail: {fileID: -133322994, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
+  thumbnail: {fileID: -2078298924, guid: ee8d26d9168bffb44afca851c2dfbf48, type: 3}
   particles: {fileID: 0}
   <holdSkillAudio>k__BackingField: 1
   projectile: {fileID: 2370581798129389374, guid: ab67f2fad5863b84dbe37f4eb13b2838, type: 3}
@@ -43,3 +44,4 @@ MonoBehaviour:
   damageRandomMultiplier: 1.2
   fire_COOLDOWN: 0.09
   fireClip: {fileID: 8300000, guid: 735644807d0c7304994c024067272ed3, type: 3}
+  pitchRange: 0.1

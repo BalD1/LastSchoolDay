@@ -34,7 +34,7 @@ public class CharacterSwitch : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        interactor.GetComponentInParent<PlayerCharacter>().SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips);
+        interactor.GetComponentInParent<PlayerCharacter>().SwitchCharacter(pcc);
 
         if (!CanBeInteractedWith()) spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
     }

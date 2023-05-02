@@ -142,18 +142,6 @@ public class ED_UIManager : Editor
         SerializedProperty playerHUDs = serializedObject.FindProperty("playerHUDs");
         EditorGUILayout.PropertyField(playerHUDs);
 
-        SerializedProperty skillButton_active = serializedObject.FindProperty("skillButton_active");
-        EditorGUILayout.PropertyField(skillButton_active);
-
-        SerializedProperty skillButton_inactive = serializedObject.FindProperty("skillButton_inactive");
-        EditorGUILayout.PropertyField(skillButton_inactive);
-
-        SerializedProperty dashButton_active = serializedObject.FindProperty("dashButton_active");
-        EditorGUILayout.PropertyField(dashButton_active);
-
-        SerializedProperty dashButton_inactive = serializedObject.FindProperty("dashButton_inactive");
-        EditorGUILayout.PropertyField(dashButton_inactive);
-
         SerializedProperty keycardsContainer = serializedObject.FindProperty("keycardsContainer");
         EditorGUILayout.PropertyField(keycardsContainer);
 
