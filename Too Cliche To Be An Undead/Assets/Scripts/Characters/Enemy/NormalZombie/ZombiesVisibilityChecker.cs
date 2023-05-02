@@ -13,9 +13,16 @@ public class ZombiesVisibilityChecker : MonoBehaviour
 
     private const int invisibilityTimerBeforeKill = 5;
 
+    private Camera mainCam;
+
+    private void Awake()
+    {
+        mainCam = Camera.main;
+    }
+
     private void Update()
     {
-        Vector3 viewPos = Camera.main.WorldToViewportPoint(this.transform.position);
+        Vector3 viewPos = mainCam.WorldToViewportPoint(this.transform.position);
         if (viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1)
         {
             wasVisibleOnce = true;

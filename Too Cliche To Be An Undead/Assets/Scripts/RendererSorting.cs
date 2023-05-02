@@ -14,6 +14,8 @@ public class RendererSorting : MonoBehaviour
 
     [SerializeField] private Renderer objectRenderer;
 
+    [SerializeField, ReadOnly] private bool isVisible;
+
 #if UNITY_EDITOR
     [SerializeField] private bool debugMode = false; 
 #endif
@@ -21,12 +23,22 @@ public class RendererSorting : MonoBehaviour
     private float update_TIMER;
     private const float update_COOLDOWN = .1f;
 
-    private const int yOrderPrecision = 1000; 
+    private const int yOrderPrecision = 1000;
 
-    private void Awake() => objectRenderer ??= this.GetComponent<Renderer>();
-
-    private void LateUpdate()
+    private void Reset()
     {
+        objectRenderer = this.GetComponent<Renderer>();
+
+        isStatic = false;
+        pivotOffset = 0;
+        sortingOrderOffset = 0;
+    }
+
+    private void Awake()
+    {
+        if (objectRenderer == null)
+            objectRenderer = this.GetComponent<Renderer>();
+
         if (objectRenderer == null)
         {
             objectRenderer = this.GetComponent<Renderer>();
@@ -40,6 +52,11 @@ public class RendererSorting : MonoBehaviour
 #endif
             return;
         }
+    }
+
+    private void LateUpdate()
+    {
+        if (!isVisible && !isStatic) return;
 
         update_TIMER -= Time.deltaTime;
         if (update_TIMER <= 0)
@@ -60,6 +77,16 @@ public class RendererSorting : MonoBehaviour
         Vector2 positionWithOffset = this.transform.position;
         positionWithOffset.y -= pivotOffset;
         Gizmos.DrawWireSphere(positionWithOffset, 1);
-    } 
+    }
 #endif
+
+    private void OnBecameVisible()
+    {
+        isVisible = true;
+    }
+
+    private void OnBecameInvisible()
+    {
+        isVisible = false;
+    }
 }

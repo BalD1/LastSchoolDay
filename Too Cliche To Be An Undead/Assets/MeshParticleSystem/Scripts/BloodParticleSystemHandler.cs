@@ -14,6 +14,13 @@ public class BloodParticleSystemHandler : MonoBehaviour
     private MeshParticleSystem meshParticleSystem;
     private List<Single> singleList;
 
+    [SerializeField] private int minParticlesToSpawnAtOnce = 1;
+    [SerializeField] private int maxParticlesToSpawnAtOnce = 4;
+
+    [SerializeField] private int maxBloodParticles = 4000;
+
+    public int c;
+
     private void Awake()
     {
         Instance = this;
@@ -34,12 +41,21 @@ public class BloodParticleSystemHandler : MonoBehaviour
                 i--;
             }
         }
+
+        c = singleList.Count;
     }
 
     public void SpawnBlood(Vector3 position, Vector3 direction, float lifetime)
     {
-        float bloodParticleCount = 3;
-        for (int i = 0; i < bloodParticleCount; i++)
+        int particlesToSpawn = Random.Range(minParticlesToSpawnAtOnce, maxParticlesToSpawnAtOnce);
+
+        while (singleList.Count + particlesToSpawn > maxBloodParticles)
+        {
+            singleList[0].DestroySelf();
+            singleList.RemoveAt(0);
+        }
+
+        for (int i = 0; i < particlesToSpawn; i++)
         {
             Vector3 finalDirection = ApplyRotationToVector(direction, Random.Range(-15f, 15f));
             float speed = Random.Range(minSpeedRange, maxSpeedRange);
