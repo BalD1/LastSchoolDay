@@ -174,6 +174,11 @@ public class SpawnersManager : MonoBehaviour
     private void EvaluateStamp()
     {
         if (spawnStamp >= maxStamp) return;
+
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Return)) stamp_TIMER = 0;
+#endif
+
         if (stamp_TIMER > 0)
         {
             stamp_TIMER -= Time.deltaTime;

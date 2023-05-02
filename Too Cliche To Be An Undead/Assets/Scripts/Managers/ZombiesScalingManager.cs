@@ -25,6 +25,9 @@ public class ZombiesScalingManager : MonoBehaviour
 
     public S_ModifiersByStamp[] ModifiersByStamps { get => modifiersByStamp; }
 
+    [field: SerializeField, ReadOnly] 
+    public List<S_ModifierData> CurrentActiveModifiers { get; private set; }
+
     [System.Serializable]
     public class S_ModifierData
     {
@@ -75,6 +78,8 @@ public class ZombiesScalingManager : MonoBehaviour
 
         List<S_ModifierData> modifList = new List<S_ModifierData>();
         modifList = modifiersByStamp[newStamp].Modifiers.ToList();
+
+        CurrentActiveModifiers.AddRange(modifList);
 
         D_onSendModifiers?.Invoke(modifList);
     }

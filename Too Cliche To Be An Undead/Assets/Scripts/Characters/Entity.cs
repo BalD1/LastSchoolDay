@@ -507,6 +507,8 @@ public class Entity : MonoBehaviour, IDamageable
 
     public virtual void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false)
     {
+        if (!IsAlive()) return;
+
         if (isCrit) amount *= 1.5f;
 
         if (canExceedMaxHP) currentHP += amount;

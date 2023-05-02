@@ -58,6 +58,8 @@ public class NormalZombie : EnemyBase
 
         if (!seeAtStart) res.ResetTarget();
 
+        res.ReceiveStampModifiers(ZombiesScalingManager.Instance.CurrentActiveModifiers);
+
         return res;
     }
 
