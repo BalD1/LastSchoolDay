@@ -109,12 +109,6 @@ public class ProceduralRoomsManager : MonoBehaviour
                     GetRandomRoomAtList(ref availableRightRooms, rightClassroomsPF, data.roomAnchor);
                 break;
 
-            //case E_RoomOrientation.Up:
-            //    break;
-
-            //case E_RoomOrientation.Down:
-            //    break;
-
             case E_RoomOrientation.None:
                 Debug.LogError(data + " orientation was set at None.");
                 break;

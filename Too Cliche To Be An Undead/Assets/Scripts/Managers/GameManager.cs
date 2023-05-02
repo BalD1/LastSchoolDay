@@ -383,7 +383,11 @@ public class GameManager : MonoBehaviour
     {
         foreach (var item in playersByName)
         {
-            item.playerScript.gameObject.transform.position = position;
+            PlayerCharacter player = item.playerScript;
+
+            if (!player.IsAlive()) continue;
+
+            player.gameObject.transform.position = position;
         }
     }
 

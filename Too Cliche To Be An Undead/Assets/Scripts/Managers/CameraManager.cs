@@ -135,12 +135,16 @@ public class CameraManager : MonoBehaviour
 
         List<GameManager.PlayersByName> pbn = GameManager.Instance.playersByName;
 
+        // add every alive players to the tg group
         for (int i = 0; i < pbn.Count; i++)
         {
+            if (pbn[i].playerScript.IsAlive() == false) continue;
+
             tg_players.AddMember(pbn[i].playerScript.transform, 1, 0);
         }
 
-        if (hardFocusOnP1)
+        // if we want to focus on P1, and if he is alive, increase it's weight
+        if (hardFocusOnP1 && pbn[0].playerScript.IsAlive())
             tg_players.m_Targets[0].weight++;
     }
 
