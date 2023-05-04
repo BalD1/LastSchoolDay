@@ -65,6 +65,8 @@ public class RendererSorting : MonoBehaviour
             objectRenderer.sortingOrder = (int)((sortingOrderBase + sortingOrderOffset) - (this.transform.position.y * yOrderPrecision) + (pivotOffset * yOrderPrecision));
 #if !UNITY_EDITOR
             if (isStatic) Destroy(this); 
+#else
+            if (isStatic && Application.isPlaying) Destroy(this);
 #endif
         }
     }
