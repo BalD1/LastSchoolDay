@@ -100,7 +100,7 @@ MonoBehaviour:
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
-  updateWhenInvisible: 3
+  updateWhenInvisible: 0
   separatorSlotNames: []
   zSpacing: 0
   useClipping: 1
@@ -170,6 +170,7 @@ MonoBehaviour:
   skeletonAnimation: {fileID: 848028400006293743}
   openAnimation: Porte vue de cote anim 01
   blockCollision: {fileID: 6054411235150756250}
+  destroyScriptOnOpen: 1
 --- !u!61 &6054411235150756250
 BoxCollider2D:
   m_ObjectHideFlags: 0

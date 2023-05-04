@@ -108,6 +108,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 0
   objectRenderer: {fileID: 7331698914947622320}
+  isVisible: 1
   debugMode: 0
 --- !u!58 &3064400819894964597
 CircleCollider2D:
@@ -173,7 +174,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11562
+  m_SortingOrder: 1690
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1253458323119518998
 MonoBehaviour:
@@ -191,7 +192,7 @@ MonoBehaviour:
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
-  updateWhenInvisible: 3
+  updateWhenInvisible: 0
   separatorSlotNames: []
   zSpacing: 0
   useClipping: 1

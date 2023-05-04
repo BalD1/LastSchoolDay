@@ -52,6 +52,7 @@ MonoBehaviour:
   pivotOffset: 1.31
   isStatic: 1
   objectRenderer: {fileID: 5769366038462534812}
+  isVisible: 1
   debugMode: 0
 --- !u!33 &4152859283056590926
 MeshFilter:
@@ -101,7 +102,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 17638
+  m_SortingOrder: 6019
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &218455732503391115
 MonoBehaviour:
@@ -119,7 +120,7 @@ MonoBehaviour:
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
-  updateWhenInvisible: 3
+  updateWhenInvisible: 0
   separatorSlotNames: []
   zSpacing: 0
   useClipping: 1

@@ -342,7 +342,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -16493
+  m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2594995619587814015
 MonoBehaviour:
@@ -360,7 +360,7 @@ MonoBehaviour:
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
-  updateWhenInvisible: 3
+  updateWhenInvisible: 0
   separatorSlotNames: []
   zSpacing: 0
   useClipping: 1
@@ -397,6 +397,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 0
   objectRenderer: {fileID: 4490852047321193549}
+  isVisible: 1
   debugMode: 0
 --- !u!1 &889484318515469565
 GameObject:
@@ -571,6 +572,7 @@ MonoBehaviour:
   pivotOffset: 0.05
   isStatic: 0
   objectRenderer: {fileID: 1619623049782377722}
+  isVisible: 0
   debugMode: 0
 --- !u!1 &4006340018291221919
 GameObject:
@@ -748,6 +750,11 @@ MonoBehaviour:
   targetRandomOffset: 0.5
   targetRandomOffsetAfterAttack: 3
   chaoticTargetPosition: 0
+  predictTargetFuturePosition: 1
+  futureTimeToPredict: 0.25
+  predictRaycastMask:
+    serializedVersion: 2
+    m_Bits: 0
   debugMode: 0
 --- !u!114 &7491649661066783789
 MonoBehaviour:
@@ -962,9 +969,10 @@ MonoBehaviour:
     m_Bits: 3072
   pivotOffset: {fileID: 8304648256601179650}
   speedMultiplier: 40
-  speedMultiplierWhenOutsideOfCamera: 1
   maxForce: 100
+  <BaseMaxForce>k__BackingField: 0
   movementMass: 30
+  <BaseMovementMass>k__BackingField: 0
   allowSlowdown: 1
   randomWanderPositionRadius: 6
   minWaitBeforeNewWanderPoint: 1
@@ -995,6 +1003,7 @@ MonoBehaviour:
   <hpThresholdBeforeNextStage>k__BackingField: 0.5
   <isAppeared>k__BackingField: 0
   onSpawnAttackCooldown: 1.5
+  IsAttacking: 0
 --- !u!114 &2327177842620200974
 MonoBehaviour:
   m_ObjectHideFlags: 0

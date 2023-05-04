@@ -101,6 +101,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 1
   objectRenderer: {fileID: 2519760941879111475}
+  isVisible: 1
   debugMode: 0
 --- !u!33 &2519760941879111476
 MeshFilter:
@@ -168,7 +169,7 @@ MonoBehaviour:
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
-  updateWhenInvisible: 3
+  updateWhenInvisible: 0
   separatorSlotNames: []
   zSpacing: 0
   useClipping: 1
