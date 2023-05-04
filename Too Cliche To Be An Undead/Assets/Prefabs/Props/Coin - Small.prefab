@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawdistance: 2
+  baseDrawLerpAlpha: 2
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -74,8 +75,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  particle: {fileID: 5127839487733964369, guid: 8af0cf8f91f1c074ab97253147919a4c, type: 3}
+  particle: {fileID: 4045405180755570523, guid: 8af0cf8f91f1c074ab97253147919a4c, type: 3}
   coinValue: 1
+  selfTrigger: {fileID: 7023353477224902439}
   pickupSound: {fileID: 8300000, guid: 5015da1b3b45e3844991ddfb3ed387eb, type: 3}
   source: {fileID: 6916436024803764449}
   pickupDistance: 0.2
@@ -83,7 +85,7 @@ MonoBehaviour:
   rb: {fileID: 569784898369819774}
   canBePickedUp: 1
   spriteRenderer: {fileID: 2920342835408079449}
-  detectedPlayers: []
+  detectedPlayer: {fileID: 0}
 --- !u!50 &569784898369819774
 Rigidbody2D:
   serializedVersion: 4
@@ -279,6 +281,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 0
   objectRenderer: {fileID: 2920342835408079449}
+  isVisible: 1
   debugMode: 0
 --- !u!212 &2920342835408079449
 SpriteRenderer:

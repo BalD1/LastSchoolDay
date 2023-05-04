@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawdistance: 2
+  baseDrawLerpAlpha: 2
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -159,8 +160,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
+  particle: {fileID: 4045405180755570523, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 0
+  selfTrigger: {fileID: 5984426657660484141}
   pickupSound: {fileID: 8300000, guid: 5af2b48cffb007241bb847d1b41809b5, type: 3}
   source: {fileID: 8302144188479151816}
   pickupDistance: 0.2
@@ -234,6 +236,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 1
   objectRenderer: {fileID: 5984426657660484129}
+  isVisible: 1
   debugMode: 0
 --- !u!96 &5984426657660484129
 TrailRenderer:

@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawdistance: 0
+  baseDrawLerpAlpha: 2
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -73,14 +74,17 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  particle: {fileID: 5127839487733964369, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
+  particle: {fileID: 4045405180755570523, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 0
+  selfTrigger: {fileID: 5984426657660484141}
+  pickupSound: {fileID: 0}
+  source: {fileID: 0}
   pickupDistance: 0
   pickupOnCollision: 0
   rb: {fileID: 5984426657660484130}
   canBePickedUp: 1
   spriteRenderer: {fileID: 5984426657660484128}
-  detectedPlayers: []
+  detectedPlayer: {fileID: 0}
   bonusPower: {fileID: 11400000, guid: cbcc182952ba8884380b001ca7766a5f, type: 2}
   fallSpeedY:
     serializedVersion: 2
@@ -288,7 +292,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.26, y: 0.2525}
     newSize: {x: 0.2175, y: 0.215}
     adaptiveTilingThreshold: 0.5

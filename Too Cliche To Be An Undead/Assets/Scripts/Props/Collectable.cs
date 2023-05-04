@@ -9,8 +9,10 @@ public class Collectable : MonoBehaviour, IInteractable
     public float drawdistance = 3;
     public float baseDrawLerpAlpha = 2;
     public AnimationCurve animationCurve;
-    public ParticleSystem particle;
+    public GameObject particle;
     public int coinValue = 1;
+
+    [SerializeField] private Collider2D selfTrigger;
 
     [SerializeField] protected AudioClip pickupSound;
     [SerializeField] private AudioSource source;
@@ -33,6 +35,11 @@ public class Collectable : MonoBehaviour, IInteractable
 
     public delegate void D_OnPickUp();
     public D_OnPickUp D_onPickUp;
+
+    private void Awake()
+    {
+        if (!pickupOnCollision) Destroy(selfTrigger);
+    }
 
     protected virtual void Update()
     {
@@ -63,9 +70,7 @@ public class Collectable : MonoBehaviour, IInteractable
 
         if (dist <= pickupDistance)
         {
-            //spawn particle
-            if (particle != null)
-                Instantiate(particle, this.transform.position, Quaternion.identity);
+            CreateParticles();
 
             TouchedPlayer(detectedPlayer);
 
@@ -76,36 +81,39 @@ public class Collectable : MonoBehaviour, IInteractable
         }
     }
 
-    private void TravelToDetectedPlayer()
-    {
-        StartTravelToPlayer(detectedPlayer);
-    }
-
     private void StartTravelToPlayer(PlayerCharacter goal)
     {
         detectedPlayer = goal;
         goalTarget = goal.transform;
         allowTravel = true;
+
+        Destroy(selfTrigger);
+    }
+
+    protected virtual void PlayPickupSound()
+    {
+        source?.PlayOneShot(pickupSound);
+    }
+
+    protected virtual GameObject CreateParticles()
+    {
+        return particle?.Create(this.transform.position, Quaternion.identity);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (pickupOnCollision == false) return;
+        if (collision.tag.Equals("Player") == false) return;
+        if (detectedPlayer != null) return;
 
-        if (collision.tag.Equals("Player"))
-        {
-            if (detectedPlayer == null)
-            {
-                detectedPlayer = collision.GetComponentInParent<PlayerCharacter>();
-                TravelToDetectedPlayer();
-            }
-        }
+        detectedPlayer = collision.GetComponentInParent<PlayerCharacter>();
+        StartTravelToPlayer(detectedPlayer);
     }
 
     protected virtual void TouchedPlayer(PlayerCharacter player)
     {
-        source?.PlayOneShot(pickupSound);
+        PlayPickupSound();
     }
+
 
     public void EnteredInRange(GameObject interactor)
     {
@@ -127,7 +135,7 @@ public class Collectable : MonoBehaviour, IInteractable
 
         isPicked = true;
 
-        source?.PlayOneShot(pickupSound);
+        PlayPickupSound();
 
         StartTravelToPlayer(interactor.GetComponentInParent<PlayerCharacter>());
     }

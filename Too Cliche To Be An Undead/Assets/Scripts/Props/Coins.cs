@@ -9,7 +9,24 @@ public class Coins : Collectable
         if (!pickupOnCollision) return;
         PlayerCharacter.AddMoney(coinValue);
 
+        PlayPickupSound();
+    }
+
+    protected override void PlayPickupSound()
+    {
+        if (CoinsOptimizer.Instance.CanPlayAudio() == false) return;
+
         AudioclipPlayer.Create(this.transform.position, pickupSound);
+
+        CoinsOptimizer.Instance.CreatedAudio(pickupSound.length);
+    }
+
+    protected override GameObject CreateParticles()
+    {
+        if (CoinsOptimizer.Instance.CanCreateParticles() == false) return null;
+
+        CoinsOptimizer.Instance.CreatedParticles();
+        return base.CreateParticles();
     }
 
 }
