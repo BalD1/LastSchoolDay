@@ -5,7 +5,6 @@ using BalDUtilities.MouseUtils;
 
 public class DebugSpawnables : MonoBehaviour
 {
-#if UNITY_EDITOR
     [Serializable]
     public struct SpawnableByKey
     {
@@ -15,8 +14,23 @@ public class DebugSpawnables : MonoBehaviour
         public List<string> varsArgs;
         public Action action;
 
+        public int count;
+
+        public bool randomCount;
+        public int minCount;
+        public int maxCount;
+
+        public int GetCount()
+        {
+            if (randomCount) return UnityEngine.Random.Range(minCount, maxCount);
+            else return count;
+        }
+
+#if UNITY_EDITOR
         public bool showInEditor;
         public bool showArgsInEditor;
+#endif
+
 
         public GameObject customPrefab;
         public Vector2 customPosition;
@@ -69,7 +83,11 @@ public class DebugSpawnables : MonoBehaviour
                 s.action = new Action(() =>
                 {
                     Vector2 pos = GetPosBySpawnType(s);
-                    Instantiate(s.customPrefab, pos, Quaternion.identity);
+
+                    for (int i = 0; i < s.GetCount(); i++)
+                    {
+                        Instantiate(s.customPrefab, pos, Quaternion.identity);
+                    }
                 });
                 break;
 
@@ -77,7 +95,11 @@ public class DebugSpawnables : MonoBehaviour
                 s.action = new Action(() =>
                 {
                     Vector2 pos = GetPosBySpawnType(s);
-                    HealthPopup.Create(pos, Convert.ToSingle(s.varsArgs[0]), Convert.ToBoolean(s.varsArgs[1]), Convert.ToBoolean(s.varsArgs[2]));
+
+                    for (int i = 0; i < s.GetCount(); i++)
+                    {
+                        HealthPopup.Create(pos, Convert.ToSingle(s.varsArgs[0]), Convert.ToBoolean(s.varsArgs[1]), Convert.ToBoolean(s.varsArgs[2]));
+                    }
                 });
                 break;
 
@@ -85,7 +107,11 @@ public class DebugSpawnables : MonoBehaviour
                 s.action = new Action(() =>
                 {
                     Vector2 pos = GetPosBySpawnType(s);
-                    TrainingDummy.Create(pos, Convert.ToSingle(s.varsArgs[0]));
+
+                    for (int i = 0; i < s.GetCount(); i++)
+                    {
+                        TrainingDummy.Create(pos, Convert.ToSingle(s.varsArgs[0]));
+                    }
                 });
                 break;
 
@@ -93,7 +119,11 @@ public class DebugSpawnables : MonoBehaviour
                 s.action = new Action(() =>
                 {
                     Vector2 pos = GetPosBySpawnType(s);
-                    NormalZombie.Create(pos, true);
+
+                    for (int i = 0; i < s.GetCount(); i++)
+                    {
+                        NormalZombie.Create(pos, true);
+                    }
                 });
                 break;
 
@@ -101,8 +131,12 @@ public class DebugSpawnables : MonoBehaviour
                 s.action = new Action(() =>
                 {
                     Vector2 pos = GetPosBySpawnType(s);
-                    GameObject gO = Instantiate(GameAssets.Instance.CoinPF, pos, Quaternion.identity);
-                    gO.GetComponent<Coins>().coinValue = Convert.ToInt32(s.varsArgs[0]);
+
+                    for (int i = 0; i < s.GetCount(); i++)
+                    {
+                        GameObject gO = Instantiate(GameAssets.Instance.CoinPF, pos, Quaternion.identity);
+                        gO.GetComponent<Coins>().coinValue = Convert.ToInt32(s.varsArgs[0]);
+                    }
                 });
                 break;
 
@@ -136,5 +170,4 @@ public class DebugSpawnables : MonoBehaviour
 
         return pos;
     }
-#endif
 }

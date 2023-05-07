@@ -85,6 +85,25 @@ public class ED_DebugSpawnables : Editor
                 current.customPrefab = (GameObject)EditorGUILayout.ObjectField("Prefab", current.customPrefab, typeof(GameObject), false);
             }
 
+            current.randomCount = EditorGUILayout.Toggle("Random Count", current.randomCount);
+
+            if (current.randomCount)
+            {
+                current.minCount = EditorGUILayout.IntField("Min", current.minCount);
+                current.maxCount = EditorGUILayout.IntField("Max", current.maxCount);
+
+                if (current.minCount < 0) current.minCount = 0;
+                if (current.maxCount < 0) current.maxCount = 0;
+
+                if (current.minCount > current.maxCount) current.minCount = current.maxCount;
+            }
+            else
+            {
+                current.count = EditorGUILayout.IntField("Count", current.count);
+                if (current.count < 0) current.count = 0;
+            }
+
+
             if (current.spawnPos == DebugSpawnables.E_SpawnPos.CustomPosition)
             {
                 current.customPosition = EditorGUILayout.Vector2Field("Custom Position", current.customPosition);

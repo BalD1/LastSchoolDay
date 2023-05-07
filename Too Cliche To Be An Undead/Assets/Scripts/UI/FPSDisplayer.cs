@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Text;
+using TMPro;
 
 public class FPSDisplayer : MonoBehaviour
 {
