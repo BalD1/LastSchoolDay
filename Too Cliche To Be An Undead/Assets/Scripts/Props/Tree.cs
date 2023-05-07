@@ -10,12 +10,12 @@ public class Tree : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Entity e = collision.transform.GetComponentInParent<Entity>();
+        PlayerCharacter player = collision.transform.GetComponentInParent<PlayerCharacter>();
 
-        if (e == null) return;
+        if (player == null) return;
 
         AddEntity();
-        e.D_onDeathOf += OnEntityDeath;
+        player.D_onDeathOf += OnEntityDeath;
 
         if (entitiesBehindCount <= 1)
             spineColor.SwitchToModifiedColor(.5f);
@@ -32,12 +32,12 @@ public class Tree : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Entity e = collision.transform.GetComponentInParent<Entity>();
+        PlayerCharacter player = collision.transform.GetComponentInParent<PlayerCharacter>();
 
-        if (e == null) return;
+        if (player == null) return;
 
         RemoveEntity();
-        e.D_onDeathOf -= OnEntityDeath;
+        player.D_onDeathOf -= OnEntityDeath;
 
         if (entitiesBehindCount <= 0)
             spineColor.SwitchToBaseColor(.5f);
