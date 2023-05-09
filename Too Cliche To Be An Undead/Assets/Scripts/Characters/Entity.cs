@@ -533,6 +533,7 @@ public class Entity : MonoBehaviour, IDamageable
         D_onDeathOf?.Invoke(this);
 
         if (materialFlash != null) StopCoroutine(materialFlash);
+        this.skeletonAnimation.Skeleton.SetColor(Color.white);
     }
 
     public virtual bool IsAlive() => currentHP > 0;

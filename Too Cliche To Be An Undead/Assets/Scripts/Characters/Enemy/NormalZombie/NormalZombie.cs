@@ -38,6 +38,8 @@ public class NormalZombie : EnemyBase
 
     public bool attackStarted;
 
+    [SerializeField, ReadOnly] private int maxReceivedStamp;
+
     public Vector2 AttackDirection { get; set; }
 
     public const int maxDistanceFromPlayer = 15;
@@ -58,7 +60,7 @@ public class NormalZombie : EnemyBase
 
         if (!seeAtStart) res.ResetTarget();
 
-        res.ReceiveStampModifiers(ZombiesScalingManager.Instance.CurrentActiveModifiers);
+        res.ReceiveStampModifiers();
 
         return res;
     }
@@ -103,12 +105,15 @@ public class NormalZombie : EnemyBase
         if (Vector2.Distance(this.transform.position, CurrentPlayerTarget.transform.position) > maxDistanceFromPlayer) ForceKill();
     }
 
-    private void ReceiveStampModifiers(List<ZombiesScalingManager.S_ModifierData> modifiers)
+    private void ReceiveStampModifiers()
     {
-        if (!isIdle) Debug.Log(this.gameObject.name);
+        if (maxReceivedStamp >= ZombiesScalingManager.Instance.ModifiersByStamps.Length) return;
 
         float speedAddition = 0;
-        foreach (var item in modifiers)
+
+        ZombiesScalingManager.S_ModifiersByStamp stampModifiers = ZombiesScalingManager.Instance.ModifiersByStamps[maxReceivedStamp];
+
+        foreach (var item in stampModifiers.Modifiers)
         {
             this.AddModifier(item.ModifierID, item.Value, item.StatType);
 
@@ -125,10 +130,17 @@ public class NormalZombie : EnemyBase
             this.movementMass -= (BaseMovementMass - maxSteeringMass) / (totalSpeedAddition );
         }
 
+        stampModifiers.Actions?.Invoke(this);
+
         maxForce = Mathf.Clamp(maxForce, BaseMaxForce, maxSteeringMaxForce);
         movementMass = Mathf.Clamp(movementMass, maxSteeringMass, BaseMovementMass);
 
         D_receivedStampModifier?.Invoke();
+
+        maxReceivedStamp++;
+        int trueStamp = ZombiesScalingManager.Instance.CurrentStamp;
+
+        if (maxReceivedStamp <= trueStamp) ReceiveStampModifiers();
     }
 
     public void ForceKill()

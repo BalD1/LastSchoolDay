@@ -11,7 +11,7 @@ public class ZombiesVisibilityChecker : MonoBehaviour
     private bool wasVisibleOnce = false;
     private bool isVisible = false;
 
-    private const int invisibilityTimerBeforeKill = 5;
+    private const int invisibilityTimerBeforeKill = 10;
 
     private Camera mainCam;
 

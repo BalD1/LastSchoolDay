@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ZombiesScalingManager : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class ZombiesScalingManager : MonoBehaviour
     public struct S_ModifiersByStamp
     {
         [SerializeField] private S_ModifierData[] modifiers;
+        public Action<EnemyBase> Actions { get; set; }
 
         public S_ModifierData[] Modifiers { get => modifiers; }
     }
@@ -27,6 +30,15 @@ public class ZombiesScalingManager : MonoBehaviour
 
     [field: SerializeField, ReadOnly] 
     public List<S_ModifierData> CurrentActiveModifiers { get; private set; }
+
+    public int CurrentStamp
+    {
+        get
+        {
+            if (SpawnersManager.Instance == null) return -1;
+            return SpawnersManager.Instance.SpawnStamp;
+        }
+    }
 
     [System.Serializable]
     public class S_ModifierData
@@ -48,12 +60,17 @@ public class ZombiesScalingManager : MonoBehaviour
     [field: SerializeField] public float MaxSteeringMass { get; private set; }
     [field: SerializeField] public float MaxTargetPositionPredictTime { get; private set; }
 
-    public delegate void D_OnSendModifiers(List<S_ModifierData> modifiers);
+    public delegate void D_OnSendModifiers();
     public D_OnSendModifiers D_onSendModifiers;
 
     private void Awake()
     {
         instance = this;
+
+        modifiersByStamp[4].Actions += (EnemyBase owner) =>
+        {
+            owner.enemiesBlocker.enabled = false;
+        };
     }
 
     private void Start()
@@ -81,7 +98,7 @@ public class ZombiesScalingManager : MonoBehaviour
 
         CurrentActiveModifiers.AddRange(modifList);
 
-        D_onSendModifiers?.Invoke(modifList);
+        D_onSendModifiers?.Invoke();
     }
 
 
