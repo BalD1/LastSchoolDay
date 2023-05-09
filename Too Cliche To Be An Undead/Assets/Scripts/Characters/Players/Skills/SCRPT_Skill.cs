@@ -61,6 +61,7 @@ public abstract class SCRPT_Skill : ScriptableObject
 
     public string AnimationToPlay { get => animationToPlay; }
 
+    public abstract void EarlyStart(PlayerCharacter owner);
     public abstract void StartSkill(PlayerCharacter owner);
     public abstract void UpdateSkill(PlayerCharacter owner);
     public abstract void StopSkill(PlayerCharacter owner);

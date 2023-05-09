@@ -27,6 +27,7 @@ public class PlayerAudio : MonoBehaviour
         owner.D_onAttack += PlayAttackAudio;
         owner.D_successfulAttack += PlayAttackConnectedAudio;
 
+        owner.D_earlySkillStart += PlayVoiceSkillAudio;
         owner.D_startSkill += PlaySkillStartAudio;
         owner.D_endSkill += PlaySkillEndAudio;
 
@@ -84,6 +85,10 @@ public class PlayerAudio : MonoBehaviour
         else PlayAudioWithPitch(ownerAudioClips.GetRandomBigAttackConnectedClip());
     }
 
+    private void PlayVoiceSkillAudio()
+    {
+        PlayAudioWithPitch(ownerAudioClips.GetRandomVoiceSkillStartClip());
+    }
 
     private void PlaySkillStartAudio(bool holdAudio)
     {
@@ -91,8 +96,6 @@ public class PlayerAudio : MonoBehaviour
         AudioClip startClip = ownerAudioClips.GetRandomSkillStartClip().clip;
         if (startClip != null)
             skillSource.PlayOneShot(startClip);
-
-        PlayAudioWithPitch(ownerAudioClips.GetRandomVoiceSkillStartClip());
 
         // if we do not have a hold audio, exit
         if (holdAudio == false) return;
@@ -106,31 +109,25 @@ public class PlayerAudio : MonoBehaviour
         skillSource.loop = true;
         skillSource.clip = ownerAudioClips.GetRandomSkillHoldClip().clip;
 
+        SetLoopPoint(holdClip, clipData);
+
         // if we have a start clip, 
         // wait for it to end
         if (startClip != null)
         {
             double clipDuration = startClip.length;
             skillSource.PlayScheduled(clipDuration);
-
-            // set a random pitch at every loop
-            onSkillAudioLoopPoint = LeanTween.delayedCall((float)clipDuration, () =>
-            {
-                LeanTween.value(0, 1, holdClip.length).setOnComplete(() =>
-                {
-                    skillSource.pitch = Random.Range(1 - clipData.pitchRange, 1 + clipData.pitchRange);
-                }).setLoopCount(-1);
-            });
         }
-        else
+        else skillSource.Play();
+    }
+
+    private void SetLoopPoint(AudioClip holdClip, SCRPT_EntityAudio.S_AudioClips clipData)
+    {
+        onSkillAudioLoopPoint = LeanTween.value(0, 1, holdClip.length).setOnComplete(() =>
         {
-            onSkillAudioLoopPoint = LeanTween.value(0, 1, holdClip.length).setOnComplete(() =>
-            {
-                skillSource.pitch = Random.Range(1 - clipData.pitchRange, 1 + clipData.pitchRange);
-            }).setLoopCount(-1);
-
-            skillSource.Play();
-        }
+            skillSource.pitch = Random.Range(1 - clipData.pitchRange, 1 + clipData.pitchRange);
+            SetLoopPoint(holdClip, clipData);
+        });
     }
 
     private void PlaySkillEndAudio(bool holdAudio)
@@ -155,6 +152,7 @@ public class PlayerAudio : MonoBehaviour
     }
 
     private void PlayFootPrintAudio() => PlayAudioWithPitch(ownerAudioClips.GetRandomIndoorFootsteps());
+
 
     private void PlayAudioWithPitch(AudioClip clip, float pitchRange)
     {

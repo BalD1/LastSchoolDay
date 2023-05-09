@@ -1845,6 +1845,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 0
   objectRenderer: {fileID: 8819665399439366369}
+  isVisible: 0
   debugMode: 0
 --- !u!212 &8819665399439366369
 SpriteRenderer:
@@ -1991,6 +1992,7 @@ MonoBehaviour:
   pivotOffset: 0.8
   isStatic: 0
   objectRenderer: {fileID: 2347113076546151329}
+  isVisible: 0
   debugMode: 0
 --- !u!212 &2347113076546151329
 SpriteRenderer:
@@ -2170,7 +2172,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5300176902911172851}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2640,6 +2642,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 0
   objectRenderer: {fileID: 4918047263826536550}
+  isVisible: 1
   debugMode: 0
 --- !u!1 &8823656353503972635
 GameObject:
@@ -2856,17 +2859,19 @@ MonoBehaviour:
   defaultMaterial: {fileID: 2100000, guid: 00afe588db79e4d4daaa4a4731ae7c0a, type: 2}
   portrait: {fileID: 0}
   hpBar: {fileID: 0}
+  hpBarContainer: {fileID: 0}
   hpText: {fileID: 0}
   skillIcon: {fileID: 0}
+  skillFill: {fileID: 0}
+  skillContainer: {fileID: 0}
+  skillTimerTXT: {fileID: 0}
   dashIcon: {fileID: 0}
+  dashFill: {fileID: 0}
+  dashContainer: {fileID: 0}
+  dashTimerTXT: {fileID: 0}
   skillDurationIcon: {fileID: 8843546095007425344}
   characterPortrait:
     characterName: 0
-    portraitRect:
-      offsetMin: {x: 0, y: 0}
-      offsetMax: {x: 0, y: 0}
-      anchorMin: {x: 0, y: 0}
-      anchorMax: {x: 0, y: 0}
     characterPortraitsByHP: []
   iconsMaxScale: {x: 1.3, y: 1.3, z: 1.3}
   maxScaleTime: 0.7

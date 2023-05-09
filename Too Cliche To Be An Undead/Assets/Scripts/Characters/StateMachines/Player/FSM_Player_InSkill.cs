@@ -61,6 +61,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         owner.D_skillInput += StopSkill;
 
         owner.canBePushed = true;
+
+        owner.GetSkill.EarlyStart(owner);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

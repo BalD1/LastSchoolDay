@@ -59,4 +59,9 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
 
         owner.SkillTutoAnimator.SetTrigger("finish");
     }
+
+    public override void EarlyStart(PlayerCharacter owner)
+    {
+        throw new System.NotImplementedException();
+    }
 }

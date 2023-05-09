@@ -203,6 +203,9 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_EndSkill(bool holdAudio);
     public D_EndSkill D_endSkill;
 
+    public delegate void D_EarlySkillStart();
+    public D_EarlySkillStart D_earlySkillStart;
+
     public delegate void D_DashInput();
     public D_DashInput D_dashInput;
 

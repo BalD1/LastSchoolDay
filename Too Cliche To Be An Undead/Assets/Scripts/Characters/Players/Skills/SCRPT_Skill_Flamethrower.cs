@@ -21,6 +21,11 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
     private Entity player;
 
+    public override void EarlyStart(PlayerCharacter owner)
+    {
+        owner.D_earlySkillStart?.Invoke();
+    }
+
     public override void StartSkill(PlayerCharacter owner)
     {
         player = owner;
@@ -45,7 +50,6 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
         finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
         tickDamages = finalDamages * tickDamagesMultiplier;
-
     }
 
     public override void UpdateSkill(PlayerCharacter owner)

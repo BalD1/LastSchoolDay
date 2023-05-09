@@ -120,4 +120,9 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
         proj.Fire(dir, damagesWithRandom, finalCrit, _owner);
     }
+
+    public override void EarlyStart(PlayerCharacter owner)
+    {
+        throw new System.NotImplementedException();
+    }
 }

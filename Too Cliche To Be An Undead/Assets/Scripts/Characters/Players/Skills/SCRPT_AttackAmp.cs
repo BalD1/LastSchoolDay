@@ -66,4 +66,9 @@ public class SCRPT_AttackAmp : SCRPT_Skill
         owner.GetSkillHolder.StartTimer();
         owner.D_successfulAttack -= StartSkillTimerOnHit;
     }
+
+    public override void EarlyStart(PlayerCharacter owner)
+    {
+        throw new System.NotImplementedException();
+    }
 }

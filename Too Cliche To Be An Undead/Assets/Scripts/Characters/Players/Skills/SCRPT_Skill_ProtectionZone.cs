@@ -80,4 +80,9 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
         target?.SetInvincibility(false);
         target?.SetTimedInvincibility(1);
     }
+
+    public override void EarlyStart(PlayerCharacter owner)
+    {
+        throw new System.NotImplementedException();
+    }
 }
