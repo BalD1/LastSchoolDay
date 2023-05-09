@@ -66,7 +66,7 @@ public class SpawnersManager : MonoBehaviour
 
     public const int minValidDistanceFromPlayer = 5;
 
-    public const float timeBetweenStamps = 60;
+    public const float timeBetweenStamps = 45;
 
     [SerializeField] private bool spawnsAreAllowed = false;
 

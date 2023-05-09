@@ -514,6 +514,8 @@ public class Entity : MonoBehaviour, IDamageable
         if (canExceedMaxHP) currentHP += amount;
         else currentHP = Mathf.Clamp(currentHP += amount, 0, MaxHP_M);
 
+        if (!this.gameObject.activeSelf) return;
+
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: true, isCrit);
     }
 
