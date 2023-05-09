@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Unity.IO.LowLevel.Unsafe;
+using Unity.Mathematics;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Rendering;
@@ -173,6 +175,8 @@ public class Entity : MonoBehaviour, IDamageable
     private List<TickDamages> tickDamagesToRemove = new List<TickDamages>();
 
     public bool canBePushed = true;
+
+    private Coroutine materialFlash;
 
 #if UNITY_EDITOR
     [SerializeField] protected bool debugMode;
@@ -494,7 +498,8 @@ public class Entity : MonoBehaviour, IDamageable
         }
 
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: false, isCrit);
-        StartCoroutine(MaterialFlash());
+        if (materialFlash != null) StopCoroutine(materialFlash);
+        materialFlash = StartCoroutine(MaterialFlash());
 
         if (currentHP <= 0)
         {
@@ -526,6 +531,8 @@ public class Entity : MonoBehaviour, IDamageable
 
         d_OnDeath?.Invoke();
         D_onDeathOf?.Invoke(this);
+
+        if (materialFlash != null) StopCoroutine(materialFlash);
     }
 
     public virtual bool IsAlive() => currentHP > 0;
@@ -597,7 +604,22 @@ public class Entity : MonoBehaviour, IDamageable
 #endif
     }
 
-    public void LogEntity() => GetStats.Log(this.gameObject);
+    public void LogEntity()
+    {
+#if UNITY_EDITOR
+        string col = GetStats.GetMarkdownColor();
+
+        Debug.LogFormat("Entity of type <b>[{0}], {1}</b> \n" +
+            "MaxHP = {2} \n" +
+            "Base Damages = {3}\n" +
+            "Attack Range = {4}\n" +
+            "Attack CD = {5}\n" +
+            "Crit Chances = {6}\n" +
+            "Speed = {7}\n" +
+            "Team = <color={8}>{9}</color>",
+            GetStats.EntityName, this.gameObject.name, maxHP_M, maxDamages_M, maxAttRange_M, maxAttCD_M, maxCritChances_M, maxSpeed_M, col, GetStats.Team, this.gameObject);
+#endif
+    }
 
     protected virtual void OnDrawGizmos()
     {

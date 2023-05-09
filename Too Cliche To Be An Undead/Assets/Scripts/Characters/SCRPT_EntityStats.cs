@@ -44,6 +44,7 @@ public class SCRPT_EntityStats : ScriptableObject
         Neutral,
     }
 
+    public string EntityName { get => entityName; }
     public string EntityType { get => name; }
     public float MaxHP { get => maxHP; } 
     public float MaxHP_MAX { get => maxHP_MAX; }
@@ -73,12 +74,20 @@ public class SCRPT_EntityStats : ScriptableObject
         return entityName;
     }
 
-    public void Log(GameObject owner = null)
+    public void Log(string objectName = "", GameObject owner = null)
     {
 #if UNITY_EDITOR
         string col = GetMarkdownColor();
 
-        Debug.LogFormat("Entity of type <b>\"{0}\"</b> : MaxHP = {1}       Speed = {2}       Team = <color={3}>{4}</color>", entityName, maxHP, speed, col, team, owner);
+        Debug.LogFormat("Entity of type <color={8}><b>[{0}], {1}</b></color> \n" +
+            "MaxHP = {2} \n" +
+            "Base Damages = {3}\n" +
+            "Attack Range = {4}\n" +
+            "Attack CD = {5}\n" +
+            "Crit Chances = {6}\n" +
+            "Speed = {7}\n" +
+            "Team = <color={8}>{9}</color>", 
+            entityName, objectName, maxHP, baseDamages, attackRange, attack_COOLDOWN, critChances, speed, col, team, owner);
 #endif
     }
 

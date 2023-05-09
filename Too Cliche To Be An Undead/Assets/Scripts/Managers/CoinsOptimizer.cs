@@ -18,7 +18,7 @@ public class CoinsOptimizer : MonoBehaviour
     public const int MAX_AUDIO_COUNT = 10;
 	private int currentAudioCount;
 
-	public const int MAX_PARTICLES_COUNT = 10;
+	public const int MAX_PARTICLES_COUNT = 30;
 	private int currentParticlesCount;
 
     private void Awake()
@@ -38,7 +38,7 @@ public class CoinsOptimizer : MonoBehaviour
 		currentAudioCount--;
 	}
 
-	public bool CanPlayAudio() => currentAudioCount < MAX_AUDIO_COUNT;
+	public bool CanPlayAudio() => currentAudioCount <= MAX_AUDIO_COUNT;
 
 	public void CreatedParticles()
 	{
@@ -50,5 +50,5 @@ public class CoinsOptimizer : MonoBehaviour
 		currentParticlesCount--; 
 	}
 
-	public bool CanCreateParticles() => currentParticlesCount < MAX_PARTICLES_COUNT;
+	public bool CanCreateParticles() => currentParticlesCount <= MAX_PARTICLES_COUNT;
 }

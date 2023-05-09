@@ -105,6 +105,8 @@ public class NormalZombie : EnemyBase
 
     private void ReceiveStampModifiers(List<ZombiesScalingManager.S_ModifierData> modifiers)
     {
+        if (!isIdle) Debug.Log(this.gameObject.name);
+
         float speedAddition = 0;
         foreach (var item in modifiers)
         {
@@ -222,6 +224,8 @@ public class NormalZombie : EnemyBase
 
         if (v.magnitude <= Vector2.zero.magnitude) return Vector2.zero;
 
+        v = v.Fluctuate(.2f);
+
         stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher));
 
         return v;
@@ -232,5 +236,22 @@ public class NormalZombie : EnemyBase
         base.SetAttackedPlayer(target);
 
         Vector2 targetPosition = this.CurrentPlayerTarget == null ? this.storedTargetPosition : this.CurrentPlayerTarget.transform.position;
+    }
+
+    protected override void ResetStats()
+    {
+        this.MaxHP_M = GetStats.MaxHP.Fluctuate(.2f);
+
+        this.MaxDamages_M = GetStats.BaseDamages.Fluctuate(.2f);
+
+        this.MaxAttRange_M = GetStats.AttackRange.Fluctuate();
+
+        this.MaxAttCD_M = GetStats.Attack_COOLDOWN.Fluctuate();
+
+        this.MaxSpeed_M = GetStats.Speed.Fluctuate(.2f);
+
+        this.MaxCritChances_M = GetStats.CritChances.Fluctuate();
+
+        this.currentHP = MaxHP_M;
     }
 }

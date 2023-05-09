@@ -17,7 +17,7 @@ public class SCRPT_NZ_DashAttack : SCRPT_EnemyAttack
         _owner.attackTrigger.enabled = false;
         _owner.attackTrigger.enabled = true;
 
-        owner.GetRb.AddForce(dir * attackForce, ForceMode2D.Impulse);
+        owner.GetRb.AddForce(dir * attackForce.Fluctuate(), ForceMode2D.Impulse);
 
         _owner.attackStarted = true;
     }

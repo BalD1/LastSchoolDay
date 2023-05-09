@@ -100,7 +100,10 @@ public class PlayerWeapon : MonoBehaviour
                 {
                     attackCount = 0;
                     inputStored = false;
-                    owner.StateManager.SwitchState(owner.StateManager.idleState);
+
+                    if (owner.IsAlive())
+                        owner.StateManager.SwitchState(owner.StateManager.idleState);
+
                     afterCombo_TIMER = afterCombo_COOLDOWN;
                     return;
                 }

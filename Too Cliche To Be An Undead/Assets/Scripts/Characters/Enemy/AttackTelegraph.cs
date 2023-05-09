@@ -9,6 +9,8 @@ public class AttackTelegraph : MonoBehaviour
     [SerializeField] private SpriteRenderer backgroundSprite;
     [SerializeField] private SpriteRenderer fillSprite;
 
+    [SerializeField] private EnemyBase owner;
+
     private float rad;
 
     public struct TelegraphData
@@ -32,6 +34,11 @@ public class AttackTelegraph : MonoBehaviour
             telegraphRotation = _rotation;
             telegraphSprite = _sprite;
         }
+    }
+
+    private void Awake()
+    {
+        owner.d_OnDeath += CancelTelegraph;
     }
 
     public void Setup(TelegraphData newData, float time)

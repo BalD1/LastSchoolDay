@@ -39,14 +39,14 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         GameObject renderer = owner.spineHolder;
 
-        LeanTween.scale(renderer, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
+        LeanTween.scale(renderer, owner.MaxScaleOnAttack.Fluctuate(), durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
             () =>
             {
                 LeanTween.scale(renderer, Vector2.one, durationBeforeAttack / 2).setEase(owner.OutType);
             });
 
         waitBeforeAttack_TIMER = durationBeforeAttack;
-        attack_TIMER = owner.Attack_DURATION;
+        attack_TIMER = owner.Attack_DURATION.Fluctuate();
         attack_flag = false;
 
         SCRPT_EnemyAttack[] enemyAttacksArray = owner.AttacksArray;
@@ -195,14 +195,14 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         PlayerCharacter p = collision.gameObject.GetComponent<PlayerCharacter>();
         if (p == null) return;
 
-        p.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+        p.OnTakeDamages(owner.MaxDamages_M.Fluctuate(), owner, owner.RollCrit());
     }
     private void OnEntityCollision(Entity entity)
     {
         if (!owner.attackStarted) return;
         if (entity == null) return;
 
-        entity.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+        entity.OnTakeDamages(owner.MaxDamages_M.Fluctuate(), owner, owner.RollCrit());
     }
     private void OnTrigger(Collider2D collider)
     {
@@ -214,7 +214,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         if (p == null) return;
 
-        p.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+        p.OnTakeDamages(owner.MaxDamages_M.Fluctuate(), owner, owner.RollCrit());
     }
 
     public override string ToString() => "Attacking";

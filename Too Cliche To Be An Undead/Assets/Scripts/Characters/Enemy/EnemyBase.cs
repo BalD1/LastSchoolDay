@@ -117,6 +117,8 @@ public abstract class EnemyBase : Entity
     protected override void Start()
     {
         base.Start();
+
+        distanceBeforeStop = distanceBeforeStop.Fluctuate();
     }
 
     protected override void Update()
