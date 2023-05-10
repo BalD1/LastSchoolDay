@@ -48,6 +48,8 @@ public class BossZombie : EnemyBase
 
     [field: SerializeField] public bool IsAttacking = false;
 
+    public float recoverTimerModifier;
+
     public delegate void D_StartedAttack();
     public D_StartedAttack D_startedAttack;
 

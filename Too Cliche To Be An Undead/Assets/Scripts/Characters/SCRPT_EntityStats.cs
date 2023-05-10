@@ -69,6 +69,32 @@ public class SCRPT_EntityStats : ScriptableObject
     public float Weight { get => weight; }
     public E_Team Team { get => team; }
 
+    public float GetStatValue(StatsModifier.E_StatType statType)
+    {
+        switch (statType)
+        {
+            case StatsModifier.E_StatType.MaxHP:
+                return MaxHP;
+
+            case StatsModifier.E_StatType.Damages:
+                return BaseDamages;
+
+            case StatsModifier.E_StatType.AttackRange:
+                return AttackRange;
+
+            case StatsModifier.E_StatType.Attack_CD:
+                return Attack_COOLDOWN;
+
+            case StatsModifier.E_StatType.Speed:
+                return Speed;
+
+            case StatsModifier.E_StatType.CritChances:
+                return CritChances;
+        }
+
+        return -1;
+    }
+
     public override string ToString()
     {
         return entityName;

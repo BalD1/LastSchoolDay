@@ -29,7 +29,7 @@ public class FSM_Boss_Recovering : FSM_Base<FSM_Boss_Manager>
 
     public FSM_Boss_Recovering SetTimer(float time)
     {
-         recovering_TIMER = time;
+         recovering_TIMER = time * owner.recoverTimerModifier;
         return this;
     }
 
