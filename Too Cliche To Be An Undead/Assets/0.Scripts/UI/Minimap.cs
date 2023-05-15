@@ -92,6 +92,7 @@ public class Minimap : MonoBehaviour
 
     private void OnAskForScale()
     {
+        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         if (isTweening) return;
         isTweening = true;
 

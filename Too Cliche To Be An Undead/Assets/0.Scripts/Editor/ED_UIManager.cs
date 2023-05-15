@@ -133,6 +133,9 @@ public class ED_UIManager : Editor
         SerializedProperty minimap = serializedObject.FindProperty("minimap");
         EditorGUILayout.PropertyField(minimap);
 
+        SerializedProperty minimapButton = serializedObject.FindProperty("minimapButton");
+        EditorGUILayout.PropertyField(minimapButton);
+
         SerializedProperty hudTransparencyValue = serializedObject.FindProperty("hudTransparencyValue");
         EditorGUILayout.PropertyField(hudTransparencyValue);
 

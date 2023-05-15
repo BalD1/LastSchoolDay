@@ -83,6 +83,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private PlayerHUD[] playerHUDs;
     [SerializeField] private GameObject minimap;
+    [SerializeField] private GameObject minimapButton;
 
     [SerializeField] private Image[] blackBars;
 
@@ -630,6 +631,7 @@ public class UIManager : MonoBehaviour
     public void SetMinimapActiveState(bool active)
     {
         minimap.SetActive(active);
+        minimapButton.SetActive(active);
     }
 
     public void FadeScreen(bool fadeOut, float time = .5f)
