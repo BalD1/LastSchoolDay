@@ -16,7 +16,7 @@ public class SCRPT_BossMinionsSpawn : SCRPT_EnemyAttack
         boss.attackStarted = true;
 
         boss.animationController.SetAnimation(AttackAnim, false);
-        boss.animationController.AddAnimation(boss.animationData.IdleAnim, true);
+        boss.animationController.AddAnimation(boss.animationData.IdleAnim, true, AttackAnim.Animation.Duration, 1);
 
         int spawnAmount = amountToSpawn.Random();
         for (int i = 0; i < spawnAmount; i++)

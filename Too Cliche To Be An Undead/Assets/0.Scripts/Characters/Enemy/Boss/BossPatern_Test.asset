@@ -16,10 +16,12 @@ MonoBehaviour:
   <firstStagePaterns>k__BackingField:
   - <attackWithCooldown>k__BackingField:
     - <attack>k__BackingField: {fileID: 11400000, guid: d3fccc0a1380fff40a176abf4d4701d6, type: 2}
-      <timeBeforeNext>k__BackingField: 0
+      <timeBeforeNext>k__BackingField: 0.2
     <recoverTime>k__BackingField: 2
   <secondStagePaterns>k__BackingField:
   - <attackWithCooldown>k__BackingField:
+    - <attack>k__BackingField: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
+      <timeBeforeNext>k__BackingField: 0
     - <attack>k__BackingField: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
       <timeBeforeNext>k__BackingField: 0
     <recoverTime>k__BackingField: 0

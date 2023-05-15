@@ -16,17 +16,17 @@ MonoBehaviour:
   entitiesToAffect:
     serializedVersion: 2
     m_Bits: 0
-  <AttackDistance>k__BackingField: 0
-  <AttackDuration>k__BackingField: 6
+  <AttackDistance>k__BackingField: 10000
+  <AttackDuration>k__BackingField: 1
   <MinDurationBeforeAttack>k__BackingField: 0
   <MaxDurationBeforeAttack>k__BackingField: 0
   <telegraphRotationOffset>k__BackingField: 0
   <DamageOnTrigger>k__BackingField: 0
   <DamageOnCollision>k__BackingField: 0
-  <telegraphSprite>k__BackingField: {fileID: 0}
+  <telegraphSprite>k__BackingField: {fileID: 21300000, guid: c542c4ededdd2f54bb8f4cf0d3e40cff, type: 3}
   <attackOffset>k__BackingField: {x: 0, y: 0}
   <telegraphVectorSize>k__BackingField: {x: 0, y: 0}
-  <SetTelegraphOnStart>k__BackingField: 0
+  <SetTelegraphOnStart>k__BackingField: 1
   AttackAnim: {fileID: 11400000, guid: abf8fef11611bca4d8d5bd34f4175997, type: 2}
   amountToSpawn:
     data:

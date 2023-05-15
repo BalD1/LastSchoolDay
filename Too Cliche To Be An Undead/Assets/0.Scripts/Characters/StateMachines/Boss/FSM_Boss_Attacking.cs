@@ -97,22 +97,25 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
             owner.D_entityEnteredCollider += OnEntityCollision;
         }
 
-        // Set the anticipation anim
-        owner.animationController.SetAnimation(owner.animationData.AttackAnticipAnim, true);
-
         // Create a text feedback
         TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
 
         // how long should the enemy wait before attacking ?
         float durationBeforeAttack = Random.Range(enemyAttack.MinDurationBeforeAttack, enemyAttack.MaxDurationBeforeAttack);
 
-        // Second feedback using the enemy scale
-        LeanTween.scale(owner.SkeletonAnimation.gameObject, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
-            () =>
-            {
-                owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
-                LeanTween.scale(owner.SkeletonAnimation.gameObject, Vector2.one, durationBeforeAttack / 2).setEase(owner.OutType);
-            });
+        if (durationBeforeAttack > 0)
+        {
+        // Set the anticipation anim
+            owner.animationController.SetAnimation(owner.animationData.AttackAnticipAnim, true);
+
+            // Second feedback using the enemy scale
+            LeanTween.scale(owner.SkeletonAnimation.gameObject, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
+                () =>
+                {
+                    owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
+                    LeanTween.scale(owner.SkeletonAnimation.gameObject, Vector2.one, durationBeforeAttack / 2).setEase(owner.OutType);
+                });
+        }
 
         waitBeforeAttack_TIMER = durationBeforeAttack;
         attack_TIMER = enemyAttack.MaxDurationBeforeAttack + enemyAttack.AttackDuration + owner.CurrentAttack.timeBeforeNext;

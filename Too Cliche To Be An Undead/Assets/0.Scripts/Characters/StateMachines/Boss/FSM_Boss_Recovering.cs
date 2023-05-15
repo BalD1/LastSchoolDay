@@ -11,7 +11,7 @@ public class FSM_Boss_Recovering : FSM_Base<FSM_Boss_Manager>
     public override void EnterState(FSM_Boss_Manager stateManager)
     {
         owner = stateManager.Owner;
-        owner.animationController.SetAnimation(owner.animationData.IdleAnim, true);
+        //owner.animationController.SetAnimation(owner.animationData.IdleAnim, true);
     }
 
     public override void UpdateState(FSM_Boss_Manager stateManager)
