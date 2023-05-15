@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abd21a50e2dcf641b7a1b85e22aa21d, type: 3}
+  m_Name: DIALOGUE_Tuto_Shop
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: tuto_shop
+  <ignoreGameState>k__BackingField: 1
+  <dialogueLines>k__BackingField:
+  - <characterName>k__BackingField: 4
+    <speakerNameImage>k__BackingField: {fileID: -1204504785, guid: 2bcc0b56e78d36949ac9a047acb509a5, type: 3}
+    <customPortrait>k__BackingField: {fileID: 11400000, guid: ae3477806042c664c882c8ee1e9d25bb, type: 2}
+    <textLine>k__BackingField: Oh tiens, il reste des eleves !
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+  - <characterName>k__BackingField: 4
+    <speakerNameImage>k__BackingField: {fileID: -1204504785, guid: 2bcc0b56e78d36949ac9a047acb509a5, type: 3}
+    <customPortrait>k__BackingField: {fileID: 11400000, guid: 7ba9ce5a65d6a7d4b96d401a093d835c, type: 2}
+    <textLine>k__BackingField: Si vous voulez j'ai <color=#00FF00>des trucs</color>
+      qui pourraient vous aider a survivre... si vous y mettez le prix bien sur !
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+  - <characterName>k__BackingField: 0
+    <speakerNameImage>k__BackingField: {fileID: -814635624, guid: f7e137c2447d1b4478082d6c8c6d20be, type: 3}
+    <customPortrait>k__BackingField: {fileID: 11400000, guid: f95cc9bae3a451f4c8ec30e6fde4dc6b, type: 2}
+    <textLine>k__BackingField: Je sais que vous etes prof d'economie mais la c'est
+      pas trop le moment de faire du business.
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+  - <characterName>k__BackingField: 4
+    <speakerNameImage>k__BackingField: {fileID: -1204504785, guid: 2bcc0b56e78d36949ac9a047acb509a5, type: 3}
+    <customPortrait>k__BackingField: {fileID: 11400000, guid: ae3477806042c664c882c8ee1e9d25bb, type: 2}
+    <textLine>k__BackingField: Il faut bien palier aux pertes de l'ecole ! C'est
+      pas les etudiants zombies qui vont payer leur annee !
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+  - <characterName>k__BackingField: 3
+    <speakerNameImage>k__BackingField: {fileID: 1573432537, guid: 311258fe9f392ab47b8fc69b4e01101c, type: 3}
+    <customPortrait>k__BackingField: {fileID: 11400000, guid: 6e6c0f051909b4b40b53829ed16fa014, type: 2}
+    <textLine>k__BackingField: Pourtant ils l'ont paye avant de mourir...
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+  - <characterName>k__BackingField: 4
+    <speakerNameImage>k__BackingField: {fileID: -1204504785, guid: 2bcc0b56e78d36949ac9a047acb509a5, type: 3}
+    <customPortrait>k__BackingField: {fileID: 11400000, guid: a6eaf63de4f773e4786f0dce2188cef4, type: 2}
+    <textLine>k__BackingField: Aller, je vous fais le premier gratuit, mais vous
+      avez interet a revenir si vous trouvez <color=#00FF00>de l'argent</color> !
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+  - <characterName>k__BackingField: 1
+    <speakerNameImage>k__BackingField: {fileID: 1199636280, guid: 311258fe9f392ab47b8fc69b4e01101c, type: 3}
+    <customPortrait>k__BackingField: {fileID: 11400000, guid: b631e5579b9d3e446bb05355e45e34ff, type: 2}
+    <textLine>k__BackingField: C'est donc ca la vie etudiante...
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []

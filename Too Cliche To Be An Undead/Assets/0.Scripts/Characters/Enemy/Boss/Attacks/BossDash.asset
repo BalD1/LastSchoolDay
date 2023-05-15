@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cca9054089a77c44a56c60294d0cefe, type: 3}
+  m_Name: BossDash
+  m_EditorClassIdentifier: 
+  canMove: 0
+  entitiesToAffect:
+    serializedVersion: 2
+    m_Bits: 64
+  <AttackDistance>k__BackingField: 2
+  <AttackDuration>k__BackingField: 0
+  <MinDurationBeforeAttack>k__BackingField: 0.5
+  <MaxDurationBeforeAttack>k__BackingField: 0.5
+  <telegraphRotationOffset>k__BackingField: 90
+  <DamageOnTrigger>k__BackingField: 0
+  <DamageOnCollision>k__BackingField: 1
+  <telegraphSprite>k__BackingField: {fileID: 21300000, guid: dc2ecf1eac8e9174284eef8dccfffbba, type: 3}
+  <attackOffset>k__BackingField: {x: 0, y: 0}
+  <telegraphVectorSize>k__BackingField: {x: 0.6, y: 4.4}
+  <SetTelegraphOnStart>k__BackingField: 0
+  upAnim: {fileID: 11400000, guid: 3c19ff2dec434c6499b3bfac19f40c43, type: 2}
+  downAnim: {fileID: 11400000, guid: 720350140da127541a1ad962b0cb136c, type: 2}
+  sideAnim: {fileID: 11400000, guid: 92ed8324b3f5edd438d7597041c8c4b3, type: 2}
+  attackForce: 20

@@ -1,0 +1,245 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &931839403389755047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 931839403389755065}
+  - component: {fileID: 931839403389755046}
+  m_Layer: 0
+  m_Name: EditorAssets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &931839403389755065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931839403389755047}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &931839403389755046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931839403389755047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a780a685ac44648827967eb10b7af4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconsWithSize:
+  - iconName: 0
+    image: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
+    maxWidth: 30
+    maxHeight: 18
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 1
+    image: {fileID: 2800000, guid: 5f44973e0f69ca347922119c9a568920, type: 3}
+    maxWidth: 30
+    maxHeight: 18
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 2
+    image: {fileID: 2800000, guid: 220748e7fb9593e4c810a4a27dc5c00f, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 3
+    image: {fileID: 2800000, guid: 61655fe06ccbf81458abd9d8306390a0, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 4
+    image: {fileID: 2800000, guid: 38f1663e7d2fcf046b039f0f904bc341, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 5
+    image: {fileID: 2800000, guid: bb55c6a10066e9445873d8ed3e49e448, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 6
+    image: {fileID: 2800000, guid: d370880a088c64548bb4a5af68420d5b, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 7
+    image: {fileID: 2800000, guid: 5bdf79753c9824c4c97dd5fba0b021b3, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 8
+    image: {fileID: 2800000, guid: 1d4cd0b8f16b9da40b0942af726de9b5, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 9
+    image: {fileID: 2800000, guid: 74f744bd8b6b42846965b6afcab179af, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 10
+    image: {fileID: 2800000, guid: 2f354243f8f917747a0ba66304666325, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 11
+    image: {fileID: 2800000, guid: 7684b067397a17f4f827f30f41a97680, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 12
+    image: {fileID: 2800000, guid: f90fc52593c143944a4e7163276bbb67, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 13
+    image: {fileID: 2800000, guid: 9f70bdb662c609f4381a1c67eef24d27, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 14
+    image: {fileID: 2800000, guid: 1d5350f5b101e0d41a6f569419d64dbc, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 15
+    image: {fileID: 2800000, guid: 2da0f8c1649cf1d4cba58fe54d16e269, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 16
+    image: {fileID: 2800000, guid: 3d838eb883b8b63439ce70cd3f342fed, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 17
+    image: {fileID: 2800000, guid: 12ca0dffdc3ab814b9e24c8decd3205e, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 18
+    image: {fileID: 2800000, guid: 4e2943e2c1717934c9713d890a0125e4, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 11
+    image: {fileID: 2800000, guid: 7b58886319f3b4449817de4ce560c578, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 19
+    image: {fileID: 2800000, guid: 8c03535461d5f1940bb3a85b854023cc, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 20
+    image: {fileID: 2800000, guid: 5f5859ed0ed638a488dc93d3767399bb, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 21
+    image: {fileID: 2800000, guid: ee1f11387637a834591e3169eee931f8, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 22
+    image: {fileID: 2800000, guid: 05c093938b52cfa4d80442044e06454c, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 23
+    image: {fileID: 2800000, guid: 7483283fb9e799c458d5f54da358399c, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 24
+    image: {fileID: 2800000, guid: b7ee2665c510aa84795176222941d4b3, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 26
+    image: {fileID: 2800000, guid: c56d4aa42b471f1459f630a56e2349ef, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 27
+    image: {fileID: 2800000, guid: c8536c2b0fce7f7468d22c9c2e1f8446, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 28
+    image: {fileID: 2800000, guid: e077ad5ce110c2546b5b375e40729fc2, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 29
+    image: {fileID: 2800000, guid: be7c961df056aa74290e0597c5bcd292, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 30
+    image: {fileID: 2800000, guid: 7b767dcfe6889b84ea4999269e6ee61d, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 31
+    image: {fileID: 2800000, guid: 423091b68852dc047b3c86d8e4660334, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0
+  - iconName: 32
+    image: {fileID: 2800000, guid: c9054084db89ca945afe8b43fb489fdd, type: 3}
+    maxWidth: 50
+    maxHeight: 50
+    showInInspector: 1
+    showExemples: 0

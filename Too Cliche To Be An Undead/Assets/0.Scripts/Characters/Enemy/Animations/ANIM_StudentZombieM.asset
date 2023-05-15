@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc3efa42006f2241b52898a0d8e4794, type: 3}
+  m_Name: ANIM_StudentZombieM
+  m_EditorClassIdentifier: 
+  <character>k__BackingField: 7
+  <skeletonDataAsset>k__BackingField: {fileID: 11400000, guid: 3b006a871e7a48c48af24d8ab04fce5b, type: 2}
+  idleAnim:
+  - {fileID: 11400000, guid: 8e2ee4bb7fd38da46acf57ad787233d9, type: 2}
+  walkAnim:
+  - {fileID: 11400000, guid: 8e2ee4bb7fd38da46acf57ad787233d9, type: 2}
+  attackAnim_side:
+  - {fileID: 11400000, guid: 64f02998d0e186c42bd806f4c75e7687, type: 2}
+  - {fileID: 11400000, guid: 8f34c03d13d3e894a82160c3dfa94631, type: 2}
+  attackAnim_up:
+  - {fileID: 11400000, guid: b04128cd821f59d4db30c9cb471970df, type: 2}
+  - {fileID: 11400000, guid: 24407b5468ace0e4da76f5c63b5639d7, type: 2}
+  attackAnim_down:
+  - {fileID: 11400000, guid: d6bf49fa2b1d8224193fc166dac8a446, type: 2}
+  - {fileID: 11400000, guid: 85f4b891b64b05e478530ced00fc097f, type: 2}
+  death: []
+  attackAnticip_Side:
+  - {fileID: 11400000, guid: 64f02998d0e186c42bd806f4c75e7687, type: 2}
+  - {fileID: 11400000, guid: 8f34c03d13d3e894a82160c3dfa94631, type: 2}
+  attackAnticip_Up:
+  - {fileID: 11400000, guid: b04128cd821f59d4db30c9cb471970df, type: 2}
+  - {fileID: 11400000, guid: 24407b5468ace0e4da76f5c63b5639d7, type: 2}
+  attackAnticip_Down:
+  - {fileID: 11400000, guid: d6bf49fa2b1d8224193fc166dac8a446, type: 2}
+  - {fileID: 11400000, guid: 85f4b891b64b05e478530ced00fc097f, type: 2}

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59089d9812651fa4886f27e9279f5f90, type: 3}
+  m_Name: BossPatern_Test
+  m_EditorClassIdentifier: 
+  <pitchModifierOnStageChange>k__BackingField: 0
+  <firstStagePaterns>k__BackingField:
+  - <attackWithCooldown>k__BackingField:
+    - <attack>k__BackingField: {fileID: 11400000, guid: d3fccc0a1380fff40a176abf4d4701d6, type: 2}
+      <timeBeforeNext>k__BackingField: 0
+    <recoverTime>k__BackingField: 2
+  <secondStagePaterns>k__BackingField:
+  - <attackWithCooldown>k__BackingField:
+    - <attack>k__BackingField: {fileID: 11400000, guid: ce9fada000075184a93094795f96c2a0, type: 2}
+      <timeBeforeNext>k__BackingField: 0
+    <recoverTime>k__BackingField: 0
