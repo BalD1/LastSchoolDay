@@ -19,6 +19,11 @@ public class SCRPT_AttackAmp : SCRPT_Skill
 
     [field: SerializeField] public string EffectID { get; private set; }
 
+    public override void EarlyStart(PlayerCharacter owner)
+    {
+        owner.D_earlySkillStart?.Invoke();
+    }
+
     public override void StartSkill(PlayerCharacter owner)
     {
         isInUse = true;
@@ -65,10 +70,5 @@ public class SCRPT_AttackAmp : SCRPT_Skill
     {
         owner.GetSkillHolder.StartTimer();
         owner.D_successfulAttack -= StartSkillTimerOnHit;
-    }
-
-    public override void EarlyStart(PlayerCharacter owner)
-    {
-        throw new System.NotImplementedException();
     }
 }

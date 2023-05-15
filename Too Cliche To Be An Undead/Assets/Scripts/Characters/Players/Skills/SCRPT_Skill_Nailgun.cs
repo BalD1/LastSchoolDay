@@ -33,6 +33,11 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
     private PlayerCharacter _owner;
 
+    public override void EarlyStart(PlayerCharacter owner)
+    {
+        owner.D_earlySkillStart?.Invoke();
+    }
+
     public override void StartSkill(PlayerCharacter owner)
     {
         _owner = owner;
@@ -119,10 +124,5 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         float damagesWithRandom = finalDamages * Random.Range(1 / damageRandomMultiplier, damageRandomMultiplier);
 
         proj.Fire(dir, damagesWithRandom, finalCrit, _owner);
-    }
-
-    public override void EarlyStart(PlayerCharacter owner)
-    {
-        throw new System.NotImplementedException();
     }
 }

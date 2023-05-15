@@ -13,6 +13,11 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
 
     private const string poisonID = "SKILL_PS";
 
+    public override void EarlyStart(PlayerCharacter owner)
+    {
+        owner.D_earlySkillStart?.Invoke();
+    }
+
     public override void StartSkill(PlayerCharacter owner)
     {
         isInUse = true;
@@ -58,10 +63,5 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
         owner.GetSkillHolder.StartTimer();
 
         owner.SkillTutoAnimator.SetTrigger("finish");
-    }
-
-    public override void EarlyStart(PlayerCharacter owner)
-    {
-        throw new System.NotImplementedException();
     }
 }
