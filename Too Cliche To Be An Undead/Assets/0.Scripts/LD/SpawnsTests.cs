@@ -1,5 +1,7 @@
-using System.Collections;
+using Spine.Unity;
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,12 +19,17 @@ public class SpawnsTests : MonoBehaviour
     [InspectorButton(nameof(Keep))]
     [SerializeField] private bool keep;
 
+    [InspectorButton(nameof(TestSize))]
+    public bool testSize;
+
+    public int arraySize = 132;
+
     private void Reset()
     {
         map = this.GetComponent<Tilemap>();
     }
 
-    private void Count()
+    private int Count()
     {
         int amount = 0;
 
@@ -36,7 +43,9 @@ public class SpawnsTests : MonoBehaviour
             }
         }
 
-        Debug.Log(amount);
+        Debug.Log("The map has " + amount + " tiles.");
+
+        return amount;
     }
 
     private void Keep()
@@ -45,7 +54,8 @@ public class SpawnsTests : MonoBehaviour
         BoundsInt bounds = map.cellBounds;
         foreach (Vector3Int pos in bounds.allPositionsWithin)
         {
-            if (RandomExtensions.OneOutOfTwo())
+            if (!map.HasTile(pos)) continue;
+            if (RandomExtensions.PercentageChance(tilesPercentageToKeep))
             {
                 map.SetTile(pos, okTile);
                 amount++;
@@ -53,6 +63,63 @@ public class SpawnsTests : MonoBehaviour
             else map.SetTile(pos, noTile);
         }
 
-        Debug.Log(amount);
+        Debug.Log("Kept " + amount + " tiles.");
+    }
+
+    private void TestSize()
+    {
+        int dictSize = Count();
+
+        long lSize = 0;
+        SizeTestClass sizeTestObj = new SizeTestClass(dictSize, arraySize);
+        sizeTestObj.Populate();
+
+        try
+        {
+            System.IO.MemoryStream stream = new System.IO.MemoryStream();
+
+            BinaryFormatter objFormatter = new BinaryFormatter();
+            objFormatter.Serialize(stream, sizeTestObj);
+
+            lSize = stream.Length;
+
+            Debug.Log("Size of the Object: " + lSize + " bytes");
+        }
+        catch (Exception excp)
+        {
+            Debug.Log("Error: " + excp.Message);
+        }
     }
 }
+
+[Serializable]
+public class SizeTestClass
+{
+    private int dictionaryCapacity = 1000;
+    private int arrayCapacity = 100;
+
+    [Serializable]
+    public class V2I
+    {
+        public int x;
+        public int y;
+    }
+    Dictionary<int, V2I[]> buffer = new Dictionary<int, V2I[]>();
+
+    public SizeTestClass(int _dictionaryCapacity, int _arrayCapacity)
+    {
+        this.dictionaryCapacity = _dictionaryCapacity;
+        this.arrayCapacity = _arrayCapacity;
+    }
+
+    public void Populate()
+    {
+        buffer = new Dictionary<int, V2I[]>(dictionaryCapacity);
+
+        for (int i = 0; i < dictionaryCapacity; i++)
+        {
+            buffer.Add(i, new V2I[arrayCapacity]);
+        }
+    }
+}
+

@@ -14,6 +14,8 @@ public static class RandomExtensions
 
     public static bool OneOutOfTwo() => Random.Range(0, 2) == 0;
     public static bool OneOutOf(int maxExclusive) => Random.Range(0, maxExclusive) == 0;
+    public static bool PercentageChance(int chances) => Random.Range(0, 100) < chances;
+    public static bool PercentageChance(float chances) => Random.Range(0, 100) < chances;
 
     #region Fluctuate
 
