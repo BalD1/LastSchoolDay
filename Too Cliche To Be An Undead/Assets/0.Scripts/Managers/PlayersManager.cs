@@ -69,7 +69,7 @@ public class PlayersManager : MonoBehaviour
 
         PopulateColorsQueue();
 
-        if (scene.name.Equals(GameManager.E_ScenesNames.MainScene))
+        if (!GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {
             DisableActions();
         }
@@ -90,7 +90,7 @@ public class PlayersManager : MonoBehaviour
             return;
         }
 
-        if (GameManager.Player1Ref == null && GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainScene))
+        if (GameManager.Player1Ref == null && !GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
             CreateP1();
 
         joinAction.performed += context => JoinAction(context);

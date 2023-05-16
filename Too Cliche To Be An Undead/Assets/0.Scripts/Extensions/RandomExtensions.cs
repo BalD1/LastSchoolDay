@@ -12,6 +12,11 @@ public static class RandomExtensions
         return res;
     }
 
+    public static bool OneOutOfTwo() => Random.Range(0, 2) == 0;
+    public static bool OneOutOf(int maxExclusive) => Random.Range(0, maxExclusive) == 0;
+
+    #region Fluctuate
+
     /// <summary>
     /// <para> Fluctuates <paramref name="vector"/> by <b>10%</b>,</para>
     /// <para> Adding him a random number within <b>10%</b> of himself.</para>
@@ -24,7 +29,7 @@ public static class RandomExtensions
     /// </summary>
     /// <param name="vector"></param>
     /// <param name="rangePercentage"></param>
-    public static Vector2 Fluctuate(this Vector2 vector, float rangePercentage) => Fluctuate(vector, 1 - rangePercentage,  1 + rangePercentage);
+    public static Vector2 Fluctuate(this Vector2 vector, float rangePercentage) => Fluctuate(vector, 1 - rangePercentage, 1 + rangePercentage);
     /// <summary>
     /// <para> Fluctuates <paramref name="vector"/> by <b>[100 * <paramref name="minRangePercentage"/>% ~ 100 * <paramref name="maxRangePercentage"/>%]</b>,</para>
     /// <para> Adding him a random number within <b>[100 * <paramref name="minRangePercentage"/>% ~ 100 * <paramref name="maxRangePercentage"/>%]</b> of himself. </para>
@@ -91,5 +96,6 @@ public static class RandomExtensions
     public static float Fluctuate(this float f, float minRangePercentage, float maxRangePercentage)
     {
         return f = Random.Range(f * minRangePercentage, f * maxRangePercentage);
-    }
+    } 
+    #endregion
 }
