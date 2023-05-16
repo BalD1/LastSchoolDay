@@ -1,10 +1,11 @@
-using Spine.Unity;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
+[ExecuteInEditMode]
 public class SpawnsTests : MonoBehaviour
 {
     [SerializeField] private Tilemap map;
@@ -14,7 +15,7 @@ public class SpawnsTests : MonoBehaviour
 
     [SerializeField, Range(0,100)] private float tilesPercentageToKeep;
 
-    [SerializeField] private Tile okTile, noTile;
+    [SerializeField] private Tile okTile, noTile, spawnTile;
 
     [InspectorButton(nameof(Keep))]
     [SerializeField] private bool keep;
@@ -22,14 +23,90 @@ public class SpawnsTests : MonoBehaviour
     [InspectorButton(nameof(TestSize))]
     public bool testSize;
 
+    public Vector2Int tilesRange;
+    public Vector2Int innerRange;
+
+    private Vector3Int currentPosInMap;
+    private Vector3Int lastPosInMap;
+
+    public Vector3Int[] surroundingTilesPositions;
+
+    public Transform target;
+
     public int arraySize = 132;
+
+    public bool simulate;
+
+    private void OnValidate()
+    {
+        if (innerRange.x % 2 != 0) innerRange.x++;
+        if (innerRange.y % 2 != 0) innerRange.y++;
+    }
+
+    private void Update()
+    {
+        if (!simulate) return;
+
+        currentPosInMap = map.WorldToCell(target.position);
+
+        if (currentPosInMap == lastPosInMap) return;
+
+        CheckNeighbours();
+    }
+
+    private void CheckNeighbours()
+    {
+        if (tilesRange.x == 0 || tilesRange.y == 0) return;
+
+        if (surroundingTilesPositions != null)
+        {
+            foreach (var item in surroundingTilesPositions)
+            {
+                map.SetTile(item, okTile);
+            }
+        }
+
+        surroundingTilesPositions = new Vector3Int[(tilesRange.x * tilesRange.y) - ((innerRange.x / 2 * tilesRange.x) + (innerRange.y / 2 * tilesRange.y))];
+
+        int arrayIdx = 0;
+
+        for (int x = 0; x < tilesRange.x * .5f; x++)
+        {
+            for (int y = 0; y < tilesRange.y * .5f; y++)
+            {
+                if (x <= innerRange.x * .5f && y <=  innerRange.y * .5f) continue;
+
+                Vector3Int dlNeighbour = new Vector3Int(currentPosInMap.x - x, currentPosInMap.y - y);
+                Vector3Int ulNeighbour = new Vector3Int(currentPosInMap.x - x, currentPosInMap.y + y);
+                Vector3Int drNeighbour = new Vector3Int(currentPosInMap.x + x, currentPosInMap.y - y);
+                Vector3Int urNeighbour = new Vector3Int(currentPosInMap.x + x, currentPosInMap.y + y);
+
+                SetupCell(dlNeighbour, ref arrayIdx);
+                SetupCell(ulNeighbour, ref arrayIdx);
+                SetupCell(drNeighbour, ref arrayIdx);
+                SetupCell(urNeighbour, ref arrayIdx);
+            }
+        }
+
+        void SetupCell(Vector3Int pos, ref int idx)
+        {
+            if (pos == Vector3Int.zero) return;
+            if (surroundingTilesPositions.Contains(pos)) return;
+            if (map.HasTile(pos) == false || map.GetTile(pos) == noTile) return;
+
+            surroundingTilesPositions[idx] = pos;
+            idx++;
+            map.SetTile(pos, spawnTile);
+        }
+    }
 
     private void Reset()
     {
         map = this.GetComponent<Tilemap>();
     }
 
-    private int Count()
+    private int Count() => Count(false);
+    private int Count(bool onlyOK)
     {
         int amount = 0;
 
@@ -39,7 +116,10 @@ public class SpawnsTests : MonoBehaviour
             Tile tile = map.GetTile<Tile>(pos);
             if (tile != null)
             {
-                amount += 1;
+                if (!onlyOK)
+                    amount += 1;
+                else if (tile == okTile)
+                    amount += 1;
             }
         }
 
@@ -68,7 +148,7 @@ public class SpawnsTests : MonoBehaviour
 
     private void TestSize()
     {
-        int dictSize = Count();
+        int dictSize = Count(true);
 
         long lSize = 0;
         SizeTestClass sizeTestObj = new SizeTestClass(dictSize, arraySize);
@@ -103,6 +183,12 @@ public class SizeTestClass
     {
         public int x;
         public int y;
+
+        public V2I(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
     Dictionary<int, V2I[]> buffer = new Dictionary<int, V2I[]>();
 
@@ -118,7 +204,13 @@ public class SizeTestClass
 
         for (int i = 0; i < dictionaryCapacity; i++)
         {
-            buffer.Add(i, new V2I[arrayCapacity]);
+            V2I[] v = new V2I[arrayCapacity];
+            for (int j = 0; j < arrayCapacity; j++)
+            {
+                v[j] = new V2I(0,0);
+            }
+
+            buffer.Add(i, v);
         }
     }
 }
