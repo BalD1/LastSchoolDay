@@ -50,7 +50,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
         return true;
     }
 
-    public void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false)
+    public void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
     {
         currentHP += amount;
     }

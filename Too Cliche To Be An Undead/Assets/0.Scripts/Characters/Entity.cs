@@ -510,9 +510,9 @@ public class Entity : MonoBehaviour, IDamageable
         return true;
     }
 
-    public virtual void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false)
+    public virtual void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
     {
-        if (!IsAlive()) return;
+        if (!IsAlive() && !healFromDeath) return;
 
         if (isCrit) amount *= 1.5f;
 

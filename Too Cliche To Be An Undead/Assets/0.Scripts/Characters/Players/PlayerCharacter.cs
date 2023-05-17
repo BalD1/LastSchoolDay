@@ -656,9 +656,9 @@ public class PlayerCharacter : Entity, IInteractable
         }
     }
 
-    public override void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false)
+    public override void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
     {
-        base.OnHeal(amount, isCrit, canExceedMaxHP);
+        base.OnHeal(amount, isCrit, canExceedMaxHP, healFromDeath);
 
         UpdateHPonUI();
 
@@ -690,7 +690,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void Revive()
     {
-        this.OnHeal(this.MaxHP_M * reviveHealPercentage);
+        this.OnHeal(this.MaxHP_M * reviveHealPercentage, false, false, healFromDeath: true);
         stateManager.SwitchState(stateManager.idleState);
     }
 
