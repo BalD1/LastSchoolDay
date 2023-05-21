@@ -256,7 +256,6 @@ public class NormalZombie : EnemyBase
     protected override void ResetStats()
     {
         this.MaxHP_M = GetStats.MaxHP.Fluctuate(.2f);
-
         this.MaxDamages_M = GetStats.BaseDamages.Fluctuate(.2f);
 
         this.MaxAttRange_M = GetStats.AttackRange.Fluctuate();

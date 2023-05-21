@@ -37,7 +37,6 @@ public class EnemyScalerByPlayers : MonoBehaviour
             float multiplier = item.scaleByPlayersCount[playersCount].value;
 
             float finalAmount = owner.GetStats.GetStatValue(item.statToScale) * multiplier;
-
             owner.AddModifier(id, finalAmount, item.statToScale);
         }
     }
