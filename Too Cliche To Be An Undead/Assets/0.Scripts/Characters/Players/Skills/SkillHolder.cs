@@ -64,7 +64,11 @@ public class SkillHolder : MonoBehaviour
     }
 
     public void StartTimer() => timer = owner.MaxSkillCD_M;
-    public void StartTimer(float t) => timer = t;
+    public void StartTimer(float t)
+    {
+        timer = t;
+        Debug.Log(timer);
+    }
 
     public void PlayAnimation(string id) => animator.Play(id);
 

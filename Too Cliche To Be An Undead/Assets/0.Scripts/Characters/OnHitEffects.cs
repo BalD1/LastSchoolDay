@@ -23,6 +23,7 @@ public class OnHitEffects
 
     private bool isBigHit;
 
+    public string ID { get => id; }
     public float RangeModifier { get => rangeModifier; }
     public float DamagesModifier { get => damagesModifier; }
     public float KnockbackModifier { get => knockbackModifier; }

@@ -15,6 +15,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
     private const float remainingForceOnCollision = .9f;
     private const float remainingTimeReductionOnCollision = .95f;
+    private const float remainingForceThresholdToIgnoreIfPlayer = 10;
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
@@ -104,6 +105,12 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         CameraManager.Instance.ShakeCamera(owner.PlayerDash.MaxScreenShakeIntensity * GetRemainingTimeByMax(),
                                            owner.PlayerDash.MaxScreenShakeDuration * GetRemainingTimeByMax());
 
+        if (e is PlayerCharacter)
+        {
+            if (remainingPushForce <= remainingForceThresholdToIgnoreIfPlayer) return;
+
+            remainingPushForce *= 2;
+        }
         e.Push(owner.transform.position, remainingPushForce, owner);
     }
 

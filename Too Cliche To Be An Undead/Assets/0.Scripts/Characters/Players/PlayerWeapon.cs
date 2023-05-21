@@ -375,6 +375,13 @@ public class PlayerWeapon : MonoBehaviour
         if (targetEffect.TickDamagesToAdd != null)
             onHitTickDamages.Remove(targetEffect.TickDamagesToAdd);
     }
+    public void RemoveOnHitEffect(string targetID)
+    {
+        foreach (var item in onHitEffects)
+        {
+            if (item.ID == targetID) effectsToRemove.Add(item);
+        }
+    }
 
     #endregion
 }

@@ -39,7 +39,6 @@ public class SCRPT_AttackAmp : SCRPT_Skill
         owner.OffsetSkillHolder(offset);
 
         particles?.Create(owner.transform);
-        owner.GetSkillHolder.StartTimer(9999);
     }
 
     public override void UpdateSkill(PlayerCharacter owner)
@@ -70,5 +69,6 @@ public class SCRPT_AttackAmp : SCRPT_Skill
     {
         owner.GetSkillHolder.StartTimer();
         owner.D_successfulAttack -= StartSkillTimerOnHit;
+        isInUse = false;
     }
 }
