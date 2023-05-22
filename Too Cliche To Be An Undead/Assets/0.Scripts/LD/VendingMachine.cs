@@ -31,6 +31,8 @@ public class VendingMachine : MonoBehaviour, IInteractable
 
     [SerializeField] private AudioSource source;
 
+    [SerializeField] private SCRPT_PB pbData;
+
 #if UNITY_EDITOR
     [SerializeField] private bool debugMode;
 #endif
@@ -140,7 +142,11 @@ public class VendingMachine : MonoBehaviour, IInteractable
     {
         yield return new WaitForSeconds(duration);
 
-        dropTable.DropRandom((Vector2)this.transform.position + dropPosition);
+        List<GameObject> objList = dropTable.DropRandom((Vector2)this.transform.position + dropPosition);
+        foreach (var item in objList)
+        {
+            item.GetComponent<PB_Drop>().Setup(pbData);
+        }
     }
 
     private void OnDrawGizmos()

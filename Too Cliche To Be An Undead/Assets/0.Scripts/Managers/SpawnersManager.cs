@@ -31,10 +31,10 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI uiCounter;
     [SerializeField] private TextMeshProUGUI uiStamp;
 
-    [field: SerializeField] public AnimationCurve maxZombiesInSchoolByTime { get; private set; }
-    [field: SerializeField] public AnimationCurve zombiesSpawnCooldown { get; private set; }
-    [field: SerializeField] public AnimationCurve spawnsBreakupsDurations { get; private set; }
-    [field: SerializeField] public AnimationCurve spawnsBreakupsCooldowns { get; private set; }
+    [field: SerializeField] public AnimationCurve MaxZombiesInSchoolByTime { get; private set; }
+    [field: SerializeField] public AnimationCurve ZombiesSpawnCooldown { get; private set; }
+    [field: SerializeField] public AnimationCurve SpawnsBreakupsDurations { get; private set; }
+    [field: SerializeField] public AnimationCurve SpawnsBreakupsCooldowns { get; private set; }
 
     [ReadOnly]
     [SerializeField] private float currentBreakup_TIMER;
@@ -66,7 +66,7 @@ public class SpawnersManager : MonoBehaviour
 
     public const int minValidDistanceFromPlayer = 5;
 
-    public const float timeBetweenStamps = 45;
+    public const float timeBetweenStamps = 60;
 
     [SerializeField] private bool spawnsAreAllowed = false;
 
@@ -128,7 +128,7 @@ public class SpawnersManager : MonoBehaviour
 
             // when the timer is <= 0, exit the breakup, set the duration before next, return
             isInBreakup = false;
-            timerBeforeNextBreakup = spawnsBreakupsCooldowns.Evaluate(SpawnStamp);
+            timerBeforeNextBreakup = SpawnsBreakupsCooldowns.Evaluate(SpawnStamp);
 
             return;
         }
@@ -137,7 +137,7 @@ public class SpawnersManager : MonoBehaviour
         if (timerBeforeNextBreakup > 0) return;
 
         isInBreakup = true;
-        currentBreakup_TIMER = spawnsBreakupsDurations.Evaluate(SpawnStamp);
+        currentBreakup_TIMER = SpawnsBreakupsDurations.Evaluate(SpawnStamp);
     }
 
     public void AllowSpawns(bool allow)
@@ -154,8 +154,8 @@ public class SpawnersManager : MonoBehaviour
         });
 
         stamp_TIMER = timeBetweenStamps;
-        maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
-        spawnCooldown = zombiesSpawnCooldown.Evaluate(spawnStamp);
+        maxZombiesInSchool = (int)MaxZombiesInSchoolByTime.Evaluate(spawnStamp);
+        spawnCooldown = ZombiesSpawnCooldown.Evaluate(spawnStamp);
     }
 
     private void TrySpawnZombies()
@@ -208,8 +208,8 @@ public class SpawnersManager : MonoBehaviour
         LeanTween.scale(stampContainerRT, Vector3.one * 1.3f, .25f).setLoopPingPong(1);
 
         stamp_TIMER = timeBetweenStamps;
-        maxZombiesInSchool = (int)maxZombiesInSchoolByTime.Evaluate(spawnStamp);
-        spawnCooldown = zombiesSpawnCooldown.Evaluate(spawnStamp);
+        maxZombiesInSchool = (int)MaxZombiesInSchoolByTime.Evaluate(spawnStamp);
+        spawnCooldown = ZombiesSpawnCooldown.Evaluate(spawnStamp);
     }
 
     private void SpawnNext()

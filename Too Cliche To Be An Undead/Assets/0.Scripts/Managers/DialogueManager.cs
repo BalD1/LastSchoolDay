@@ -98,24 +98,29 @@ public class DialogueManager : MonoBehaviour
         {
             if (item.ID == searchedID)
             {
-                StartDialogue(item);
-
-                foreach (var player in GameManager.Instance.playersByName)
-                {
-                    PlayerCharacter p = player.playerScript;
-                    p.StateManager.SwitchState(p.StateManager.idleState);
-                }
-
-                endDialogueAction = actionAtDialogueEnd;
-                return true;
+                return TryStartDialogue(item, actionAtDialogueEnd);
             }
         }
-
 
 #if UNITY_EDITOR
         Debug.LogErrorFormat($"{searchedID} was not found in {Dialogues} array."); 
 #endif
         return false;
+    }
+    public bool TryStartDialogue(SCRPT_SingleDialogue dialogue, Action actionAtDialogueEnd = null)
+    {
+        if (dialogue == null) return false;
+
+        StartDialogue(dialogue);
+
+        foreach (var player in GameManager.Instance.playersByName)
+        {
+            PlayerCharacter p = player.playerScript;
+            p.StateManager.SwitchState(p.StateManager.idleState);
+        }
+
+        endDialogueAction = actionAtDialogueEnd;
+        return true;
     }
 
     public void TrySkip()
@@ -141,8 +146,6 @@ public class DialogueManager : MonoBehaviour
         {
             item.playerScript.SwitchControlMapToDialogue();
         }
-
-        //PostproManager.Instance.SetBlurState(true);
 
         dialogueText.text = "";
 

@@ -102,7 +102,8 @@ public class Collectable : MonoBehaviour, IInteractable
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Player") == false) return;
+        if (!pickupOnCollision) return;
+        if (!collision.CompareTag("Player")) return;
         if (detectedPlayer != null) return;
 
         detectedPlayer = collision.GetComponentInParent<PlayerCharacter>();

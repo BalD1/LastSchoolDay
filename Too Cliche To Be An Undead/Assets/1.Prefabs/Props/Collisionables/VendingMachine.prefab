@@ -85,7 +85,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5000
+  m_SortingOrder: -17736
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &706143325
 MonoBehaviour:
@@ -729,11 +729,12 @@ MonoBehaviour:
     vendingState: Barre choco 02
     emptyState: Machine vide 02
   dropTable: {fileID: 11400000, guid: 26acd62fd25b2b343a0cefb8a6ede29b, type: 2}
-  dropPosition: {x: 0, y: -0.25}
+  dropPosition: {x: 0.06, y: 0.17}
   priceComponents: {fileID: 8089905004295365030}
   animator: {fileID: 2024491589105304513}
   priceText: {fileID: 3641748581752955647}
   source: {fileID: 3168054354084042813}
+  pbData: {fileID: 11400000, guid: cbcc182952ba8884380b001ca7766a5f, type: 2}
   debugMode: 0
 --- !u!58 &646091415214717225
 CircleCollider2D:
