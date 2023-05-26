@@ -47,8 +47,17 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private void Awake()
     {
-        selfImage.sprite = button.interactable ? Data.LevelSprites.UnlockedSprite :
-                                                 Data.LevelSprites.LockedSprite;
+        if (DataKeeper.Instance.unlockedLevels.Contains(this.ID))
+        {
+            Unlock(true);
+            selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
+                                            Data.LevelSprites.UnlockedSprite;
+        }
+        else
+        {
+            selfImage.sprite = button.interactable ? Data.LevelSprites.UnlockedSprite :
+                                                     Data.LevelSprites.LockedSprite;
+        }
 
         halo.sprite = selfImage.sprite;
     }
@@ -94,8 +103,6 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         if (isUnlocked) return;
         isUnlocked = true;
 
-        shop.PlayAudio(shop.ShopAudioData.buyAudio);
-
         shop.UpdateCostsMoney();
 
         if (Data.modifiers != null)
@@ -129,7 +136,10 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         this.halo.gameObject.SetActive(true);
 
         if (!reloadUnlock)
+        {
             DataKeeper.Instance.unlockedLevels.Add(this.ID);
+            shop.PlayAudio(shop.ShopAudioData.buyAudio);
+        }
 
         PlayerCharacter.LevelUp();
     }
