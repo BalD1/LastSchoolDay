@@ -179,7 +179,6 @@ public class DebugConsole : MonoBehaviour
             }
         });
 
-
         FORCEWIN = new DebugCommand("FORCE_WIN", "Forces the win conditions", "FORCE_WIN", () =>
         {
             allowGameChange = false;
