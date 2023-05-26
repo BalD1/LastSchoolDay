@@ -178,6 +178,7 @@ public class DebugConsole : MonoBehaviour
                 pc.OnTakeDamages(pc.MaxHP_M, null);
             }
         });
+        //test
 
         FORCEWIN = new DebugCommand("FORCE_WIN", "Forces the win conditions", "FORCE_WIN", () =>
         {
