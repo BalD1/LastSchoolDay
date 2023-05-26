@@ -52,6 +52,7 @@ public class DataKeeper : MonoBehaviour
     public int maxLevel;
 
     public bool firstPassInMainMenu = true;
+    public int runsCount = 0;
 
     public bool skipTuto = true;
     public bool alreadyPlayedTuto = false;

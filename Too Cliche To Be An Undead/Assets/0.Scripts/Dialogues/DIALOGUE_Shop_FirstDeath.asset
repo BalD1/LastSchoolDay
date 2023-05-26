@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abd21a50e2dcf641b7a1b85e22aa21d, type: 3}
+  m_Name: DIALOGUE_Shop_FirstDeath
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: shop_firstdeath
+  <ignoreGameState>k__BackingField: 0
+  <dialogueLines>k__BackingField:
+  - <characterName>k__BackingField: 3
+    <speakerNameImage>k__BackingField: {fileID: 1573432537, guid: 311258fe9f392ab47b8fc69b4e01101c, type: 3}
+    <customPortrait>k__BackingField: {fileID: 11400000, guid: fbc181485d403af44a44de8fa7024aa1, type: 2}
+    <textLine>k__BackingField: Lol
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
