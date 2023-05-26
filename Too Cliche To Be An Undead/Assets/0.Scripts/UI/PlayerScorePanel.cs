@@ -22,8 +22,6 @@ public class PlayerScorePanel : MonoBehaviour
     public delegate void D_AnimationEnded();
     public D_AnimationEnded D_animationEnded;
 
-    private PlayerCharacter relatedPlayer;
-
     private Queue<LTDescr> animQueue;
 
     private int finalScore;
@@ -35,18 +33,15 @@ public class PlayerScorePanel : MonoBehaviour
 
         controller = _controller;
 
-        relatedPlayer = _relatedPlayer;
         playerImages = _playerImages;
 
         playerImage.sprite = playerImages.neutralImage;
 
-        //animQueue.Enqueue(AnimateValue(Random.Range(0, 100), controller.SingleKillValue, 1, killsCount));
-        //animQueue.Enqueue(AnimateValue(Random.Range(0, 5000), controller.SingleDamageDealtValue, 1, dealtDamagesCount));
-        //animQueue.Enqueue(AnimateValue(Random.Range(0, 100), controller.SingleDamageTakenValue, 1, takenDamagesCount));
-        
-        animQueue.Enqueue(AnimateValue(_relatedPlayer.KillsCount, controller.SingleKillValue, 1, killsCount));
-        animQueue.Enqueue(AnimateValue(_relatedPlayer.DamagesDealt, controller.SingleDamageDealtValue, 1, dealtDamagesCount));
-        animQueue.Enqueue(AnimateValue(_relatedPlayer.DamagesTaken, controller.SingleDamageTakenValue, 1, takenDamagesCount));
+        PlayerEndStatsManager.PlayerEndStats playerEndStats = PlayerEndStatsManager.Instance.GetPlayerEndStats(_relatedPlayer);
+
+        animQueue.Enqueue(AnimateValue(playerEndStats.KillsCount, controller.SingleKillValue, 1, killsCount));
+        animQueue.Enqueue(AnimateValue(playerEndStats.DamagesDealt, controller.SingleDamageDealtValue, 1, dealtDamagesCount));
+        animQueue.Enqueue(AnimateValue(playerEndStats.DamagesTaken, controller.SingleDamageTakenValue, 1, takenDamagesCount));
         
     }
 

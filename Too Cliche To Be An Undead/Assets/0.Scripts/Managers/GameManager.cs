@@ -135,7 +135,8 @@ public class GameManager : MonoBehaviour
 
     public bool allowQuitLobby = true;
 
-    public float TimeAtRunStart { get; private set; }
+    public event Action OnRunStarted;
+    public void RunStarted() => OnRunStarted?.Invoke();
 
     #region GameStates
 
@@ -189,6 +190,7 @@ public class GameManager : MonoBehaviour
             case E_GameState.Win:
                 Time.timeScale = 0;
                 PlayersManager.Instance.SetAllPlayersControlMapToUI();
+                PlayerEndStatsManager.Instance.KeepScores();
                 break;
 
             case E_GameState.GameOver:
@@ -254,8 +256,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        TimeAtRunStart = Time.time;
-
         AcquiredCards = 0;
         NeededCards = 0;
 
@@ -465,6 +465,9 @@ public class GameManager : MonoBehaviour
     public void ReloadScene()
     {
         _onSceneReload?.Invoke();
+
+        PlayerEndStatsManager.Instance.KeepScores();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
         TextPopup.popupPool.Clear();

@@ -77,7 +77,7 @@ public class PlayersScorePanelsController : MonoBehaviour
 
         PlayNextPanel();
 
-        int completitionTimeSeconds = (int)(Time.time - GameManager.Instance.TimeAtRunStart);
+        float completitionTimeSeconds = PlayerEndStatsManager.Instance.GameTime;
 
         System.TimeSpan time = System.TimeSpan.FromSeconds(completitionTimeSeconds);
 
