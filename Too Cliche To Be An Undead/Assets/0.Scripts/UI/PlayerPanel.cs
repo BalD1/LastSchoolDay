@@ -109,10 +109,13 @@ public class PlayerPanel : MonoBehaviour
             if (ptjTween != null) LeanTween.cancel(ptjTween.uniqueId);
             ptjTween = LeanTween.delayedCall(3, () => {
 
+                if (pressToJoin == null) return;
                 LeanTween.scale(pressToJoin.rectTransform, Vector3.one * 1.1f, 1.5f)
                 .setLoopPingPong()
-                .setEase(LeanTweenType.easeInOutBack).setRepeat(2);
-            }).setRepeat(-1);
+                .setEase(LeanTweenType.easeInOutBack).setRepeat(2)
+                .setIgnoreTimeScale(true);
+            }).setRepeat(-1)
+            .setIgnoreTimeScale(true);
         }
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,9 @@ public class PreloadScreen : MonoBehaviour
     [SerializeField] private RawImage videoPlayerImage;
 
     [SerializeField] private float fadeDuration = .5f;
+
+    [SerializeField] private RectTransform playTutoButton;
+    [SerializeField] private RectTransform skipTutoButton;
 
     PlayerCharacter p1;
 
@@ -39,12 +43,26 @@ public class PreloadScreen : MonoBehaviour
 
     public void PlayTutorial()
     {
-        Launch(false);
+        AnimateButton(playTutoButton, false);
     }
 
     public void SkipTutorial()
     {
-        Launch(true);
+        AnimateButton(skipTutoButton, true);
+    }
+
+    private void AnimateButton(RectTransform rectTransform, bool launchSkipTuto)
+    {
+        LeanTween.scale(rectTransform, Vector3.one * 1.2f, .25f)
+            .setOnComplete(() =>
+            {
+                canvasGroup.LeanAlpha(0, .5f).setIgnoreTimeScale(true);
+                LeanTween.scale(rectTransform, Vector3.zero, .5f).setIgnoreTimeScale(true)
+                .setOnComplete(() =>
+                {
+                    Launch(launchSkipTuto);
+                });
+            }).setIgnoreTimeScale(true);
     }
 
     private void Launch(bool skipTuto)

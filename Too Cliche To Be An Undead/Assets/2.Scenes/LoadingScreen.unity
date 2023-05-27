@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 746944648}
   - component: {fileID: 746944647}
   - component: {fileID: 746944646}
+  - component: {fileID: 746944650}
   m_Layer: 5
   m_Name: LoadingScreen
   m_TagString: Untagged
@@ -545,8 +546,7 @@ MonoBehaviour:
   - {fileID: 91259107}
   imagesToHideOnLoadComplete: {fileID: 890617323}
   pressAnyKeyText: {fileID: 1736072708}
-  waitForInput: 0
-  loadScene: 0
+  canvasGroup: {fileID: 746944650}
 --- !u!222 &746944648
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -577,6 +577,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.000030517578, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &746944650
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746944645}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &841098329
 GameObject:
   m_ObjectHideFlags: 0

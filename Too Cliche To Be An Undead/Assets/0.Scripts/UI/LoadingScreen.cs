@@ -9,6 +9,8 @@ public class LoadingScreen : MonoBehaviour
     [SerializeField] private RectTransform[] loadingIcons;
     [SerializeField] private CanvasGroup imagesToHideOnLoadComplete;
     [SerializeField] private TextMeshProUGUI pressAnyKeyText;
+
+    [SerializeField] private CanvasGroup canvasGroup;
     
     private bool waitForInput = false;
     private bool loadScene = false;
@@ -23,6 +25,8 @@ public class LoadingScreen : MonoBehaviour
 
     private void Start()
     {
+        canvasGroup.LeanAlpha(1, .5f).setIgnoreTimeScale(true);
+
         foreach (RectTransform item in loadingIcons)
             LeanTween.rotate(item, 360, 2).setRepeat(-1).setIgnoreTimeScale(true);
 
