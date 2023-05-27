@@ -148,6 +148,7 @@ public class NormalZombie : EnemyBase
 
     public void ForceKill()
     {
+        if (!IsAlive()) return;
         OnDeath(true);
     }
 
