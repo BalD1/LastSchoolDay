@@ -19,7 +19,7 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private OpenableDoor doorToCloseOnZombies;
     [SerializeField] private NormalZombie[] tutorialZombies;
 
-    [SerializeField] private Transform onZombiesPlayersTeleportGoal;
+    [SerializeField] private List<Transform> onZombiesPlayersTeleportGoals;
 
     [SerializeField] private CanvasGroup[] tutorialsArray;
     private Queue<CanvasGroup> tutorialsQueue;
@@ -130,8 +130,6 @@ public class Tutorial : MonoBehaviour
 
     private void EnableTutorialZombies()
     {
-        GameManager.Instance.TeleportAllPlayers(onZombiesPlayersTeleportGoal.position);
-
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
 
         foreach (var item in tutorialZombies)
@@ -210,7 +208,7 @@ public class Tutorial : MonoBehaviour
         if (collision.GetComponentInParent<PlayerCharacter>() != null && enteredInTriggerFlag == false)
         {
             enteredInTriggerFlag = true;
-            StartZombiesDialogue();
+            GameManager.Instance.MoveAllPlayers(onZombiesPlayersTeleportGoals, StartZombiesDialogue);
         }
     }
 

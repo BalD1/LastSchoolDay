@@ -18,6 +18,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public FSM_Player_Dying dyingState = new FSM_Player_Dying();
     public FSM_Player_Dead deadState = new FSM_Player_Dead();
     public FSM_Player_Stuned stunnedState = new FSM_Player_Stuned();
+    public FSM_Player_Cinematic cinematicState = new FSM_Player_Cinematic();
 
     private FSM_Base<FSM_Player_Manager> currentState;
     public FSM_Base<FSM_Player_Manager> CurrentState { get => currentState; }

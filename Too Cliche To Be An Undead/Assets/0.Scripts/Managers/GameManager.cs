@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using BalDUtilities.Misc;
 using UnityEngine.InputSystem;
 using System;
+using static UnityEditor.Progress;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -389,6 +391,65 @@ public class GameManager : MonoBehaviour
 
             player.gameObject.transform.position = position;
         }
+    }
+    public void TeleportAllPlayers(List<Vector2> positions)
+    {
+        for (int i = 0; i < playersByName.Count; i++)
+        {
+            PlayerCharacter player = playersByName[i].playerScript;
+            Vector2 pos = positions[i % (positions.Count - 1)];
+
+            if (!player.IsAlive()) continue;
+
+            player.gameObject.transform.position = pos;
+        }
+    }
+    public void TeleportAllPlayers(List<Transform> transforms)
+    {
+        List<Vector2> positions = new List<Vector2>();
+        foreach (var item in transforms)
+        {
+            positions.Add(item.position);
+        }
+
+        TeleportAllPlayers(positions);
+    }
+
+    public void MoveAllPlayers(List<Vector2> positions, Action endAction = null)
+    {
+        int playersUnfinishedAnimations = playersByName.Count;
+        for (int i = 0; i < playersByName.Count; i++)
+        {
+            PlayerCharacter player = playersByName[i].playerScript;
+            player.StateManager.SwitchState(player.StateManager.cinematicState);
+            PlayerAnimationController animationController = player.AnimationController;
+            animationController.SetAnimation(animationController.animationsData.WalkAnim, true);
+
+            Vector2 pos = positions[i % (positions.Count - 1)];
+
+            if (!player.IsAlive()) continue;
+
+            float travelTime = Vector2.Distance(player.transform.position, pos) / player.MaxSpeed_M;
+
+            player.gameObject.transform.LeanMove(pos, travelTime)
+                .setOnComplete(() =>
+                {
+                    playersUnfinishedAnimations--;
+                    player.StateManager.SwitchState(player.StateManager.idleState);
+                    if (playersUnfinishedAnimations <= 0)
+                        endAction?.Invoke();
+                });
+        }
+    }
+    public void MoveAllPlayers(List<Transform> transforms, Action endAction = null)
+    {
+        List<Vector2> positions = new List<Vector2>();
+        foreach (var item in transforms)
+        {
+            positions.Add(item.position);
+        }
+
+        MoveAllPlayers(positions, endAction);
     }
 
     public void TeleportPlayerAtCameraCenter(int playerIdx)
