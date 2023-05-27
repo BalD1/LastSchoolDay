@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.EventSystems;
 
 public class PlayerPanel : MonoBehaviour
 {
@@ -64,8 +61,17 @@ public class PlayerPanel : MonoBehaviour
     public PlayerPanelsManager panelsManager;
     [field: SerializeField] public int panelID { get; private set; }
 
+    private LTDescr ptjTween;
+
+    private void Start()
+    {
+        SetPTJTween();
+    }
+
     public void Enable()
     {
+        if (ptjTween != null) LeanTween.cancel(ptjTween.uniqueId);
+
         ScaleUpAndDown();
         this.panelImage.color = Color.white;
 
@@ -84,6 +90,8 @@ public class PlayerPanel : MonoBehaviour
 
     public void Disable()
     {
+        SetPTJTween();
+
         IsEnabled = false;
         this.panelImage.color = DisabledColor;
 
@@ -92,6 +100,20 @@ public class PlayerPanel : MonoBehaviour
 
         cornersGroup.alpha = 0;
         arrows.alpha = 0;
+    }
+
+    private void SetPTJTween()
+    {
+        if (pressToJoin != null)
+        {
+            if (ptjTween != null) LeanTween.cancel(ptjTween.uniqueId);
+            ptjTween = LeanTween.delayedCall(3, () => {
+
+                LeanTween.scale(pressToJoin.rectTransform, Vector3.one * 1.1f, 1.5f)
+                .setLoopPingPong()
+                .setEase(LeanTweenType.easeInOutBack).setRepeat(2);
+            }).setRepeat(-1);
+        }
     }
 
     public void SetValidity(bool validity)
