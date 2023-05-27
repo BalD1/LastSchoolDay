@@ -295,6 +295,12 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    public void AddPlayerToList(DataKeeper.PlayerDataKeep data)
+    {
+        var p = new PlayersByName(data.playerName, data.playerInput.GetComponentInParent<PlayerCharacter>());
+        playersByName.Add(p);
+        playersCount++;
+    }
 
     public void QuitLobby(int id)
     {

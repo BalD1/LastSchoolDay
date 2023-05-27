@@ -72,6 +72,7 @@ public class DataKeeper : MonoBehaviour
 
         int playerIdx = playersDataKeep.Count - 1;
 
+        GameManager.Instance.AddPlayerToList(pdk);
         D_playerCreated?.Invoke(playerIdx, newPlayer);
 
         return playerIdx;

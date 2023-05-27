@@ -770,10 +770,26 @@ public class PlayerCharacter : Entity, IInteractable
 
     private void CheckCurrentDevice()
     {
-        InputDevice device = Inputs.devices[0];
+        if (this.playerIndex != 0) return;
 
+        InputDevice device = null;
+        if (GameManager.Instance.PlayersCount == 1)
+            device = Inputs.devices[0];
+        else
+        {
+            double mostRecent = -1;
+            foreach (var item in Inputs.devices)
+            {
+                if (item.lastUpdateTime > mostRecent)
+                {
+                    mostRecent = item.lastUpdateTime;
+                    device = item.device;
+                }
+            }
+        }
+
+        if (device == null) return;
         if (currentDeviceName == device.name) return;
-
         currentDeviceName = device.name;
 
         E_Devices newType;
@@ -910,6 +926,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void ValidateInput(InputAction.CallbackContext context)
     {
+        Debug.Log(context.ToString());
         if (context.performed) D_validateInput?.Invoke();
     }
 

@@ -121,7 +121,7 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    public void StartFirstDialogue() => DialogueManager.Instance.TryStartDialogue(startDialogue, AnimateNextTutorial);
+    public void StartFirstDialogue() => DialogueManager.Instance.TryStartDialogue(startDialogue);
     public void StartZombiesDialogue()
     {
         doorToCloseOnZombies.Close();
