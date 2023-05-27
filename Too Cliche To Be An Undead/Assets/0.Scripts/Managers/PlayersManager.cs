@@ -126,25 +126,14 @@ public class PlayersManager : MonoBehaviour
     private void Start()
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) return;
-
-        //if (player1 != null)
-        //    CameraManager.Instance.SetTriggerParent(player1.transform);
     }
 
     public void SetAllPlayersControlMapToInGame()
-    {
-        foreach (var item in playerInputs)
-        {
-            item.SwitchCurrentActionMap("InGame");
-        }
-    }
+        => SetAllPlayersControlMap("InGame");
     public void SetAllPlayersControlMapToUI()
-    {
-        foreach (var item in playerInputs)
-        {
-            item.SwitchCurrentActionMap("UI");
-        }
-    }
+        => SetAllPlayersControlMap("UI");
+    public void SetAllPlayersControlMapToDialogue()
+        => SetAllPlayersControlMap("Dialogue");
     public void SetAllPlayersControlMap(string map)
     {
         foreach (var item in playerInputs)

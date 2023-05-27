@@ -332,7 +332,9 @@ public class GameManager : MonoBehaviour
     {
         if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto)
         {
-            PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+            // TODO : Replace by simply deactivating players inputs
+            if (!DialogueManager.IsDialogueActive && DataKeeper.Instance.runsCount != 2)
+                PlayersManager.Instance.SetAllPlayersControlMapToInGame();
         }
         else
         {

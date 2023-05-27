@@ -170,7 +170,7 @@ public class Tutorial : MonoBehaviour
 
     private void TeleportPlayersToInGameHUB()
     {
-        PlayersManager.Instance.SetAllPlayersControlMap("Dialogue");
+        PlayersManager.Instance.SetAllPlayersControlMapToDialogue();
 
         SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.InLobby);
 

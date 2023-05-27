@@ -37,6 +37,8 @@ public class DialogueManager : MonoBehaviour
     public delegate void D_SkipDialogue();
     public D_SkipDialogue D_skipDialogue;
 
+    public static bool IsDialogueActive { get; private set; }
+
     [field: SerializeField] public SCRPT_SingleDialogue[] Dialogues { get; private set; }
 
 #if UNITY_EDITOR
@@ -139,6 +141,8 @@ public class DialogueManager : MonoBehaviour
     {
         dialoguePortrait.enabled = false;
         speakerName.enabled = false;
+
+        IsDialogueActive = true;
 
         onStartSkipWait_TIMER = onStartSkipWait_DURATION;
         // Sets every player's control map to Dialogue
@@ -281,6 +285,8 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void EndDialogue()
     {
+        IsDialogueActive = false;
+
         UIManager.Instance.SetBlackBars(false, .3f);
 
         dialogueContainer.LeanAlpha(0, leanFadeTime)
@@ -402,5 +408,10 @@ public class DialogueManager : MonoBehaviour
     public static void SearchAndUpdateDialogueList()
     {
         GameObject.FindObjectOfType<DialogueManager>().UpdateDialogueList();
+    }
+
+    private void OnDestroy()
+    {
+        IsDialogueActive = false;
     }
 }

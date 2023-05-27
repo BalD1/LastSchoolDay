@@ -150,6 +150,7 @@ public class SpawnersManager : MonoBehaviour
         LeanTween.cancel(uiFiller.gameObject);
         LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
         {
+            if (uiFiller == null) return;
             uiFiller.fillAmount = val;
         });
 
