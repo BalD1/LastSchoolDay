@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class PreloadScreen : MonoBehaviour
 {
-    [SerializeField] private GameObject loadingScreen;
-
     [SerializeField] private GameObject panelsManager;
 
     [SerializeField] private ButtonArgs_Scene sceneArgs;
@@ -64,8 +62,7 @@ public class PreloadScreen : MonoBehaviour
             sceneArgs.args = GameManager.E_ScenesNames.MainScene;
         }
 
-        loadingScreen.SetActive(true);
-        loadingScreen.GetComponent<LoadingScreen>().StartLoad(sceneArgs);
+        GameManager.ChangeScene(GameManager.E_ScenesNames.MainScene);
 
         this.gameObject.SetActive(false);
     }

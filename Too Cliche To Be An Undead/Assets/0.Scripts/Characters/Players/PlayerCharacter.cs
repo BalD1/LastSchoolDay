@@ -250,6 +250,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name.Equals(GameManager.E_ScenesNames.LoadingScreen.ToString())) return;
         if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
 
         ResetEndStats();

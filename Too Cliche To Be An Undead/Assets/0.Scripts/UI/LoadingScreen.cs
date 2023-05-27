@@ -1,45 +1,41 @@
 using BalDUtilities.Misc;
-using Cinemachine;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LoadingScreen : MonoBehaviour
 {
     [SerializeField] private RectTransform[] loadingIcons;
-    [SerializeField] private GameObject[] imagesToHideOnLoadComplete;
+    [SerializeField] private CanvasGroup imagesToHideOnLoadComplete;
     [SerializeField] private TextMeshProUGUI pressAnyKeyText;
     
-    [SerializeField] private bool waitForInput = false;
-    [SerializeField] private bool loadScene = false;
+    private bool waitForInput = false;
+    private bool loadScene = false;
+
+    private bool onCompleteFlag = false;
 
     private void Awake()
     {
         loadScene = false;
         waitForInput = false;
-        pressAnyKeyText.gameObject.SetActive(false);
     }
 
     private void Start()
     {
         foreach (RectTransform item in loadingIcons)
-            LeanTween.rotate(item, 360, 2).setRepeat(-1);
+            LeanTween.rotate(item, 360, 2).setRepeat(-1).setIgnoreTimeScale(true);
+
+        LeanTween.delayedCall(Random.Range(.8f, 1.2f), () =>
+        {
+            StartCoroutine(LoadSceneAsync(LoadingScreenManager.SceneToLoad));
+        }).setIgnoreTimeScale(true);
+        
     }
 
     private void Update()
     {
         if (Input.anyKey && waitForInput) loadScene = true;
-    }
-
-    public void StartLoad(ButtonArgs_Scene scene)
-    {
-        string sceneName = EnumsExtension.EnumToString(scene.GetArgs);
-
-        StartCoroutine(LoadSceneAsync(sceneName));
     }
 
     private IEnumerator LoadSceneAsync(string sceneName)
@@ -50,20 +46,33 @@ public class LoadingScreen : MonoBehaviour
         while (!asOp.isDone)
         {
             float progressValue = Mathf.Clamp01(asOp.progress / .9f);
-
-            if (asOp.progress >= .9f)
+            if (progressValue >= .9f)
             {
-                pressAnyKeyText.gameObject.SetActive(true);
-                pressAnyKeyText.GetComponent<SimpleAnimatedTMP>().StartAnim();
-
-                foreach (var item in imagesToHideOnLoadComplete) item.SetActive(false);
-
-                waitForInput = true;
+                SetOnCompleteState();
 
                 if (loadScene) asOp.allowSceneActivation = true;
             }
 
             yield return null;
         }
+    }
+
+    private void SetOnCompleteState()
+    {
+        if (onCompleteFlag) return;
+        onCompleteFlag = true;
+
+        LeanTween.value(0, 1, .5f).setOnUpdate((float val) =>
+        {
+            Color c = pressAnyKeyText.color;
+            c.a = val;
+            pressAnyKeyText.color = c;
+        }).setIgnoreTimeScale(true);
+
+        //pressAnyKeyText.GetComponent<SimpleAnimatedTMP>().StartAnim();
+
+        imagesToHideOnLoadComplete.LeanAlpha(0, .5f).setIgnoreTimeScale(true);
+
+        waitForInput = true;
     }
 }

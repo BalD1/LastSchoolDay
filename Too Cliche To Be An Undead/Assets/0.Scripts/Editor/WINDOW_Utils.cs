@@ -66,7 +66,7 @@ public class WINDOW_Utils : EditorWindow
                     if (Application.isPlaying)
                         SceneManager.LoadScene(EnumsExtension.EnumToString(sceneSelect));
                     else
-                        EditorSceneManager.OpenScene("Assets/Scenes/" + item + ".unity");
+                        EditorSceneManager.OpenScene("Assets/2.Scenes/" + item + ".unity");
                 }
             }
 

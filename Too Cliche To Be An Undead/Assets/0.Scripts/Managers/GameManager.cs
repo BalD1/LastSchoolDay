@@ -219,6 +219,7 @@ public class GameManager : MonoBehaviour
         Map,
         MapTiles,
         Playground,
+        LoadingScreen,
     }
 
     public static float gameTimeSpeed = 1f;
@@ -460,7 +461,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene(sceneName);
+        LoadingScreenManager.SceneToLoad = newScene.ToString();
+        SceneManager.LoadScene(E_ScenesNames.LoadingScreen.ToString());
     }
 
     public void ReloadScene()
@@ -469,7 +471,8 @@ public class GameManager : MonoBehaviour
 
         PlayerEndStatsManager.Instance.KeepScores();
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        LoadingScreenManager.SceneToLoad = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(E_ScenesNames.LoadingScreen.ToString());
 
         TextPopup.popupPool.Clear();
         HealthPopup.popupPool.Clear();
