@@ -206,11 +206,11 @@ public class DialogueManager : MonoBehaviour
 
         currentLine = currentDialogue.dialogueLines[currentLineIndex];
 
-        if (currentLine.customPortrait != null)
+        if (currentLine.speakerData.speakerPortraitImage != null)
         {
-            SCRPT_PortraitsWithRect portraitRect = currentLine.customPortrait;
+            SCRPT_PortraitsWithRect portraitRect = currentLine.speakerData.speakerPortraitImage;
 
-            dialoguePortrait.sprite = currentLine.customPortrait.portrait;
+            dialoguePortrait.sprite = currentLine.speakerData.speakerPortraitImage.portrait;
             dialoguePortrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
                                                                portraitRect.anchorMin, portraitRect.anchorMax);
             dialoguePortrait.SetAlpha(1);
@@ -219,9 +219,9 @@ public class DialogueManager : MonoBehaviour
 
         dialoguePortrait.enabled = true;
 
-        if (currentLine.speakerNameImage != null)
+        if (currentLine.speakerData.speakerNameImage != null)
         {
-            speakerName.sprite = currentLine.speakerNameImage;
+            speakerName.sprite = currentLine.speakerData.speakerNameImage;
             speakerName.SetAlpha(1);
         }
         else speakerName.SetAlpha(0);

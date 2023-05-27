@@ -16,9 +16,7 @@ public class SCRPT_SingleDialogue : ScriptableObject
     [System.Serializable]
     public struct DialogueLine
     {
-        [field: SerializeField] public GameManager.E_CharactersNames characterName { get; private set; }
-        [field: SerializeField] public Sprite speakerNameImage { get; private set; }
-        [field: SerializeField] public SCRPT_PortraitsWithRect customPortrait { get; private set; }
+        [field: SerializeField] public SCRPT_DialogueSpeakerData speakerData { get; private set; }
         [field: SerializeField] [field: TextArea] public string textLine { get; private set; }
         [field: SerializeField] public DialogueEffect[] effects { get; private set; }
         [field: SerializeField] public UnityEvent eventToPlayBeforeText { get; private set; }
