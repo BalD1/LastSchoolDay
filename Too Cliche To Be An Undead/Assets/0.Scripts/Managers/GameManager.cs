@@ -1,13 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using BalDUtilities.Misc;
 using UnityEngine.InputSystem;
 using System;
-using UnityEditor;
-using System.Text;
-using static UIManager;
 
 public class GameManager : MonoBehaviour
 {

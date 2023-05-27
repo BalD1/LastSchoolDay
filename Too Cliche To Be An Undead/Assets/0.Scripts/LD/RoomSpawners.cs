@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomSpawners : MonoBehaviour
@@ -16,6 +14,8 @@ public class RoomSpawners : MonoBehaviour
         spawnFlag = true;
 
         foreach (var item in roomSpawners) item.SpawnElement();
+
+        SpawnersManager.Instance.ForceBreakup();
 
         Destroy(this);
     }

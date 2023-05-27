@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -116,6 +114,12 @@ public class SpawnersManager : MonoBehaviour
         TrySpawnZombies();
         EvaluateStamp();
         ManageBreakups();
+    }
+
+    public void ForceBreakup()
+    {
+        if (isInBreakup) currentBreakup_TIMER = SpawnsBreakupsDurations.Evaluate(SpawnStamp);
+        else timerBeforeNextBreakup = 0;
     }
 
     private void ManageBreakups()
