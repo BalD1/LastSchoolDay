@@ -7,6 +7,7 @@ public class PlayerAudio : MonoBehaviour
     [SerializeField] protected PlayerCharacter owner;
 
     [SerializeField] private AudioSource skillSource;
+    [SerializeField] private AudioSource feetsSource;
 
     protected AudioSource ownerSource;
     protected SCRPT_PlayerAudio ownerAudioClips;
@@ -151,7 +152,7 @@ public class PlayerAudio : MonoBehaviour
         PlayAudioWithPitch(ownerAudioClips.GetRandomVoiceDashClip());
     }
 
-    private void PlayFootPrintAudio() => PlayAudioWithPitch(ownerAudioClips.GetRandomIndoorFootsteps());
+    private void PlayFootPrintAudio() => PlayAudioWithPitch(feetsSource, ownerAudioClips.GetRandomIndoorFootsteps());
 
 
     private void PlayAudioWithPitch(AudioClip clip, float pitchRange)
@@ -161,9 +162,14 @@ public class PlayerAudio : MonoBehaviour
     }
     private void PlayAudioWithPitch(SCRPT_PlayerAudio.S_AudioClips clipData)
     {
+        PlayAudioWithPitch(ownerSource, clipData);
+    }
+    private void PlayAudioWithPitch(AudioSource source, SCRPT_PlayerAudio.S_AudioClips clipData)
+    {
         if (clipData.clip == null) return;
 
-        ownerSource.pitch = Random.Range(1 - clipData.pitchRange, 1 + clipData.pitchRange);
-        ownerSource.PlayOneShot(clipData.clip);
+        if (clipData.pitchRange == 0) source.pitch = 1;
+        else source.pitch = Random.Range(1 - clipData.pitchRange, 1 + clipData.pitchRange);
+        source.PlayOneShot(clipData.clip);
     }
 }

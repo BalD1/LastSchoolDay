@@ -21,6 +21,8 @@ public class GymnasiumCinematic : MonoBehaviour
 
     [SerializeField] private BossZombie boss;
 
+    [SerializeField] private SCRPT_MusicData bossSpawnMusic;
+
     public delegate void D_CinematicEnded();
     public D_CinematicEnded D_cinematicEnded;
 
@@ -59,6 +61,7 @@ public class GymnasiumCinematic : MonoBehaviour
                         {
                             boss.GetComponent<BossZombie>().TargetClosestPlayer();
 
+                            SoundManager.Instance.PlayMusic(bossSpawnMusic);
                             DialogueManager.Instance.TryStartDialogue(bossSpawnDialogue, () =>
                             {
                                 UIManager.Instance.FadeScreen(true, () =>
@@ -71,7 +74,6 @@ public class GymnasiumCinematic : MonoBehaviour
                                     {
                                         UIManager.Instance.SetBlackBars(false);
                                         UIManager.Instance.FadeAllHUD(true);
-                                        //DialogueManager.Instance.ForceStopDialogue();
                                         D_cinematicEnded?.Invoke();
                                         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
                                         boss.SetIsAppeared();

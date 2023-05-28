@@ -24,6 +24,8 @@ public class SplashScreen : MonoBehaviour
 
     [SerializeField] private UITransitionEffect title;
 
+    [SerializeField] private SCRPT_MusicData titleScreenMusic;
+
     [SerializeField] private float allowMainMenu_DURATION = 1.5f;
     private float allowMainMenu_TIMER = -1;
 
@@ -50,6 +52,8 @@ public class SplashScreen : MonoBehaviour
         mainScreenBackground.SetAlpha(0);
         videoPlayer.SetNewVideo(E_VideoTag.SplashScreen);
         pressAnyKey.raycastTarget = false;
+
+        SoundManager.Instance.PlayMusic(titleScreenMusic);
 
         allowSkipText_TIMER = allowSkipText_DURATION;
     }
@@ -130,6 +134,7 @@ public class SplashScreen : MonoBehaviour
         panelsManager.gameObject.SetActive(true);
         title.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
+        SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.InLobby);
     }
 
     private void FadeOutScreen()

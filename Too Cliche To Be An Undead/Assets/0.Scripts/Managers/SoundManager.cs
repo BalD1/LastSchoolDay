@@ -44,6 +44,10 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private float musicFadeSpeed = 1f;
 
+    [SerializeField] private float musicStartLoopDelayModifier = -.1f;
+
+    private SCRPT_MusicData currentPlayingMusicData;
+
     [System.Serializable]
     public enum E_SFXClipsTags
     {
@@ -57,6 +61,7 @@ public class SoundManager : MonoBehaviour
         MainScene,
         BossMusic,
         InLobby,
+        TitleScreen,
     }
 
     [System.Serializable]
@@ -82,6 +87,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private MusicClips[] musicClipsByTag;
     [SerializeField] private SFXClips[] sfxClipsByTag;
 
+    private bool isStopping = false;
+
     private void Awake()
     {
         instance = this;
@@ -95,7 +102,6 @@ public class SoundManager : MonoBehaviour
         ChangeMusicMixerPitch(1);
         ChangeSFXMixerPitch(1);
 
-        GameManager.Instance.D_bossFightStarted += TryStartBossMusic;
         GameManager.Instance.D_bossFightEnded += TryEndBossMusic;
     }
 
@@ -110,7 +116,7 @@ public class SoundManager : MonoBehaviour
     {
         if (GameManager.Instance.currentAliveBossesCount > 0) return;
 
-        PlayMusic(E_MusicClipsTags.MainScene);
+        StopMusic();
     }
 
     /// <summary>
@@ -186,9 +192,46 @@ public class SoundManager : MonoBehaviour
 
     public void PauseMusic() => FadeMusic(true, () => musicSource.Pause());
     public void ResumeMusic() => PlayActionAndFadeMusic(false, () => musicSource.UnPause());
-    public void StopMusic() => FadeMusic(true, () => musicSource.Stop());
+    public void StopMusic(Action endAction = null)
+    {
+        if (isStopping) return;
+
+        isStopping = true;
+
+        if (currentPlayingMusicData == null)
+        {
+            FadeMusic(true, () =>
+            {
+                musicSource.Stop();
+                endAction?.Invoke();
+                isStopping = false;
+            });
+            return;
+        }
+
+        musicSource.Stop();
+        AudioClip endClip = currentPlayingMusicData.EndClip;
+        if (endClip != null)
+        {
+            musicSource.PlayOneShot(endClip);
+            LeanTween.delayedCall(endClip.length, () =>
+            {
+                isStopping = false;
+                endAction?.Invoke();
+            });
+            return;
+        }
+        isStopping = false;
+        endAction?.Invoke();
+    }
     public void PlayMusic(E_MusicClipsTags musicTag)
     {
+        if (musicSource.isPlaying)
+        {
+            StopMusic(() => PlayMusic(musicTag));
+            return;
+        }
+
         AudioClip musicToPlay = null;
 
         foreach (var item in musicClipsByTag)
@@ -200,16 +243,24 @@ public class SoundManager : MonoBehaviour
             }
         }
 
-        if (musicSource.isPlaying) FadeMusic(true, () =>
+        musicSource.clip = musicToPlay;
+        FadeMusic(false);
+    }
+    public void PlayMusic(SCRPT_MusicData musicData)
+    {
+        if (musicSource.isPlaying)
         {
-            musicSource.clip = musicToPlay;
-            FadeMusic(false);
-        });
-        else
-        {
-            musicSource.clip = musicToPlay;
-            FadeMusic(false);
+            StopMusic(() => PlayMusic(musicData));
+            return;
         }
+
+        musicSource.volume = 1;
+        musicSource.PlayOneShot(musicData.StartClip);
+        LeanTween.delayedCall(musicData.StartClip.length - musicStartLoopDelayModifier, () =>
+        {
+            musicSource.clip = musicData.LoopClip;
+            musicSource.Play();
+        });
     }
 
     private void FadeMusic(bool fadeOut, Action onComplete = null)
