@@ -2841,6 +2841,7 @@ MonoBehaviour:
   selfInteractor: {fileID: 3790402285985648515}
   weapon: {fileID: 8240629481785198393}
   skillHolder: {fileID: 426001256322179506}
+  skillDurationIcon: {fileID: 8843546095007425344}
   playerDash: {fileID: 11400000, guid: 5687414b9e30e6d499e7df1d67a5701d, type: 2}
   selfReviveText: {fileID: 7454060687585340113}
   pivotOffset: {fileID: 6079729821347107844}
@@ -2857,22 +2858,7 @@ MonoBehaviour:
   attackers: []
   outlineMaterial: {fileID: 2100000, guid: 24e8dde08e8293446b016dd4e14158f9, type: 2}
   defaultMaterial: {fileID: 2100000, guid: 00afe588db79e4d4daaa4a4731ae7c0a, type: 2}
-  portrait: {fileID: 0}
-  hpBar: {fileID: 0}
-  hpBarContainer: {fileID: 0}
-  hpText: {fileID: 0}
-  skillIcon: {fileID: 0}
-  skillFill: {fileID: 0}
-  skillContainer: {fileID: 0}
-  skillTimerTXT: {fileID: 0}
-  dashIcon: {fileID: 0}
-  dashFill: {fileID: 0}
-  dashContainer: {fileID: 0}
-  dashTimerTXT: {fileID: 0}
-  skillDurationIcon: {fileID: 8843546095007425344}
-  characterPortrait:
-    characterName: 0
-    characterPortraitsByHP: []
+  <PlayerHUD>k__BackingField: {fileID: 0}
   iconsMaxScale: {x: 1.3, y: 1.3, z: 1.3}
   maxScaleTime: 0.7
   inType: 14

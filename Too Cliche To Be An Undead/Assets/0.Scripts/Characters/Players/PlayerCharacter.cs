@@ -40,6 +40,7 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private PlayerInteractor selfInteractor;
     [SerializeField] private PlayerWeapon weapon;
     [SerializeField] private SkillHolder skillHolder;
+    [SerializeField] private Image skillDurationIcon;
     [SerializeField] private SCRPT_Dash playerDash;
     [SerializeField] private TextMeshPro selfReviveText;
     [SerializeField] private GameObject pivotOffset;
@@ -64,23 +65,7 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private Material defaultMaterial;
 
-    [SerializeField] private Image portrait;
-    [SerializeField] private Image hpBar;
-    [SerializeField] private Image hpBarContainer;
-    [SerializeField] private TextMeshProUGUI hpText;
-    [SerializeField] private Image skillIcon;
-    [SerializeField] private Image skillFill;
-    [SerializeField] private RectTransform skillContainer;
-    [SerializeField] private TextMeshProUGUI skillTimerTXT;
-    [SerializeField] private Image dashIcon;
-    [SerializeField] private Image dashFill;
-    [SerializeField] private RectTransform dashContainer;
-    [SerializeField] private TextMeshProUGUI dashTimerTXT;
-    [SerializeField] private Image skillDurationIcon;
-
-    [SerializeField] private UIManager.CharacterPortrait characterPortrait;
-
-    private int currentPortraitIdx;
+    [field: SerializeField] public PlayerHUD PlayerHUD { get; private set; }
 
     [SerializeField] private Vector3 iconsMaxScale = new Vector3(1.3f, 1.3f, 1.3f);
     [SerializeField] private float maxScaleTime = .7f;
@@ -129,9 +114,8 @@ public class PlayerCharacter : Entity, IInteractable
     public PlayerWeapon Weapon { get => weapon; }
     public SkillHolder GetSkillHolder { get => skillHolder; }
     public SCRPT_Skill GetSkill { get => skillHolder.Skill; }
-    public Animator SkillTutoAnimator { get => skillTutorialAnimator; }
     public Image SkillDurationIcon { get => skillDurationIcon; }
-    public Image GetSkillIcon { get => skillIcon; }
+    public Animator SkillTutoAnimator { get => skillTutorialAnimator; }
     public TextMeshPro SelfReviveText { get => selfReviveText; }
     public Vector2 Velocity { get => velocity; }
     public PlayerInput Inputs { get => inputs; }
@@ -272,15 +256,9 @@ public class PlayerCharacter : Entity, IInteractable
 
             SwitchControlMapToDialogue();
 
-            currentPortraitIdx = 0;
-
-            SetHUD();
-
             SetCharacter();
 
             ResetStats();
-
-            UpdateHPonUI();
         }
 
         this.minimapMarker.SetActive(true);
@@ -301,47 +279,13 @@ public class PlayerCharacter : Entity, IInteractable
         DamagesTaken = 0;
     }
 
-    private void SetHUD()
-    {
-        UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
-        SetHUD(pHUD);
-    }
-    private void SetHUD(UIManager.PlayerHUD pHUD)
-    {
-        if (pHUD.container != null)
-        {
-            pHUD.container.SetActive(true);
-
-            this.portrait = pHUD.portrait;
-            this.hpBar = pHUD.hpBar;
-            this.hpBarContainer = pHUD.hpBarContainer;
-            this.hpText = pHUD.hpText;
-            this.skillIcon = pHUD.skillThumbnail;
-            this.skillFill = pHUD.skillFill;
-            this.skillContainer = pHUD.skillContainer;
-            this.skillTimerTXT = pHUD.skillTimerTXT;
-            this.dashIcon = pHUD.dashThumbnail;
-            this.dashFill = pHUD.dashFill;
-            this.dashContainer = pHUD.dashContainer;
-            this.dashTimerTXT = pHUD.dashTimerTXT;
-        }
-
-        UIManager.Instance.KeycardContainer.SetActive(false);
-    }
-
     private void SetCharacter()
     {
         GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
-
-        foreach (var item in UIManager.Instance.CharacterPortraits)
-        {
-            if (item.characterName.Equals(character))
-            {
-                characterPortrait = item;
-            }
-        }
-
         PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
+
+        PlayerHUD = PlayerHUDManager.Instance.CreateNewHUD(this, this.minimapMarker.GetComponent<SpriteRenderer>(), this.GetCharacterName(), pcc.dash, pcc.skill);
+        PlayerHUD.ForceHPUpdate();
 
         SwitchCharacter(pcc);
     }
@@ -381,30 +325,18 @@ public class PlayerCharacter : Entity, IInteractable
 
         UIManager.Instance.D_exitPause += SwitchControlMapToInGame;
 
-        if (this.hpBar == null && !GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
+        if (!GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {
-            UIManager.PlayerHUD pHUD = UIManager.Instance.PlayerHUDs[this.playerIndex];
-            characterPortrait = UIManager.Instance.CharacterPortraits[this.playerIndex];
-            currentPortraitIdx = 0;
-
             GameManager.E_CharactersNames character = GameManager.E_CharactersNames.Shirley;
-            if (DataKeeper.Instance.IsPlayerDataKeepSet())
-            {
-                foreach (var item in UIManager.Instance.CharacterPortraits)
-                {
-                    if (item.characterName.Equals(character)) characterPortrait = item;
-                }
-            }
-            else
-            {
-                GameManager.Instance.SetPlayer1(this);
-                GameManager.Instance.playersByName = new List<GameManager.PlayersByName>();
-                GameManager.Instance.playersByName.Add(new GameManager.PlayersByName("soloP1", this));
-            }
 
-            SetHUD(pHUD);
+            GameManager.Instance.SetPlayer1(this);
+            GameManager.Instance.playersByName = new List<GameManager.PlayersByName>();
+            GameManager.Instance.playersByName.Add(new GameManager.PlayersByName("soloP1", this));
 
-            PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(GameManager.E_CharactersNames.Shirley);
+            PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
+
+            PlayerHUD = PlayerHUDManager.Instance.CreateNewHUD(this, this.minimapMarker.GetComponent<SpriteRenderer>(), character, pcc.dash, pcc.skill);
+            PlayerHUD.ForceHPUpdate();
 
             SwitchCharacter(pcc);
 
@@ -433,7 +365,7 @@ public class PlayerCharacter : Entity, IInteractable
             dash_CD_TIMER -= Time.deltaTime;
 
             float fillAmount = dash_CD_TIMER / MaxDashCD_M;
-            UpdateDashThumbnailFill(fillAmount);
+            PlayerHUD.UpdateDashThumbnailFill(fillAmount);
         }
 
         if (gamepadShake_TIMER > 0)
@@ -551,73 +483,12 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (!fakeDamages) DamagesTaken += (int)amount;
 
-        if (portrait != null)
-        {
-            LeanTween.color(portrait.rectTransform, Color.red, .2f).setEase(inType)
-            .setOnComplete(() =>
-            {
-                LeanTween.color(portrait.rectTransform, Color.white, .2f);
-            });
-
-            if (SetPortrait())
-            {
-                GameObject target = UIManager.Instance.PlayerHUDs[this.playerIndex].container;
-
-                LeanTween.scale(target, iconsMaxScale, maxScaleTime / 2).setEase(inType)
-                .setOnComplete(() =>
-                {
-                    LeanTween.scale(target, Vector3.one, maxScaleTime / 2).setEase(outType);
-                });
-            }
-        }
-
         StartGamepadShake(onTakeDamagesGamepadShake);
-
-        UpdateHPonUI();
 
         return res;
     }
 
     public void AddDealtDamages(int amount) => DamagesDealt += amount;
-
-    private bool SetPortrait(float currentMaxHP = -1)
-    {
-        if (currentMaxHP == -1)
-            currentMaxHP = MaxHP_M;
-
-        if (currentPortraitIdx + 1 <= characterPortrait.characterPortraitsByHP.Length)
-        {
-            if (currentHP / currentMaxHP * 100 <= 100 * CurrentCharacterPortrait().percentage)
-            {
-                SetCharacterPortrait(currentPortraitIdx + 1);
-                SetPortrait(currentMaxHP);
-                return true;
-            }
-        }   
-
-        if (currentPortraitIdx > 0)
-        {
-            if (currentHP / currentMaxHP * 100 > 100 * LastCharacterPortrait().percentage)
-            {
-                SetCharacterPortrait(currentPortraitIdx - 1);
-                SetPortrait(currentMaxHP);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private UIManager.CharacterPortraitByHP CurrentCharacterPortrait() => characterPortrait.characterPortraitsByHP[currentPortraitIdx];
-    private UIManager.CharacterPortraitByHP NextCharacterPortrait() => characterPortrait.characterPortraitsByHP[currentPortraitIdx + 1];
-    private UIManager.CharacterPortraitByHP LastCharacterPortrait() => characterPortrait.characterPortraitsByHP[currentPortraitIdx - 1];
-    private void SetCharacterPortrait(int idx)
-    {
-        if (idx < characterPortrait.characterPortraitsByHP.Length)
-            this.portrait.sprite = characterPortrait.characterPortraitsByHP[idx].portrait;
-
-        currentPortraitIdx = idx;
-    }
 
     protected override void ApplyModifier(StatsModifier m)
     {
@@ -661,23 +532,7 @@ public class PlayerCharacter : Entity, IInteractable
     {
         base.OnHeal(amount, isCrit, canExceedMaxHP, healFromDeath);
 
-        UpdateHPonUI();
-
-        SetPortrait();
-    }
-
-    private void UpdateHPonUI()
-    {
-        if (hpBar != null)
-            hpBar.fillAmount = (currentHP / MaxHP_M);
-        if (hpText != null)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(currentHP);
-            sb.Append(" / ");
-            sb.Append(MaxHP_M);
-            hpText.text = sb.ToString();
-        }
+        D_OnHeal?.Invoke();
     }
 
     public override void OnDeath(bool forceDeath = false)
@@ -983,28 +838,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Skill
 
-    public void SetSkillThumbnail(Sprite image)
-    {
-        if (skillIcon == null) return;
-
-        skillIcon.sprite = image;
-    }
-    public void UpdateSkillThumbnailFill(float fill, bool allowTween = true)
-    {
-        if (skillFill == null) return;
-
-        skillFill.fillAmount = fill;
-
-        skillTimerTXT.text = (fill * MaxSkillCD_M).ToString("F0");
-
-        if (fill <= 0)
-        {
-            skillTimerTXT.text = "";
-            if (allowTween)
-                ScaleTweenObject(skillContainer.gameObject, LeanTweenType.linear, LeanTweenType.easeOutSine);
-        }
-    }
-
     public void ResetSkillAnimator()
     {
         this.GetSkillHolder.GetAnimator.ResetTrigger("EndSkill");
@@ -1091,13 +924,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Dash / Push
 
-    public void SetDashThumbnail(Sprite image)
-    {
-        if (dashIcon == null) return;
-
-        dashIcon.sprite = image;
-    }
-
     public void StartDash()
     {
         if (dash_CD_TIMER > 0) return;
@@ -1165,8 +991,7 @@ public class PlayerCharacter : Entity, IInteractable
         this.attackers.Clear();
 
         this.currentHP = this.MaxHP_M;
-        if (this.hpBar != null)
-            this.hpBar.fillAmount = 1;
+        PlayerHUD.ForceHPUpdate();
 
         this.stateManager.ResetAll();
 
@@ -1271,18 +1096,6 @@ public class PlayerCharacter : Entity, IInteractable
         if (animData != null && animData.arms.Length > 1)
             this.rightArm.GetComponent<SpriteRenderer>().sprite = animData.arms[1];
 
-        if (this.portrait != null)
-            this.portrait.sprite = UIManager.Instance.GetBasePortrait(character);
-
-        this.minimapMarker.GetComponent<SpriteRenderer>().sprite = this.portrait.sprite;
-
-        foreach (var item in UIManager.Instance.CharacterPortraits)
-        {
-            if (item.characterName.Equals(character)) characterPortrait = item;
-        }
-
-        currentPortraitIdx = 0;
-
         this.MaxDashCD_M = newDash.Dash_COOLDOWN;
         this.MaxSkillCD_M = newSkill.Cooldown;
 
@@ -1299,8 +1112,6 @@ public class PlayerCharacter : Entity, IInteractable
         }
 
         this.currentHP = this.MaxHP_M;
-
-        UpdateHPonUI();
 
         Spine.Animation attackAnim = animationController.animationsData.AttackAnim_side?.Animation;
         if (attackAnim != null)
@@ -1321,21 +1132,6 @@ public class PlayerCharacter : Entity, IInteractable
     }
 
     #endregion
-
-    public void UpdateDashThumbnailFill(float fill)
-    {
-        if (dashFill == null) return;
-
-        dashFill.fillAmount = fill;
-
-        dashTimerTXT.text = (MaxDashCD_M * fill).ToString("F0");
-
-        if (fill <= 0)
-        {
-            ScaleTweenObject(dashContainer.gameObject);
-            dashTimerTXT.text = "";
-        }
-    }
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {

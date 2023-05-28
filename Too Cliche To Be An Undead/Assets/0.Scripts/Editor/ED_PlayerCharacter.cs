@@ -1,14 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using BalDUtilities.EditorUtils;
 using BalDUtilities.Misc;
-using static UnityEditor.Progress;
-using UnityEditor.Experimental.GraphView;
-using Unity.VisualScripting;
 using System.Text;
-using UnityEngine.InputSystem;
 
 [CustomEditor(typeof(PlayerCharacter))]
 public class ED_PlayerCharacter : Editor
@@ -160,28 +154,6 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("UI refs", EditorStyles.boldLabel);
         EditorGUILayout.Space();
-
-        GUI.enabled = false;
-
-        SerializedProperty characterPortrait = serializedObject.FindProperty("characterPortrait");
-        EditorGUILayout.PropertyField(characterPortrait);
-
-        SerializedProperty portrait = serializedObject.FindProperty("portrait");
-        EditorGUILayout.PropertyField(portrait);
-
-        SerializedProperty hpBar = serializedObject.FindProperty("hpBar");
-        EditorGUILayout.PropertyField(hpBar);
-
-        SerializedProperty hpText = serializedObject.FindProperty("hpText");
-        EditorGUILayout.PropertyField(hpText);
-
-        SerializedProperty skillIcon = serializedObject.FindProperty("skillIcon");
-        EditorGUILayout.PropertyField(skillIcon);
-
-        SerializedProperty dashIcon = serializedObject.FindProperty("dashIcon");
-        EditorGUILayout.PropertyField(dashIcon);
-
-        GUI.enabled = true;
 
         SerializedProperty iconsMaxScale = serializedObject.FindProperty("iconsMaxScale");
         EditorGUILayout.PropertyField(iconsMaxScale);

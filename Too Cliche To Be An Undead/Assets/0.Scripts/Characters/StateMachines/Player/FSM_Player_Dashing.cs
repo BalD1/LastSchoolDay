@@ -47,7 +47,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, animatorMouseDir.y);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, true);
 
-        owner.UpdateDashThumbnailFill(1);
+        owner.PlayerHUD.UpdateDashThumbnailFill(1);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

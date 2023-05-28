@@ -35,7 +35,7 @@ public class SkillHolder : MonoBehaviour
             timer -= Time.deltaTime;
 
             float fillAmount = timer / owner.MaxSkillCD_M;
-            owner.UpdateSkillThumbnailFill(fillAmount);
+            owner.PlayerHUD.UpdateSkillThumbnailFill(fillAmount);
         }
     }
 
@@ -60,7 +60,7 @@ public class SkillHolder : MonoBehaviour
 
         owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimers(skill.Duration, transitionDuration, startOffset));
 
-        owner.UpdateSkillThumbnailFill(1);
+        owner.PlayerHUD.UpdateSkillThumbnailFill(1);
     }
 
     public void StartTimer() => timer = owner.MaxSkillCD_M;
@@ -81,9 +81,9 @@ public class SkillHolder : MonoBehaviour
         this.skill = newSkill;
         this.Skill.ResetSkill();
         timer = 0;
-        owner.SetSkillThumbnail(newSkill.Thumbnail);
+        owner.PlayerHUD.SetSkillThumbnail(newSkill.Thumbnail);
 
-        owner.UpdateSkillThumbnailFill(0, false);
+        owner.PlayerHUD.UpdateSkillThumbnailFill(0, false);
 
         owner.ResetSkillAnimator();
     }

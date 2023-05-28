@@ -169,6 +169,11 @@ public class Entity : MonoBehaviour, IDamageable
     public delegate void D_OnTakeDamagesFromEntity(bool crit, Entity damager, bool tickDamage = false);
     public D_OnTakeDamagesFromEntity D_onTakeDamagesFromEntity;
 
+    public event Action<bool> OnHealthChange;
+    private void HealthChange(bool tookDamages) => OnHealthChange?.Invoke(tookDamages);
+
+    public Action D_OnHeal;
+
     [SerializeField] private List<TickDamages> appliedTickDamages = new List<TickDamages>();
     public List<TickDamages> AppliedTickDamages { get => appliedTickDamages; }
 
@@ -507,6 +512,8 @@ public class Entity : MonoBehaviour, IDamageable
             OnDeath();
         }
 
+        HealthChange(true);
+
         return true;
     }
 
@@ -518,6 +525,8 @@ public class Entity : MonoBehaviour, IDamageable
 
         if (canExceedMaxHP) currentHP += amount;
         else currentHP = Mathf.Clamp(currentHP += amount, 0, MaxHP_M);
+
+        HealthChange(false);
 
         if (!this.gameObject.activeSelf) return;
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SCRPT_Dash : ScriptableObject
 {
+    [field: SerializeField] public Sprite Thumbnail { get; private set; }
+
     [SerializeField] private AnimationCurve dashSpeedCurve;
     public AnimationCurve DashSpeedCurve { get => dashSpeedCurve; }
 
