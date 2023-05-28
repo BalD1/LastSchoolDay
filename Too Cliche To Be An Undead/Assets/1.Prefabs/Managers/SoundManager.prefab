@@ -310,6 +310,8 @@ MonoBehaviour:
   musicSlider: {fileID: 0}
   sfxSlider: {fileID: 0}
   volMultiplier: 30
+  musicFadeSpeed: 1
+  musicStartLoopDelayModifier: 0.05
   musicClipsByTag:
   - inEditorName: Main Menu
     tag: 0
@@ -327,3 +329,4 @@ MonoBehaviour:
   - inEditorName: Clic
     tag: 0
     clip: {fileID: 8300000, guid: 32cb7e26ea8788545b84dba233b837dd, type: 3}
+  bossSpawnMusic: {fileID: 11400000, guid: 4c3d815074e6f554aadaf63602f1a80a, type: 2}

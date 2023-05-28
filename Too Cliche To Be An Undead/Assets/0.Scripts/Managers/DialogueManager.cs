@@ -210,27 +210,30 @@ public class DialogueManager : MonoBehaviour
 
         currentLine = currentDialogue.dialogueLines[currentLineIndex];
 
-        if (currentLine.speakerData.speakerPortraitImage != null)
+        if (currentLine.speakerData != null)
         {
-            SCRPT_PortraitsWithRect portraitRect = currentLine.speakerData.speakerPortraitImage;
-
-            dialoguePortrait.sprite = currentLine.speakerData.speakerPortraitImage.portrait;
-            dialoguePortrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
-                                                               portraitRect.anchorMin, portraitRect.anchorMax);
-            dialoguePortrait.SetAlpha(1);
+    
+            if (currentLine.speakerData.speakerPortraitImage != null)
+            {
+                SCRPT_PortraitsWithRect portraitRect = currentLine.speakerData.speakerPortraitImage;
+    
+                dialoguePortrait.sprite = currentLine.speakerData.speakerPortraitImage.portrait;
+                dialoguePortrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
+                                                                   portraitRect.anchorMin, portraitRect.anchorMax);
+                dialoguePortrait.SetAlpha(1);
+            }
+            else dialoguePortrait.SetAlpha(0);
+    
+            dialoguePortrait.enabled = true;
+    
+            if (currentLine.speakerData.speakerNameImage != null)
+            {
+                speakerName.sprite = currentLine.speakerData.speakerNameImage;
+                speakerName.SetAlpha(1);
+            }
+            else speakerName.SetAlpha(0);
+            speakerName.enabled = true;
         }
-        else dialoguePortrait.SetAlpha(0);
-
-        dialoguePortrait.enabled = true;
-
-        if (currentLine.speakerData.speakerNameImage != null)
-        {
-            speakerName.sprite = currentLine.speakerData.speakerNameImage;
-            speakerName.SetAlpha(1);
-        }
-        else speakerName.SetAlpha(0);
-
-        speakerName.enabled = true;
 
         dialogueText.text = currentLine.textLine;
 

@@ -1469,6 +1469,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 1
   objectRenderer: {fileID: 6661611288213515151}
+  isVisible: 0
   debugMode: 0
 --- !u!61 &7791650890472988162
 BoxCollider2D:
@@ -2223,6 +2224,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 1
   objectRenderer: {fileID: 6661611288425524578}
+  isVisible: 0
   debugMode: 0
 --- !u!61 &8332899739222218728
 BoxCollider2D:
@@ -2391,6 +2393,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 1
   objectRenderer: {fileID: 6661611288457571656}
+  isVisible: 0
   debugMode: 0
 --- !u!61 &5041152233584118797
 BoxCollider2D:
@@ -2793,6 +2796,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 1
   objectRenderer: {fileID: 6661611288600537257}
+  isVisible: 0
   debugMode: 0
 --- !u!61 &2614978969652289714
 BoxCollider2D:
@@ -3954,6 +3958,7 @@ MonoBehaviour:
   bossTarget: {fileID: 6507620148755963658}
   playersTeleportPosition: {fileID: 325647608237338661}
   boss: {fileID: 2138416543999851323}
+  bossSpawnMusic: {fileID: 11400000, guid: 4c3d815074e6f554aadaf63602f1a80a, type: 2}
 --- !u!1 &6661611289927681341
 GameObject:
   m_ObjectHideFlags: 0

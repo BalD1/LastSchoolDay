@@ -184,6 +184,8 @@ public class BossZombie : EnemyBase
 
             float cameraShakeDuration = 2;
 
+            SoundManager.Instance.PlayBossMusic();
+
             CameraManager.Instance.ShakeCamera(2.5f, cameraShakeDuration);
 
             LeanTween.delayedCall(cameraShakeDuration, () =>

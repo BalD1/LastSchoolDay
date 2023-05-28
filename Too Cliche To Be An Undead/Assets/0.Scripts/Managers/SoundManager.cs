@@ -87,6 +87,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private MusicClips[] musicClipsByTag;
     [SerializeField] private SFXClips[] sfxClipsByTag;
 
+    [SerializeField] private SCRPT_MusicData bossSpawnMusic;
+
     private bool isStopping = false;
 
     private void Awake()
@@ -262,6 +264,7 @@ public class SoundManager : MonoBehaviour
             musicSource.Play();
         });
     }
+    public void PlayBossMusic() => PlayMusic(bossSpawnMusic);
 
     private void FadeMusic(bool fadeOut, Action onComplete = null)
     {
