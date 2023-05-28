@@ -11,6 +11,7 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private RectTransform selfRect;
 
     [SerializeField] private Image portrait;
+    [SerializeField] private Image portraitBG;
     private RectTransform portraitRect;
 
     [Header("HP")]
@@ -48,6 +49,8 @@ public class PlayerHUD : MonoBehaviour
     {
         owner = _owner;
         ownerIDX = _owner.PlayerIndex;
+
+        portraitBG.gameObject.SetActive(false);
 
         minimapRenderer = _minimapRenderer;
 
@@ -190,8 +193,22 @@ public class PlayerHUD : MonoBehaviour
             this.portrait.sprite = characterPortrait.characterPortraitsByHP[idx].portrait;
 
         currentPortraitIdx = idx;
+
+        if (currentPortraitIdx == characterPortrait.characterPortraitsByHP.Length - 1)
+        {
+            portraitBG.gameObject.SetActive(true);
+        }
+        else if (portraitBG.isActiveAndEnabled)
+        {
+            portrait.fillAmount = 1;
+            portraitBG.gameObject.SetActive(false);
+        }
+
+
         minimapRenderer.sprite = this.portrait.sprite;
     }
+
+    public void FillPortrait(float fill) => portrait.fillAmount = fill;
 
     public void ScaleTweenObject(GameObject target, LeanTweenType _inType, LeanTweenType _outType)
     {

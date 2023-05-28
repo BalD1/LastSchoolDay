@@ -57,6 +57,8 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
     {
         dyingState_TIMER -= Time.deltaTime;
 
+        owner.PlayerHUD.FillPortrait(dyingState_TIMER / owner.DyingState_DURATION);
+
         if (dyingState_TIMER <= 0) owner.DefinitiveDeath();
     }
 
