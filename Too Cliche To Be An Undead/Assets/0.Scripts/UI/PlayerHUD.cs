@@ -130,6 +130,8 @@ public class PlayerHUD : MonoBehaviour
     private void OnOwnerTakeDamages() => OnOwnerHPChange(Color.red);
     private void OnOwnerHPChange(Color leanCol)
     {
+        if (portrait.rectTransform == null) return;
+
         hpBar.fillAmount = (owner.CurrentHP / owner.MaxHP_M);
 
         StringBuilder sb = new StringBuilder();
@@ -221,5 +223,10 @@ public class PlayerHUD : MonoBehaviour
         {
             LeanTween.scale(target, Vector3.one, maxScaleTime).setEase(_outType);
         });
+    }
+
+    private void OnDestroy()
+    {
+        LeanTween.cancel(this.gameObject);
     }
 }

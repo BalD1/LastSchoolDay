@@ -24,6 +24,7 @@ public class ProjectileBase : MonoBehaviour
     [SerializeField] private SCRPT_EntityAudio.S_AudioClips objectHitAudioData;
 
     private static Queue<ProjectileBase> ProjectilesPool;
+    public static void ResetQueue() => ProjectilesPool = new Queue<ProjectileBase>();
 
     public static ProjectileBase GetProjectile(Vector2 position, Quaternion rotation)
     {

@@ -526,8 +526,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        LoadingScreenManager.SceneToLoad = newScene.ToString();
-        SceneManager.LoadScene(E_ScenesNames.LoadingScreen.ToString());
+        LoadScene(newScene.ToString());
     }
 
     public void ReloadScene()
@@ -536,11 +535,19 @@ public class GameManager : MonoBehaviour
 
         PlayerEndStatsManager.Instance.KeepScores();
 
-        LoadingScreenManager.SceneToLoad = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(E_ScenesNames.LoadingScreen.ToString());
+        LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private static void LoadScene(string sceneName)
+    {
+        LeanTween.cancelAll();
 
         TextPopup.popupPool.Clear();
         HealthPopup.popupPool.Clear();
+        ProjectileBase.ResetQueue();
+
+        LoadingScreenManager.SceneToLoad = sceneName;
+        SceneManager.LoadScene(E_ScenesNames.LoadingScreen.ToString());
     }
 
     #endregion
