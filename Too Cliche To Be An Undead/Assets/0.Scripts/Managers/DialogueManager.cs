@@ -111,7 +111,6 @@ public class DialogueManager : MonoBehaviour
     }
     public bool TryStartDialogue(SCRPT_SingleDialogue dialogue, Action actionAtDialogueEnd = null)
     {
-        Debug.Log(dialogue);
         if (dialogue == null) return false;
 
         StartDialogue(dialogue);

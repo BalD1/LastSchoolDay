@@ -36,7 +36,7 @@ public class WINDOW_LDTools : EditorWindow
 
     private void OnEnable()
     {
-        props = (SCRPT_Props)AssetDatabase.LoadAssetAtPath("Assets/Scripts/Editor/Props.asset", typeof(SCRPT_Props));
+        props = (SCRPT_Props)AssetDatabase.LoadAssetAtPath("Assets/0.Scripts/Editor/Props.asset", typeof(SCRPT_Props));
     }
 
     private void OnFocus()

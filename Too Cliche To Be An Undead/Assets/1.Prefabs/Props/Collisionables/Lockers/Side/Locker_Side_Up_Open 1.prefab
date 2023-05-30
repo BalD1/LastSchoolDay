@@ -19,7 +19,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3611260042087803648
 Transform:
@@ -52,6 +52,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 1
   objectRenderer: {fileID: 3522855232702055697}
+  isVisible: 0
   debugMode: 0
 --- !u!33 &8005050295972825659
 MeshFilter:

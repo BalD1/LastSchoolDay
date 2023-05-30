@@ -16,8 +16,7 @@ public class ReviveTutorial : MonoBehaviour
     {
         if (GameManager.Instance.PlayersCount <= 1)
         {
-            DialogueManager.Instance.TryStartDialogue(startDialogue);
-            Destroy(this.gameObject);
+            door.OpenDoor();
             return;
         }
         GameManager.Instance.D_onPlayerIsSetup += SetupVictimPlayer;
@@ -67,13 +66,23 @@ public class ReviveTutorial : MonoBehaviour
 
         DialogueManager.Instance.TryStartDialogue(dialogueToPlay, () =>
         {
-            DialogueManager.Instance.TryStartDialogue(startDialogue, () => door.OpenDoor());
+            DialogueManager.Instance.TryStartDialogue(startDialogue);
         });
+        door.OpenDoor();
         victimPlayer.OnInteract -= StartDialogue;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (GameManager.Instance.PlayersCount > 1) return;
+        if (!collision.gameObject.CompareTag("Player")) return;
+
+        DialogueManager.Instance.TryStartDialogue(startDialogue);
+        Destroy(this.gameObject);
+    }
     private void OnDestroy()
     {
+        if (victimPlayer == null) return;
         victimPlayer.OnInteract -= StartDialogue;
     }
 }
