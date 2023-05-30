@@ -48,6 +48,8 @@ public class SoundManager : MonoBehaviour
 
     private SCRPT_MusicData currentPlayingMusicData;
 
+    private LTDescr delayedMusicInvoke;
+
     [System.Serializable]
     public enum E_SFXClipsTags
     {
@@ -196,6 +198,7 @@ public class SoundManager : MonoBehaviour
     public void ResumeMusic() => PlayActionAndFadeMusic(false, () => musicSource.UnPause());
     public void StopMusic(Action endAction = null)
     {
+        StopDelayedMusicPlay();
         if (isStopping) return;
 
         isStopping = true;
@@ -228,6 +231,7 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayMusic(E_MusicClipsTags musicTag)
     {
+        StopDelayedMusicPlay();
         if (musicSource.isPlaying)
         {
             StopMusic(() => PlayMusic(musicTag));
@@ -250,6 +254,9 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayMusic(SCRPT_MusicData musicData)
     {
+        if (musicData == null) return;
+        StopDelayedMusicPlay();
+
         if (musicSource.isPlaying)
         {
             StopMusic(() => PlayMusic(musicData));
@@ -258,7 +265,7 @@ public class SoundManager : MonoBehaviour
 
         musicSource.volume = 1;
         musicSource.PlayOneShot(musicData.StartClip);
-        LeanTween.delayedCall(musicData.StartClip.length - musicStartLoopDelayModifier, () =>
+        delayedMusicInvoke = LeanTween.delayedCall(musicData.StartClip.length - musicStartLoopDelayModifier, () =>
         {
             musicSource.clip = musicData.LoopClip;
             musicSource.Play();
@@ -281,5 +288,11 @@ public class SoundManager : MonoBehaviour
         {
             musicSource.volume = val;
         });
+    }
+
+    private void StopDelayedMusicPlay()
+    {
+        if (delayedMusicInvoke == null) return;
+        LeanTween.cancel(delayedMusicInvoke.uniqueId);
     }
 }

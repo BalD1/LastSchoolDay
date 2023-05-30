@@ -111,11 +111,12 @@ public class DialogueManager : MonoBehaviour
     }
     public bool TryStartDialogue(SCRPT_SingleDialogue dialogue, Action actionAtDialogueEnd = null)
     {
+        Debug.Log(dialogue);
         if (dialogue == null) return false;
 
         StartDialogue(dialogue);
 
-        GameManager.Instance.SetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Cinematic);
+        GameManager.Instance.SetAllPlayersStateTo<FSM_Player_Cinematic>(FSM_Player_Manager.E_PlayerState.Cinematic);
 
         endDialogueAction = actionAtDialogueEnd;
         return true;
@@ -298,10 +299,11 @@ public class DialogueManager : MonoBehaviour
 
                 if (GameManager.Instance.IsInTutorial) UIManager.Instance.FadeTutoHUD(true);
 
-                GameManager.Instance.SetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Idle);
+                GameManager.Instance.SetAllPlayersStateTo<FSM_Player_Idle>(FSM_Player_Manager.E_PlayerState.Idle);
 
-                endDialogueAction?.Invoke();
                 ResetDialogue();
+                endDialogueAction?.Invoke();
+                endDialogueAction = null;
             });
     }
 
@@ -321,7 +323,6 @@ public class DialogueManager : MonoBehaviour
         UnfinishedEffectsCount = 0;
         currentLineIndex = -1;
         pressKeyToContinue.alpha = 0;
-        endDialogueAction = null;
         pauseOnIndexQueue.Clear();
 
         LeanTween.cancel(pressKeyToContinue.gameObject);

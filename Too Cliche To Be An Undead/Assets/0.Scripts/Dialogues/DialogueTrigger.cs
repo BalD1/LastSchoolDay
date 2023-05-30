@@ -22,7 +22,4 @@ public class DialogueTrigger : MonoBehaviour
     }
 
     private void SearchAndUpdateDialogueListRepeter() => DialogueManager.SearchAndUpdateDialogueList();
-
-
-
 }

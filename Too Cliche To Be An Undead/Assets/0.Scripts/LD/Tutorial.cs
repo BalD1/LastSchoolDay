@@ -8,9 +8,6 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private bool updateDialoguesNames;
 
     [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
-    [SerializeField] private string startDialogue;
-
-    [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
     [SerializeField] private string zombiesDialogue;
 
     [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
@@ -24,6 +21,8 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private CanvasGroup[] tutorialsArray;
     private Queue<CanvasGroup> tutorialsQueue;
 
+    [SerializeField] private ReviveTutorial reviveTutorial;
+
     [SerializeField] private float tutorialImagesAnimScaleMultiplier = 2;
 
     private int zombiesCount;
@@ -35,6 +34,14 @@ public class Tutorial : MonoBehaviour
 
     private void Awake()
     {
+        if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto)
+        {
+            Destroy(this.gameObject);
+            Destroy(reviveTutorial.gameObject);
+            return;
+        }
+        reviveTutorial.OnStart();
+
         foreach (var item in tutorialZombies)
         {
             item.d_OnDeath += OnZombieDeath;
@@ -56,11 +63,7 @@ public class Tutorial : MonoBehaviour
 
     private void Start()
     {
-        if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
+        PlayersManager.Instance.SetAllPlayersControlMapToInGame();
     }
 
     public void AnimateNextTutorial() => AnimateNextTutorial(null);
@@ -121,7 +124,6 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    public void StartFirstDialogue() => DialogueManager.Instance.TryStartDialogue(startDialogue);
     public void StartZombiesDialogue()
     {
         doorToCloseOnZombies.Close();
@@ -130,7 +132,7 @@ public class Tutorial : MonoBehaviour
 
     private void EnableTutorialZombies()
     {
-            GameManager.Instance.SetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Cinematic);
+            GameManager.Instance.SetAllPlayersStateTo<FSM_Player_Cinematic>(FSM_Player_Manager.E_PlayerState.Cinematic);
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
 
         foreach (var item in tutorialZombies)
@@ -142,7 +144,7 @@ public class Tutorial : MonoBehaviour
         AnimateNextTutorialMultiple(2, () =>
         {
             GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-            GameManager.Instance.SetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Idle);
+            GameManager.Instance.SetAllPlayersStateTo<FSM_Player_Idle>(FSM_Player_Manager.E_PlayerState.Idle);
         });
     }
 
@@ -169,8 +171,6 @@ public class Tutorial : MonoBehaviour
 
     private void TeleportPlayersToInGameHUB()
     {
-        PlayersManager.Instance.SetAllPlayersControlMapToDialogue();
-
         SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.InLobby);
 
         // Wait for the screen to fade out

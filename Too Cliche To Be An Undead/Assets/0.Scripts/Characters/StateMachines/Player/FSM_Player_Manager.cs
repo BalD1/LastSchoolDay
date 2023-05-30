@@ -40,6 +40,8 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public delegate void D_StateChange(string newState);
     public D_StateChange D_stateChange;
 
+    public bool allowChanges = true;
+
     private void Awake()
     {
         pushedState.SetOwner(Owner);
@@ -70,6 +72,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
     public T SwitchState<T>(T newState, bool forceSwitch = false) where T : FSM_Base<FSM_Player_Manager>
     {
+        if (!allowChanges && !forceSwitch) return default(T);
         if (currentState.ToString() == "Dead" && !forceSwitch) return default(T);
 
         D_stateChange?.Invoke(newState.ToString());
@@ -82,9 +85,10 @@ public class FSM_Player_Manager : FSM_ManagerBase
         return currentState as T;
     }
 
-    public void SwitchState(E_PlayerState newState, bool forceSwitch = false)
+    public T SwitchState<T>(E_PlayerState newState, bool forceSwitch = false) where T : FSM_Base<FSM_Player_Manager>
     {
-        if (currentState.ToString() == "Dead" && !forceSwitch) return;
+        if (!allowChanges && !forceSwitch) return default(T);
+        if (currentState.ToString() == "Dead" && !forceSwitch) return default(T);
 
         D_stateChange?.Invoke(newState.ToString());
 
@@ -135,6 +139,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
         currentState.EnterState(this);
         owner.AnimationController.SetCharacterState(this.ToString());
+        return currentState as T;
     }
 
     public override string ToString()

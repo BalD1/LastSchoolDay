@@ -76,8 +76,6 @@ public class SkillHolder : MonoBehaviour
 
     public void ChangeSkill(SCRPT_Skill newSkill)
     {
-        owner.StateManager.SwitchState(owner.StateManager.idleState);
-
         this.skill = newSkill;
         this.Skill.ResetSkill();
         timer = 0;

@@ -16,6 +16,8 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
     private bool removedAlive = false;
     public bool RemovedAlive { get => removedAlive; }
 
+    private bool isFake = false;
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         owner ??= stateManager.Owner;
@@ -57,10 +59,10 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
+        if (isFake) return;
+
         dyingState_TIMER -= Time.deltaTime;
-
         owner.PlayerHUD.FillPortrait(dyingState_TIMER / owner.DyingState_DURATION);
-
         if (dyingState_TIMER <= 0) owner.DefinitiveDeath();
     }
 
@@ -79,12 +81,16 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
             PlayersManager.Instance.AddAlivePlayer();
 
         owner.SelfReviveText.enabled = false;
+        isFake = false;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
+        if (isFake) return;
         if (owner.CurrentHP > 0) stateManager.SwitchState(stateManager.idleState);
     }
+
+    public void SetAsFakeState() => isFake = true;
 
     public override string ToString() => "Dying";
 }

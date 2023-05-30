@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abd21a50e2dcf641b7a1b85e22aa21d, type: 3}
+  m_Name: DIALOGUE_Tuto_Revive_Shirley
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: tuto_revive_shirley
+  <ignoreGameState>k__BackingField: 0
+  <dialogueLines>k__BackingField:
+  - <speakerData>k__BackingField: {fileID: 11400000, guid: 2bb3995dbb4c7b24ea3dca182da30add, type: 2}
+    <textLine>k__BackingField: Ah, et merde, regardes ca je suis pleine de poussiere
+      ! T'aurais pu arriver plus vite !
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+  - <speakerData>k__BackingField: {fileID: 11400000, guid: 2bb3995dbb4c7b24ea3dca182da30add, type: 2}
+    <textLine>k__BackingField: 'Si je m''evanouis a nouveau, releves moi plus vite
+      la prochaine fois, sinon mon bel uniforme va finir sale '
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []

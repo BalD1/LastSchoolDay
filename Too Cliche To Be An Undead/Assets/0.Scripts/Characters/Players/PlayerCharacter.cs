@@ -229,8 +229,8 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_OnFootPrint();
     public D_OnFootPrint D_onFootPrint;
 
-    public event Action OnInteract;
-    private void CallInteract() => OnInteract?.Invoke();
+    public event Action<GameObject> OnInteract;
+    private void CallInteract(GameObject interactor) => OnInteract?.Invoke(interactor);
     #endregion
 
     #region A/S/U/F
@@ -242,7 +242,8 @@ public class PlayerCharacter : Entity, IInteractable
 
         ResetEndStats();
 
-        stateManager.SwitchState(stateManager.idleState);
+        this.stateManager.SwitchState(stateManager.idleState, true);
+
         CancelInvoke(nameof(ClearAttackers));
 
         selfInteractor.ResetOnLoad();
@@ -256,11 +257,7 @@ public class PlayerCharacter : Entity, IInteractable
         {
             this.transform.position = GameManager.Instance.GetSpawnPoint(this.playerIndex).position;
             if (this.playerIndex == 0) CameraManager.Instance.TeleportCamera(this.transform.position);
-
-            SwitchControlMapToDialogue();
-
             SetCharacter();
-
             ResetStats();
         }
 
@@ -269,8 +266,6 @@ public class PlayerCharacter : Entity, IInteractable
         if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
 
         this.attackers.Clear();
-
-        this.stateManager.SwitchState(stateManager.idleState, true);
 
         GameManager.Instance.D_onPlayerIsSetup?.Invoke(this.playerIndex);
     }
@@ -552,6 +547,7 @@ public class PlayerCharacter : Entity, IInteractable
         this.OnHeal(this.MaxHP_M * reviveHealPercentage, false, false, healFromDeath: true);
         stateManager.SwitchState(stateManager.idleState);
     }
+    public void Revive(GameObject interactor) => Revive();
 
     public void DefinitiveDeath()
     {
@@ -784,7 +780,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void ValidateInput(InputAction.CallbackContext context)
     {
-        Debug.Log(context.ToString());
         if (context.performed) D_validateInput?.Invoke();
     }
 
@@ -1057,7 +1052,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        CallInteract();
+        CallInteract(interactor);
     }
 
     public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");

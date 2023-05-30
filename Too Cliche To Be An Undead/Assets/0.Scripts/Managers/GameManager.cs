@@ -67,8 +67,6 @@ public class GameManager : MonoBehaviour
 
     public int currentAliveBossesCount = 0;
 
-    [SerializeField] private GameObject tutorialObject;
-
     [SerializeField] private Transform instantiatedEntitiesParent;
     [SerializeField] private Transform instantiatedKeycardsParent;
     [SerializeField] private Transform instantiatedMiscParent;
@@ -109,7 +107,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] public Tutorial Tuto;
     [SerializeField] public ShopTutorial ShopTuto;
 
     [SerializeField] private SpineGymnasiumDoor gymnasiumDoor;
@@ -268,7 +265,6 @@ public class GameManager : MonoBehaviour
             IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
             if (!IsInTutorial)
             {
-                Destroy(tutorialObject);
                 SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.InLobby);
             }
             else SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainScene);
@@ -339,16 +335,6 @@ public class GameManager : MonoBehaviour
             // TODO : Replace by simply deactivating players inputs
             if (!DialogueManager.IsDialogueActive && DataKeeper.Instance.runsCount != 2)
                 PlayersManager.Instance.SetAllPlayersControlMapToInGame();
-        }
-        else
-        {
-            if (Tuto == null)
-            {
-                Tuto = GameObject.FindObjectOfType<Tutorial>();
-                Debug.LogErrorFormat($"{Tuto} object was not set in {this.gameObject}", this.gameObject);
-            }
-
-            Tuto?.StartFirstDialogue();
         }
     }
 
@@ -435,6 +421,8 @@ public class GameManager : MonoBehaviour
 
             if (!player.IsAlive()) continue;
 
+            player.AnimationController.FlipSkeleton(pos.x > player.transform.position.x);
+
             float travelTime = Vector2.Distance(player.transform.position, pos) / player.MaxSpeed_M;
 
             player.gameObject.transform.LeanMove(pos, travelTime)
@@ -470,12 +458,15 @@ public class GameManager : MonoBehaviour
             item.playerScript.StateManager.SwitchState(newState);
         }
     }
-    public void SetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState newState)
+    public List<T> SetAllPlayersStateTo<T>(FSM_Player_Manager.E_PlayerState newState) where T : FSM_Base<FSM_Player_Manager>
     {
+        List<T> playersState = new List<T>();
         foreach (var item in playersByName)
         {
-            item.playerScript.StateManager.SwitchState(newState);
+            playersState.Add(item.playerScript.StateManager.SwitchState<T>(newState));
         }
+
+        return playersState;
     }
 
     public Transform GetSpawnPoint(int playerId)

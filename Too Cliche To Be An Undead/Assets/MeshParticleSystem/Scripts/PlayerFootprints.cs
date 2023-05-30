@@ -24,6 +24,8 @@ public class PlayerFootprints : MonoBehaviour
 
     private bool leftPrint;
 
+    private bool allowFootSteps = true;
+
     private void Awake()
     {
         footprintsSpawn_TIMER = footprintsSpawn_COOLDOWN;
@@ -32,6 +34,13 @@ public class PlayerFootprints : MonoBehaviour
         owner.d_SteppedIntoTrigger += OwnerSteppedInTrigger;
 
         owner.D_successfulAttack += OwnerAttacked;
+
+        owner.StateManager.D_stateChange += OnOwnerStateChange;
+    }
+
+    private void OnOwnerStateChange(string newState)
+    {
+        allowFootSteps = newState == "Moving" || newState == "InSkill";
     }
 
     private void OwnerSteppedInTrigger(Type triggerType)
@@ -44,6 +53,8 @@ public class PlayerFootprints : MonoBehaviour
 
     private void Update()
     {
+        if (!allowFootSteps) return;
+
         UpdateFootPrint();
         UpdateFootStep();
     }

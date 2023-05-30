@@ -122,11 +122,6 @@ public class PlayersManager : MonoBehaviour
         GameManager.Instance.SetPlayer1(p1);
     }
 
-    private void Start()
-    {
-        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) return;
-    }
-
     public void SetAllPlayersControlMapToInGame()
         => SetAllPlayersControlMap("InGame");
     public void SetAllPlayersControlMapToUI()

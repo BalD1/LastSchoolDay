@@ -1,6 +1,4 @@
 using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class YardDoor : MonoBehaviour
@@ -13,10 +11,17 @@ public class YardDoor : MonoBehaviour
 
     [SerializeField] private bool destroyScriptOnOpen = true;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlayerCharacter>() == null) return;
+        PlayerCharacter player = collision.GetComponent<PlayerCharacter>();
+        if (player == null) return;
+        if (player.StateManager.ToString() == "Dying") return;
 
+        OpenDoor();
+    }
+
+    public virtual void OpenDoor()
+    {
         skeletonAnimation.AnimationState.SetAnimation(0, openAnimation, false);
 
         if (blockCollision != null) blockCollision.enabled = false;

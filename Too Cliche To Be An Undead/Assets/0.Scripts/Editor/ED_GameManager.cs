@@ -121,9 +121,6 @@ public class ED_GameManager : Editor
         SerializedProperty gymnasiumDoor = serializedObject.FindProperty("gymnasiumDoor");
         EditorGUILayout.PropertyField(gymnasiumDoor);
 
-        SerializedProperty tutorialObject = serializedObject.FindProperty("tutorialObject");
-        EditorGUILayout.PropertyField(tutorialObject);
-
         SerializedProperty instantiatedEntitiesParent = serializedObject.FindProperty("instantiatedEntitiesParent");
         EditorGUILayout.PropertyField(instantiatedEntitiesParent);
 
@@ -135,9 +132,6 @@ public class ED_GameManager : Editor
 
         SerializedProperty instantiatedProjectilesParent = serializedObject.FindProperty("instantiatedProjectilesParent");
         EditorGUILayout.PropertyField(instantiatedProjectilesParent);
-
-        SerializedProperty Tuto = serializedObject.FindProperty("Tuto");
-        EditorGUILayout.PropertyField(Tuto);
 
         SerializedProperty ShopTuto = serializedObject.FindProperty("ShopTuto");
         EditorGUILayout.PropertyField(ShopTuto);
