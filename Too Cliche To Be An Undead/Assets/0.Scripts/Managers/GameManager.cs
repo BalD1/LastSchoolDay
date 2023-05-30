@@ -463,6 +463,21 @@ public class GameManager : MonoBehaviour
         playersByName[playerIdx].playerScript.gameObject.transform.position = CameraManager.Instance.gameObject.transform.position;
     }
 
+    public void SetAllPlayersStateTo(FSM_Base<FSM_Player_Manager> newState)
+    {
+        foreach (var item in playersByName)
+        {
+            item.playerScript.StateManager.SwitchState(newState);
+        }
+    }
+    public void SetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState newState)
+    {
+        foreach (var item in playersByName)
+        {
+            item.playerScript.StateManager.SwitchState(newState);
+        }
+    }
+
     public Transform GetSpawnPoint(int playerId)
     {
 #if UNITY_EDITOR

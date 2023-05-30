@@ -115,11 +115,7 @@ public class DialogueManager : MonoBehaviour
 
         StartDialogue(dialogue);
 
-        foreach (var player in GameManager.Instance.playersByName)
-        {
-            PlayerCharacter p = player.playerScript;
-            p.StateManager.SwitchState(p.StateManager.idleState);
-        }
+        GameManager.Instance.SetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Cinematic);
 
         endDialogueAction = actionAtDialogueEnd;
         return true;
@@ -301,6 +297,8 @@ public class DialogueManager : MonoBehaviour
                     GameManager.Instance.GameState = GameManager.E_GameState.InGame;
 
                 if (GameManager.Instance.IsInTutorial) UIManager.Instance.FadeTutoHUD(true);
+
+                GameManager.Instance.SetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Idle);
 
                 endDialogueAction?.Invoke();
                 ResetDialogue();

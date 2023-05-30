@@ -130,6 +130,7 @@ public class Tutorial : MonoBehaviour
 
     private void EnableTutorialZombies()
     {
+            GameManager.Instance.SetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Cinematic);
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
 
         foreach (var item in tutorialZombies)
@@ -141,6 +142,7 @@ public class Tutorial : MonoBehaviour
         AnimateNextTutorialMultiple(2, () =>
         {
             GameManager.Instance.GameState = GameManager.E_GameState.InGame;
+            GameManager.Instance.SetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Idle);
         });
     }
 

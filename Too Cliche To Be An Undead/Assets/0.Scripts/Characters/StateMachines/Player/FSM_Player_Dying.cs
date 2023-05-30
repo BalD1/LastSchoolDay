@@ -22,6 +22,8 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
 
         if (dyingState_TIMER <= 0) dyingState_TIMER = owner.DyingState_DURATION;
 
+        owner.OnInteract += owner.Revive;
+
         owner.SetAnimatorArgs("Dying", true);
 
         owner.canBePushed = false;
@@ -70,6 +72,8 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
     {
         owner.SetAnimatorArgs("Dying", false);
         owner.ForceUpdateMovementsInput();
+
+        owner.OnInteract -= owner.Revive;
 
         if (removedAlive)
             PlayersManager.Instance.AddAlivePlayer();

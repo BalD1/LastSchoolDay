@@ -228,6 +228,9 @@ public class PlayerCharacter : Entity, IInteractable
 
     public delegate void D_OnFootPrint();
     public D_OnFootPrint D_onFootPrint;
+
+    public event Action OnInteract;
+    private void CallInteract() => OnInteract?.Invoke();
     #endregion
 
     #region A/S/U/F
@@ -1054,8 +1057,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        Revive();
-
+        CallInteract();
     }
 
     public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");

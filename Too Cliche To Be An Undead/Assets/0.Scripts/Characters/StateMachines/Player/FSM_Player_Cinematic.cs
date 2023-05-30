@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class FSM_Player_Cinematic : FSM_Base<FSM_Player_Manager>
 {
-
     public override void EnterState(FSM_Player_Manager stateManager)
     {
+        stateManager.Owner.AnimationController.SetAnimation(stateManager.Owner.AnimationController.animationsData.IdleAnim, true);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

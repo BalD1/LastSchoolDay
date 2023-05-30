@@ -20,6 +20,20 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public FSM_Player_Stuned stunnedState = new FSM_Player_Stuned();
     public FSM_Player_Cinematic cinematicState = new FSM_Player_Cinematic();
 
+    public enum E_PlayerState
+    {
+        Idle,
+        Moving,
+        Attacking,
+        Dashing,
+        Pushed,
+        InSkill,
+        Dying,
+        Dead,
+        Stunned,
+        Cinematic
+    }
+
     private FSM_Base<FSM_Player_Manager> currentState;
     public FSM_Base<FSM_Player_Manager> CurrentState { get => currentState; }
 
@@ -54,14 +68,71 @@ public class FSM_Player_Manager : FSM_ManagerBase
         currentState.FixedUpdateState(this);
     }
 
-    public void SwitchState(FSM_Base<FSM_Player_Manager> newState, bool forceSwitch = false)
+    public T SwitchState<T>(T newState, bool forceSwitch = false) where T : FSM_Base<FSM_Player_Manager>
+    {
+        if (currentState.ToString() == "Dead" && !forceSwitch) return default(T);
+
+        D_stateChange?.Invoke(newState.ToString());
+
+        currentState?.ExitState(this);
+        currentState = newState;
+        currentState.EnterState(this);
+        owner.AnimationController.SetCharacterState(this.ToString());
+
+        return currentState as T;
+    }
+
+    public void SwitchState(E_PlayerState newState, bool forceSwitch = false)
     {
         if (currentState.ToString() == "Dead" && !forceSwitch) return;
 
         D_stateChange?.Invoke(newState.ToString());
 
         currentState?.ExitState(this);
-        currentState = newState;
+
+        switch (newState)
+        {
+            case E_PlayerState.Idle:
+                currentState = idleState;
+                break;
+
+            case E_PlayerState.Moving:
+                currentState = movingState;
+                break;
+
+            case E_PlayerState.Attacking:
+                currentState = attackingState;
+                break;
+
+            case E_PlayerState.Dashing:
+                currentState = dashingState;
+                break;
+
+            case E_PlayerState.Pushed:
+                currentState = pushedState;
+                break;
+
+            case E_PlayerState.InSkill:
+                currentState = inSkillState;
+                break;
+
+            case E_PlayerState.Dying:
+                currentState = dyingState;
+                break;
+
+            case E_PlayerState.Dead:
+                currentState = deadState;
+                break;
+
+            case E_PlayerState.Stunned:
+                currentState = stunnedState;
+                break;
+
+            case E_PlayerState.Cinematic:
+                currentState = cinematicState;
+                break;
+        }
+
         currentState.EnterState(this);
         owner.AnimationController.SetCharacterState(this.ToString());
     }
