@@ -235,11 +235,21 @@ public abstract class EnemyBase : Entity
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Walls"))
-            d_EnteredCollider?.Invoke(collision);
+         d_EnteredCollider?.Invoke(collision);
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        d_ExitedCollider?.Invoke(collision);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
+            d_EnteredTrigger?.Invoke(collision);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
             d_EnteredTrigger?.Invoke(collision);

@@ -13,21 +13,82 @@ public class DestroyableProp : MonoBehaviour, IDamageable
 
     [SerializeField] private float currentHP = 50;
 
+    [SerializeField] private float collisionDamagesTimer = .5f;
+    [SerializeField] private float collisionDamages = 5;
+
+    [SerializeField] private float audioTimer_DURATION = .25f;
+    private float audioTimer;
+
+    private List<NormalZombie> zombiesInCollider = new List<NormalZombie>();
+    private List<float> zombiesDamagesTimer = new List<float>();
+
     private void Start()
     {
         if (damagesParticles == null) damagesParticles = GameAssets.Instance.BasePropDamagesParticlesPF;
         if (destroyParticles == null) destroyParticles = GameAssets.Instance.BaseDestructionParticlesPF;
-        if (damagesParticles == null) damagesParticles = GameAssets.Instance.BasePropDamagesParticlesPF;
+
+        audioTimer = audioTimer_DURATION;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         PlayerCharacter player = collision.gameObject.GetComponent<PlayerCharacter>();
-        if (player == null) return;
+        if (player != null)
+        {
+            OnPlayerEnter(player);
+            return;
+        }
 
+        NormalZombie nz = collision.gameObject.GetComponent<NormalZombie>();
+        if (nz != null)
+        {
+            OnZombieEnter(nz);
+            return;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        NormalZombie nz = collision.gameObject.GetComponent<NormalZombie>();
+        if (nz != null)
+        {
+            OnZombieExit(nz);
+            return;
+        }
+    }
+
+    private void OnPlayerEnter(PlayerCharacter player)
+    {
         if (player.StateManager.CurrentState.ToString() != "Dashing") return;
-
         OnTakeDamages(currentHP, null);
+    }
+
+    private void OnZombieEnter(NormalZombie zombie)
+    {
+        zombiesInCollider.Add(zombie);
+        zombiesDamagesTimer.Add(collisionDamagesTimer);
+    }
+
+    private void OnZombieExit(NormalZombie zombie)
+    {
+        int zombieIdx = zombiesInCollider.IndexOf(zombie);
+        zombiesInCollider.RemoveAt(zombieIdx);
+        zombiesDamagesTimer.RemoveAt(zombieIdx);
+    }
+
+    private void Update()
+    {
+        for (int i = 0; i < zombiesInCollider.Count; i++)
+        {
+            zombiesDamagesTimer[i] -= Time.deltaTime;
+            if (zombiesDamagesTimer[i] <= 0)
+            {
+                zombiesDamagesTimer[i] = collisionDamagesTimer;
+                OnTakeDamages(collisionDamages, zombiesInCollider[i]);
+            }
+        }
+
+        if (audioTimer > 0) audioTimer -= Time.deltaTime;
     }
 
     public void DestroyObject()
@@ -44,7 +105,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
         if (currentHP <= 0) OnDeath();
         else
         {
-            if (audioData != null)
+            if (audioData != null && audioTimer <= 0)
                 if (audioData.HurtClips.Length > 0) source.PlayOneShot(audioData.HurtClips.RandomElement());
         }
         return true;
