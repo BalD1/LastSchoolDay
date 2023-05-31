@@ -17,7 +17,12 @@ public class WINDOW_Utils : EditorWindow
 
     private bool showUIUtils;
 
+    private bool showReplace;
+
     private GameManager.E_ScenesNames sceneSelect;
+
+    private GameObject objectToReplace;
+    private GameObject replaceObjectPrefab;
 
     [MenuItem("Window/Utils")]
     public static void ShowWindow()
@@ -38,6 +43,11 @@ public class WINDOW_Utils : EditorWindow
 
         showUIUtils = EditorGUILayout.Foldout(showUIUtils, "UI Utils");
         if (showUIUtils) UIUtils();
+
+        SimpleDraws.HorizontalLine();
+
+        showReplace = EditorGUILayout.Foldout(showReplace, "Replace");
+        if (showReplace) Replace();
 
         EditorGUILayout.EndScrollView();
     }
@@ -114,5 +124,29 @@ public class WINDOW_Utils : EditorWindow
         }
 
         EditorGUILayout.EndVertical();
+    }
+
+    private void Replace()
+    {
+        objectToReplace = (GameObject)EditorGUILayout.ObjectField("Object To Replace", objectToReplace, typeof(GameObject), false);
+        replaceObjectPrefab = (GameObject)EditorGUILayout.ObjectField("Replace Object PF", replaceObjectPrefab, typeof(GameObject), false);
+
+        if (GUILayout.Button("Replace"))
+        {
+            // https://docs.unity3d.com/ScriptReference/PrefabUtility.FindAllInstancesOfPrefab.html
+            ReplaceTarget[] objects = GameObject.FindObjectsOfType<ReplaceTarget>();
+            foreach (ReplaceTarget obj in objects)
+            {
+                GameObject newObj = PrefabUtility.InstantiatePrefab(replaceObjectPrefab) as GameObject;
+                newObj.name = obj.name;
+                newObj.transform.parent = obj.transform.parent;
+                newObj.transform.localPosition = obj.transform.localPosition;
+                newObj.transform.localRotation = obj.transform.localRotation;
+                newObj.transform.localScale = obj.transform.localScale;
+                Undo.RegisterCreatedObjectUndo(newObj, "Created Replace Obj");
+                newObj.transform.parent = obj.gameObject.transform.parent;
+                Undo.DestroyObjectImmediate(obj.gameObject);
+            }
+        }
     }
 }
