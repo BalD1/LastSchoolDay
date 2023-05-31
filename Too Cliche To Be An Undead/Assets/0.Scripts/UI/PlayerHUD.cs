@@ -112,12 +112,12 @@ public class PlayerHUD : MonoBehaviour
     private void SetupCharacterPortrait() => SetupCharacterPortrait(owner.GetCharacterName());
     private void SetupCharacterPortrait(GameManager.E_CharactersNames character)
     {
-        this.portrait.sprite = UIManager.Instance.GetBasePortrait(character);
-
         foreach (var item in UIManager.Instance.CharacterPortraits)
         {
             if (item.characterName.Equals(character)) characterPortrait = item;
         }
+
+        this.portrait.sprite = characterPortrait.characterPortraitsByHP[0].portrait;
     }
 
     private void OnOwnerHealthChange(bool tookDamages)
