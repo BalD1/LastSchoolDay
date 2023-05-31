@@ -12,34 +12,25 @@ public class GroundedZombie : Entity
     [SerializeField][SpineAnimation] private string idleAnim;
     [SerializeField][SpineAnimation] private string attackAnim;
 
+    public static GroundedZombie Create(Vector2 pos, bool reverse = false)
+    {
+        GroundedZombie res = Instantiate(GameAssets.Instance.GroundedZombiesPF.RandomElement(), pos, Quaternion.identity).GetComponent<GroundedZombie>();
+
+        if (reverse)
+        {
+            Vector2 scale = res.skeletonAnimation.transform.localScale;
+            scale.x = -1;
+            res.skeletonAnimation.transform.localScale = scale;
+        }
+
+        return res;
+    }
+
     protected override void Awake()
     {
         base.Awake();
 
         this.D_onTakeDamagesFromEntity += (bool crit, Entity damager, bool tickDamages) => PlayAudio(audioData.GetRandomHurtClip());
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        return;
-        if (attack_TIMER > 0) return;
-
-        if (collision.transform.parent == null) return;
-
-        PlayerCharacter player = collision.GetComponentInParent<PlayerCharacter>();
-
-        if (player == null) return;
-        if (player.StateManager.ToString() == "Pushed") return;
-
-        SkeletonAnimation.AnimationState.SetAnimation(0, attackAnim, false);
-        SkeletonAnimation.AnimationState.AddAnimation(0, idleAnim, true, .25f);
-
-        PlayAudio(audioData.GetRandomAttackClip());
-
-        player.Stun(stunDuration, false, true);
-        player.OnTakeDamages(MaxDamages_M, this, RollCrit());
-
-        attack_TIMER = MaxAttCD_M;
     }
 
     private void PlayAudio(SCRPT_EntityAudio.S_AudioClips audio)

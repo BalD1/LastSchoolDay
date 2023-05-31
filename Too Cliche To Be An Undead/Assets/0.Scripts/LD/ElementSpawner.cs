@@ -11,6 +11,7 @@ public class ElementSpawner : MonoBehaviour
         DashingZombie,
         CaCZombie,
         IdleZombie,
+        GroundedZombie,
     }
 
     [SerializeField] private E_ElementToSpawn elementToSpawn;
@@ -20,6 +21,8 @@ public class ElementSpawner : MonoBehaviour
     [SerializeField] private bool spawnAtStart = true;
 
     [SerializeField] private bool wasInstantiatedInRoom = false;
+
+    [SerializeField] private bool flipX = false;
 
     public bool DestroyAfterSpawn { get => destroyAfterSpawn; }
     public bool SpawnAtStart { get => spawnAtStart; }
@@ -64,6 +67,10 @@ public class ElementSpawner : MonoBehaviour
 
             case E_ElementToSpawn.IdleZombie:
                 NormalZombie.Create(this.transform.position, false).transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
+                break;
+
+            case E_ElementToSpawn.GroundedZombie:
+                GroundedZombie.Create(this.transform.position, flipX).transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
                 break;
 
             default:
@@ -125,6 +132,10 @@ public class ElementSpawner : MonoBehaviour
 
             case ElementSpawner.E_ElementToSpawn.IdleZombie:
                 objectName.Append("_IDLEZOM");
+                break;
+
+            case ElementSpawner.E_ElementToSpawn.GroundedZombie:
+                objectName.Append("_GROUNDED");
                 break;
 
             default:

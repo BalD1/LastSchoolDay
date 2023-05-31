@@ -29,6 +29,8 @@ public class GameAssets : MonoBehaviour
     [SerializeField] private GameObject smallCoinDropPF;
     [SerializeField] private GameObject largeCoinDropPF;
 
+    [field: SerializeField] public GameObject[] GroundedZombiesPF { get; private set; }
+
     [field: SerializeField] public AudioMixerGroup MixerGroup_SFX { get; private set; }
 
     [field: SerializeField] public GameObject BaseDestructionParticlesPF { get; private set; }
