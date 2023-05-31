@@ -221,7 +221,7 @@ public class DebugConsole : MonoBehaviour
         {
             DataKeeper.Instance.skipTuto = false;
             DataKeeper.Instance.alreadyPlayedTuto = false;
-            SceneManager.LoadScene("MainScene");
+            GameManager.ChangeScene(GameManager.E_ScenesNames.MainScene, true);
         });
 
         FORCEOPEN_GYMNASIUM = new DebugCommand("FORCEOPEN_GYMNASIUM", "Opens the gymnasium door and plays the cutscene", "FORCEOPEN_GYMNASIUM", () =>
