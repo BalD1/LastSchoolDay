@@ -150,9 +150,20 @@ public class WINDOW_Utils : EditorWindow
 
         if (GUILayout.Button("Replace"))
         {
+            int passes = 0;
+            int totalInstances = 0;
+            Debug.Log("<color=green><b>" + this + "</b></color> - REPLACE");
+            float allStartTime = Time.time;
+            Debug.Log("<color=green><b>" + this + "</b></color> " + "Start Replacing at " + allStartTime);
             foreach (var item in replacePrefabs)
             {
+                passes++;
+                float startTime = Time.time;
+                Debug.Log("<color=green><b>" + this + "</b></color> " + "<color=red><b>" + passes + "</b></color> : -----------------------------");
+                Debug.Log("<color=green><b>" + this + "</b></color> " + "<color=red><b>" + passes + "</b></color> : Start Replacing of <color=blue>" + item.ObjectToReplace.name + "</color> by <color=blue>" + item.ReplaceObjectPrefab.name + "</color>");
                 GameObject[] instances = PrefabUtility.FindAllInstancesOfPrefab(item.ObjectToReplace);
+                totalInstances += instances.Length;
+                Debug.Log("<color=green><b>" + this + "</b></color> " + "<color=red><b>" + passes + "</b></color> : Found <color=blue>" + instances.Length + "</color> instances of <color=blue>" + item.ObjectToReplace.name+ "</color>");
                 foreach (GameObject obj in instances)
                 {
                     GameObject newObj = PrefabUtility.InstantiatePrefab(item.ReplaceObjectPrefab) as GameObject;
@@ -165,7 +176,24 @@ public class WINDOW_Utils : EditorWindow
                     newObj.transform.parent = obj.gameObject.transform.parent;
                     Undo.DestroyObjectImmediate(obj.gameObject);
                 }
+                float endTime = Time.time;
+                Debug.Log("<color=green><b>" + this + "</b></color> " + "<color=red><b>" + passes + "</b></color> : Ended Replacement, took : " + (endTime - startTime));
             }
+            float allEndTime = Time.time;
+            Debug.Log("<color=green><b>" + this + "</b></color> " + "-----------------------------");
+            Debug.Log("<color=green><b>" + this + "</b></color> " + "Total replaces : <color=blue>" + totalInstances + "</color>");
+            Debug.Log("<color=green><b>" + this + "</b></color> " + "Ended Replacements at " + allEndTime);
+            Debug.Log("<color=green><b>" + this + "</b></color> " + "Took : " + (allEndTime - allStartTime));
         }
+    }
+
+    public string Colorize(string text, string color, bool bold)
+    {
+        return
+        "<color=" + color + ">" +
+        (bold ? "<b>" : "") +
+        text +
+        (bold ? "</b>" : "") +
+        "</color>";
     }
 }
