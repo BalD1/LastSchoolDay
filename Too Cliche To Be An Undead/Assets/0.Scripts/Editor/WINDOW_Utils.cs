@@ -19,15 +19,29 @@ public class WINDOW_Utils : EditorWindow
 
     private bool showReplace;
 
+    private SerializedObject serializedSelf;
+
     private GameManager.E_ScenesNames sceneSelect;
 
-    private GameObject objectToReplace;
-    private GameObject replaceObjectPrefab;
+    [System.Serializable]
+    private struct S_ReplacePrefabs
+    {
+        [field: SerializeField] public GameObject ObjectToReplace { get; private set; }
+        [field: SerializeField] public GameObject ReplaceObjectPrefab { get; private set; }
+    }
+
+    [SerializeField] private S_ReplacePrefabs[] replacePrefabs;
 
     [MenuItem("Window/Utils")]
     public static void ShowWindow()
     {
         GetWindow<WINDOW_Utils>("Utils Window");
+    }
+
+    private void OnEnable()
+    {
+        ScriptableObject target = this;
+        serializedSelf = new SerializedObject(target);
     }
 
     private void OnGUI()
@@ -128,23 +142,29 @@ public class WINDOW_Utils : EditorWindow
 
     private void Replace()
     {
-        objectToReplace = (GameObject)EditorGUILayout.ObjectField("Object To Replace", objectToReplace, typeof(GameObject), false);
-        replaceObjectPrefab = (GameObject)EditorGUILayout.ObjectField("Replace Object PF", replaceObjectPrefab, typeof(GameObject), false);
+        serializedSelf.Update();
+        SerializedProperty stringsProperty = serializedSelf.FindProperty("replacePrefabs");
+
+        EditorGUILayout.PropertyField(stringsProperty, true);
+        serializedSelf.ApplyModifiedProperties();
 
         if (GUILayout.Button("Replace"))
         {
-            GameObject[] instances = PrefabUtility.FindAllInstancesOfPrefab(objectToReplace);
-            foreach (GameObject obj in instances)
+            foreach (var item in replacePrefabs)
             {
-                GameObject newObj = PrefabUtility.InstantiatePrefab(replaceObjectPrefab) as GameObject;
-                newObj.name = obj.name;
-                newObj.transform.parent = obj.transform.parent;
-                newObj.transform.localPosition = obj.transform.localPosition;
-                newObj.transform.localRotation = obj.transform.localRotation;
-                newObj.transform.localScale = obj.transform.localScale;
-                Undo.RegisterCreatedObjectUndo(newObj, "Created Replace Obj");
-                newObj.transform.parent = obj.gameObject.transform.parent;
-                Undo.DestroyObjectImmediate(obj.gameObject);
+                GameObject[] instances = PrefabUtility.FindAllInstancesOfPrefab(item.ObjectToReplace);
+                foreach (GameObject obj in instances)
+                {
+                    GameObject newObj = PrefabUtility.InstantiatePrefab(item.ReplaceObjectPrefab) as GameObject;
+                    newObj.name = obj.name;
+                    newObj.transform.parent = obj.transform.parent;
+                    newObj.transform.localPosition = obj.transform.localPosition;
+                    newObj.transform.localRotation = obj.transform.localRotation;
+                    newObj.transform.localScale = obj.transform.localScale;
+                    Undo.RegisterCreatedObjectUndo(newObj, "Created Replace Obj");
+                    newObj.transform.parent = obj.gameObject.transform.parent;
+                    Undo.DestroyObjectImmediate(obj.gameObject);
+                }
             }
         }
     }
