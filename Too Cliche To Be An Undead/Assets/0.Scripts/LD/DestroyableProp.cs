@@ -19,6 +19,9 @@ public class DestroyableProp : MonoBehaviour, IDamageable
     [SerializeField] private float audioTimer_DURATION = .25f;
     private float audioTimer;
 
+    [SerializeField] private int maxDamagesAudio = 3;
+    private int playingDamagesAudio = 0;
+
     private List<NormalZombie> zombiesInCollider = new List<NormalZombie>();
     private List<float> zombiesDamagesTimer = new List<float>();
 
@@ -26,8 +29,6 @@ public class DestroyableProp : MonoBehaviour, IDamageable
     {
         if (damagesParticles == null) damagesParticles = GameAssets.Instance.BasePropDamagesParticlesPF;
         if (destroyParticles == null) destroyParticles = GameAssets.Instance.BaseDestructionParticlesPF;
-
-        audioTimer = audioTimer_DURATION;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -66,7 +67,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
     private void OnZombieEnter(NormalZombie zombie)
     {
         zombiesInCollider.Add(zombie);
-        zombiesDamagesTimer.Add(collisionDamagesTimer);
+        zombiesDamagesTimer.Add(0);
     }
 
     private void OnZombieExit(NormalZombie zombie)
@@ -102,12 +103,20 @@ public class DestroyableProp : MonoBehaviour, IDamageable
         if (damagesParticles != null)
             damagesParticles.Create(this.transform.position);
 
-        if (currentHP <= 0) OnDeath();
-        else
+        if (currentHP <= 0)
         {
-            if (audioData != null && audioTimer <= 0)
-                if (audioData.HurtClips.Length > 0) source.PlayOneShot(audioData.HurtClips.RandomElement());
+            OnDeath();
+            return true;
         }
+        if (audioData == null) return true;
+        if (audioTimer > 0) return true;
+        if (audioData.HurtClips.Length == 0) return true;
+        if (playingDamagesAudio > maxDamagesAudio) return true;
+
+        playingDamagesAudio++;
+        AudioClip clipToPlay = audioData.HurtClips.RandomElement();
+        LeanTween.delayedCall(clipToPlay.length, () => playingDamagesAudio--);
+        source.PlayOneShot(clipToPlay);
         return true;
     }
 
