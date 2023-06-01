@@ -258,7 +258,6 @@ public class PlayerCharacter : Entity, IInteractable
             this.transform.position = GameManager.Instance.GetSpawnPoint(this.playerIndex).position;
             if (this.playerIndex == 0) CameraManager.Instance.TeleportCamera(this.transform.position);
             SetCharacter();
-            ResetStats();
         }
 
         this.minimapMarker.SetActive(true);
@@ -282,10 +281,11 @@ public class PlayerCharacter : Entity, IInteractable
         GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
         PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
 
+        this.currentHP = MaxHP_M;
         PlayerHUD = PlayerHUDManager.Instance.CreateNewHUD(this, this.minimapMarker.GetComponent<SpriteRenderer>(), this.GetCharacterName(), pcc.dash, pcc.skill);
         PlayerHUD.ForceHPUpdate();
 
-        SwitchCharacter(pcc);
+        SwitchCharacter(pcc, false);
     }
 
     private void OnDestroy()
@@ -336,7 +336,7 @@ public class PlayerCharacter : Entity, IInteractable
             PlayerHUD = PlayerHUDManager.Instance.CreateNewHUD(this, this.minimapMarker.GetComponent<SpriteRenderer>(), character, pcc.dash, pcc.skill);
             PlayerHUD.ForceHPUpdate();
 
-            SwitchCharacter(pcc);
+            SwitchCharacter(pcc, false);
 
             this.currentHP = MaxHP_M;
 
@@ -1071,9 +1071,9 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Switch & Set
 
-    public void SwitchCharacter(PlayersManager.PlayerCharacterComponents pcc)
-        => SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips);
-    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, GameManager.E_CharactersNames character, SCRPT_PlayersAnimData animData, SCRPT_PlayerAudio audioData)
+    public void SwitchCharacter(PlayersManager.PlayerCharacterComponents pcc, bool callDelegate = true)
+        => SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips, callDelegate);
+    public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, GameManager.E_CharactersNames character, SCRPT_PlayersAnimData animData, SCRPT_PlayerAudio audioData, bool callDelegate = true)
     {
         DataKeeper.Instance.playersDataKeep[this.playerIndex].character = character;
 
@@ -1093,15 +1093,7 @@ public class PlayerCharacter : Entity, IInteractable
         if (animData != null && animData.arms.Length > 1)
             this.rightArm.GetComponent<SpriteRenderer>().sprite = animData.arms[1];
 
-        this.MaxDashCD_M = newDash.Dash_COOLDOWN;
-        this.MaxSkillCD_M = newSkill.Cooldown;
-
-        this.MaxHP_M = newStats.MaxHP;
-        this.MaxDamages_M = newStats.BaseDamages;
-        this.MaxAttRange_M = newStats.AttackRange;
-        this.MaxAttCD_M = newStats.Attack_COOLDOWN;
-        this.MaxSpeed_M = newStats.Speed;
-        this.MaxCritChances_M = newStats.CritChances;
+        ResetStats();
 
         foreach (var item in statsModifiers)
         {
@@ -1116,7 +1108,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         CameraManager.Instance.Markers[this.playerIndex].gameObject.SetActive(false);
 
-        D_switchCharacter?.Invoke();
+        if (callDelegate) D_switchCharacter?.Invoke();
     }
 
     public void SetAttack(GameObject newWeapon)

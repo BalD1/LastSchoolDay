@@ -93,6 +93,8 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] private bool debugMode;
 #endif
 
+    private LTDescr uiTween;
+
     private void Awake()
     {
         instance = this;
@@ -151,8 +153,8 @@ public class SpawnersManager : MonoBehaviour
 
         if (allow == false) return;
 
-        LeanTween.cancel(uiFiller.gameObject);
-        LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+        if (uiTween != null) LeanTween.cancel(uiTween.uniqueId);
+        uiTween = LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
         {
             if (uiFiller == null) return;
             uiFiller.fillAmount = val;
@@ -192,14 +194,15 @@ public class SpawnersManager : MonoBehaviour
             return;
         }
 
-        LeanTween.cancel(uiFiller.gameObject);
+        LeanTween.cancel(uiTween.uniqueId);
 
         spawnStamp++;
 
         if (spawnStamp < maxStamp)
         {
-            LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+            uiTween = LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
             {
+                if (uiFiller == null) return;
                 uiFiller.fillAmount = val;
             });
         }

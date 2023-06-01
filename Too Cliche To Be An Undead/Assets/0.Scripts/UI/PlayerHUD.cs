@@ -116,7 +116,6 @@ public class PlayerHUD : MonoBehaviour
         {
             if (item.characterName.Equals(character)) characterPortrait = item;
         }
-
         this.portrait.sprite = characterPortrait.characterPortraitsByHP[0].portrait;
     }
 
@@ -227,6 +226,8 @@ public class PlayerHUD : MonoBehaviour
 
     private void OnDestroy()
     {
+        owner.OnHealthChange -= OnOwnerHealthChange;
+        owner.D_switchCharacter -= OnCharacterSwitch;
         LeanTween.cancel(this.gameObject);
     }
 }
