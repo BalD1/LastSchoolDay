@@ -174,6 +174,18 @@ public class WINDOW_Utils : EditorWindow
                     newObj.transform.localScale = obj.transform.localScale;
                     Undo.RegisterCreatedObjectUndo(newObj, "Created Replace Obj");
                     newObj.transform.parent = obj.gameObject.transform.parent;
+                    SpriteRenderer sr = newObj.GetComponent<SpriteRenderer>();
+                    if (sr != null)
+                    {
+                        SpriteRenderer objSR = obj.GetComponent<SpriteRenderer>();
+                        if (objSR != null)
+                        {
+                            sr.color = objSR.color;
+                            sr.sortingLayerID = objSR.sortingLayerID;
+                            sr.flipX = objSR.flipX;
+                            sr.flipY = objSR.flipY;
+                        }
+                    }
                     Undo.DestroyObjectImmediate(obj.gameObject);
                 }
                 float endTime = Time.time;
