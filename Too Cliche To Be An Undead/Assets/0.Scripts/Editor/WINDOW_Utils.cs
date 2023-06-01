@@ -133,9 +133,8 @@ public class WINDOW_Utils : EditorWindow
 
         if (GUILayout.Button("Replace"))
         {
-            // https://docs.unity3d.com/ScriptReference/PrefabUtility.FindAllInstancesOfPrefab.html
-            ReplaceTarget[] objects = GameObject.FindObjectsOfType<ReplaceTarget>();
-            foreach (ReplaceTarget obj in objects)
+            GameObject[] instances = PrefabUtility.FindAllInstancesOfPrefab(objectToReplace);
+            foreach (GameObject obj in instances)
             {
                 GameObject newObj = PrefabUtility.InstantiatePrefab(replaceObjectPrefab) as GameObject;
                 newObj.name = obj.name;
