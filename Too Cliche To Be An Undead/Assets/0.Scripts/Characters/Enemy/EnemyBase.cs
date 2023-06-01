@@ -252,7 +252,7 @@ public abstract class EnemyBase : Entity
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
-            d_EnteredTrigger?.Invoke(collision);
+            d_ExitedTrigger?.Invoke(collision);
     }
 
     protected override void OnDrawGizmos()

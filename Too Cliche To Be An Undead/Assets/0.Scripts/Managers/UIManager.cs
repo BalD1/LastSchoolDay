@@ -204,6 +204,8 @@ public class UIManager : MonoBehaviour
         }
 
         if (hudContainer != null) hudContainer.alpha = 0;
+
+        if (eventSystem == null) eventSystem = EventSystem.current;
     }
 
     private void Start()
