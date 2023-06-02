@@ -16,10 +16,6 @@ public class FSM_Boss_Manager : FSM_ManagerBase
     private FSM_Base<FSM_Boss_Manager> currentState;
     public FSM_Base<FSM_Boss_Manager> CurrentState { get => currentState; }
 
-    private void Awake()
-    {
-    }
-
     protected override void Start()
     {
         if (owner.isAppeared) OnStart();

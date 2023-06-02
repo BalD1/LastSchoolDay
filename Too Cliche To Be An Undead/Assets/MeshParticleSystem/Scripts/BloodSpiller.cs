@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BloodSpiller : MonoBehaviour
 {
-    [SerializeField] private Entity owner;
+    [SerializeField] protected Entity owner;
 
     [SerializeField] private int minBloodSpill = 2;
     [SerializeField] private int maxBloodSpill = 4;
@@ -15,13 +15,13 @@ public class BloodSpiller : MonoBehaviour
 
     [SerializeField] private float onDamageDirectionRandomRange = 0.5f;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         owner.D_onTakeDamagesFromEntity += SpillBloodOnDamages;
         owner.d_OnDeath += SpillBloodOnDeath;
     }
 
-    private void SpillBloodOnDamages(bool isCrit, Entity damager, bool tickDamages = false)
+    protected void SpillBloodOnDamages(bool isCrit, Entity damager, bool tickDamages = false)
     {
         if (damager == null) return;
         if (tickDamages) return;
@@ -35,7 +35,7 @@ public class BloodSpiller : MonoBehaviour
         SpillBlood(amountToSpawn, dir);
     }
 
-    private void SpillBloodOnDeath()
+    protected void SpillBloodOnDeath()
     {
         int amountToSpawn = Random.Range(minBloodSpill, maxBloodSpill);
 

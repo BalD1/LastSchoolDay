@@ -28,6 +28,7 @@ public class GymnasiumCinematic : MonoBehaviour
 
     private IEnumerator Cinematic()
     {
+        SpawnersManager.Instance.AllowSpawns(false);
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
 
         UIManager.Instance.SetBlackBars(true);

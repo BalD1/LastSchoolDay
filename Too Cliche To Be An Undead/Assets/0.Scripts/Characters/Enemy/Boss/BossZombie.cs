@@ -50,6 +50,9 @@ public class BossZombie : EnemyBase
 
     public float recoverTimerModifier;
 
+    public event Action<Entity, bool> onReceiveAttack;
+    private void CallReceiveAttack(Entity damager, bool tickDamages) => onReceiveAttack?.Invoke(damager, tickDamages);
+
     public delegate void D_StartedAttack();
     public D_StartedAttack D_startedAttack;
 
@@ -99,10 +102,12 @@ public class BossZombie : EnemyBase
 
     public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
+        CallReceiveAttack(damager, tickDamages);
+
         if (deathFlag)
         {
             StartCoroutine(MaterialFlash());
-            return false;
+            return true;
         }
 
         bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);

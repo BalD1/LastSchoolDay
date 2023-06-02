@@ -343,7 +343,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5000
+  m_SortingOrder: -16493
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2594995619587814015
 MonoBehaviour:
@@ -1053,7 +1053,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8325059487817517294}
-  - component: {fileID: 6603182157861974743}
+  - component: {fileID: 5048982575929467185}
   m_Layer: 9
   m_Name: BloodSpiller
   m_TagString: Untagged
@@ -1076,7 +1076,7 @@ Transform:
   m_Father: {fileID: 7821369719249530890}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6603182157861974743
+--- !u!114 &5048982575929467185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1085,7 +1085,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7552677796553900901}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b365831d2888c08438653219488ce203, type: 3}
+  m_Script: {fileID: 11500000, guid: 6dc88258e3ffee844bddfc3fd654bf4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 3128188501560300603}

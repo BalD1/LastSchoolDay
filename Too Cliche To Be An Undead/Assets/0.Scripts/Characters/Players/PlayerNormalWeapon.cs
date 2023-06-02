@@ -107,7 +107,6 @@ public class PlayerNormalWeapon : PlayerWeapon
                 CameraManager.Instance.ShakeCamera(shakeIntensity, shakeDuration);
             }
         }
-
         if (!successfulhit) owner.D_swif?.Invoke();
         if (connectedEntity) owner.D_successfulAttack?.Invoke(hadBigHit);
 
