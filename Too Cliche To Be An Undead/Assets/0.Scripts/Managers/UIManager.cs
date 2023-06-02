@@ -81,7 +81,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button optionButton_Pause;
     [SerializeField] private Button mainMenuButton_Pause;
 
-    [SerializeField] private PlayerHUD[] playerHUDs;
     [SerializeField] private GameObject minimap;
     [SerializeField] private GameObject minimapButton;
 
@@ -173,8 +172,6 @@ public class UIManager : MonoBehaviour
     public GameObject ShopContentMenu { get => shopContentMenu; }
 
     public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
-
-    public PlayerHUD[] PlayerHUDs { get => playerHUDs; }
 
     public GameObject KeycardContainer { get => keycardsContainer; }
 

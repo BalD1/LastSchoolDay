@@ -354,7 +354,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     protected override void Update()
     {
-        CheckCurrentDevice();
+        if (playerIndex == 0) CheckCurrentDevice();
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         base.Update();
 
@@ -624,8 +624,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     private void CheckCurrentDevice()
     {
-        if (this.playerIndex != 0) return;
-
         InputDevice device = null;
         if (GameManager.Instance.PlayersCount == 1)
             device = Inputs.devices[0];
