@@ -243,7 +243,7 @@ public class PlayerCharacter : Entity, IInteractable
         if (scene.name.Equals(GameManager.E_ScenesNames.LoadingScreen.ToString())) return;
         if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
 
-        ResetEndStats();
+        GameManager.Instance._onSceneReload += OnSceneReload;
 
         this.stateManager.SwitchState(stateManager.idleState, true);
 
@@ -254,12 +254,15 @@ public class PlayerCharacter : Entity, IInteractable
         if (scene.name.Equals("MainMenu"))
         {
             DataKeeper.Instance.RemoveData(this.playerIndex);
+            ResetEndStats();
             Destroy(this.gameObject);
         }
         else
         {
             this.transform.position = GameManager.Instance.GetSpawnPoint(this.playerIndex).position;
             if (this.playerIndex == 0) CameraManager.Instance.TeleportCamera(this.transform.position);
+            this.StatsModifiers.Clear();
+            ResetStats();
             SetCharacter();
         }
 
@@ -290,12 +293,12 @@ public class PlayerCharacter : Entity, IInteractable
 
         SwitchCharacter(pcc, false);
         GetPlayerAudio.SetAudioClips();
-        
     }
 
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        GameManager.Instance._onSceneReload -= OnSceneReload;
     }
 
     protected override void Awake()
@@ -318,9 +321,9 @@ public class PlayerCharacter : Entity, IInteractable
         DontDestroyOnLoad(this);
         base.Start();
 
-        movementsAction = inputs.actions.FindAction("Movements");
-
         GameManager.Instance._onSceneReload += OnSceneReload;
+
+        movementsAction = inputs.actions.FindAction("Movements");
 
         SetKeepedData();
 
