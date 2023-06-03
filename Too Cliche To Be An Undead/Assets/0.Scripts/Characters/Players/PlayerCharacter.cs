@@ -35,6 +35,9 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private SCRPT_PlayerAudio audioClips;
     public SCRPT_PlayerAudio GetAudioClips { get => audioClips; }
 
+    [SerializeField] private PlayerAudio playerAudio;
+    public PlayerAudio GetPlayerAudio { get => playerAudio; }
+
     [SerializeField] private PlayerAnimationController animationController;
     [SerializeField] private GameObject minimapMarker;
     [SerializeField] private PlayerInteractor selfInteractor;
@@ -286,6 +289,8 @@ public class PlayerCharacter : Entity, IInteractable
         PlayerHUD.ForceHPUpdate();
 
         SwitchCharacter(pcc, false);
+        GetPlayerAudio.SetAudioClips();
+        
     }
 
     private void OnDestroy()

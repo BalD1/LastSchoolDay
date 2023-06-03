@@ -56,7 +56,7 @@ public class PlayerAudio : MonoBehaviour
         owner.D_onFootPrint -= PlayFootPrintAudio;
     }
 
-    private void SetAudioClips() => ownerAudioClips = owner.GetAudioClips;
+    public void SetAudioClips() => ownerAudioClips = owner.GetAudioClips;
 
     private void PlayHurtAudio(bool isCrit)
     {

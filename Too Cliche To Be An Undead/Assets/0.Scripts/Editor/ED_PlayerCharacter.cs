@@ -234,6 +234,9 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty source = serializedObject.FindProperty("source");
         EditorGUILayout.PropertyField(source);
 
+        SerializedProperty playerAudio = serializedObject.FindProperty("playerAudio");
+        EditorGUILayout.PropertyField(playerAudio);
+
         EditorGUILayout.BeginHorizontal();
         SerializedProperty audioClips = serializedObject.FindProperty("audioClips");
         EditorGUILayout.PropertyField(audioClips);

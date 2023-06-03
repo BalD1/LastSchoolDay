@@ -697,7 +697,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &1392137800
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -714,7 +714,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!58 &1344461387
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1483,7 +1484,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &1361719101332542845
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1500,7 +1501,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2448805919235505309
 GameObject:
   m_ObjectHideFlags: 0
@@ -2883,7 +2885,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!95 &3934805327378046947
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2900,7 +2902,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8823656354733599274
 GameObject:
   m_ObjectHideFlags: 0
@@ -2975,6 +2978,7 @@ MonoBehaviour:
   playerIndex: 0
   stateManager: {fileID: 5207945969965588748}
   audioClips: {fileID: 11400000, guid: 5df749090b24af648a1e13b11745a35a, type: 2}
+  playerAudio: {fileID: 9034290970493158934}
   animationController: {fileID: 8621487532268834906}
   minimapMarker: {fileID: 5962262701401338645}
   selfInteractor: {fileID: 3790402285985648515}
