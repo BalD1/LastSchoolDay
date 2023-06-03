@@ -16,8 +16,8 @@ MonoBehaviour:
   <ignoreGameState>k__BackingField: 0
   <dialogueLines>k__BackingField:
   - <speakerData>k__BackingField: {fileID: 11400000, guid: 2bb3995dbb4c7b24ea3dca182da30add, type: 2}
-    <textLine>k__BackingField: Ah, et merde, regardes ca je suis pleine de poussiere
-      ! T'aurais pu arriver plus vite !
+    <textLine>k__BackingField: "T'aurai pu me relever plus vite ! T'as vu l'etat
+      de ma jupe ?! Tu sais combien \xE7a coute ?!"
     <effects>k__BackingField:
     - <effect>k__BackingField: 0
       <value>k__BackingField: 0.025
@@ -27,9 +27,20 @@ MonoBehaviour:
     <eventToPlayAfterText>k__BackingField:
       m_PersistentCalls:
         m_Calls: []
-  - <speakerData>k__BackingField: {fileID: 11400000, guid: 2bb3995dbb4c7b24ea3dca182da30add, type: 2}
-    <textLine>k__BackingField: 'Si je m''evanouis a nouveau, releves moi plus vite
-      la prochaine fois, sinon mon bel uniforme va finir sale '
+  - <speakerData>k__BackingField: {fileID: 11400000, guid: b79752d097cb2944da4475baa5cc2711, type: 2}
+    <textLine>k__BackingField: Enfin, j'imagine que non...
+    <effects>k__BackingField:
+    - <effect>k__BackingField: 0
+      <value>k__BackingField: 0.025
+    <eventToPlayBeforeText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+    <eventToPlayAfterText>k__BackingField:
+      m_PersistentCalls:
+        m_Calls: []
+  - <speakerData>k__BackingField: {fileID: 11400000, guid: 126d719f9334f374a8a929627c28b854, type: 2}
+    <textLine>k__BackingField: "Releves moi plus vite la prochaine fois, je ne peux
+      pas rester longtemps dans cette poussi\xE8re."
     <effects>k__BackingField:
     - <effect>k__BackingField: 0
       <value>k__BackingField: 0.025

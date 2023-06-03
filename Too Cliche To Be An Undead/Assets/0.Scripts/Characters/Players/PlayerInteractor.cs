@@ -141,6 +141,11 @@ public class PlayerInteractor : MonoBehaviour
 
     private void SearchClosestInList(bool resetIfNothingFound = true)
     {
+        if (interactablesInRange.Count == 0)
+        {
+            interactPrompt.SetActive(false);
+            return;
+        }
         IInteractable newClosest = null;
         float closestDistance = closestInteractable != null ? closestInteractable.GetDistanceFrom(this.transform) : float.MaxValue;
         float itemDistance = float.MaxValue;

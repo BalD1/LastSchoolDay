@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 using BalDUtilities.Misc;
 using UnityEngine.InputSystem;
 using System;
-using static UnityEditor.Progress;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
