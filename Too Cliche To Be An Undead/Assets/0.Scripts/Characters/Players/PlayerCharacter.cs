@@ -937,11 +937,11 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void StartDashTimer() => dash_CD_TIMER = MaxDashCD_M;
 
-    public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
+    public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher, Entity pusher)
     {
         if (!canBePushed) return Vector2.zero;
 
-        Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher);
+        Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher, pusher);
 
         if (v.magnitude <= Vector2.zero.magnitude) return Vector2.zero;
 

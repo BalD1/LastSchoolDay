@@ -133,11 +133,11 @@ public class TrainingDummy : EnemyBase
         statusText.enabled = true;
     }
 
-    public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
+    public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher, Entity pusher)
     {
         if (stateManager.ToString().Equals("Pushed")) return Vector2.zero;
 
-        Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher);
+        Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher, pusher);
         stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher));
 
         return v;

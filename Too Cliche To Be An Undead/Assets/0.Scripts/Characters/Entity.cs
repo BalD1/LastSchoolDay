@@ -502,9 +502,12 @@ public class Entity : MonoBehaviour, IDamageable
             }
         }
 
-        HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: false, isCrit);
-        if (materialFlash != null) StopCoroutine(materialFlash);
-        materialFlash = StartCoroutine(MaterialFlash());
+        if (amount > 0)
+        {
+            HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: false, isCrit);
+            if (materialFlash != null) StopCoroutine(materialFlash);
+            materialFlash = StartCoroutine(MaterialFlash());
+        }
 
         if (currentHP <= 0)
         {
@@ -570,7 +573,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     public bool RollCrit() => UnityEngine.Random.Range(0, 100) <= MaxCritChances_M ? true : false;
 
-    public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
+    public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher, Entity pusher)
     {
         if (!canBePushed) return Vector2.zero;
 

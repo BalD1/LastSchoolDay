@@ -98,7 +98,7 @@ public class PlayerNormalWeapon : PlayerWeapon
                 
                 if (hadBigHit)
                 {
-                    e?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage * knockbackModifier_M, owner);
+                    e?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage * knockbackModifier_M, owner, owner);
                     shakeIntensity = bigShakeIntensity * cameraShakeIntensityModifier_M;
                     shakeDuration = bigShakeDuration;
                 }

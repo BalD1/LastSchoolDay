@@ -36,6 +36,9 @@ public class NormalZombie : EnemyBase
     [SerializeField] private float attack_DURATION = .3f;
     public float Attack_DURATION { get => attack_DURATION; }
 
+    [SerializeField] private float push_COOLDOWN = .15f;
+    private float push_TIMER;
+
     public bool attackStarted;
 
     [SerializeField, ReadOnly] private int maxReceivedStamp;
@@ -105,6 +108,8 @@ public class NormalZombie : EnemyBase
         }
 
         if (Vector2.Distance(this.transform.position, CurrentPlayerTarget.transform.position) > maxDistanceFromPlayer) ForceKill();
+
+        if (push_TIMER > 0) push_TIMER -= Time.deltaTime;
     }
 
     private void ReceiveStampModifiers()
@@ -232,11 +237,14 @@ public class NormalZombie : EnemyBase
         this.attackTelegraph.CancelTelegraph();
     }
 
-    public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher)
+    public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher, Entity pusher)
     {
-        if (!canBePushed) return Vector2.zero;
+        if (pusherForce > 4) Debug.Log(pusherForce);
+        if (pusherForce <= (pusher is NormalZombie ? 4 : 1)) return Vector2.zero;
+        if (!canBePushed || push_TIMER > 0) return Vector2.zero;
+        push_TIMER = push_COOLDOWN;
 
-        Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher);
+        Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher, pusher);
 
         if (v.magnitude <= Vector2.zero.magnitude) return Vector2.zero;
 

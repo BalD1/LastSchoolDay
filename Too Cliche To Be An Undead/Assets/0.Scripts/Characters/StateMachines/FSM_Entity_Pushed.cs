@@ -79,7 +79,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         owner.GetRb.velocity *= forcePushTransmissionPercentage;
         float appliedForce = owner.GetRb.velocity.magnitude + owner.GetStats.Weight;
 
-        e.Push(owner.transform.position, appliedForce, originalPusher);
+        e.Push(owner.transform.position, appliedForce, originalPusher, owner);
     }
 
     public void SetOwner(Entity _owner) => owner = _owner;

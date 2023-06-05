@@ -11,10 +11,12 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
         owner.canBePushed = false;
 
         (owner as NormalZombie).attackTelegraph.CancelTelegraph();
+        (owner as NormalZombie).enemiesBlocker.enabled = false;
     }
 
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
+        (owner as NormalZombie).enemiesBlocker.enabled = true;
         base.ExitState(stateManager);
     }
     public override void Conditions(FSM_NZ_Manager stateManager)
