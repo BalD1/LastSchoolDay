@@ -23,8 +23,19 @@ public class ProjectileBase : MonoBehaviour
     [SerializeField] private SCRPT_EntityAudio.S_AudioClips entityHitAudioData;
     [SerializeField] private SCRPT_EntityAudio.S_AudioClips objectHitAudioData;
 
+    [SerializeField] private GameObject hitFX;
+
     private static Queue<ProjectileBase> ProjectilesPool;
     public static void ResetQueue() => ProjectilesPool = new Queue<ProjectileBase>();
+
+    private float currentLifetime;
+
+    public SCRPT_EntityStats.E_Team Team { get; private set; }
+
+    private Entity owner;
+
+    private float damages;
+    private int critChances;
 
     public static ProjectileBase GetProjectile(Vector2 position, Quaternion rotation)
     {
@@ -47,15 +58,6 @@ public class ProjectileBase : MonoBehaviour
         proj.transform.SetParent(GameManager.Instance.InstantiatedProjectilesParent, true);
         return proj;
     }
-
-    private float currentLifetime;
-
-    public SCRPT_EntityStats.E_Team Team { get; private set; }
-
-    private Entity owner;
-
-    private float damages;
-    private int critChances;
 
     private void Awake()
     {
@@ -86,18 +88,15 @@ public class ProjectileBase : MonoBehaviour
     {
         IDamageable damageable = collision.GetComponentInParent<IDamageable>();
 
+        hitFX.Create(this.transform.position);
+
         if (damageable == null)
         {
             ProjectileBase proj = collision.GetComponent<ProjectileBase>();
             if (proj != null)
                 if (proj.Team.Equals(this.Team)) return;
 
-            if (collision.CompareTag("Wall"))
-            {
-                PlayAudio(objectHitAudioData);
-                Deactivate();
-            }
-            else CheckDestroySelf();
+            CheckDestroySelf();
 
             return;
         }
@@ -111,6 +110,13 @@ public class ProjectileBase : MonoBehaviour
             if (collision.GetComponentInParent<NormalZombie>() != null) PlayAudio(entityHitAudioData);
             else PlayAudio(objectHitAudioData);
         }
+    }
+
+    public void HitWall(Vector2 wallPosition)
+    {
+        hitFX.Create(wallPosition).transform.parent = GameManager.Instance.InstantiatedMiscParent;
+        PlayAudio(objectHitAudioData);
+        Deactivate();
     }
 
     private void PlayAudio(SCRPT_EntityAudio.S_AudioClips audioData)

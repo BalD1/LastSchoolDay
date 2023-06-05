@@ -85,7 +85,7 @@ public class TextPopup : MonoBehaviour
                 txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, pos, Quaternion.identity);
             }
 
-            txtPopupGo.transform.SetParent(null);
+            txtPopupGo.transform.SetParent(GameManager.Instance.InstantiatedMiscParent);
             txtPopupGo.transform.position = pos;
             txtPopupGo.transform.localScale = Vector3.one;
             txtPopupGo.SetActive(true);
