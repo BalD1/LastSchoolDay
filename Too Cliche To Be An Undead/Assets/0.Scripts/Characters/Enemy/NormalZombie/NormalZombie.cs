@@ -239,7 +239,6 @@ public class NormalZombie : EnemyBase
 
     public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher, Entity pusher)
     {
-        if (pusherForce > 4) Debug.Log(pusherForce);
         if (pusherForce <= (pusher is NormalZombie ? 4 : 1)) return Vector2.zero;
         if (!canBePushed || push_TIMER > 0) return Vector2.zero;
         push_TIMER = push_COOLDOWN;
