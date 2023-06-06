@@ -18,7 +18,8 @@ public class NormalZombie : EnemyBase
     [field: SerializeField] public EnemyVision Vision { get; private set; }
     [field: SerializeField] public bool isIdle = false;
 
-    [SerializeField] private GameObject onDeathParticlesPF;
+    [SerializeField] private PooledParticles onDeathParticlesPF;
+    private static MonoPool<PooledParticles> onDeathParticlesPool;
 
     public delegate void D_OnAttack();
     public D_OnAttack D_onAttack;
@@ -70,6 +71,15 @@ public class NormalZombie : EnemyBase
         res.ReceiveStampModifiers();
 
         return res;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if (onDeathParticlesPool == null)
+            onDeathParticlesPool = new MonoPool<PooledParticles>
+                (_createAction: () => onDeathParticlesPF.gameObject.Create(Vector2.zero).GetComponent<PooledParticles>(),
+                _parentContainer: GameManager.Instance.InstantiatedMiscParent);
     }
 
     protected override void Start()
@@ -176,7 +186,7 @@ public class NormalZombie : EnemyBase
     {
         base.OnDeath(forceDeath);
 
-        onDeathParticlesPF?.Create(this.PivotOffset.position);
+        onDeathParticlesPool.GetNext(this.PivotOffset.position);
 
         if (tutorialZombie)
         {
