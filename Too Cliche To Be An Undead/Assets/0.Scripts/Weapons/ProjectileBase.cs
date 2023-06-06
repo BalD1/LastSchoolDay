@@ -88,8 +88,11 @@ public class ProjectileBase : MonoBehaviour
     {
         IDamageable damageable = collision.GetComponentInParent<IDamageable>();
 
-        hitFX.Create(this.transform.position);
-
+        Vector3 selfPos = this.transform.position;
+        Vector3 otherPos = collision.transform.position;
+        float dist = Vector2.Distance(selfPos, collision.gameObject.transform.position) / 2;
+        Vector2 dir = (otherPos - selfPos).normalized;
+        hitFX.Create(selfPos + (Vector3)(dist * dir));
         if (damageable == null)
         {
             ProjectileBase proj = collision.GetComponent<ProjectileBase>();

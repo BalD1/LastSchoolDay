@@ -10,7 +10,6 @@
     --------------------------------------------------
  */
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,6 +29,13 @@ public class MeshParticleSystem : MonoBehaviour {
         public Vector2 uv00;
         public Vector2 uv11;
     }
+
+    [SerializeField] private int cellSize;
+    [SerializeField] private int rowsCount;
+    [SerializeField] private int columnsCount;
+
+    [InspectorButton(nameof(SetupArray), ButtonWidth = 200)]
+    [SerializeField] private bool setupArray;
 
     [SerializeField] private ParticleUVPixels[] particleUVPixelsArray;
     private UVCoords[] uvCoordsArray;
@@ -157,6 +163,22 @@ public class MeshParticleSystem : MonoBehaviour {
         if (updateTriangles) {
             mesh.triangles = triangles;
             updateTriangles = false;
+        }
+    }
+
+    private void SetupArray()
+    {
+        int arrSize = rowsCount * columnsCount;
+        particleUVPixelsArray = new ParticleUVPixels[arrSize];
+
+        for (int i = 0; i < rowsCount; i++)
+        {
+            for (int j = 0; j < columnsCount; j++)
+            {
+                particleUVPixelsArray[(i * columnsCount) + j] = new ParticleUVPixels();
+                particleUVPixelsArray[(i * columnsCount) + j].uv00Pixels = new Vector2Int(cellSize * j, cellSize * i);
+                particleUVPixelsArray[(i * columnsCount) + j].uv11Pixels = new Vector2Int(cellSize * (j + 1), cellSize * (i + 1));
+            }
         }
     }
 
