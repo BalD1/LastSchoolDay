@@ -25,8 +25,7 @@ public class ProjectileBase : MonoBehaviour
 
     [SerializeField] private GameObject hitFX;
 
-    private static Queue<ProjectileBase> ProjectilesPool;
-    public static void ResetQueue() => ProjectilesPool = new Queue<ProjectileBase>();
+    private static MonoPool<ProjectileBase> pool;
 
     private float currentLifetime;
 
@@ -37,31 +36,16 @@ public class ProjectileBase : MonoBehaviour
     private float damages;
     private int critChances;
 
+    public static void CheckPool()
+    {
+        if (pool == null)
+            pool = new MonoPool<ProjectileBase>
+                (_createAction: () => GameAssets.Instance.BaseProjectilePF.Create(Vector2.zero).GetComponent<ProjectileBase>(),
+                _parentContainer: GameManager.Instance.InstantiatedMiscParent);
+    }
     public static ProjectileBase GetProjectile(Vector2 position, Quaternion rotation)
     {
-        if (ProjectilesPool == null) ProjectilesPool = new Queue<ProjectileBase>();
-
-        ProjectileBase proj;
-
-        if (ProjectilesPool.Count > 0)
-        {
-            proj = ProjectilesPool.Dequeue();
-
-            GameObject projObj = proj.gameObject;
-            projObj.SetActive(true);
-            projObj.transform.SetPositionAndRotation(position, rotation);
-
-            return proj;
-        }
-
-        proj = Instantiate(GameAssets.Instance.BaseProjectilePF, position, rotation).GetComponent<ProjectileBase>();
-        proj.transform.SetParent(GameManager.Instance.InstantiatedProjectilesParent, true);
-        return proj;
-    }
-
-    private void Awake()
-    {
-        ProjectilesPool = new Queue<ProjectileBase>();
+        return pool.GetNext(position, rotation);
     }
 
     private void Update()
@@ -141,7 +125,6 @@ public class ProjectileBase : MonoBehaviour
     private void Deactivate()
     {
         trail.Clear();
-        ProjectilesPool.Enqueue(this);
-        this.gameObject.SetActive(false);
+        pool.Enqueue(this);
     }
 }

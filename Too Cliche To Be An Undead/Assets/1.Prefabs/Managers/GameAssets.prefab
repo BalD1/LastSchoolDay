@@ -51,7 +51,7 @@ MonoBehaviour:
   coinPF: {fileID: 569784898369819771, guid: 5e14202c12d6120469dc0284984da077, type: 3}
   pbThumbnailPF: {fileID: 6259131071379270917, guid: fc04dfba5526f2d419d3d71b64b1d94c, type: 3}
   keycardPF: {fileID: 4411075114079108186, guid: fe1f6d3fb04f6e5458e5d1bc508e5402, type: 3}
-  audioPlayerPF: {fileID: 0}
+  audioPlayerPF: {fileID: 2866424729761312895, guid: 1d649ac7f969d5945b62655da0cd8b6e, type: 3}
   smallCoinDropPF: {fileID: 631906467031423337, guid: 32b08e449a7e5ab49bae4a9a4f94127f, type: 3}
   largeCoinDropPF: {fileID: 6419538789060412800, guid: 2420c71f525fcf841a5b4d8bc1a5d19c, type: 3}
   <GroundedZombiesPF>k__BackingField:
@@ -60,6 +60,7 @@ MonoBehaviour:
   <MixerGroup_SFX>k__BackingField: {fileID: -7007140269726663804, guid: 0afbd4074ead1ca418456d57a804c4ec, type: 2}
   <BaseDestructionParticlesPF>k__BackingField: {fileID: 3592513081607250930, guid: 2c8134a84682efc44bf1ce0634f58d65, type: 3}
   <BasePropDamagesParticlesPF>k__BackingField: {fileID: 0}
+  <BloodParticlesPF>k__BackingField: {fileID: 8212782414753321646, guid: 76e03c9ba6f5b6545a1270d39a4d9545, type: 3}
   <BaseProjectilePF>k__BackingField: {fileID: 2370581798129389374, guid: ab67f2fad5863b84dbe37f4eb13b2838, type: 3}
   <AudioclipPlayerPF>k__BackingField: {fileID: 2866424729761312895, guid: 1d649ac7f969d5945b62655da0cd8b6e, type: 3}
   basePBPF: {fileID: 5984426657660484135, guid: f8107dbf9b7a76e4b82c63babc5a4b8a, type: 3}
@@ -72,7 +73,7 @@ MonoBehaviour:
     zombiePF: {fileID: 2785943645410235225, guid: 904eccbdd8b1eb04b9d4fb1f6cfb46a0, type: 3}
   - weight: 200
     zombiePF: {fileID: 3072400826969118235, guid: d1621b8270e875348a1442fd59c8fb8f, type: 3}
-  <zombiesTotalWeight>k__BackingField: 460
+  <zombiesTotalWeight>k__BackingField: 600
   <textComponents>k__BackingField: {fileID: 11400000, guid: 80b58e60031e04c4995e76cf3399bc52, type: 2}
   pBWithRarities:
   - pbRarity: 0

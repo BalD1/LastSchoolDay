@@ -43,7 +43,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 2
+  stopAction: 3
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -4888,7 +4888,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8212782414753321635}
-  - component: {fileID: 4972118806680043987}
+  - component: {fileID: 8611582505387908435}
   - component: {fileID: 8212782414753321632}
   - component: {fileID: 8212782414753321633}
   m_Layer: 0
@@ -4915,7 +4915,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &4972118806680043987
+--- !u!114 &8611582505387908435
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4937,7 +4937,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1.2
   simulationSpeed: 1
-  stopAction: 2
+  stopAction: 3
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -9807,7 +9807,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 2
+  stopAction: 3
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}

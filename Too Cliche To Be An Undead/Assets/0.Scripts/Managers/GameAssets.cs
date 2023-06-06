@@ -36,6 +36,8 @@ public class GameAssets : MonoBehaviour
     [field: SerializeField] public GameObject BaseDestructionParticlesPF { get; private set; }
     [field: SerializeField] public GameObject BasePropDamagesParticlesPF { get; private set; }
 
+    [field: SerializeField] public GameObject BloodParticlesPF { get; private set; }
+
     [field: SerializeField] public GameObject BaseProjectilePF { get; private set; }
 
     [field: SerializeField] public GameObject AudioclipPlayerPF { get; private set; }

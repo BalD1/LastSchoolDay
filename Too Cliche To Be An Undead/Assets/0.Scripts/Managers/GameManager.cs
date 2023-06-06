@@ -548,7 +548,6 @@ public class GameManager : MonoBehaviour
 
         TextPopup.popupPool.Clear();
         HealthPopup.popupPool.Clear();
-        ProjectileBase.ResetQueue();
 
         LoadingScreenManager.SceneToLoad = sceneName;
         SceneManager.LoadScene(E_ScenesNames.LoadingScreen.ToString());
