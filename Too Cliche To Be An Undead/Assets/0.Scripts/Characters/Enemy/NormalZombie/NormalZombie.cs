@@ -18,6 +18,8 @@ public class NormalZombie : EnemyBase
     [field: SerializeField] public EnemyVision Vision { get; private set; }
     [field: SerializeField] public bool isIdle = false;
 
+    [SerializeField] private GameObject onDeathParticlesPF;
+
     public delegate void D_OnAttack();
     public D_OnAttack D_onAttack;
 
@@ -173,6 +175,8 @@ public class NormalZombie : EnemyBase
     public override void OnDeath(bool forceDeath = false)
     {
         base.OnDeath(forceDeath);
+
+        onDeathParticlesPF?.Create(this.PivotOffset.position);
 
         if (tutorialZombie)
         {
