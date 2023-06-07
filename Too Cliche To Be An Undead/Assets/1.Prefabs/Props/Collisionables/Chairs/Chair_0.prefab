@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1083534115687221466}
-  - component: {fileID: 3256297367910914125}
+  - component: {fileID: -2132251734827869122}
   - component: {fileID: 3379323346089788892}
   - component: {fileID: 1083534115687221467}
   - component: {fileID: 6282749545535528676}
   m_Layer: 27
   m_Name: Chair_0
-  m_TagString: Untagged
+  m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3256297367910914125
+--- !u!114 &-2132251734827869122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,11 +44,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1083534115687221469}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a2daf924d21d15458086f6384037e92, type: 3}
+  m_Script: {fileID: 11500000, guid: ffe99f5eba5715a46841c52602b470db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particles: {fileID: 0}
+  destroyParticles: {fileID: 0}
+  damagesParticles: {fileID: 0}
+  source: {fileID: 0}
+  audioData: {fileID: 0}
   currentHP: 25
+  collisionDamagesTimer: 0.5
+  collisionDamages: 5
+  audioTimer_DURATION: 0.25
+  maxDamagesAudio: 5
 --- !u!114 &3379323346089788892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +72,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 1
   objectRenderer: {fileID: 1083534115687221467}
+  isVisible: 0
   debugMode: 0
 --- !u!212 &1083534115687221467
 SpriteRenderer:

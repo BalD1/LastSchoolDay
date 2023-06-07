@@ -9,15 +9,13 @@ public class SCRPT_NZ_CaCAttack : SCRPT_EnemyAttack
     {
         (owner as NormalZombie).attackStarted = true;
 
-        Collider2D[] hitEntities = Physics2D.OverlapCircleAll((Vector2)owner.attackTelegraph.transform.position, AttackDistance, entitiesToAffect);
+        Collider2D[] hitDamageables = Physics2D.OverlapCircleAll((Vector2)owner.attackTelegraph.transform.position, AttackDistance, entitiesToAffect);
 
-        foreach (var item in hitEntities)
+        foreach (var item in hitDamageables)
         {
-            Entity e = item.transform.GetComponent<Entity>();
-
-            if (e == null) continue;
-
-            e.OnTakeDamages(owner.MaxDamages_M.Fluctuate(.25f), owner, owner.RollCrit());
+            IDamageable damageable = item.transform.GetComponent<IDamageable>();
+            if (damageable == null) continue;
+            damageable.OnTakeDamages(owner.MaxDamages_M.Fluctuate(.25f), owner, owner.RollCrit());
         }
     }
 

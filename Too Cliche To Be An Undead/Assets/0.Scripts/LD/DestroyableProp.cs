@@ -13,19 +13,16 @@ public class DestroyableProp : MonoBehaviour, IDamageable, IDistanceChecker
 
     [SerializeField] private float currentHP = 50;
 
-    [SerializeField] private float collisionDamagesTimer = .5f;
-    [SerializeField] private float collisionDamages = 5;
+    [SerializeField] protected float collisionDamagesTimer = .5f;
+    [SerializeField] protected float collisionDamages = 5;
 
     [SerializeField] private float audioTimer_DURATION = .25f;
-    private float audioTimer;
+    protected float audioTimer;
 
     [SerializeField] private int maxDamagesAudio = 3;
     private int playingDamagesAudio = 0;
 
-    private List<NormalZombie> zombiesInCollider = new List<NormalZombie>();
-    private List<float> zombiesDamagesTimer = new List<float>();
-
-    private bool isValid = false;
+    protected bool isValid = false;
 
     private void Start()
     {
@@ -33,7 +30,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable, IDistanceChecker
         if (destroyParticles == null) destroyParticles = GameAssets.Instance.BaseDestructionParticlesPF;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (!isValid) return;
         PlayerCharacter player = collision.gameObject.GetComponent<PlayerCharacter>();
@@ -42,59 +39,18 @@ public class DestroyableProp : MonoBehaviour, IDamageable, IDistanceChecker
             OnPlayerEnter(player);
             return;
         }
-
-        NormalZombie nz = collision.gameObject.GetComponent<NormalZombie>();
-        if (nz != null)
-        {
-            OnZombieEnter(nz);
-            return;
-        }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    protected virtual void OnCollisionExit2D(Collision2D collision)
     {
         if (!isValid) return;
-        NormalZombie nz = collision.gameObject.GetComponent<NormalZombie>();
-        if (nz != null)
-        {
-            OnZombieExit(nz);
-            return;
-        }
+
     }
 
     private void OnPlayerEnter(PlayerCharacter player)
     {
         if (player.StateManager.CurrentState.ToString() != "Dashing") return;
         OnTakeDamages(currentHP, null);
-    }
-
-    private void OnZombieEnter(NormalZombie zombie)
-    {
-        zombiesInCollider.Add(zombie);
-        zombiesDamagesTimer.Add(0);
-    }
-
-    private void OnZombieExit(NormalZombie zombie)
-    {
-        int zombieIdx = zombiesInCollider.IndexOf(zombie);
-        zombiesInCollider.RemoveAt(zombieIdx);
-        zombiesDamagesTimer.RemoveAt(zombieIdx);
-    }
-
-    private void Update()
-    {
-        if (!isValid) return;
-        for (int i = 0; i < zombiesInCollider.Count; i++)
-        {
-            zombiesDamagesTimer[i] -= Time.deltaTime;
-            if (zombiesDamagesTimer[i] <= 0)
-            {
-                zombiesDamagesTimer[i] = collisionDamagesTimer;
-                OnTakeDamages(collisionDamages, zombiesInCollider[i]);
-            }
-        }
-
-        if (audioTimer > 0) audioTimer -= Time.deltaTime;
     }
 
     public void DestroyObject()

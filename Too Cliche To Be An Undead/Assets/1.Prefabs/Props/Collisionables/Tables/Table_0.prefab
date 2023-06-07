@@ -230,13 +230,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7603168677516223712}
-  - component: {fileID: -3203854023051052902}
+  - component: {fileID: 2094021544019159725}
   - component: {fileID: -4818273195414559135}
   - component: {fileID: 7603168677516223713}
   - component: {fileID: 2396663679435342302}
   m_Layer: 27
   m_Name: Table_0
-  m_TagString: Untagged
+  m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -258,7 +258,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3203854023051052902
+--- !u!114 &2094021544019159725
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,7 +267,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7603168677516223714}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a2daf924d21d15458086f6384037e92, type: 3}
+  m_Script: {fileID: 11500000, guid: ffe99f5eba5715a46841c52602b470db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   destroyParticles: {fileID: 0}

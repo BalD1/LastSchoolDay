@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2809188250601708603}
   m_Layer: 27
   m_Name: Bin_0
-  m_TagString: Untagged
+  m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -47,8 +47,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a2daf924d21d15458086f6384037e92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particles: {fileID: 0}
+  destroyParticles: {fileID: 0}
+  damagesParticles: {fileID: 0}
+  source: {fileID: 0}
+  audioData: {fileID: 0}
   currentHP: 50
+  collisionDamagesTimer: 0.5
+  collisionDamages: 5
+  audioTimer_DURATION: 0.25
+  maxDamagesAudio: 3
 --- !u!114 &2741279193159591610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +72,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 1
   objectRenderer: {fileID: 3289335865615281681}
+  isVisible: 1
   debugMode: 0
 --- !u!212 &3289335865615281681
 SpriteRenderer:

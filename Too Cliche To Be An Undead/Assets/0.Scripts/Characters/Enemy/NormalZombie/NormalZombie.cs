@@ -2,7 +2,7 @@ using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalZombie : EnemyBase
+public class NormalZombie : EnemyBase, IDistanceChecker
 {
     [SerializeField] private FSM_NZ_Manager stateManager;
     public FSM_NZ_Manager StateManager { get => stateManager; }
@@ -302,5 +302,26 @@ public class NormalZombie : EnemyBase
         this.MaxCritChances_M = GetStats.CritChances.Fluctuate();
 
         this.currentHP = MaxHP_M;
+    }
+
+    public void OnEnteredFarCheck()
+    {
+    }
+
+    public void OnExitedFarCheck()
+    {
+    }
+
+    public void OnEnteredCloseCheck()
+    {
+        if (isIdle)
+        {
+            this.Vision.TargetClosestPlayer();
+            isIdle = false;
+        }
+    }
+
+    public void OnExitedCloseCheck()
+    {
     }
 }
