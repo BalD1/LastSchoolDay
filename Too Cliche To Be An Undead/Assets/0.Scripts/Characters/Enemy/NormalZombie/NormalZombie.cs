@@ -50,8 +50,6 @@ public class NormalZombie : EnemyBase
     [SerializeField] private float targetClosest_COOLDOWN = 3;
     private float targetClosest_TIMER;
 
-    [field: SerializeField] public float timeOfDeath;
-
     public bool isVisible;
 
     public static NormalZombie Create(Vector2 pos, bool seeAtStart, bool _allowScaleOnStamp = true)
@@ -85,8 +83,6 @@ public class NormalZombie : EnemyBase
 
         if (tutorialZombie || isIdle) return;
 
-        SpawnersManager.Instance?.AddZombie();
-
         targetClosest_TIMER = targetClosest_COOLDOWN;
 
         if (SpawnersManager.Instance != null)
@@ -111,8 +107,6 @@ public class NormalZombie : EnemyBase
             this.Vision.TargetClosestPlayer();
             return;
         }
-
-        if (Vector2.Distance(this.transform.position, CurrentPlayerTarget.transform.position) > maxDistanceFromPlayer) ForceKill();
 
         if (push_TIMER > 0) push_TIMER -= Time.deltaTime;
     }
@@ -186,8 +180,7 @@ public class NormalZombie : EnemyBase
             Destroy(this.gameObject);
             return;
         }
-        SpawnersManager.Instance?.ZombiesPool.Enqueue(this);
-        timeOfDeath = Time.timeSinceLevelLoad;
+        SpawnersManager.Enqueue(this);
 
         if (isIdle)
         {

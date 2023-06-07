@@ -75,6 +75,10 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand RICH_AF;
     private DebugCommand<int> ADD_MONEY;
 
+    private DebugCommand START_BREAKUP;
+    private DebugCommand END_BREAKUP;
+    private DebugCommand<bool> DEBUG_M_SPAWNERS;
+
     #endregion
 
     private Vector2 helpScroll;
@@ -99,6 +103,7 @@ public class DebugConsole : MonoBehaviour
         CreateSimpleCommands();
         CreateIntCommands();
         CreateFloatCommands();
+        CreateBoolCommands();
 
         commandList = new List<object>()
         {
@@ -155,6 +160,10 @@ public class DebugConsole : MonoBehaviour
             GOLD_BAG,
             PAYDAY,
             RICH_AF,
+
+            START_BREAKUP,
+            END_BREAKUP,
+            DEBUG_M_SPAWNERS,
         };
     }
 
@@ -228,6 +237,24 @@ public class DebugConsole : MonoBehaviour
         {
             allowGameChange = false;
             FindObjectOfType<SpineGymnasiumDoor>()?.ForceOpen();
+        });
+
+        START_BREAKUP = new DebugCommand("START_BREAKUP", "Starts a spawns breakup", "START_BREAKUP", () =>
+        {
+            SpawnersManager.Instance.ForceBreakup();
+        });
+
+        END_BREAKUP = new DebugCommand("END_BREAKUP", "Ends the current breakup", "END_BREAKUP", () =>
+        {
+            SpawnersManager.Instance.EndBreakup();
+        });
+    }
+
+    private void CreateBoolCommands()
+    {
+        DEBUG_M_SPAWNERS = new DebugCommand<bool>("DEBUG_M_SPAWNERS", "Activates the debug mode for spawners manager", "DEBUG_M_SPAWNERS <bool>", (val) =>
+        {
+            SpawnersManager.Instance.SetDebugMode(val);
         });
     }
 
@@ -445,6 +472,13 @@ public class DebugConsole : MonoBehaviour
                 if (command as DebugCommand != null && proprieties.Length == 1)
                 {
                     (command as DebugCommand).Invoke();
+                    input = "";
+                    return;
+                }
+
+                else if (command as DebugCommand<bool> != null && proprieties.Length == 2)
+                {
+                    (command as DebugCommand<bool>).Invoke(ParseBool(proprieties[1]));
                     input = "";
                     return;
                 }

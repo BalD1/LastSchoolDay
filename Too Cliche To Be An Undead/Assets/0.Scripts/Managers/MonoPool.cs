@@ -23,7 +23,7 @@ public class MonoPool<T> where T : MonoBehaviour
             item.gameObject.SetActive(false);
         }
 
-        pool = new Queue<T>();
+        pool = new Queue<T>(res);
         SceneManager.sceneUnloaded += (Scene s) => pool.Clear();
     }
 
@@ -150,4 +150,6 @@ public class MonoPool<T> where T : MonoBehaviour
         pool.Enqueue(obj);
     }
     public void ResetQueue() => pool.Clear();
+
+    public T[] ToArray() => pool.ToArray();
 }

@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 8415205070134194233}
   - component: {fileID: 4202492399607673763}
   - component: {fileID: 4729857799798827640}
-  - component: {fileID: 1055126262308425392}
   - component: {fileID: 1615009067644983288}
   - component: {fileID: 7538745840159332978}
   m_Layer: 8
@@ -345,19 +344,6 @@ MonoBehaviour:
   objectRenderer: {fileID: 8415205070134194233}
   isVisible: 1
   debugMode: 0
---- !u!114 &1055126262308425392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2340038695942049524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 867620e950703924299a6aaa9b66c7e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: {fileID: 7821369719249530884}
 --- !u!61 &1615009067644983288
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1112,7 +1098,6 @@ MonoBehaviour:
   attackTrigger: {fileID: 1615009067644983288}
   <Vision>k__BackingField: {fileID: 4416858856468475856}
   isIdle: 0
-  onDeathParticlesPF: {fileID: 4972118806680043987, guid: 76e03c9ba6f5b6545a1270d39a4d9545, type: 3}
   <AudioData>k__BackingField: {fileID: 11400000, guid: c0489040a4de07a41893d3fbf0b84276, type: 2}
   <allowWander>k__BackingField: 0
   <tutorialZombie>k__BackingField: 0
@@ -1121,7 +1106,6 @@ MonoBehaviour:
   attackStarted: 0
   maxReceivedStamp: 0
   targetClosest_COOLDOWN: 3
-  timeOfDeath: 1
   isVisible: 1
 --- !u!114 &133242913744623205
 MonoBehaviour:

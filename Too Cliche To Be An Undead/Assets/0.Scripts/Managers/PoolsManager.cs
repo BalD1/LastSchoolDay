@@ -21,5 +21,6 @@ public class PoolsManager : MonoBehaviour
 
 		BloodParticles.CheckPool();
 		ProjectileBase.CheckPool();
+		SpawnersManager.CheckPool();
 	}
 }

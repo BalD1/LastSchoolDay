@@ -18,8 +18,7 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] [Range(0, 10)] private int maxKeycardsToSpawn = 5;
     [SerializeField] [Range(0, 10)] private int minKeycardsToSpawn = 3;
 
-    private Queue<NormalZombie> zombiesPool = new Queue<NormalZombie>();
-    public Queue<NormalZombie> ZombiesPool { get => zombiesPool; }
+    private static MonoPool<NormalZombie> zombiesPool;
 
     private Queue<NormalZombie> zombiesToTeleport = new Queue<NormalZombie>();
     public Queue<NormalZombie> ZombiesToTeleport { get => zombiesToTeleport; }
@@ -52,7 +51,7 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] private int maxStamp;
 
     [ReadOnly]
-    [SerializeField] private int currentZombiesInSchool;
+    [SerializeField] private int currentZombiesInSchool = 0;
 
     [ReadOnly]
     [SerializeField] private int maxZombiesInSchool;
@@ -87,6 +86,8 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] private GameObject spawner_PF;
     public GameObject Spawner_PF { get => spawner_PF; }
 
+    private float lastSpawnedZombieTime;
+
 #if UNITY_EDITOR
     [HideInInspector] public bool showAreaSpawnersBounds = false;
 
@@ -113,15 +114,21 @@ public class SpawnersManager : MonoBehaviour
     private void Update()
     {
         if (spawnsAreAllowed == false) return;
+        ManageBreakups();
         TrySpawnZombies();
         EvaluateStamp();
-        ManageBreakups();
     }
 
     public void ForceBreakup()
     {
         if (isInBreakup) currentBreakup_TIMER = SpawnsBreakupsDurations.Evaluate(SpawnStamp);
         else timerBeforeNextBreakup = 0;
+    }
+    public void EndBreakup()
+    {
+        currentBreakup_TIMER = 0;
+        isInBreakup = false;
+        timerBeforeNextBreakup = SpawnsBreakupsCooldowns.Evaluate(SpawnStamp);
     }
 
     private void ManageBreakups()
@@ -131,11 +138,7 @@ public class SpawnersManager : MonoBehaviour
             // manage current breakup timer
             currentBreakup_TIMER -= Time.deltaTime;
             if (currentBreakup_TIMER > 0) return;
-
-            // when the timer is <= 0, exit the breakup, set the duration before next, return
-            isInBreakup = false;
-            timerBeforeNextBreakup = SpawnsBreakupsCooldowns.Evaluate(SpawnStamp);
-
+            EndBreakup();
             return;
         }
 
@@ -223,11 +226,22 @@ public class SpawnersManager : MonoBehaviour
     private void SpawnNext()
     {
         if (validAreaSpawners.Count <= 0) return;
-        if (zombiesPool.Count > 0)
-            if (zombiesPool.Peek().timeOfDeath > Time.timeSinceLevelLoad - spawnCooldown) return;
+        if (lastSpawnedZombieTime + ZombiesSpawnCooldown.Evaluate(spawnStamp) > Time.time) return;
 
+        lastSpawnedZombieTime = Time.time;
         validAreaSpawners[Random.Range(0, validAreaSpawners.Count)].SpawnObject();
     }
+
+    public static NormalZombie GetNextInPool() => zombiesPool.GetNext();
+    public static void CheckPool()
+    {
+        if (zombiesPool == null)
+            zombiesPool = new MonoPool<NormalZombie>
+                (_createAction: () => GameAssets.Instance.GetRandomZombie.Create(Vector2.zero).GetComponent<NormalZombie>(),
+                _parentContainer: GameManager.Instance.InstantiatedEntitiesParent);
+    }
+    public static void Enqueue(NormalZombie nz) => zombiesPool.Enqueue(nz);
+    public static MonoPool<NormalZombie> GetPool() => zombiesPool;
 
     public void TeleportZombie(NormalZombie zom)
     {
@@ -326,6 +340,7 @@ public class SpawnersManager : MonoBehaviour
         if (minKeycardsToSpawn > maxKeycardsToSpawn) minKeycardsToSpawn = maxKeycardsToSpawn;
     }
 
+    public void SetDebugMode(bool state) => debugMode = state;
     private void OnGUI()
     {
 #if UNITY_EDITOR
@@ -338,10 +353,15 @@ public class SpawnersManager : MonoBehaviour
         sb.Append("Next Stamp Timer : ");
         sb.AppendLine(stamp_TIMER.ToString("F1"));
 
-        sb.Append("Max Zombies in School : ");
+        sb.AppendLine("Zombies in School : ");
+        sb.Append(currentZombiesInSchool.ToString());
+        sb.Append(" / ");
         sb.AppendLine(maxZombiesInSchool.ToString());
 
-        sb.Append("Zombies Spawn cooldown : ");
+        sb.AppendLine("Zombies Spawn cooldown : ");
+        float time = Time.time - lastSpawnedZombieTime;
+        sb.Append((time < 0 ? 0 : time).ToString("F1"));
+        sb.Append(" / ");
         sb.AppendLine(spawnCooldown.ToString("F1"));
 
         sb.Append("Is in breakup ? ");
@@ -350,7 +370,7 @@ public class SpawnersManager : MonoBehaviour
         sb.Append(isInBreakup ? "Breakup Timer : " : "Next breakup : ");
         sb.AppendLine(isInBreakup ? currentBreakup_TIMER.ToString("F1") : timerBeforeNextBreakup.ToString("F1"));
 
-        Rect r = new Rect(10, Screen.height / 2, Screen.width, 100);
+        Rect r = new Rect(10, Screen.height / 2, Screen.width, 150);
         GUI.Label(r, sb.ToString());
 #endif
     }

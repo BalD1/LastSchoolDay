@@ -48,23 +48,13 @@ public class AreaSpawner : MonoBehaviour
                            y: Random.Range(minPos.y, maxPos.y));
     }
 
-    public void SpawnObject(int count = 1, GameObject objectOverride = null)
+    public void SpawnObject(int count = 1)
     {
         if (!isValid) return;
 
         for (int i = 0; i < count; i++)
         {
-            if (SpawnersManager.Instance.ZombiesPool.Count > 0)
-            {
-                GameObject newZombie = SpawnersManager.Instance.ZombiesPool.Dequeue().gameObject;
-                newZombie.GetComponent<NormalZombie>().Reenable(GetRandomPositionInBounds());
-            }
-            else
-            {
-                GameObject objectToSpawn = objectOverride == null ? GetRandomObjectInPool : objectOverride;
-                Instantiate(objectToSpawn, GetRandomPositionInBounds(), Quaternion.identity).transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
-            }
-
+            SpawnersManager.GetNextInPool().Reenable(GetRandomPositionInBounds());
         }
     }
 

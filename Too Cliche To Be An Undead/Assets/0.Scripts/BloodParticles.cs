@@ -21,7 +21,6 @@ public class BloodParticles : MonoBehaviour
 
     private void OnParticleSystemStopped()
     {
-        this.gameObject.SetActive(false);
         pool.Enqueue(this);
     }
 }

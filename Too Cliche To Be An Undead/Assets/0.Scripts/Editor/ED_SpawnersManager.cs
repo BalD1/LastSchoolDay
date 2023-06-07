@@ -37,11 +37,9 @@ public class ED_SpawnersManager : Editor
             GUI.enabled = false;
             float zombieTimer = -1;
 
-            NormalZombie[] arr = targetScript.ZombiesPool.ToArray();
+            NormalZombie[] arr = SpawnersManager.GetPool().ToArray();
             for (int i = 0; i < arr.Length; i++)
             {
-                zombieTimer = targetScript.ZombiesSpawnCooldown.Evaluate(targetScript.SpawnStamp) - Time.timeSinceLevelLoad + arr[i].timeOfDeath;
-
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.ObjectField(arr[i], typeof(GameObject), true);
                 EditorGUILayout.FloatField(zombieTimer);
