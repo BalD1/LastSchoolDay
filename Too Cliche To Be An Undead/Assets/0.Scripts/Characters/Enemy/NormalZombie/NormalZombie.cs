@@ -31,6 +31,9 @@ public class NormalZombie : EnemyBase
 
     [field:  SerializeField] public bool allowWander { get; private set; }
 
+    [SerializeField] private float farTeleportationCooldown = 3;
+    private float lastTeleportationAttemptTime;
+
     [field: SerializeField] public bool tutorialZombie { get; private set; }
 
     [SerializeField] private float attack_DURATION = .3f;
@@ -44,8 +47,6 @@ public class NormalZombie : EnemyBase
     [SerializeField, ReadOnly] private int maxReceivedStamp;
 
     public Vector2 AttackDirection { get; set; }
-
-    public const int maxDistanceFromPlayer = 15;
 
     [SerializeField] private float targetClosest_COOLDOWN = 3;
     private float targetClosest_TIMER;
@@ -71,6 +72,8 @@ public class NormalZombie : EnemyBase
     protected override void Awake()
     {
         base.Awake();
+
+        if (tutorialZombie && !GameManager.Instance.IsInTutorial) Destroy(this.gameObject);
     }
 
     protected override void Start()
@@ -109,6 +112,30 @@ public class NormalZombie : EnemyBase
         }
 
         if (push_TIMER > 0) push_TIMER -= Time.deltaTime;
+    }
+
+    public override void SetSpeedOnDistanceFromTarget()
+    {
+        float distanceFromTarget = Vector2.Distance(this.transform.position, CurrentPositionTarget);
+        if (distanceFromTarget < MinDistanceForNormalSpeed + Camera.main.orthographicSize)
+        {
+            speedMultiplierOnDistance = 1;
+            enemiesBlocker.enabled = true;
+            return;
+        }
+
+        if (Time.time - lastTeleportationAttemptTime > farTeleportationCooldown)
+        {
+            lastTeleportationAttemptTime = Time.time;
+            if (RandomExtensions.OneOutOfTwo())
+            {
+                SpawnersManager.Instance.TeleportZombie(this);
+                return;
+            }
+        }
+
+        enemiesBlocker.enabled = false;
+        speedMultiplierOnDistance = distanceFromTarget;
     }
 
     private void ReceiveStampModifiers()

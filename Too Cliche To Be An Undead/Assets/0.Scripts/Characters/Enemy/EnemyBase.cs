@@ -62,6 +62,9 @@ public abstract class EnemyBase : Entity
     [SerializeField] private float distanceBeforeStop = 1f;
     public float DistanceBeforeStop { get => distanceBeforeStop; }
 
+    [field: SerializeField] public int MinDistanceForNormalSpeed { get; private set; }
+    protected float speedMultiplierOnDistance = 1;
+
     public float MinDurationBeforeAttack { get => Attack.MinDurationBeforeAttack; }
 
     public float MaxDurationBeforeAttack { get => Attack.MaxDurationBeforeAttack; }
@@ -128,29 +131,47 @@ public abstract class EnemyBase : Entity
         base.Update();
     }
 
+    public virtual void SetSpeedOnDistanceFromTarget()
+    {
+        float distanceFromTarget = Vector2.Distance(this.transform.position, CurrentPositionTarget);
+        if (distanceFromTarget < MinDistanceForNormalSpeed + Camera.main.orthographicSize)
+        {
+            speedMultiplierOnDistance = 1;
+            enemiesBlocker.enabled = true;
+            return;
+        }
+
+        enemiesBlocker.enabled = false;
+        speedMultiplierOnDistance = distanceFromTarget;
+    }
+
     public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)
     {
-        desiredVelocity = goalPosition * MaxSpeed;
-
-        steering = desiredVelocity - steeredVelocity;
-        steering = Vector3.ClampMagnitude(steering, this.MaxForce);
-        if (this.MovementMass != 0)
-            steering /= this.MovementMass;
-
-        void SteerVelocity(float multiplier = 1)
+        if (speedMultiplierOnDistance <= 1)
         {
-            steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * multiplier;
-        }
+            desiredVelocity = goalPosition * MaxSpeed;
 
-        bool isTargetIdle = currentPlayerTarget != null && currentPlayerTarget.Velocity == Vector2.zero;
-        if ((slowdownOnApproach && allowSlowdown) && isTargetIdle)
-        {
-            float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
+            steering = desiredVelocity - steeredVelocity;
+            steering = Vector3.ClampMagnitude(steering, this.MaxForce);
+            if (this.MovementMass != 0)
+                steering /= this.MovementMass;
 
-            if (distance < distanceBeforeStop) SteerVelocity(distance / distanceBeforeStop);
+            void SteerVelocity(float multiplier = 1)
+            {
+                steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * multiplier;
+            }
+
+            bool isTargetIdle = currentPlayerTarget != null && currentPlayerTarget.Velocity == Vector2.zero;
+            if ((slowdownOnApproach && allowSlowdown) && isTargetIdle)
+            {
+                float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
+
+                if (distance < distanceBeforeStop) SteerVelocity(distance / distanceBeforeStop);
+                else SteerVelocity();
+            }
             else SteerVelocity();
         }
-        else SteerVelocity();
+        else steeredVelocity = goalPosition * MaxSpeed * speedMultiplierOnDistance;
 
         this.GetRb.velocity = steeredVelocity * Time.fixedDeltaTime;
     }

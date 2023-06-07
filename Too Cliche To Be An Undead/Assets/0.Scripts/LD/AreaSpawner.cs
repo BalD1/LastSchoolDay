@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public class AreaSpawner : MonoBehaviour
+public class AreaSpawner : MonoBehaviour, IDistanceChecker
 {
 #if UNITY_EDITOR
 	public bool debugMode;
@@ -18,11 +18,18 @@ public class AreaSpawner : MonoBehaviour
     [SerializeField] private GameObject[] objectsPoolToSpawn;
     public GameObject GetRandomObjectInPool { get => objectsPoolToSpawn[Random.Range(0, objectsPoolToSpawn.Length)]; }
 
+    [SerializeField] private BoxCollider2D boxCollider;
+
     public Vector2 BoundsMinPosition { get => (Vector2)this.transform.position + minBounds + centerOffset; }
     public Vector2 BoundsMaxPosition { get => (Vector2)this.transform.position + maxBounds + centerOffset; }
 
     [SerializeField] private bool isValid;
     public bool IsValid { get => isValid; }
+
+    private void Reset()
+    {
+        boxCollider = this.GetComponent<BoxCollider2D>();
+    }
 
     private void Awake()
     {
@@ -80,6 +87,10 @@ public class AreaSpawner : MonoBehaviour
     private void UpdateBounds()
     {
 #if UNITY_EDITOR
+        if (boxCollider == null) boxCollider = this.GetComponent<BoxCollider2D>();
+
+        boxCollider.size = maxBounds * 2;
+
         if (!symetrical) return;
 
         if (minBounds.x != maxBounds.x) minBounds.x = maxBounds.x * -1;
@@ -91,6 +102,7 @@ public class AreaSpawner : MonoBehaviour
 	{
 #if UNITY_EDITOR
 		if (!debugMode) return;
+        UpdateBounds();
         Gizmos.color = Color.red;
         DrawBounds();
 #endif
@@ -118,4 +130,10 @@ public class AreaSpawner : MonoBehaviour
         Debug.DrawLine(p1, p3, c);
         Debug.DrawLine(p2, p4, c);
     }
+
+    public void OnEnteredFarCheck() => isValid = true;
+    public void OnExitedFarCheck() => isValid = false;
+
+    public void OnEnteredCloseCheck() => isValid = false;
+    public void OnExitedCloseCheck() => isValid = true;
 }

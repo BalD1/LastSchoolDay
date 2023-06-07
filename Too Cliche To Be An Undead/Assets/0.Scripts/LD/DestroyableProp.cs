@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyableProp : MonoBehaviour, IDamageable
+public class DestroyableProp : MonoBehaviour, IDamageable, IDistanceChecker
 {
     [SerializeField] private GameObject destroyParticles;
 
@@ -25,6 +25,8 @@ public class DestroyableProp : MonoBehaviour, IDamageable
     private List<NormalZombie> zombiesInCollider = new List<NormalZombie>();
     private List<float> zombiesDamagesTimer = new List<float>();
 
+    private bool isValid = false;
+
     private void Start()
     {
         if (damagesParticles == null) damagesParticles = GameAssets.Instance.BasePropDamagesParticlesPF;
@@ -33,6 +35,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!isValid) return;
         PlayerCharacter player = collision.gameObject.GetComponent<PlayerCharacter>();
         if (player != null)
         {
@@ -50,6 +53,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        if (!isValid) return;
         NormalZombie nz = collision.gameObject.GetComponent<NormalZombie>();
         if (nz != null)
         {
@@ -79,6 +83,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        if (!isValid) return;
         for (int i = 0; i < zombiesInCollider.Count; i++)
         {
             zombiesDamagesTimer[i] -= Time.deltaTime;
@@ -136,4 +141,14 @@ public class DestroyableProp : MonoBehaviour, IDamageable
     }
 
     public bool IsAlive() => currentHP > 0;
+
+    public void OnEnteredFarCheck() => isValid = true;
+    public void OnExitedFarCheck() => isValid = false;
+
+    public void OnEnteredCloseCheck()
+    {
+    }
+    public void OnExitedCloseCheck()
+    {
+    }
 }

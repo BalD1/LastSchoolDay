@@ -25,6 +25,8 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
     {
         if (owner.Pathfinding != null)
             goalPosition = owner.Pathfinding.CheckWayPoint();
+
+        owner.SetSpeedOnDistanceFromTarget();
     }
 
     public override void FixedUpdateState(FSM_NZ_Manager stateManager)
