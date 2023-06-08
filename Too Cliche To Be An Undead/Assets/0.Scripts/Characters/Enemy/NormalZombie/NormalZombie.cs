@@ -34,6 +34,8 @@ public class NormalZombie : EnemyBase, IDistanceChecker
     [SerializeField] private float farTeleportationCooldown = 3;
     private float lastTeleportationAttemptTime;
 
+    private int closePlayersCount = 0;
+
     [field: SerializeField] public bool tutorialZombie { get; private set; }
 
     [SerializeField] private float attack_DURATION = .3f;
@@ -116,12 +118,23 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
     public override void SetSpeedOnDistanceFromTarget()
     {
+        if (closePlayersCount > 0)
+        {
+            SetNormalSpeed();
+            return;
+        }
+
         float distanceFromTarget = Vector2.Distance(this.transform.position, CurrentPositionTarget);
-        if (distanceFromTarget < MinDistanceForNormalSpeed + Camera.main.orthographicSize)
+        if ((distanceFromTarget < MinDistanceForNormalSpeed + Camera.main.orthographicSize))
+        {
+            SetNormalSpeed();
+            return;
+        }
+
+        void SetNormalSpeed()
         {
             speedMultiplierOnDistance = 1;
             enemiesBlocker.enabled = true;
-            return;
         }
 
         if (Time.time - lastTeleportationAttemptTime > farTeleportationCooldown)
@@ -319,9 +332,11 @@ public class NormalZombie : EnemyBase, IDistanceChecker
             this.Vision.TargetClosestPlayer();
             isIdle = false;
         }
+        closePlayersCount++;
     }
 
     public void OnExitedCloseCheck()
     {
+        closePlayersCount--;
     }
 }
