@@ -340,7 +340,12 @@ public class SpawnersManager : MonoBehaviour
         if (minKeycardsToSpawn > maxKeycardsToSpawn) minKeycardsToSpawn = maxKeycardsToSpawn;
     }
 
-    public void SetDebugMode(bool state) => debugMode = state;
+    public void SetDebugMode(bool state)
+    {
+#if UNITY_EDITOR
+        debugMode = state;
+#endif
+    }
     private void OnGUI()
     {
 #if UNITY_EDITOR

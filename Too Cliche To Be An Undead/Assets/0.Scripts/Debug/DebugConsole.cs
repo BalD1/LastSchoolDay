@@ -163,7 +163,11 @@ public class DebugConsole : MonoBehaviour
 
             START_BREAKUP,
             END_BREAKUP,
+
+
+#if UNITY_EDITOR
             DEBUG_M_SPAWNERS,
+#endif
         };
     }
 
@@ -253,9 +257,9 @@ public class DebugConsole : MonoBehaviour
     private void CreateBoolCommands()
     {
         DEBUG_M_SPAWNERS = new DebugCommand<bool>("DEBUG_M_SPAWNERS", "Activates the debug mode for spawners manager", "DEBUG_M_SPAWNERS <bool>", (val) =>
-        {
-            SpawnersManager.Instance.SetDebugMode(val);
-        });
+{
+    SpawnersManager.Instance.SetDebugMode(val);
+}); 
     }
 
     private void CreateIntCommands()

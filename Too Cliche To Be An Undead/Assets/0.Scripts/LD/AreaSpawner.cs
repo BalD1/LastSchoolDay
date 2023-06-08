@@ -131,9 +131,9 @@ public class AreaSpawner : MonoBehaviour, IDistanceChecker
         Debug.DrawLine(p2, p4, c);
     }
 
-    public void OnEnteredFarCheck() => isValid = true;
-    public void OnExitedFarCheck() => isValid = false;
+    public void OnEnteredFarCheck() => SetValidity(true);
+    public void OnExitedFarCheck() => SetValidity(false);
 
-    public void OnEnteredCloseCheck() => isValid = false;
-    public void OnExitedCloseCheck() => isValid = true;
+    public void OnEnteredCloseCheck() => SetValidity(false);
+    public void OnExitedCloseCheck() => SetValidity(true);
 }

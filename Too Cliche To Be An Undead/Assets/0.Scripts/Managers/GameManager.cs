@@ -273,7 +273,6 @@ public class GameManager : MonoBehaviour
         {
             DataKeeper.Instance.runsCount = 0;
             LeanTween.delayedCall(1, () =>PlayersManager.Instance.CreateP1()).setIgnoreTimeScale(true);
-            SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainMenu);
         }
     }
 
