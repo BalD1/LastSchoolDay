@@ -269,7 +269,7 @@ public class SoundManager : MonoBehaviour
         {
             musicSource.clip = musicData.LoopClip;
             musicSource.Play();
-        });
+        }).setIgnoreTimeScale(true);
     }
     public void PlayBossMusic() => PlayMusic(bossSpawnMusic);
 

@@ -53,14 +53,14 @@ public class SplashScreen : MonoBehaviour
         videoPlayer.SetNewVideo(E_VideoTag.SplashScreen);
         pressAnyKey.raycastTarget = false;
 
-        SoundManager.Instance.PlayMusic(titleScreenMusic);
-
         allowSkipText_TIMER = allowSkipText_DURATION;
     }
 
     private void Start()
     {
         if (DataKeeper.Instance.firstPassInMainMenu == false) return;
+
+        SoundManager.Instance.PlayMusic(titleScreenMusic);
 
         DataKeeper.Instance.firstPassInMainMenu = false;
 
