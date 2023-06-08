@@ -88,6 +88,8 @@ public class SpawnersManager : MonoBehaviour
 
     private float lastSpawnedZombieTime;
 
+    private bool allPlayersAreInClassroom = false;
+
 #if UNITY_EDITOR
     [HideInInspector] public bool showAreaSpawnersBounds = false;
 
@@ -133,6 +135,7 @@ public class SpawnersManager : MonoBehaviour
 
     private void ManageBreakups()
     {
+        if (allPlayersAreInClassroom) return;
         if (isInBreakup)
         {
             // manage current breakup timer
@@ -149,6 +152,20 @@ public class SpawnersManager : MonoBehaviour
         currentBreakup_TIMER = SpawnsBreakupsDurations.Evaluate(SpawnStamp);
     }
 
+    public void OnAllPlayersInClassroom()
+    {
+        LeanTween.cancel(uiTween.uniqueId);
+        allPlayersAreInClassroom = true;
+        isInBreakup = true;
+        currentBreakup_TIMER = SpawnsBreakupsDurations.Evaluate(SpawnStamp) / 2;
+    }
+
+    public void PlayersExitedClassroom()
+    {
+        TweenUI();
+        allPlayersAreInClassroom = false;
+    }
+
     public void AllowSpawns(bool allow)
     {
         spawnsAreAllowed = allow;
@@ -156,16 +173,21 @@ public class SpawnersManager : MonoBehaviour
 
         if (allow == false) return;
 
+        uiFiller.fillAmount = 1;
+        TweenUI();
+        stamp_TIMER = timeBetweenStamps;
+        maxZombiesInSchool = (int)MaxZombiesInSchoolByTime.Evaluate(spawnStamp);
+        spawnCooldown = ZombiesSpawnCooldown.Evaluate(spawnStamp);
+    }
+
+    private void TweenUI()
+    {
         if (uiTween != null) LeanTween.cancel(uiTween.uniqueId);
-        uiTween = LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
+        uiTween = LeanTween.value(uiFiller.fillAmount, 0, timeBetweenStamps).setOnUpdate((float val) =>
         {
             if (uiFiller == null) return;
             uiFiller.fillAmount = val;
         });
-
-        stamp_TIMER = timeBetweenStamps;
-        maxZombiesInSchool = (int)MaxZombiesInSchoolByTime.Evaluate(spawnStamp);
-        spawnCooldown = ZombiesSpawnCooldown.Evaluate(spawnStamp);
     }
 
     private void TrySpawnZombies()
@@ -183,11 +205,8 @@ public class SpawnersManager : MonoBehaviour
 
     private void EvaluateStamp()
     {
+        if (allPlayersAreInClassroom) return;
         if (spawnStamp >= maxStamp) return;
-
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Return)) stamp_TIMER = 0;
-#endif
 
         if (stamp_TIMER > 0)
         {
@@ -201,15 +220,8 @@ public class SpawnersManager : MonoBehaviour
 
         spawnStamp++;
 
-        if (spawnStamp < maxStamp)
-        {
-            uiTween = LeanTween.value(1, 0, timeBetweenStamps).setOnUpdate((float val) =>
-            {
-                if (uiFiller == null) return;
-                uiFiller.fillAmount = val;
-            });
-        }
-        else uiFiller.fillAmount = 1;
+        uiFiller.fillAmount = 1;
+        if (spawnStamp < maxStamp) TweenUI();
 
         D_stampChange?.Invoke(spawnStamp);
 
