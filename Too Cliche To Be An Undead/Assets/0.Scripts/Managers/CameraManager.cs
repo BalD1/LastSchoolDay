@@ -1,6 +1,5 @@
 using Cinemachine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,8 +46,10 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] private bool hardFocusOnP1 = false;
 
-    [SerializeField] private List<Transform> invisiblePlayers = new List<Transform>();
+    [SerializeField] private List<Transform> invisiblePlayersTransform = new List<Transform>();
     [SerializeField] private List<Transform> playersToRemoveFromList = new List<Transform>();
+
+    private List<PlayerCharacter> players = new List<PlayerCharacter>();
 
     private bool cinematicMode = false;
 
@@ -94,15 +95,15 @@ public class CameraManager : MonoBehaviour
 
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCam);
 
-        for (int i = 0; i < invisiblePlayers.Count; i++)
+        for (int i = 0; i < invisiblePlayersTransform.Count; i++)
         {
             Vector2 minScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(0, 0));
             Vector2 maxScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
 
-            markers[i].position = new Vector2(Mathf.Clamp(invisiblePlayers[i].position.x, minScreenBounds.x + .5f, maxScreenBounds.x - .5f),
-                                              Mathf.Clamp(invisiblePlayers[i].position.y, minScreenBounds.y + .5f, maxScreenBounds.y - .5f));
+            markers[i].position = new Vector2(Mathf.Clamp(invisiblePlayersTransform[i].position.x, minScreenBounds.x + .5f, maxScreenBounds.x - .5f),
+                                              Mathf.Clamp(invisiblePlayersTransform[i].position.y, minScreenBounds.y + .5f, maxScreenBounds.y - .5f));
 
-            float dist = Vector2.Distance(invisiblePlayers[i].position, markers[i].position);
+            float dist = Vector2.Distance(invisiblePlayersTransform[i].position, markers[i].position);
             float markerScale = Mathf.Clamp01(1 - (dist / maxDistance));
 
             Vector2 v = markers[i].transform.localScale;
@@ -113,13 +114,13 @@ public class CameraManager : MonoBehaviour
             if (dist > maxDistance)
             {
                 Vector2 newPos = GameManager.Instance.playersByName[0].playerScript.transform.position;
-                invisiblePlayers[i].transform.position = newPos;
+                GameManager.Instance.TeleportPlayerAtCameraCenter(players[i].PlayerIndex);
             }
         }
 
         foreach (var item in playersToRemoveFromList)
         {
-            if (invisiblePlayers.Contains(item)) invisiblePlayers.Remove(item);
+            if (invisiblePlayersTransform.Contains(item)) invisiblePlayersTransform.Remove(item);
         }
         playersToRemoveFromList.Clear();
     }
@@ -148,15 +149,18 @@ public class CameraManager : MonoBehaviour
             tg_players.m_Targets[0].weight++;
     }
 
-    public void PlayerBecameInvisible(Transform player, int playerIdx)
+    public void PlayerBecameInvisible(PlayerCharacter playerScript)
     {
         if (cinematicMode) return;
-        if (invisiblePlayers.Contains(player)) return;
+        if (invisiblePlayersTransform.Contains(playerScript.PivotOffset.transform)) return;
 
-        invisiblePlayers.Add(player);
-        int idx = invisiblePlayers.IndexOf(player);
+        invisiblePlayersTransform.Add(playerScript.PivotOffset.transform);
+        players.Add(playerScript);
+        int idx = invisiblePlayersTransform.Count - 1;
 
-        GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[playerIdx].character;
+        GameManager.E_CharactersNames character = playerScript.GetCharacterName();
+
+        playerScript.d_OnDeath += OnPlayerDeath;
 
         if (markers == null || ReferenceEquals(markers, null)) return;
 
@@ -165,16 +169,28 @@ public class CameraManager : MonoBehaviour
         markers[idx].gameObject.SetActive(true);
     }
 
-    public void PlayerBecameVisible(Transform player)
+    public void PlayerBecameVisible(PlayerCharacter playerScript)
     {
         if (cinematicMode) return;
-        int indexOfPlayer = invisiblePlayers.IndexOf(player);
+        int indexOfPlayer = invisiblePlayersTransform.IndexOf(playerScript.PivotOffset.transform);
 
         if (indexOfPlayer >= markers.Length) return;
         if (indexOfPlayer < 0) return;
 
         markers[indexOfPlayer].gameObject.SetActive(false);
-        playersToRemoveFromList.Add(player);
+        playersToRemoveFromList.Add(playerScript.PivotOffset.transform);
+        players.Remove(playerScript);
+    }
+
+    private void OnPlayerDeath()
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].IsAlive()) continue;
+            markers[i].gameObject.SetActive(false);
+            playersToRemoveFromList.Add(invisiblePlayersTransform[i]);
+            players.RemoveAt(i);
+        }
     }
 
     public void ShakeCamera(float intensity, float duration)

@@ -32,7 +32,7 @@ public class VisibilityWatcher : MonoBehaviour
 
         if (isVisible == false || owner.IsAlive() == false) return;
 
-        CameraManager.Instance.PlayerBecameInvisible(this.owner.transform, playerIdx);
+        CameraManager.Instance.PlayerBecameInvisible(owner);
         isVisible = false;
     }
 
@@ -44,7 +44,7 @@ public class VisibilityWatcher : MonoBehaviour
 
         if (isVisible == true || owner.IsAlive() == false) return;
 
-        CameraManager.Instance.PlayerBecameVisible(this.owner.transform);
+        CameraManager.Instance.PlayerBecameVisible(owner);
         isVisible = true;
     }
 }

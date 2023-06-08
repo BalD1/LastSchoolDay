@@ -445,7 +445,9 @@ public class GameManager : MonoBehaviour
 
     public void TeleportPlayerAtCameraCenter(int playerIdx)
     {
-        playersByName[playerIdx].playerScript.gameObject.transform.position = CameraManager.Instance.gameObject.transform.position;
+        Vector3 pos = CameraManager.Instance.gameObject.transform.position;
+        pos.z = 0;
+        playersByName[playerIdx].playerScript.gameObject.transform.position = pos;
     }
 
     public void SetAllPlayersStateTo(FSM_Base<FSM_Player_Manager> newState)
