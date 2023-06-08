@@ -178,7 +178,7 @@ public class PlayerWeapon : MonoBehaviour
     public Quaternion GetRotationOnMouseOrGamepad()
     {
         if (owner.Inputs.currentControlScheme == null) return Quaternion.identity;
-        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
+        if (owner.currentDeviceType == PlayerCharacter.E_Devices.Keyboard)
         {
             return GetRotationOnMouse();
         }
@@ -195,7 +195,7 @@ public class PlayerWeapon : MonoBehaviour
     /// </summary>
     public void RotateOnMouse()
     {
-        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
+        if (owner.currentDeviceType == PlayerCharacter.E_Devices.Keyboard)
             this.transform.rotation = GetRotationOnMouse();
     }
 
@@ -224,7 +224,7 @@ public class PlayerWeapon : MonoBehaviour
     public void SetRotationTowardTarget(Transform target)
     {
         if (target == null) return;
-        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD)) return;
+        if (owner.currentDeviceType == PlayerCharacter.E_Devices.Keyboard) return;
 
         Vector2 dir = (target.position - this.transform.position).normalized;
         lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -244,7 +244,7 @@ public class PlayerWeapon : MonoBehaviour
     /// </summary>
     public void RotateOnAim()
     {
-        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_GAMEPAD))
+        if (owner.currentDeviceType != PlayerCharacter.E_Devices.Keyboard)
         {
             lookAngle = Mathf.Atan2(aimGoal.y, aimGoal.x) * Mathf.Rad2Deg;
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * slerpSpeed);
@@ -254,7 +254,7 @@ public class PlayerWeapon : MonoBehaviour
 
     public Vector2 GetPreciseDirectionOfMouseOrGamepad()
     {
-        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD))
+        if (owner.currentDeviceType == PlayerCharacter.E_Devices.Keyboard)
         {
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 5f;

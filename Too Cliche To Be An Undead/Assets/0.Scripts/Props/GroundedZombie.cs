@@ -64,6 +64,7 @@ public class GroundedZombie : Entity
         base.OnDeath(forceDeath);
 
         AudioclipPlayer.Create(this.transform.position, audioData.GetRandomDeathClip());
+        BloodParticles.GetNext(this.transform.position);
 
         Destroy(this.gameObject);
     }
