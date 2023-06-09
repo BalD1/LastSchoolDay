@@ -47,6 +47,95 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 7821369719249530884}
   delayBetweenHurtAudio_COOLDOWN: 0.2
+  miscAudioPlayByChasingZombies_COOLDOWN:
+    m_Mode: 2
+    m_CurveMultiplier: 1
+    m_CurveMin:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 2
+        inSlope: 0.10344828
+        outSlope: 0.10344828
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 30
+        value: 8
+        inSlope: 0.33201972
+        outSlope: 0.33201972
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 100
+        value: 40
+        inSlope: 0.45714286
+        outSlope: 0.45714286
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_CurveMax:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 3.5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 3.5
+        inSlope: 0.112068966
+        outSlope: 0.112068966
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 30
+        value: 10
+        inSlope: 0.39778328
+        outSlope: 0.39778328
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 100
+        value: 50
+        inSlope: 0.5714286
+        outSlope: 0.5714286
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ConstantMin: 0
+    m_ConstantMax: 0
 --- !u!82 &6684974879034983664
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1101,6 +1190,7 @@ MonoBehaviour:
   isIdle: 0
   <AudioData>k__BackingField: {fileID: 11400000, guid: c0489040a4de07a41893d3fbf0b84276, type: 2}
   <allowWander>k__BackingField: 0
+  farTeleportationCooldown: 3
   <tutorialZombie>k__BackingField: 0
   attack_DURATION: 0.75
   push_COOLDOWN: 0.1

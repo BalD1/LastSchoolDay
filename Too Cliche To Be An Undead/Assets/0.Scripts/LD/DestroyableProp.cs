@@ -26,8 +26,6 @@ public class DestroyableProp : MonoBehaviour, IDamageable, IDistanceChecker
 
     private void Start()
     {
-        if (damagesParticles == null) damagesParticles = GameAssets.Instance.BasePropDamagesParticlesPF;
-        if (destroyParticles == null) destroyParticles = GameAssets.Instance.BaseDestructionParticlesPF;
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
@@ -61,8 +59,17 @@ public class DestroyableProp : MonoBehaviour, IDamageable, IDistanceChecker
     {
         currentHP -= amount;
 
+        Vector3 particlesPos = this.transform.position;
+        if (damager != null)
+        {
+            Vector3 effectObjectPos = damager.gameObject.transform.position;
+            float dist = Vector2.Distance(effectObjectPos, this.transform.position) / 2;
+            Vector2 dir = (this.transform.position - effectObjectPos).normalized;
+            particlesPos = effectObjectPos + (Vector3)(dist * dir);
+        }
+
         if (damagesParticles != null)
-            damagesParticles.Create(this.transform.position);
+            damagesParticles.Create(particlesPos);
 
         if (currentHP <= 0)
         {

@@ -10,6 +10,10 @@ public class ZombieAudio : MonoBehaviour
     [SerializeField] private float delayBetweenHurtAudio_COOLDOWN = .2f;
     private float delayBetweenHurtAudio_TIMER;
 
+    [SerializeField] private ParticleSystem.MinMaxCurve miscAudioPlayByChasingZombies_COOLDOWN;
+    private float miscAudioPlay_TIMER;
+    private bool isChasing = false;
+
     private bool playedHurtAudio = false;
     private bool isDying = false;
 
@@ -21,8 +25,6 @@ public class ZombieAudio : MonoBehaviour
         owner = this.GetComponentInParent<NormalZombie>();
     }
 
-
-
     private void Start()
     {
         delayBetweenHurtAudio_TIMER = 0;
@@ -32,6 +34,7 @@ public class ZombieAudio : MonoBehaviour
         owner.d_OnDeath += PlayDeathSound;
         owner.D_onAttack += PlayAttackSound;
         owner.D_onRespawn += ResetAudio;
+        owner.OnStartChasing += OnStartChasing;
     }
 
     private void ResetAudio()
@@ -52,6 +55,16 @@ public class ZombieAudio : MonoBehaviour
                 currentZombiesHurtCount--;
             }
         }
+
+        if (miscAudioPlay_TIMER > 0 && isChasing)
+        {
+            miscAudioPlay_TIMER -= Time.deltaTime;
+            if (miscAudioPlay_TIMER <= 0)
+            {
+                miscAudioPlay_TIMER = GetMiscAudioCooldown();
+                PlayAudioWithPitch(owner.AudioData.GetRandomMiscAudio());
+            }
+        }
     }
 
     private void OnDestroy()
@@ -59,6 +72,20 @@ public class ZombieAudio : MonoBehaviour
         owner.D_onHurt -= PlayHurtSound; ;
         owner.d_OnDeath -= PlayDeathSound;
         owner.D_onAttack -= PlayAttackSound;
+        owner.D_onRespawn -= ResetAudio;
+        owner.OnStartChasing -= OnStartChasing;
+    }
+
+    private float GetMiscAudioCooldown()
+    {
+        return miscAudioPlayByChasingZombies_COOLDOWN.Evaluate(NormalZombie.CurrentlyChasingZombiesCOunt, Random.value);
+    }
+
+    private void OnStartChasing(PlayerCharacter target)
+    {
+        PlayAudioWithPitch(owner.AudioData.GetRandomMiscAudio());
+        isChasing = true;
+        miscAudioPlay_TIMER = GetMiscAudioCooldown();
     }
 
     private void PlayHurtSound()
@@ -75,6 +102,7 @@ public class ZombieAudio : MonoBehaviour
     private void PlayDeathSound()
     {
         isDying = true;
+        isChasing = false;
 
         if (playedHurtAudio)
         {

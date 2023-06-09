@@ -19,6 +19,8 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
         owner.Pathfinding.StartUpdatePath();
 
         owner.canBePushed = true;
+
+        owner.OnStartChasing?.Invoke(owner.CurrentPlayerTarget);
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)
@@ -43,6 +45,7 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
         owner.GetRb.velocity = Vector2.zero;
+        owner.OnStoppedChasing?.Invoke();
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)

@@ -44,3 +44,17 @@ public class IntMinMax : MinMax<int>
         return UnityEngine.Random.Range(Min, Max);
     }
 }
+
+[System.Serializable]
+public class FloatMinMax : MinMax<float>
+{
+    public FloatMinMax(float _minValue, float _maxValue) : base(_minValue, _maxValue)
+    {
+        data = new MinMax<float>.Data<float>(_minValue, _maxValue);
+    }
+
+    public override float Random()
+    {
+        return UnityEngine.Random.Range(Min, Max);
+    }
+}

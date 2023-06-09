@@ -1,4 +1,5 @@
 using Spine.Unity;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +28,9 @@ public class NormalZombie : EnemyBase, IDistanceChecker
     public delegate void D_OnRespawn();
     public D_OnRespawn D_onRespawn;
 
+    public Action<PlayerCharacter> OnStartChasing;
+    public Action OnStoppedChasing;
+
     [field: SerializeField] public SCRPT_ZombieAudio AudioData { get; private set; }
 
     [field:  SerializeField] public bool allowWander { get; private set; }
@@ -54,6 +58,9 @@ public class NormalZombie : EnemyBase, IDistanceChecker
     private float targetClosest_TIMER;
 
     public bool isVisible;
+
+    private static int currentlyChasingZombiesCount = 0;
+    public static int CurrentlyChasingZombiesCOunt { get => currentlyChasingZombiesCount; }
 
     public static NormalZombie Create(Vector2 pos, bool seeAtStart, bool _allowScaleOnStamp = true)
     {
@@ -92,6 +99,9 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
         if (SpawnersManager.Instance != null)
             d_OnDeath += SpawnersManager.Instance.RemoveZombie;
+
+        OnStartChasing += (PlayerCharacter target) => currentlyChasingZombiesCount++;
+        OnStoppedChasing += () => currentlyChasingZombiesCount--;
     }
 
     protected override void Update()
