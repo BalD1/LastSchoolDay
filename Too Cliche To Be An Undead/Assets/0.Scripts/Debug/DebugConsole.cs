@@ -78,6 +78,7 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand START_BREAKUP;
     private DebugCommand END_BREAKUP;
     private DebugCommand<bool> DEBUG_M_SPAWNERS;
+    private DebugCommand<bool> SET_SPAWNS_STATE;
 
     #endregion
 
@@ -164,6 +165,7 @@ public class DebugConsole : MonoBehaviour
             START_BREAKUP,
             END_BREAKUP,
 
+            SET_SPAWNS_STATE,
 
 #if UNITY_EDITOR
             DEBUG_M_SPAWNERS,
@@ -257,9 +259,14 @@ public class DebugConsole : MonoBehaviour
     private void CreateBoolCommands()
     {
         DEBUG_M_SPAWNERS = new DebugCommand<bool>("DEBUG_M_SPAWNERS", "Activates the debug mode for spawners manager", "DEBUG_M_SPAWNERS <bool>", (val) =>
-{
-    SpawnersManager.Instance.SetDebugMode(val);
-}); 
+        {
+            SpawnersManager.Instance.SetDebugMode(val);
+        });
+
+        SET_SPAWNS_STATE = new DebugCommand<bool>("SET_SPAWNS_STATE", "Activates or deactivates the zombies spawn", "SET_SPAWNS_STATE <bool>", (val) =>
+        {
+            SpawnersManager.Instance.AllowSpawns(val);
+        });
     }
 
     private void CreateIntCommands()
@@ -522,6 +529,7 @@ public class DebugConsole : MonoBehaviour
 
     private bool ParseBool(string propriety)
     {
+        if (propriety.Equals("<bool>")) return true;
         if (propriety.Equals("1") || propriety.Equals("TRUE")) return true;
         return false;
     }

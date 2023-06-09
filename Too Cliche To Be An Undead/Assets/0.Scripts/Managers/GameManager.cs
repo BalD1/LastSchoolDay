@@ -131,6 +131,8 @@ public class GameManager : MonoBehaviour
     public event Action OnRunStarted;
     public void RunStarted() => OnRunStarted?.Invoke();
 
+    private LTDescr gameoverCinematicTween;
+
     #region GameStates
 
     public enum E_GameState
@@ -191,7 +193,7 @@ public class GameManager : MonoBehaviour
 
                 UIManager.Instance.FadeAllHUD(false);
                 UIManager.Instance.SetBlackBars(true, .2f);
-                CameraManager.Instance.MoveCamera(PlayersManager.Instance.LastDeadPlayerTransform.position, () =>
+                gameoverCinematicTween = CameraManager.Instance.MoveCamera(PlayersManager.Instance.LastDeadPlayerTransform.position, () =>
                 {
                     LeanTween.delayedCall(2, () => UIManager.Instance.ShowGameOverScreen());
                 }, 1); 
@@ -318,6 +320,18 @@ public class GameManager : MonoBehaviour
 
             GameStartScreenFade();
         }
+    }
+
+    public void CancelGameOver()
+    {
+        PlayersManager.Instance.AddAlivePlayer();
+        CameraManager.Instance.TG_Players.AddMember(Player1Ref.transform, 1, 0);
+        LeanTween.cancel(gameoverCinematicTween.uniqueId);
+        PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+        UIManager.Instance.FadeAllHUD(true);
+        UIManager.Instance.SetBlackBars(false, .2f);
+        CameraManager.Instance.EndCinematic();
+        UIManager.Instance.HideGameOverScreen();
     }
 
     private void GameStartScreenFade()

@@ -137,6 +137,14 @@ public class BossZombie : EnemyBase
         d_OnDeath?.Invoke();
         GameManager.Instance.D_bossFightEnded?.Invoke();
 
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            if (item.playerScript.StateManager.ToString() == "Dying")
+                item.playerScript.Revive();
+        }
+        if (GameManager.Instance.GameState == GameManager.E_GameState.GameOver)
+            GameManager.Instance.CancelGameOver();
+
         SoundManager.Instance.ChangeMusicMixerPitch(1);
         UIManager.Instance.RemoveBossCollider(this.hudTrigger);
     }

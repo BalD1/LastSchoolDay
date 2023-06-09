@@ -532,6 +532,11 @@ public class UIManager : MonoBehaviour
         SelectButton("Gameover");
     }
 
+    public void HideGameOverScreen()
+    {
+        gameoverMenu.SetActive(false);
+    }
+
 
     public void FadeAllHUD(bool fadeIn, float time = .2f)
     {

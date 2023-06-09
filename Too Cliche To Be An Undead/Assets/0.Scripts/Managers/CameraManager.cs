@@ -207,14 +207,14 @@ public class CameraManager : MonoBehaviour
         cam_followPlayers.transform.position = pos;
     }
 
-    public void MoveCamera(Vector2 pos, Action onCompleteAction, float duration = 2, LeanTweenType type = LeanTweenType.easeInOutQuart)
+    public LTDescr MoveCamera(Vector2 pos, Action onCompleteAction, float duration = 2, LeanTweenType type = LeanTweenType.easeInOutQuart)
     {
         cinematicMode = true;
         Array.Clear(tg_players.m_Targets, 0, tg_players.m_Targets.Length);
         tg_players.m_Targets = new CinemachineTargetGroup.Target[0];
         cam_followPlayers.Follow = null;
 
-        LeanTween.move(cam_followPlayers.gameObject, pos, duration).setEase(type).setOnComplete(onCompleteAction);
+        return LeanTween.move(cam_followPlayers.gameObject, pos, duration).setEase(type).setOnComplete(onCompleteAction);
     }
     public void MoveCamera(Vector2 pos, float duration = 2, LeanTweenType type = LeanTweenType.easeInOutQuart) => MoveCamera(pos, null, duration, type);
 
