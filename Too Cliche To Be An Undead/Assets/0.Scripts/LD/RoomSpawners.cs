@@ -13,6 +13,7 @@ public class RoomSpawners : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (SpawnersManager.Instance == null) return;
         if (spawnFlag) return;
         if (collision.GetComponent<PlayerCharacter>() == null) return;
 

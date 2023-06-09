@@ -108,7 +108,8 @@ public class SoundManager : MonoBehaviour
         ChangeSFXMixerPitch(1);
 
         GameManager.Instance.D_bossFightEnded += TryEndBossMusic;
-        SpawnersManager.Instance.D_stampChange += PlayStampChangeSoundEffect; 
+        if (SpawnersManager.Instance != null)
+            SpawnersManager.Instance.D_stampChange += PlayStampChangeSoundEffect; 
     }
 
     private void PlayStampChangeSoundEffect(int stamp)

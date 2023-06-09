@@ -168,9 +168,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonAnimation: {fileID: 848028400006293743}
-  openAnimation: Porte vue de cote anim 01
+  openAnimation: {fileID: 11400000, guid: 3a947cbd3905861439c68b1acc4c7885, type: 2}
+  animationWithNoZombies: {fileID: 11400000, guid: cb7a0f7481c384745aae558555c18dad, type: 2}
+  animationWithZombies: {fileID: 11400000, guid: cb7a0f7481c384745aae558555c18dad, type: 2}
   blockCollision: {fileID: 6054411235150756250}
   destroyScriptOnOpen: 1
+  entitiesInTrigger: 0
+  zombiesInDetecter: 0
 --- !u!61 &6054411235150756250
 BoxCollider2D:
   m_ObjectHideFlags: 0

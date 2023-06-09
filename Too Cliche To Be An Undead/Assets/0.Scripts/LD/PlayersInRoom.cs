@@ -16,6 +16,7 @@ public class PlayersInRoom : MonoBehaviour
         if (collision.GetComponent<PlayerCharacter>() == null) return;
         playersInRoom++;
 
+        if (SpawnersManager.Instance == null) return;
         if (playersInRoom >= maxPlayers)
             SpawnersManager.Instance.OnAllPlayersInClassroom();
     }
@@ -24,6 +25,7 @@ public class PlayersInRoom : MonoBehaviour
     {
         if (collision.GetComponent<PlayerCharacter>() == null) return;
 
+        if (SpawnersManager.Instance == null) return;
         if (playersInRoom >= maxPlayers)
             SpawnersManager.Instance.PlayersExitedClassroom();
 
