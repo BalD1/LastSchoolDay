@@ -1,5 +1,77 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1961504748222734645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6188576207915070723}
+  - component: {fileID: 7302837238365394966}
+  - component: {fileID: 1269971823027854473}
+  m_Layer: 22
+  m_Name: ZombiesDetection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6188576207915070723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961504748222734645}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3568743337245287101}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7302837238365394966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961504748222734645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e1efb0bdc586046ac19fd5f4745fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 3570462180930060890}
+--- !u!61 &1269971823027854473
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961504748222734645}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &3568743336446287829
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +155,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2484
+  m_SortingOrder: 9992
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3568743336446287828
 MonoBehaviour:
@@ -119,7 +191,7 @@ MonoBehaviour:
     materialsInsideMask: []
     materialsOutsideMask: []
   disableRenderingOnOverride: 1
-  _animationName: Porte avec zombies
+  _animationName: Porte sans zombies
   loop: 1
   timeScale: 1
 --- !u!114 &3568743336446287848
@@ -135,9 +207,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingOrderOffset: 0
-  pivotOffset: -0.48
+  pivotOffset: -0.02
   isStatic: 1
   objectRenderer: {fileID: 3568743336446287831}
+  isVisible: 1
   debugMode: 0
 --- !u!1 &3568743337245287098
 GameObject:
@@ -170,6 +243,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3568743336446287849}
+  - {fileID: 6188576207915070723}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -186,8 +260,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonAnimation: {fileID: 3568743336446287828}
-  openAnimation: Ouverture Portes
-  blockCollision: {fileID: 0}
+  openAnimation: {fileID: 11400000, guid: e5922299c81ca8a458374fefcdb31e92, type: 2}
+  animationWithNoZombies: {fileID: 11400000, guid: 536722a294973ea469a2e0c8a773e712, type: 2}
+  animationWithZombies: {fileID: 11400000, guid: 1a5c9fb6059cfad4c8b6ddb4b9066eea, type: 2}
+  blockCollision: {fileID: 4522009399653879579}
+  destroyScriptOnOpen: 1
 --- !u!61 &4522009399653879579
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -201,7 +278,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.07605767, y: 0.6885214}
+  m_Offset: {x: -0.07605767, y: 0.4634366}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -212,5 +289,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.9935107, y: 2.6812744}
+  m_Size: {x: 2.9935107, y: 2.2311044}
   m_EdgeRadius: 0

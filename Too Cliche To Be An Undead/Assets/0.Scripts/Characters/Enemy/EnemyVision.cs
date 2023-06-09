@@ -8,6 +8,8 @@ public class EnemyVision : MonoBehaviour
 
     [SerializeField] private bool updateTarget = false;
 
+    [SerializeField] private LayerMask wallsLayer;
+
     [SerializeField] private float targetUpdateRate = 2;
     private float targetUpdate_TIMER;
 
