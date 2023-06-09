@@ -96,8 +96,6 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] private bool debugMode;
 #endif
 
-    private LTDescr uiTween;
-
     private void Awake()
     {
         instance = this;
@@ -154,7 +152,6 @@ public class SpawnersManager : MonoBehaviour
 
     public void OnAllPlayersInClassroom()
     {
-        LeanTween.cancel(uiTween.uniqueId);
         allPlayersAreInClassroom = true;
         isInBreakup = true;
         currentBreakup_TIMER = SpawnsBreakupsDurations.Evaluate(SpawnStamp) / 2;
@@ -162,7 +159,6 @@ public class SpawnersManager : MonoBehaviour
 
     public void PlayersExitedClassroom()
     {
-        TweenUI();
         allPlayersAreInClassroom = false;
     }
 
@@ -174,20 +170,9 @@ public class SpawnersManager : MonoBehaviour
         if (allow == false) return;
 
         uiFiller.fillAmount = 1;
-        TweenUI();
         stamp_TIMER = timeBetweenStamps;
         maxZombiesInSchool = (int)MaxZombiesInSchoolByTime.Evaluate(spawnStamp);
         spawnCooldown = ZombiesSpawnCooldown.Evaluate(spawnStamp);
-    }
-
-    private void TweenUI()
-    {
-        if (uiTween != null) LeanTween.cancel(uiTween.uniqueId);
-        uiTween = LeanTween.value(uiFiller.fillAmount, 0, timeBetweenStamps).setOnUpdate((float val) =>
-        {
-            if (uiFiller == null) return;
-            uiFiller.fillAmount = val;
-        });
     }
 
     private void TrySpawnZombies()
@@ -211,17 +196,20 @@ public class SpawnersManager : MonoBehaviour
         if (stamp_TIMER > 0)
         {
             stamp_TIMER -= Time.deltaTime;
+            uiFiller.fillAmount = stamp_TIMER / timeBetweenStamps;
             uiCounter.text = stamp_TIMER.ToString("F0");
 
             return;
         }
 
-        LeanTween.cancel(uiTween.uniqueId);
-
         spawnStamp++;
+        Vector2 worldPosOfUI = Camera.main.ScreenToWorldPoint(UIManager.Instance.StampWorldTextSpawnPos.position);
+        TextPopup txt = TextPopup.Create("Zombies +", Camera.main.transform, false);
+        txt.transform.position = worldPosOfUI;
+        LeanTween.scale(txt.gameObject, Vector3.one * 1.3f, .3f).setLoopPingPong(1).setIgnoreTimeScale(true);
+        LeanTween.moveLocalY(txt.gameObject, -.01f, 1.5f).setIgnoreTimeScale(true);
 
         uiFiller.fillAmount = 1;
-        if (spawnStamp < maxStamp) TweenUI();
 
         D_stampChange?.Invoke(spawnStamp);
 

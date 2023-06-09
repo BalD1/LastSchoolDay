@@ -17,6 +17,8 @@ public class TextPopup : MonoBehaviour
 
     private bool simulate = false;
 
+    private bool allowMovements = true;
+
     private const float secondLifetimePart = .5f;
     private static int sortingOrder;
 
@@ -38,14 +40,14 @@ public class TextPopup : MonoBehaviour
     /// <param name="text"></param>
     /// <param name="pos"></param>
     /// <returns></returns>
-    public static TextPopup Create(string text, Vector2 pos) => Create(text, pos, GameAssets.BaseComponents);
+    public static TextPopup Create(string text, Vector2 pos, bool allowMovements = true) => Create(text, pos, GameAssets.BaseComponents, allowMovements);
     /// <summary>
     /// Create or pools a new "<b><see cref="TextPopup"/></b>" displaying "<b><paramref name="text"/></b>".
     /// </summary>
     /// <param name="text"></param>
     /// <param name="parent"></param>
     /// <returns></returns>
-    public static TextPopup Create(string text, Transform parent) => Create(text, parent, GameAssets.BaseComponents);
+    public static TextPopup Create(string text, Transform parent, bool allowMovements = true) => Create(text, parent, GameAssets.BaseComponents, allowMovements);
     /// <summary>
     /// Create or pools a new "<b><see cref="TextPopup"/></b>" displaying "<b><paramref name="text"/></b>" at "<b><paramref name="pos"/></b>" position and with "<b><paramref name="components"/></b>" style.
     /// </summary>
@@ -53,10 +55,11 @@ public class TextPopup : MonoBehaviour
     /// <param name="pos"></param>
     /// <param name="components"></param>
     /// <returns></returns>
-    public static TextPopup Create(string text, Vector2 pos, SCRPT_TextPopupComponents.HitComponents components)
+    public static TextPopup Create(string text, Vector2 pos, SCRPT_TextPopupComponents.HitComponents components, bool allowMovements = true)
     {
         TextPopup txtPopup = popupPool.GetNext(pos);
         txtPopup.Setup(text, components);
+        txtPopup.allowMovements = allowMovements;
         return txtPopup;
     }
     /// <summary>
@@ -65,11 +68,12 @@ public class TextPopup : MonoBehaviour
     /// <param name="text"></param>
     /// <param name="parent"></param>
     /// <returns></returns>
-    public static TextPopup Create(string text, Transform parent, SCRPT_TextPopupComponents.HitComponents components)
+    public static TextPopup Create(string text, Transform parent, SCRPT_TextPopupComponents.HitComponents components, bool allowMovements = true)
     {
         TextPopup txtPopup = popupPool.GetNext();
         txtPopup.Setup(text, components);
         txtPopup.transform.SetParent(parent, false);
+        txtPopup.allowMovements = allowMovements;
         return txtPopup;
     }
 
@@ -118,6 +122,7 @@ public class TextPopup : MonoBehaviour
 
     private void Movements()
     {
+        if (!allowMovements) return;
         if (currentLifetime < maxLifetime * secondLifetimePart)
         {
             //Second part of lifetime

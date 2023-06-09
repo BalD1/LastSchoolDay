@@ -160,6 +160,9 @@ public class ED_UIManager : Editor
         SerializedProperty stampTimer = serializedObject.FindProperty("stampTimer");
         EditorGUILayout.PropertyField(stampTimer);
 
+        SerializedProperty stampWorldTextSpawnPos = serializedObject.FindProperty("stampWorldTextSpawnPos");
+        EditorGUILayout.PropertyField(stampWorldTextSpawnPos);
+
         SerializedProperty moneyCounter = serializedObject.FindProperty("moneyCounter");
         EditorGUILayout.PropertyField(moneyCounter);
 

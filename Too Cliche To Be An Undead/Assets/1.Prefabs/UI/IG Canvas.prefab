@@ -3706,7 +3706,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.02984291, y: 0.03562963}
   m_AnchorMax: {x: 0.85, y: 0.30044445}
-  m_AnchoredPosition: {x: -0.2999878, y: -1.4133911}
+  m_AnchoredPosition: {x: -0.30004883, y: -1.4133301}
   m_SizeDelta: {x: -0.58999634, y: 1.1729999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1328510913371110365
@@ -5626,7 +5626,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1d87833a71b42a34aa2575a6f1bb2f5f, type: 3}
+  m_Sprite: {fileID: -32745781, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -7009,6 +7009,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   args: 0
+--- !u!1 &5873119257473016267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8179753657105260375}
+  - component: {fileID: 3764120828168362374}
+  m_Layer: 5
+  m_Name: StampWorldTextSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8179753657105260375
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5873119257473016267}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2737284463650087926}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.054369815, y: 0.78141356}
+  m_AnchorMax: {x: 0.10668232, y: 0.8164043}
+  m_AnchoredPosition: {x: 0, y: -0.083618164}
+  m_SizeDelta: {x: 0, y: 0.16720581}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3764120828168362374
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5873119257473016267}
+  m_CullTransparentMesh: 1
 --- !u!1 &5944873174535309940
 GameObject:
   m_ObjectHideFlags: 0
@@ -7864,6 +7909,7 @@ RectTransform:
   - {fileID: 2509933280434714099}
   - {fileID: 5240360550723805740}
   - {fileID: 6774568112746309400}
+  - {fileID: 8179753657105260375}
   m_Father: {fileID: 4647886569459204930}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10378,6 +10424,10 @@ PrefabInstance:
       propertyPath: keycardsContainerRect
       value: 
       objectReference: {fileID: 3870525633016462256}
+    - target: {fileID: 1297398526916696451, guid: b73ba4b4f864b824a9ca6719ef7fd364, type: 3}
+      propertyPath: stampWorldTextSpawnPos
+      value: 
+      objectReference: {fileID: 8179753657105260375}
     - target: {fileID: 1297398526916696451, guid: b73ba4b4f864b824a9ca6719ef7fd364, type: 3}
       propertyPath: blackBars.Array.data[0]
       value: 

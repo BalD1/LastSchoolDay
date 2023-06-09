@@ -71,6 +71,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject stampTimer;
     public GameObject StampTimer { get => stampTimer; }
+    [SerializeField] private RectTransform stampWorldTextSpawnPos;
+    public RectTransform StampWorldTextSpawnPos { get => stampWorldTextSpawnPos; }
 
     #endregion
 

@@ -54,6 +54,7 @@ public class SoundManager : MonoBehaviour
     public enum E_SFXClipsTags
     {
         Clic,
+        StampChange,
     }
 
     [System.Serializable]
@@ -107,6 +108,12 @@ public class SoundManager : MonoBehaviour
         ChangeSFXMixerPitch(1);
 
         GameManager.Instance.D_bossFightEnded += TryEndBossMusic;
+        SpawnersManager.Instance.D_stampChange += PlayStampChangeSoundEffect; 
+    }
+
+    private void PlayStampChangeSoundEffect(int stamp)
+    {
+        Play2DSFX(E_SFXClipsTags.StampChange);
     }
 
     private void TryStartBossMusic()
