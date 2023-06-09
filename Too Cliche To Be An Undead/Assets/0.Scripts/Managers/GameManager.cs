@@ -561,9 +561,6 @@ public class GameManager : MonoBehaviour
     {
         LeanTween.cancelAll();
 
-        TextPopup.popupPool.Clear();
-        HealthPopup.popupPool.Clear();
-
         LoadingScreenManager.SceneToLoad = sceneName;
         SceneManager.LoadScene(E_ScenesNames.LoadingScreen.ToString());
     }

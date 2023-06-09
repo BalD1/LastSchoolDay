@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PoolsManager : MonoBehaviour
@@ -22,5 +20,7 @@ public class PoolsManager : MonoBehaviour
 		BloodParticles.CheckPool();
 		ProjectileBase.CheckPool();
 		SpawnersManager.CheckPool();
+		TextPopup.CheckPool();
+		HealthPopup.CheckPool();
 	}
 }

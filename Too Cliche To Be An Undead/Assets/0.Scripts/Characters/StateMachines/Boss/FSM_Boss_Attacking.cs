@@ -98,7 +98,7 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         }
 
         // Create a text feedback
-        TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
+        TextPopup.Create("!", owner.transform).transform.localPosition = (Vector3)owner.GetHealthPopupOffset;
 
         // how long should the enemy wait before attacking ?
         float durationBeforeAttack = Random.Range(enemyAttack.MinDurationBeforeAttack, enemyAttack.MaxDurationBeforeAttack);

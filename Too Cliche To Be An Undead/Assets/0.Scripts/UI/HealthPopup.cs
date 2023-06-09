@@ -32,41 +32,34 @@ public class HealthPopup : MonoBehaviour
 
     private Color textColor;
 
+    private bool simulate = false;
+
+    private float lifetimeTimer;
+
     private static int sortingOrder;
 
     private const float secondLifetimePart = .7f;
 
-    public static Queue<GameObject> popupPool = new Queue<GameObject>();
+    private static MonoPool<HealthPopup> pool;
+
+    public static void CheckPool()
+    {
+        if (pool == null)
+            pool = new MonoPool<HealthPopup>
+                (_createAction: () => GameAssets.Instance.DamagesPopupPF.Create(Vector2.zero).GetComponent<HealthPopup>(),
+                _parentContainer: GameManager.Instance.InstantiatedMiscParent);
+    }
 
     public static HealthPopup Create(Vector3 position, float amount, bool isHeal, bool isCritialHit = false)
     {
-        GameObject healthPopupGO;
-
-        if (popupPool.Count > 0)
-        {
-            healthPopupGO = popupPool.Dequeue();
-
-            if (healthPopupGO == null)
-            {
-                healthPopupGO = Instantiate(GameAssets.Instance.DamagesPopupPF, position, Quaternion.identity);
-            }
-
-            healthPopupGO.transform.position = position;
-            healthPopupGO.transform.localScale = Vector3.one;
-        }
-        else healthPopupGO = Instantiate(GameAssets.Instance.DamagesPopupPF, position, Quaternion.identity);
-
-        HealthPopup healthpopup = healthPopupGO.GetComponent<HealthPopup>();
-
+        HealthPopup healthpopup = pool.GetNext(position);
         healthpopup.Setup(amount, isHeal, isCritialHit);
-
-        healthPopupGO.SetActive(true);
-
         return healthpopup;
     }
 
     public void Setup(float amount, bool isHeal, bool isCritialHit = false)
     {
+        this.transform.localScale = Vector3.one;
         if (isHeal) componentsNeeded = isCritialHit ? criticalHeal : normalHeal;
         else componentsNeeded = isCritialHit ? criticalHit : normalHit;
 
@@ -75,7 +68,7 @@ public class HealthPopup : MonoBehaviour
         textMesh.fontSize = componentsNeeded.fontSize;
         textMesh.color = componentsNeeded.color;
 
-        maxLifetime = componentsNeeded.lifetime;
+        lifetimeTimer = maxLifetime = componentsNeeded.lifetime;
 
         sortingOrder++;
         textMesh.sortingOrder = sortingOrder;
@@ -83,6 +76,8 @@ public class HealthPopup : MonoBehaviour
         // 1/2 chances of inversing x movements
         if (Random.Range(0, 2) == 0)
             componentsNeeded.speedMovements.x *= -1;
+
+        simulate = true;
     }
 
     private void Awake()
@@ -92,19 +87,18 @@ public class HealthPopup : MonoBehaviour
 
     private void Update()
     {
+        if (!simulate) return;
+
         Movements();
-
         Effects();
-
-        componentsNeeded.lifetime -= Time.deltaTime;
-
-        if (componentsNeeded.lifetime <= 0)
+        lifetimeTimer -= Time.deltaTime;
+        if (lifetimeTimer <= 0)
             Disappear();
     }
 
     private void Movements()
     {
-        if (componentsNeeded.lifetime < maxLifetime * secondLifetimePart)
+        if (lifetimeTimer < maxLifetime * secondLifetimePart)
         {
             //Second part of lifetime
             this.transform.position += componentsNeeded.speedMovements * Time.deltaTime;
@@ -118,7 +112,7 @@ public class HealthPopup : MonoBehaviour
 
     private void Effects()
     {
-        if (componentsNeeded.lifetime > maxLifetime * secondLifetimePart)
+        if (lifetimeTimer > maxLifetime * secondLifetimePart)
         {
             //First part of lifetime
             this.transform.localScale += Vector3.one * componentsNeeded.increaseScaleAmount * Time.deltaTime;
@@ -146,8 +140,14 @@ public class HealthPopup : MonoBehaviour
             sortingOrder--;
 
             this.gameObject.SetActive(false);
-            popupPool.Enqueue(this.gameObject);
+            ResetObject();
+            pool.Enqueue(this);
         }
+    }
+
+    private void ResetObject()
+    {
+
     }
 
 }

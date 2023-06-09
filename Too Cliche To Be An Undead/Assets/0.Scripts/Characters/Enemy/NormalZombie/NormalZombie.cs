@@ -65,16 +65,11 @@ public class NormalZombie : EnemyBase, IDistanceChecker
     public static NormalZombie Create(Vector2 pos, bool seeAtStart, bool _allowScaleOnStamp = true)
     {
         NormalZombie res = Instantiate(GameAssets.Instance.GetRandomZombie, pos, Quaternion.identity).GetComponent<NormalZombie>();
-
         res.isIdle = !seeAtStart;
         res.Vision.targetPlayerAtStart = seeAtStart;
-
         if (!seeAtStart) res.ResetTarget();
-
         res.AllowScaleOnStamp = _allowScaleOnStamp;
-
         res.ReceiveStampModifiers();
-
         return res;
     }
 

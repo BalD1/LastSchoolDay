@@ -1,9 +1,6 @@
 using BalDUtilities.VectorUtils;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class TextPopup : MonoBehaviour
 {
@@ -18,10 +15,20 @@ public class TextPopup : MonoBehaviour
 
     private Color textColor;
 
+    private bool simulate = false;
+
     private const float secondLifetimePart = .5f;
     private static int sortingOrder;
 
-    public static Queue<GameObject> popupPool = new Queue<GameObject>();
+    private static MonoPool<TextPopup> popupPool;
+
+    public static void CheckPool()
+    {
+        if (popupPool == null)
+            popupPool = new MonoPool<TextPopup>
+                (_createAction: () => GameAssets.Instance.TextPopupPF.Create(Vector2.zero).GetComponent<TextPopup>(),
+                _parentContainer: GameManager.Instance.InstantiatedMiscParent);
+    }
 
     #region Create
 
@@ -48,12 +55,8 @@ public class TextPopup : MonoBehaviour
     /// <returns></returns>
     public static TextPopup Create(string text, Vector2 pos, SCRPT_TextPopupComponents.HitComponents components)
     {
-        GameObject txtPopupGo = GetFromPoolOrInstantiate(pos);
-
-        TextPopup txtPopup = txtPopupGo.GetComponent<TextPopup>();
-
+        TextPopup txtPopup = popupPool.GetNext(pos);
         txtPopup.Setup(text, components);
-
         return txtPopup;
     }
     /// <summary>
@@ -64,65 +67,18 @@ public class TextPopup : MonoBehaviour
     /// <returns></returns>
     public static TextPopup Create(string text, Transform parent, SCRPT_TextPopupComponents.HitComponents components)
     {
-        GameObject txtPopupGo = GetFromPoolOrInstantiate(parent);
-
-        TextPopup txtPopup = txtPopupGo.GetComponent<TextPopup>();
-
+        TextPopup txtPopup = popupPool.GetNext();
         txtPopup.Setup(text, components);
-
+        txtPopup.transform.SetParent(parent, false);
         return txtPopup;
     }
-
-    private static GameObject GetFromPoolOrInstantiate(Vector2 pos)
-    {
-        GameObject txtPopupGo;
-        if (popupPool.Count > 0)
-        {
-            txtPopupGo = popupPool.Dequeue();
-
-            if (txtPopupGo == null)
-            {
-                txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, pos, Quaternion.identity);
-            }
-
-            txtPopupGo.transform.SetParent(GameManager.Instance.InstantiatedMiscParent);
-            txtPopupGo.transform.position = pos;
-            txtPopupGo.transform.localScale = Vector3.one;
-            txtPopupGo.SetActive(true);
-        }
-        else txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, pos, Quaternion.identity);
-
-        return txtPopupGo;
-    }
-    private static GameObject GetFromPoolOrInstantiate(Transform parent)
-    {
-        GameObject txtPopupGo;
-        if (popupPool.Count > 0)
-        {
-            txtPopupGo = popupPool.Dequeue();
-
-            if(txtPopupGo == null)
-            {
-                txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, parent);
-            }
-
-            if (parent != null)
-                txtPopupGo.transform.SetParent(parent, false);
-
-            txtPopupGo.transform.localPosition = Vector3.zero;
-            txtPopupGo.transform.localScale = Vector3.one;
-            txtPopupGo.SetActive(true);
-        }
-        else txtPopupGo = Instantiate(GameAssets.Instance.TextPopupPF, parent);
-
-        return txtPopupGo;
-    } 
 
     #endregion
 
     public void Setup(string text) => Setup(text, GameAssets.BaseComponents);
     public void Setup(string text, SCRPT_TextPopupComponents.HitComponents components)
     {
+        this.transform.localScale = Vector3.one;
         componentsNeeded = components;
 
         textMesh.SetText(text);
@@ -140,18 +96,22 @@ public class TextPopup : MonoBehaviour
         // 1/2 chances of inversing x movements
         if (Random.Range(0, 2) == 0)
             speed.x *= -1;
+
+        simulate = true;
     }
 
-    private void Awake() => textMesh = this.transform.GetComponent<TextMeshPro>();
+    private void Awake()
+    {
+        textMesh = this.transform.GetComponent<TextMeshPro>();
+    }
 
     private void Update()
     {
+        if (!simulate) return;
+
         Movements();
-
         Effects();
-
         currentLifetime -= Time.deltaTime;
-
         if (currentLifetime <= 0)
             Disappear();
     }
@@ -198,8 +158,8 @@ public class TextPopup : MonoBehaviour
         if (textColor.a <= 0)
         {
             sortingOrder--;
-            this.gameObject.SetActive(false);
-            popupPool.Enqueue(this.gameObject);
+            popupPool.Enqueue(this);
+            simulate = false;
         }
     }
 }

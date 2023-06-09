@@ -33,7 +33,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         owner.enemiesBlocker.enabled = false;
 
-        TextPopup.Create("!", owner.transform).transform.localPosition += (Vector3)owner.GetHealthPopupOffset;
+        TextPopup.Create("!", owner.transform).transform.localPosition = (Vector3)owner.GetHealthPopupOffset;
 
         float durationBeforeAttack = Random.Range(owner.MinDurationBeforeAttack, owner.MaxDurationBeforeAttack);
 
