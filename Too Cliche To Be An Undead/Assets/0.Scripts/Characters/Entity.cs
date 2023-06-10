@@ -174,6 +174,10 @@ public class Entity : MonoBehaviour, IDamageable
 
     public Action D_OnHeal;
 
+    public Action D_OnPushed;
+
+    public Action D_OnReset;
+
     [SerializeField] private List<TickDamages> appliedTickDamages = new List<TickDamages>();
     public List<TickDamages> AppliedTickDamages { get => appliedTickDamages; }
 
@@ -506,7 +510,9 @@ public class Entity : MonoBehaviour, IDamageable
         {
             HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: false, isCrit);
             if (materialFlash != null) StopCoroutine(materialFlash);
-            materialFlash = StartCoroutine(MaterialFlash());
+
+            if (this.gameObject.activeSelf)
+                materialFlash = StartCoroutine(MaterialFlash());
         }
 
         if (currentHP <= 0)
@@ -576,6 +582,8 @@ public class Entity : MonoBehaviour, IDamageable
     public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher, Entity pusher)
     {
         if (!canBePushed) return Vector2.zero;
+
+        DashHitParticles.GetNext(this.transform.position);
 
         Vector2 dir = ((Vector2)this.transform.position - pusherPosition).normalized;
 

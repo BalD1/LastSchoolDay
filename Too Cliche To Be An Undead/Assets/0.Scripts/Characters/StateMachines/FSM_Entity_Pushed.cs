@@ -6,9 +6,10 @@ using BalDUtilities.VectorUtils;
 public class FSM_Entity_Pushed<T> : FSM_Base<T>
 {
     protected Entity owner;
+    private Entity pusher;
     private Entity originalPusher;
     protected bool baseConditionChecked;
-    private Vector2 force;
+    protected Vector2 force;
 
     private List<Collider2D> alreadyPushedEntities;
 
@@ -23,14 +24,12 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         wallLayer = LayerMask.NameToLayer("Wall");
         alreadyPushedEntities = new List<Collider2D>();
         owner.GetRb.velocity = Vector2.zero;
-        owner.GetRb.AddForce(force, ForceMode2D.Impulse);
+        PerformPush(pusher);
 
         owner.d_EnteredTrigger += TriggerEnter;
         owner.d_EnteredCollider += ColliderEnter;
 
-        if (owner as EnemyBase != null)
-            (owner as EnemyBase).UnsetAttackedPlayer();
-        
+        owner.D_OnPushed?.Invoke();
     }
 
     public override void UpdateState(T stateManager)
@@ -55,6 +54,11 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
     public override void Conditions(T stateManager)
     {
         if (VectorMaths.Vector2ApproximatlyEquals(owner.GetRb.velocity, Vector2.zero, 0.08f)) baseConditionChecked = true;
+    }
+
+    protected virtual void PerformPush(Entity pusher)
+    {
+        owner.GetRb.AddForce(force, ForceMode2D.Impulse);
     }
 
     protected virtual void ColliderEnter(Collision2D collision)
@@ -83,10 +87,11 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
     }
 
     public void SetOwner(Entity _owner) => owner = _owner;
-    public FSM_Entity_Pushed<T> SetForce(Vector2 _force, Entity _originalPusher)
+    public FSM_Entity_Pushed<T> SetForce(Vector2 _force, Entity _originalPusher, Entity _pusher)
     {
         force = _force;
         originalPusher = _originalPusher;
+        pusher = _pusher;
         return this;
     }
 

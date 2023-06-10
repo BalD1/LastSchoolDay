@@ -253,6 +253,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         this.RemoveAllTickDamages();
         this.ResetStats();
         this.ResetTarget();
+        D_OnReset?.Invoke();
     }
 
     public void Reenable(Vector2 pos, bool addToSpawner = true)
@@ -294,7 +295,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
         v = v.Fluctuate(.2f);
 
-        stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher));
+        stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher, pusher));
 
         return v;
     }

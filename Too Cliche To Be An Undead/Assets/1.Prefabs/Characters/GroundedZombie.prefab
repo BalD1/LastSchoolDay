@@ -84,7 +84,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5000
+  m_SortingOrder: 6720
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1090053234246759262
 MonoBehaviour:
@@ -139,6 +139,7 @@ MonoBehaviour:
   pivotOffset: 0
   isStatic: 1
   objectRenderer: {fileID: 5633651585038158272}
+  isVisible: 1
   debugMode: 0
 --- !u!61 &3184863655774163165
 BoxCollider2D:
@@ -239,7 +240,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.00000023841858, y: 0.07741547}

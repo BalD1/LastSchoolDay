@@ -275,6 +275,7 @@ public class PlayerCharacter : Entity, IInteractable
         this.attackers.Clear();
 
         GameManager.Instance.D_onPlayerIsSetup?.Invoke(this.playerIndex);
+        D_OnReset?.Invoke();
     }
 
     private void ResetEndStats()
@@ -947,7 +948,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (v.magnitude <= Vector2.zero.magnitude) return Vector2.zero;
 
-        stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher));
+        stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher, pusher));
 
         return v;
     }

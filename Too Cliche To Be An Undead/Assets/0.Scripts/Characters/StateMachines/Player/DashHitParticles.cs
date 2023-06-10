@@ -15,4 +15,8 @@ public class DashHitParticles : MonoBehaviour
     }
     public static void GetNext(Vector2 position) => pool.GetNext(position);
 
+    private void OnParticleSystemStopped()
+    {
+        pool.Enqueue(this);
+    }
 }

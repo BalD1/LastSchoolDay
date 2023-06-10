@@ -138,7 +138,7 @@ public class TrainingDummy : EnemyBase
         if (stateManager.ToString().Equals("Pushed")) return Vector2.zero;
 
         Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher, pusher);
-        stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher));
+        stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher, pusher));
 
         return v;
     }
