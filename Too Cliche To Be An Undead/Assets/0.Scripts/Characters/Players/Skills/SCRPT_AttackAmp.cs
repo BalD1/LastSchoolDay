@@ -38,6 +38,8 @@ public class SCRPT_AttackAmp : SCRPT_Skill
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
         owner.OffsetSkillHolder(offset);
 
+        TextPopup.Create("Attaque +", owner.transform.position + (Vector3)owner.GetHealthPopupOffset);
+
         particles?.Create(owner.transform);
     }
 
