@@ -17,6 +17,7 @@ public class SCRPT_PlayerAudio : SCRPT_EntityAudio
     [SerializeField] private S_AudioClips[] skillEndClips;
 
     [SerializeField] private S_AudioClips[] dashClips;
+    [SerializeField] private S_AudioClips[] dashHitClips;
 
     [SerializeField] private S_AudioClips[] footsteps_inSchool;
     [SerializeField] private S_AudioClips[] footsteps_outdoor;
@@ -29,6 +30,7 @@ public class SCRPT_PlayerAudio : SCRPT_EntityAudio
     public S_AudioClips GetRandomSkillHoldClip() => skillHoldClips.RandomElement();
     public S_AudioClips GetRandomSkillEndClip() => skillEndClips.RandomElement();
     public S_AudioClips GetRandomDashClip() => dashClips.RandomElement();
+    public S_AudioClips GetRandomDashHitClip() => dashHitClips.RandomElement();
     public S_AudioClips GetRandomBigAttackConnectedClip() => bigAttackConnectedClips.RandomElement();
     public S_AudioClips GetRandomAttackConnectedClip() => attackConnectedClips.RandomElement();
 

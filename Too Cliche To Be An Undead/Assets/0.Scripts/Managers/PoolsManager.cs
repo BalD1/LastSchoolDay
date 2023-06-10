@@ -22,5 +22,6 @@ public class PoolsManager : MonoBehaviour
 		SpawnersManager.CheckPool();
 		TextPopup.CheckPool();
 		HealthPopup.CheckPool();
+		DashHitParticles.CheckPool();
 	}
 }

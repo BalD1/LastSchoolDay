@@ -112,6 +112,8 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
             remainingPushForce *= 2;
         }
         e.Push(owner.transform.position, remainingPushForce, owner, owner);
+        DashHitParticles.GetNext(owner.transform.position);
+        owner.D_OnDashHit(e);
     }
 
     public float GetRemainingTimeByMax() => dash_dur_TIMER / max_DURATION;

@@ -199,6 +199,8 @@ public class PlayerCharacter : Entity, IInteractable
     public delegate void D_OnDash();
     public D_OnDash D_onDash;
 
+    public Action<Entity> D_OnDashHit;
+
     public delegate void D_AimInput(Vector2 val);
     public D_AimInput D_aimInput;
 

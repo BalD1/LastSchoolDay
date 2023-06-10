@@ -33,6 +33,7 @@ public class PlayerAudio : MonoBehaviour
         owner.D_endSkill += PlaySkillEndAudio;
 
         owner.D_onDash += PlayDashAudio;
+        owner.D_OnDashHit += PlayDashHitAudio;
 
         owner.D_onFootPrint += PlayFootPrintAudio;
     }
@@ -52,6 +53,7 @@ public class PlayerAudio : MonoBehaviour
         owner.D_endSkill -= PlaySkillEndAudio;
 
         owner.D_onDash -= PlayDashAudio;
+        owner.D_OnDashHit -= PlayDashHitAudio;
 
         owner.D_onFootPrint -= PlayFootPrintAudio;
     }
@@ -150,6 +152,10 @@ public class PlayerAudio : MonoBehaviour
     {
         PlayAudioWithPitch(ownerAudioClips.GetRandomDashClip());
         PlayAudioWithPitch(ownerAudioClips.GetRandomVoiceDashClip());
+    }
+    private void PlayDashHitAudio(Entity entity)
+    {
+        PlayAudioWithPitch(ownerAudioClips.GetRandomDashHitClip());
     }
 
     private void PlayFootPrintAudio() => PlayAudioWithPitch(feetsSource, ownerAudioClips.GetRandomIndoorFootsteps());

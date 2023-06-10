@@ -22,6 +22,7 @@ public class SCRPT_Dash : ScriptableObject
     public float MaxScreenShakeDuration { get => maxScreenShakeDuration; }
 
     [SerializeField] protected GameObject[] particlesPF;
+    [field: SerializeField] public GameObject OnHitParticlesPF;
 
     protected List<ParticleSystem> currentParticles;
 
