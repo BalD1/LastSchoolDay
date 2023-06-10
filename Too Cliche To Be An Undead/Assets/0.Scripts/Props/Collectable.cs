@@ -27,6 +27,8 @@ public class Collectable : MonoBehaviour, IInteractable
 
     private bool isPicked = false;
 
+    [SerializeField] private float speedAdditionRate = 25;
+
     [SerializeField] protected SpriteRenderer spriteRenderer;
 
     [SerializeField] protected PlayerCharacter detectedPlayer;
@@ -48,12 +50,8 @@ public class Collectable : MonoBehaviour, IInteractable
 
     private void TravelToGoal()
     {
-        dist = Vector2.Distance(this.transform.position, detectedPlayer.transform.position);
-
-        bool allowDraw = drawdistance < 0 || dist <= drawdistance;
-
         //Draw Coin toward Player
-        if (allowDraw)
+        if (allowTravel)
         {
             //l'attirance est définie par une courbe
 
@@ -62,6 +60,8 @@ public class Collectable : MonoBehaviour, IInteractable
 
             float playerAddedSpeed = detectedPlayer.MaxSpeed_M - detectedPlayer.GetStats.Speed;
             if (playerAddedSpeed != 0) stepp += (playerAddedSpeed / 90);
+
+            stepp += speedAdditionRate * Time.deltaTime;
 
             this.transform.position = Vector2.MoveTowards(transform.position, goalTarget.position, stepp);
         }
@@ -92,7 +92,7 @@ public class Collectable : MonoBehaviour, IInteractable
 
     protected virtual void PlayPickupSound()
     {
-        source?.PlayOneShot(pickupSound);
+        AudioclipPlayer.Create(this.transform.position, pickupSound);
     }
 
     protected virtual GameObject CreateParticles()

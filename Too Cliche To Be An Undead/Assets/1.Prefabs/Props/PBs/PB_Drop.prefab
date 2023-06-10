@@ -163,12 +163,13 @@ MonoBehaviour:
   particle: {fileID: 4045405180755570523, guid: d89756cf396c97d40a07aa633292fdd3, type: 3}
   coinValue: 0
   selfTrigger: {fileID: 5984426657660484141}
-  pickupSound: {fileID: 8300000, guid: 5af2b48cffb007241bb847d1b41809b5, type: 3}
+  pickupSound: {fileID: 8300000, guid: 2dbfacf4c6d81af4b91d8e55119e8893, type: 3}
   source: {fileID: 8302144188479151816}
   pickupDistance: 0.2
   pickupOnCollision: 0
   rb: {fileID: 5984426657660484130}
   canBePickedUp: 1
+  speedAdditionRate: 25
   spriteRenderer: {fileID: 6452018326270742997}
   detectedPlayer: {fileID: 0}
   bonusPower: {fileID: 11400000, guid: 3cb9ac68c10e77a4cbf0c78492d7602c, type: 2}
@@ -418,7 +419,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7360898603498185014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -443,12 +444,12 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 32
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 6
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -481,7 +482,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -496,7 +497,16 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9977682
+      value: 0.0011901855
       inSlope: 0
       outSlope: 0
       tangentMode: 0

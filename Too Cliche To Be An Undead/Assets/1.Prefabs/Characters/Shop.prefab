@@ -174,7 +174,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1690
+  m_SortingOrder: 11562
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1253458323119518998
 MonoBehaviour:
@@ -224,7 +224,6 @@ GameObject:
   - component: {fileID: 8687617520608538587}
   - component: {fileID: 559930908073828839}
   - component: {fileID: 5207317487192379364}
-  - component: {fileID: 7895158701942716110}
   m_Layer: 14
   m_Name: Outline
   m_TagString: Untagged
@@ -297,22 +296,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4745299811177859016}
   m_Mesh: {fileID: 0}
---- !u!114 &7895158701942716110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4745299811177859016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb58643468d3dc479e20aff7c8c611e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  referenceRenderer: {fileID: 7331698914947622320}
-  replacementMaterials:
-  - originalMaterial: {fileID: 2100000, guid: 23d6354a6cbeae84888850618fe28040, type: 2}
-    replacementMaterial: {fileID: 2100000, guid: ba042a5dbd60c294e9007d82f59e02e2, type: 2}
 --- !u!1 &8135092856036278279
 GameObject:
   m_ObjectHideFlags: 0

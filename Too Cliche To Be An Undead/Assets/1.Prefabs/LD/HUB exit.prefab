@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 971615838942574458}
   - component: {fileID: 9214981421896261606}
   - component: {fileID: 6230875002301733515}
-  - component: {fileID: 4468762997629999116}
   m_Layer: 0
   m_Name: Outline
   m_TagString: Untagged
@@ -84,22 +83,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566287244779656855}
   m_Mesh: {fileID: 0}
---- !u!114 &4468762997629999116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566287244779656855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb58643468d3dc479e20aff7c8c611e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  referenceRenderer: {fileID: 2140928357229326172}
-  replacementMaterials:
-  - originalMaterial: {fileID: 2100000, guid: f6f08cd7d77cdc147825f171b99e2609, type: 2}
-    replacementMaterial: {fileID: 2100000, guid: 8708bde9d509497488b83904b0612a91, type: 2}
 --- !u!1 &4650476559803995906
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,8 +110,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4650476559803995906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.01, y: -0.528, z: 0}
+  m_LocalScale: {x: 0.91438997, y: 1.5816699, z: 1.2652}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 971615838942574458}
