@@ -583,9 +583,9 @@ public class Entity : MonoBehaviour, IDamageable
     {
         if (!canBePushed) return Vector2.zero;
 
-        DashHitParticles.GetNext(this.transform.position);
-
+        float dist = Vector2.Distance(pusherPosition, this.transform.position) / 2;
         Vector2 dir = ((Vector2)this.transform.position - pusherPosition).normalized;
+        DashHitParticles.GetNext(pusherPosition + (dist * dir));
 
         float finalForce = pusherForce - this.GetStats.Weight;
         if (finalForce <= 0) return Vector2.zero;

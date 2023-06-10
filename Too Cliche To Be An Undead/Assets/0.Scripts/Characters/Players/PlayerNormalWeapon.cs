@@ -31,9 +31,9 @@ public class PlayerNormalWeapon : PlayerWeapon
         effectObject ??= this.transform.GetComponentInChildren<GameObject>();
     }
 
-    public override void StartWeaponAttack(bool isLastAttack)
+    public override IEnumerator StartWeaponAttack(bool isLastAttack)
     {
-        base.StartWeaponAttack(isLastAttack);
+        StartCoroutine(base.StartWeaponAttack(isLastAttack));
 
         owner.D_onAttack?.Invoke(isLastAttack);
 
@@ -55,56 +55,79 @@ public class PlayerNormalWeapon : PlayerWeapon
         bool connectedEntity = false;
         bool hadBigHit = false;
 
+        if (performHitStop)
+        {
+            foreach (var item in hitEntities)
+            {
+                Entity e = item.GetComponentInParent<Entity>();
+                if (e == null || e is PlayerCharacter) continue;
+
+                e.Stun(1 + (hitStopTime * hitEntities.Length), true);
+                e.SkeletonAnimation.timeScale = 0;
+            }
+        }
         foreach (var item in hitEntities)
         {
             var damageable = item.GetComponentInParent<IDamageable>();
-            if (damageable != null)
+            if (damageable == null) continue;
+
+            Entity e = item.GetComponentInParent<Entity>();
+
+            float damages = owner.MaxDamages_M * damagesModifier_M;
+
+            bool performKnockback = true;
+            if (isLastAttack)
             {
-                Entity e = item.GetComponentInParent<Entity>();
+                damages *= lastAttackDamagesMultiplier;
+                performKnockback = false;
+            }
 
-                float damages = owner.MaxDamages_M * damagesModifier_M;
+            bool isCrit = owner.RollCrit();
 
-                bool performKnockback = true;
-                if (isLastAttack)
-                {
-                    damages *= lastAttackDamagesMultiplier;
-                    performKnockback = false;
-                }
+            // If the entity can't be damaged, continue to the next hit entity
+            if (damageable.OnTakeDamages(damages, owner, isCrit) == false)
+                continue;
 
-                bool isCrit = owner.RollCrit();
+            if (performHitStop && e != null)
+            {
+                yield return new WaitForSeconds(hitStopTime / 2);
+                owner.SkeletonAnimation.timeScale = 0;
+            }
 
-                // If the entity can't be damaged, continue to the next hit entity
-                if (damageable.OnTakeDamages(damages, owner, isCrit) == false)
-                    continue;
+            successfulhit = true;
 
-                successfulhit = true;
+            if (connectedEntity == false) connectedEntity = e != null;
 
-                if (connectedEntity == false) connectedEntity = e != null;
+            // Check if the entity is the closest one from player
+            float dist = Vector2.Distance(item.transform.position, effectObject.transform.position);
+            if ((closestEnemy == null || closestEnemyDist == -1) || (dist <= distanceForAutoAim && dist < closestEnemyDist))
+            {
+                closestEnemy = item.GetComponentInParent<EnemyBase>()?.PivotOffset;
+                closestEnemyDist = dist;
+            }
 
-                // Check if the entity is the closest one from player
-                float dist = Vector2.Distance(item.transform.position, effectObject.transform.position);
-                if ((closestEnemy == null || closestEnemyDist == -1) || (dist <= distanceForAutoAim && dist < closestEnemyDist) )
-                {
-                    closestEnemy = item.GetComponentInParent<EnemyBase>()?.PivotOffset;
-                    closestEnemyDist = dist;
-                }
+            float shakeIntensity = normalShakeIntensity * cameraShakeIntensityModifier_M;
+            float shakeDuration = normalShakeDuration;
 
-                float shakeIntensity = normalShakeIntensity * cameraShakeIntensityModifier_M;
-                float shakeDuration = normalShakeDuration;
+            hadBigHit = isLastAttack || isCrit;
 
-                hadBigHit = isLastAttack || isCrit;
+            foreach (var effect in onHitEffects) if (effect.IsBigHit) hadBigHit = true;
 
-                foreach (var effect in onHitEffects) if (effect.IsBigHit) hadBigHit = true;
-                
-                if (hadBigHit)
-                {
-                    e?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage * knockbackModifier_M, owner, owner);
-                    shakeIntensity = bigShakeIntensity * cameraShakeIntensityModifier_M;
-                    shakeDuration = bigShakeDuration;
-                }
+            if (hadBigHit || performHitStop)
+            {
+                e?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage * knockbackModifier_M, owner, owner);
+                shakeIntensity = bigShakeIntensity * cameraShakeIntensityModifier_M;
+                shakeDuration = bigShakeDuration;
+            }
 
-                SuccessfulHit(item.transform.position, e, performKnockback, speedModifier, (hadBigHit));
-                CameraManager.Instance.ShakeCamera(shakeIntensity, shakeDuration);
+            SuccessfulHit(item.transform.position, e, performKnockback, speedModifier, (hadBigHit));
+            CameraManager.Instance.ShakeCamera(shakeIntensity, shakeDuration);
+
+            if (performHitStop && e != null)
+            {
+                yield return new WaitForSeconds(hitStopTime / 2);
+                owner.SkeletonAnimation.timeScale = 1;
+                e.SkeletonAnimation.timeScale = 1;
             }
         }
         if (!successfulhit) owner.D_swif?.Invoke();
@@ -116,6 +139,51 @@ public class PlayerNormalWeapon : PlayerWeapon
         SetRotationTowardTarget(closestEnemy);
         closestEnemy = null;
         closestEnemyDist = -1;
+
+        if (performHitStop)
+        {
+            performHitStop = false;
+            if (inputStored)
+            {
+                inputStored = false;
+
+                PlayerAnimationController ownerAnims = owner.AnimationController;
+
+                AskForAttack();
+                switch (owner.Weapon.GetGeneralDirectionOfMouseOrGamepad())
+                {
+                    case Vector2 v when v == Vector2.up:
+                        ownerAnims.FlipSkeleton(false);
+                        ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_up, false);
+                        break;
+
+                    case Vector2 v when v == Vector2.down:
+                        ownerAnims.FlipSkeleton(true);
+                        ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_down, false);
+                        break;
+
+                    case Vector2 v when v == Vector2.left:
+                        ownerAnims.FlipSkeleton(false);
+                        ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_side, false);
+                        break;
+
+                    case Vector2 v when v == Vector2.right:
+                        ownerAnims.FlipSkeleton(true);
+                        ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_side, false);
+                        break;
+                }
+            }
+            else
+            {
+                LeanTween.delayedCall(attack_TIMER, () =>
+                {
+                    isAttacking = false;
+                    SetAttackEnded(true);
+                });
+            }
+        }
+
+        yield return null;
     }
 
     private void OnDrawGizmos()

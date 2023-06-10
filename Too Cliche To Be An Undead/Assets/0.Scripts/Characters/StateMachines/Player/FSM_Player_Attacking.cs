@@ -8,9 +8,8 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
+        Debug.Log("enter att");
         owner ??= stateManager.Owner;
-
-        owner.Weapon.attackEnded = false;
 
         Vector2 mouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();
 
@@ -73,7 +72,11 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     {
         if (owner.IsAlive() == false) return;
 
-        if (owner.Weapon.attackEnded) owner.StateManager.SwitchState(owner.StateManager.idleState);
+        if (owner.Weapon.attackEnded)
+        {
+            owner.Weapon.SetAttackEnded(false);
+            owner.StateManager.SwitchState(owner.StateManager.idleState);
+        }
 
         if (owner.isDashing)
         {

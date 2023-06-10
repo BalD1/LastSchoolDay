@@ -17,6 +17,9 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     private const float remainingTimeReductionOnCollision = .95f;
     private const float remainingForceThresholdToIgnoreIfPlayer = 10;
 
+    private float hitStopTimeBase = .10f;
+    private float hitStopTimer;
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         owner ??= stateManager.Owner;
@@ -52,6 +55,14 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
+        if (hitStopTimer > 0)
+        {
+            hitStopTimer -= Time.deltaTime;
+            if (hitStopTimer <= 0)
+                owner.SkeletonAnimation.AnimationState.TimeScale = 1;
+
+            return;
+        }
         dash_dur_TIMER -= Time.deltaTime;
         owner.SetSelfVelocity(mouseDir * owner.PlayerDash.DashSpeedCurve.Evaluate(-(dash_dur_TIMER - max_DURATION)));
         owner.PlayerDash.OnDashUpdate(owner);
@@ -111,6 +122,11 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
             remainingPushForce *= 2;
         }
+
+        hitStopTimer = hitStopTimeBase;
+        owner.SetSelfVelocity(Vector2.zero);
+        owner.SkeletonAnimation.AnimationState.TimeScale = 0;
+
         e.Push(owner.transform.position, remainingPushForce, owner, owner);
         owner.D_OnDashHit(e);
     }

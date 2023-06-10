@@ -4,6 +4,7 @@ using UnityEngine;
 using BalDUtilities.MouseUtils;
 using BalDUtilities.VectorUtils;
 using Unity.VisualScripting;
+using System.Linq;
 
 public class PlayerWeapon : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class PlayerWeapon : MonoBehaviour
     private float attacksComboReset_TIMER;
 
     public float attackDuration = .2f;
-    private float attack_TIMER;
+    protected float attack_TIMER;
 
     [SerializeField] private float afterCombo_COOLDOWN = .3f;
     private float afterCombo_TIMER;
@@ -64,12 +65,18 @@ public class PlayerWeapon : MonoBehaviour
     public bool prepareNextAttack;
     public bool inputStored;
 
-    public bool attackEnded;
+    public bool attackEnded { get; private set; }
+    public void SetAttackEnded(bool state) => attackEnded = state;
 
     public delegate void NextAttack(int attackIdx);
     public NextAttack D_nextAttack;
 
     private Vector2 aimGoal;
+
+    public bool performHitStop = false;
+    [SerializeField] protected float hitStopTime = .1f;
+
+    protected bool performEnded = false;
 
     protected virtual void Awake()
     {
@@ -138,7 +145,7 @@ public class PlayerWeapon : MonoBehaviour
                             break;
                     }
                 }
-                else attackEnded = true;
+                else if (!performHitStop) SetAttackEnded(true);
             }
         }
 
@@ -292,10 +299,10 @@ public class PlayerWeapon : MonoBehaviour
             return;
         }
 
-        StartWeaponAttack(attackCount >= maxAttacksCombo - 1);
+        StartCoroutine(StartWeaponAttack(attackCount >= maxAttacksCombo - 1));
     }
 
-    public virtual void StartWeaponAttack(bool isLastAttack)
+    public virtual IEnumerator StartWeaponAttack(bool isLastAttack)
     {
         SetRotation();
 
@@ -309,7 +316,9 @@ public class PlayerWeapon : MonoBehaviour
         attacksComboReset_TIMER = attacksComboResetTime;
         attack_TIMER = attackDuration;
         isAttacking = true;
-        attackEnded = false;
+        SetAttackEnded(false);
+
+        yield return null;
     }
 
     public void SuccessfulHit(Vector3 hitPosition, Entity e, bool addKnockback, float speedModifier, bool bigHit)
@@ -323,7 +332,7 @@ public class PlayerWeapon : MonoBehaviour
         GameObject hitEffect = Instantiate(hitParticles, effectObjectPos + (Vector3)(dist * dir), Quaternion.identity).gameObject;
 
         float finalKnockback = (onHitKnockback - e.GetStats.Weight + speedModifier) * knockbackModifier_M;
-        if (finalKnockback > 0 && addKnockback)
+        if (finalKnockback > 0 && addKnockback && !performHitStop)
         {
             e.Stun(.1f, true);
 

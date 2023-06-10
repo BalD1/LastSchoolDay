@@ -64,6 +64,7 @@ public class SCRPT_AttackAmp : SCRPT_Skill
             Destroy(effect, animDuration + .1f);
         }
 
+        owner.Weapon.performHitStop = true;
         owner.D_successfulAttack += StartSkillTimerOnHit;
     }
 

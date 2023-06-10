@@ -5,7 +5,7 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
 {
     NormalZombie zombieOwner;
 
-    private float hitStopTimeBase = .15f;
+    private float hitStopTimeBase = .10f;
     private bool hitStopWasPerformed = false;
 
     private LTDescr hitTween;
@@ -44,7 +44,8 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
 
     protected void CancelTween()
     {
-        LeanTween.cancel(hitTween.uniqueId);
+        if (hitTween != null)
+                LeanTween.cancel(hitTween.uniqueId);
     }
 
     protected override void PerformPush(Entity pusher)

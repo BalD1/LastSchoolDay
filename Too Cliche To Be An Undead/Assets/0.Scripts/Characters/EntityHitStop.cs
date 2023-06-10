@@ -5,7 +5,7 @@ public class EntityHitStop : MonoBehaviour
 {
     [SerializeField] protected Entity owner;
 
-    [SerializeField] protected float stopTime = .25f;
+    [SerializeField] protected float stopTime = .10f;
 
     private Coroutine hitStopCoroutine;
 

@@ -173,6 +173,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     {
         owner.AttacksArray[currentAttackIdx].OnExit(owner);
         if (owner.AttacksArray[currentAttackIdx].DamageOnTrigger) owner.d_EnteredTrigger -= OnTrigger;
+        owner.attackTelegraph.CancelTelegraph();
 
         owner.UnsetAttackedPlayer();
         owner.Vision.TargetClosestPlayer();

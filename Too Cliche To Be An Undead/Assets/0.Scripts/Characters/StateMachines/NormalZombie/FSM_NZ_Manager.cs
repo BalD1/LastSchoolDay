@@ -71,6 +71,7 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
     public bool AttackConditions()
     {
+        if (this.currentState.ToString() == "Stunned") return false;
         float distanceFromTarget = Vector2.Distance(owner.transform.position, owner.CurrentPlayerTarget.transform.position);
 
         bool isAtRightDistance = (distanceFromTarget <= owner.DistanceBeforeStop || distanceFromTarget <= owner.Attack.AttackDistance);
