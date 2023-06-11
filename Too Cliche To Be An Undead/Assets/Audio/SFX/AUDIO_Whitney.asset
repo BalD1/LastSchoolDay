@@ -25,8 +25,6 @@ MonoBehaviour:
     pitchRange: 0
   - clip: {fileID: 8300000, guid: fb782a4255ebe0a4991b2ce18da3b002, type: 3}
     pitchRange: 0
-  - clip: {fileID: 8300000, guid: 6bdbda9829189dc48ab65ab678b07fd7, type: 3}
-    pitchRange: 0
   deathClips:
   - clip: {fileID: 8300000, guid: 4d8f804b6d1893d408338c7ff6bad868, type: 3}
     pitchRange: 0
@@ -68,6 +66,8 @@ MonoBehaviour:
   voice_skillStartClips: []
   voice_dashStartClips:
   - clip: {fileID: 8300000, guid: 38912224cad14d84aa6242eb323cdfee, type: 3}
+    pitchRange: 0
+  - clip: {fileID: 8300000, guid: 50d72465daa00ae4eac3493bcfd19e6e, type: 3}
     pitchRange: 0
   voice_attackClips:
   - clip: {fileID: 8300000, guid: 229ead49d414df749b95317b66e12a2d, type: 3}

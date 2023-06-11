@@ -236,6 +236,8 @@ public class PlayerCharacter : Entity, IInteractable
 
     public event Action<GameObject> OnInteract;
     private void CallInteract(GameObject interactor) => OnInteract?.Invoke(interactor);
+
+    public Action<AudioClip> OnOverrideNextVoiceAttackAudio;
     #endregion
 
     #region A/S/U/F
@@ -996,6 +998,7 @@ public class PlayerCharacter : Entity, IInteractable
     {
         this.StatsModifiers.Clear();
         this.attackers.Clear();
+        this.skeletonAnimation.timeScale = 1;
 
         this.currentHP = this.MaxHP_M;
         PlayerHUD.ForceHPUpdate();

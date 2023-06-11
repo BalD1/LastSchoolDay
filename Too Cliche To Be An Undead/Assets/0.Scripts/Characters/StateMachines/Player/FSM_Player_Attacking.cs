@@ -8,7 +8,6 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
-        Debug.Log("enter att");
         owner ??= stateManager.Owner;
 
         Vector2 mouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Spine.Unity;
 
 [CreateAssetMenu(fileName = "AttackAmp", menuName = "Scriptable/Entity/Skills/AttackAmp")]
 public class SCRPT_AttackAmp : SCRPT_Skill
@@ -19,6 +20,10 @@ public class SCRPT_AttackAmp : SCRPT_Skill
 
     [field: SerializeField] public string EffectID { get; private set; }
 
+    [SerializeField] private AudioClip voiceAttackClipOverride;
+
+    private LTDescr colorTween;
+
     public override void EarlyStart(PlayerCharacter owner)
     {
         owner.D_earlySkillStart?.Invoke();
@@ -30,6 +35,7 @@ public class SCRPT_AttackAmp : SCRPT_Skill
 
         this.owner = owner;
 
+        owner.OnOverrideNextVoiceAttackAudio?.Invoke(voiceAttackClipOverride);
         owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
@@ -38,9 +44,15 @@ public class SCRPT_AttackAmp : SCRPT_Skill
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
         owner.OffsetSkillHolder(offset);
 
-        TextPopup.Create("Attaque +", owner.transform.position + (Vector3)owner.GetHealthPopupOffset);
+        TextPopup.Create("Super Strike", owner.transform.position + (Vector3)owner.GetHealthPopupOffset);
 
         particles?.Create(owner.transform);
+
+        colorTween = LeanTween.value(owner.SkeletonAnimation.gameObject, Color.white, Color.yellow, .25f).setOnUpdate(
+            (Color c) =>
+            {
+                owner.SkeletonAnimation.Skeleton.SetColor(c);
+            }).setLoopPingPong(1);
     }
 
     public override void UpdateSkill(PlayerCharacter owner)
@@ -65,13 +77,13 @@ public class SCRPT_AttackAmp : SCRPT_Skill
         }
 
         owner.Weapon.performHitStop = true;
-        owner.D_successfulAttack += StartSkillTimerOnHit;
+        owner.D_onAttack += StartSkillTimerOnHit;
     }
 
     private void StartSkillTimerOnHit(bool lastAttack)
     {
         owner.GetSkillHolder.StartTimer();
-        owner.D_successfulAttack -= StartSkillTimerOnHit;
+        owner.D_onAttack -= StartSkillTimerOnHit;
         isInUse = false;
     }
 }

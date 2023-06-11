@@ -2,13 +2,7 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using Unity.IO.LowLevel.Unsafe;
-using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.Rendering;
 
 public class Entity : MonoBehaviour, IDamageable
 {

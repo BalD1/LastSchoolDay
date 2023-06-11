@@ -299,10 +299,10 @@ public class PlayerWeapon : MonoBehaviour
             return;
         }
 
-        StartCoroutine(StartWeaponAttack(attackCount >= maxAttacksCombo - 1));
+        StartWeaponAttack(attackCount >= maxAttacksCombo - 1);
     }
 
-    public virtual IEnumerator StartWeaponAttack(bool isLastAttack)
+    public virtual void StartWeaponAttack(bool isLastAttack)
     {
         SetRotation();
 
@@ -312,13 +312,17 @@ public class PlayerWeapon : MonoBehaviour
             slashParticles.Play();
         }
 
+        foreach (var item in onHitEffects)
+        {
+            item.SuccessfulyApplied();
+            if (item.IsFInished()) if (!effectsToRemove.Contains(item)) effectsToRemove.Add(item);
+        }
+
         attackCount++;
         attacksComboReset_TIMER = attacksComboResetTime;
         attack_TIMER = attackDuration;
         isAttacking = true;
         SetAttackEnded(false);
-
-        yield return null;
     }
 
     public void SuccessfulHit(Vector3 hitPosition, Entity e, bool addKnockback, float speedModifier, bool bigHit)
@@ -341,12 +345,6 @@ public class PlayerWeapon : MonoBehaviour
         }
 
         foreach (var item in onHitTickDamages) e.AddTickDamages(item);
-
-        foreach (var item in onHitEffects)
-        {
-            item.SuccessfulyApplied();
-            if (item.IsFInished()) if (!effectsToRemove.Contains(item)) effectsToRemove.Add(item);
-        }
     }
 
     public void ResetAttack()

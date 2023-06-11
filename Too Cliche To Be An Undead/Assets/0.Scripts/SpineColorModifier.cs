@@ -27,6 +27,13 @@ public class SpineColorModifier : MonoBehaviour
     [field: SerializeField] public SkeletonAnimation skeletonAnimation { get; private set; }
     private Skeleton SelfSkeleton;
 
+    private void Reset()
+    {
+        skeletonAnimation = this.GetComponent<SkeletonAnimation>();
+        SelfSkeleton = skeletonAnimation.Skeleton;
+        BaseColor = SelfSkeleton.GetColor();
+    }
+
     private void Awake()
     {
         SelfSkeleton = skeletonAnimation.Skeleton;
@@ -44,10 +51,20 @@ public class SpineColorModifier : MonoBehaviour
 #if UNITY_EDITOR
     private void Update()
     {
+        if (SelfSkeleton == null)
+        {
+            SetupSkeleton();
+            if (SelfSkeleton == null) return;
+        }
         if (editor_TestTargetColor) SelfSkeleton.SetColor(TargetColor);
         if (editor_TestBaseColor) SelfSkeleton.SetColor(BaseColor);
     } 
 #endif
+
+    private void SetupSkeleton()
+    { 
+        SelfSkeleton = skeletonAnimation.Skeleton;
+    }
 
     private void EDITOR_SwitchToModifiedColor()
     {

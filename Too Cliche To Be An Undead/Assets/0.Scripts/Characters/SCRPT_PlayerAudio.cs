@@ -23,6 +23,7 @@ public class SCRPT_PlayerAudio : SCRPT_EntityAudio
     [SerializeField] private S_AudioClips[] footsteps_outdoor;
 
     [SerializeField] private S_AudioClips[] voice_skillStartClips;
+    [SerializeField] private S_AudioClips[] voice_skillEndClips;
     [SerializeField] private S_AudioClips[] voice_dashStartClips;
     [SerializeField] private S_AudioClips[] voice_attackClips;
 
@@ -38,6 +39,7 @@ public class SCRPT_PlayerAudio : SCRPT_EntityAudio
     public S_AudioClips GetRandomOOutdoorFootsteps() => footsteps_outdoor.RandomElement();
 
     public S_AudioClips GetRandomVoiceSkillStartClip() => voice_skillStartClips.RandomElement();
+    public S_AudioClips GetRandomVoiceSkillEndClip() => voice_skillEndClips.RandomElement();
     public S_AudioClips GetRandomVoiceDashClip() => voice_dashStartClips.RandomElement();
     public S_AudioClips GetRandomVoiceAttackClip() => voice_attackClips.RandomElement();
 

@@ -31,9 +31,9 @@ public class PlayerNormalWeapon : PlayerWeapon
         effectObject ??= this.transform.GetComponentInChildren<GameObject>();
     }
 
-    public override IEnumerator StartWeaponAttack(bool isLastAttack)
+    public override void StartWeaponAttack(bool isLastAttack)
     {
-        StartCoroutine(base.StartWeaponAttack(isLastAttack));
+        base.StartWeaponAttack(isLastAttack);
 
         owner.D_onAttack?.Invoke(isLastAttack);
 
@@ -56,16 +56,10 @@ public class PlayerNormalWeapon : PlayerWeapon
         bool hadBigHit = false;
 
         if (performHitStop)
-        {
-            foreach (var item in hitEntities)
-            {
-                Entity e = item.GetComponentInParent<Entity>();
-                if (e == null || e is PlayerCharacter) continue;
+            owner.SkeletonAnimation.timeScale = 0;
 
-                e.Stun(1 + (hitStopTime * hitEntities.Length), true);
-                e.SkeletonAnimation.timeScale = 0;
-            }
-        }
+        List<EnemyBase> hitEnemies = new List<EnemyBase>();
+
         foreach (var item in hitEntities)
         {
             var damageable = item.GetComponentInParent<IDamageable>();
@@ -88,12 +82,6 @@ public class PlayerNormalWeapon : PlayerWeapon
             if (damageable.OnTakeDamages(damages, owner, isCrit) == false)
                 continue;
 
-            if (performHitStop && e != null)
-            {
-                yield return new WaitForSeconds(hitStopTime / 2);
-                owner.SkeletonAnimation.timeScale = 0;
-            }
-
             successfulhit = true;
 
             if (connectedEntity == false) connectedEntity = e != null;
@@ -113,22 +101,37 @@ public class PlayerNormalWeapon : PlayerWeapon
 
             foreach (var effect in onHitEffects) if (effect.IsBigHit) hadBigHit = true;
 
-            if (hadBigHit || performHitStop)
+            if (hadBigHit)
             {
-                e?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage * knockbackModifier_M, owner, owner);
+                if (!performHitStop)
+                    e?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage * knockbackModifier_M, owner, owner);
                 shakeIntensity = bigShakeIntensity * cameraShakeIntensityModifier_M;
                 shakeDuration = bigShakeDuration;
             }
 
-            SuccessfulHit(item.transform.position, e, performKnockback, speedModifier, (hadBigHit));
-            CameraManager.Instance.ShakeCamera(shakeIntensity, shakeDuration);
-
             if (performHitStop && e != null)
             {
-                yield return new WaitForSeconds(hitStopTime / 2);
-                owner.SkeletonAnimation.timeScale = 1;
-                e.SkeletonAnimation.timeScale = 1;
+                e.Stun(1 + (hitStopTime), true);
+                e.SkeletonAnimation.timeScale = 0;
             }
+
+            EnemyBase enemy = e as EnemyBase;
+            if (enemy != null) hitEnemies.Add(enemy);
+
+            SuccessfulHit(item.transform.position, e, performKnockback, speedModifier, (hadBigHit));
+            CameraManager.Instance.ShakeCamera(shakeIntensity, shakeDuration);
+        }
+        if (performHitStop)
+        {
+            LeanTween.delayedCall(hitStopTime, () =>
+            {
+                foreach (var item in hitEnemies)
+                {
+                    item.Push(owner.transform.position, owner.PlayerDash.PushForce * knockbackModifier_M, owner, owner);
+                    item.SkeletonAnimation.timeScale = 1;
+                }
+                owner.SkeletonAnimation.timeScale = 1;
+            });
         }
         if (!successfulhit) owner.D_swif?.Invoke();
         if (connectedEntity) owner.D_successfulAttack?.Invoke(hadBigHit);
@@ -182,8 +185,6 @@ public class PlayerNormalWeapon : PlayerWeapon
                 });
             }
         }
-
-        yield return null;
     }
 
     private void OnDrawGizmos()

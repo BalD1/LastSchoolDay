@@ -265,7 +265,10 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         if (addToSpawner) SpawnersManager.Instance.AddZombie();
 
         if (this.skeletonAnimation != null)
+        {
             this.skeletonAnimation.skeleton.SetColor(Color.white);
+            this.skeletonAnimation.timeScale = 1;
+        }
 
         this.gameObject.SetActive(true);
         this.Vision.TargetClosestPlayer();

@@ -19,10 +19,14 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: a42883e7f5c57214690fe9198eda9238, type: 3}
     pitchRange: 0.2
   hurtClips:
-  - clip: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 924ea3091cd833f4bb5e6c8105e9f146, type: 3}
+    pitchRange: 0
+  - clip: {fileID: 8300000, guid: 0616bcd607e56f249a075c90f91f7932, type: 3}
+    pitchRange: 0
+  - clip: {fileID: 8300000, guid: 2c219d96d9860544daaf54e2b22c3c04, type: 3}
     pitchRange: 0
   deathClips:
-  - clip: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 6fcc650f98e4fda4a9f6dc28ed78ae9e, type: 3}
     pitchRange: 0
   attackConnectedClips:
   - clip: {fileID: 8300000, guid: 2b35fb6b1f6abd64683a08f3450ee978, type: 3}
@@ -36,9 +40,7 @@ MonoBehaviour:
     pitchRange: 0.2
   - clip: {fileID: 8300000, guid: 7893e0032b8b2624eb888e055ef6a285, type: 3}
     pitchRange: 0.2
-  skillStartClips:
-  - clip: {fileID: 0}
-    pitchRange: 0
+  skillStartClips: []
   skillHoldClips: []
   skillEndClips: []
   dashClips:
@@ -59,6 +61,19 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: f8e559768bed7ed4680ab0449da7ec3a, type: 3}
     pitchRange: 0.4
   footsteps_outdoor: []
-  voice_skillStartClips: []
-  voice_dashStartClips: []
-  voice_attackClips: []
+  voice_skillStartClips:
+  - clip: {fileID: 8300000, guid: bbab0845caecbc04d9c85b3737e73b1d, type: 3}
+    pitchRange: 0
+  voice_skillEndClips:
+  - clip: {fileID: 0}
+    pitchRange: 0
+  voice_dashStartClips:
+  - clip: {fileID: 8300000, guid: c24dc30705e3f3c4bbbb268696346f0d, type: 3}
+    pitchRange: 0
+  voice_attackClips:
+  - clip: {fileID: 8300000, guid: 4171e67790c08d549baf8253dd666f70, type: 3}
+    pitchRange: 0
+  - clip: {fileID: 8300000, guid: a70709c5aa26aed468329363d7a325f1, type: 3}
+    pitchRange: 0
+  - clip: {fileID: 8300000, guid: 9935a42bc2f8dbf4f84d2c5479e71352, type: 3}
+    pitchRange: 0

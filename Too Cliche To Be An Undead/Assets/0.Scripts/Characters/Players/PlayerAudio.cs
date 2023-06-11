@@ -12,6 +12,8 @@ public class PlayerAudio : MonoBehaviour
     protected AudioSource ownerSource;
     protected SCRPT_PlayerAudio ownerAudioClips;
 
+    private AudioClip nextVoiceAttackAudioOverride = null;
+
     private LTDescr onSkillAudioLoopPoint;
 
     protected virtual void Awake()
@@ -28,14 +30,17 @@ public class PlayerAudio : MonoBehaviour
         owner.D_onAttack += PlayAttackAudio;
         owner.D_successfulAttack += PlayAttackConnectedAudio;
 
-        owner.D_earlySkillStart += PlayVoiceSkillAudio;
+        owner.D_earlySkillStart += PlayVoiceSkillStartAudio;
         owner.D_startSkill += PlaySkillStartAudio;
         owner.D_endSkill += PlaySkillEndAudio;
+        owner.D_endSkill += PlayVoiceSkillEndAudio;
 
         owner.D_onDash += PlayDashAudio;
         owner.D_OnDashHit += PlayDashHitAudio;
 
         owner.D_onFootPrint += PlayFootPrintAudio;
+
+        owner.OnOverrideNextVoiceAttackAudio += OverrideNextAttackAudio;
     }
 
     private void OnDestroy()
@@ -49,13 +54,22 @@ public class PlayerAudio : MonoBehaviour
         owner.D_onAttack -= PlayAttackAudio;
         owner.D_successfulAttack -= PlayAttackConnectedAudio;
 
+        owner.D_earlySkillStart -= PlayVoiceSkillStartAudio;
         owner.D_startSkill -= PlaySkillStartAudio;
         owner.D_endSkill -= PlaySkillEndAudio;
+        owner.D_endSkill -= PlayVoiceSkillEndAudio;
 
         owner.D_onDash -= PlayDashAudio;
         owner.D_OnDashHit -= PlayDashHitAudio;
 
         owner.D_onFootPrint -= PlayFootPrintAudio;
+
+        owner.OnOverrideNextVoiceAttackAudio -= OverrideNextAttackAudio;
+    }
+
+    private void OverrideNextAttackAudio(AudioClip clip)
+    {
+        nextVoiceAttackAudioOverride = clip;
     }
 
     public void SetAudioClips() => ownerAudioClips = owner.GetAudioClips;
@@ -70,16 +84,34 @@ public class PlayerAudio : MonoBehaviour
 
     private void PlayAttackAudio(bool isBigHit)
     {
-        if (!isBigHit)
+        if (isBigHit) PlayBigHitAttackAudio();
+        else PlayNormalHitAttackAudio();
+    }
+    private void PlayNormalHitAttackAudio()
+    {
+        PlayAudioWithPitch(ownerAudioClips.GetRandomAttackClip());
+
+        if (nextVoiceAttackAudioOverride != null)
         {
-            PlayAudioWithPitch(ownerAudioClips.GetRandomAttackClip());
-            PlayAudioWithPitch(ownerAudioClips.GetRandomVoiceAttackClip());
+            ownerSource.pitch = 1;
+            ownerSource.PlayOneShot(nextVoiceAttackAudioOverride);
+            nextVoiceAttackAudioOverride = null;
         }
         else
-        {
-            PlayAudioWithPitch(ownerAudioClips.GetRandomBigAttackClip());
             PlayAudioWithPitch(ownerAudioClips.GetRandomVoiceAttackClip());
+    }
+    private void PlayBigHitAttackAudio()
+    {
+        PlayAudioWithPitch(ownerAudioClips.GetRandomBigAttackClip());
+
+        if (nextVoiceAttackAudioOverride != null)
+        {
+            ownerSource.pitch = 1;
+            ownerSource.PlayOneShot(nextVoiceAttackAudioOverride);
+            nextVoiceAttackAudioOverride = null;
         }
+        else
+            PlayAudioWithPitch(ownerAudioClips.GetRandomVoiceAttackClip());
     }
 
     private void PlayAttackConnectedAudio(bool isBigHit)
@@ -88,9 +120,14 @@ public class PlayerAudio : MonoBehaviour
         else PlayAudioWithPitch(ownerAudioClips.GetRandomBigAttackConnectedClip());
     }
 
-    private void PlayVoiceSkillAudio()
+    private void PlayVoiceSkillStartAudio()
     {
         PlayAudioWithPitch(ownerAudioClips.GetRandomVoiceSkillStartClip());
+    }
+
+    private void PlayVoiceSkillEndAudio(bool hold)
+    {
+        PlayAudioWithPitch(ownerAudioClips.GetRandomVoiceSkillEndClip());
     }
 
     private void PlaySkillStartAudio(bool holdAudio)
