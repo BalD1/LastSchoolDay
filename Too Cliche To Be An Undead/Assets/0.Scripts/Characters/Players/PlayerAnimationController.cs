@@ -30,6 +30,11 @@ public class PlayerAnimationController : MonoBehaviour
     [InspectorButton(nameof(SetAnimationInspector), ButtonWidth = 200)]
     [SerializeField] private bool ForceAnimation;
 
+    [SerializeField] private SkeletonDataAsset jasonSkeletonDataAsset;
+    [SerializeField] private SkeletonRendererCustomMaterials jasonMaterialOverride_PF;
+
+    public SkeletonRendererCustomMaterials JasonMaterialOverride { get; private set; }
+ 
 #if UNITY_EDITOR
     [SpineAnimation]
     [SerializeField] private string editor_AnimationToSet;
@@ -50,6 +55,14 @@ public class PlayerAnimationController : MonoBehaviour
             {
                 item.gameObject.AddComponent<RendererSorting>();
                 item.gameObject.AddComponent<VisibilityWatcher>().Setup(owner);
+
+                if (item.GetComponent<SkeletonAnimation>().skeletonDataAsset == jasonSkeletonDataAsset)
+                {
+                    SkeletonRendererCustomMaterials ovm = jasonMaterialOverride_PF.gameObject.Create(item).GetComponent<SkeletonRendererCustomMaterials>();
+                    ovm.skeletonRenderer = item.GetComponent<SkeletonRenderer>();
+                    JasonMaterialOverride = ovm;
+                    JasonMaterialOverride.gameObject.SetActive(false);
+                }
             }
         }
 

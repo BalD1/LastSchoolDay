@@ -22,6 +22,9 @@ public class SCRPT_AttackAmp : SCRPT_Skill
 
     [SerializeField] private AudioClip voiceAttackClipOverride;
 
+    [SerializeField] private Material flashMaterial;
+    private Material baseMaterial;
+
     private LTDescr colorTween;
 
     public override void EarlyStart(PlayerCharacter owner)
@@ -48,11 +51,24 @@ public class SCRPT_AttackAmp : SCRPT_Skill
 
         particles?.Create(owner.transform);
 
-        colorTween = LeanTween.value(owner.SkeletonAnimation.gameObject, Color.white, Color.yellow, .25f).setOnUpdate(
-            (Color c) =>
+        Renderer skeletonRenderer = owner.SkeletonAnimation.GetComponent<Renderer>();
+        owner.AnimationController.JasonMaterialOverride.gameObject.SetActive(true);
+        skeletonRenderer.material.SetFloat("_FillPhase", 0);
+        colorTween = LeanTween.value(0, 1, .25f).setOnUpdate(
+            (float val) =>
             {
-                owner.SkeletonAnimation.Skeleton.SetColor(c);
-            }).setLoopPingPong(1);
+                skeletonRenderer.material.SetFloat("_FillPhase", val);
+            }).setOnComplete(() =>
+            {
+                LeanTween.value(1, 0, .25f).setOnUpdate(
+                (float val) =>
+                {
+                    skeletonRenderer.material.SetFloat("_FillPhase", val);
+                }).setOnComplete(() =>
+                {
+                    owner.AnimationController.JasonMaterialOverride.gameObject.SetActive(false);
+                });
+            });
     }
 
     public override void UpdateSkill(PlayerCharacter owner)
