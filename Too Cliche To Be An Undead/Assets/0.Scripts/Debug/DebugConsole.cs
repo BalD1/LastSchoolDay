@@ -75,6 +75,8 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand RICH_AF;
     private DebugCommand<int> ADD_MONEY;
 
+    private DebugCommand SHOW_FPS;
+
     private DebugCommand START_BREAKUP;
     private DebugCommand END_BREAKUP;
     private DebugCommand<bool> DEBUG_M_SPAWNERS;
@@ -167,6 +169,8 @@ public class DebugConsole : MonoBehaviour
 
             SET_SPAWNS_STATE,
 
+            SHOW_FPS,
+
 #if UNITY_EDITOR
             DEBUG_M_SPAWNERS,
 #endif
@@ -253,6 +257,12 @@ public class DebugConsole : MonoBehaviour
         END_BREAKUP = new DebugCommand("END_BREAKUP", "Ends the current breakup", "END_BREAKUP", () =>
         {
             SpawnersManager.Instance.EndBreakup();
+        });
+
+        SHOW_FPS = new DebugCommand("SHOW_FPS", "Shows or hides the FPS counter", "SHOW_FPS", () =>
+        {
+            FPSDisplayer displayer = FindObjectOfType<FPSDisplayer>();
+            displayer.SetState(!displayer.IsRunning());
         });
     }
 

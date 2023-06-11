@@ -40,6 +40,9 @@ public class SCRPT_PB : ScriptableObject
     [SerializeField] private float AC_amount;
     public float AC_Amount { get => AC_amount; }
 
+    [SerializeField] private float healAmountOnExceedence;
+    public float HealAmountOnExceedence { get => healAmountOnExceedence; }
+
     [SerializeField] private string description;
     public string Description { get => description; }
 

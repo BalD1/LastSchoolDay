@@ -47,6 +47,9 @@ public class FPSDisplayer : MonoBehaviour
         fpsReset_TIMER = fpsReset_COOLDOWN;
     }
 
+    public void SetState(bool state) => run = state;
+    public bool IsRunning() => run;
+
     private void OnGUI()
     {
         if (!run) return;

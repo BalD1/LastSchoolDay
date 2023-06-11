@@ -81,7 +81,6 @@ public class PB_Drop : Collectable
     public override void Interact(GameObject interactor)
     {
         if (pickupOnCollision || !canBePickedUp) return;
-        base.Interact(interactor);
 
         float val;
 
@@ -89,8 +88,20 @@ public class PB_Drop : Collectable
         if (player.GetCharacterName().Equals(bonusPower.AssociatedCharacter)) val = bonusPower.AC_Amount;
         else val = bonusPower.Amount;
 
+        float exceedence = 0;
+        if (player.CheckIfModifierWillExceed(bonusPower.StatType, val, out exceedence))
+        {
+            player.OnHeal(bonusPower.HealAmountOnExceedence);
+        }
         player.AddModifier(bonusPower.ID, val, bonusPower.StatType);
 
+        if (exceedence > 0)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        base.Interact(interactor);
         D_onPickUp += CreateText;//UwU
     }
 

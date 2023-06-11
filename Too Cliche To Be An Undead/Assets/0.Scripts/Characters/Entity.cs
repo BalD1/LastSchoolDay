@@ -346,6 +346,38 @@ public class Entity : MonoBehaviour, IDamageable
         ApplyModifier(m);
     }
 
+    public bool CheckIfModifierWillExceed(StatsModifier.E_StatType type, float value, out float exceed)
+    {
+        exceed = 0;
+        switch (type)
+        {
+            case StatsModifier.E_StatType.MaxHP:
+                exceed = (maxHP_M + value) - stats.MaxHP_MAX;
+                break;
+
+            case StatsModifier.E_StatType.Damages:
+                exceed = (maxDamages_M + value) - stats.BaseDamages_MAX;
+                break;
+
+            case StatsModifier.E_StatType.AttackRange:
+                exceed = (MaxAttRange_M + value) - stats.AttackRange_MAX;
+                break;
+
+            case StatsModifier.E_StatType.Attack_CD:
+                exceed = (maxAttCD_M + value) - stats.Attack_COOLDOWN_MAX;
+                break;
+
+            case StatsModifier.E_StatType.Speed:
+                exceed = (MaxSpeed_M + value) - stats.Speed_MAX;
+                break;
+
+            case StatsModifier.E_StatType.CritChances:
+                exceed = (MaxCritChances_M + value) - stats.CritChances_MAX;
+                break;
+        }
+
+        return exceed > 0;
+    }
     public void AddModifier(string id, float value, float time, StatsModifier.E_StatType type)
     {
         StatsModifier m = new StatsModifier(id, value, time, type);
