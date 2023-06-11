@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BossHUD : MonoBehaviour
 {
     [field: SerializeField] public Image fillImage;
+    [SerializeField] private TextMeshProUGUI bossName_TXT;
 
     private BossZombie relatedBoss;
 
@@ -23,6 +25,7 @@ public class BossHUD : MonoBehaviour
 
         relatedBoss.D_onTakeDamagesFromEntity += UpdateFillAmount;
         relatedBoss.d_OnDeath += OnDeath;
+        bossName_TXT.text = boss.GetStats.EntityName;
     }
 
     public void UpdateFillAmount(bool critDamages, Entity damager, bool tickDamages)

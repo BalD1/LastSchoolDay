@@ -108,10 +108,10 @@ RectTransform:
   m_Father: {fileID: 7520872547752297877}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.23715127, y: 0.37296602}
-  m_AnchorMax: {x: 0.76763123, y: 1.0000262}
-  m_AnchoredPosition: {x: 0, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: 0.0000038146973}
+  m_AnchorMin: {x: 0, y: 0.37300003}
+  m_AnchorMax: {x: 1, y: 1.0000262}
+  m_AnchoredPosition: {x: -0.0015855, y: -0.001709}
+  m_SizeDelta: {x: 0.0031128, y: -0.003418}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3975871773716697915
 CanvasRenderer:
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Jean-Blob
+  m_text: equipe de basket
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 75ddad2c81041594791c16ba910bbf68, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 7286e58e4ab9f6a419352279fcb68b1c, type: 2}
