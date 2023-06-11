@@ -27,13 +27,13 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
 
         hitEntities = new List<Entity>();
 
-        owner.d_EnteredTrigger += EnteredTrigger;
+        owner.OnEnteredBodyTrigger += EnteredTrigger;
     }
 
     public override void OnDashStop(PlayerCharacter owner)
     {
         base.OnDashStop(owner);
-        owner.d_EnteredTrigger -= EnteredTrigger;
+        owner.OnEnteredBodyTrigger -= EnteredTrigger;
     }
 
     private void EnteredTrigger(Collider2D c)

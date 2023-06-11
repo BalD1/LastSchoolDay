@@ -26,7 +26,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         owner.GetRb.velocity = Vector2.zero;
         PerformPush(pusher);
 
-        owner.d_EnteredTrigger += TriggerEnter;
+        owner.OnEnteredBodyTrigger += TriggerEnter;
         owner.d_EnteredCollider += ColliderEnter;
 
         owner.D_OnPushed?.Invoke();
@@ -42,7 +42,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
 
     public override void ExitState(T stateManager)
     {
-        owner.d_EnteredTrigger -= TriggerEnter;
+        owner.OnEnteredBodyTrigger -= TriggerEnter;
         owner.d_EnteredCollider -= ColliderEnter;
 
         alreadyPushedEntities.Clear();

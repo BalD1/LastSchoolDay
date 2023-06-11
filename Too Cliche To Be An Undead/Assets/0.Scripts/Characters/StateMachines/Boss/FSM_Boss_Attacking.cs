@@ -53,7 +53,7 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
     public override void ExitState(FSM_Boss_Manager stateManager)
     {
         owner.CurrentAttack.attack.OnExit(owner);
-        if (owner.CurrentAttack.attack.DamageOnTrigger) owner.d_EnteredTrigger -= OnTrigger;
+        if (owner.CurrentAttack.attack.DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
         if (owner.CurrentAttack.attack.DamageOnCollision)
         {
             owner.d_EnteredCollider -= OnCollision;
@@ -83,14 +83,14 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
 
     private void SetupNextAttack()
     {
-        owner.d_EnteredTrigger -= OnTrigger;
+        owner.OnEnteredBodyTrigger -= OnTrigger;
         owner.d_EnteredCollider -= OnCollision;
         owner.D_entityEnteredCollider -= OnEntityCollision;
 
         SCRPT_EnemyAttack enemyAttack = owner.CurrentAttack.attack;
 
         // if the attack uses enemy's collisions trigger
-        if (enemyAttack.DamageOnTrigger) owner.d_EnteredTrigger += OnTrigger;
+        if (enemyAttack.DamageOnTrigger) owner.OnEnteredBodyTrigger += OnTrigger;
         if (owner.CurrentAttack.attack.DamageOnCollision)
         {
             owner.d_EnteredCollider += OnCollision;

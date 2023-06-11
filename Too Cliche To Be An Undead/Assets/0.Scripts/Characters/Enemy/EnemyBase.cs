@@ -267,13 +267,13 @@ public abstract class EnemyBase : Entity
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Player") || collision.CompareTag("Destroyable"))
-            d_EnteredTrigger?.Invoke(collision);
+            OnEnteredBodyTrigger?.Invoke(collision);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Player") || collision.CompareTag("Destroyable"))
-            d_ExitedTrigger?.Invoke(collision);
+            OnExitedBodyTrigger?.Invoke(collision);
     }
 
     protected override void OnDrawGizmos()

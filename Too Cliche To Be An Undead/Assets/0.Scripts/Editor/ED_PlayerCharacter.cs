@@ -3,6 +3,7 @@ using UnityEditor;
 using BalDUtilities.EditorUtils;
 using BalDUtilities.Misc;
 using System.Text;
+using static SCRPT_Props;
 
 [CustomEditor(typeof(PlayerCharacter))]
 public class ED_PlayerCharacter : Editor
@@ -467,6 +468,9 @@ public class ED_PlayerCharacter : Editor
 
         SerializedProperty attackers = serializedObject.FindProperty("attackers");
         EditorGUILayout.PropertyField(attackers);
+
+        SerializedProperty CurrentActiveTimestops = serializedObject.FindProperty(string.Format("<{0}>k__BackingField", "CurrentActiveTimestops"));
+        EditorGUILayout.PropertyField(CurrentActiveTimestops);
 
         EditorGUI.indentLevel--;
         GUI.enabled = true;

@@ -81,6 +81,8 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private float dyingState_DURATION = 20f;
     [SerializeField][Range(0, 1)] private float reviveHealPercentage = 0.25f;
 
+    [field: SerializeField] public int CurrentActiveTimestops { get; private set;} = 0;
+
     public enum E_Devices
     {
         Keyboard,
@@ -1141,6 +1143,9 @@ public class PlayerCharacter : Entity, IInteractable
         stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
     }
 
+    public void StartTimeStop() => CurrentActiveTimestops++;
+    public void StopTimeStop() => CurrentActiveTimestops--;
+
     protected override void ResetStats()
     {
         base.ResetStats();
@@ -1175,24 +1180,6 @@ public class PlayerCharacter : Entity, IInteractable
     private void OnCollisionExit2D(Collision2D collision)
     {
         d_ExitedCollider?.Invoke(collision);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
-        {
-            d_EnteredTrigger?.Invoke(collision);
-            return;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
-        {
-            d_ExitedTrigger?.Invoke(collision);
-            return;
-        }
     }
 
     #region Gizmos

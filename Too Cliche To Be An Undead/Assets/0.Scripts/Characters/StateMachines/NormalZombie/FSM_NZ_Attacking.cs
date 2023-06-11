@@ -55,7 +55,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
         SCRPT_EnemyAttack enemyAttack = enemyAttacksArray[currentAttackIdx];
 
-        if (enemyAttack.DamageOnTrigger) owner.d_EnteredTrigger += OnTrigger;
+        if (enemyAttack.DamageOnTrigger) owner.OnEnteredBodyTrigger += OnTrigger;
         if (enemyAttack.DamageOnCollision) owner.d_EnteredCollider += OnCollision;
 
         Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
@@ -172,7 +172,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
         owner.AttacksArray[currentAttackIdx].OnExit(owner);
-        if (owner.AttacksArray[currentAttackIdx].DamageOnTrigger) owner.d_EnteredTrigger -= OnTrigger;
+        if (owner.AttacksArray[currentAttackIdx].DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
         owner.attackTelegraph.CancelTelegraph();
 
         owner.UnsetAttackedPlayer();

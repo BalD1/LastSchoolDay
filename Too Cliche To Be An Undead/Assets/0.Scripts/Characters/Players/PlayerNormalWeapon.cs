@@ -56,7 +56,10 @@ public class PlayerNormalWeapon : PlayerWeapon
         bool hadBigHit = false;
 
         if (performHitStop)
+        {
             owner.SkeletonAnimation.timeScale = 0;
+            owner.StartTimeStop();
+        }
 
         List<EnemyBase> hitEnemies = new List<EnemyBase>();
 
@@ -131,6 +134,7 @@ public class PlayerNormalWeapon : PlayerWeapon
                     item.SkeletonAnimation.timeScale = 1;
                 }
                 owner.SkeletonAnimation.timeScale = 1;
+                owner.StopTimeStop();
             });
         }
         if (!successfulhit) owner.D_swif?.Invoke();

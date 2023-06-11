@@ -24,7 +24,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     {
         owner ??= stateManager.Owner;
         owner.canBePushed = false;
-        owner.d_EnteredTrigger += TriggerEnter;
+        owner.OnEnteredBodyTrigger += TriggerEnter;
         max_DURATION = owner.PlayerDash.DashSpeedCurve[owner.PlayerDash.DashSpeedCurve.length - 1].time;
         dash_dur_TIMER = max_DURATION;
 
@@ -84,7 +84,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
         owner.PlayerDash.OnDashStop(owner);
 
-        owner.d_EnteredTrigger -= TriggerEnter;
+        owner.OnEnteredBodyTrigger -= TriggerEnter;
 
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, false);
 
@@ -125,7 +125,8 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
         hitStopTimer = hitStopTimeBase;
         owner.SetSelfVelocity(Vector2.zero);
-        owner.SkeletonAnimation.AnimationState.TimeScale = 0;
+        owner.StartTimeStop();
+        LeanTween.delayedCall(hitStopTimeBase, () => owner.StopTimeStop());
 
         e.Push(owner.transform.position, remainingPushForce, owner, owner);
         owner.D_OnDashHit(e);

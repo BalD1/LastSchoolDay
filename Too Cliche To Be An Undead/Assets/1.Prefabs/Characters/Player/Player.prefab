@@ -2841,6 +2841,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8823656353503972634}
   - component: {fileID: 8621487532268834906}
+  - component: {fileID: 2823841980670496979}
   - component: {fileID: 2641463189831679491}
   - component: {fileID: 8823656353503972632}
   - component: {fileID: 3934805327378046947}
@@ -2892,6 +2893,19 @@ MonoBehaviour:
   jasonMaterialOverride_PF: {fileID: 8520456932611464791, guid: c35426a58e98aee46b574e6ad4745314, type: 3}
   editor_AnimationToSet: IDLE
   editor_loopAnimation: 1
+--- !u!114 &2823841980670496979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823656353503972635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714dac397c82e82449ccb6ab71c78161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 8823656354733599271}
 --- !u!114 &2641463189831679491
 MonoBehaviour:
   m_ObjectHideFlags: 0

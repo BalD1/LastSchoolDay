@@ -21,8 +21,8 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
         owner.OffsetSkillHolder(offset);
 
-        owner.d_EnteredTrigger += EnteredTrigger;
-        owner.d_ExitedTrigger += ExitedTrigger;
+        owner.OnEnteredBodyTrigger += EnteredTrigger;
+        owner.OnExitedBodyTrigger += ExitedTrigger;
     }
 
     public override void UpdateSkill(PlayerCharacter owner) 
@@ -42,8 +42,8 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
 
         owner.SkillTutoAnimator.SetTrigger("finish");
 
-        owner.d_EnteredTrigger -= EnteredTrigger;
-        owner.d_ExitedTrigger -= ExitedTrigger;
+        owner.OnEnteredBodyTrigger -= EnteredTrigger;
+        owner.OnExitedBodyTrigger -= ExitedTrigger;
 
         if (playersInRange.Count <= 0) return;
 

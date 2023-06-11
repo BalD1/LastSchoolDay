@@ -140,10 +140,10 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected bool invincible;
 
     public delegate void D_enteredTrigger(Collider2D collider);
-    public D_enteredTrigger d_EnteredTrigger;
+    public D_enteredTrigger OnEnteredBodyTrigger;
 
     public delegate void D_exitedTrigger(Collider2D collider);
-    public D_exitedTrigger d_ExitedTrigger;
+    public D_exitedTrigger OnExitedBodyTrigger;
 
     public delegate void D_enteredCollider(Collision2D collision);
     public D_enteredCollider d_EnteredCollider;
@@ -244,7 +244,7 @@ public class Entity : MonoBehaviour, IDamageable
 
     #region Status
 
-    public virtual void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false) { throw new System.NotImplementedException(); }
+    public virtual void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false) {  }
 
     public void AddTickDamages(TickDamages tick)
     {
