@@ -343,7 +343,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -16493
+  m_SortingOrder: 5000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2594995619587814015
 MonoBehaviour:
@@ -1181,6 +1181,7 @@ MonoBehaviour:
   minWaitBeforeNewWanderPoint: 1
   maxWaitBeforeNewWanderPoint: 5
   distanceBeforeStop: 1.5
+  <MinDistanceForNormalSpeed>k__BackingField: 0
   maxScaleOnAttack: {x: 1.3, y: 1.3}
   inType: 14
   outType: 15
@@ -1208,7 +1209,10 @@ MonoBehaviour:
   <isAppeared>k__BackingField: 0
   onSpawnAttackCooldown: 1.5
   IsAttacking: 0
+  <OnHitSFX>k__BackingField: {fileID: 8300000, guid: e17f4573a42c18c478a55ac38ae5d187, type: 3}
+  <OnHitFX>k__BackingField: {fileID: 0}
   recoverTimerModifier: 0
+  <HitStop_DURATION>k__BackingField: 0.3
 --- !u!114 &2327177842620200974
 MonoBehaviour:
   m_ObjectHideFlags: 0

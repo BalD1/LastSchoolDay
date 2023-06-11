@@ -23,5 +23,6 @@ public class PoolsManager : MonoBehaviour
 		TextPopup.CheckPool();
 		HealthPopup.CheckPool();
 		DashHitParticles.CheckPool();
+		BossHitFX.CheckPool();
 	}
 }

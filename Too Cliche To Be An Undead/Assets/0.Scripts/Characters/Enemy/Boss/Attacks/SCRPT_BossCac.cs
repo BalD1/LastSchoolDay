@@ -24,8 +24,10 @@ public class SCRPT_BossCac : SCRPT_EnemyAttack
 
             if (e == null) continue;
 
-            e.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+            boss.OnHitEntity(e, false);
         }
+
+        if (hitEntities.Length > 0) boss.HitStop(boss.HitStop_DURATION);
     }
 
     public override void OnUpdate(EnemyBase owner)

@@ -21,7 +21,9 @@ public class SCRPT_BossMinionsSpawn : SCRPT_EnemyAttack
         int spawnAmount = amountToSpawn.Random();
         for (int i = 0; i < spawnAmount; i++)
         {
-            NormalZombie.Create(owner.transform.position, true, false);
+            NormalZombie minion = NormalZombie.Create(owner.transform.position, true, false);
+            boss.OnMinionSpawned(minion);
+            minion.D_onDeathOf += boss.OnMinionDied;
         }
     }
 

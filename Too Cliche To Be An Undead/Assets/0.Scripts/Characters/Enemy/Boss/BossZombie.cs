@@ -48,6 +48,8 @@ public class BossZombie : EnemyBase
 
     [field: SerializeField] public bool IsAttacking = false;
 
+    [field: SerializeField] public AudioClip OnHitSFX { get; private set; }
+
     public float recoverTimerModifier;
 
     public event Action<Entity, bool> onReceiveAttack;
@@ -59,7 +61,13 @@ public class BossZombie : EnemyBase
     public delegate void D_CurrentAttackEnded();
     public D_CurrentAttackEnded D_currentAttackEnded;
 
+    [field: SerializeField] public float HitStop_DURATION { get; private set; } = .3f;
+    private float hitStop_TIMER;
+    public float HitStop_TIMER { get => hitStop_TIMER; }
+
     private bool deathFlag = false;
+
+    private List<Entity> spawnedZombies = new List<Entity>();
 
     protected override void Awake()
     {
@@ -97,6 +105,12 @@ public class BossZombie : EnemyBase
         if (!isAppeared) return;
         if (!IsAlive()) return;
 
+        if (hitStop_TIMER > 0)
+        {
+            hitStop_TIMER -= Time.deltaTime;
+            if (hitStop_TIMER <= 0) this.skeletonAnimation.timeScale = 1;
+        }
+
         base.Update();
     }
 
@@ -115,6 +129,43 @@ public class BossZombie : EnemyBase
         if (this.currentHP <= (this.MaxHP_M * hpThresholdBeforeNextStage) && attacksPatern.currentStage == 0) AdvanceToNextStage();
 
         return res;
+    }
+
+    public void OnHitEntity(Entity e, bool hitStopSelf = true)
+    {
+        Vector2 baseVel = this.GetRb.velocity;
+        this.GetRb.velocity = Vector2.zero;
+
+        e.OnTakeDamages(this.MaxDamages_M, this, this.RollCrit());
+        HitStop(e);
+
+        foreach (var item in spawnedZombies)
+        {
+            HitStop(item, false);
+        }
+
+        void HitStop(Entity e, bool pushAtEnd = true)
+        {
+            e.Stun(this.HitStop_DURATION);
+            e.SkeletonAnimation.timeScale = 0;
+            LeanTween.delayedCall(this.HitStop_DURATION, () =>
+            {
+                e.SkeletonAnimation.timeScale = 1;
+                if (pushAtEnd)
+                    e.Push(this.transform.position, 10, this, this);
+                this.GetRb.velocity = baseVel;
+            });
+        }
+
+        LeanTween.delayedCall(this.HitStop_DURATION, () =>
+        {
+            this.GetRb.velocity = baseVel;
+        });
+
+        BossHitFX.GetNext(e.transform.position);
+        AudioclipPlayer.Create(this.transform.position, OnHitSFX);
+
+        if (hitStopSelf) this.HitStop(this.HitStop_DURATION);
     }
 
     private void AdvanceToNextStage()
@@ -218,6 +269,19 @@ public class BossZombie : EnemyBase
 
             
         }).setIgnoreTimeScale(true);
+    }
+
+    public void OnMinionSpawned(Entity minion) => spawnedZombies.Add(minion);
+    public void OnMinionDied(Entity minion)
+    {
+        minion.D_onDeathOf -= OnMinionDied;
+        spawnedZombies.Remove(minion);
+    }
+
+    public void HitStop(float duration)
+    {
+        this.SkeletonAnimation.timeScale = 0;
+        hitStop_TIMER = duration;
     }
 
     public void SetIsAppeared()

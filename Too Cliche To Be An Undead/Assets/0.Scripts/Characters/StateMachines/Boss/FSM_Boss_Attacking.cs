@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
 {
@@ -26,6 +27,8 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
 
     public override void UpdateState(FSM_Boss_Manager stateManager)
     {
+        if (owner.HitStop_TIMER > 0) return;
+
         if (waitBeforeAttack_TIMER > 0) waitBeforeAttack_TIMER -= Time.deltaTime;
         else if (waitBeforeAttack_TIMER <= 0 && !attack_flag)
         {
@@ -146,18 +149,17 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
 
         if (collision.transform.parent == null) return;
 
-
         PlayerCharacter p = collision.gameObject.GetComponent<PlayerCharacter>();
         if (p == null) return;
 
-        p.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+        owner.OnHitEntity(p);
     }
     private void OnEntityCollision(Entity entity)
     {
         if (!owner.attackStarted) return;
         if (entity == null) return;
 
-        entity.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+        owner.OnHitEntity(entity);
     }
     private void OnTrigger(Collider2D collider)
     {
@@ -170,7 +172,7 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         PlayerCharacter p = collider.transform.parent.GetComponent<PlayerCharacter>();
         if (p == null) return;
 
-        p.OnTakeDamages(owner.MaxDamages_M, owner, owner.RollCrit());
+        owner.OnHitEntity(p);
     }
 
     public override string ToString() => "Attacking";

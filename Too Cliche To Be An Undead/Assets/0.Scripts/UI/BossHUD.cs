@@ -25,7 +25,7 @@ public class BossHUD : MonoBehaviour
 
         relatedBoss.D_onTakeDamagesFromEntity += UpdateFillAmount;
         relatedBoss.d_OnDeath += OnDeath;
-        bossName_TXT.text = boss.GetStats.EntityName;
+        bossName_TXT.text = relatedBoss.GetStats.EntityName;
     }
 
     public void UpdateFillAmount(bool critDamages, Entity damager, bool tickDamages)
