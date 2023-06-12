@@ -1217,7 +1217,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1390826911
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 1000
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7454060687585340113
 MonoBehaviour:
@@ -1243,7 +1243,7 @@ MonoBehaviour:
 
     (9 left)'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a7e99c7fe2f44db498170d652c29cec7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: -4376797980433226456, guid: a7e99c7fe2f44db498170d652c29cec7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3071,6 +3071,7 @@ MonoBehaviour:
   outType: 15
   dyingState_DURATION: 20
   reviveHealPercentage: 0.25
+  <CurrentActiveTimestops>k__BackingField: 0
   selfReviveCount: 0
   isDashing: 0
   inputs: {fileID: 616387204}

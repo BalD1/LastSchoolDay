@@ -74,6 +74,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
     {
         if (!allowChanges && !forceSwitch) return default(T);
         if (currentState.ToString() == "Dead" && !forceSwitch) return default(T);
+        if (currentState.ToString() == "Dying" && !forceSwitch) return default(T);
 
         D_stateChange?.Invoke(newState.ToString());
 
@@ -89,6 +90,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
     {
         if (!allowChanges && !forceSwitch) return default(T);
         if (currentState.ToString() == "Dead" && !forceSwitch) return default(T);
+        if (currentState.ToString() == "Dying" && !forceSwitch) return default(T);
 
         D_stateChange?.Invoke(newState.ToString());
 

@@ -55,6 +55,8 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
             owner.SelfReviveText.text = sb.ToString();
             owner.SelfReviveText.enabled = true;
         }
+
+        owner.OnRevive += Revive;
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
@@ -82,12 +84,16 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
 
         owner.SelfReviveText.enabled = false;
         isFake = false;
+        owner.OnRevive -= Revive;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
-        if (isFake) return;
-        if (owner.CurrentHP > 0) stateManager.SwitchState(stateManager.idleState);
+    }
+
+    private void Revive()
+    {
+        owner.StateManager.SwitchState<FSM_Player_Idle>(FSM_Player_Manager.E_PlayerState.Idle, true);
     }
 
     public void SetAsFakeState()

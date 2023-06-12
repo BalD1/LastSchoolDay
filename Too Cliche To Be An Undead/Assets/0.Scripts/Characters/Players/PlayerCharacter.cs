@@ -239,6 +239,8 @@ public class PlayerCharacter : Entity, IInteractable
     public event Action<GameObject> OnInteract;
     private void CallInteract(GameObject interactor) => OnInteract?.Invoke(interactor);
 
+    public event Action OnRevive;
+
     public Action<AudioClip> OnOverrideNextVoiceAttackAudio;
     #endregion
 
@@ -561,7 +563,7 @@ public class PlayerCharacter : Entity, IInteractable
     public void Revive()
     {
         this.OnHeal(this.MaxHP_M * reviveHealPercentage, false, false, healFromDeath: true);
-        stateManager.SwitchState(stateManager.idleState);
+        OnRevive?.Invoke();
     }
     public void Revive(GameObject interactor) => Revive();
 

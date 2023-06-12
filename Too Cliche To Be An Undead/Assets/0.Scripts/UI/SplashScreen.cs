@@ -134,7 +134,7 @@ public class SplashScreen : MonoBehaviour
         panelsManager.gameObject.SetActive(true);
         title.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
-        SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.InLobby);
+        SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainMenu);
     }
 
     private void FadeOutScreen()
