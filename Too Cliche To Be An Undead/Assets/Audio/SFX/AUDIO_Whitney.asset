@@ -63,7 +63,10 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: f8e559768bed7ed4680ab0449da7ec3a, type: 3}
     pitchRange: 0.4
   footsteps_outdoor: []
-  voice_skillStartClips: []
+  voice_skillStartClips:
+  - clip: {fileID: 8300000, guid: 5afcdfbe92e63864cb545cdd06b1ada4, type: 3}
+    pitchRange: 0
+  voice_skillEndClips: []
   voice_dashStartClips:
   - clip: {fileID: 8300000, guid: 38912224cad14d84aa6242eb323cdfee, type: 3}
     pitchRange: 0

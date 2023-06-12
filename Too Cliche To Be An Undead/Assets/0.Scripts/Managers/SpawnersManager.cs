@@ -190,12 +190,11 @@ public class SpawnersManager : MonoBehaviour
 
     private void EvaluateStamp()
     {
-        if (allPlayersAreInClassroom) return;
         if (spawnStamp >= maxStamp) return;
 
         if (stamp_TIMER > 0)
         {
-            stamp_TIMER -= Time.deltaTime;
+            stamp_TIMER -= allPlayersAreInClassroom ? (Time.deltaTime / 2) : Time.deltaTime;
             uiFiller.fillAmount = stamp_TIMER / timeBetweenStamps;
             uiCounter.text = stamp_TIMER.ToString("F0");
 

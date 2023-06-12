@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3208489768175893684}
-  - component: {fileID: 1704981894602324617}
+  - component: {fileID: 8829777273291760156}
   - component: {fileID: 2301086752103147493}
   - component: {fileID: 155411341438259687}
   m_Layer: 0
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &1704981894602324617
+--- !u!114 &8829777273291760156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,9 +44,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2961946062666285324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 175b116afaaf3394e8a53593af1b8772, type: 3}
+  m_Script: {fileID: 11500000, guid: 5645e7515956fdb478ab2dedd4007799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 2f1ccb2b3fd834344a7495e0e144506f, type: 3}
 --- !u!198 &2301086752103147493
 ParticleSystem:
   m_ObjectHideFlags: 0
