@@ -273,6 +273,11 @@ public class GameManager : MonoBehaviour
         }
         else if (CompareCurrentScene(E_ScenesNames.MainMenu))
         {
+            PlayerCharacter.SetMoney(0);
+            PlayerCharacter.SetLevel(0);
+            DataKeeper.Instance.money = 0;
+            DataKeeper.Instance.maxLevel = 0;
+            DataKeeper.Instance.unlockedLevels = new List<int>();
             DataKeeper.Instance.runsCount = 0;
             LeanTween.delayedCall(1, () =>PlayersManager.Instance.CreateP1()).setIgnoreTimeScale(true);
         }

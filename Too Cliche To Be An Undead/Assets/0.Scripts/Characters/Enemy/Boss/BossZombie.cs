@@ -146,6 +146,7 @@ public class BossZombie : EnemyBase
 
         void HitStop(Entity e, bool pushAtEnd = true)
         {
+            if (e is PlayerCharacter) (e as PlayerCharacter).SetTimedInvincibility(HitStop_DURATION);
             e.Stun(this.HitStop_DURATION);
             e.SkeletonAnimation.timeScale = 0;
             LeanTween.delayedCall(this.HitStop_DURATION, () =>

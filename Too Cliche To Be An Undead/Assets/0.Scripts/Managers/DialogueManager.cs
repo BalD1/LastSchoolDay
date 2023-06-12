@@ -206,22 +206,26 @@ public class DialogueManager : MonoBehaviour
 
         currentLine = currentDialogue.dialogueLines[currentLineIndex];
 
-        if (currentLine.speakerData != null)
+        if (currentLine.speakerData == null)
         {
-    
+            dialoguePortrait.SetAlpha(0);
+            speakerName.SetAlpha(0);
+        }
+        else
+        {
             if (currentLine.speakerData.speakerPortraitImage != null)
             {
                 SCRPT_PortraitsWithRect portraitRect = currentLine.speakerData.speakerPortraitImage;
-    
+            
                 dialoguePortrait.sprite = currentLine.speakerData.speakerPortraitImage.portrait;
                 dialoguePortrait.rectTransform.SetAnchorsAndOffset(portraitRect.offsetMin, portraitRect.offsetMax,
                                                                    portraitRect.anchorMin, portraitRect.anchorMax);
                 dialoguePortrait.SetAlpha(1);
             }
             else dialoguePortrait.SetAlpha(0);
-    
+            
             dialoguePortrait.enabled = true;
-    
+            
             if (currentLine.speakerData.speakerNameImage != null)
             {
                 speakerName.sprite = currentLine.speakerData.speakerNameImage;

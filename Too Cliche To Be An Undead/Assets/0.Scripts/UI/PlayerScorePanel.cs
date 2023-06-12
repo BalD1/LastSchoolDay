@@ -49,6 +49,7 @@ public class PlayerScorePanel : MonoBehaviour
     public void SetImageToSad()
     {
         playerImage.sprite = playerImages.sadImage;
+        LeanTween.scale(playerImage.GetComponent<RectTransform>(), Vector3.one * 1.2f, .5f).setIgnoreTimeScale(true).setLoopPingPong(1).setIgnoreTimeScale(true);
     }
 
     public void SetImageToHappy()
@@ -58,6 +59,8 @@ public class PlayerScorePanel : MonoBehaviour
         {
             haloImage.LeanAlpha(.75f, .5f).setLoopPingPong(-1).setIgnoreTimeScale(true);
         });
+        LeanTween.scale(playerImage.GetComponent<RectTransform>(), Vector3.one * 1.2f, .5f).setIgnoreTimeScale(true).setLoopPingPong(1).setIgnoreTimeScale(true);
+        LeanTween.scale(haloImage.GetComponent<RectTransform>(), Vector3.one * 1.2f, .5f).setIgnoreTimeScale(true).setLoopPingPong(1).setIgnoreTimeScale(true);
     }
 
     public void BeginAnim()

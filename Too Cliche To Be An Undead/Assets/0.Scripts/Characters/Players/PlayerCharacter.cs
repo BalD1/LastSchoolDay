@@ -491,7 +491,6 @@ public class PlayerCharacter : Entity, IInteractable
         if (GameManager.Instance.IsInTutorial) fakeDamages = true;
 
         bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
-
         if (res == false) return res;
 
         if (!fakeDamages) DamagesTaken += (int)amount;
@@ -1143,8 +1142,16 @@ public class PlayerCharacter : Entity, IInteractable
         stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
     }
 
-    public void StartTimeStop() => CurrentActiveTimestops++;
-    public void StopTimeStop() => CurrentActiveTimestops--;
+    public void StartTimeStop()
+    {
+        CurrentActiveTimestops++;
+        if (CurrentActiveTimestops > 0) SetInvincibility(true);
+    }
+    public void StopTimeStop()
+    {
+        CurrentActiveTimestops--;
+        if (CurrentActiveTimestops <= 0) SetInvincibility(false);
+    }
 
     protected override void ResetStats()
     {
