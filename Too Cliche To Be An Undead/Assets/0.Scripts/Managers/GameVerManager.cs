@@ -32,6 +32,8 @@ public class GameVerManager : MonoBehaviour
 
     private void OnGUI()
     {
+        if (!showVersion) return;
+
         int lastSize = GUI.skin.label.fontSize;
         GUI.skin.label.fontSize = 30;
         Rect r = new Rect(10, Screen.height - 40, Screen.width, 250);

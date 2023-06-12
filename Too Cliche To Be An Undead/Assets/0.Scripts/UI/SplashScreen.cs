@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
-using static UIVideoPlayer;
 using Coffee.UIEffects;
-using UnityEngine.Video;
 
 public class SplashScreen : MonoBehaviour
 {
@@ -50,7 +45,7 @@ public class SplashScreen : MonoBehaviour
         panelsManager.gameObject.SetActive(false);
         mainScreen.alpha = 0;
         mainScreenBackground.SetAlpha(0);
-        videoPlayer.SetNewVideo(E_VideoTag.SplashScreen);
+        videoPlayer.SetNewVideo(UIVideoPlayer.E_VideoTag.SplashScreen);
         pressAnyKey.raycastTarget = false;
 
         allowSkipText_TIMER = allowSkipText_DURATION;
@@ -60,7 +55,7 @@ public class SplashScreen : MonoBehaviour
     {
         if (DataKeeper.Instance.firstPassInMainMenu == false) return;
 
-        SoundManager.Instance.PlayMusicWithFade(titleScreenMusic, false);
+        SoundManager.Instance.PlayMusicWithFade(SoundManager.E_MusicClipsTags.MainMenu, false);
 
         DataKeeper.Instance.firstPassInMainMenu = false;
 
@@ -134,7 +129,6 @@ public class SplashScreen : MonoBehaviour
         panelsManager.gameObject.SetActive(true);
         title.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
-        SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainMenu);
     }
 
     private void FadeOutScreen()

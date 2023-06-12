@@ -206,7 +206,7 @@ public class SpawnersManager : MonoBehaviour
         TextPopup txt = TextPopup.Create("Zombies +", Camera.main.transform, false);
         txt.transform.position = worldPosOfUI;
         LeanTween.scale(txt.gameObject, Vector3.one * 1.3f, .3f).setLoopPingPong(1).setIgnoreTimeScale(true);
-        LeanTween.moveLocalY(txt.gameObject, -.01f, 1.5f).setIgnoreTimeScale(true);
+        LeanTween.moveLocalY(txt.gameObject, .01f, .25f).setIgnoreTimeScale(true);
 
         uiFiller.fillAmount = 1;
 
