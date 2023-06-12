@@ -37,7 +37,11 @@ public class Ball : MonoBehaviour, IDamageable
 
     public bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
-        Vector2 dir = this.transform.position - damager.transform.position;
+        Vector2 dir = Vector2.zero;
+
+        if (damager != null)
+            dir = this.transform.position - damager.transform.position;
+
         body.AddForce(dir * amount * speedMultiplier, ForceMode2D.Impulse);
         PlayAudio();
 

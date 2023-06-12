@@ -59,6 +59,7 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
 
         hitTween = LeanTween.delayedCall(hitStopTimeBase, () =>
         {
+            if (owner != null && owner.GetRb != null)
             owner.GetRb.AddForce(force, ForceMode2D.Impulse);
             LeanTween.delayedCall(.1f, () => hitStopWasPerformed = true);
         });

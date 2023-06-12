@@ -73,15 +73,9 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         return res;
     }
 
-    protected override void Awake()
-    {
-        base.Awake();
-
-        if (tutorialZombie && !GameManager.Instance.IsInTutorial) Destroy(this.gameObject);
-    }
-
     protected override void Start()
     {
+        if (tutorialZombie && !GameManager.Instance.IsInTutorial) Destroy(this.gameObject);
         base.Start();
         Pathfinding?.StartUpdatePath();
 

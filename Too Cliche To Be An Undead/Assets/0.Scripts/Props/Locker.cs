@@ -96,7 +96,13 @@ public class Locker : MonoBehaviour, IInteractable
         Destroy(this);
     }
 
-    public float GetDistanceFrom(Transform target) => Vector2.Distance(this.transform.position, target.position);
+    public float GetDistanceFrom(Transform target)
+    {
+        if (target != null && this.transform != null)
+        return Vector2.Distance(this.transform.position, target.position);
+
+        return -1;
+    }
 
     public bool CanBeInteractedWith()
     {

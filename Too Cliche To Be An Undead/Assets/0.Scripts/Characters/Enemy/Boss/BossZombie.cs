@@ -193,6 +193,7 @@ public class BossZombie : EnemyBase
         {
             (item as NormalZombie).ForceKill();
         }
+        spawnedZombies.Clear();
 
         foreach (var item in GameManager.Instance.playersByName)
         {
@@ -281,7 +282,9 @@ public class BossZombie : EnemyBase
     public void OnMinionDied(Entity minion)
     {
         minion.D_onDeathOf -= OnMinionDied;
-        spawnedZombies.Remove(minion);
+
+        if (this.IsAlive())
+            spawnedZombies.Remove(minion);
     }
 
     public void HitStop(float duration)
