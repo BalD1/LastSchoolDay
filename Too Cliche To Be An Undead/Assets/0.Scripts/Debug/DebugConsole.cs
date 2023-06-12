@@ -77,6 +77,9 @@ public class DebugConsole : MonoBehaviour
 
     private DebugCommand SHOW_FPS;
 
+    private DebugCommand SHOW_VERSION;
+    private DebugCommand HIDE_VERSION;
+
     private DebugCommand START_BREAKUP;
     private DebugCommand END_BREAKUP;
     private DebugCommand<bool> DEBUG_M_SPAWNERS;
@@ -164,6 +167,9 @@ public class DebugConsole : MonoBehaviour
             PAYDAY,
             RICH_AF,
 
+            SHOW_VERSION,
+            HIDE_VERSION,
+
             START_BREAKUP,
             END_BREAKUP,
 
@@ -247,6 +253,16 @@ public class DebugConsole : MonoBehaviour
         {
             allowGameChange = false;
             FindObjectOfType<SpineGymnasiumDoor>()?.ForceOpen();
+        });
+
+        SHOW_VERSION = new DebugCommand("SHOW_VERSION", "Shows the current version of the game", "SHOW_VERSION", () =>
+        {
+            GameVerManager.SetVersion(true);
+        });
+
+        HIDE_VERSION = new DebugCommand("HIDE_VERSION", "Hides the current version of the game", "HIDE_VERSION", () =>
+        {
+            GameVerManager.SetVersion(false);
         });
 
         START_BREAKUP = new DebugCommand("START_BREAKUP", "Starts a spawns breakup", "START_BREAKUP", () =>

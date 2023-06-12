@@ -28,4 +28,9 @@ public class TEMP_Tlol : MonoBehaviour
             GameManager.Player1Ref.StateManager.SwitchState<FSM_Player_Attacking>(FSM_Player_Manager.E_PlayerState.Attacking);
         }
     }
+
+    private void OnGUI()
+    {
+        
+    }
 }
