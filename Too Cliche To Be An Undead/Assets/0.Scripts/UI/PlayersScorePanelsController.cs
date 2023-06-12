@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,8 @@ public class PlayersScorePanelsController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI completitionTime;
 
     [SerializeField] private WinScreen winScreen;
+
+    [SerializeField] private CanvasGroup blackFadeImg; 
 
     [SerializeField] private CanvasGroup selfGroup;
 
@@ -48,6 +51,7 @@ public class PlayersScorePanelsController : MonoBehaviour
         panelsQueue = new Queue<PlayerScorePanel>();
         int playersCount = GameManager.Instance.PlayersCount;
 
+        blackFadeImg.LeanAlpha(1, .2f).setIgnoreTimeScale(true);
         panels = new PlayerScorePanel[playersCount];
 
         for (int i = 0; i < playersCount; i++)
@@ -120,6 +124,8 @@ public class PlayersScorePanelsController : MonoBehaviour
 
         GameManager.Player1Ref.D_validateInput += ShowButtonsPanel;
         PressToSkipToggle.gameObject.SetActive(true);
+        winScreen.winGroup.blocksRaycasts = true;
+        winScreen.winGroup.interactable = true;
     }
 
     public void ShowButtonsPanel()

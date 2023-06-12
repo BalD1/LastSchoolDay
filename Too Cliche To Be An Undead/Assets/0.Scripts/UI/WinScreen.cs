@@ -6,7 +6,7 @@ using UnityEngine.Video;
 
 public class WinScreen : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup winGroup;
+    [field: SerializeField] public CanvasGroup winGroup { get; private set; }
 
     [SerializeField] private VideoPlayer videoPlayer;
 
@@ -20,6 +20,7 @@ public class WinScreen : MonoBehaviour
 
     public void Begin()
     {
+        PlayerEndStatsManager.Instance.KeepScores();
         UIManager.Instance.FadeScreen(fadeOut: true, onCompleteAction: () =>
         {
             videoPlayer.Play();
@@ -56,8 +57,8 @@ public class WinScreen : MonoBehaviour
         scorePanel.LeanAlpha(0, .25f).setIgnoreTimeScale(true);
         buttonsPanel.LeanAlpha(1, .25f).setIgnoreTimeScale(true).setOnComplete(() =>
         {
-            winGroup.blocksRaycasts = true;
-            winGroup.interactable = true;
+            buttonsPanel.blocksRaycasts = true;
+            buttonsPanel.interactable = true;
             UIManager.Instance.SelectButton("Win");
         });
     }

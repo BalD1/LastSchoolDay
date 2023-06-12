@@ -36,7 +36,7 @@ public class PlayerEndStatsManager : MonoBehaviour
     private bool allowGameTimeIncrease = false;
     private bool isValid = false;
 
-    [SerializeField] public PlayerEndStats[] PlayersEndStatsArray { get; private set; }
+    [field: SerializeField] public PlayerEndStats[] PlayersEndStatsArray { get; private set; }
 
     [field: SerializeField] public float GameTime { get; private set; }
 
@@ -90,7 +90,6 @@ public class PlayerEndStatsManager : MonoBehaviour
         if (IsArrayInitialized()) return;
 
         PlayersEndStatsArray = new PlayerEndStats[GameManager.Instance.PlayersCount];
-
         GameTime = 0;
 
         for (int i = 0; i < GameManager.Instance.PlayersCount; i++)

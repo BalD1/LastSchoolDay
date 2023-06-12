@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerScorePanel : MonoBehaviour
 {
+    [field: SerializeField] public Image haloImage { get; private set; }
     [field: SerializeField] public Image playerImage;
 
     [field: SerializeField] public TextMeshProUGUI killsCount;
@@ -53,6 +54,10 @@ public class PlayerScorePanel : MonoBehaviour
     public void SetImageToHappy()
     {
         playerImage.sprite = playerImages.happyImage;
+        haloImage.LeanAlpha(1, .2f).setIgnoreTimeScale(true).setOnComplete(() =>
+        {
+            haloImage.LeanAlpha(.75f, .5f).setLoopPingPong(-1).setIgnoreTimeScale(true);
+        });
     }
 
     public void BeginAnim()
