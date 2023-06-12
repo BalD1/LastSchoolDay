@@ -60,7 +60,7 @@ public class SplashScreen : MonoBehaviour
     {
         if (DataKeeper.Instance.firstPassInMainMenu == false) return;
 
-        SoundManager.Instance.PlayMusic(titleScreenMusic);
+        SoundManager.Instance.PlayMusicWithFade(titleScreenMusic, false);
 
         DataKeeper.Instance.firstPassInMainMenu = false;
 

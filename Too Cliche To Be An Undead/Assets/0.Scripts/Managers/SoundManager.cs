@@ -280,6 +280,21 @@ public class SoundManager : MonoBehaviour
         }).setIgnoreTimeScale(true);
     }
     public void PlayBossMusic() => PlayMusic(bossSpawnMusic);
+    public void PlayMusicWithFade(SCRPT_MusicData musicData, bool fadeOut)
+    {
+        musicSource.volume = fadeOut ? 1 : 0;
+
+        LeanTween.value(musicSource.volume, fadeOut ? 0 : 1, musicFadeSpeed).setIgnoreTimeScale(true).setOnUpdate((float val) =>
+        {
+            musicSource.volume = val;
+        });
+        musicSource.PlayOneShot(musicData.StartClip);
+        delayedMusicInvoke = LeanTween.delayedCall(musicData.StartClip.length - musicStartLoopDelayModifier, () =>
+        {
+            musicSource.clip = musicData.LoopClip;
+            musicSource.Play();
+        }).setIgnoreTimeScale(true);
+    }
 
     private void FadeMusic(bool fadeOut, Action onComplete = null)
     {
