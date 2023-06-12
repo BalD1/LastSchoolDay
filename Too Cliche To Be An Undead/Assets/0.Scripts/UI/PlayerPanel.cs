@@ -183,19 +183,11 @@ public class PlayerPanel : MonoBehaviour
 
     public void SetCharacterToLast()
     {
-        currentCharacterIdx--;
-        if (currentCharacterIdx < 0)
-            currentCharacterIdx = panelsManager.ImagesByCharacter.Length - 1;
-
-        ChangeCharacter(panelsManager.ImagesByCharacter[currentCharacterIdx], currentCharacterIdx);
+        panelsManager.OnPlayerHorizontalArrow(false, CurrentPlayerIdx);
     }
     public void SetCharacterToNext()
     {
-        currentCharacterIdx++;
-        if (currentCharacterIdx >= panelsManager.ImagesByCharacter.Length)
-            currentCharacterIdx = 0;
-
-        ChangeCharacter(panelsManager.ImagesByCharacter[currentCharacterIdx], currentCharacterIdx);
+        panelsManager.OnPlayerHorizontalArrow(true, CurrentPlayerIdx);
     }
     public void ChangeCharacter(PlayerPanelsManager.S_ImageByCharacter newChar, int characterIdx)
     {

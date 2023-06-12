@@ -280,6 +280,8 @@ public class PlayerCharacter : Entity, IInteractable
 
         GameManager.Instance.D_onPlayerIsSetup?.Invoke(this.playerIndex);
         D_OnReset?.Invoke();
+
+        PlayerHUD.ForceHPUpdate();
     }
 
     private void ResetEndStats()
@@ -625,6 +627,7 @@ public class PlayerCharacter : Entity, IInteractable
     {
         money = newMoney;
 #if UNITY_EDITOR == false
+        if (UIManager.Instance != null);
         UIManager.Instance.UpdateMoney(); 
 #endif
     }

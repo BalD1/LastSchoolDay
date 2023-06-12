@@ -189,6 +189,11 @@ public class BossZombie : EnemyBase
         d_OnDeath?.Invoke();
         GameManager.Instance.D_bossFightEnded?.Invoke();
 
+        foreach (var item in spawnedZombies)
+        {
+            (item as NormalZombie).ForceKill();
+        }
+
         foreach (var item in GameManager.Instance.playersByName)
         {
             if (item.playerScript.StateManager.ToString() == "Dying")

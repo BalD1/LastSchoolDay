@@ -367,7 +367,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateMoney()
     {
-        moneyCounter.text = "x " + PlayerCharacter.GetMoney();
+        if (moneyCounter != null)
+            moneyCounter.text = "x " + PlayerCharacter.GetMoney();
     }
 
     #endregion

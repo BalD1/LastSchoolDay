@@ -19,6 +19,8 @@ public class YardDoor : MonoBehaviour
     [SerializeField] private int entitiesInTrigger = 0;
     [SerializeField] private int zombiesInDetecter = 0;
 
+    [SerializeField] private bool removeCollisionOnOpen = false;
+
     private LTDescr closeTween;
 
     public bool IsOpen { get; private set; }
@@ -77,7 +79,10 @@ public class YardDoor : MonoBehaviour
         if (closeTween != null)
             LeanTween.cancel(closeTween.uniqueId);
         skeletonAnimation.AnimationState.SetAnimation(0, openAnimation, false);
-        OnDoorOpen?.Invoke();
+
+        if (removeCollisionOnOpen && blockCollision != null)
+            blockCollision.enabled = false;
+
         IsOpen = true;
     }
 
@@ -98,6 +103,9 @@ public class YardDoor : MonoBehaviour
         {
             TrySetAnimationZombiesState(zombiesInDetecter > 1);
         });
+
+        if (removeCollisionOnOpen && blockCollision != null)
+            blockCollision.enabled = true;
 
         IsOpen = false;
     }

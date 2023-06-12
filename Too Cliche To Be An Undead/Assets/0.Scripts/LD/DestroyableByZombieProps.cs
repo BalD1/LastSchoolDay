@@ -40,6 +40,7 @@ public class DestroyableByZombieProps : DestroyableProp
     private void OnZombieExit(NormalZombie zombie)
     {
         int zombieIdx = zombiesInCollider.IndexOf(zombie);
+        if (zombieIdx >= zombiesInCollider.Count) return;
         zombiesInCollider.RemoveAt(zombieIdx);
         zombiesDamagesTimer.RemoveAt(zombieIdx);
     }

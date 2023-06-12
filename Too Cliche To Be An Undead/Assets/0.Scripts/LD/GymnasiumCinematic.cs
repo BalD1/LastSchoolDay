@@ -31,6 +31,11 @@ public class GymnasiumCinematic : MonoBehaviour
         SpawnersManager.Instance.AllowSpawns(false);
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
 
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            if (item.playerScript.StateManager.ToString() == "Dying") item.playerScript.Revive();
+        }
+
         UIManager.Instance.SetBlackBars(true);
         UIManager.Instance.FadeAllHUD(false);
         UIManager.Instance.FadeScreen(true);

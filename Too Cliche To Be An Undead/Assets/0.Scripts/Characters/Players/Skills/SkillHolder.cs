@@ -35,7 +35,8 @@ public class SkillHolder : MonoBehaviour
             timer -= Time.deltaTime;
 
             float fillAmount = timer / owner.MaxSkillCD_M;
-            owner.PlayerHUD.UpdateSkillThumbnailFill(fillAmount);
+            if (owner.PlayerHUD != null)
+                owner.PlayerHUD.UpdateSkillThumbnailFill(fillAmount);
         }
     }
 

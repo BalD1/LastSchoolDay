@@ -71,7 +71,10 @@ public class PlayerHUD : MonoBehaviour
 
     public void UpdateSkillThumbnailFill(float fill, bool allowTween = true)
     {
+        if (skillFill != null)
         skillFill.fillAmount = fill;
+
+        if (skillTimerTXT == null) return;
 
         skillTimerTXT.text = (fill * owner.MaxSkillCD_M).ToString("F0");
 
