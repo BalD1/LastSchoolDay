@@ -21,6 +21,7 @@ MonoBehaviour:
   <MinDurationBeforeAttack>k__BackingField: 0
   <MaxDurationBeforeAttack>k__BackingField: 0
   <telegraphRotationOffset>k__BackingField: 0
+  <DamageOnTrigger>k__BackingField: 0
   <DamageOnCollision>k__BackingField: 0
   <telegraphSprite>k__BackingField: {fileID: 21300000, guid: 6a8cbdf4437380c478925d78a8d703d5, type: 3}
   <attackOffset>k__BackingField: {x: 0, y: 0}
@@ -31,3 +32,6 @@ MonoBehaviour:
   jumpSpeed: 1
   bossJumpAnim: {fileID: 11400000, guid: b432c9fd102fdf745ad235febf129ad0, type: 2}
   bossLandAnim: {fileID: 11400000, guid: e0a755433af438c4f98603f2b1465dbe, type: 2}
+  audioClip:
+    clip: {fileID: 8300000, guid: a529adaebc9fb4242ab73f387a54e59d, type: 3}
+    pitchRange: 0.1

@@ -50,6 +50,9 @@ public class BossZombie : EnemyBase
 
     [field: SerializeField] public AudioClip OnHitSFX { get; private set; }
 
+    [field: SerializeField] public AudioClip howl { get; private set; }
+    [field: SerializeField] public AudioClip fall { get; private set; }
+
     public float recoverTimerModifier;
 
     public event Action<Entity, bool> onReceiveAttack;
@@ -259,6 +262,8 @@ public class BossZombie : EnemyBase
 
             CameraManager.Instance.ShakeCamera(2.5f, cameraShakeDuration);
 
+            GetAudioSource.PlayOneShot(fall);
+
             LeanTween.delayedCall(cameraShakeDuration, () =>
             {
                 actionToPlayAtEnd?.Invoke();
@@ -270,6 +275,7 @@ public class BossZombie : EnemyBase
 
                 CameraManager.Instance.ZoomCamera(-.25f, .5f, () =>
                 {
+                    GetAudioSource.PlayOneShot(howl);
                     CameraManager.Instance.ShakeCamera(2.5f, 1);
                 });
             });

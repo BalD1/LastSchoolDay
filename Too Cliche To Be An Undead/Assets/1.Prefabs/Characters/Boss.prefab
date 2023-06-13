@@ -111,6 +111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4862402530373847254}
+  - component: {fileID: 519269895739252487}
   - component: {fileID: 6684974879034983664}
   m_Layer: 6
   m_Name: Audio
@@ -134,6 +135,21 @@ Transform:
   m_Father: {fileID: 8304648256601179650}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519269895739252487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556235305165011134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091d3cfeb90b930488db367c465f210a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 3128188501560300603}
+  audioSource: {fileID: 6684974879034983664}
+  audioData: {fileID: 0}
 --- !u!82 &6684974879034983664
 AudioSource:
   m_ObjectHideFlags: 0
@@ -343,7 +359,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5000
+  m_SortingOrder: -16493
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2594995619587814015
 MonoBehaviour:
@@ -1210,7 +1226,8 @@ MonoBehaviour:
   onSpawnAttackCooldown: 1.5
   IsAttacking: 0
   <OnHitSFX>k__BackingField: {fileID: 8300000, guid: e17f4573a42c18c478a55ac38ae5d187, type: 3}
-  <OnHitFX>k__BackingField: {fileID: 0}
+  <howl>k__BackingField: {fileID: 8300000, guid: 8d6790aafbdbcaf48a8ee8601b1c3104, type: 3}
+  <fall>k__BackingField: {fileID: 8300000, guid: a529adaebc9fb4242ab73f387a54e59d, type: 3}
   recoverTimerModifier: 0
   <HitStop_DURATION>k__BackingField: 0.3
 --- !u!114 &2327177842620200974

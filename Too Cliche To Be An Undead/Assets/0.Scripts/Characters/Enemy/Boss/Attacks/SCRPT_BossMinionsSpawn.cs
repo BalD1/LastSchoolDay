@@ -8,6 +8,8 @@ public class SCRPT_BossMinionsSpawn : SCRPT_EnemyAttack
 
     [SerializeField] private IntMinMax amountToSpawn;
 
+    [SerializeField] private SCRPT_EntityAudio.S_AudioClips audioClip;
+
     private BossZombie boss;
 
     public override void OnStart(EnemyBase owner)
@@ -17,6 +19,9 @@ public class SCRPT_BossMinionsSpawn : SCRPT_EnemyAttack
 
         boss.animationController.SetAnimation(AttackAnim, false);
         boss.animationController.AddAnimation(boss.animationData.IdleAnim, true, AttackAnim.Animation.Duration, 1);
+
+        owner.GetAudioSource.pitch = Random.Range(1 - audioClip.pitchRange, 1 + audioClip.pitchRange);
+        owner.GetAudioSource.PlayOneShot(audioClip.clip);
 
         int spawnAmount = amountToSpawn.Random();
         for (int i = 0; i < spawnAmount; i++)

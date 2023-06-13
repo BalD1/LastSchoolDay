@@ -132,6 +132,7 @@ public class PlayerHUD : MonoBehaviour
     private void OnOwnerTakeDamages() => OnOwnerHPChange(Color.red);
     private void OnOwnerHPChange(Color leanCol)
     {
+        if (portrait == null) return;
         if (portrait.rectTransform == null) return;
 
         hpBar.fillAmount = (owner.CurrentHP / owner.MaxHP_M);

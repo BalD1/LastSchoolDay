@@ -18,6 +18,8 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
     [SerializeField] private AnimationReferenceAsset bossJumpAnim;
     [SerializeField] private AnimationReferenceAsset bossLandAnim;
 
+    [SerializeField] private SCRPT_EntityAudio.S_AudioClips audioClip;
+
     private float baseSkeletonPositionY;
 
     private float delayBeforeFade = .75f;
@@ -78,6 +80,10 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
                     bossSkeleton.SetColor(goalColor);
 
                     CameraManager.Instance.ShakeCamera(2.5f, 1);
+
+                    owner.GetAudioSource.pitch = Random.Range(1 - audioClip.pitchRange, 1 + audioClip.pitchRange);
+                    owner.GetAudioSource.PlayOneShot(audioClip.clip);
+                    owner.GetAudioSource.pitch = 1;
 
                     if (owner.IsAlive())
                     {

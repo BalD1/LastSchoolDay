@@ -17,11 +17,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   <AttackDistance>k__BackingField: 2
+  <AttackDuration>k__BackingField: 0
   <MinDurationBeforeAttack>k__BackingField: 0.8
   <MaxDurationBeforeAttack>k__BackingField: 1
   <telegraphRotationOffset>k__BackingField: 0
+  <DamageOnTrigger>k__BackingField: 0
   <DamageOnCollision>k__BackingField: 0
   <telegraphSprite>k__BackingField: {fileID: 21300000, guid: 6a8cbdf4437380c478925d78a8d703d5, type: 3}
   <attackOffset>k__BackingField: {x: -0.5, y: 0}
   <telegraphVectorSize>k__BackingField: {x: 4, y: 4}
+  <SetTelegraphOnStart>k__BackingField: 0
   AttackAnim: {fileID: 11400000, guid: 6f56d87c5561de043906efa99a10a6ad, type: 2}
+  audioClip:
+    clip: {fileID: 8300000, guid: cd9096bf3c07ee04c88db9aa077b79f7, type: 3}
+    pitchRange: 0.1

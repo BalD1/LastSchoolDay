@@ -6,6 +6,8 @@ public class SCRPT_BossCac : SCRPT_EnemyAttack
 {
     [field: SerializeField] public AnimationReferenceAsset AttackAnim;
 
+    [SerializeField] private SCRPT_EntityAudio.S_AudioClips audioClip;
+
     private BossZombie boss;
 
     public override void OnStart(EnemyBase owner)
@@ -26,6 +28,10 @@ public class SCRPT_BossCac : SCRPT_EnemyAttack
 
             boss.OnHitEntity(e, false);
         }
+
+        owner.GetAudioSource.pitch = Random.Range(1 - audioClip.pitchRange, 1 + audioClip.pitchRange);
+        owner.GetAudioSource.PlayOneShot(audioClip.clip);
+        owner.GetAudioSource.pitch = 1;
 
         if (hitEntities.Length > 0) boss.HitStop(boss.HitStop_DURATION);
     }

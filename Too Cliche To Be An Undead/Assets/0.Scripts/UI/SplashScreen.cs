@@ -53,10 +53,9 @@ public class SplashScreen : MonoBehaviour
 
     private void Start()
     {
-        if (DataKeeper.Instance.firstPassInMainMenu == false) return;
-
         SoundManager.Instance.PlayMusicWithFade(SoundManager.E_MusicClipsTags.MainMenu, false);
 
+        if (DataKeeper.Instance.firstPassInMainMenu == false) return;
         DataKeeper.Instance.firstPassInMainMenu = false;
 
         videoPlayer.FadeVideo(true, 2, OnFadeInEnded);

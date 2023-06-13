@@ -10,6 +10,8 @@ public class SCRPT_BossDash : SCRPT_EnemyAttack
     [SerializeField] private AnimationReferenceAsset downAnim;
     [SerializeField] private AnimationReferenceAsset sideAnim;
 
+    [SerializeField] private SCRPT_EntityAudio.S_AudioClips audioClip;
+
     [SerializeField] private float attackForce;
     private BossZombie boss;
 
@@ -28,6 +30,10 @@ public class SCRPT_BossDash : SCRPT_EnemyAttack
             if (dir.x < 0) boss.animationController.FlipSkeleton(false);
             boss.animationController.SetAnimation(sideAnim,false);
         }
+
+        owner.GetAudioSource.pitch = Random.Range(1 - audioClip.pitchRange, 1 + audioClip.pitchRange);
+        owner.GetAudioSource.PlayOneShot(audioClip.clip);
+        owner.GetAudioSource.pitch = 1;
 
         owner.GetRb.AddForce(dir * attackForce, ForceMode2D.Impulse);
         boss.attackStarted = true;

@@ -235,6 +235,11 @@ public class DialogueManager : MonoBehaviour
             speakerName.enabled = true;
         }
 
+        if (currentLine.audioToPlay.audioClip != null)
+        {
+            AudioclipPlayer.Create(currentLine.audioToPlay.position, currentLine.audioToPlay.audioClip);
+        }
+
         dialogueText.text = currentLine.textLine;
 
         foreach (var item in currentLine.effects)
