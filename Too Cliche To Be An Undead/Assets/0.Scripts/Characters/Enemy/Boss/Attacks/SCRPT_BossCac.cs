@@ -44,6 +44,7 @@ public class SCRPT_BossCac : SCRPT_EnemyAttack
     {
         owner.GetRb.velocity = Vector2.zero;
         owner.StartAttackTimer(0, true);
-        boss.attackStarted = false;
+        if (boss != null) 
+            boss.attackStarted = false;
     }
 }

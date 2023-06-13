@@ -48,6 +48,7 @@ public class SCRPT_BossDash : SCRPT_EnemyAttack
         owner.enemiesBlocker.enabled = true;
         owner.GetRb.velocity = Vector2.zero;
         owner.StartAttackTimer(0, true);
+        if (boss != null)
         boss.attackStarted = false;
     }
 }

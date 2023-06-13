@@ -121,6 +121,7 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
     {
         owner.GetRb.velocity = Vector2.zero;
         owner.StartAttackTimer(0, true);
+        if (boss != null)
         boss.attackStarted = false;
     }
 }
