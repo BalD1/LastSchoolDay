@@ -53,9 +53,9 @@ public class PlayerInteractor : MonoBehaviourEventsHandler
 
     private void InteractWithClosest()
     {
-        if (closestInteractable == null) return;
-        closestInteractable.Interact(this.gameObject);
+        closestInteractable?.Interact(this.gameObject);
 
+        if (closestInteractable == null) return;
         if (closestInteractable.CanBeInteractedWith() == false)
         {
             CleanListSingle(closestInteractable);

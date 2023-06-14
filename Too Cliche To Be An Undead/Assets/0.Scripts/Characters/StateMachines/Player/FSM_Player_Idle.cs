@@ -1,55 +1,65 @@
-using BalDUtilities.MouseUtils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
 {
-    private new PlayerCharacter owner;
+    private PlayerCharacter playerOwner;
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
-        base.owner = stateManager.Owner;
-
-        owner.SetAllVelocity(Vector2.zero);
         base.EnterState(stateManager);
+        playerOwner.SetAllVelocity(Vector2.zero);
 
-        owner.OnAttackInput += owner.Weapon.AskForAttack;
-        owner.OnSkillInput += owner.GetSkillHolder.StartSkill;
-        owner.OnDashInput += owner.StartDash;
-
-        owner.canBePushed = true;
+        playerOwner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
         stateManager.OwnerWeapon.SetRotation();
 
-        owner.AnimationController.FlipSkeletonOnMouseOrGamepad();
+        playerOwner.AnimationController.FlipSkeletonOnMouseOrGamepad();
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         base.ExitState(stateManager);
+    }
 
-        owner.OnAttackInput -= owner.Weapon.AskForAttack;
-        owner.OnSkillInput -= owner.GetSkillHolder.StartSkill;
-        owner.OnDashInput -= owner.StartDash;
+    public override void Setup(FSM_Player_Manager stateManager)
+    {
+        owner = stateManager.Owner;
+        playerOwner = owner as PlayerCharacter;
+    }
+
+    protected override void EventsSubscriber()
+    {
+        base.EventsSubscriber();
+        playerOwner.OnAttackInput += playerOwner.Weapon.AskForAttack;
+        playerOwner.OnSkillInput += playerOwner.GetSkillHolder.StartSkill;
+        playerOwner.OnDashInput += playerOwner.StartDash;
+    }
+
+    protected override void EventsUnsubscriber()
+    {
+        base.EventsUnsubscriber();
+        playerOwner.OnAttackInput -= playerOwner.Weapon.AskForAttack;
+        playerOwner.OnSkillInput -= playerOwner.GetSkillHolder.StartSkill;
+        playerOwner.OnDashInput -= playerOwner.StartDash;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
         // Si la vélocité du personnage n'est pas à 0, on le passe en Moving
-        if (owner.GetRb.velocity != Vector2.zero ||
-            owner.Velocity != Vector2.zero)
+        
+        if (playerOwner.GetRb.velocity != Vector2.zero ||
+            playerOwner.Velocity != Vector2.zero)
         {
-            stateManager.SwitchState(stateManager.movingState);
+            stateManager.SwitchState(stateManager.MovingState);
         }
 
         if (stateManager.OwnerWeapon.isAttacking)
-            stateManager.SwitchState(stateManager.attackingState);
+            stateManager.SwitchState(stateManager.AttackingState);
 
-        if (owner.isDashing) stateManager.SwitchState(stateManager.dashingState);
+        if (playerOwner.isDashing) stateManager.SwitchState(stateManager.DashingState);
+        
     }
 }

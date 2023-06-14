@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
@@ -8,22 +6,12 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
-
-        SetAnimator();
-
-        owner.OnAttackInput += owner.Weapon.AskForAttack;
-        owner.OnSkillInput += owner.GetSkillHolder.StartSkill;
-        owner.OnDashInput += owner.StartDash;
-
+        base.EnterState(stateManager);
         owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
     {
-        //owner.ReadMovementsInputs();
-
-        SetAnimator();
         stateManager.OwnerWeapon.SetRotation();
     }
 
@@ -34,33 +22,41 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
-        owner.OnAttackInput -= owner.Weapon.AskForAttack;
-        owner.OnSkillInput -= owner.GetSkillHolder.StartSkill;
-        owner.OnDashInput -= owner.StartDash;
+        base.ExitState(stateManager);
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
         // Si la velocité du personnage est à 0, on le passe en Idle
         if (owner.Velocity.Equals(Vector2.zero))
-            stateManager.SwitchState(stateManager.idleState);
+            stateManager.SwitchState(stateManager.IdleState);
 
         if (stateManager.OwnerWeapon.isAttacking)
-            stateManager.SwitchState(stateManager.attackingState);
+            stateManager.SwitchState(stateManager.AttackingState);
 
         if (owner.isDashing)
-            stateManager.SwitchState(stateManager.dashingState);
+            stateManager.SwitchState(stateManager.DashingState);
+        
     }
 
-    private void SetAnimator()
+    protected override void EventsSubscriber()
     {
-        float x = owner.Velocity.x;
-
-        float y = owner.Velocity.y;
-
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, x);
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, y);
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VELOCITY, owner.Velocity.magnitude);
+        owner.OnAttackInput += owner.Weapon.AskForAttack;
+        owner.OnSkillInput += owner.GetSkillHolder.StartSkill;
+        owner.OnDashInput += owner.StartDash;
     }
+
+    protected override void EventsUnsubscriber()
+    {
+        owner.OnAttackInput -= owner.Weapon.AskForAttack;
+        owner.OnSkillInput -= owner.GetSkillHolder.StartSkill;
+        owner.OnDashInput -= owner.StartDash;
+    }
+
+    public override void Setup(FSM_Player_Manager stateManager)
+    {
+        owner = stateManager.Owner;
+    }
+
     public override string ToString() => "Moving";
 }

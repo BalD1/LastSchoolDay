@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FSM_TD_Manager : FSM_ManagerBase
@@ -13,11 +11,6 @@ public class FSM_TD_Manager : FSM_ManagerBase
 
     private FSM_Base<FSM_TD_Manager> currentState;
     public FSM_Base<FSM_TD_Manager> CurrentState { get => currentState; }
-
-    private void Awake()
-    {
-        pushedState.SetOwner(Owner);
-    }
 
     protected override void Start()
     {
@@ -44,10 +37,16 @@ public class FSM_TD_Manager : FSM_ManagerBase
         currentState.EnterState(this);
     }
 
+    public override void SetupStates()
+    {
+    }
+
     public override string ToString()
     {
         if (currentState == null) return "N/A";
 
         return currentState.ToString();
     }
+
+
 }

@@ -1,7 +1,4 @@
 using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
 {
@@ -11,7 +8,7 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
 
     public override void EnterState(FSM_Boss_Manager stateManager)
     {
-        owner = stateManager.Owner;
+        base.EnterState(stateManager);
 
         if (owner.IsAttacking)
         {
@@ -40,11 +37,25 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
 
     public override void ExitState(FSM_Boss_Manager stateManager)
     {
+        base.ExitState(stateManager);
         wasAttacking = false;
     }
 
     public override void Conditions(FSM_Boss_Manager stateManager)
     {
+    }
+
+    protected override void EventsSubscriber()
+    {
+    }
+
+    protected override void EventsUnsubscriber()
+    {
+    }
+
+    public override void Setup(FSM_Boss_Manager stateManager)
+    {
+        owner = stateManager.Owner;
     }
 
     public override string ToString()

@@ -192,11 +192,11 @@ public class ED_PlayerCharacter : Editor
             switch (stateToForce)
             {
                 case E_PlayerStates.Idle:
-                    playerManager.SwitchState(playerManager.idleState);
+                    playerManager.SwitchState(playerManager.IdleState);
                     break;
 
                 case E_PlayerStates.Moving:
-                    playerManager.SwitchState(playerManager.movingState);
+                    playerManager.SwitchState(playerManager.MovingState);
                     break;
             }
         }
@@ -382,7 +382,7 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.PropertyField(reviveHealPercentage);
 
         GUI.enabled = false;
-        EditorGUILayout.TextField("Dying Timer", $"{targetScript.StateManager.dyingState.DyingState_TIMER} / {targetScript.DyingState_DURATION}");
+        EditorGUILayout.TextField("Dying Timer", $"{targetScript.StateManager.DyingState.DyingState_TIMER} / {targetScript.DyingState_DURATION}");
         GUI.enabled = true;
 
         EditorGUILayout.EndVertical();

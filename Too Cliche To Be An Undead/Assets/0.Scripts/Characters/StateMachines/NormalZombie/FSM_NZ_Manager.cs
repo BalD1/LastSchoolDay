@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FSM_NZ_Manager : FSM_ManagerBase
@@ -8,24 +6,32 @@ public class FSM_NZ_Manager : FSM_ManagerBase
     [SerializeField] private NormalZombie owner;
     public NormalZombie Owner { get => owner; }
 
-    public FSM_NZ_Idle idleState = new FSM_NZ_Idle();
-    public FSM_NZ_Wandering wanderingState = new FSM_NZ_Wandering();
-    public FSM_NZ_Chasing chasingState = new FSM_NZ_Chasing();
-    public FSM_NZ_Pushed pushedState = new FSM_NZ_Pushed();
-    public FSM_NZ_Stun stunnedState = new FSM_NZ_Stun();
-    public FSM_NZ_Attacking attackingState = new FSM_NZ_Attacking();
+    public FSM_NZ_Idle IdleState { get; private set; } = new FSM_NZ_Idle();
+    public FSM_NZ_Wandering WanderingState { get; private set; } = new FSM_NZ_Wandering();
+    public FSM_NZ_Chasing ChasingState { get; private set; } = new FSM_NZ_Chasing();
+    public FSM_NZ_Pushed PushedState { get; private set; } = new FSM_NZ_Pushed();
+    public FSM_NZ_Stun StunnedState { get; private set; } = new FSM_NZ_Stun();
+    public FSM_NZ_Attacking AttackingState { get; private set; } = new FSM_NZ_Attacking();
 
     private FSM_Base<FSM_NZ_Manager> currentState;
     public FSM_Base<FSM_NZ_Manager> CurrentState { get => currentState; }
 
-    private void Awake()
+    private Dictionary<E_NZState, FSM_Base<FSM_NZ_Manager>> statesWithKey;
+
+    public enum E_NZState
     {
-        pushedState.SetOwner(Owner);
+        Idle,
+        Wandering,
+        Chasing,
+        Pushed,
+        Stunned,
+        Attacking,
     }
 
     protected override void Start()
     {
-        currentState = wanderingState;
+        base.Start();
+        currentState = WanderingState;
         currentState.EnterState(this);
 
 #if UNITY_EDITOR
@@ -60,6 +66,23 @@ public class FSM_NZ_Manager : FSM_ManagerBase
     public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)
     {
         owner.Movements(goalPosition, slowdownOnApproach);
+    }
+
+    public override void SetupStates()
+    {
+        statesWithKey = new Dictionary<E_NZState, FSM_Base<FSM_NZ_Manager>>()
+        {
+            { E_NZState.Idle, IdleState },
+            { E_NZState.Wandering, WanderingState },
+            { E_NZState.Chasing, ChasingState },
+            { E_NZState.Pushed, PushedState },
+            { E_NZState.Stunned, StunnedState },
+            { E_NZState.Attacking, AttackingState },
+        };
+        foreach (var item in statesWithKey)
+        {
+            item.Value.Setup(this);
+        }
     }
 
     public override string ToString()

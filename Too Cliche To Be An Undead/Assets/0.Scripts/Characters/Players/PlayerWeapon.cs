@@ -109,7 +109,7 @@ public class PlayerWeapon : MonoBehaviour
                     inputStored = false;
 
                     if (owner.IsAlive())
-                        owner.StateManager.SwitchState(owner.StateManager.idleState);
+                        owner.StateManager.SwitchState(owner.StateManager.IdleState);
 
                     afterCombo_TIMER = afterCombo_COOLDOWN;
                     return;

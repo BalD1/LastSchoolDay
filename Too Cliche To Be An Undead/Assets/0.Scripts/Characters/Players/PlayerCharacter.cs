@@ -209,7 +209,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         GameManager.Instance._onSceneReload += OnSceneReload;
 
-        this.stateManager.SwitchState(stateManager.idleState, true);
+        this.stateManager.SwitchState(stateManager.IdleState);
 
         CancelInvoke(nameof(ClearAttackers));
 
@@ -513,7 +513,7 @@ public class PlayerCharacter : Entity, IInteractable
         
         base.OnDeath(forceDeath);
         this.selfInteractor.ResetCollider();
-        this.stateManager.SwitchState(stateManager.dyingState);
+        this.stateManager.SwitchState(stateManager.DyingState);
     }
 
     public void Revive()
@@ -532,7 +532,7 @@ public class PlayerCharacter : Entity, IInteractable
             return;
         }
 
-        stateManager.SwitchState(stateManager.deadState);
+        stateManager.SwitchState(stateManager.DeadState);
 
         this.minimapMarker.SetActive(false);
 
@@ -762,7 +762,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (v.magnitude <= Vector2.zero.magnitude) return Vector2.zero;
 
-        stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher, pusher));
+        stateManager.SwitchState(stateManager.PushedState.SetForce(v, originalPusher, pusher));
 
         return v;
     }
@@ -950,7 +950,7 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (showStuntext)
             TextPopup.Create("Stun !", this.GetHealthPopupOffset + (Vector2)this.transform.position);
-        stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
+        stateManager.SwitchState(stateManager.StunnedState.SetDuration(duration, resetAttackTimer));
     }
 
     public void StartTimeStop()

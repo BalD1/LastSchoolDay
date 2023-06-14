@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
 {
@@ -16,11 +13,9 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
 
     public override void EnterState(FSM_Boss_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
+        base.EnterState(stateManager);
 
         switchToRecover = false;
-
-        owner.attacksPatern.D_paterneEnded += SwitchToRecover;
 
         SetupNextAttack();
     }
@@ -55,15 +50,9 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
 
     public override void ExitState(FSM_Boss_Manager stateManager)
     {
+        base.ExitState(stateManager);
         owner.CurrentAttack.attack.OnExit(owner);
-        if (owner.CurrentAttack.attack.DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
-        if (owner.CurrentAttack.attack.DamageOnCollision)
-        {
-            owner.d_EnteredCollider -= OnCollision;
-            owner.D_entityEnteredCollider -= OnEntityCollision;
-        }
 
-        owner.attacksPatern.D_paterneEnded -= SwitchToRecover;
         switchToRecover = false;
 
         owner.attacksPatern.StartNewPatern();
@@ -75,8 +64,25 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         if (switchToRecover)
         {
             float recoveringTime = owner.attacksPatern.currentPatern.recoverTime;
-            stateManager.SwitchState(stateManager.recoveringState.SetTimer(recoveringTime));
+            stateManager.SwitchState(stateManager.RecoveringState.SetTimer(recoveringTime));
         }
+    }
+
+    protected override void EventsSubscriber()
+    {
+        owner.attacksPatern.D_paterneEnded += SwitchToRecover;
+    }
+
+    protected override void EventsUnsubscriber()
+    {
+        if (owner.CurrentAttack.attack.DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
+        if (owner.CurrentAttack.attack.DamageOnCollision)
+        {
+            owner.d_EnteredCollider -= OnCollision;
+            owner.D_entityEnteredCollider -= OnEntityCollision;
+        }
+
+        owner.attacksPatern.D_paterneEnded -= SwitchToRecover;
     }
 
     public void SwitchToRecover()
@@ -173,6 +179,11 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         if (p == null) return;
 
         owner.OnHitEntity(p);
+    }
+
+    public override void Setup(FSM_Boss_Manager stateManager)
+    {
+        owner = stateManager.Owner;
     }
 
     public override string ToString() => "Attacking";

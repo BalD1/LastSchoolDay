@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BalDUtilities.VectorUtils;
@@ -21,13 +20,11 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
 
     public override void EnterState(T stateManager)
     {
+        base.EnterState(stateManager);
         wallLayer = LayerMask.NameToLayer("Wall");
         alreadyPushedEntities = new List<Collider2D>();
         owner.GetRb.velocity = Vector2.zero;
         PerformPush(pusher);
-
-        owner.OnEnteredBodyTrigger += TriggerEnter;
-        owner.d_EnteredCollider += ColliderEnter;
 
         owner.D_OnPushed?.Invoke();
     }
@@ -42,9 +39,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
 
     public override void ExitState(T stateManager)
     {
-        owner.OnEnteredBodyTrigger -= TriggerEnter;
-        owner.d_EnteredCollider -= ColliderEnter;
-
+        base.ExitState(stateManager);
         alreadyPushedEntities.Clear();
         baseConditionChecked = false;
 
@@ -54,6 +49,18 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
     public override void Conditions(T stateManager)
     {
         if (VectorMaths.Vector2ApproximatlyEquals(owner.GetRb.velocity, Vector2.zero, 0.08f)) baseConditionChecked = true;
+    }
+
+    protected override void EventsSubscriber()
+    {
+        owner.OnEnteredBodyTrigger += TriggerEnter;
+        owner.d_EnteredCollider += ColliderEnter;
+    }
+
+    protected override void EventsUnsubscriber()
+    {
+        owner.OnEnteredBodyTrigger -= TriggerEnter;
+        owner.d_EnteredCollider -= ColliderEnter;
     }
 
     protected virtual void PerformPush(Entity pusher)
@@ -86,7 +93,6 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         e.Push(owner.transform.position, appliedForce, originalPusher, owner);
     }
 
-    public void SetOwner(Entity _owner) => owner = _owner;
     public FSM_Entity_Pushed<T> SetForce(Vector2 _force, Entity _originalPusher, Entity _pusher)
     {
         force = _force;
@@ -95,5 +101,12 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         return this;
     }
 
+    public override void Setup(T stateManager)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override string ToString() => "Pushed";
+
+
 }

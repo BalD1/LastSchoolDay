@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
@@ -9,7 +7,8 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
 
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
+        base.EnterState(stateManager);
+        owner = stateManager.Owner;
         owner.ResetVelocity();
 
         if (owner.animationController != null)
@@ -44,6 +43,7 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
 
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
+        base.ExitState(stateManager);
         owner.GetRb.velocity = Vector2.zero;
         owner.OnStoppedChasing?.Invoke();
     }
@@ -51,14 +51,28 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
         if (WanderingConditions())
-            stateManager.SwitchState(stateManager.wanderingState);
+            stateManager.SwitchState(stateManager.WanderingState);
 
         if (owner.CurrentPlayerTarget == null) return;
 
         if (stateManager.AttackConditions())
-            stateManager.SwitchState(stateManager.attackingState);
+            stateManager.SwitchState(stateManager.AttackingState);
+    }
+
+    protected override void EventsSubscriber()
+    {
+    }
+
+    protected override void EventsUnsubscriber()
+    {
     }
 
     private bool WanderingConditions() => owner.CurrentPlayerTarget == null;
+
+    public override void Setup(FSM_NZ_Manager stateManager)
+    {
+        owner = stateManager.Owner;
+    }
+
     public override string ToString() => "Chasing";
 }

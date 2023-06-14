@@ -444,7 +444,7 @@ public class GameManager : MonoBehaviourEventsHandler
         for (int i = 0; i < playersByName.Count; i++)
         {
             PlayerCharacter player = playersByName[i].playerScript;
-            player.StateManager.SwitchState(player.StateManager.cinematicState);
+            player.StateManager.SwitchState(player.StateManager.CinematicState);
             PlayerAnimationController animationController = player.AnimationController;
             animationController.SetAnimation(animationController.animationsData.WalkAnim, true);
 
@@ -460,7 +460,7 @@ public class GameManager : MonoBehaviourEventsHandler
                 .setOnComplete(() =>
                 {
                     playersUnfinishedAnimations--;
-                    player.StateManager.SwitchState(player.StateManager.idleState);
+                    player.StateManager.SwitchState(player.StateManager.IdleState);
                     if (playersUnfinishedAnimations <= 0)
                         endAction?.Invoke();
                 });

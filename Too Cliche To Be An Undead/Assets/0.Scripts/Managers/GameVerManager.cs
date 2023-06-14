@@ -22,6 +22,7 @@ public class GameVerManager : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
+        this.transform.parent = null;
         DontDestroyOnLoad(this.gameObject);
     }
 

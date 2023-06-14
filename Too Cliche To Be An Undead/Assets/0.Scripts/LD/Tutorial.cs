@@ -185,7 +185,7 @@ public class Tutorial : MonoBehaviour
             {
                 PlayerCharacter player = players[i].playerScript;
 
-                player.StateManager.SwitchState(player.StateManager.idleState);
+                player.StateManager.SwitchState(player.StateManager.IdleState);
                 player.SetAllVelocity(Vector2.zero);
 
                 goalPos = GameManager.Instance.IngameSpawnPoints[i].position;

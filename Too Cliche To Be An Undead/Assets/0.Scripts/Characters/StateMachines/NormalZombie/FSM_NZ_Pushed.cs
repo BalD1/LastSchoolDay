@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
@@ -13,11 +12,8 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
         base.EnterState(stateManager);
-        zombieOwner = owner as NormalZombie;
-
         hitStopWasPerformed = false;
         owner.canBePushed = false;
-        owner.D_OnReset += CancelTween;
 
         zombieOwner.UnsetAttackedPlayer();
         zombieOwner.attackTelegraph.CancelTelegraph();
@@ -31,15 +27,14 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
 
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
-        hitStopWasPerformed = false;
-        owner.D_OnReset -= CancelTween;
-        zombieOwner.enemiesBlocker.enabled = true;
         base.ExitState(stateManager);
+        hitStopWasPerformed = false;
+        zombieOwner.enemiesBlocker.enabled = true;
     }
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
         base.Conditions(stateManager);
-        if (baseConditionChecked && hitStopWasPerformed) stateManager.SwitchState(stateManager.chasingState);
+        if (baseConditionChecked && hitStopWasPerformed) stateManager.SwitchState(stateManager.ChasingState);
     }
 
     protected void CancelTween()
@@ -69,5 +64,24 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
     {
         base.TriggerEnter(collider);
     }
+
+    protected override void EventsSubscriber()
+    {
+        base.EventsSubscriber();
+        owner.D_OnReset += CancelTween;
+    }
+
+    protected override void EventsUnsubscriber()
+    {
+        base.EventsUnsubscriber();
+        owner.D_OnReset -= CancelTween;
+    }
+
+    public override void Setup(FSM_NZ_Manager stateManager)
+    {
+        owner = stateManager.Owner;
+        zombieOwner = owner as NormalZombie;
+    }
+
     public override string ToString() => "Pushed";
 }

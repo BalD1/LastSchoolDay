@@ -1,5 +1,4 @@
 using BalDUtilities.MouseUtils;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,9 +21,8 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
+        base.EnterState(stateManager);
         owner.canBePushed = false;
-        owner.OnEnteredBodyTrigger += TriggerEnter;
         max_DURATION = owner.PlayerDash.DashSpeedCurve[owner.PlayerDash.DashSpeedCurve.length - 1].time;
         dash_dur_TIMER = max_DURATION;
 
@@ -75,6 +73,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
+        base.ExitState(stateManager);
         owner.isDashing = false;
 
         owner.SetAllVelocity(Vector2.zero);
@@ -84,8 +83,6 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
         owner.PlayerDash.OnDashStop(owner);
 
-        owner.OnEnteredBodyTrigger -= TriggerEnter;
-
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, false);
 
         owner.StartDashTimer();
@@ -93,7 +90,17 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
-        if (dash_dur_TIMER <= 0) stateManager.SwitchState(stateManager.movingState);
+        if (dash_dur_TIMER <= 0) stateManager.SwitchState(stateManager.MovingState);
+    }
+
+    protected override void EventsSubscriber()
+    {
+        owner.OnEnteredBodyTrigger += TriggerEnter;
+    }
+
+    protected override void EventsUnsubscriber()
+    {
+        owner.OnEnteredBodyTrigger -= TriggerEnter;
     }
 
     private void TriggerEnter(Collider2D collider)
@@ -133,5 +140,11 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     }
 
     public float GetRemainingTimeByMax() => dash_dur_TIMER / max_DURATION;
+
+    public override void Setup(FSM_Player_Manager stateManager)
+    {
+        owner = stateManager.Owner;
+    }
+
     public override string ToString() => "Dashing";
 }

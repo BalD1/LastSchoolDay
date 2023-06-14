@@ -187,7 +187,7 @@ public class BossZombie : EnemyBase
 
         deathFlag = true;
 
-        stateManager.SwitchState(stateManager.deadState);
+        stateManager.SwitchState(stateManager.DeadState);
 
         d_OnDeath?.Invoke();
         GameManager.Instance.D_bossFightEnded?.Invoke();

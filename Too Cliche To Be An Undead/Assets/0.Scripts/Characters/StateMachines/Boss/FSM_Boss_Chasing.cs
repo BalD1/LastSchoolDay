@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager>
@@ -9,7 +7,7 @@ public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager>
 
     public override void EnterState(FSM_Boss_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
+        base.EnterState(stateManager);
         owner.ResetVelocity();
 
         owner.animationController.SetAnimation(owner.animationData.WalkAnim, true);
@@ -33,6 +31,7 @@ public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager>
 
     public override void ExitState(FSM_Boss_Manager stateManager)
     {
+        base.ExitState(stateManager);
         owner.GetRb.velocity = Vector2.zero;
     }
 
@@ -41,9 +40,22 @@ public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager>
         if (owner.CurrentPlayerTarget == null) return;
 
         if (stateManager.AttackConditions())
-            stateManager.SwitchState(stateManager.attackingState);
+            stateManager.SwitchState(stateManager.AttackingState);
+    }
+
+    protected override void EventsSubscriber()
+    {
+    }
+
+    protected override void EventsUnsubscriber()
+    {
     }
 
     private bool WanderingConditions() => owner.CurrentPlayerTarget == null;
+
+    public override void Setup(FSM_Boss_Manager stateManager)
+    {
+        owner = stateManager.Owner;
+    }
     public override string ToString() => "Chasing";
 }

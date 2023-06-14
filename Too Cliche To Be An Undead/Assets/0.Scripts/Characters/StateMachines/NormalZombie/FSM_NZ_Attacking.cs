@@ -1,6 +1,4 @@
 using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
@@ -27,7 +25,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
+        base.EnterState(stateManager);
 
         owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
 
@@ -54,9 +52,6 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         currentAttackIdx = Random.Range(0, enemyAttacksArray.Length);
 
         SCRPT_EnemyAttack enemyAttack = enemyAttacksArray[currentAttackIdx];
-
-        if (enemyAttack.DamageOnTrigger) owner.OnEnteredBodyTrigger += OnTrigger;
-        if (enemyAttack.DamageOnCollision) owner.d_EnteredCollider += OnCollision;
 
         Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
         float lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -171,8 +166,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
+        base.ExitState(stateManager);
         owner.AttacksArray[currentAttackIdx].OnExit(owner);
-        if (owner.AttacksArray[currentAttackIdx].DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
         owner.attackTelegraph.CancelTelegraph();
 
         owner.UnsetAttackedPlayer();
@@ -183,7 +178,19 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
-        if (attack_TIMER <= 0) stateManager.SwitchState(stateManager.chasingState);
+        if (attack_TIMER <= 0) stateManager.SwitchState(stateManager.ChasingState);
+    }
+
+    protected override void EventsSubscriber()
+    {
+        if (owner.AttacksArray[currentAttackIdx].DamageOnTrigger) owner.OnEnteredBodyTrigger += OnTrigger;
+        if (owner.AttacksArray[currentAttackIdx].DamageOnCollision) owner.d_EnteredCollider += OnCollision;
+    }
+
+    protected override void EventsUnsubscriber()
+    {
+        if (owner.AttacksArray[currentAttackIdx].DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
+        if (owner.AttacksArray[currentAttackIdx].DamageOnCollision) owner.d_EnteredCollider -= OnCollision;
     }
 
     private void OnCollision(Collision2D collision)
@@ -216,6 +223,11 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         if (p == null) return;
 
         p.OnTakeDamages(owner.MaxDamages_M.Fluctuate(), owner, owner.RollCrit());
+    }
+
+    public override void Setup(FSM_NZ_Manager stateManager)
+    {
+        owner = stateManager.Owner;
     }
 
     public override string ToString() => "Attacking";

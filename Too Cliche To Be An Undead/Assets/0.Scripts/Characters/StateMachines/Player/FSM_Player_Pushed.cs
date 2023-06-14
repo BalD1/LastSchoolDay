@@ -1,6 +1,3 @@
-    using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
 {
@@ -12,10 +9,6 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
     {
         base.EnterState(stateManager);
 
-        playerOwner ??= owner as PlayerCharacter;
-
-        playerOwner.OnAttackInput += playerOwner.Weapon.AskForAttack;
-        playerOwner.OnSkillInput += playerOwner.GetSkillHolder.StartSkill;
         playerOwner.Weapon.AddOnHitEffect(new OnHitEffects
             (_owner: playerOwner,
             _id: ONHIT_MODIFIER_ID,
@@ -47,15 +40,33 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
         base.ExitState(stateManager);
         (owner as PlayerCharacter).ForceUpdateMovementsInput();
 
-        playerOwner.OnAttackInput -= playerOwner.Weapon.AskForAttack;
-        playerOwner.OnSkillInput -= playerOwner.GetSkillHolder.StartSkill;
         playerOwner.Weapon.RemoveOnHitEffect(ONHIT_MODIFIER_ID);
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
         base.Conditions(stateManager);
-        if (baseConditionChecked) stateManager.SwitchState(stateManager.idleState);
+        if (baseConditionChecked) stateManager.SwitchState(stateManager.IdleState);
+    }
+
+    public override void Setup(FSM_Player_Manager stateManager)
+    {
+        owner = stateManager.Owner;
+        playerOwner = owner as PlayerCharacter;
+    }
+
+    protected override void EventsSubscriber()
+    {
+        base.EventsSubscriber();
+        playerOwner.OnAttackInput += playerOwner.Weapon.AskForAttack;
+        playerOwner.OnSkillInput += playerOwner.GetSkillHolder.StartSkill;
+    }
+
+    protected override void EventsUnsubscriber()
+    {
+        base.EventsUnsubscriber();
+        playerOwner.OnAttackInput -= playerOwner.Weapon.AskForAttack;
+        playerOwner.OnSkillInput -= playerOwner.GetSkillHolder.StartSkill;
     }
 
     public override string ToString() => "Pushed";

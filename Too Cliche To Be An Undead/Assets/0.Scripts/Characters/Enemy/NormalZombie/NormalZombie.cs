@@ -258,7 +258,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
     {
         this.transform.position = pos;
         this.ResetStats();
-        this.stateManager.SwitchState(stateManager.chasingState);
+        this.stateManager.SwitchState(stateManager.ChasingState);
 
         if (addToSpawner) SpawnersManager.Instance.AddZombie();
 
@@ -280,7 +280,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
         if (showStuntext)
             TextPopup.Create("Stun !", this.GetHealthPopupOffset + (Vector2)this.transform.position, GameAssets.StunComponents);
-        stateManager.SwitchState(stateManager.stunnedState.SetDuration(duration, resetAttackTimer));
+        stateManager.SwitchState(stateManager.StunnedState.SetDuration(duration, resetAttackTimer));
         this.attackTelegraph.CancelTelegraph();
     }
 
@@ -296,7 +296,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
         v = v.Fluctuate(.2f);
 
-        stateManager.SwitchState(stateManager.pushedState.SetForce(v, originalPusher, pusher));
+        stateManager.SwitchState(stateManager.PushedState.SetForce(v, originalPusher, pusher));
 
         return v;
     }

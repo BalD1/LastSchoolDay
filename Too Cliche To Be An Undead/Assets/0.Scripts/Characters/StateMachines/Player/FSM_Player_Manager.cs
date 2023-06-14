@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,16 +8,18 @@ public class FSM_Player_Manager : FSM_ManagerBase
     [SerializeField] private PlayerWeapon ownerWeapon;
     public PlayerWeapon OwnerWeapon { get => ownerWeapon; set => ownerWeapon = value; }
 
-    public FSM_Player_Idle idleState = new FSM_Player_Idle();
-    public FSM_Player_Moving movingState = new FSM_Player_Moving();
-    public FSM_Player_Attacking attackingState = new FSM_Player_Attacking();
-    public FSM_Player_Dashing dashingState = new FSM_Player_Dashing();
-    public FSM_Player_Pushed pushedState = new FSM_Player_Pushed();
-    public FSM_Player_InSkill inSkillState = new FSM_Player_InSkill();
-    public FSM_Player_Dying dyingState = new FSM_Player_Dying();
-    public FSM_Player_Dead deadState = new FSM_Player_Dead();
-    public FSM_Player_Stuned stunnedState = new FSM_Player_Stuned();
-    public FSM_Player_Cinematic cinematicState = new FSM_Player_Cinematic();
+    public FSM_Player_Idle IdleState { get; private set; } = new FSM_Player_Idle();
+    public FSM_Player_Moving MovingState { get; private set; } = new FSM_Player_Moving();
+    public FSM_Player_Attacking AttackingState { get; private set; } = new FSM_Player_Attacking();
+    public FSM_Player_Dashing DashingState { get; private set; } = new FSM_Player_Dashing();
+    public FSM_Player_Pushed PushedState { get; private set; } = new FSM_Player_Pushed();
+    public FSM_Player_InSkill InSkillState { get; private set; } = new FSM_Player_InSkill();
+    public FSM_Player_Dying DyingState { get; private set; } = new FSM_Player_Dying();
+    public FSM_Player_Dead DeadState { get; private set; } = new FSM_Player_Dead();
+    public FSM_Player_Stuned StunnedState { get; private set; } = new FSM_Player_Stuned();
+    public FSM_Player_Cinematic CinematicState { get; private set; } = new FSM_Player_Cinematic();
+
+    private Dictionary<E_PlayerState, FSM_Base<FSM_Player_Manager>> statesWithKey;
 
     public enum E_PlayerState
     {
@@ -42,16 +43,12 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
     public bool allowChanges = true;
 
-    private void Awake()
-    {
-        pushedState.SetOwner(Owner);
-    }
-
     protected override void Start()
     {
-        attackingState.owner = this.owner;
-        owner.Weapon.D_nextAttack += attackingState.NextAttack;
-        currentState = idleState;
+        base.Start();
+
+        AttackingState.owner = this.owner;
+        currentState = IdleState;
         currentState.EnterState(this);
         owner.AnimationController.SetCharacterState(this.ToString());
     }
@@ -70,78 +67,59 @@ public class FSM_Player_Manager : FSM_ManagerBase
         currentState.FixedUpdateState(this);
     }
 
-    public T SwitchState<T>(T newState, bool forceSwitch = false) where T : FSM_Base<FSM_Player_Manager>
+    private void SwitchState(FSM_Base<FSM_Player_Manager> state)
     {
-        if (!allowChanges && !forceSwitch) return default(T);
-        if (currentState.ToString() == "Dead" && !forceSwitch) return default(T);
-        if (currentState.ToString() == "Dying" && !forceSwitch) return default(T);
+        currentState?.ExitState(this);
+        currentState = state;
+        currentState.EnterState(this);
+    }
 
+    public void SwitchState(E_PlayerState newStateKey)
+    {
+        statesWithKey.TryGetValue(newStateKey, out FSM_Base<FSM_Player_Manager> newState);
+        SwitchState(newState);
+    }
+
+    public T SwitchState<T>(T newState) where T : FSM_Base<FSM_Player_Manager>
+    {
         D_stateChange?.Invoke(newState.ToString());
 
-        currentState?.ExitState(this);
-        currentState = newState;
-        currentState.EnterState(this);
+        SwitchState(newState as FSM_Base<FSM_Player_Manager>);
+
         owner.AnimationController.SetCharacterState(this.ToString());
 
         return currentState as T;
     }
 
-    public T SwitchState<T>(E_PlayerState newState, bool forceSwitch = false) where T : FSM_Base<FSM_Player_Manager>
+    public T SwitchState<T>(E_PlayerState newStateKey) where T : FSM_Base<FSM_Player_Manager>
     {
-        if (!allowChanges && !forceSwitch) return default(T);
-        if (currentState.ToString() == "Dead" && !forceSwitch) return default(T);
-        if (currentState.ToString() == "Dying" && !forceSwitch) return default(T);
+        D_stateChange?.Invoke(newStateKey.ToString());
 
-        D_stateChange?.Invoke(newState.ToString());
+        SwitchState(newStateKey);
 
-        currentState?.ExitState(this);
-
-        switch (newState)
-        {
-            case E_PlayerState.Idle:
-                currentState = idleState;
-                break;
-
-            case E_PlayerState.Moving:
-                currentState = movingState;
-                break;
-
-            case E_PlayerState.Attacking:
-                currentState = attackingState;
-                break;
-
-            case E_PlayerState.Dashing:
-                currentState = dashingState;
-                break;
-
-            case E_PlayerState.Pushed:
-                currentState = pushedState;
-                break;
-
-            case E_PlayerState.InSkill:
-                currentState = inSkillState;
-                break;
-
-            case E_PlayerState.Dying:
-                currentState = dyingState;
-                break;
-
-            case E_PlayerState.Dead:
-                currentState = deadState;
-                break;
-
-            case E_PlayerState.Stunned:
-                currentState = stunnedState;
-                break;
-
-            case E_PlayerState.Cinematic:
-                currentState = cinematicState;
-                break;
-        }
-
-        currentState.EnterState(this);
         owner.AnimationController.SetCharacterState(this.ToString());
         return currentState as T;
+    }
+
+    public override void SetupStates()
+    {
+        statesWithKey = new Dictionary<E_PlayerState, FSM_Base<FSM_Player_Manager>>()
+        {
+            {E_PlayerState.Idle, IdleState },
+            {E_PlayerState.Moving, MovingState },
+            {E_PlayerState.Attacking, AttackingState },
+            {E_PlayerState.Dashing, DashingState },
+            {E_PlayerState.Pushed, PushedState },
+            {E_PlayerState.InSkill, InSkillState },
+            {E_PlayerState.Dying, DyingState },
+            {E_PlayerState.Dead, DeadState },
+            {E_PlayerState.Stunned, StunnedState },
+            {E_PlayerState.Cinematic, CinematicState },
+        };
+        foreach (var item in statesWithKey)
+        {
+            item.Value.Setup(this);
+        }
     }
 
     public override string ToString()

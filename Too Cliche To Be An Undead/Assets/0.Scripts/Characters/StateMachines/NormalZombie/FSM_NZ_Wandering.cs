@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
 {
@@ -9,7 +6,7 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
 
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
+        base.EnterState(stateManager);
         owner.ResetVelocity();
 
         if (owner.allowWander) owner.ChooseRandomPosition();
@@ -30,11 +27,25 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
 
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
+        base.ExitState(stateManager);
+    }
+
+    protected override void EventsSubscriber()
+    {
+    }
+
+    protected override void EventsUnsubscriber()
+    {
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
-        if (owner.CurrentPlayerTarget != null) stateManager.SwitchState(stateManager.chasingState);
+        if (owner.CurrentPlayerTarget != null) stateManager.SwitchState(stateManager.ChasingState);
+    }
+
+    public override void Setup(FSM_NZ_Manager stateManager)
+    {
+        owner = stateManager.Owner;
     }
 
     public override string ToString() => "Wandering";

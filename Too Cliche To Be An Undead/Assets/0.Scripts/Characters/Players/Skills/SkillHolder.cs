@@ -59,7 +59,7 @@ public class SkillHolder : MonoBehaviour
             transitionDuration *= skill.TransitionDurationMultiplier;
         }
 
-        owner.StateManager.SwitchState(owner.StateManager.inSkillState.SetTimers(skill.Duration, transitionDuration, startOffset));
+        owner.StateManager.SwitchState(owner.StateManager.InSkillState.SetTimers(skill.Duration, transitionDuration, startOffset));
 
         owner.PlayerHUD.UpdateSkillThumbnailFill(1);
     }

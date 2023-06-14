@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FSM_NZ_Idle : FSM_Entity_Idle<FSM_NZ_Manager>
@@ -10,7 +7,6 @@ public class FSM_NZ_Idle : FSM_Entity_Idle<FSM_NZ_Manager>
 
     public override void EnterState(FSM_NZ_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
         base.EnterState(stateManager);
 
         waitBeforeNewPoint = Random.Range((owner as NormalZombie).MinWaitBeforeNewWanderPoint, (owner as NormalZombie).MaxWaitBeforeNewWanderPoint);
@@ -26,19 +22,23 @@ public class FSM_NZ_Idle : FSM_Entity_Idle<FSM_NZ_Manager>
 
     public override void ExitState(FSM_NZ_Manager stateManager)
     {
+        base.ExitState(stateManager);
         canSwitchToChase = false;
         waitBeforeNewPoint = 0;
-
-        base.ExitState(stateManager);
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
-        if (canSwitchToChase) stateManager.SwitchState(stateManager.chasingState);
+        if (canSwitchToChase) stateManager.SwitchState(stateManager.ChasingState);
 
-        if (waitBeforeNewPoint <= 0) stateManager.SwitchState(stateManager.wanderingState);
+        if (waitBeforeNewPoint <= 0) stateManager.SwitchState(stateManager.WanderingState);
 
         base.Conditions(stateManager);
+    }
+
+    public override void Setup(FSM_NZ_Manager stateManager)
+    {
+        owner = stateManager.Owner;
     }
 
     public void SawPlayer() => canSwitchToChase = true;

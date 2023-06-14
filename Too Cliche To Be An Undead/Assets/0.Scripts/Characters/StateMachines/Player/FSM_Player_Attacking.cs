@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
@@ -8,20 +6,13 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
-        owner ??= stateManager.Owner;
+        base.EnterState(stateManager);
 
         Vector2 mouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();
 
         owner.canBePushed = true;
 
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, true);
-
         PlayerAnimationController ownerAnims = owner.AnimationController;
-
-        owner.OnAttackInput += owner.Weapon.AskForAttack;
-        owner.OnDashInput += owner.StartDash;
 
         if (ownerAnims.animationsData == null) return;
 
@@ -59,12 +50,9 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);
+        base.ExitState(stateManager);
 
         owner.ForceUpdateMovementsInput();
-
-        owner.OnAttackInput -= owner.Weapon.AskForAttack;
-        owner.OnDashInput -= owner.StartDash;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
@@ -74,21 +62,39 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
         if (owner.Weapon.attackEnded)
         {
             owner.Weapon.SetAttackEnded(false);
-            owner.StateManager.SwitchState(owner.StateManager.idleState);
+            owner.StateManager.SwitchState(owner.StateManager.IdleState);
         }
 
         if (owner.isDashing)
         {
-            owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKING, false);
-            owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKINDEX, 0);
             owner.CancelAttackAnimation();
-            stateManager.SwitchState(stateManager.dashingState);
+            stateManager.SwitchState(stateManager.DashingState);
         }
+    }
+
+    protected override void EventsSubscriber()
+    {
+        owner.Weapon.D_nextAttack += NextAttack;
+        owner.OnAttackInput += owner.Weapon.AskForAttack;
+        owner.OnDashInput += owner.StartDash;
+    }
+
+    protected override void EventsUnsubscriber()
+    {
+        owner.Weapon.D_nextAttack -= NextAttack;
+        owner.OnAttackInput -= owner.Weapon.AskForAttack;
+        owner.OnDashInput -= owner.StartDash;
     }
 
     public void NextAttack(int currentAttackIndex)
     {
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKINDEX, currentAttackIndex);
     }
+
+    public override void Setup(FSM_Player_Manager stateManager)
+    {
+        owner = stateManager.Owner;
+    }
+
     public override string ToString() => "Attacking";
 }
