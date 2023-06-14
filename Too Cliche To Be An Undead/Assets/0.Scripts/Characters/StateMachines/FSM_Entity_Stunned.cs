@@ -32,11 +32,11 @@ public class FSM_Entity_Stunned<T> : FSM_Base<T>
         if (stun_TIMER <= 0) baseConditionChecked = true;   
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(T stateManager)
     {
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(T stateManager)
     {
     }
 

@@ -43,7 +43,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         _owner = owner;
         isInUse = true;
 
-        owner.OnStartSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
@@ -85,7 +85,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();
-        owner.GetSkillHolder.StartTimer();
+        owner.GetSkillHolder.StartCooldown();
 
         owner.SkillTutoAnimator.SetTrigger("finish");
     }

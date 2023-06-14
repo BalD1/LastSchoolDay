@@ -45,11 +45,11 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
     {
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Boss_Manager stateManager)
     {
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Boss_Manager stateManager)
     {
     }
 

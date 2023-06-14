@@ -39,7 +39,7 @@ public class SCRPT_AttackAmp : SCRPT_Skill
         this.owner = owner;
 
         owner.OnOverrideNextVoiceAttackAudio?.Invoke(voiceAttackClipOverride);
-        owner.OnStartSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
@@ -98,7 +98,7 @@ public class SCRPT_AttackAmp : SCRPT_Skill
 
     private void StartSkillTimerOnHit(bool lastAttack)
     {
-        owner.GetSkillHolder.StartTimer();
+        owner.GetSkillHolder.StartCooldown();
         owner.OnAttack -= StartSkillTimerOnHit;
         isInUse = false;
     }

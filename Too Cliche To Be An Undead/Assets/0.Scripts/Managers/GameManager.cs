@@ -344,7 +344,6 @@ public class GameManager : MonoBehaviourEventsHandler
 
     public void CancelGameOver()
     {
-        PlayersManager.Instance.AddAlivePlayer();
         CameraManager.Instance.TG_Players.AddMember(Player1Ref.transform, 1, 0);
         LeanTween.cancel(gameoverCinematicTween.uniqueId);
         PlayersManager.Instance.SetAllPlayersControlMapToInGame();
@@ -444,7 +443,7 @@ public class GameManager : MonoBehaviourEventsHandler
         for (int i = 0; i < playersByName.Count; i++)
         {
             PlayerCharacter player = playersByName[i].playerScript;
-            player.StateManager.SwitchState(player.StateManager.CinematicState);
+            player.StateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Cinematic);
             PlayerAnimationController animationController = player.AnimationController;
             animationController.SetAnimation(animationController.animationsData.WalkAnim, true);
 
@@ -460,7 +459,7 @@ public class GameManager : MonoBehaviourEventsHandler
                 .setOnComplete(() =>
                 {
                     playersUnfinishedAnimations--;
-                    player.StateManager.SwitchState(player.StateManager.IdleState);
+                    player.StateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Idle);
                     if (playersUnfinishedAnimations <= 0)
                         endAction?.Invoke();
                 });
@@ -484,22 +483,12 @@ public class GameManager : MonoBehaviourEventsHandler
         playersByName[playerIdx].playerScript.gameObject.transform.position = pos;
     }
 
-    public void SetAllPlayersStateTo(FSM_Base<FSM_Player_Manager> newState)
+    public void ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState newState)
     {
         foreach (var item in playersByName)
         {
-            item.playerScript.StateManager.SwitchState(newState);
+            item.playerScript.StateManager.ForceSetState(newState);
         }
-    }
-    public List<T> SetAllPlayersStateTo<T>(FSM_Player_Manager.E_PlayerState newState) where T : FSM_Base<FSM_Player_Manager>
-    {
-        List<T> playersState = new List<T>();
-        foreach (var item in playersByName)
-        {
-            playersState.Add(item.playerScript.StateManager.SwitchState<T>(newState));
-        }
-
-        return playersState;
     }
 
     public Transform GetSpawnPoint(int playerId)

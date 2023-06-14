@@ -65,15 +65,15 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
         base.TriggerEnter(collider);
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_NZ_Manager stateManager)
     {
-        base.EventsSubscriber();
+        base.EventsSubscriber(stateManager);
         owner.D_OnReset += CancelTween;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
     {
-        base.EventsUnsubscriber();
+        base.EventsUnsubscriber(stateManager);
         owner.D_OnReset -= CancelTween;
     }
 

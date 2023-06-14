@@ -145,10 +145,6 @@ public class ED_DebugSpawnables : Editor
                 current.varsArgs = new List<string>(3) { "0.0", "False", "False" };
                 break;
 
-            case DebugSpawnables.E_ScriptType.TrainingDummy:
-                current.varsArgs = new List<string>(1) { "5.0" };
-                break;
-
             case DebugSpawnables.E_ScriptType.Coin:
                 current.varsArgs = new List<string>(1) { "1" };
                 break;
@@ -175,12 +171,6 @@ public class ED_DebugSpawnables : Editor
                 bool bCrit = Convert.ToBoolean(current.varsArgs[2]);
                 current.varsArgs[2] = Convert.ToString(EditorGUILayout.Toggle("Is Crit", bCrit));
 
-                break;
-
-            case DebugSpawnables.E_ScriptType.TrainingDummy:
-                if (current.varsArgs[0] == "") current.varsArgs[0] = "0.0";
-                float regenTime = Convert.ToSingle(current.varsArgs[0], CultureInfo.InvariantCulture);
-                current.varsArgs[0] = Convert.ToString(EditorGUILayout.FloatField("Regen Time", regenTime));
                 break;
 
             case DebugSpawnables.E_ScriptType.Coin:

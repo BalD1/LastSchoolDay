@@ -1,12 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BalDUtilities.MouseUtils;
 using BalDUtilities.VectorUtils;
-using Unity.VisualScripting;
-using System.Linq;
 
-public class PlayerWeapon : MonoBehaviour
+public class PlayerWeapon : MonoBehaviourEventsHandler
 {
     [SerializeField] protected PlayerCharacter owner;
     public PlayerCharacter Owner { get => owner; }
@@ -78,9 +74,22 @@ public class PlayerWeapon : MonoBehaviour
 
     protected bool performEnded = false;
 
-    protected virtual void Awake()
+    protected override void EventsSubscriber()
     {
-        owner ??= this.transform.GetComponentInParent<PlayerCharacter>();
+        owner.d_OnDeath += OnOwnerDeath;
+        owner.D_OnReset += OnOwnerReset;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        owner.d_OnDeath -= OnOwnerDeath;
+        owner.D_OnReset -= OnOwnerReset;
+    }
+
+    protected override void Awake()
+    {
+        owner = this.transform.GetComponentInParent<PlayerCharacter>();
+        base.Awake();
     }
 
     private void Update()
@@ -108,8 +117,7 @@ public class PlayerWeapon : MonoBehaviour
                     attackCount = 0;
                     inputStored = false;
 
-                    if (owner.IsAlive())
-                        owner.StateManager.SwitchState(owner.StateManager.IdleState);
+                    owner.OnAttackEnded?.Invoke();
 
                     afterCombo_TIMER = afterCombo_COOLDOWN;
                     return;
@@ -161,6 +169,16 @@ public class PlayerWeapon : MonoBehaviour
         }
 
         effectsToRemove = new List<OnHitEffects>();
+    }
+
+    private void OnOwnerDeath()
+    {
+        this.Indicator.GetComponentInChildren<SpriteRenderer>().enabled = false;
+    }
+
+    private void OnOwnerReset()
+    {
+        this.Indicator.GetComponentInChildren<SpriteRenderer>().enabled = true;
     }
 
     #region Rotations
@@ -350,9 +368,7 @@ public class PlayerWeapon : MonoBehaviour
     public void ResetAttack()
     {
         slashParticles.Stop();
-        isAttacking = false;
         prepareNextAttack = false;
-        inputStored = false;
     }
 
     #endregion

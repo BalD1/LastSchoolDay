@@ -11,10 +11,11 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
     private float dyingState_TIMER;
     public float DyingState_TIMER { get => dyingState_TIMER; }
 
-    private bool removedAlive = false;
-    public bool RemovedAlive { get => removedAlive; }
+    private bool hadSelfRevive = false;
 
     private bool isFake = false;
+
+    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
@@ -22,12 +23,8 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
 
         if (dyingState_TIMER <= 0) dyingState_TIMER = owner.DyingState_DURATION;
         owner.canBePushed = false;
-        removedAlive = false;
-        if (owner.selfReviveCount <= 0)
-        {
-            PlayersManager.Instance.RemoveAlivePlayer(owner.transform);
-            removedAlive = true;
-        }
+        hadSelfRevive = false;
+        if (owner.selfReviveCount <= 0) hadSelfRevive = true;
         else
         {
             StringBuilder sb = new StringBuilder("Press ");
@@ -46,6 +43,8 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
             owner.SelfReviveText.text = sb.ToString();
             owner.SelfReviveText.enabled = true;
         }
+
+        this.EnteredDying(owner);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
@@ -54,7 +53,6 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
 
         dyingState_TIMER -= Time.deltaTime;
         owner.PlayerHUD.FillPortrait(dyingState_TIMER / owner.DyingState_DURATION);
-        if (dyingState_TIMER <= 0) owner.DefinitiveDeath();
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
@@ -67,29 +65,27 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
 
         owner.ForceUpdateMovementsInput();
 
-        if (removedAlive)
-            PlayersManager.Instance.AddAlivePlayer();
+        this.ExitedDying(owner);
 
         owner.SelfReviveText.enabled = false;
         isFake = false;
-
-
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
+        if (dyingState_TIMER <= 0) stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Dead);
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
-        if (!isFake) owner.OnOtherInteract += owner.Revive;
+        if (!isFake) owner.OnOtherInteract += Revive;
         owner.OnRevive += Revive;
         owner.OnSelfReviveInput += SelfRevive;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
-        if (!isFake) owner.OnOtherInteract -= owner.Revive;
+        if (!isFake) owner.OnOtherInteract -= Revive;
         owner.OnRevive -= Revive;
         owner.OnSelfReviveInput -= SelfRevive;
     }
@@ -99,26 +95,29 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
         if (owner.selfReviveCount >= 1)
         {
             owner.selfReviveCount -= 1;
-            owner.Revive();
+            owner.AskRevive();
         }
     }
 
+    private void Revive(GameObject interactor) => Revive();
     private void Revive()
     {
-        owner.StateManager.SwitchState<FSM_Player_Idle>(FSM_Player_Manager.E_PlayerState.Idle);
+        owner.OnHeal(owner.MaxHP_M * owner.ReviveHealthPercentage, false, false, healFromDeath: true);
+        owner.StateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
     }
 
     public void SetAsFakeState()
     {
         isFake = true;
-        owner.OnOtherInteract -= owner.Revive;
+        owner.OnOtherInteract -= Revive;
         owner.OnSelfReviveInput -= SelfRevive;
     }
 
     public override void Setup(FSM_Player_Manager stateManager)
     {
         owner = stateManager.Owner;
+        StateName = FSM_Player_Manager.E_PlayerState.Dying;
     }
 
-    public override string ToString() => "Dying";
+    public override string ToString() => StateName.ToString();
 }

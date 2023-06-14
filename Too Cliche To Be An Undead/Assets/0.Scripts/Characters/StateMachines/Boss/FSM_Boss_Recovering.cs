@@ -37,11 +37,11 @@ public class FSM_Boss_Recovering : FSM_Base<FSM_Boss_Manager>
         if (recovering_TIMER <= 0) stateManager.SwitchState(stateManager.ChasingState);
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Boss_Manager stateManager)
     {
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Boss_Manager stateManager)
     {
     }
 

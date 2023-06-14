@@ -22,7 +22,7 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
     {
         isInUse = true;
 
-        owner.OnStartSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.OffsetSkillHolder(offset);
         Vector2 skillPos = owner.GetSkillHolder.transform.position;
@@ -60,7 +60,7 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
     public override void StopSkill(PlayerCharacter owner)
     {
         isInUse = false;
-        owner.GetSkillHolder.StartTimer();
+        owner.GetSkillHolder.StartCooldown();
 
         owner.SkillTutoAnimator.SetTrigger("finish");
     }

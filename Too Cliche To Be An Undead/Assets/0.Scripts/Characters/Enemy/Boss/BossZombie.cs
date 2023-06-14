@@ -156,7 +156,7 @@ public class BossZombie : EnemyBase
             {
                 e.SkeletonAnimation.timeScale = 1;
                 if (pushAtEnd)
-                    e.Push(this.transform.position, 10, this, this);
+                    e.AskPush(10, this, this);
                 this.GetRb.velocity = baseVel;
             });
         }
@@ -181,7 +181,7 @@ public class BossZombie : EnemyBase
         }
     }
 
-    public override void OnDeath(bool forceDeath = false)
+    public override void Death(bool forceDeath = false)
     {
         if (deathFlag) return;
 
@@ -201,7 +201,7 @@ public class BossZombie : EnemyBase
         foreach (var item in GameManager.Instance.playersByName)
         {
             if (item.playerScript.StateManager.ToString() == "Dying")
-                item.playerScript.Revive();
+                item.playerScript.AskRevive();
         }
         if (GameManager.Instance.GameState == GameManager.E_GameState.GameOver)
             GameManager.Instance.CancelGameOver();

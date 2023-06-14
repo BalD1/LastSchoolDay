@@ -1,6 +1,8 @@
 
 public class FSM_Player_Cinematic : FSM_Base<FSM_Player_Manager>
 {
+    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         base.EnterState(stateManager);
@@ -24,19 +26,20 @@ public class FSM_Player_Cinematic : FSM_Base<FSM_Player_Manager>
     {
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
     }
 
     public override void Setup(FSM_Player_Manager stateManager)
     {
+        StateName = FSM_Player_Manager.E_PlayerState.Cinematic;
     }
 
-    public override string ToString() => "Cinematic";
+    public override string ToString() => StateName.ToString();
 
 
 }

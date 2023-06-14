@@ -142,7 +142,7 @@ public class HUBDoor : MonoBehaviour, IInteractable
             item.playerScript.gameObject.transform.position = playerTPPos + (Vector2)this.transform.position;
 
             FSM_Player_Manager stateManager = item.playerScript.StateManager;
-            stateManager.SwitchState(stateManager.IdleState);
+            stateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Idle);
         }
 
         // Setup Scene

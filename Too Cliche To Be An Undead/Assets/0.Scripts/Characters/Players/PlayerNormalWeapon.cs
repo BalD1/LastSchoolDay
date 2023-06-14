@@ -107,7 +107,7 @@ public class PlayerNormalWeapon : PlayerWeapon
             if (hadBigHit)
             {
                 if (!performHitStop)
-                    e?.Push(owner.transform.position, owner.PlayerDash.PushForce * lastAttackPushPercentage * knockbackModifier_M, owner, owner);
+                    e?.AskPush(owner.PlayerDash.PushForce * lastAttackPushPercentage * knockbackModifier_M, owner, owner);
                 shakeIntensity = bigShakeIntensity * cameraShakeIntensityModifier_M;
                 shakeDuration = bigShakeDuration;
             }
@@ -130,7 +130,7 @@ public class PlayerNormalWeapon : PlayerWeapon
             {
                 foreach (var item in hitEnemies)
                 {
-                    item.Push(owner.transform.position, owner.PlayerDash.PushForce * knockbackModifier_M, owner, owner);
+                    item.AskPush(owner.PlayerDash.PushForce * knockbackModifier_M, owner, owner);
                     item.SkeletonAnimation.timeScale = 1;
                 }
                 owner.SkeletonAnimation.timeScale = 1;

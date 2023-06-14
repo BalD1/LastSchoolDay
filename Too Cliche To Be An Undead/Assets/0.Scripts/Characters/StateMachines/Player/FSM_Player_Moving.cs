@@ -4,6 +4,8 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 {
     private PlayerCharacter owner;
 
+    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         base.EnterState(stateManager);
@@ -29,34 +31,43 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
     {
         // Si la velocité du personnage est à 0, on le passe en Idle
         if (owner.Velocity.Equals(Vector2.zero))
-            stateManager.SwitchState(stateManager.IdleState);
+            stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
 
         if (stateManager.OwnerWeapon.isAttacking)
-            stateManager.SwitchState(stateManager.AttackingState);
+            stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Attacking);
 
-        if (owner.isDashing)
-            stateManager.SwitchState(stateManager.DashingState);
-        
+        this.CheckDying(stateManager);
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
         owner.OnAttackInput += owner.Weapon.AskForAttack;
+
         owner.OnSkillInput += owner.GetSkillHolder.StartSkill;
-        owner.OnDashInput += owner.StartDash;
+        owner.OnAskForSkill += stateManager.SwitchToSkill;
+
+        owner.OnDashInput += stateManager.DashConditions;
+        owner.OnAskForPush += stateManager.PushConditions;
+        owner.OnAskForStun += stateManager.SwitchToStun;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
         owner.OnAttackInput -= owner.Weapon.AskForAttack;
+
         owner.OnSkillInput -= owner.GetSkillHolder.StartSkill;
-        owner.OnDashInput -= owner.StartDash;
+        owner.OnAskForSkill -= stateManager.SwitchToSkill;
+
+        owner.OnDashInput -= stateManager.DashConditions;
+        owner.OnAskForPush -= stateManager.PushConditions;
+        owner.OnAskForStun -= stateManager.SwitchToStun;
     }
 
     public override void Setup(FSM_Player_Manager stateManager)
     {
         owner = stateManager.Owner;
+        StateName = FSM_Player_Manager.E_PlayerState.Moving;
     }
 
-    public override string ToString() => "Moving";
+    public override string ToString() => this.StateName.ToString();
 }

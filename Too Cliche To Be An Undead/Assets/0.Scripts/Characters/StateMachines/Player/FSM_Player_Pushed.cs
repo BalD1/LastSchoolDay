@@ -5,6 +5,8 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
 
     private const string ONHIT_MODIFIER_ID = "PUSHED_";
 
+    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         base.EnterState(stateManager);
@@ -32,7 +34,6 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
     {
-        //playerOwner.Movements();
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)
@@ -46,28 +47,32 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
     public override void Conditions(FSM_Player_Manager stateManager)
     {
         base.Conditions(stateManager);
-        if (baseConditionChecked) stateManager.SwitchState(stateManager.IdleState);
+        if (baseConditionChecked) stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
+        this.CheckDying(stateManager);
     }
 
     public override void Setup(FSM_Player_Manager stateManager)
     {
         owner = stateManager.Owner;
         playerOwner = owner as PlayerCharacter;
+        StateName = FSM_Player_Manager.E_PlayerState.Pushed;
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
-        base.EventsSubscriber();
+        base.EventsSubscriber(stateManager);
         playerOwner.OnAttackInput += playerOwner.Weapon.AskForAttack;
         playerOwner.OnSkillInput += playerOwner.GetSkillHolder.StartSkill;
+        playerOwner.OnAskForStun += stateManager.SwitchToStun;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
-        base.EventsUnsubscriber();
+        base.EventsUnsubscriber(stateManager);
         playerOwner.OnAttackInput -= playerOwner.Weapon.AskForAttack;
         playerOwner.OnSkillInput -= playerOwner.GetSkillHolder.StartSkill;
+        playerOwner.OnAskForStun -= stateManager.SwitchToStun;
     }
 
-    public override string ToString() => "Pushed";
+    public override string ToString() => StateName.ToString();
 }

@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerFootprints : MonoBehaviour
+public class PlayerFootprints : MonoBehaviourEventsHandler
 {
     [SerializeField] private PlayerCharacter owner;
 
@@ -26,16 +24,25 @@ public class PlayerFootprints : MonoBehaviour
 
     private bool allowFootSteps = true;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         footprintsSpawn_TIMER = footprintsSpawn_COOLDOWN;
         footSteps_TIMER = delayBetweenStepsAudio;
+    }
 
+    protected override void EventsSubscriber()
+    {
         owner.OnSteppedIntoTrigger += OwnerSteppedInTrigger;
-
         owner.OnSuccessfulAttack += OwnerAttacked;
+        owner.OnStateChange += OnOwnerStateChange;
+    }
 
-        owner.StateManager.D_stateChange += OnOwnerStateChange;
+    protected override void EventsUnSubscriber()
+    {
+        owner.OnSteppedIntoTrigger -= OwnerSteppedInTrigger;
+        owner.OnSuccessfulAttack -= OwnerAttacked;
+        owner.OnStateChange -= OnOwnerStateChange;
     }
 
     private void OnOwnerStateChange(string newState)

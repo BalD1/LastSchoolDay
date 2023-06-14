@@ -192,7 +192,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
     public void ForceKill()
     {
         if (!IsAlive()) return;
-        OnDeath(true);
+        Death(true);
     }
 
     public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
@@ -212,9 +212,9 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         return res;
     }
 
-    public override void OnDeath(bool forceDeath = false)
+    public override void Death(bool forceDeath = false)
     {
-        base.OnDeath(forceDeath);
+        base.Death(forceDeath);
 
         BloodParticles.GetNext(this.PivotOffset.position);
 
@@ -282,23 +282,6 @@ public class NormalZombie : EnemyBase, IDistanceChecker
             TextPopup.Create("Stun !", this.GetHealthPopupOffset + (Vector2)this.transform.position, GameAssets.StunComponents);
         stateManager.SwitchState(stateManager.StunnedState.SetDuration(duration, resetAttackTimer));
         this.attackTelegraph.CancelTelegraph();
-    }
-
-    public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher, Entity pusher)
-    {
-        if (pusherForce <= (pusher is NormalZombie ? 4 : 1)) return Vector2.zero;
-        if (!canBePushed || push_TIMER > 0) return Vector2.zero;
-        push_TIMER = push_COOLDOWN;
-
-        Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher, pusher);
-
-        if (v.magnitude <= Vector2.zero.magnitude) return Vector2.zero;
-
-        v = v.Fluctuate(.2f);
-
-        stateManager.SwitchState(stateManager.PushedState.SetForce(v, originalPusher, pusher));
-
-        return v;
     }
 
     public override void SetAttackedPlayer(PlayerCharacter target)

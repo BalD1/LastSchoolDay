@@ -8,6 +8,8 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     private float max_DURATION;
     private float dash_dur_TIMER;
 
+    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
+
     private Vector2 mouseDir;
 
     private List<Collider2D> alreadyPushedEntities;
@@ -74,7 +76,6 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         base.ExitState(stateManager);
-        owner.isDashing = false;
 
         owner.SetAllVelocity(Vector2.zero);
         owner.ForceUpdateMovementsInput();
@@ -90,17 +91,20 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
-        if (dash_dur_TIMER <= 0) stateManager.SwitchState(stateManager.MovingState);
+        if (dash_dur_TIMER <= 0) stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Moving);
+        this.CheckDying(stateManager);
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
         owner.OnEnteredBodyTrigger += TriggerEnter;
+        owner.OnAskForStun += stateManager.SwitchToStun;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
         owner.OnEnteredBodyTrigger -= TriggerEnter;
+        owner.OnAskForStun -= stateManager.SwitchToStun;
     }
 
     private void TriggerEnter(Collider2D collider)
@@ -135,7 +139,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         owner.StartTimeStop();
         LeanTween.delayedCall(hitStopTimeBase, () => owner.StopTimeStop());
 
-        e.Push(owner.transform.position, remainingPushForce, owner, owner);
+        e.AskPush(remainingPushForce, owner, owner);
         owner.OnDashHit(e);
     }
 
@@ -144,7 +148,8 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     public override void Setup(FSM_Player_Manager stateManager)
     {
         owner = stateManager.Owner;
+        StateName = FSM_Player_Manager.E_PlayerState.Dashing;
     }
 
-    public override string ToString() => "Dashing";
+    public override string ToString() => StateName.ToString();
 }

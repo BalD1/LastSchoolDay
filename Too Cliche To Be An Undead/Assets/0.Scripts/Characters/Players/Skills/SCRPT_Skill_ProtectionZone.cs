@@ -11,7 +11,7 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
     {
         isInUse = true;
 
-        owner.OnStartSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.SetInvincibility(true);
 
@@ -38,7 +38,7 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
 
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();
-        owner.GetSkillHolder.StartTimer();
+        owner.GetSkillHolder.StartCooldown();
 
         owner.SkillTutoAnimator.SetTrigger("finish");
 

@@ -31,7 +31,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         player = owner;
         isInUse = true;
 
-        owner.OnStartSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.GetSkillHolder.D_enteredTrigger += EnteredTrigger;
         owner.GetSkillHolder.D_exitedTrigger += ExitedTrigger;
@@ -72,7 +72,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
     {
         owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
         owner.GetSkillHolder.AnimationEnded();
-        owner.GetSkillHolder.StartTimer();
+        owner.GetSkillHolder.StartCooldown();
         isInUse = false;
 
         owner.OnAimInput -= owner.Weapon.SetAimGoal;

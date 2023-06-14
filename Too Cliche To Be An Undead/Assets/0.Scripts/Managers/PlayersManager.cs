@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
-public class PlayersManager : MonoBehaviour
+public class PlayersManager : MonoBehaviourEventsHandler
 {
     private static PlayersManager instance;
     public static PlayersManager Instance
@@ -31,8 +31,7 @@ public class PlayersManager : MonoBehaviour
     public event Action<PlayerInput> PlayerJoined;
     public event Action<PlayerInput> PlayerLeft;
 
-    [SerializeField] private int alivePlayersCount;
-    public int AlivePlayersCount { get => alivePlayersCount; }
+    private List<PlayerCharacter> deadPlayers;
 
     [System.Serializable]
     public struct GamepadShakeData
@@ -64,7 +63,7 @@ public class PlayersManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        alivePlayersCount = DataKeeper.Instance.playersDataKeep.Count;
+        deadPlayers = new List<PlayerCharacter>();
 
         PopulateColorsQueue();
 
@@ -74,14 +73,10 @@ public class PlayersManager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    protected override void Awake()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void Awake()
-    {
-        if (instance == null) 
+        base.Awake();
+        if (instance == null)
             instance = this;
         else
         {
@@ -96,12 +91,27 @@ public class PlayersManager : MonoBehaviour
 
         leaveAction.performed += context => LeaveAction(context);
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
 
         this.transform.SetParent(null);
         DontDestroyOnLoad(this);
 
         PopulateColorsQueue();
+    }
+
+    protected override void EventsSubscriber()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        FSM_Player_Events.OnEnteredDeath += DefinitiveDeath;
+        FSM_Player_Events.OnEnteredDying += RemoveAlivePlayer;
+        FSM_Player_Events.OnExitedDying += AddAlivePlayer;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        FSM_Player_Events.OnEnteredDeath -= DefinitiveDeath;
+        FSM_Player_Events.OnEnteredDying -= RemoveAlivePlayer;
+        FSM_Player_Events.OnExitedDying -= AddAlivePlayer;
     }
 
     private void PopulateColorsQueue()
@@ -242,23 +252,23 @@ public class PlayersManager : MonoBehaviour
     }
 
 
-    public void AddAlivePlayer()
+    public void AddAlivePlayer(PlayerCharacter player)
     {
-        alivePlayersCount = Mathf.Clamp(alivePlayersCount + 1, 0, DataKeeper.Instance.playersDataKeep.Count);
+        deadPlayers.Remove(player);
     }
-    public void RemoveAlivePlayer(Transform deadPlayer)
+    public void RemoveAlivePlayer(PlayerCharacter player)
     {
-        alivePlayersCount--;
+        if (!deadPlayers.Contains(player)) deadPlayers.Add(player);
 
-        if (alivePlayersCount <= 0)
+        if (deadPlayers.Count >= GameManager.Instance.PlayersCount)
         {
-            LastDeadPlayerTransform = deadPlayer;
+            LastDeadPlayerTransform = player.transform;
             GameManager.Instance.GameState = GameManager.E_GameState.GameOver;
         }
     }
 
     public void DefinitiveDeath(PlayerCharacter player)
     {
-        CameraManager.Instance.TG_Players.RemoveMember(player.transform);
+        RemoveAlivePlayer(player);
     }
 }

@@ -40,6 +40,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private PlayerAnimationController animationController;
     [SerializeField] private GameObject minimapMarker;
+    public GameObject MinimapMarker { get => minimapMarker;}
     [SerializeField] private PlayerInteractor selfInteractor;
     [SerializeField] private PlayerWeapon weapon;
     [SerializeField] private SkillHolder skillHolder;
@@ -80,6 +81,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     [SerializeField] private float dyingState_DURATION = 20f;
     [SerializeField][Range(0, 1)] private float reviveHealPercentage = 0.25f;
+    public float ReviveHealthPercentage { get => reviveHealPercentage; }
 
     [field: SerializeField] public int CurrentActiveTimestops { get; private set;} = 0;
 
@@ -98,7 +100,7 @@ public class PlayerCharacter : Entity, IInteractable
     public float MaxDashCD_M { get; private set; }
 
     private float dash_CD_TIMER;
-    public bool isDashing;
+    public float DashCooldown { get => dash_CD_TIMER; }
 
     private bool stayStatic;
 
@@ -162,19 +164,25 @@ public class PlayerCharacter : Entity, IInteractable
 
     public Action OnAttackInput;
     public Action<bool> OnAttack;
+    public Action OnAttackEnded;
     public Action<bool> OnSuccessfulAttack;
     public Action OnSwiff;
     public Action OnStartHoldAttack;
     public Action OnEndHoldAttack;
 
     public Action OnSkillInput;
-    public Action<bool> OnStartSkill;
-    public Action<bool> OnEndSkill;
+    public Action<float, float, float> OnAskForSkill;
+    public Action<bool> OnSkillStart;
+    public Action<bool> OnSkillEnd;
     public Action OnEarlySkillStart;
 
     public Action OnDashInput;
     public Action OnDashStarted;
     public Action<Entity> OnDashHit;
+
+    public event Action<float, bool, bool> OnAskForStun;
+
+    public Action<string> OnStateChange;
 
     public Action OnFootPrint;
     public Action<Type> OnSteppedIntoTrigger;
@@ -209,7 +217,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         GameManager.Instance._onSceneReload += OnSceneReload;
 
-        this.stateManager.SwitchState(stateManager.IdleState);
+        this.stateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Idle);
 
         CancelInvoke(nameof(ClearAttackers));
 
@@ -440,7 +448,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void CancelAttackAnimation()
     {
-        this.animator.Play("AN_Wh_Idle");
         weapon.ResetAttack();
     }
 
@@ -507,36 +514,17 @@ public class PlayerCharacter : Entity, IInteractable
         D_OnHeal?.Invoke();
     }
 
-    public override void OnDeath(bool forceDeath = false)
+    public override void Death(bool forceDeath = false)
     {
         if (this.stateManager.ToString().Equals("Dying")) return;
         
-        base.OnDeath(forceDeath);
+        base.Death(forceDeath);
         this.selfInteractor.ResetCollider();
-        this.stateManager.SwitchState(stateManager.DyingState);
     }
 
-    public void Revive()
+    public void AskRevive()
     {
-        this.OnHeal(this.MaxHP_M * reviveHealPercentage, false, false, healFromDeath: true);
         OnRevive?.Invoke();
-    }
-    public void Revive(GameObject interactor) => Revive();
-
-    public void DefinitiveDeath()
-    {
-        if (selfReviveCount > 0)
-        {
-            selfReviveCount -= 1;
-            Revive();
-            return;
-        }
-
-        stateManager.SwitchState(stateManager.DeadState);
-
-        this.minimapMarker.SetActive(false);
-
-        PlayersManager.Instance.DefinitiveDeath(this);
     }
 
     public bool AddAttacker(EnemyBase attacker)
@@ -745,27 +733,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Dash / Push
 
-    public void StartDash()
-    {
-        if (dash_CD_TIMER > 0) return;
-
-        isDashing = true;
-    }
-
     public void StartDashTimer() => dash_CD_TIMER = MaxDashCD_M;
-
-    public override Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher, Entity pusher)
-    {
-        if (!canBePushed) return Vector2.zero;
-
-        Vector2 v = base.Push(pusherPosition, pusherForce, originalPusher, pusher);
-
-        if (v.magnitude <= Vector2.zero.magnitude) return Vector2.zero;
-
-        stateManager.SwitchState(stateManager.PushedState.SetForce(v, originalPusher, pusher));
-
-        return v;
-    }
 
     private float CalculateAllKeys()
     {
@@ -948,9 +916,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
-        if (showStuntext)
-            TextPopup.Create("Stun !", this.GetHealthPopupOffset + (Vector2)this.transform.position);
-        stateManager.SwitchState(stateManager.StunnedState.SetDuration(duration, resetAttackTimer));
+        OnAskForStun?.Invoke(duration, resetAttackTimer, showStuntext);
     }
 
     public void StartTimeStop()

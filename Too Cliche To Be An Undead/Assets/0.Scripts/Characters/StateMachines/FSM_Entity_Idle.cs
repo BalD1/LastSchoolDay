@@ -32,11 +32,11 @@ public class FSM_Entity_Idle<T> : FSM_Base<T>
         if (owner.GetRb?.velocity != Vector2.zero) baseConditionChecked = true;
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(T stateManager)
     {
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(T stateManager)
     {
     }
 

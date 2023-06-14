@@ -6,6 +6,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
     private PlayerAnimationController ownerAnimationController;
 
+    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
+
     private Spine.Animation idleAnim;
     private Spine.Animation walkAnim;
 
@@ -184,7 +186,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
         owner.ForceUpdateMovementsInput();
 
-        owner.OnEndSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnSkillEnd?.Invoke(owner.GetSkill.holdSkillAudio);
     }
 
     private void StopSkill()
@@ -193,22 +195,27 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
         this.skill_Timer = 0;
 
-        owner.OnEndSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnSkillEnd?.Invoke(owner.GetSkill.holdSkillAudio);
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
-        if (skill_Timer <= 0) stateManager.SwitchState(stateManager.IdleState);
+        if (skill_Timer <= 0) stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
+        this.CheckDying(stateManager);
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
         owner.OnSkillInput += StopSkill;
+        owner.OnAskForPush += stateManager.PushConditions;
+        owner.OnAskForStun += stateManager.SwitchToStun;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
         owner.OnSkillInput -= StopSkill;
+        owner.OnAskForPush -= stateManager.PushConditions;
+        owner.OnAskForStun -= stateManager.SwitchToStun;
     }
 
     public FSM_Player_InSkill SetTimers(float _skillTimer, float _transitionTimer = -1, float _startOffset = -1)
@@ -227,7 +234,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     {
         owner = stateManager.Owner;
         ownerAnimationController = owner.AnimationController;
+        StateName = FSM_Player_Manager.E_PlayerState.InSkill;
     }
 
-    public override string ToString() => "InSkill";
+    public override string ToString() => StateName.ToString();
 }

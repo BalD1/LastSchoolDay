@@ -1,10 +1,8 @@
 using BalDUtilities.MouseUtils;
 using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimationController : MonoBehaviour
+public class PlayerAnimationController : MonoBehaviourEventsHandler
 {
     [Header("Animations")]
 
@@ -41,9 +39,19 @@ public class PlayerAnimationController : MonoBehaviour
     [SerializeField] private bool editor_loopAnimation;
 #endif
 
-    private void Awake()
+    protected override void EventsSubscriber()
     {
-        skeletonAnimation.SetAnimation(animationsData.IdleAnim, true);
+        owner.OnStateChange += SetAnimationFromState;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        owner.OnStateChange -= SetAnimationFromState;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
         isValid = true;
     }
 
@@ -67,6 +75,17 @@ public class PlayerAnimationController : MonoBehaviour
         }
 
         skeletonAnimation._switchSkeleton += SwitchSkeleton;
+    }
+
+    private void SetAnimationFromState(string state)
+    {
+        foreach (var item in animationsData.StateAnimation)
+        {
+            if (item.Key.ToString() != state) continue;
+
+            SetAnimation(item.Asset, item.Loop);
+            return;
+        }
     }
 
     public void Setup(SCRPT_PlayersAnimData animData)
@@ -146,35 +165,6 @@ public class PlayerAnimationController : MonoBehaviour
     public SkeletonAnimation GetSkeleton(int idx)
     {
         return skeletonAnimation.transform.GetChild(idx + 1).GetComponent<SkeletonAnimation>();
-    }
-
-    public void SetCharacterState(string state)
-    {
-        if (!isValid) return;
-
-        currentState = state;
-
-        switch (state)
-        {
-            case "Idle":
-                SetAnimation(animationsData.IdleAnim, true);
-                break;
-
-            case "Moving":
-                SetAnimation(animationsData.WalkAnim, true);
-                break;
-
-            case "Dashing":
-                SetAnimation(animationsData.dashAnim, true);
-                break;
-
-            case "Dying":
-                SetAnimation(animationsData.DeathAnim, false);
-                break;
-
-            default:
-                break;
-        }
     }
 
     public bool IsLookingAtRight() => skeletonAnimation.gameObject.transform.localScale.x > 0;

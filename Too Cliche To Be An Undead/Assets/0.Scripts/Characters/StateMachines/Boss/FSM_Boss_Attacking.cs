@@ -68,12 +68,12 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         }
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Boss_Manager stateManager)
     {
         owner.attacksPatern.D_paterneEnded += SwitchToRecover;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Boss_Manager stateManager)
     {
         if (owner.CurrentAttack.attack.DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
         if (owner.CurrentAttack.attack.DamageOnCollision)

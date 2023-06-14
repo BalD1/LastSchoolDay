@@ -168,7 +168,8 @@ public class Entity : MonoBehaviour, IDamageable
 
     public Action D_OnHeal;
 
-    public Action D_OnPushed;
+    public event Action<float, Entity, Entity> OnAskForPush;
+    public Action OnPushed;
 
     public Action D_OnReset;
 
@@ -544,7 +545,7 @@ public class Entity : MonoBehaviour, IDamageable
         if (currentHP <= 0)
         {
             currentHP = 0;
-            OnDeath();
+            Death();
         }
 
         HealthChange(true);
@@ -568,7 +569,7 @@ public class Entity : MonoBehaviour, IDamageable
         HealthPopup.Create(position: (Vector2)this.transform.position + healthPopupOffset, amount, isHeal: true, isCrit);
     }
 
-    public virtual void OnDeath(bool forceDeath = false)
+    public virtual void Death(bool forceDeath = false)
     {
         if (invincible) return;
         if (!forceDeath && IsAlive()) return;
@@ -605,19 +606,9 @@ public class Entity : MonoBehaviour, IDamageable
 
     public bool RollCrit() => UnityEngine.Random.Range(0, 100) <= MaxCritChances_M ? true : false;
 
-    public virtual Vector2 Push(Vector2 pusherPosition, float pusherForce, Entity originalPusher, Entity pusher)
+    public virtual void AskPush(float pusherForce, Entity pusher, Entity originalPusher)
     {
-        if (!canBePushed) return Vector2.zero;
-
-        float dist = Vector2.Distance(pusherPosition, this.transform.position) / 2;
-        Vector2 dir = ((Vector2)this.transform.position - pusherPosition).normalized;
-        DashHitParticles.GetNext(pusherPosition + (dist * dir));
-
-        float finalForce = pusherForce - this.GetStats.Weight;
-        if (finalForce <= 0) return Vector2.zero;
-
-        Vector2 v = dir * finalForce;
-        return v;
+        OnAskForPush?.Invoke(pusherForce, pusher, originalPusher);
     }
 
     public void StartAttackTimer(float durationModifier = 0, bool addRandom = false)

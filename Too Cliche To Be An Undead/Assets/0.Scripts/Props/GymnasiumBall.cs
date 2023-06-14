@@ -15,7 +15,7 @@ public class GymnasiumBall : MonoBehaviour, IDamageable
 
     public bool IsAlive() => true;
 
-    public void OnDeath(bool forceDeath = false)
+    public void Death(bool forceDeath = false)
     {
     }
 

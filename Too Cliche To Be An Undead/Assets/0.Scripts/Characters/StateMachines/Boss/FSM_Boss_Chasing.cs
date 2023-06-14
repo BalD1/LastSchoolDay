@@ -43,11 +43,11 @@ public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager>
             stateManager.SwitchState(stateManager.AttackingState);
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Boss_Manager stateManager)
     {
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Boss_Manager stateManager)
     {
     }
 

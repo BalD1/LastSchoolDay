@@ -128,7 +128,7 @@ public class DialogueManager : MonoBehaviourEventsHandler
 
         StartDialogue(dialogue);
 
-        GameManager.Instance.SetAllPlayersStateTo<FSM_Player_Cinematic>(FSM_Player_Manager.E_PlayerState.Cinematic);
+        GameManager.Instance.ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Cinematic);
 
         endDialogueAction = actionAtDialogueEnd;
         return true;
@@ -320,7 +320,7 @@ public class DialogueManager : MonoBehaviourEventsHandler
 
                 if (GameManager.Instance.IsInTutorial) UIManager.Instance.FadeTutoHUD(true);
 
-                GameManager.Instance.SetAllPlayersStateTo<FSM_Player_Idle>(FSM_Player_Manager.E_PlayerState.Idle);
+                GameManager.Instance.ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Idle);
 
                 ResetDialogue();
                 endDialogueAction?.Invoke();

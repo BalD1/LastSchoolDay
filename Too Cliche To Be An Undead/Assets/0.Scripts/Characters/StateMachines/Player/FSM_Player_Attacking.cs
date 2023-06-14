@@ -3,6 +3,9 @@ using UnityEngine;
 public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 {
     public PlayerCharacter owner;
+    private FSM_Player_Manager stateManager;
+
+    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
@@ -51,6 +54,7 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         base.ExitState(stateManager);
+        owner.CancelAttackAnimation();
 
         owner.ForceUpdateMovementsInput();
     }
@@ -62,29 +66,31 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
         if (owner.Weapon.attackEnded)
         {
             owner.Weapon.SetAttackEnded(false);
-            owner.StateManager.SwitchState(owner.StateManager.IdleState);
+            owner.StateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
         }
 
-        if (owner.isDashing)
-        {
-            owner.CancelAttackAnimation();
-            stateManager.SwitchState(stateManager.DashingState);
-        }
+        this.CheckDying(stateManager);
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
         owner.Weapon.D_nextAttack += NextAttack;
         owner.OnAttackInput += owner.Weapon.AskForAttack;
-        owner.OnDashInput += owner.StartDash;
+        owner.OnDashInput += stateManager.DashConditions;
+        owner.OnAskForStun += stateManager.SwitchToStun;
+        owner.OnAttackEnded += OnAttackEnded;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
         owner.Weapon.D_nextAttack -= NextAttack;
         owner.OnAttackInput -= owner.Weapon.AskForAttack;
-        owner.OnDashInput -= owner.StartDash;
+        owner.OnDashInput -= stateManager.DashConditions;
+        owner.OnAskForStun -= stateManager.SwitchToStun;
+        owner.OnAttackEnded -= OnAttackEnded;
     }
+
+    private void OnAttackEnded() => stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
 
     public void NextAttack(int currentAttackIndex)
     {
@@ -94,7 +100,9 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     public override void Setup(FSM_Player_Manager stateManager)
     {
         owner = stateManager.Owner;
+        this.stateManager = stateManager;
+        StateName = FSM_Player_Manager.E_PlayerState.Attacking;
     }
 
-    public override string ToString() => "Attacking";
+    public override string ToString() => StateName.ToString();
 }

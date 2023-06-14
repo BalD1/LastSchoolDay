@@ -59,11 +59,11 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
             stateManager.SwitchState(stateManager.AttackingState);
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_NZ_Manager stateManager)
     {
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
     {
     }
 

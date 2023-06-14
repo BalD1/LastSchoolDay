@@ -3,7 +3,6 @@ using UnityEditor;
 using BalDUtilities.EditorUtils;
 using BalDUtilities.Misc;
 using System.Text;
-using static SCRPT_Props;
 
 [CustomEditor(typeof(PlayerCharacter))]
 public class ED_PlayerCharacter : Editor
@@ -30,12 +29,7 @@ public class ED_PlayerCharacter : Editor
     private float healAmount = 50;
     private bool critHeal;
 
-    private enum E_PlayerStates
-    {
-        Idle,
-        Moving,
-    }
-    private E_PlayerStates stateToForce;
+    private FSM_Player_Manager.E_PlayerState stateToForce;
     private GameManager.E_CharactersNames characterToForce;
 
     private void OnEnable()
@@ -189,18 +183,9 @@ public class ED_PlayerCharacter : Editor
         if (GUILayout.Button("Force new state", GUILayout.MaxWidth(150)))
         {
             FSM_Player_Manager playerManager = targetScript.StateManager;
-            switch (stateToForce)
-            {
-                case E_PlayerStates.Idle:
-                    playerManager.SwitchState(playerManager.IdleState);
-                    break;
-
-                case E_PlayerStates.Moving:
-                    playerManager.SwitchState(playerManager.MovingState);
-                    break;
-            }
+            playerManager.ForceSetState(stateToForce);
         }
-        stateToForce = (E_PlayerStates)EditorGUILayout.EnumPopup(stateToForce, GUILayout.MaxWidth(100));
+        stateToForce = (FSM_Player_Manager.E_PlayerState)EditorGUILayout.EnumPopup(stateToForce, GUILayout.MaxWidth(100));
 
         EditorGUILayout.EndHorizontal();
         SimpleDraws.HorizontalLine();

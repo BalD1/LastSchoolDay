@@ -4,6 +4,8 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
 {
     private PlayerCharacter playerOwner;
 
+    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
+
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         base.EnterState(stateManager);
@@ -28,22 +30,33 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
     {
         owner = stateManager.Owner;
         playerOwner = owner as PlayerCharacter;
+        StateName = FSM_Player_Manager.E_PlayerState.Idle;
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
-        base.EventsSubscriber();
+        base.EventsSubscriber(stateManager);
         playerOwner.OnAttackInput += playerOwner.Weapon.AskForAttack;
+
         playerOwner.OnSkillInput += playerOwner.GetSkillHolder.StartSkill;
-        playerOwner.OnDashInput += playerOwner.StartDash;
+        playerOwner.OnAskForSkill += stateManager.SwitchToSkill;
+
+        playerOwner.OnDashInput += stateManager.DashConditions;
+        playerOwner.OnAskForPush += stateManager.PushConditions;
+        playerOwner.OnAskForStun += stateManager.SwitchToStun;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
-        base.EventsUnsubscriber();
+        base.EventsUnsubscriber(stateManager);
         playerOwner.OnAttackInput -= playerOwner.Weapon.AskForAttack;
+
         playerOwner.OnSkillInput -= playerOwner.GetSkillHolder.StartSkill;
-        playerOwner.OnDashInput -= playerOwner.StartDash;
+        playerOwner.OnAskForSkill -= stateManager.SwitchToSkill;
+
+        playerOwner.OnDashInput -= stateManager.DashConditions;
+        playerOwner.OnAskForPush -= stateManager.PushConditions;
+        playerOwner.OnAskForStun -= stateManager.SwitchToStun;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
@@ -53,13 +66,14 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
         if (playerOwner.GetRb.velocity != Vector2.zero ||
             playerOwner.Velocity != Vector2.zero)
         {
-            stateManager.SwitchState(stateManager.MovingState);
+            stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Moving);
         }
 
         if (stateManager.OwnerWeapon.isAttacking)
-            stateManager.SwitchState(stateManager.AttackingState);
+            stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Attacking);
 
-        if (playerOwner.isDashing) stateManager.SwitchState(stateManager.DashingState);
-        
+        this.CheckDying(stateManager);
     }
+
+    public override string ToString() => StateName.ToString();
 }

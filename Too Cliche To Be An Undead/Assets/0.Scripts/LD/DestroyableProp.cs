@@ -73,7 +73,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable, IDistanceChecker
 
         if (currentHP <= 0)
         {
-            OnDeath();
+            Death();
             return true;
         }
         if (audioData == null) return true;
@@ -93,7 +93,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable, IDistanceChecker
         currentHP += amount;
     }
 
-    public void OnDeath(bool forceDeath = false)
+    public void Death(bool forceDeath = false)
     {
         if (destroyParticles != null)
             destroyParticles.Create(this.transform.position);

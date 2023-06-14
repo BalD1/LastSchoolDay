@@ -33,7 +33,7 @@ public class GymnasiumCinematic : MonoBehaviour
 
         foreach (var item in GameManager.Instance.playersByName)
         {
-            if (item.playerScript.StateManager.ToString() == "Dying") item.playerScript.Revive();
+            if (item.playerScript.StateManager.ToString() == "Dying") item.playerScript.AskRevive();
         }
 
         UIManager.Instance.SetBlackBars(true);

@@ -26,15 +26,16 @@ public class SkillHolder : MonoBehaviour
     [SerializeField] public bool debugMode;
 #endif
 
-    private float timer;
+    private float skillCooldown;
+    public float SkillCooldown { get => skillCooldown; }
 
     private void Update()
     {
-        if (timer > 0)
+        if (skillCooldown > 0)
         {
-            timer -= Time.deltaTime;
+            skillCooldown -= Time.deltaTime;
 
-            float fillAmount = timer / owner.MaxSkillCD_M;
+            float fillAmount = skillCooldown / owner.MaxSkillCD_M;
             if (owner.PlayerHUD != null)
                 owner.PlayerHUD.UpdateSkillThumbnailFill(fillAmount);
         }
@@ -42,7 +43,7 @@ public class SkillHolder : MonoBehaviour
 
     public void StartSkill()
     {
-        if (Skill.IsInUse || timer > 0) return;
+        if (Skill.IsInUse || skillCooldown > 0) return;
 
         PlayerAnimationController animController = owner.AnimationController;
         AnimationReferenceAsset transitionAnim = animController.animationsData.skillTransitionAnim;
@@ -59,16 +60,16 @@ public class SkillHolder : MonoBehaviour
             transitionDuration *= skill.TransitionDurationMultiplier;
         }
 
-        owner.StateManager.SwitchState(owner.StateManager.InSkillState.SetTimers(skill.Duration, transitionDuration, startOffset));
+        owner.OnAskForSkill?.Invoke(skill.Duration, transitionDuration, startOffset);
 
         owner.PlayerHUD.UpdateSkillThumbnailFill(1);
     }
 
-    public void StartTimer() => timer = owner.MaxSkillCD_M;
-    public void StartTimer(float t)
+    public void StartCooldown() => skillCooldown = owner.MaxSkillCD_M;
+    public void StartCooldown(float t)
     {
-        timer = t;
-        Debug.Log(timer);
+        skillCooldown = t;
+        Debug.Log(skillCooldown);
     }
 
     public void PlayAnimation(string id) => animator.Play(id);
@@ -79,7 +80,7 @@ public class SkillHolder : MonoBehaviour
     {
         this.skill = newSkill;
         this.Skill.ResetSkill();
-        timer = 0;
+        skillCooldown = 0;
         owner.PlayerHUD.SetSkillThumbnail(newSkill.Thumbnail);
 
         owner.PlayerHUD.UpdateSkillThumbnailFill(0, false);

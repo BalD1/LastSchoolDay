@@ -8,7 +8,7 @@ public interface IDamageable
 
     public abstract void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healfromDeath = false);
 
-    public abstract void OnDeath(bool forceDeath = false);
+    public abstract void Death(bool forceDeath = false);
 
     public bool IsAlive();
 }

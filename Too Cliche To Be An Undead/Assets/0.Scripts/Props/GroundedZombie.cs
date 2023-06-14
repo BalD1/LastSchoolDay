@@ -59,9 +59,9 @@ public class GroundedZombie : Entity
         attack_TIMER = MaxAttCD_M;
     }
 
-    public override void OnDeath(bool forceDeath = false)
+    public override void Death(bool forceDeath = false)
     {
-        base.OnDeath(forceDeath);
+        base.Death(forceDeath);
 
         AudioclipPlayer.Create(this.transform.position, audioData.GetRandomDeathClip());
         BloodParticles.GetNext(this.transform.position);

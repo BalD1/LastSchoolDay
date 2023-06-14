@@ -26,7 +26,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         owner.GetRb.velocity = Vector2.zero;
         PerformPush(pusher);
 
-        owner.D_OnPushed?.Invoke();
+        owner.OnPushed?.Invoke();
     }
 
     public override void UpdateState(T stateManager)
@@ -51,13 +51,13 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         if (VectorMaths.Vector2ApproximatlyEquals(owner.GetRb.velocity, Vector2.zero, 0.08f)) baseConditionChecked = true;
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(T stateManager)
     {
         owner.OnEnteredBodyTrigger += TriggerEnter;
         owner.d_EnteredCollider += ColliderEnter;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(T stateManager)
     {
         owner.OnEnteredBodyTrigger -= TriggerEnter;
         owner.d_EnteredCollider -= ColliderEnter;
@@ -90,7 +90,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         owner.GetRb.velocity *= forcePushTransmissionPercentage;
         float appliedForce = owner.GetRb.velocity.magnitude + owner.GetStats.Weight;
 
-        e.Push(owner.transform.position, appliedForce, originalPusher, owner);
+        e.AskPush(appliedForce, owner, originalPusher);
     }
 
     public FSM_Entity_Pushed<T> SetForce(Vector2 _force, Entity _originalPusher, Entity _pusher)

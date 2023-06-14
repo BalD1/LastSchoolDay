@@ -233,9 +233,9 @@ public abstract class EnemyBase : Entity
         currentTransformTarget = null;
     }
 
-    public override void OnDeath(bool forceDeath = false)
+    public override void Death(bool forceDeath = false)
     {
-        base.OnDeath(forceDeath);
+        base.Death(forceDeath);
 
         if (dropTable != null && !forceDeath)
         {

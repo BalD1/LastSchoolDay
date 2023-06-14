@@ -181,13 +181,13 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         if (attack_TIMER <= 0) stateManager.SwitchState(stateManager.ChasingState);
     }
 
-    protected override void EventsSubscriber()
+    protected override void EventsSubscriber(FSM_NZ_Manager stateManager)
     {
         if (owner.AttacksArray[currentAttackIdx].DamageOnTrigger) owner.OnEnteredBodyTrigger += OnTrigger;
         if (owner.AttacksArray[currentAttackIdx].DamageOnCollision) owner.d_EnteredCollider += OnCollision;
     }
 
-    protected override void EventsUnsubscriber()
+    protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
     {
         if (owner.AttacksArray[currentAttackIdx].DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
         if (owner.AttacksArray[currentAttackIdx].DamageOnCollision) owner.d_EnteredCollider -= OnCollision;

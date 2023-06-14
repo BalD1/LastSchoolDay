@@ -27,7 +27,7 @@ public class Ball : MonoBehaviour, IDamageable
         if (body.velocity.magnitude < velocityMagnitudeThresholdForDamages) launched = false;
     }
 
-    public void OnDeath(bool forceDeath = false)
+    public void Death(bool forceDeath = false)
     {
     }
 

@@ -132,7 +132,7 @@ public class Tutorial : MonoBehaviour
 
     private void EnableTutorialZombies()
     {
-            GameManager.Instance.SetAllPlayersStateTo<FSM_Player_Cinematic>(FSM_Player_Manager.E_PlayerState.Cinematic);
+        GameManager.Instance.ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Cinematic);
         GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
 
         foreach (var item in tutorialZombies)
@@ -144,7 +144,7 @@ public class Tutorial : MonoBehaviour
         AnimateNextTutorialMultiple(2, () =>
         {
             GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-            GameManager.Instance.SetAllPlayersStateTo<FSM_Player_Idle>(FSM_Player_Manager.E_PlayerState.Idle);
+            GameManager.Instance.ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Idle);
         });
     }
 
@@ -185,8 +185,8 @@ public class Tutorial : MonoBehaviour
             {
                 PlayerCharacter player = players[i].playerScript;
 
-                player.StateManager.SwitchState(player.StateManager.IdleState);
                 player.SetAllVelocity(Vector2.zero);
+                player.StateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Idle);
 
                 goalPos = GameManager.Instance.IngameSpawnPoints[i].position;
                 player.transform.position = goalPos;

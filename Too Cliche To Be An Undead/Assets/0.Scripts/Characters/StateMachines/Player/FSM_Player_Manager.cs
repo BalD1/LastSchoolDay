@@ -16,7 +16,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public FSM_Player_InSkill InSkillState { get; private set; } = new FSM_Player_InSkill();
     public FSM_Player_Dying DyingState { get; private set; } = new FSM_Player_Dying();
     public FSM_Player_Dead DeadState { get; private set; } = new FSM_Player_Dead();
-    public FSM_Player_Stuned StunnedState { get; private set; } = new FSM_Player_Stuned();
+    public FSM_Player_Stunned StunnedState { get; private set; } = new FSM_Player_Stunned();
     public FSM_Player_Cinematic CinematicState { get; private set; } = new FSM_Player_Cinematic();
 
     private Dictionary<E_PlayerState, FSM_Base<FSM_Player_Manager>> statesWithKey;
@@ -38,19 +38,13 @@ public class FSM_Player_Manager : FSM_ManagerBase
     private FSM_Base<FSM_Player_Manager> currentState;
     public FSM_Base<FSM_Player_Manager> CurrentState { get => currentState; }
 
-    public delegate void D_StateChange(string newState);
-    public D_StateChange D_stateChange;
-
     public bool allowChanges = true;
 
     protected override void Start()
     {
         base.Start();
 
-        AttackingState.owner = this.owner;
-        currentState = IdleState;
-        currentState.EnterState(this);
-        owner.AnimationController.SetCharacterState(this.ToString());
+        SwitchState(E_PlayerState.Idle);
     }
 
     protected override void Update()
@@ -67,11 +61,13 @@ public class FSM_Player_Manager : FSM_ManagerBase
         currentState.FixedUpdateState(this);
     }
 
+    #region Switch
     private void SwitchState(FSM_Base<FSM_Player_Manager> state)
     {
         currentState?.ExitState(this);
         currentState = state;
         currentState.EnterState(this);
+        owner.OnStateChange?.Invoke(state.ToString());
     }
 
     public void SwitchState(E_PlayerState newStateKey)
@@ -82,23 +78,56 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
     public T SwitchState<T>(T newState) where T : FSM_Base<FSM_Player_Manager>
     {
-        D_stateChange?.Invoke(newState.ToString());
-
         SwitchState(newState as FSM_Base<FSM_Player_Manager>);
-
-        owner.AnimationController.SetCharacterState(this.ToString());
-
         return currentState as T;
     }
 
     public T SwitchState<T>(E_PlayerState newStateKey) where T : FSM_Base<FSM_Player_Manager>
     {
-        D_stateChange?.Invoke(newStateKey.ToString());
-
         SwitchState(newStateKey);
-
-        owner.AnimationController.SetCharacterState(this.ToString());
         return currentState as T;
+    } 
+    
+    public void ForceSetState(E_PlayerState state)
+    {
+        statesWithKey.TryGetValue(state, out FSM_Base<FSM_Player_Manager> newState);
+        SwitchState(newState);
+    }
+    public T ForceSetState<T>(E_PlayerState state) where T : FSM_Base<FSM_Player_Manager>
+    {
+        return SwitchState<T>(state) as T;
+    }
+    #endregion
+
+    public void DashConditions()
+    {
+        if (owner.DashCooldown > 0) return;
+        this.SwitchState(E_PlayerState.Dashing);
+    }
+
+    public void PushConditions(float force, Entity pusher, Entity originalPusher)
+    {
+        if (this.GetPushForce(owner, force, pusher, originalPusher).magnitude > 0)
+            this.SwitchState(E_PlayerState.Pushed);
+    }
+
+    public void SwitchToStun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
+    {
+        if (showStuntext)
+            TextPopup.Create("Stun !", owner.GetHealthPopupOffset + (Vector2)this.transform.position);
+        this.SwitchState<FSM_Player_Stunned>(E_PlayerState.Stunned).SetDuration(duration, resetAttackTimer);
+    }
+
+    public void SwitchToSkill(float duration, float transition, float offset)
+    {
+        if (owner.GetSkillHolder == null) return;
+        if (owner.GetSkill == null) return;
+
+        if (duration <= 0) return;
+        if (owner.GetSkillHolder.SkillCooldown > 0) return;
+        if (owner.GetSkill.IsInUse) return;
+
+        SwitchState<FSM_Player_InSkill>(E_PlayerState.InSkill).SetTimers(duration, transition, offset);
     }
 
     public override void SetupStates()

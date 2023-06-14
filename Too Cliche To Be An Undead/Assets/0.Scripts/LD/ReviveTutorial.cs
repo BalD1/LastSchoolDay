@@ -33,7 +33,7 @@ public class ReviveTutorial : MonoBehaviour
 
         FSM_Player_Manager victimStateManager = victimPlayer.StateManager;
         victimPlayer.AnimationController.FlipSkeleton(false);
-        victimStateManager.SwitchState<FSM_Player_Dying>(FSM_Player_Manager.E_PlayerState.Dying).SetAsFakeState();
+        victimStateManager.ForceSetState<FSM_Player_Dying>(FSM_Player_Manager.E_PlayerState.Dying).SetAsFakeState();
         victimPlayer.transform.position = this.transform.position;
         victimPlayer.OnOtherInteract += StartDialogue;
         GameManager.Instance.D_onPlayerIsSetup -= SetupVictimPlayer;
@@ -45,7 +45,7 @@ public class ReviveTutorial : MonoBehaviour
         interactor.GetComponent<PlayerInteractor>().PromptText.gameObject.SetActive(false);
         UIManager.Instance.FadeScreen(fadeOut: true, () =>
         {
-            victimPlayer.Revive();
+            victimPlayer.AskRevive();
             victimPlayer.AnimationController.FlipSkeleton(interactor.transform.position.x > victimPlayer.transform.position.x);
 
             LeanTween.delayedCall(.25f, () =>

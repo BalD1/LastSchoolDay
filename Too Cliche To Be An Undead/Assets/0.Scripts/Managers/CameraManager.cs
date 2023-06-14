@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour
+public class CameraManager : MonoBehaviourEventsHandler
 {
     private static CameraManager instance;
     public static CameraManager Instance
@@ -49,11 +49,35 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private List<Transform> invisiblePlayersTransform = new List<Transform>();
     [SerializeField] private List<Transform> playersToRemoveFromList = new List<Transform>();
 
-    private List<PlayerCharacter> players = new List<PlayerCharacter>();
+    private List<PlayerCharacter> invisiblePlayers = new List<PlayerCharacter>();
 
     private bool cinematicMode = false;
 
-    private void Awake()
+    protected override void EventsSubscriber()
+    {
+        GameManager.Instance._onSceneReload += OnSceneLoaded;
+        FSM_Player_Events.OnEnteredDeath += OnPlayerDeath;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        GameManager.Instance._onSceneReload -= OnSceneLoaded;
+        FSM_Player_Events.OnEnteredDeath -= OnPlayerDeath;
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+
+        if (cam_followPlayers != null)
+            Destroy(cam_followPlayers.gameObject);
+
+        if (tg_players != null)
+            Destroy(tg_players.gameObject);
+    }
+
+    protected override void Awake()
     {
         cam_followPlayers.transform.SetParent(null);
         tg_players.transform.SetParent(null);
@@ -62,8 +86,6 @@ public class CameraManager : MonoBehaviour
         DontDestroyOnLoad(tg_players);
 
         bmcp = cam_followPlayers.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-        GameManager.Instance._onSceneReload += OnSceneLoaded;
 
         instance = this;
     }
@@ -114,7 +136,7 @@ public class CameraManager : MonoBehaviour
             if (dist > maxDistance)
             {
                 Vector2 newPos = GameManager.Instance.playersByName[0].playerScript.transform.position;
-                GameManager.Instance.TeleportPlayerAtCameraCenter(players[i].PlayerIndex);
+                GameManager.Instance.TeleportPlayerAtCameraCenter(invisiblePlayers[i].PlayerIndex);
             }
         }
 
@@ -155,12 +177,10 @@ public class CameraManager : MonoBehaviour
         if (invisiblePlayersTransform.Contains(playerScript.PivotOffset.transform)) return;
 
         invisiblePlayersTransform.Add(playerScript.PivotOffset.transform);
-        players.Add(playerScript);
+        invisiblePlayers.Add(playerScript);
         int idx = invisiblePlayersTransform.Count - 1;
 
         GameManager.E_CharactersNames character = playerScript.GetCharacterName();
-
-        playerScript.d_OnDeath += OnPlayerDeath;
 
         if (markers == null || ReferenceEquals(markers, null)) return;
 
@@ -179,18 +199,16 @@ public class CameraManager : MonoBehaviour
 
         markers[indexOfPlayer].gameObject.SetActive(false);
         playersToRemoveFromList.Add(playerScript.PivotOffset.transform);
-        players.Remove(playerScript);
+        invisiblePlayers.Remove(playerScript);
     }
 
-    private void OnPlayerDeath()
+    private void OnPlayerDeath(PlayerCharacter player)
     {
-        for (int i = 0; i < players.Count; i++)
-        {
-            if (players[i].IsAlive()) continue;
-            markers[i].gameObject.SetActive(false);
-            playersToRemoveFromList.Add(invisiblePlayersTransform[i]);
-            players.RemoveAt(i);
-        }
+        int playerIdx = invisiblePlayers.IndexOf(player);
+        markers[playerIdx].gameObject.SetActive(false);
+        playersToRemoveFromList.Add(invisiblePlayersTransform[playerIdx]);
+        invisiblePlayers.RemoveAt(playerIdx);
+        this.TG_Players.RemoveMember(player.transform);
     }
 
     public void ShakeCamera(float intensity, float duration)
@@ -266,16 +284,5 @@ public class CameraManager : MonoBehaviour
         cinematicMode = false;
         cam_followPlayers.Follow = tg_players.transform;
         SetArray();
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.Instance._onSceneReload -= OnSceneLoaded;
-
-        if (cam_followPlayers != null)
-            Destroy(cam_followPlayers.gameObject);
-
-        if (tg_players != null)
-            Destroy(tg_players.gameObject);
     }
 }

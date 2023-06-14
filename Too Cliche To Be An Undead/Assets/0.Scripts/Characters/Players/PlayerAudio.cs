@@ -31,9 +31,9 @@ public class PlayerAudio : MonoBehaviour
         owner.OnSuccessfulAttack += PlayAttackConnectedAudio;
 
         owner.OnEarlySkillStart += PlayVoiceSkillStartAudio;
-        owner.OnStartSkill += PlaySkillStartAudio;
-        owner.OnEndSkill += PlaySkillEndAudio;
-        owner.OnEndSkill += PlayVoiceSkillEndAudio;
+        owner.OnSkillStart += PlaySkillStartAudio;
+        owner.OnSkillEnd += PlaySkillEndAudio;
+        owner.OnSkillEnd += PlayVoiceSkillEndAudio;
 
         owner.OnDashStarted += PlayDashAudio;
         owner.OnDashHit += PlayDashHitAudio;
@@ -55,9 +55,9 @@ public class PlayerAudio : MonoBehaviour
         owner.OnSuccessfulAttack -= PlayAttackConnectedAudio;
 
         owner.OnEarlySkillStart -= PlayVoiceSkillStartAudio;
-        owner.OnStartSkill -= PlaySkillStartAudio;
-        owner.OnEndSkill -= PlaySkillEndAudio;
-        owner.OnEndSkill -= PlayVoiceSkillEndAudio;
+        owner.OnSkillStart -= PlaySkillStartAudio;
+        owner.OnSkillEnd -= PlaySkillEndAudio;
+        owner.OnSkillEnd -= PlayVoiceSkillEndAudio;
 
         owner.OnDashStarted -= PlayDashAudio;
         owner.OnDashHit -= PlayDashHitAudio;

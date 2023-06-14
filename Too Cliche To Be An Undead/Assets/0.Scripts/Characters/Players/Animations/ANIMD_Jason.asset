@@ -32,3 +32,21 @@ MonoBehaviour:
   <skillWalkAnimSide>k__BackingField: {fileID: 11400000, guid: 193c98af84d551844956699db1aaace2, type: 2}
   <skillIdleAnimUp>k__BackingField: {fileID: 0}
   <skillIdleAnimDown>k__BackingField: {fileID: 0}
+  <StateAnimation>k__BackingField:
+  - EDITOR_InspectorName: Idle
+    <Key>k__BackingField: 0
+    <Asset>k__BackingField: {fileID: 11400000, guid: 295184c6d6736604a9d363dd4e617153, type: 2}
+    <Loop>k__BackingField: 1
+  - EDITOR_InspectorName: Moving
+    <Key>k__BackingField: 1
+    <Asset>k__BackingField: {fileID: 11400000, guid: ad119ecee2e91224d886c54d09fecd04, type: 2}
+    <Loop>k__BackingField: 1
+  - EDITOR_InspectorName: Dashing
+    <Key>k__BackingField: 3
+    <Asset>k__BackingField: {fileID: 11400000, guid: 9a1e28745856736409e28ba19b014d92, type: 2}
+    <Loop>k__BackingField: 0
+  - EDITOR_InspectorName: Dying
+    <Key>k__BackingField: 6
+    <Asset>k__BackingField: {fileID: 11400000, guid: 381d1ae00ca0f064cb1a6d7df7c102a5, type: 2}
+    <Loop>k__BackingField: 0
+  <arms>k__BackingField: []
