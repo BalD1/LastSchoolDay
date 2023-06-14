@@ -138,14 +138,14 @@ public class PlayerPanel : MonoBehaviour
         CurrentPlayerIdx = id;
 
         playerOnPanel = newPlayer;
-        playerOnPanel.D_indexChange += OnPlayerIndexChange;
+        playerOnPanel.OnIndexChange += OnPlayerIndexChange;
 
         Enable();
     }
 
     public void QuitPanel(int id)
     {
-        playerOnPanel.D_indexChange -= OnPlayerIndexChange;
+        playerOnPanel.OnIndexChange -= OnPlayerIndexChange;
 
         panelsManager.tokensQueue.Enqueue(playerToken.sprite);
 

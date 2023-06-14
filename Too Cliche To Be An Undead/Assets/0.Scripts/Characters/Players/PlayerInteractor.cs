@@ -1,14 +1,7 @@
 using System.Collections.Generic;
-using System.Text;
-using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.DualShock;
-using UnityEngine.InputSystem.Switch;
-using UnityEngine.InputSystem.XInput;
-using static ButtonsImageByDevice;
 
-public class PlayerInteractor : MonoBehaviour
+public class PlayerInteractor : MonoBehaviourEventsHandler
 {
     [SerializeField] private CircleCollider2D trigger;
     [SerializeField] private GameObject interactPrompt;
@@ -24,23 +17,29 @@ public class PlayerInteractor : MonoBehaviour
 
     private IInteractable closestInteractable;
 
+    protected override void EventsSubscriber()
+    {
+        owner.OnDeviceChange += CheckDevice;
+        owner.OnInteractInput += InteractWithClosest;
+        GameManager.Instance._onSceneReload += ResetOnLoad;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        owner.OnDeviceChange -= CheckDevice;
+        owner.OnInteractInput -= InteractWithClosest;
+        GameManager.Instance._onSceneReload -= ResetOnLoad;
+    }
+
     private void Start()
     {
-        GameManager.Instance._onSceneReload += ResetOnLoad;
-
-        owner.D_onDeviceChange += CheckDevice;
         CheckDevice(owner.currentDeviceType);
     }
 
     private void CheckDevice(PlayerCharacter.E_Devices device)
     {
-        promptText.sprite = ButtonsImageByDevice.Instance.GetButtonImage(E_ButtonType.Third, device);
-        promptGlow.sprite = ButtonsImageByDevice.Instance.GetButtonImage(E_ButtonType.Third, device);
-    }
-
-    private void OnDestroy()
-    {
-        owner.D_onDeviceChange -= CheckDevice;
+        promptText.sprite = ButtonsImageByDevice.Instance.GetButtonImage(ButtonsImageByDevice.E_ButtonType.Third, device);
+        promptGlow.sprite = ButtonsImageByDevice.Instance.GetButtonImage(ButtonsImageByDevice.E_ButtonType.Third, device);
     }
 
     public void ResetOnLoad()
@@ -52,19 +51,12 @@ public class PlayerInteractor : MonoBehaviour
         interactPrompt.SetActive(false);
     }
 
-    public void InvokeInteraction(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-        if (closestInteractable == null) return;
-
-        InteractWithClosest();
-    }
-
     private void InteractWithClosest()
     {
-        closestInteractable?.Interact(this.gameObject);
+        if (closestInteractable == null) return;
+        closestInteractable.Interact(this.gameObject);
 
-        if (closestInteractable?.CanBeInteractedWith() == false)
+        if (closestInteractable.CanBeInteractedWith() == false)
         {
             CleanListSingle(closestInteractable);
             closestInteractable = null;

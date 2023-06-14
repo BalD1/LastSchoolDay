@@ -59,7 +59,7 @@ public class PlayerHUD : MonoBehaviour
         SetDashThumbnail();
 
         owner.OnHealthChange += OnOwnerHealthChange;
-        owner.D_switchCharacter += OnCharacterSwitch;
+        owner.OnSwitchCharacter += OnCharacterSwitch;
 
         portraitRect = portrait.GetComponent<RectTransform>();
     }
@@ -231,7 +231,7 @@ public class PlayerHUD : MonoBehaviour
     private void OnDestroy()
     {
         owner.OnHealthChange -= OnOwnerHealthChange;
-        owner.D_switchCharacter -= OnCharacterSwitch;
+        owner.OnSwitchCharacter -= OnCharacterSwitch;
         LeanTween.cancel(this.gameObject);
     }
 }

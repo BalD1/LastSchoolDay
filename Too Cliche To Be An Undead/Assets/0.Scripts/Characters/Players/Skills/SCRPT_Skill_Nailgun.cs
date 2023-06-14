@@ -35,7 +35,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
     public override void EarlyStart(PlayerCharacter owner)
     {
-        owner.D_earlySkillStart?.Invoke();
+        owner.OnEarlySkillStart?.Invoke();
     }
 
     public override void StartSkill(PlayerCharacter owner)
@@ -43,7 +43,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         _owner = owner;
         isInUse = true;
 
-        owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnStartSkill?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
         owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
@@ -59,7 +59,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
         fire_TIMER = 0;
 
-        owner.D_aimInput += owner.Weapon.SetAimGoal;
+        owner.OnAimInput += owner.Weapon.SetAimGoal;
 
         skillHolderTransform = owner.GetSkillHolder.transform;
     }
@@ -79,7 +79,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
     {
         isInUse = false;
 
-        owner.D_aimInput -= owner.Weapon.SetAimGoal;
+        owner.OnAimInput -= owner.Weapon.SetAimGoal;
 
         owner.SetArmsState(false, Vector3.zero, skeletonIdx);
 

@@ -34,9 +34,9 @@ public class PreloadScreen : MonoBehaviour
             {
                 p1 = GameManager.Player1Ref;
 
-                p1.D_validateInput += PlayTutorial;
-                p1.D_fourthActionButton += SkipTutorial;
-                p1.D_cancelInput += Back;
+                p1.OnValidateInput += PlayTutorial;
+                p1.OnFourthActionButton += SkipTutorial;
+                p1.OnCancelInput += Back;
             });
         });
     }
@@ -70,9 +70,9 @@ public class PreloadScreen : MonoBehaviour
         DataKeeper.Instance.alreadyPlayedTuto = skipTuto;
         DataKeeper.Instance.skipTuto = skipTuto;
 
-        p1.D_validateInput -= PlayTutorial;
-        p1.D_fourthActionButton -= SkipTutorial;
-        p1.D_cancelInput -= Back;
+        p1.OnValidateInput -= PlayTutorial;
+        p1.OnFourthActionButton -= SkipTutorial;
+        p1.OnCancelInput -= Back;
 
         if (sceneArgs == null)
         {
@@ -89,9 +89,9 @@ public class PreloadScreen : MonoBehaviour
     {
         PlayerPanelsManager ppm = panelsManager.GetComponent<PlayerPanelsManager>();
 
-        p1.D_validateInput -= PlayTutorial;
-        p1.D_fourthActionButton -= SkipTutorial;
-        p1.D_cancelInput -= Back;
+        p1.OnValidateInput -= PlayTutorial;
+        p1.OnFourthActionButton -= SkipTutorial;
+        p1.OnCancelInput -= Back;
 
         canvasGroup.LeanAlpha(0, fadeDuration).setOnComplete(() =>
         {

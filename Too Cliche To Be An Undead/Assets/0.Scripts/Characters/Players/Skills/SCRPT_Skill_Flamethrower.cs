@@ -23,7 +23,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
     public override void EarlyStart(PlayerCharacter owner)
     {
-        owner.D_earlySkillStart?.Invoke();
+        owner.OnEarlySkillStart?.Invoke();
     }
 
     public override void StartSkill(PlayerCharacter owner)
@@ -31,7 +31,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         player = owner;
         isInUse = true;
 
-        owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnStartSkill?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.GetSkillHolder.D_enteredTrigger += EnteredTrigger;
         owner.GetSkillHolder.D_exitedTrigger += ExitedTrigger;
@@ -46,7 +46,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
-        owner.D_aimInput += owner.Weapon.SetAimGoal;
+        owner.OnAimInput += owner.Weapon.SetAimGoal;
 
         finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
         tickDamages = finalDamages * tickDamagesMultiplier;
@@ -75,7 +75,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         owner.GetSkillHolder.StartTimer();
         isInUse = false;
 
-        owner.D_aimInput -= owner.Weapon.SetAimGoal;
+        owner.OnAimInput -= owner.Weapon.SetAimGoal;
 
         owner.GetSkillHolder.D_enteredTrigger -= EnteredTrigger;
         owner.GetSkillHolder.D_exitedTrigger -= ExitedTrigger;

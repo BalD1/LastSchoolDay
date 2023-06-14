@@ -58,7 +58,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, mouseDir.x);
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, mouseDir.y);
 
-        owner.D_skillInput += StopSkill;
+        owner.OnSkillInput += StopSkill;
 
         owner.canBePushed = true;
 
@@ -194,9 +194,9 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
         owner.ForceUpdateMovementsInput();
 
-        owner.D_endSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnEndSkill?.Invoke(owner.GetSkill.holdSkillAudio);
 
-        owner.D_skillInput -= StopSkill;
+        owner.OnSkillInput -= StopSkill;
 
         owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, false);
     }
@@ -207,7 +207,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
         this.skill_Timer = 0;
 
-        owner.D_endSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnEndSkill?.Invoke(owner.GetSkill.holdSkillAudio);
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

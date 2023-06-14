@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : MonoBehaviourEventsHandler
 {
     private static DialogueManager instance;
     public static DialogueManager Instance
@@ -69,8 +69,21 @@ public class DialogueManager : MonoBehaviour
 
     private Queue<int> pauseOnIndexQueue = new Queue<int>();
 
-    private void Awake()
+    protected override void EventsSubscriber()
     {
+        PlayerInputsEvents.OnTryNextLineCall += TryNextLine;
+        PlayerInputsEvents.OnSkipDialogueCall += TrySkip;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        PlayerInputsEvents.OnTryNextLineCall -= TryNextLine;
+        PlayerInputsEvents.OnSkipDialogueCall -= TrySkip;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
         instance = this;
 
         ResetDialogue();
@@ -420,8 +433,9 @@ public class DialogueManager : MonoBehaviour
         GameObject.FindObjectOfType<DialogueManager>().UpdateDialogueList();
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         IsDialogueActive = false;
     }
 }

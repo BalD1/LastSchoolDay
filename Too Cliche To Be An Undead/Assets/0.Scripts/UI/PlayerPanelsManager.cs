@@ -355,26 +355,26 @@ public class PlayerPanelsManager : MonoBehaviour
 
     private void AttachArrowsToPlayer(PlayerCharacter p)
     {
-         p.D_horizontalArrowInput += OnPlayerHorizontalArrow;
-         p.D_verticalArrowInput += OnPlayerVerticalArrow;
-         p.D_navigationArrowInput += OnPlayerNavigationInput;
+         p.OnHorizontalArrowInput += OnPlayerHorizontalArrow;
+         p.OnVerticalArrowInput += OnPlayerVerticalArrow;
+         p.OnNavigationArrowInput += OnPlayerNavigationInput;
     }
     private void DetachArrowsToPlayer(PlayerCharacter p)
     {
-        p.D_horizontalArrowInput -= OnPlayerHorizontalArrow;
-        p.D_verticalArrowInput -= OnPlayerVerticalArrow;
-        p.D_navigationArrowInput -= OnPlayerNavigationInput;
+        p.OnHorizontalArrowInput -= OnPlayerHorizontalArrow;
+        p.OnVerticalArrowInput -= OnPlayerVerticalArrow;
+        p.OnNavigationArrowInput -= OnPlayerNavigationInput;
     }
 
     private void AttachInputsToP1()
     {
-        GameManager.Player1Ref.D_validateInput += OnValidateInput;
-        GameManager.Player1Ref.D_cancelInput += OnBackInput;
+        GameManager.Player1Ref.OnValidateInput += OnValidateInput;
+        GameManager.Player1Ref.OnCancelInput += OnBackInput;
     }
     private void DetachInputsToP1()
     {
-        GameManager.Player1Ref.D_validateInput -= OnValidateInput;
-        GameManager.Player1Ref.D_cancelInput -= OnBackInput;
+        GameManager.Player1Ref.OnValidateInput -= OnValidateInput;
+        GameManager.Player1Ref.OnCancelInput -= OnBackInput;
     }
 
     private void OnDestroy()

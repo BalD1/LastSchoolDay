@@ -77,12 +77,12 @@ public class Minimap : MonoBehaviour
         coinsRectScaleBase = new S_TargetRect(coinsRectTransform.anchorMin, coinsRectTransform.anchorMax);
         buttonTutoRectScaleBase = new S_TargetRect(buttonTutoRectTransform.anchorMin, buttonTutoRectTransform.anchorMax);
 
-        GameManager.Player1Ref.D_secondContextAction += OnAskForScale;
+        GameManager.Player1Ref.OnSecondContextInput += OnAskForScale;
     }
 
     private void OnDestroy()
     {
-        GameManager.Player1Ref.D_secondContextAction -= OnAskForScale;
+        GameManager.Player1Ref.OnSecondContextInput -= OnAskForScale;
     }
 
     private void Reset()

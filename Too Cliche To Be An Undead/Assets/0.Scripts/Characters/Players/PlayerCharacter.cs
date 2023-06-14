@@ -154,92 +154,48 @@ public class PlayerCharacter : Entity, IInteractable
 
     #endregion
 
-    #region Delegates
+    #region Events
 
-    public delegate void D_SwitchCharacter();
-    public D_SwitchCharacter D_switchCharacter;
+    public Action OnSwitchCharacter;
+    public Action<int> OnIndexChange;
+    public Action<E_Devices> OnDeviceChange;
 
-    public delegate void D_SteppedIntoTrigger(Type triggerType);
-    public D_SteppedIntoTrigger d_SteppedIntoTrigger;
+    public Action OnAttackInput;
+    public Action<bool> OnAttack;
+    public Action<bool> OnSuccessfulAttack;
+    public Action OnSwiff;
+    public Action OnStartHoldAttack;
+    public Action OnEndHoldAttack;
 
-    public delegate void D_OnDeviceChange(E_Devices newDevice);
-    public D_OnDeviceChange D_onDeviceChange;
+    public Action OnSkillInput;
+    public Action<bool> OnStartSkill;
+    public Action<bool> OnEndSkill;
+    public Action OnEarlySkillStart;
 
-    public delegate void D_AttackInput();
-    public D_AttackInput D_attackInput;
+    public Action OnDashInput;
+    public Action OnDashStarted;
+    public Action<Entity> OnDashHit;
 
-    public delegate void D_OnAttack(bool isBig);
-    public D_OnAttack D_onAttack;
-
-    public delegate void D_SuccessfulAttack(bool isBigHit);
-    public D_SuccessfulAttack D_successfulAttack;
-
-    public delegate void D_Swiff();
-    public D_Swiff D_swif;
-
-    public delegate void D_StartHoldAttackInput();
-    public D_StartHoldAttackInput D_startHoldAttackInput;
-
-    public delegate void D_EndHoldAttackInput();
-    public D_EndHoldAttackInput D_endHoldAttackInput;
-
-    public delegate void D_SkillInput();
-    public D_SkillInput D_skillInput;
-
-    public delegate void D_StartSkill(bool holdAudio);
-    public D_StartSkill D_startSkill;
-
-    public delegate void D_EndSkill(bool holdAudio);
-    public D_EndSkill D_endSkill;
-
-    public delegate void D_EarlySkillStart();
-    public D_EarlySkillStart D_earlySkillStart;
-
-    public delegate void D_DashInput();
-    public D_DashInput D_dashInput;
-
-    public delegate void D_OnDash();
-    public D_OnDash D_onDash;
-
-    public Action<Entity> D_OnDashHit;
-
-    public delegate void D_AimInput(Vector2 val);
-    public D_AimInput D_aimInput;
-
-    public delegate void D_HorizontalArrowInput(bool rightArrow, int playerIdx);
-    public D_HorizontalArrowInput D_horizontalArrowInput;
-
-    public delegate void D_VerticalArrowInput(bool upArrow, int playerIdx);
-    public D_VerticalArrowInput D_verticalArrowInput;
-
-    public delegate void D_NavigationArrowInput(Vector2 value, int playerIdx);
-    public D_NavigationArrowInput D_navigationArrowInput;
-
-    public delegate void D_ValidateInput();
-    public D_ValidateInput D_validateInput;
-
-    public delegate void D_CancelInput();
-    public D_CancelInput D_cancelInput;
-
-    public delegate void D_ThirdActionButton();
-    public D_ThirdActionButton D_thirdActionButton;
-
-    public delegate void D_FourthActionButton();
-    public D_FourthActionButton D_fourthActionButton;
-
-    public delegate void D_SecondContextAction();
-    public D_SecondContextAction D_secondContextAction;
-
-    public delegate void D_IndexChange(int newIdx);
-    public D_IndexChange D_indexChange;
-
-    public delegate void D_OnFootPrint();
-    public D_OnFootPrint D_onFootPrint;
-
-    public event Action<GameObject> OnInteract;
-    private void CallInteract(GameObject interactor) => OnInteract?.Invoke(interactor);
+    public Action OnFootPrint;
+    public Action<Type> OnSteppedIntoTrigger;
 
     public event Action OnRevive;
+    public Action OnSelfReviveInput;
+    public event Action<GameObject> OnOtherInteract;
+    public Action OnInteractInput;
+    public Action OnQuitLobbyInput;
+
+    public Action<Vector2> OnAimInput;
+
+    public Action<bool, int> OnHorizontalArrowInput;
+    public Action<bool, int> OnVerticalArrowInput;
+    public Action<Vector2, int> OnNavigationArrowInput;
+
+    public Action OnValidateInput;
+    public Action OnCancelInput;
+    public Action OnThirdActionButton;
+    public Action OnFourthActionButton;
+    public Action OnSecondContextInput;
 
     public Action<AudioClip> OnOverrideNextVoiceAttackAudio;
     #endregion
@@ -685,39 +641,10 @@ public class PlayerCharacter : Entity, IInteractable
         }
 
         currentDeviceType = newType;
-        D_onDeviceChange?.Invoke(newType);
+        OnDeviceChange?.Invoke(newType);
     }
 
     #region InGame
-
-    public void AttackInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_attackInput?.Invoke();
-    }
-
-    public void MaintainedAttackIpunt(InputAction.CallbackContext context)
-    {
-        if (context.started) D_startHoldAttackInput?.Invoke();
-        else if (context.canceled) D_endHoldAttackInput?.Invoke();
-    }
-
-    public void SkillInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_skillInput?.Invoke();
-    }
-
-    public void DashInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_dashInput?.Invoke();
-    }
-
-    public void SelectInput(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            //PlayersManager.Instance.JoinAction(context);
-        }
-    }
 
     public void StayStaticInput(InputAction.CallbackContext context)
     {
@@ -725,129 +652,8 @@ public class PlayerCharacter : Entity, IInteractable
         else if (context.canceled) stayStatic = false;
     }
 
-    public void AimInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_aimInput?.Invoke(context.ReadValue<Vector2>());
-    }
-
-    public void SelfRevive(InputAction.CallbackContext context)
-    {
-        if (context.performed && stateManager.ToString().Equals("Dying") && selfReviveCount > 0)
-        {
-            selfReviveCount -= 1;
-            Revive();
-        }
-    }
-
-    public void SecondContextual(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_secondContextAction?.Invoke();
-    }
-
     #endregion
 
-        #region Menus
-
-    public void LeftArrowInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_horizontalArrowInput?.Invoke(false, this.playerIndex);
-    }
-
-    public void RightArrowInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_horizontalArrowInput?.Invoke(true, this.playerIndex);
-    }
-
-    public void UpArrowInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_verticalArrowInput?.Invoke(true, this.playerIndex);
-    }
-
-    public void DownArrowInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_verticalArrowInput?.Invoke(false, this.playerIndex);
-    }
-
-    public void NavigationInputs(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_navigationArrowInput?.Invoke(context.ReadValue<Vector2>(), PlayerIndex);
-    }
-
-    public void QuitLobby(InputAction.CallbackContext context)
-    {
-        if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
-        if (context.performed) GameManager.Instance.QuitLobby(PlayerIndex);
-    }
-
-    public void PauseInputRelay(InputAction.CallbackContext context)
-    {
-        if (context.started) GameManager.Instance.HandlePause();
-    }
-
-    public void CancelMenu(InputAction.CallbackContext context)
-    {
-        if (context.performed == false) return;
-
-        if (UIManager.Instance.OpenMenusQueues.Count > 0)
-        {
-            UIManager.Instance.CloseYoungerMenu();
-            return;
-        }
-    }
-
-    public void ValidateInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_validateInput?.Invoke();
-    }
-
-    public void CancelInput(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_cancelInput?.Invoke();
-    }
-
-    public void ThirdActionButton(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_thirdActionButton?.Invoke();
-    }
-
-    public void FourthActionButton(InputAction.CallbackContext context)
-    {
-        if (context.performed) D_fourthActionButton?.Invoke();
-    }
-
-    public void ScrollCurrentVerticalBarDown(InputAction.CallbackContext context)
-    {
-        UIManager.Instance.ScrollCurrentVerticalBarDown(context);
-    }
-    public void ScrollCurrentVerticalBarUp(InputAction.CallbackContext context)
-    {
-        UIManager.Instance.ScrollCurrentVerticalBarUp(context);
-    }
-
-    public void ScrollCurrentHorizontalBarLeft(InputAction.CallbackContext context)
-    {
-        UIManager.Instance.ScrollCurrentHorizontalBarLeft(context);
-    }
-    public void ScrollCurrentHorizontalBarRight(InputAction.CallbackContext context)
-    {
-        UIManager.Instance.ScrollCurrentHorizontalBarRight(context);
-    }
-
-    #endregion
-
-        #region Dialogues
-
-    public void ContinueDialogue(InputAction.CallbackContext context)
-    {
-        if (context.performed) DialogueManager.Instance.TryNextLine();
-    }
-
-    public void SkipDialogue(InputAction.CallbackContext context)
-    {
-        if (context.performed) DialogueManager.Instance.TrySkip();
-    }
-
-        #endregion
 
     #endregion
 
@@ -997,7 +803,7 @@ public class PlayerCharacter : Entity, IInteractable
         this.playerIndex = idx;
         this.gameObject.name = "Player " + idx;
 
-        D_indexChange?.Invoke(idx);
+        OnIndexChange?.Invoke(idx);
     }
 
     private void OnSceneReload()
@@ -1070,7 +876,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        CallInteract(interactor);
+        OnOtherInteract?.Invoke(interactor);
     }
 
     public bool CanBeInteractedWith() => this.stateManager.ToString().Equals("Dying");
@@ -1126,7 +932,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         CameraManager.Instance.Markers[this.playerIndex].gameObject.SetActive(false);
 
-        if (callDelegate) D_switchCharacter?.Invoke();
+        if (callDelegate) OnSwitchCharacter?.Invoke();
     }
 
     public void SetAttack(GameObject newWeapon)

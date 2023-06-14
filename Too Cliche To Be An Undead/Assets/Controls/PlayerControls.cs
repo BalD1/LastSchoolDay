@@ -73,7 +73,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""IG_Pause"",
                     ""type"": ""Button"",
                     ""id"": ""1f614797-6dd6-4acc-8c86-a4b9df3150af"",
                     ""expectedControlType"": ""Button"",
@@ -313,7 +313,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Gamepad"",
-                    ""action"": ""Pause"",
+                    ""action"": ""IG_Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -324,7 +324,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Pause"",
+                    ""action"": ""IG_Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -434,7 +434,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""83a4f027-6089-4af7-807d-29259c0e6c00"",
             ""actions"": [
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""UI_Pause"",
                     ""type"": ""Button"",
                     ""id"": ""999ebfec-fd91-464b-909b-e0bb27d8d489"",
                     ""expectedControlType"": ""Button"",
@@ -641,7 +641,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Validate"",
+                    ""name"": ""ValidateButton"",
                     ""type"": ""Button"",
                     ""id"": ""315b59c8-a397-4c9b-93f5-8291e665ff3a"",
                     ""expectedControlType"": ""Button"",
@@ -685,7 +685,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Pause"",
+                    ""action"": ""UI_Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -696,7 +696,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Pause"",
+                    ""action"": ""UI_Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1389,7 +1389,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Validate"",
+                    ""action"": ""ValidateButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1400,7 +1400,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Gamepad"",
-                    ""action"": ""Validate"",
+                    ""action"": ""ValidateButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1624,14 +1624,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_InGame_Dash = m_InGame.FindAction("Dash", throwIfNotFound: true);
         m_InGame_Skill = m_InGame.FindAction("Skill", throwIfNotFound: true);
         m_InGame_Interact = m_InGame.FindAction("Interact", throwIfNotFound: true);
-        m_InGame_Pause = m_InGame.FindAction("Pause", throwIfNotFound: true);
+        m_InGame_IG_Pause = m_InGame.FindAction("IG_Pause", throwIfNotFound: true);
         m_InGame_StayStatic = m_InGame.FindAction("StayStatic", throwIfNotFound: true);
         m_InGame_Aim = m_InGame.FindAction("Aim", throwIfNotFound: true);
         m_InGame_SelfRevive = m_InGame.FindAction("SelfRevive", throwIfNotFound: true);
         m_InGame_SecondContextual = m_InGame.FindAction("SecondContextual", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
+        m_UI_UI_Pause = m_UI.FindAction("UI_Pause", throwIfNotFound: true);
         m_UI_CancelMenu = m_UI.FindAction("CancelMenu", throwIfNotFound: true);
         m_UI_ArrowsLeft = m_UI.FindAction("ArrowsLeft", throwIfNotFound: true);
         m_UI_ArrowsRight = m_UI.FindAction("ArrowsRight", throwIfNotFound: true);
@@ -1654,7 +1654,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_UI_ScrollUp = m_UI.FindAction("ScrollUp", throwIfNotFound: true);
         m_UI_ScrollLeft = m_UI.FindAction("ScrollLeft", throwIfNotFound: true);
         m_UI_ScrollRight = m_UI.FindAction("ScrollRight", throwIfNotFound: true);
-        m_UI_Validate = m_UI.FindAction("Validate", throwIfNotFound: true);
+        m_UI_ValidateButton = m_UI.FindAction("ValidateButton", throwIfNotFound: true);
         m_UI_CancelButton = m_UI.FindAction("CancelButton", throwIfNotFound: true);
         m_UI_ThirdAction = m_UI.FindAction("ThirdAction", throwIfNotFound: true);
         m_UI_FourthAction = m_UI.FindAction("FourthAction", throwIfNotFound: true);
@@ -1728,7 +1728,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGame_Dash;
     private readonly InputAction m_InGame_Skill;
     private readonly InputAction m_InGame_Interact;
-    private readonly InputAction m_InGame_Pause;
+    private readonly InputAction m_InGame_IG_Pause;
     private readonly InputAction m_InGame_StayStatic;
     private readonly InputAction m_InGame_Aim;
     private readonly InputAction m_InGame_SelfRevive;
@@ -1742,7 +1742,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_InGame_Dash;
         public InputAction @Skill => m_Wrapper.m_InGame_Skill;
         public InputAction @Interact => m_Wrapper.m_InGame_Interact;
-        public InputAction @Pause => m_Wrapper.m_InGame_Pause;
+        public InputAction @IG_Pause => m_Wrapper.m_InGame_IG_Pause;
         public InputAction @StayStatic => m_Wrapper.m_InGame_StayStatic;
         public InputAction @Aim => m_Wrapper.m_InGame_Aim;
         public InputAction @SelfRevive => m_Wrapper.m_InGame_SelfRevive;
@@ -1771,9 +1771,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
-            @Pause.started += instance.OnPause;
-            @Pause.performed += instance.OnPause;
-            @Pause.canceled += instance.OnPause;
+            @IG_Pause.started += instance.OnIG_Pause;
+            @IG_Pause.performed += instance.OnIG_Pause;
+            @IG_Pause.canceled += instance.OnIG_Pause;
             @StayStatic.started += instance.OnStayStatic;
             @StayStatic.performed += instance.OnStayStatic;
             @StayStatic.canceled += instance.OnStayStatic;
@@ -1805,9 +1805,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
-            @Pause.started -= instance.OnPause;
-            @Pause.performed -= instance.OnPause;
-            @Pause.canceled -= instance.OnPause;
+            @IG_Pause.started -= instance.OnIG_Pause;
+            @IG_Pause.performed -= instance.OnIG_Pause;
+            @IG_Pause.canceled -= instance.OnIG_Pause;
             @StayStatic.started -= instance.OnStayStatic;
             @StayStatic.performed -= instance.OnStayStatic;
             @StayStatic.canceled -= instance.OnStayStatic;
@@ -1841,7 +1841,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-    private readonly InputAction m_UI_Pause;
+    private readonly InputAction m_UI_UI_Pause;
     private readonly InputAction m_UI_CancelMenu;
     private readonly InputAction m_UI_ArrowsLeft;
     private readonly InputAction m_UI_ArrowsRight;
@@ -1864,7 +1864,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_ScrollUp;
     private readonly InputAction m_UI_ScrollLeft;
     private readonly InputAction m_UI_ScrollRight;
-    private readonly InputAction m_UI_Validate;
+    private readonly InputAction m_UI_ValidateButton;
     private readonly InputAction m_UI_CancelButton;
     private readonly InputAction m_UI_ThirdAction;
     private readonly InputAction m_UI_FourthAction;
@@ -1872,7 +1872,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         private @PlayerControls m_Wrapper;
         public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Pause => m_Wrapper.m_UI_Pause;
+        public InputAction @UI_Pause => m_Wrapper.m_UI_UI_Pause;
         public InputAction @CancelMenu => m_Wrapper.m_UI_CancelMenu;
         public InputAction @ArrowsLeft => m_Wrapper.m_UI_ArrowsLeft;
         public InputAction @ArrowsRight => m_Wrapper.m_UI_ArrowsRight;
@@ -1895,7 +1895,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @ScrollUp => m_Wrapper.m_UI_ScrollUp;
         public InputAction @ScrollLeft => m_Wrapper.m_UI_ScrollLeft;
         public InputAction @ScrollRight => m_Wrapper.m_UI_ScrollRight;
-        public InputAction @Validate => m_Wrapper.m_UI_Validate;
+        public InputAction @ValidateButton => m_Wrapper.m_UI_ValidateButton;
         public InputAction @CancelButton => m_Wrapper.m_UI_CancelButton;
         public InputAction @ThirdAction => m_Wrapper.m_UI_ThirdAction;
         public InputAction @FourthAction => m_Wrapper.m_UI_FourthAction;
@@ -1908,9 +1908,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-            @Pause.started += instance.OnPause;
-            @Pause.performed += instance.OnPause;
-            @Pause.canceled += instance.OnPause;
+            @UI_Pause.started += instance.OnUI_Pause;
+            @UI_Pause.performed += instance.OnUI_Pause;
+            @UI_Pause.canceled += instance.OnUI_Pause;
             @CancelMenu.started += instance.OnCancelMenu;
             @CancelMenu.performed += instance.OnCancelMenu;
             @CancelMenu.canceled += instance.OnCancelMenu;
@@ -1977,9 +1977,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ScrollRight.started += instance.OnScrollRight;
             @ScrollRight.performed += instance.OnScrollRight;
             @ScrollRight.canceled += instance.OnScrollRight;
-            @Validate.started += instance.OnValidate;
-            @Validate.performed += instance.OnValidate;
-            @Validate.canceled += instance.OnValidate;
+            @ValidateButton.started += instance.OnValidateButton;
+            @ValidateButton.performed += instance.OnValidateButton;
+            @ValidateButton.canceled += instance.OnValidateButton;
             @CancelButton.started += instance.OnCancelButton;
             @CancelButton.performed += instance.OnCancelButton;
             @CancelButton.canceled += instance.OnCancelButton;
@@ -1993,9 +1993,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IUIActions instance)
         {
-            @Pause.started -= instance.OnPause;
-            @Pause.performed -= instance.OnPause;
-            @Pause.canceled -= instance.OnPause;
+            @UI_Pause.started -= instance.OnUI_Pause;
+            @UI_Pause.performed -= instance.OnUI_Pause;
+            @UI_Pause.canceled -= instance.OnUI_Pause;
             @CancelMenu.started -= instance.OnCancelMenu;
             @CancelMenu.performed -= instance.OnCancelMenu;
             @CancelMenu.canceled -= instance.OnCancelMenu;
@@ -2062,9 +2062,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ScrollRight.started -= instance.OnScrollRight;
             @ScrollRight.performed -= instance.OnScrollRight;
             @ScrollRight.canceled -= instance.OnScrollRight;
-            @Validate.started -= instance.OnValidate;
-            @Validate.performed -= instance.OnValidate;
-            @Validate.canceled -= instance.OnValidate;
+            @ValidateButton.started -= instance.OnValidateButton;
+            @ValidateButton.performed -= instance.OnValidateButton;
+            @ValidateButton.canceled -= instance.OnValidateButton;
             @CancelButton.started -= instance.OnCancelButton;
             @CancelButton.performed -= instance.OnCancelButton;
             @CancelButton.canceled -= instance.OnCancelButton;
@@ -2197,7 +2197,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnSkill(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
-        void OnPause(InputAction.CallbackContext context);
+        void OnIG_Pause(InputAction.CallbackContext context);
         void OnStayStatic(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnSelfRevive(InputAction.CallbackContext context);
@@ -2205,7 +2205,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     }
     public interface IUIActions
     {
-        void OnPause(InputAction.CallbackContext context);
+        void OnUI_Pause(InputAction.CallbackContext context);
         void OnCancelMenu(InputAction.CallbackContext context);
         void OnArrowsLeft(InputAction.CallbackContext context);
         void OnArrowsRight(InputAction.CallbackContext context);
@@ -2228,7 +2228,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnScrollUp(InputAction.CallbackContext context);
         void OnScrollLeft(InputAction.CallbackContext context);
         void OnScrollRight(InputAction.CallbackContext context);
-        void OnValidate(InputAction.CallbackContext context);
+        void OnValidateButton(InputAction.CallbackContext context);
         void OnCancelButton(InputAction.CallbackContext context);
         void OnThirdAction(InputAction.CallbackContext context);
         void OnFourthAction(InputAction.CallbackContext context);

@@ -11,7 +11,7 @@ public class SCRPT_Skill_ProtectionZone : SCRPT_Skill
     {
         isInUse = true;
 
-        owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnStartSkill?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.SetInvincibility(true);
 

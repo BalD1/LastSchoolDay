@@ -31,9 +31,9 @@ public class PlayerFootprints : MonoBehaviour
         footprintsSpawn_TIMER = footprintsSpawn_COOLDOWN;
         footSteps_TIMER = delayBetweenStepsAudio;
 
-        owner.d_SteppedIntoTrigger += OwnerSteppedInTrigger;
+        owner.OnSteppedIntoTrigger += OwnerSteppedInTrigger;
 
-        owner.D_successfulAttack += OwnerAttacked;
+        owner.OnSuccessfulAttack += OwnerAttacked;
 
         owner.StateManager.D_stateChange += OnOwnerStateChange;
     }
@@ -91,7 +91,7 @@ public class PlayerFootprints : MonoBehaviour
 
         footSteps_TIMER = delayBetweenStepsAudio;
 
-        owner.D_onFootPrint?.Invoke();
+        owner.OnFootPrint?.Invoke();
     }
 
     private void SpawnFootprint()

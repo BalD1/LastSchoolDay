@@ -20,8 +20,8 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
         PlayerAnimationController ownerAnims = owner.AnimationController;
 
-        owner.D_attackInput += owner.Weapon.AskForAttack;
-        owner.D_dashInput += owner.StartDash;
+        owner.OnAttackInput += owner.Weapon.AskForAttack;
+        owner.OnDashInput += owner.StartDash;
 
         if (ownerAnims.animationsData == null) return;
 
@@ -63,8 +63,8 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
         owner.ForceUpdateMovementsInput();
 
-        owner.D_attackInput -= owner.Weapon.AskForAttack;
-        owner.D_dashInput -= owner.StartDash;
+        owner.OnAttackInput -= owner.Weapon.AskForAttack;
+        owner.OnDashInput -= owner.StartDash;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

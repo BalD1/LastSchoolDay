@@ -5,7 +5,7 @@ using BalDUtilities.Misc;
 using UnityEngine.InputSystem;
 using System;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourEventsHandler
 {
 
     private static GameManager instance;
@@ -234,8 +234,20 @@ public class GameManager : MonoBehaviour
     private int neededCards;
     public int NeededCards { get => neededCards; set => neededCards = value; }
 
-    private void Awake()
+    protected override void EventsSubscriber()
     {
+        PlayerInputsEvents.OnPauseCall += HandlePause;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        PlayerInputsEvents.OnPauseCall -= HandlePause;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
         LeanTween.cancelAll();
         instance = this;
 

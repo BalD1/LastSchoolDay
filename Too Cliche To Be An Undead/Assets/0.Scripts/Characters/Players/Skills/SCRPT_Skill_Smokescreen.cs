@@ -15,14 +15,14 @@ public class SCRPT_Skill_Smokescreen : SCRPT_Skill
 
     public override void EarlyStart(PlayerCharacter owner)
     {
-        owner.D_earlySkillStart?.Invoke();
+        owner.OnEarlySkillStart?.Invoke();
     }
 
     public override void StartSkill(PlayerCharacter owner)
     {
         isInUse = true;
 
-        owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnStartSkill?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.OffsetSkillHolder(offset);
         Vector2 skillPos = owner.GetSkillHolder.transform.position;

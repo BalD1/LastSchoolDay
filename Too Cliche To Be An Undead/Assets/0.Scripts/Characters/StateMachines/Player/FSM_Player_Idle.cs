@@ -15,9 +15,9 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
         owner.SetAllVelocity(Vector2.zero);
         base.EnterState(stateManager);
 
-        owner.D_attackInput += owner.Weapon.AskForAttack;
-        owner.D_skillInput += owner.GetSkillHolder.StartSkill;
-        owner.D_dashInput += owner.StartDash;
+        owner.OnAttackInput += owner.Weapon.AskForAttack;
+        owner.OnSkillInput += owner.GetSkillHolder.StartSkill;
+        owner.OnDashInput += owner.StartDash;
 
         owner.canBePushed = true;
     }
@@ -33,9 +33,9 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
     {
         base.ExitState(stateManager);
 
-        owner.D_attackInput -= owner.Weapon.AskForAttack;
-        owner.D_skillInput -= owner.GetSkillHolder.StartSkill;
-        owner.D_dashInput -= owner.StartDash;
+        owner.OnAttackInput -= owner.Weapon.AskForAttack;
+        owner.OnSkillInput -= owner.GetSkillHolder.StartSkill;
+        owner.OnDashInput -= owner.StartDash;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

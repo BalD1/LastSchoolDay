@@ -9,6 +9,6 @@ public class BloodStamps : MonoBehaviour
         PlayerCharacter p = collision.GetComponent<PlayerCharacter>();
         if (p == null) return;
 
-        p.d_SteppedIntoTrigger?.Invoke(typeof(BloodStamps));
+        p.OnSteppedIntoTrigger?.Invoke(typeof(BloodStamps));
     }
 }

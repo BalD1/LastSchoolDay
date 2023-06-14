@@ -35,7 +35,7 @@ public class PlayerNormalWeapon : PlayerWeapon
     {
         base.StartWeaponAttack(isLastAttack);
 
-        owner.D_onAttack?.Invoke(isLastAttack);
+        owner.OnAttack?.Invoke(isLastAttack);
 
         float onAttackMovementSpeed = onAttackMovementForce;
 
@@ -137,8 +137,8 @@ public class PlayerNormalWeapon : PlayerWeapon
                 owner.StopTimeStop();
             });
         }
-        if (!successfulhit) owner.D_swif?.Invoke();
-        if (connectedEntity) owner.D_successfulAttack?.Invoke(hadBigHit);
+        if (!successfulhit) owner.OnSwiff?.Invoke();
+        if (connectedEntity) owner.OnSuccessfulAttack?.Invoke(hadBigHit);
 
         if (isLastAttack) owner.StartGamepadShake(bigHitGamepadShake);
         else owner.StartGamepadShake(bigHitGamepadShake);

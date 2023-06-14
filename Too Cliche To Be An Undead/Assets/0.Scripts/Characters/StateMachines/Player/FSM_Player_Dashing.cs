@@ -28,7 +28,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         max_DURATION = owner.PlayerDash.DashSpeedCurve[owner.PlayerDash.DashSpeedCurve.length - 1].time;
         dash_dur_TIMER = max_DURATION;
 
-        owner.D_onDash?.Invoke();
+        owner.OnDashStarted?.Invoke();
 
         alreadyPushedEntities = new List<Collider2D>();
 
@@ -129,7 +129,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         LeanTween.delayedCall(hitStopTimeBase, () => owner.StopTimeStop());
 
         e.Push(owner.transform.position, remainingPushForce, owner, owner);
-        owner.D_OnDashHit(e);
+        owner.OnDashHit(e);
     }
 
     public float GetRemainingTimeByMax() => dash_dur_TIMER / max_DURATION;

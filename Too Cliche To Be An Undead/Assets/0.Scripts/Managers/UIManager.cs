@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using System.Text;
 using System;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviourEventsHandler
 {
     private static UIManager instance;
     public static UIManager Instance
@@ -193,8 +193,27 @@ public class UIManager : MonoBehaviour
 
     #region Awake / Start / Updates
 
-    private void Awake()
+    protected override void EventsSubscriber()
     {
+        PlayerInputsEvents.OnScrollCurrentHBLeftCall += ScrollCurrentHorizontalBarLeft;
+        PlayerInputsEvents.OnScrollCurrentHBRightCall += ScrollCurrentHorizontalBarRight;
+        PlayerInputsEvents.OnScrollCurrentVBDownCall += ScrollCurrentVerticalBarDown;
+        PlayerInputsEvents.OnScrollCurrentVBUpCall += ScrollCurrentVerticalBarUp;
+        PlayerInputsEvents.OnCloseMenuCall += CloseYoungerMenu;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        PlayerInputsEvents.OnScrollCurrentHBLeftCall -= ScrollCurrentHorizontalBarLeft;
+        PlayerInputsEvents.OnScrollCurrentHBRightCall -= ScrollCurrentHorizontalBarRight;
+        PlayerInputsEvents.OnScrollCurrentVBDownCall -= ScrollCurrentVerticalBarDown;
+        PlayerInputsEvents.OnScrollCurrentVBUpCall -= ScrollCurrentVerticalBarUp;
+        PlayerInputsEvents.OnCloseMenuCall -= CloseYoungerMenu;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
         instance = this;
 
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainScene))
@@ -381,22 +400,22 @@ public class UIManager : MonoBehaviour
     public void SetCurrentHorizontalScrollbar(Scrollbar bar) => currentHorizontalScrollbar = bar;
     public void UnsetCurrentHorizontalScrollbar() => currentHorizontalScrollbar = null;
 
-    public void ScrollCurrentVerticalBarDown(InputAction.CallbackContext context)
+    public void ScrollCurrentVerticalBarDown()
     {
-        if (/*context.performed && */currentVerticalScrollbar != null) currentVerticalScrollbar.value -= scrollbarSensibility;
+        if (currentVerticalScrollbar != null) currentVerticalScrollbar.value -= scrollbarSensibility;
     }
-    public void ScrollCurrentVerticalBarUp(InputAction.CallbackContext context)
+    public void ScrollCurrentVerticalBarUp()
     {
-        if (/*context.performed && */currentVerticalScrollbar != null) currentVerticalScrollbar.value += scrollbarSensibility;
+        if (currentVerticalScrollbar != null) currentVerticalScrollbar.value += scrollbarSensibility;
     }
 
-    public void ScrollCurrentHorizontalBarLeft(InputAction.CallbackContext context)
+    public void ScrollCurrentHorizontalBarLeft()
     {
-        if (/*context.performed && */currentHorizontalScrollbar != null) currentHorizontalScrollbar.value -= scrollbarSensibility;
+        if (currentHorizontalScrollbar != null) currentHorizontalScrollbar.value -= scrollbarSensibility;
     }
-    public void ScrollCurrentHorizontalBarRight(InputAction.CallbackContext context)
+    public void ScrollCurrentHorizontalBarRight()
     {
-        if (/*context.performed && */currentHorizontalScrollbar != null) currentHorizontalScrollbar.value += scrollbarSensibility;
+        if (currentHorizontalScrollbar != null) currentHorizontalScrollbar.value += scrollbarSensibility;
     }
 
     #endregion

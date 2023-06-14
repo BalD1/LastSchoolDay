@@ -13,7 +13,7 @@ public class ImageChangeOnController : MonoBehaviour
     {
         if (targetPlayer == null) targetPlayer = GameManager.Player1Ref;
 
-        targetPlayer.D_onDeviceChange += CheckDevice;
+        targetPlayer.OnDeviceChange += CheckDevice;
 
         CheckDevice(targetPlayer.currentDeviceType);
     }
@@ -25,7 +25,7 @@ public class ImageChangeOnController : MonoBehaviour
 
     private void OnDestroy()
     {
-        targetPlayer.D_onDeviceChange -= CheckDevice;
+        targetPlayer.OnDeviceChange -= CheckDevice;
     }
 
     private void OnValidate()

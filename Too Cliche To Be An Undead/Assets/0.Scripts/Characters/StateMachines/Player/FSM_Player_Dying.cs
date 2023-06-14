@@ -24,7 +24,6 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
 
         if (dyingState_TIMER <= 0) dyingState_TIMER = owner.DyingState_DURATION;
 
-        if (!isFake) owner.OnInteract += owner.Revive;
 
         owner.SetAnimatorArgs("Dying", true);
 
@@ -56,7 +55,9 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
             owner.SelfReviveText.enabled = true;
         }
 
+        if (!isFake) owner.OnOtherInteract += owner.Revive;
         owner.OnRevive += Revive;
+        owner.OnSelfReviveInput += SelfRevive;
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)
@@ -77,18 +78,28 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
         owner.SetAnimatorArgs("Dying", false);
         owner.ForceUpdateMovementsInput();
 
-        if (!isFake) owner.OnInteract -= owner.Revive;
-
         if (removedAlive)
             PlayersManager.Instance.AddAlivePlayer();
 
         owner.SelfReviveText.enabled = false;
         isFake = false;
+
+        if (!isFake) owner.OnOtherInteract -= owner.Revive;
         owner.OnRevive -= Revive;
+        owner.OnSelfReviveInput -= SelfRevive;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
     {
+    }
+
+    private void SelfRevive()
+    {
+        if (owner.selfReviveCount >= 1)
+        {
+            owner.selfReviveCount -= 1;
+            owner.Revive();
+        }
     }
 
     private void Revive()
@@ -99,7 +110,8 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
     public void SetAsFakeState()
     {
         isFake = true;
-        owner.OnInteract -= owner.Revive;
+        owner.OnOtherInteract -= owner.Revive;
+        owner.OnSelfReviveInput -= SelfRevive;
     }
 
     public override string ToString() => "Dying";

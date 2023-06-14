@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pause",
+                    "name": "IG_Pause",
                     "type": "Button",
                     "id": "1f614797-6dd6-4acc-8c86-a4b9df3150af",
                     "expectedControlType": "Button",
@@ -291,7 +291,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad",
-                    "action": "Pause",
+                    "action": "IG_Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -302,7 +302,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Pause",
+                    "action": "IG_Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -412,7 +412,7 @@
             "id": "83a4f027-6089-4af7-807d-29259c0e6c00",
             "actions": [
                 {
-                    "name": "Pause",
+                    "name": "UI_Pause",
                     "type": "Button",
                     "id": "999ebfec-fd91-464b-909b-e0bb27d8d489",
                     "expectedControlType": "Button",
@@ -619,7 +619,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Validate",
+                    "name": "ValidateButton",
                     "type": "Button",
                     "id": "315b59c8-a397-4c9b-93f5-8291e665ff3a",
                     "expectedControlType": "Button",
@@ -663,7 +663,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Pause",
+                    "action": "UI_Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -674,7 +674,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Pause",
+                    "action": "UI_Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1367,7 +1367,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Validate",
+                    "action": "ValidateButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1378,7 +1378,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad",
-                    "action": "Validate",
+                    "action": "ValidateButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -35,13 +35,13 @@ public class ReviveTutorial : MonoBehaviour
         victimPlayer.AnimationController.FlipSkeleton(false);
         victimStateManager.SwitchState<FSM_Player_Dying>(FSM_Player_Manager.E_PlayerState.Dying).SetAsFakeState();
         victimPlayer.transform.position = this.transform.position;
-        victimPlayer.OnInteract += StartDialogue;
+        victimPlayer.OnOtherInteract += StartDialogue;
         GameManager.Instance.D_onPlayerIsSetup -= SetupVictimPlayer;
     }
 
     private void StartDialogue(GameObject interactor)
     {
-        victimPlayer.OnInteract -= StartDialogue;
+        victimPlayer.OnOtherInteract -= StartDialogue;
         interactor.GetComponent<PlayerInteractor>().PromptText.gameObject.SetActive(false);
         UIManager.Instance.FadeScreen(fadeOut: true, () =>
         {
@@ -98,6 +98,6 @@ public class ReviveTutorial : MonoBehaviour
     private void OnDestroy()
     {
         if (victimPlayer == null) return;
-        victimPlayer.OnInteract -= StartDialogue;
+        victimPlayer.OnOtherInteract -= StartDialogue;
     }
 }

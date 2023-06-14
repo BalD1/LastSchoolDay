@@ -29,7 +29,7 @@ public class SCRPT_AttackAmp : SCRPT_Skill
 
     public override void EarlyStart(PlayerCharacter owner)
     {
-        owner.D_earlySkillStart?.Invoke();
+        owner.OnEarlySkillStart?.Invoke();
     }
 
     public override void StartSkill(PlayerCharacter owner)
@@ -39,7 +39,7 @@ public class SCRPT_AttackAmp : SCRPT_Skill
         this.owner = owner;
 
         owner.OnOverrideNextVoiceAttackAudio?.Invoke(voiceAttackClipOverride);
-        owner.D_startSkill?.Invoke(owner.GetSkill.holdSkillAudio);
+        owner.OnStartSkill?.Invoke(owner.GetSkill.holdSkillAudio);
 
         owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
@@ -93,13 +93,13 @@ public class SCRPT_AttackAmp : SCRPT_Skill
         }
 
         owner.Weapon.performHitStop = true;
-        owner.D_onAttack += StartSkillTimerOnHit;
+        owner.OnAttack += StartSkillTimerOnHit;
     }
 
     private void StartSkillTimerOnHit(bool lastAttack)
     {
         owner.GetSkillHolder.StartTimer();
-        owner.D_onAttack -= StartSkillTimerOnHit;
+        owner.OnAttack -= StartSkillTimerOnHit;
         isInUse = false;
     }
 }

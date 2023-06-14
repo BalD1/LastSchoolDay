@@ -21,48 +21,48 @@ public class PlayerAudio : MonoBehaviour
         ownerSource = owner.GetAudioSource;
 
         SetAudioClips();
-        owner.D_switchCharacter += SetAudioClips;
+        owner.OnSwitchCharacter += SetAudioClips;
 
         owner.D_onTakeDamagesFromEntity += PlayHurtAudio;
 
         owner.d_OnDeath += PlayDeathAudio;
 
-        owner.D_onAttack += PlayAttackAudio;
-        owner.D_successfulAttack += PlayAttackConnectedAudio;
+        owner.OnAttack += PlayAttackAudio;
+        owner.OnSuccessfulAttack += PlayAttackConnectedAudio;
 
-        owner.D_earlySkillStart += PlayVoiceSkillStartAudio;
-        owner.D_startSkill += PlaySkillStartAudio;
-        owner.D_endSkill += PlaySkillEndAudio;
-        owner.D_endSkill += PlayVoiceSkillEndAudio;
+        owner.OnEarlySkillStart += PlayVoiceSkillStartAudio;
+        owner.OnStartSkill += PlaySkillStartAudio;
+        owner.OnEndSkill += PlaySkillEndAudio;
+        owner.OnEndSkill += PlayVoiceSkillEndAudio;
 
-        owner.D_onDash += PlayDashAudio;
-        owner.D_OnDashHit += PlayDashHitAudio;
+        owner.OnDashStarted += PlayDashAudio;
+        owner.OnDashHit += PlayDashHitAudio;
 
-        owner.D_onFootPrint += PlayFootPrintAudio;
+        owner.OnFootPrint += PlayFootPrintAudio;
 
         owner.OnOverrideNextVoiceAttackAudio += OverrideNextAttackAudio;
     }
 
     private void OnDestroy()
     {
-        owner.D_switchCharacter -= SetAudioClips;
+        owner.OnSwitchCharacter -= SetAudioClips;
 
         owner.D_onTakeDamagesFromEntity -= PlayHurtAudio;
 
         owner.d_OnDeath -= PlayDeathAudio;
 
-        owner.D_onAttack -= PlayAttackAudio;
-        owner.D_successfulAttack -= PlayAttackConnectedAudio;
+        owner.OnAttack -= PlayAttackAudio;
+        owner.OnSuccessfulAttack -= PlayAttackConnectedAudio;
 
-        owner.D_earlySkillStart -= PlayVoiceSkillStartAudio;
-        owner.D_startSkill -= PlaySkillStartAudio;
-        owner.D_endSkill -= PlaySkillEndAudio;
-        owner.D_endSkill -= PlayVoiceSkillEndAudio;
+        owner.OnEarlySkillStart -= PlayVoiceSkillStartAudio;
+        owner.OnStartSkill -= PlaySkillStartAudio;
+        owner.OnEndSkill -= PlaySkillEndAudio;
+        owner.OnEndSkill -= PlayVoiceSkillEndAudio;
 
-        owner.D_onDash -= PlayDashAudio;
-        owner.D_OnDashHit -= PlayDashHitAudio;
+        owner.OnDashStarted -= PlayDashAudio;
+        owner.OnDashHit -= PlayDashHitAudio;
 
-        owner.D_onFootPrint -= PlayFootPrintAudio;
+        owner.OnFootPrint -= PlayFootPrintAudio;
 
         owner.OnOverrideNextVoiceAttackAudio -= OverrideNextAttackAudio;
     }

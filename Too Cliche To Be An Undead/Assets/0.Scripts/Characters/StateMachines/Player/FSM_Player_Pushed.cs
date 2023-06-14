@@ -14,8 +14,8 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
 
         playerOwner ??= owner as PlayerCharacter;
 
-        playerOwner.D_attackInput += playerOwner.Weapon.AskForAttack;
-        playerOwner.D_skillInput += playerOwner.GetSkillHolder.StartSkill;
+        playerOwner.OnAttackInput += playerOwner.Weapon.AskForAttack;
+        playerOwner.OnSkillInput += playerOwner.GetSkillHolder.StartSkill;
         playerOwner.Weapon.AddOnHitEffect(new OnHitEffects
             (_owner: playerOwner,
             _id: ONHIT_MODIFIER_ID,
@@ -47,8 +47,8 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
         base.ExitState(stateManager);
         (owner as PlayerCharacter).ForceUpdateMovementsInput();
 
-        playerOwner.D_attackInput -= playerOwner.Weapon.AskForAttack;
-        playerOwner.D_skillInput -= playerOwner.GetSkillHolder.StartSkill;
+        playerOwner.OnAttackInput -= playerOwner.Weapon.AskForAttack;
+        playerOwner.OnSkillInput -= playerOwner.GetSkillHolder.StartSkill;
         playerOwner.Weapon.RemoveOnHitEffect(ONHIT_MODIFIER_ID);
     }
 
