@@ -17,7 +17,9 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
 
         zombieOwner.UnsetAttackedPlayer();
         zombieOwner.attackTelegraph.CancelTelegraph();
-        zombieOwner.enemiesBlocker.enabled = false;
+        //zombieOwner.enemiesBlocker.enabled = false;
+        //zombieOwner.ValidnessCheckerTrigger.enabled = false;
+        //zombieOwner.attackTrigger.enabled = false;
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)
@@ -29,12 +31,14 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
     {
         base.ExitState(stateManager);
         hitStopWasPerformed = false;
-        zombieOwner.enemiesBlocker.enabled = true;
+        //zombieOwner.enemiesBlocker.enabled = true;
+        //zombieOwner.ValidnessCheckerTrigger.enabled = true;
+        //zombieOwner.attackTrigger.enabled = true;
     }
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
         base.Conditions(stateManager);
-        if (baseConditionChecked && hitStopWasPerformed) stateManager.SwitchState(stateManager.ChasingState);
+        if (baseConditionChecked && hitStopWasPerformed) stateManager.SwitchState(FSM_NZ_Manager.E_NZState.Chasing);
     }
 
     protected void CancelTween()
@@ -68,13 +72,17 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
     protected override void EventsSubscriber(FSM_NZ_Manager stateManager)
     {
         base.EventsSubscriber(stateManager);
-        owner.D_OnReset += CancelTween;
+        owner.OnReset += CancelTween;
+        owner.OnAskForStun += stateManager.SwitchToStun;
+        owner.OnAskForPush += stateManager.SwitchToPushed;
     }
 
     protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
     {
         base.EventsUnsubscriber(stateManager);
-        owner.D_OnReset -= CancelTween;
+        owner.OnReset -= CancelTween;
+        owner.OnAskForStun -= stateManager.SwitchToStun;
+        owner.OnAskForPush -= stateManager.SwitchToPushed;
     }
 
     public override void Setup(FSM_NZ_Manager stateManager)

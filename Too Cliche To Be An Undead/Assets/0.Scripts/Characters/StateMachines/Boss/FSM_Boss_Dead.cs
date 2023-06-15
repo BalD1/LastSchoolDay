@@ -4,28 +4,33 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
 {
     BossZombie owner;
 
-    private bool wasAttacking;
+    private bool wasJumping = false;
 
     public override void EnterState(FSM_Boss_Manager stateManager)
     {
         base.EnterState(stateManager);
 
-        if (owner.IsAttacking)
+        GameManager.Instance.D_bossFightEnded?.Invoke();
+
+        foreach (var item in owner.SpawnedZombies)
         {
-            wasAttacking = true;
-            owner.D_currentAttackEnded += SetAnimation;
+            (item as NormalZombie).ForceKill();
         }
-        else SetAnimation();
+        owner.SpawnedZombies.Clear();
+
+        foreach (var item in GameManager.Instance.playersByName)
+        {
+            if (item.playerScript.StateManager.ToString() == "Dying")
+                item.playerScript.AskRevive();
+        }
+        if (GameManager.Instance.GameState == GameManager.E_GameState.GameOver)
+            GameManager.Instance.CancelGameOver();
+
+        SoundManager.Instance.ChangeMusicMixerPitch(1);
+        UIManager.Instance.RemoveBossCollider(owner.hudTrigger);
     }
 
-    private void SetAnimation()
-    {
-        AnimationReferenceAsset deathAnim = owner.animationData.DeathAnim;
-
-        owner.animationController.SetAnimation(deathAnim, false);
-
-        if (wasAttacking) owner.D_currentAttackEnded -= SetAnimation;
-    }
+    private void SetAnim() => owner.animationController.SetAnimation(owner.animationData.DeathAnim, false);
 
     public override void UpdateState(FSM_Boss_Manager stateManager)
     {
@@ -38,7 +43,7 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
     public override void ExitState(FSM_Boss_Manager stateManager)
     {
         base.ExitState(stateManager);
-        wasAttacking = false;
+        wasJumping = false;
     }
 
     public override void Conditions(FSM_Boss_Manager stateManager)
@@ -47,10 +52,16 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
 
     protected override void EventsSubscriber(FSM_Boss_Manager stateManager)
     {
+        if (owner.IsJumping)
+        {
+            owner.OnJumpEnded += SetAnim;
+            wasJumping = true;
+        }
     }
 
     protected override void EventsUnsubscriber(FSM_Boss_Manager stateManager)
     {
+        if (wasJumping) owner.OnJumpEnded -= SetAnim;
     }
 
     public override void Setup(FSM_Boss_Manager stateManager)

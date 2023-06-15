@@ -63,11 +63,26 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 #endif
     }
 
+    public T SwitchState<T>(E_NZState stateKey) where T : FSM_Base<FSM_NZ_Manager>
+    {
+        SwitchState(stateKey);
+        return currentState as T;
+    }
+    public void SwitchState(E_NZState stateKey)
+    {
+        statesWithKey.TryGetValue(stateKey, out FSM_Base<FSM_NZ_Manager> newState);
+        SwitchState(newState);
+    }
+
     public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)
     {
         owner.Movements(goalPosition, slowdownOnApproach);
     }
 
+    public void CheckStates()
+    {
+        if (statesWithKey == null) SetupStates();
+    }
     public override void SetupStates()
     {
         statesWithKey = new Dictionary<E_NZState, FSM_Base<FSM_NZ_Manager>>()
@@ -94,7 +109,6 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
     public bool AttackConditions()
     {
-        if (this.currentState.ToString() == "Stunned") return false;
         if (owner.CurrentPlayerTarget.CurrentActiveTimestops > 0) return false;
         float distanceFromTarget = Vector2.Distance(owner.transform.position, owner.CurrentPlayerTarget.transform.position);
 
@@ -103,5 +117,21 @@ public class FSM_NZ_Manager : FSM_ManagerBase
         bool targetCanBeAttacked = owner.CurrentPlayerTarget?.Attackers.Count < GameManager.MaxAttackers;
 
         return (isAtRightDistance && owner.Attack_TIMER <= 0 && targetCanBeAttacked && owner.isVisible);
+    }
+
+    public void SwitchToStun(float _duration, bool _resetAttackTimer, bool _showText)
+    {
+        if (_showText) TextPopup.Create("Stunned", owner.transform);
+        SwitchState<FSM_NZ_Stun>(E_NZState.Stunned).SetDuration(_duration, _resetAttackTimer);
+    }
+
+    public void SwitchToPushed(float _force, Entity _pusher, Entity _originalPusher)
+    {
+        Vector2 vectorForce = this.GetPushForce(owner, _force, _pusher, _originalPusher);
+
+        float sqrMagnitude = vectorForce.sqrMagnitude;
+        if (_pusher is EnemyBase && sqrMagnitude <= (7 * 7)) return;
+        if (sqrMagnitude > 0)
+        SwitchState<FSM_NZ_Pushed>(E_NZState.Pushed).SetForce(vectorForce, _originalPusher, _pusher);
     }
 }

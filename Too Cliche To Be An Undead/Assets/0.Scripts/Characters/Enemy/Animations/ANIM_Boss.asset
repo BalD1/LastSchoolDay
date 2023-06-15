@@ -22,3 +22,16 @@ MonoBehaviour:
   <JumpStartAnim>k__BackingField: {fileID: 11400000, guid: b432c9fd102fdf745ad235febf129ad0, type: 2}
   <JumpEndAnim>k__BackingField: {fileID: 11400000, guid: e0a755433af438c4f98603f2b1465dbe, type: 2}
   <DeathAnim>k__BackingField: {fileID: 11400000, guid: f28cc164a991e944fa2e77c3ebe44c00, type: 2}
+  <StateAnimation>k__BackingField:
+  - EDITOR_InspectorName: Chasing
+    <Key>k__BackingField: 1
+    <Asset>k__BackingField: {fileID: 11400000, guid: 94ff8d2912f201a4095cfcfd3caa769b, type: 2}
+    <Loop>k__BackingField: 1
+  - EDITOR_InspectorName: Dead
+    <Key>k__BackingField: 4
+    <Asset>k__BackingField: {fileID: 11400000, guid: f28cc164a991e944fa2e77c3ebe44c00, type: 2}
+    <Loop>k__BackingField: 0
+  - EDITOR_InspectorName: Recovering
+    <Key>k__BackingField: 3
+    <Asset>k__BackingField: {fileID: 11400000, guid: 1341284dedc0c504fa59b5460ccb3442, type: 2}
+    <Loop>k__BackingField: 1

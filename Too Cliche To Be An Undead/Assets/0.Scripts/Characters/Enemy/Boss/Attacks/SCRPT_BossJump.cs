@@ -1,8 +1,5 @@
 using Spine;
 using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BossJump", menuName = "Scriptable/Entity/Enemy/Boss/Jump Attack")]
@@ -30,11 +27,11 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
     public override void OnStart(EnemyBase owner)
     {
         boss = owner as BossZombie;
+        boss.CallJumpStarted();
         SCRPT_EnemyAttack currentAttack = boss.CurrentAttack.attack;
         baseSkeletonPositionY = boss.SkeletonHolder.transform.localPosition.y;
 
         owner.SkeletonAnimation.AnimationState.SetAnimation(0, bossJumpAnim, false);
-
         // Wait for the jump anim to play 
         LeanTween.delayedCall(bossJumpAnim.Animation.Duration / 2, () =>
         {
@@ -84,6 +81,8 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
                     owner.GetAudioSource.pitch = Random.Range(1 - audioClip.pitchRange, 1 + audioClip.pitchRange);
                     owner.GetAudioSource.PlayOneShot(audioClip.clip);
                     owner.GetAudioSource.pitch = 1;
+
+                    boss.CallJumpEnded();
 
                     if (owner.IsAlive())
                     {

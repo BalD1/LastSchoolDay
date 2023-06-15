@@ -34,10 +34,19 @@ public class FSM_Entity_Stunned<T> : FSM_Base<T>
 
     protected override void EventsSubscriber(T stateManager)
     {
+        owner.OnAskForStun += OnStunAddition;
     }
 
     protected override void EventsUnsubscriber(T stateManager)
     {
+        owner.OnAskForStun -= OnStunAddition;
+    }
+
+    private void OnStunAddition(float duration, bool resetAttackTimer, bool showText)
+    {
+        if (showText) TextPopup.Create("Stunned", owner.transform);
+        stun_TIMER += duration;
+        if (resetAttackTimer) owner.ResetAttackTimer();
     }
 
     public void SetOwner(Entity _owner) => owner = _owner;

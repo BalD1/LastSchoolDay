@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static FSM_NZ_Manager;
 
 public class FSM_Player_Manager : FSM_ManagerBase
 {
@@ -43,7 +44,6 @@ public class FSM_Player_Manager : FSM_ManagerBase
     protected override void Start()
     {
         base.Start();
-
         SwitchState(E_PlayerState.Idle);
     }
 
@@ -52,7 +52,6 @@ public class FSM_Player_Manager : FSM_ManagerBase
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         currentState.UpdateState(this);
         currentState.Conditions(this);
-
     }
 
     protected override void FixedUpdate()
@@ -99,16 +98,19 @@ public class FSM_Player_Manager : FSM_ManagerBase
     }
     #endregion
 
+    #region Conditions
+
     public void DashConditions()
     {
         if (owner.DashCooldown > 0) return;
         this.SwitchState(E_PlayerState.Dashing);
     }
 
-    public void PushConditions(float force, Entity pusher, Entity originalPusher)
+    public void PushConditions(float _force, Entity _pusher, Entity _originalPusher)
     {
-        if (this.GetPushForce(owner, force, pusher, originalPusher).magnitude > 0)
-            this.SwitchState(E_PlayerState.Pushed);
+        Vector2 vectorForce = this.GetPushForce(owner, _force, _pusher, _originalPusher);
+        if (vectorForce.magnitude > 0)
+            SwitchState<FSM_Player_Pushed>(E_PlayerState.Pushed).SetForce(vectorForce, _originalPusher, _pusher);
     }
 
     public void SwitchToStun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
@@ -128,7 +130,9 @@ public class FSM_Player_Manager : FSM_ManagerBase
         if (owner.GetSkill.IsInUse) return;
 
         SwitchState<FSM_Player_InSkill>(E_PlayerState.InSkill).SetTimers(duration, transition, offset);
-    }
+    } 
+
+    #endregion
 
     public override void SetupStates()
     {

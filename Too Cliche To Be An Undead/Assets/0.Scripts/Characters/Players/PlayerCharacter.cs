@@ -180,8 +180,6 @@ public class PlayerCharacter : Entity, IInteractable
     public Action OnDashStarted;
     public Action<Entity> OnDashHit;
 
-    public event Action<float, bool, bool> OnAskForStun;
-
     public Action<string> OnStateChange;
 
     public Action OnFootPrint;
@@ -245,7 +243,7 @@ public class PlayerCharacter : Entity, IInteractable
         this.attackers.Clear();
 
         GameManager.Instance.D_onPlayerIsSetup?.Invoke(this.playerIndex);
-        D_OnReset?.Invoke();
+        OnReset?.Invoke();
 
         PlayerHUD.ForceHPUpdate();
     }
@@ -916,7 +914,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
-        OnAskForStun?.Invoke(duration, resetAttackTimer, showStuntext);
+        AskForStun(duration, resetAttackTimer, showStuntext);
     }
 
     public void StartTimeStop()

@@ -3,6 +3,7 @@ using UnityEditor;
 using BalDUtilities.EditorUtils;
 using BalDUtilities.Misc;
 using System.Text;
+using static SCRPT_Props;
 
 [CustomEditor(typeof(PlayerCharacter))]
 public class ED_PlayerCharacter : Editor
@@ -88,6 +89,9 @@ public class ED_PlayerCharacter : Editor
 
         SerializedProperty bodyTrigger = serializedObject.FindProperty("bodyTrigger");
         EditorGUILayout.PropertyField(bodyTrigger);
+
+        SerializedProperty FeetsCollider = serializedObject.FindProperty(string.Format("<{0}>k__BackingField", "FeetsCollider"));
+        EditorGUILayout.PropertyField(FeetsCollider);
 
         SerializedProperty hudBoundsTrigger = serializedObject.FindProperty("hudBoundsTrigger");
         EditorGUILayout.PropertyField(hudBoundsTrigger);

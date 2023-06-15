@@ -1,6 +1,5 @@
 using Spine.Unity;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NormalZombie : EnemyBase, IDistanceChecker
@@ -18,6 +17,8 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
     [field: SerializeField] public EnemyVision Vision { get; private set; }
     [field: SerializeField] public bool isIdle = false;
+
+    [field: SerializeField] public BoxCollider2D ValidnessCheckerTrigger { get; private set; }
 
     public delegate void D_OnAttack();
     public D_OnAttack D_onAttack;
@@ -123,8 +124,10 @@ public class NormalZombie : EnemyBase, IDistanceChecker
             return;
         }
 
-        float distanceFromTarget = Vector2.Distance(this.transform.position, CurrentPositionTarget);
-        if ((distanceFromTarget < MinDistanceForNormalSpeed + Camera.main.orthographicSize))
+        float requiredDistance = MinDistanceForNormalSpeed + Camera.main.orthographicSize;
+        float squaredReqDist = requiredDistance * requiredDistance;
+        float distanceFromTarget = ((Vector2)this.transform.position - CurrentPositionTarget).sqrMagnitude;
+        if (distanceFromTarget < squaredReqDist)
         {
             SetNormalSpeed();
             return;
@@ -133,7 +136,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         void SetNormalSpeed()
         {
             speedMultiplierOnDistance = 1;
-            enemiesBlocker.enabled = true;
+            //enemiesBlocker.enabled = true;
         }
 
         if (Time.time - lastTeleportationAttemptTime > farTeleportationCooldown)
@@ -251,14 +254,15 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         this.RemoveAllTickDamages();
         this.ResetStats();
         this.ResetTarget();
-        D_OnReset?.Invoke();
+        OnReset?.Invoke();
     }
 
     public void Reenable(Vector2 pos, bool addToSpawner = true)
     {
         this.transform.position = pos;
         this.ResetStats();
-        this.stateManager.SwitchState(stateManager.ChasingState);
+        this.stateManager.CheckStates();
+        this.stateManager.SwitchState(FSM_NZ_Manager.E_NZState.Chasing);
 
         if (addToSpawner) SpawnersManager.Instance.AddZombie();
 
@@ -276,12 +280,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
-        if (stateManager.ToString() == "Attacking" && duration <= .5f) return;
-
-        if (showStuntext)
-            TextPopup.Create("Stun !", this.GetHealthPopupOffset + (Vector2)this.transform.position, GameAssets.StunComponents);
-        stateManager.SwitchState(stateManager.StunnedState.SetDuration(duration, resetAttackTimer));
-        this.attackTelegraph.CancelTelegraph();
+        AskForStun(duration, resetAttackTimer, showStuntext);
     }
 
     public override void SetAttackedPlayer(PlayerCharacter target)

@@ -2435,6 +2435,7 @@ MonoBehaviour:
   skeletonAnimation: {fileID: 0}
   animator: {fileID: 3934805327378046947}
   healthPopupOffset: {x: 0, y: 1}
+  <FeetsCollider>k__BackingField: {fileID: 1013320014939277263}
   source: {fileID: 5349493360846741203}
   stats: {fileID: 11400000, guid: 641691dcbebbce04793993d719e9f9fe, type: 2}
   currentHP: 100
@@ -2483,7 +2484,6 @@ MonoBehaviour:
   reviveHealPercentage: 0.25
   <CurrentActiveTimestops>k__BackingField: 0
   selfReviveCount: 0
-  isDashing: 0
   inputs: {fileID: 8585214049301374222}
   <KillsCount>k__BackingField: 0
   <DamagesDealt>k__BackingField: 0

@@ -563,7 +563,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2722834402684112895}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -883,7 +883,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4560386104137665780}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -1192,6 +1192,7 @@ MonoBehaviour:
   skeletonAnimation: {fileID: 4202492399607673763}
   animator: {fileID: 0}
   healthPopupOffset: {x: 0, y: 1}
+  <FeetsCollider>k__BackingField: {fileID: 7576748423123913130}
   source: {fileID: 6684974879034983664}
   stats: {fileID: 11400000, guid: 5dbeb4889de8c4149afb3603f40a41ad, type: 2}
   currentHP: 0
@@ -1238,6 +1239,7 @@ MonoBehaviour:
   attackTrigger: {fileID: 1615009067644983288}
   <Vision>k__BackingField: {fileID: 4416858856468475856}
   isIdle: 0
+  <ValidnessCheckerTrigger>k__BackingField: {fileID: 8086216141219211187}
   <AudioData>k__BackingField: {fileID: 11400000, guid: c0489040a4de07a41893d3fbf0b84276, type: 2}
   <allowWander>k__BackingField: 0
   farTeleportationCooldown: 3
@@ -1289,7 +1291,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7821369719249530889}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0

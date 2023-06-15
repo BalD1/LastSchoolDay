@@ -17,7 +17,7 @@ public class EntityHitStop : MonoBehaviour
     protected virtual void Awake()
     {
         owner.OnPushed += OnPushed;
-        owner.D_OnReset += OnReset;
+        owner.OnReset += OnReset;
     }
 
     protected virtual void OnReset()

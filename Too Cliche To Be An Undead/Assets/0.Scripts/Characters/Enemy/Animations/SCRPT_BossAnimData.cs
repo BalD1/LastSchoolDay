@@ -25,4 +25,17 @@ public class SCRPT_BossAnimData : ScriptableObject
 
     public AnimationReferenceAsset IdleAnim { get => idleAnim.RandomElement(); }
     public AnimationReferenceAsset WalkAnim { get => walkAnim.RandomElement(); }
+
+    [field: SerializeField] public S_StateAnimationData[] StateAnimation { get; private set; }
+
+    [System.Serializable]
+    public struct S_StateAnimationData
+    {
+#if UNITY_EDITOR
+        [SerializeField] private string EDITOR_InspectorName;
+#endif
+        [field: SerializeField] public FSM_Boss_Manager.E_BossState Key { get; private set; }
+        [field: SerializeField] public AnimationReferenceAsset Asset { get; private set; }
+        [field: SerializeField] public bool Loop { get; private set; }
+    }
 }

@@ -10,8 +10,6 @@ public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager>
         base.EnterState(stateManager);
         owner.ResetVelocity();
 
-        owner.animationController.SetAnimation(owner.animationData.WalkAnim, true);
-
         owner.Pathfinding.StopUpdatepath();
         owner.Pathfinding.StartUpdatePath();
 
@@ -40,7 +38,10 @@ public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager>
         if (owner.CurrentPlayerTarget == null) return;
 
         if (stateManager.AttackConditions())
-            stateManager.SwitchState(stateManager.AttackingState);
+            stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Attacking);
+
+        if (owner.CurrentHP <= 0)
+            stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Dead);
     }
 
     protected override void EventsSubscriber(FSM_Boss_Manager stateManager)

@@ -64,8 +64,10 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         if (switchToRecover)
         {
             float recoveringTime = owner.attacksPatern.currentPatern.recoverTime;
-            stateManager.SwitchState(stateManager.RecoveringState.SetTimer(recoveringTime));
+            stateManager.SwitchState<FSM_Boss_Recovering>(FSM_Boss_Manager.E_BossState.Recovering).SetTimer(recoveringTime);
         }
+        if (owner.CurrentHP <= 0)
+            stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Dead);
     }
 
     protected override void EventsSubscriber(FSM_Boss_Manager stateManager)

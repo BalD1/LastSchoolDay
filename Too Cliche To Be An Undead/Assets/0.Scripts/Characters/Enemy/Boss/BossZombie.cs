@@ -1,7 +1,6 @@
 using Spine;
 using Spine.Unity;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ public class BossZombie : EnemyBase
 
     [field: SerializeField] public Transform SkeletonHolder { get; private set; }
 
-    [field: SerializeField] public Collider2D hudTrigger;
+    [field: SerializeField] public Collider2D hudTrigger { get; private set; }
 
     [field: SerializeField] public BossAnimationsController animationController { get; private set; }
     [field: SerializeField] public SCRPT_BossAnimData animationData { get; private set; }
@@ -58,6 +57,16 @@ public class BossZombie : EnemyBase
     public event Action<Entity, bool> onReceiveAttack;
     private void CallReceiveAttack(Entity damager, bool tickDamages) => onReceiveAttack?.Invoke(damager, tickDamages);
 
+    public bool IsJumping { get; protected set; }
+
+    public event Action OnJumpStarted;
+    public void CallJumpStarted() => OnJumpStarted?.Invoke();
+    public event Action OnJumpEnded;
+    public void CallJumpEnded() => OnJumpStarted?.Invoke();
+
+    public event Action<string> OnStateChange;
+    public void CallStateChange(string newState) => OnStateChange?.Invoke(newState);
+
     public delegate void D_StartedAttack();
     public D_StartedAttack D_startedAttack;
 
@@ -71,6 +80,24 @@ public class BossZombie : EnemyBase
     private bool deathFlag = false;
 
     private List<Entity> spawnedZombies = new List<Entity>();
+    public List<Entity> SpawnedZombies { get => spawnedZombies; }
+
+    protected override void EventsSubscriber()
+    {
+        base.EventsSubscriber();
+        OnJumpStarted += JumpStart;
+        OnJumpEnded += JumpEnd;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        base.EventsUnSubscriber();
+        OnJumpStarted -= JumpStart;
+        OnJumpEnded -= JumpEnd;
+    }
+
+    private void JumpStart() => IsJumping = true;
+    private void JumpEnd() => IsJumping = false;
 
     protected override void Awake()
     {
@@ -187,27 +214,7 @@ public class BossZombie : EnemyBase
 
         deathFlag = true;
 
-        stateManager.SwitchState(stateManager.DeadState);
-
         d_OnDeath?.Invoke();
-        GameManager.Instance.D_bossFightEnded?.Invoke();
-
-        foreach (var item in spawnedZombies)
-        {
-            (item as NormalZombie).ForceKill();
-        }
-        spawnedZombies.Clear();
-
-        foreach (var item in GameManager.Instance.playersByName)
-        {
-            if (item.playerScript.StateManager.ToString() == "Dying")
-                item.playerScript.AskRevive();
-        }
-        if (GameManager.Instance.GameState == GameManager.E_GameState.GameOver)
-            GameManager.Instance.CancelGameOver();
-
-        SoundManager.Instance.ChangeMusicMixerPitch(1);
-        UIManager.Instance.RemoveBossCollider(this.hudTrigger);
     }
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)

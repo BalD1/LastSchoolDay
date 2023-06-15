@@ -93,11 +93,11 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         e.AskPush(appliedForce, owner, originalPusher);
     }
 
-    public FSM_Entity_Pushed<T> SetForce(Vector2 _force, Entity _originalPusher, Entity _pusher)
+    public FSM_Entity_Pushed<T> SetForce(Vector2 _force, Entity _pusher, Entity _originalPusher)
     {
         force = _force;
-        originalPusher = _originalPusher;
         pusher = _pusher;
+        originalPusher = _originalPusher;
         return this;
     }
 

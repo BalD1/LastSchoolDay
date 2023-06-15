@@ -29,11 +29,25 @@ public class FSM_NZ_Idle : FSM_Entity_Idle<FSM_NZ_Manager>
 
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
-        if (canSwitchToChase) stateManager.SwitchState(stateManager.ChasingState);
+        if (canSwitchToChase) stateManager.SwitchState(FSM_NZ_Manager.E_NZState.Chasing);
 
-        if (waitBeforeNewPoint <= 0) stateManager.SwitchState(stateManager.WanderingState);
+        if (waitBeforeNewPoint <= 0) stateManager.SwitchState(FSM_NZ_Manager.E_NZState.Wandering);
 
         base.Conditions(stateManager);
+    }
+
+    protected override void EventsSubscriber(FSM_NZ_Manager stateManager)
+    {
+        base.EventsSubscriber(stateManager);
+        owner.OnAskForStun += stateManager.SwitchToStun;
+        owner.OnAskForPush += stateManager.SwitchToPushed;
+    }
+
+    protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
+    {
+        base.EventsUnsubscriber(stateManager);
+        owner.OnAskForStun -= stateManager.SwitchToStun;
+        owner.OnAskForPush -= stateManager.SwitchToPushed;
     }
 
     public override void Setup(FSM_NZ_Manager stateManager)

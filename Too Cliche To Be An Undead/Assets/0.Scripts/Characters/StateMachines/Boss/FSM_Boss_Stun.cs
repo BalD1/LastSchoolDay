@@ -11,7 +11,9 @@ public class FSM_Boss_Stun : FSM_Entity_Stunned<FSM_Boss_Manager>
     public override void Conditions(FSM_Boss_Manager stateManager)
     {
         base.Conditions(stateManager);
-        if (baseConditionChecked) stateManager.SwitchState(stateManager.ChasingState);
+        if (baseConditionChecked) stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Chasing);
+        if (owner.CurrentHP <= 0)
+            stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Dead);
     }
 
     public override void Setup(FSM_Boss_Manager stateManager)

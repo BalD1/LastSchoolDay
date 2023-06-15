@@ -5,6 +5,8 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 {
     private NormalZombie owner;
 
+    private FSM_NZ_Manager stateManager;
+
     private bool attack_flag;
 
     private float waitBeforeAttack_TIMER;
@@ -178,19 +180,29 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
 
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
-        if (attack_TIMER <= 0) stateManager.SwitchState(stateManager.ChasingState);
+        if (attack_TIMER <= 0) stateManager.SwitchState(FSM_NZ_Manager.E_NZState.Chasing);
     }
 
     protected override void EventsSubscriber(FSM_NZ_Manager stateManager)
     {
         if (owner.AttacksArray[currentAttackIdx].DamageOnTrigger) owner.OnEnteredBodyTrigger += OnTrigger;
         if (owner.AttacksArray[currentAttackIdx].DamageOnCollision) owner.d_EnteredCollider += OnCollision;
+        owner.OnAskForStun += AskForStun;
+        owner.OnAskForPush += stateManager.SwitchToPushed;
     }
 
     protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
     {
         if (owner.AttacksArray[currentAttackIdx].DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
         if (owner.AttacksArray[currentAttackIdx].DamageOnCollision) owner.d_EnteredCollider -= OnCollision;
+        owner.OnAskForStun -= AskForStun;
+        owner.OnAskForPush -= stateManager.SwitchToPushed;
+    }
+
+    private void AskForStun(float duration, bool resetAttackTimer, bool showText)
+    {
+        if (duration <= .5f) return;
+        stateManager.SwitchToStun(duration, resetAttackTimer, showText);
     }
 
     private void OnCollision(Collision2D collision)
@@ -228,6 +240,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
     public override void Setup(FSM_NZ_Manager stateManager)
     {
         owner = stateManager.Owner;
+        this.stateManager = stateManager;
     }
 
     public override string ToString() => "Attacking";

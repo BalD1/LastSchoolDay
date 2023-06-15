@@ -12,7 +12,19 @@ public class FSM_NZ_Stun : FSM_Entity_Stunned<FSM_NZ_Manager>
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
         base.Conditions(stateManager);
-        if (baseConditionChecked) stateManager.SwitchState(stateManager.ChasingState);
+        if (baseConditionChecked) stateManager.SwitchState(FSM_NZ_Manager.E_NZState.Chasing);
+    }
+
+    protected override void EventsSubscriber(FSM_NZ_Manager stateManager)
+    {
+        base.EventsSubscriber(stateManager);
+        owner.OnAskForPush += stateManager.SwitchToPushed;
+    }
+
+    protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
+    {
+        base.EventsUnsubscriber(stateManager);
+        owner.OnAskForPush -= stateManager.SwitchToPushed;
     }
 
     public override void Setup(FSM_NZ_Manager stateManager)

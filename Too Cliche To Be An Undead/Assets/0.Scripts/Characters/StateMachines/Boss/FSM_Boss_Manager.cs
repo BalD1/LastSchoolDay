@@ -62,8 +62,6 @@ public class FSM_Boss_Manager : FSM_ManagerBase
 
     public void SwitchState(FSM_Base<FSM_Boss_Manager> newState)
     {
-        if (currentState == DeadState) return;
-
         currentState?.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
@@ -71,6 +69,17 @@ public class FSM_Boss_Manager : FSM_ManagerBase
 #if UNITY_EDITOR
         owner.currentStateDebug = this.ToString();
 #endif
+    }
+
+    public T SwitchState<T>(E_BossState stateKey) where T : FSM_Base<FSM_Boss_Manager>
+    {
+        SwitchState(stateKey);
+        return currentState as T;
+    }
+    public void SwitchState(E_BossState stateKey)
+    {
+        statesWithKey.TryGetValue(stateKey, out FSM_Base<FSM_Boss_Manager> newState);
+        SwitchState(newState);
     }
 
     public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)

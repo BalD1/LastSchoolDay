@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour, IDamageable
+public class Entity : MonoBehaviourEventsHandler, IDamageable
 {
     #region Vars
 
@@ -26,6 +26,8 @@ public class Entity : MonoBehaviour, IDamageable
 
     [SerializeField] protected Vector2 healthPopupOffset;
     public Vector2 GetHealthPopupOffset { get => healthPopupOffset; }
+
+    [field: SerializeField] public Collider2D FeetsCollider { get; protected set; }
 
     //************************************
     //************* AUDIO ****************
@@ -171,7 +173,11 @@ public class Entity : MonoBehaviour, IDamageable
     public event Action<float, Entity, Entity> OnAskForPush;
     public Action OnPushed;
 
-    public Action D_OnReset;
+    public event Action<float, bool, bool> OnAskForStun;
+    protected void AskForStun(float duration, bool resetAttackTimer, bool showStunText)
+        => OnAskForStun?.Invoke(duration, resetAttackTimer, showStunText);
+
+    public Action OnReset;
 
     [SerializeField] private List<TickDamages> appliedTickDamages = new List<TickDamages>();
     public List<TickDamages> AppliedTickDamages { get => appliedTickDamages; }
@@ -188,10 +194,19 @@ public class Entity : MonoBehaviour, IDamageable
 
     #endregion
 
+    protected override void EventsSubscriber()
+    {
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+    }
+
     #region Awake / Start / Update
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         ResetStats();
     }
 

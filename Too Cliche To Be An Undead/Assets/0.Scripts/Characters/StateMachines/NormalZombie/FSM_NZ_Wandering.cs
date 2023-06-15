@@ -32,15 +32,19 @@ public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
 
     protected override void EventsSubscriber(FSM_NZ_Manager stateManager)
     {
+        owner.OnAskForStun += stateManager.SwitchToStun;
+        owner.OnAskForPush += stateManager.SwitchToPushed;
     }
 
     protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
     {
+        owner.OnAskForStun -= stateManager.SwitchToStun;
+        owner.OnAskForPush -= stateManager.SwitchToPushed;
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
     {
-        if (owner.CurrentPlayerTarget != null) stateManager.SwitchState(stateManager.ChasingState);
+        if (owner.CurrentPlayerTarget != null) stateManager.SwitchState(FSM_NZ_Manager.E_NZState.Chasing);
     }
 
     public override void Setup(FSM_NZ_Manager stateManager)

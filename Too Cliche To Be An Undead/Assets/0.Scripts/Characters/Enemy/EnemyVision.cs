@@ -29,7 +29,7 @@ public class EnemyVision : MonoBehaviour
         {
             if (item.playerScript.IsAlive() == false) continue;
 
-            float currentDist = Vector2.Distance(owner.transform.position, item.playerScript.transform.position);
+            float currentDist = (owner.transform.position - item.playerScript.transform.position).sqrMagnitude;
             if (currentDist < closerDistance)
             {
                 closerDistance = currentDist;

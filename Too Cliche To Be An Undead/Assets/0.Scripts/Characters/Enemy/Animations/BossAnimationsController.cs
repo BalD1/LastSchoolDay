@@ -1,9 +1,8 @@
+using Spine;
 using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BossAnimationsController : MonoBehaviour
+public class BossAnimationsController : MonoBehaviourEventsHandler
 {
     [Header("Animations")]
 
@@ -28,8 +27,19 @@ public class BossAnimationsController : MonoBehaviour
     [SerializeField] private bool editor_loopAnimation;
 #endif
 
-    private void Awake()
+    protected override void EventsSubscriber()
     {
+        owner.OnStateChange += SetAnimationFromState;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        owner.OnStateChange -= SetAnimationFromState;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
         skeletonAnimation.AnimationState.SetAnimation(0, owner.animationData.WalkAnim, true);
         isValid = true;
     }
@@ -37,6 +47,17 @@ public class BossAnimationsController : MonoBehaviour
     private void Start()
     {
         Setup();
+    }
+
+    private void SetAnimationFromState(string stateKey)
+    {
+        foreach (var item in owner.animationData.StateAnimation)
+        {
+            if (item.Key.ToString() != stateKey) continue;
+
+            SetAnimation(item.Asset, item.Loop);
+            return;
+        }
     }
 
     public void Setup()

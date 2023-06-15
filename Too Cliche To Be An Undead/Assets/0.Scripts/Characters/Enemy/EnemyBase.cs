@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using BalDUtilities.VectorUtils;
 
 public abstract class EnemyBase : Entity
 {
@@ -178,8 +174,8 @@ public abstract class EnemyBase : Entity
 
     public void ChooseRandomPosition()
     {
-        Vector2 randDir = (Random.insideUnitCircle * this.transform.position).normalized;
-        float randDist = Random.Range(distanceBeforeStop, randomWanderPositionRadius);
+        Vector2 randDir = (UnityEngine.Random.insideUnitCircle * this.transform.position).normalized;
+        float randDist = UnityEngine.Random.Range(distanceBeforeStop, randomWanderPositionRadius);
 
         RaycastHit2D hit = Physics2D.Raycast(this.transform.position, randDir, randDist, wallsMask);
 
