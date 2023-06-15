@@ -563,7 +563,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2722834402684112895}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -883,7 +883,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4560386104137665780}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -1242,7 +1242,7 @@ MonoBehaviour:
   <ValidnessCheckerTrigger>k__BackingField: {fileID: 8086216141219211187}
   <AudioData>k__BackingField: {fileID: 11400000, guid: c0489040a4de07a41893d3fbf0b84276, type: 2}
   <allowWander>k__BackingField: 0
-  farTeleportationCooldown: 3
+  farTeleportationCooldown: 10
   <tutorialZombie>k__BackingField: 0
   attack_DURATION: 0.75
   push_COOLDOWN: 0.1
@@ -1291,7 +1291,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7821369719249530889}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0

@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public class AreaSpawner : MonoBehaviour, IDistanceChecker
+public class AreaSpawner : MonoBehaviourEventsHandler, IDistanceChecker
 {
 #if UNITY_EDITOR
 	public bool debugMode;
@@ -31,11 +31,27 @@ public class AreaSpawner : MonoBehaviour, IDistanceChecker
         boxCollider = this.GetComponent<BoxCollider2D>();
     }
 
-    private void Awake()
+    protected override void EventsSubscriber()
     {
-        if (SpawnersManager.Instance == null) Destroy(this.gameObject);
+        HUBDoorEventHandler.OnInteractedWithDoor += ResetTrigger;
+    }
 
+    protected override void EventsUnSubscriber()
+    {
+        HUBDoorEventHandler.OnInteractedWithDoor -= ResetTrigger;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if (SpawnersManager.Instance == null) Destroy(this.gameObject);
         isValid = false;
+    }
+
+    private void ResetTrigger()
+    {
+        this.boxCollider.enabled = false;
+        this.boxCollider.enabled = true;
     }
 
     public void SetValidity(bool validity)

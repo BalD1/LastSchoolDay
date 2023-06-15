@@ -126,9 +126,9 @@ public class HUBDoor : MonoBehaviour, IInteractable
 
         // fade out screen
         float fadeTime = .5f;
+        UIManager.Instance.FadeScreen(true, fadeTime);
 
         skeletonAnimation.AnimationState.SetAnimation(0, openAnimation, false);
-        UIManager.Instance.FadeScreen(true, fadeTime);
 
         yield return new WaitForSeconds(fadeTime);
 
@@ -137,10 +137,9 @@ public class HUBDoor : MonoBehaviour, IInteractable
         playersCounter.gameObject.SetActive(false);
 
         // Teleport every players
+        GameManager.Instance.TeleportAllPlayers(playerTPPos + (Vector2)this.transform.position);
         foreach (var item in GameManager.Instance.playersByName)
         {
-            item.playerScript.gameObject.transform.position = playerTPPos + (Vector2)this.transform.position;
-
             FSM_Player_Manager stateManager = item.playerScript.StateManager;
             stateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Idle);
         }
@@ -159,9 +158,6 @@ public class HUBDoor : MonoBehaviour, IInteractable
         UIManager.Instance.FadeScreen(false, fadeTime);
         skeletonAnimation.AnimationState.SetAnimation(0, closeAnimation, false);
 
-        trackEntry = skeletonAnimation.AnimationState.Tracks.Items[0];
-        playAnimBackwards = true;
-
         yield return new WaitForSeconds(fadeTime);
 
         // Re-enable players controllers
@@ -170,6 +166,8 @@ public class HUBDoor : MonoBehaviour, IInteractable
         SpawnersManager.Instance?.AllowSpawns(true);
 
         SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainScene);
+
+        this.InteractedWithDoor();
     }
 
     public bool CanBeInteractedWith()

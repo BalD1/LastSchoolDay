@@ -408,9 +408,7 @@ public class GameManager : MonoBehaviourEventsHandler
         foreach (var item in playersByName)
         {
             PlayerCharacter player = item.playerScript;
-
             if (!player.IsAlive()) continue;
-
             player.gameObject.transform.position = position;
         }
     }

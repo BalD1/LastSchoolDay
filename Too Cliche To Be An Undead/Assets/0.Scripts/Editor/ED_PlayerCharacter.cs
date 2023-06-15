@@ -87,6 +87,12 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty pivotOffset = serializedObject.FindProperty("pivotOffset");
         EditorGUILayout.PropertyField(pivotOffset);
 
+        SerializedProperty FarChecker = serializedObject.FindProperty(string.Format("<{0}>k__BackingField", "FarChecker"));
+        EditorGUILayout.PropertyField(FarChecker);
+
+        SerializedProperty CloseChecker = serializedObject.FindProperty(string.Format("<{0}>k__BackingField", "CloseChecker"));
+        EditorGUILayout.PropertyField(CloseChecker);
+
         SerializedProperty bodyTrigger = serializedObject.FindProperty("bodyTrigger");
         EditorGUILayout.PropertyField(bodyTrigger);
 

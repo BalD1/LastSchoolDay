@@ -118,39 +118,18 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
     public override void SetSpeedOnDistanceFromTarget()
     {
-        if (closePlayersCount > 0)
-        {
-            SetNormalSpeed();
-            return;
-        }
+        if (closePlayersCount > 0) return;
 
         float requiredDistance = MinDistanceForNormalSpeed + Camera.main.orthographicSize;
         float squaredReqDist = requiredDistance * requiredDistance;
         float distanceFromTarget = ((Vector2)this.transform.position - CurrentPositionTarget).sqrMagnitude;
-        if (distanceFromTarget < squaredReqDist)
-        {
-            SetNormalSpeed();
-            return;
-        }
+        if (distanceFromTarget < squaredReqDist) return;
 
-        void SetNormalSpeed()
-        {
-            speedMultiplierOnDistance = 1;
-            //enemiesBlocker.enabled = true;
-        }
-
-        if (Time.time - lastTeleportationAttemptTime > farTeleportationCooldown)
+        if (Time.time - lastTeleportationAttemptTime > farTeleportationCooldown.Fluctuate())
         {
             lastTeleportationAttemptTime = Time.time;
-            if (RandomExtensions.OneOutOfTwo())
-            {
-                SpawnersManager.Instance.TeleportZombie(this);
-                return;
-            }
+            SpawnersManager.Instance.TeleportZombie(this);
         }
-
-        enemiesBlocker.enabled = false;
-        speedMultiplierOnDistance = distanceFromTarget;
     }
 
     private void ReceiveStampModifiers()

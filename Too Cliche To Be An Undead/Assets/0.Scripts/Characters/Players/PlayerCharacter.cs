@@ -49,6 +49,9 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private TextMeshPro selfReviveText;
     [SerializeField] private GameObject pivotOffset;
 
+    [field: SerializeField] public Collider2D FarChecker { get; private set; }
+    [field: SerializeField] public Collider2D CloseChecker { get; private set; }
+
     [SerializeField] private Collider2D bodyTrigger;
     [SerializeField] private Collider2D hudBoundsTrigger;
     public Collider2D BodyTrigger { get => bodyTrigger; }
