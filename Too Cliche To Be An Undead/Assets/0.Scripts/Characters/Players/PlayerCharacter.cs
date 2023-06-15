@@ -11,6 +11,8 @@ using Spine.Unity;
 using UnityEngine.InputSystem.DualShock;
 using UnityEngine.InputSystem.Switch;
 using UnityEngine.InputSystem.XInput;
+using Unity.XR.OpenVR;
+using System.Data;
 
 public class PlayerCharacter : Entity, IInteractable
 {
@@ -271,10 +273,20 @@ public class PlayerCharacter : Entity, IInteractable
         GetPlayerAudio.SetAudioClips();
     }
 
-    private void OnDestroy()
+    protected override void EventsSubscriber()
     {
+        base.EventsSubscriber();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        GameManager.Instance._onSceneReload += OnSceneReload;
+        UIManager.Instance.D_exitPause += SwitchControlMapToInGame;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        base.EventsUnSubscriber();
         SceneManager.sceneLoaded -= OnSceneLoaded;
         GameManager.Instance._onSceneReload -= OnSceneReload;
+        UIManager.Instance.D_exitPause -= SwitchControlMapToInGame;
     }
 
     protected override void Awake()
@@ -288,8 +300,6 @@ public class PlayerCharacter : Entity, IInteractable
             SwitchControlMapToUI();
         else
             SwitchControlMapToInGame();
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     protected override void Start()
@@ -297,15 +307,11 @@ public class PlayerCharacter : Entity, IInteractable
         DontDestroyOnLoad(this);
         base.Start();
 
-        GameManager.Instance._onSceneReload += OnSceneReload;
-
         movementsAction = inputs.actions.FindAction("Movements");
 
         SetKeepedData();
 
         inputs.neverAutoSwitchControlSchemes = this.playerIndex != 0;
-
-        UIManager.Instance.D_exitPause += SwitchControlMapToInGame;
 
         if (!GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {
