@@ -136,7 +136,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         void SetNormalSpeed()
         {
             speedMultiplierOnDistance = 1;
-            //enemiesBlocker.enabled = true;
+            enemiesBlocker.enabled = true;
         }
 
         if (Time.time - lastTeleportationAttemptTime > farTeleportationCooldown)
