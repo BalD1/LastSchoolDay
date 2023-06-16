@@ -98,6 +98,8 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager>
         owner.d_EnteredCollider -= OnCollision;
         owner.D_entityEnteredCollider -= OnEntityCollision;
 
+        if (!owner.IsAlive()) return;
+
         SCRPT_EnemyAttack enemyAttack = owner.CurrentAttack.attack;
 
         // if the attack uses enemy's collisions trigger

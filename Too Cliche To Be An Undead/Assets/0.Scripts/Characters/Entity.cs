@@ -179,6 +179,9 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
 
     public Action OnReset;
 
+    public event Action<string> OnStateChange;
+    public void CallStateChange(string newState) => OnStateChange?.Invoke(newState);
+
     [SerializeField] private List<TickDamages> appliedTickDamages = new List<TickDamages>();
     public List<TickDamages> AppliedTickDamages { get => appliedTickDamages; }
 

@@ -64,9 +64,6 @@ public class BossZombie : EnemyBase
     public event Action OnJumpEnded;
     public void CallJumpEnded() => OnJumpStarted?.Invoke();
 
-    public event Action<string> OnStateChange;
-    public void CallStateChange(string newState) => OnStateChange?.Invoke(newState);
-
     public delegate void D_StartedAttack();
     public D_StartedAttack D_startedAttack;
 

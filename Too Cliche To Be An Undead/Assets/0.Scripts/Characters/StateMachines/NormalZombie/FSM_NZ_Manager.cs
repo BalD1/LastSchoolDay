@@ -57,6 +57,7 @@ public class FSM_NZ_Manager : FSM_ManagerBase
         currentState?.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
+        owner.CallStateChange(newState.ToString());
 
 #if UNITY_EDITOR
         owner.currentStateDebug = this.ToString(); 
@@ -131,7 +132,8 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
         float sqrMagnitude = vectorForce.sqrMagnitude;
         if (_pusher is EnemyBase && sqrMagnitude <= (7 * 7)) return;
-        if (sqrMagnitude > 0)
-        SwitchState<FSM_NZ_Pushed>(E_NZState.Pushed).SetForce(vectorForce, _originalPusher, _pusher);
+        if (sqrMagnitude <= 0) return;
+        PushedState.SetForce(vectorForce, _pusher, _pusher);
+        SwitchState<FSM_NZ_Pushed>(E_NZState.Pushed);
     }
 }

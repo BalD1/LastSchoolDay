@@ -57,10 +57,13 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
                 boss.transform.position = boss.CurrentPositionTarget;
 
                 // wait before playing the land anim
-                LeanTween.delayedCall(delayBeforeLandAnim, () =>
+                if (owner.IsAlive())
                 {
-                    owner.SkeletonAnimation.AnimationState.SetAnimation(0, bossLandAnim, false);
-                });
+                    LeanTween.delayedCall(delayBeforeLandAnim, () =>
+                    {
+                        owner.SkeletonAnimation.AnimationState.SetAnimation(0, bossLandAnim, false);
+                    });
+                }
 
                 // fade in
                 goalColor.a = 1;
@@ -82,6 +85,7 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
                     owner.GetAudioSource.PlayOneShot(audioClip.clip);
                     owner.GetAudioSource.pitch = 1;
 
+                    LogsManager.Log(this.GetType(), "Jump Ended", Time.timeSinceLevelLoad, owner.gameObject);
                     boss.CallJumpEnded();
 
                     if (owner.IsAlive())

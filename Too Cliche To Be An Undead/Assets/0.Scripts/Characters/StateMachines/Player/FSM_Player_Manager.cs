@@ -66,7 +66,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
         currentState?.ExitState(this);
         currentState = state;
         currentState.EnterState(this);
-        owner.OnStateChange?.Invoke(state.ToString());
+        owner.CallStateChange(state.ToString());
     }
 
     public void SwitchState(E_PlayerState newStateKey)
@@ -109,8 +109,11 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public void PushConditions(float _force, Entity _pusher, Entity _originalPusher)
     {
         Vector2 vectorForce = this.GetPushForce(owner, _force, _pusher, _originalPusher);
-        if (vectorForce.magnitude > 0)
-            SwitchState<FSM_Player_Pushed>(E_PlayerState.Pushed).SetForce(vectorForce, _originalPusher, _pusher);
+        if (vectorForce.sqrMagnitude > 0)
+        {
+            this.PushedState.SetForce(vectorForce, _pusher, _originalPusher);
+            SwitchState<FSM_Player_Pushed>(E_PlayerState.Pushed);
+        }
     }
 
     public void SwitchToStun(float duration, bool resetAttackTimer = false, bool showStuntext = false)

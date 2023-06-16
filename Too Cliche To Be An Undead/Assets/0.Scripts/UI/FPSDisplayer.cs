@@ -16,6 +16,9 @@ public class FPSDisplayer : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_EDITOR
+        run = true;
+#endif
         fpsReset_TIMER = fpsReset_COOLDOWN;
         ResetLowestAndHighest();
     }

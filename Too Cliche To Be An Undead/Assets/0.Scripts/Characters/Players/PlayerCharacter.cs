@@ -185,8 +185,6 @@ public class PlayerCharacter : Entity, IInteractable
     public Action OnDashStarted;
     public Action<Entity> OnDashHit;
 
-    public Action<string> OnStateChange;
-
     public Action OnFootPrint;
     public Action<Type> OnSteppedIntoTrigger;
 
@@ -595,10 +593,7 @@ public class PlayerCharacter : Entity, IInteractable
     private void CheckCurrentDevice()
     {
         InputDevice device = null;
-        if (GameManager.Instance.PlayersCount == 1)
-            device = Inputs.devices[0];
-        else
-        {
+
             double mostRecent = -1;
             foreach (var item in Inputs.devices)
             {
@@ -608,7 +603,6 @@ public class PlayerCharacter : Entity, IInteractable
                     device = item.device;
                 }
             }
-        }
 
         if (device == null) return;
         if (currentDeviceName == device.name) return;

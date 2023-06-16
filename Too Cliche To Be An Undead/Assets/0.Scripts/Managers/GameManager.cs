@@ -316,6 +316,11 @@ public class GameManager : MonoBehaviourEventsHandler
         playersByName.Add(p);
         playersCount++;
     }
+    public void RemovePlayerAt(int idx)
+    {
+        playersByName.RemoveAt(idx);
+        playersCount--;
+    }
 
     public void QuitLobby(int id)
     {

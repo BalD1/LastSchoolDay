@@ -587,7 +587,6 @@ public class UIManager : MonoBehaviourEventsHandler
         GameObject closedMenu = null;
         if (openMenusQueues.Count > 0)
             closedMenu = openMenusQueues.Pop();
-
         if (closedMenu != null)
         {
             if (closedMenu.Equals(shopMenu))
@@ -610,11 +609,6 @@ public class UIManager : MonoBehaviourEventsHandler
                 case GameManager.E_GameState.InGame:
                     FadeAllHUD(fadeIn: true);
                     PostproManager.Instance.SetBlurState(false);
-
-                    break;
-
-                case GameManager.E_GameState.MainMenu:
-                    mainMenu_mainPanel.SetActive(true);
                     break;
             }
         }

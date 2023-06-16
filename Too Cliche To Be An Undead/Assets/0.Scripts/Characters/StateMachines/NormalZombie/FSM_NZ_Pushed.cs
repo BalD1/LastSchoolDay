@@ -17,9 +17,7 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
 
         zombieOwner.UnsetAttackedPlayer();
         zombieOwner.attackTelegraph.CancelTelegraph();
-        //zombieOwner.enemiesBlocker.enabled = false;
-        //zombieOwner.ValidnessCheckerTrigger.enabled = false;
-        //zombieOwner.attackTrigger.enabled = false;
+        zombieOwner.enemiesBlocker.enabled = false;
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)
@@ -31,9 +29,7 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
     {
         base.ExitState(stateManager);
         hitStopWasPerformed = false;
-        //zombieOwner.enemiesBlocker.enabled = true;
-        //zombieOwner.ValidnessCheckerTrigger.enabled = true;
-        //zombieOwner.attackTrigger.enabled = true;
+        zombieOwner.enemiesBlocker.enabled = true;
     }
     public override void Conditions(FSM_NZ_Manager stateManager)
     {

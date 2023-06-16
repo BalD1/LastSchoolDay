@@ -178,16 +178,8 @@ public class PlayerPanelsManager : MonoBehaviour
 
     private void OnPlayerNavigationInput(Vector2 value, int playerIdx)
     {
-        switch(value)
-        {
-            case Vector2 v when value == Vector2.left:
-                OnPlayerHorizontalArrow(true, playerIdx);
-                break;
-
-            case Vector2 v when value == Vector2.right:
-                OnPlayerHorizontalArrow(false, playerIdx);
-                break;
-        }
+        if (value == Vector2.left) OnPlayerHorizontalArrow(true, playerIdx);
+        else if (value == Vector2.right) OnPlayerHorizontalArrow(false, playerIdx);
     }
 
     public void OnPlayerHorizontalArrow(bool rightArrow, int playerIdx)
@@ -355,14 +347,10 @@ public class PlayerPanelsManager : MonoBehaviour
 
     private void AttachArrowsToPlayer(PlayerCharacter p)
     {
-         p.OnHorizontalArrowInput += OnPlayerHorizontalArrow;
-         p.OnVerticalArrowInput += OnPlayerVerticalArrow;
          p.OnNavigationArrowInput += OnPlayerNavigationInput;
     }
     private void DetachArrowsToPlayer(PlayerCharacter p)
     {
-        p.OnHorizontalArrowInput -= OnPlayerHorizontalArrow;
-        p.OnVerticalArrowInput -= OnPlayerVerticalArrow;
         p.OnNavigationArrowInput -= OnPlayerNavigationInput;
     }
 

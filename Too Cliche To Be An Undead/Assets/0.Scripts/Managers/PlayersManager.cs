@@ -215,8 +215,6 @@ public class PlayersManager : MonoBehaviourEventsHandler
                 if (item as Gamepad != null) hasGamepad = true;
             }
 
-            if (!hasGamepad) GameManager.Player1Ref.Inputs.SwitchCurrentControlScheme("Keyboard&Mouse");
-
             foreach (var item in unpairedDevices)
             {
                 InputUser.PerformPairingWithDevice(item, p1);

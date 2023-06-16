@@ -684,7 +684,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse;Gamepad"",
                     ""action"": ""UI_Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

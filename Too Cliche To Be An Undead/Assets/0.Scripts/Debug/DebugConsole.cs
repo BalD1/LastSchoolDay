@@ -257,12 +257,12 @@ public class DebugConsole : MonoBehaviour
 
         SHOW_VERSION = new DebugCommand("SHOW_VERSION", "Shows the current version of the game", "SHOW_VERSION", () =>
         {
-            GameVerManager.SetVersion(true);
+            GameVerManager.SetShowVersion(true);
         });
 
         HIDE_VERSION = new DebugCommand("HIDE_VERSION", "Hides the current version of the game", "HIDE_VERSION", () =>
         {
-            GameVerManager.SetVersion(false);
+            GameVerManager.SetShowVersion(false);
         });
 
         START_BREAKUP = new DebugCommand("START_BREAKUP", "Starts a spawns breakup", "START_BREAKUP", () =>

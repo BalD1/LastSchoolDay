@@ -128,6 +128,7 @@ public class DataKeeper : MonoBehaviour
 
         Destroy(player);
         PlayersManager.Instance.CleanInputs();
+        GameManager.Instance.RemovePlayerAt(idx);
 
         if (playersDataKeep.Count > 0)
         {

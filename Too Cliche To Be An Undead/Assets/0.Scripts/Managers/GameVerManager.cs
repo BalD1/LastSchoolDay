@@ -24,9 +24,13 @@ public class GameVerManager : MonoBehaviour
         }
         this.transform.parent = null;
         DontDestroyOnLoad(this.gameObject);
+
+#if UNITY_EDITOR
+        SetShowVersion(true);
+#endif
     }
 
-    public static void SetVersion(bool version)
+    public static void SetShowVersion(bool version)
     {
         showVersion = version;
     }

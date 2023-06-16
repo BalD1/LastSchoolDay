@@ -181,14 +181,6 @@ public class PlayerPanel : MonoBehaviour
         });
     }
 
-    public void SetCharacterToLast()
-    {
-        panelsManager.OnPlayerHorizontalArrow(false, CurrentPlayerIdx);
-    }
-    public void SetCharacterToNext()
-    {
-        panelsManager.OnPlayerHorizontalArrow(true, CurrentPlayerIdx);
-    }
     public void ChangeCharacter(PlayerPanelsManager.S_ImageByCharacter newChar, int characterIdx)
     {
         currentCharacter = newChar;
