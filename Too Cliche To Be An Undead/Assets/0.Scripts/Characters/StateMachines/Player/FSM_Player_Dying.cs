@@ -25,24 +25,7 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
         owner.canBePushed = false;
         hadSelfRevive = false;
         if (owner.selfReviveCount <= 0) hadSelfRevive = true;
-        else
-        {
-            StringBuilder sb = new StringBuilder("Press ");
-
-            InputDevice d = owner.Inputs.devices[0];
-
-            if (d is XInputController) sb.Append("Y");
-            else if (d is DualShockGamepad) sb.Append("TRIANGLE");
-            else if (d is SwitchProControllerHID) sb.Append("X");
-            else sb.Append("E");
-
-            sb.Append(" to revive \n (");
-            sb.Append(owner.selfReviveCount);
-            sb.Append(" left)");
-
-            owner.SelfReviveText.text = sb.ToString();
-            owner.SelfReviveText.enabled = true;
-        }
+        else owner.SelfReviveText.enabled = true;
 
         this.EnteredDying(owner);
     }
@@ -62,11 +45,7 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         base.ExitState(stateManager);
-
-        owner.ForceUpdateMovementsInput();
-
         this.ExitedDying(owner);
-
         owner.SelfReviveText.enabled = false;
         isFake = false;
     }

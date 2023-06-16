@@ -136,8 +136,8 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.PropertyField(onTakeDamagesGamepadShake);
 
         GUI.enabled = false;
-        EditorGUILayout.TextField("Current Control Scheme", targetScript.Inputs?.currentControlScheme);
-        EditorGUILayout.TextField("Current Action Map", targetScript.Inputs?.currentActionMap?.name);
+        EditorGUILayout.TextField("Current Control Scheme", targetScript.GetPlayerInputs?.Input.currentControlScheme);
+        EditorGUILayout.TextField("Current Action Map", targetScript.GetPlayerInputs?.Input.currentActionMap?.name);
         GUI.enabled = true;
 
         SerializedProperty healthPopupOffset = serializedObject.FindProperty("healthPopupOffset");

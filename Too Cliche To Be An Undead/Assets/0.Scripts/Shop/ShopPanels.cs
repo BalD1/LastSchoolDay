@@ -13,5 +13,5 @@ public class ShopPanels : MonoBehaviour
     public SCRPT_LevelData currentSelectedLevelData;
     public ShopLevel currentSelectedLevel;
 
-    public void OnClickRelay() => currentSelectedLevel?.OnUnlockButtonClick();
+    public void OnClickRelay(int idx) => currentSelectedLevel?.OnUnlockButtonClick();
 }

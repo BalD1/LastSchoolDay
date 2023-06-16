@@ -115,9 +115,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     private Vector2 aimGoal;
 
-    [SerializeField] private PlayerInput inputs;
-
-    private InputAction movementsAction;
+    [field: SerializeField] public PlayerInputs GetPlayerInputs { get; private set; }
 
     public GameObject PivotOffset { get => pivotOffset; }
     public PlayerAnimationController AnimationController { get => animationController; }
@@ -130,7 +128,6 @@ public class PlayerCharacter : Entity, IInteractable
     public Animator SkillTutoAnimator { get => skillTutorialAnimator; }
     public TextMeshPro SelfReviveText { get => selfReviveText; }
     public Vector2 Velocity { get => velocity; }
-    public PlayerInput Inputs { get => inputs; }
     public int Money { get => money; }
     public int PlayerIndex { get => playerIndex; }
     public int Level { get => level; }
@@ -142,12 +139,6 @@ public class PlayerCharacter : Entity, IInteractable
     [field: SerializeField] public int KillsCount { get; private set; }
     [field: SerializeField] public int DamagesDealt { get; private set; }
     [field: SerializeField] public int DamagesTaken { get; private set; }
-
-    public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
-    public const string SCHEME_GAMEPAD = "Gamepad";
-
-    public E_Devices currentDeviceType { get; private set; }
-    private string currentDeviceName = "";
 
     private float gamepadShake_TIMER;
 
@@ -165,7 +156,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     public Action OnSwitchCharacter;
     public Action<int> OnIndexChange;
-    public Action<E_Devices> OnDeviceChange;
 
     public Action OnAttackInput;
     public Action<bool> OnAttack;
@@ -192,18 +182,9 @@ public class PlayerCharacter : Entity, IInteractable
     public Action OnSelfReviveInput;
     public event Action<GameObject> OnOtherInteract;
     public Action OnInteractInput;
-    public Action OnQuitLobbyInput;
 
     public Action<Vector2> OnAimInput;
 
-    public Action<bool, int> OnHorizontalArrowInput;
-    public Action<bool, int> OnVerticalArrowInput;
-    public Action<Vector2, int> OnNavigationArrowInput;
-
-    public Action OnValidateInput;
-    public Action OnCancelInput;
-    public Action OnThirdActionButton;
-    public Action OnFourthActionButton;
     public Action OnSecondContextInput;
 
     public Action<AudioClip> OnOverrideNextVoiceAttackAudio;
@@ -226,7 +207,6 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (scene.name.Equals("MainMenu"))
         {
-            DataKeeper.Instance.RemoveData(this.playerIndex);
             ResetEndStats();
             Destroy(this.gameObject);
         }
@@ -276,7 +256,6 @@ public class PlayerCharacter : Entity, IInteractable
         base.EventsSubscriber();
         SceneManager.sceneLoaded += OnSceneLoaded;
         GameManager.Instance._onSceneReload += OnSceneReload;
-        UIManager.Instance.D_exitPause += SwitchControlMapToInGame;
     }
 
     protected override void EventsUnSubscriber()
@@ -284,7 +263,6 @@ public class PlayerCharacter : Entity, IInteractable
         base.EventsUnSubscriber();
         SceneManager.sceneLoaded -= OnSceneLoaded;
         GameManager.Instance._onSceneReload -= OnSceneReload;
-        UIManager.Instance.D_exitPause -= SwitchControlMapToInGame;
     }
 
     protected override void Awake()
@@ -293,23 +271,12 @@ public class PlayerCharacter : Entity, IInteractable
 
         this.MaxSkillCD_M = skillHolder.Skill.Cooldown;
         this.MaxDashCD_M = playerDash.Dash_COOLDOWN;
-
-        if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
-            SwitchControlMapToUI();
-        else
-            SwitchControlMapToInGame();
     }
 
     protected override void Start()
     {
         DontDestroyOnLoad(this);
         base.Start();
-
-        movementsAction = inputs.actions.FindAction("Movements");
-
-        SetKeepedData();
-
-        inputs.neverAutoSwitchControlSchemes = this.playerIndex != 0;
 
         if (!GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {
@@ -327,22 +294,17 @@ public class PlayerCharacter : Entity, IInteractable
             SwitchCharacter(pcc, false);
 
             this.currentHP = MaxHP_M;
-
-            SwitchControlMapToDialogue();
         }
 
         if (GameManager.Instance.playersByName.Count <= 0) GameManager.Instance.SetPlayersByNameList();
 
         this.minimapMarker.SetActive(true);
 
-        CheckCurrentDevice();
-
         GameManager.Instance.D_onPlayerIsSetup?.Invoke(this.playerIndex);
     }
 
     protected override void Update()
     {
-        if (playerIndex == 0) CheckCurrentDevice();
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         base.Update();
 
@@ -352,12 +314,6 @@ public class PlayerCharacter : Entity, IInteractable
 
             float fillAmount = dash_CD_TIMER / MaxDashCD_M;
             PlayerHUD.UpdateDashThumbnailFill(fillAmount);
-        }
-
-        if (gamepadShake_TIMER > 0)
-        {
-            gamepadShake_TIMER -= Time.unscaledDeltaTime;
-            if (gamepadShake_TIMER <= 0) StopGamepadShake();
         }
     }
 
@@ -387,31 +343,10 @@ public class PlayerCharacter : Entity, IInteractable
             this.rb.velocity = _velocity;
     }
 
-    public void SwitchControlMap(string map) => inputs.SwitchCurrentActionMap(map);
-    public void SwitchControlMapToInGame() => inputs.SwitchCurrentActionMap("InGame");
-    public void SwitchControlMapToUI()
-    {
-        inputs.SwitchCurrentActionMap("UI");
-        EventSystemSwitch.Instance?.SwitchModuleNavigation();
-    }
-    public void SwitchControlMapToCharacterSelect()
-    {
-        inputs.SwitchCurrentActionMap("CharacterSelect");
-        EventSystemSwitch.Instance?.SwitchModuleNavigation();
-    }
-    public void SwitchControlMapToDialogue() => inputs.SwitchCurrentActionMap("Dialogue");
-
     public void ReadMovementsInputs(InputAction.CallbackContext context)
     {
-        if (inputs.currentActionMap?.name.Equals("InGame") == false) return;
         velocity = context.ReadValue<Vector2>();
         if (velocity != Vector2.zero) lastDirection = velocity;
-    }
-
-    public void ForceUpdateMovementsInput()
-    {
-        movementsAction.Disable();
-        movementsAction.Enable();
     }
 
     public void Movements()
@@ -423,28 +358,6 @@ public class PlayerCharacter : Entity, IInteractable
             animationController.FlipSkeleton(velocity.x > 0);
 
         this.rb.MovePosition(this.rb.position + velocity * MaxSpeed_M * Time.fixedDeltaTime);
-    }
-
-    public void StartGamepadShake(PlayersManager.GamepadShakeData shakeData) 
-        =>  StartGamepadShake(shakeData.lowFrequency, shakeData.highFrequency, shakeData.duration);
-    public void StartGamepadShake(float lowFrequency, float highFrequency, float time)
-    {
-        if (DataKeeper.Instance.allowGamepadShake == false) return;
-
-        foreach (var item in inputs.devices)
-        {
-            (item as Gamepad)?.SetMotorSpeeds(lowFrequency, highFrequency);
-        }
-
-        gamepadShake_TIMER = time;
-    }
-
-    public void StopGamepadShake()
-    {
-        foreach (var item in inputs.devices)
-        {
-            (item as Gamepad)?.SetMotorSpeeds(0, 0);
-        }
     }
 
     #endregion
@@ -466,8 +379,6 @@ public class PlayerCharacter : Entity, IInteractable
         if (res == false) return res;
 
         if (!fakeDamages) DamagesTaken += (int)amount;
-
-        StartGamepadShake(onTakeDamagesGamepadShake);
 
         return res;
     }
@@ -590,49 +501,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Inputs
 
-    private void CheckCurrentDevice()
-    {
-        InputDevice device = null;
-
-            double mostRecent = -1;
-            foreach (var item in Inputs.devices)
-            {
-                if (item.lastUpdateTime > mostRecent)
-                {
-                    mostRecent = item.lastUpdateTime;
-                    device = item.device;
-                }
-            }
-
-        if (device == null) return;
-        if (currentDeviceName == device.name) return;
-        currentDeviceName = device.name;
-
-        E_Devices newType;
-
-        switch (device)
-        {
-            case InputDevice d when device is XInputController:
-                newType = E_Devices.Xbox;
-                break;
-
-            case InputDevice d when device is DualShockGamepad:
-                newType = E_Devices.DualShock;
-                break;
-
-            case InputDevice d when device is SwitchProControllerHID:
-                newType = E_Devices.Switch;
-                break;
-
-            default:
-                newType = E_Devices.Keyboard;
-                break;
-        }
-
-        currentDeviceType = newType;
-        OnDeviceChange?.Invoke(newType);
-    }
-
     #region InGame
 
     public void StayStaticInput(InputAction.CallbackContext context)
@@ -704,7 +572,7 @@ public class PlayerCharacter : Entity, IInteractable
         //Vector3 rot = weapon.GetRotationOnMouseOrGamepad().eulerAngles;
         Quaternion rot = Quaternion.identity;
 
-        if (Inputs.currentControlScheme.Equals(SCHEME_GAMEPAD))
+        if (GetPlayerInputs.currentDeviceType != PlayerInputsManager.E_Devices.Keyboard)
         {
             float lookAngle = Mathf.Atan2(aimGoal.y, aimGoal.x) * Mathf.Rad2Deg;
             rot = Quaternion.Slerp(weapon.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * weapon.SlerpSpeed);
@@ -760,12 +628,6 @@ public class PlayerCharacter : Entity, IInteractable
     #endregion
 
     #region Keep Data / Scene Reload
-
-    private void SetKeepedData()
-    {
-        this.playerIndex = DataKeeper.Instance.CreateData(this);
-        PlayerCharacter.money = DataKeeper.Instance.money;
-    }
 
     public void ForceSetIndex(int idx)
     {

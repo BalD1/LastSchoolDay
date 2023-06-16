@@ -55,8 +55,6 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     {
         base.ExitState(stateManager);
         owner.CancelAttackAnimation();
-
-        owner.ForceUpdateMovementsInput();
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static UnityEditor.Progress;
 
 public class PlayerPanel : MonoBehaviour
 {
@@ -26,10 +27,9 @@ public class PlayerPanel : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI pressToJoin;
 
-    private PlayerCharacter playerOnPanel;
-
     [field: SerializeField] public PlayerPanelsManager.S_ImageByCharacter currentCharacter { get; private set; }
-    [field: SerializeField] [field: ReadOnly] public int CurrentPlayerIdx { get; private set; }
+    [field: ReadOnly] [field: SerializeField] public PlayerInputs LinkedInputs { get; private set; }
+    [field: SerializeField] [field: ReadOnly] public int CurrentInputsIdx { get; private set; }
 
     private int currentCharacterIdx;
     public int CurrentCharacterIdx { get => currentCharacterIdx; }
@@ -82,7 +82,7 @@ public class PlayerPanel : MonoBehaviour
 
         foreach (var item in cornersImages)
         {
-            item.color = PlayersManager.Instance.PlayersColor[CurrentPlayerIdx];
+            //item.color = PlayersManager.Instance.PlayersColor[CurrentPlayerIdx];
         }
         cornersGroup.alpha = 1;
         arrows.alpha = 1;
@@ -126,7 +126,7 @@ public class PlayerPanel : MonoBehaviour
         this.panelImage.color = isValid ? Color.white : wrongColor;
     }
 
-    public void JoinPanel(int id, PlayerCharacter newPlayer)
+    public void JoinPanel(PlayerInputs playerInputs)
     {
         if (panelsManager.tokensQueue.Count > 0)
             playerToken.sprite = panelsManager.tokensQueue.Dequeue();
@@ -135,35 +135,31 @@ public class PlayerPanel : MonoBehaviour
 
         playerToken.SetAlpha(1);
 
-        CurrentPlayerIdx = id;
+        CurrentInputsIdx = playerInputs.InputsID;
 
-        playerOnPanel = newPlayer;
-        playerOnPanel.OnIndexChange += OnPlayerIndexChange;
+        LinkedInputs = playerInputs;
 
         Enable();
     }
 
-    public void QuitPanel(int id)
+    public void QuitPanel(int id, bool destroy = true)
     {
-        playerOnPanel.OnIndexChange -= OnPlayerIndexChange;
-
+        if (destroy && LinkedInputs != null)
+            Destroy(LinkedInputs.gameObject);
+        LinkedInputs = null;
         panelsManager.tokensQueue.Enqueue(playerToken.sprite);
 
         ResetPanel();
     }
 
-    private void OnPlayerIndexChange(int newIdx) => CurrentPlayerIdx = newIdx;
-
     public void ResetPanel(bool tweenScale = true)
     {
         Disable();
-
         playerToken.SetAlpha(0);
-
-        CurrentPlayerIdx = -1;
-
+        CurrentInputsIdx = -1;
         if (tweenScale)
             ScaleUpAndDown();
+        this.ChangeCharacter(panelsManager.ImagesByCharacter[0], 0);
     }
     public void SoftReset()
     {
@@ -189,9 +185,14 @@ public class PlayerPanel : MonoBehaviour
 
         panelImage.sprite = newChar.image;
     }
+    public void GetCharacter(out PlayerPanelsManager.S_ImageByCharacter newChar, out int characterIdx)
+    {
+        newChar = currentCharacter;
+        characterIdx = currentCharacterIdx;
+    }
 
     public void AssociateCharacterToPlayer()
     {
-        DataKeeper.Instance.playersDataKeep[CurrentPlayerIdx].character = currentCharacter.character;
+        DataKeeper.Instance.playersDataKeep[CurrentInputsIdx].character = currentCharacter.character;
     }
 }

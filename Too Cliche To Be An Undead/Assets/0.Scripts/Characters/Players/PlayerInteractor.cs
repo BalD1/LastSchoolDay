@@ -19,24 +19,24 @@ public class PlayerInteractor : MonoBehaviourEventsHandler
 
     protected override void EventsSubscriber()
     {
-        owner.OnDeviceChange += CheckDevice;
+        if (owner.PlayerIndex == 0) PlayerInputsEvents.OnDeviceChange += CheckDevice;
         owner.OnInteractInput += InteractWithClosest;
         GameManager.Instance._onSceneReload += ResetOnLoad;
     }
 
     protected override void EventsUnSubscriber()
     {
-        owner.OnDeviceChange -= CheckDevice;
+        if (owner.PlayerIndex == 0) PlayerInputsEvents.OnDeviceChange -= CheckDevice;
         owner.OnInteractInput -= InteractWithClosest;
         GameManager.Instance._onSceneReload -= ResetOnLoad;
     }
 
     private void Start()
     {
-        CheckDevice(owner.currentDeviceType);
+        CheckDevice(owner.GetPlayerInputs.currentDeviceType);
     }
 
-    private void CheckDevice(PlayerCharacter.E_Devices device)
+    private void CheckDevice(PlayerInputsManager.E_Devices device)
     {
         promptText.sprite = ButtonsImageByDevice.Instance.GetButtonImage(ButtonsImageByDevice.E_ButtonType.Third, device);
         promptGlow.sprite = ButtonsImageByDevice.Instance.GetButtonImage(ButtonsImageByDevice.E_ButtonType.Third, device);

@@ -161,10 +161,6 @@ public class Tutorial : MonoBehaviour
             {
                 item.d_OnDeath -= OnZombieDeath;
             }
-            foreach (var item in GameManager.Instance.playersByName)
-            {
-                item.playerScript.StopGamepadShake();
-            }
             DialogueManager.Instance.TryStartDialogue(cleanedRoomDialogue, TeleportPlayersToInGameHUB);
         }
     }

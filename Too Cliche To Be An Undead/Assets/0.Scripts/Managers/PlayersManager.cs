@@ -19,7 +19,6 @@ public class PlayersManager : MonoBehaviourEventsHandler
         }
     }
 
-    [SerializeField] private PlayerPanelsManager panelsManager;
 
     [SerializeField] private PlayerCharacter player1;
 
@@ -75,6 +74,8 @@ public class PlayersManager : MonoBehaviourEventsHandler
 
     protected override void Awake()
     {
+        this.enabled = false;
+        return;
         base.Awake();
         if (instance == null)
             instance = this;
@@ -86,10 +87,6 @@ public class PlayersManager : MonoBehaviourEventsHandler
 
         if (GameManager.Player1Ref == null && !GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
             CreateP1();
-
-        joinAction.performed += context => JoinAction(context);
-
-        leaveAction.performed += context => LeaveAction(context);
 
 
         this.transform.SetParent(null);
@@ -168,63 +165,8 @@ public class PlayersManager : MonoBehaviourEventsHandler
     private void OnPlayerLeft(PlayerInput input)
     {
         playerInputs.Remove(input);
-        DataKeeper.Instance.RemoveData(input);
 
         if (PlayerLeft != null) PlayerLeft(input);
-    }
-
-    public void JoinAction(InputAction.CallbackContext context)
-    {
-        if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
-
-        var d = context.control.device;
-
-        InputUser p1 = GameManager.Player1Ref.Inputs.user;
-        p1.UnpairDevices();
-        for (int i = 1; i < PlayerInput.all.Count; i++)
-        {
-            PlayerInput playerInput = PlayerInput.all[i];
-            if (playerInput.devices.Contains(d))
-            {
-                if (GameManager.Instance.allowQuitLobby == false)
-                {
-                    GiveUnpairedDevicesToP1();
-                    return;
-                }
-                playerInput.user.UnpairDevices();
-
-                DataKeeper.Instance.RemoveData(playerInput);
-
-                GiveUnpairedDevicesToP1();
-                return;
-            }
-        }
-
-        PlayerInputManager.instance.JoinPlayerFromAction(context);
-
-        GiveUnpairedDevicesToP1();
-
-        void GiveUnpairedDevicesToP1()
-        {
-            bool hasGamepad = false;
-            List<InputDevice> unpairedDevices = new List<InputDevice>();
-
-            foreach (var item in InputUser.GetUnpairedInputDevices())
-            {
-                unpairedDevices.Add(item);
-                if (item as Gamepad != null) hasGamepad = true;
-            }
-
-            foreach (var item in unpairedDevices)
-            {
-                InputUser.PerformPairingWithDevice(item, p1);
-            }
-        }
-    }
-
-    public void LeaveAction(InputAction.CallbackContext context)
-    {
-        Debug.Log(context);
     }
 
 

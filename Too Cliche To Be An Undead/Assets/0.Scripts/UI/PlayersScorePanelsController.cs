@@ -122,15 +122,15 @@ public class PlayersScorePanelsController : MonoBehaviour
         panels[lowestScoreIdx].SetImageToSad();
         panels[highestScoreIdx].SetImageToHappy();
 
-        GameManager.Player1Ref.OnValidateInput += ShowButtonsPanel;
+        PlayerInputsEvents.OnValidateButton += ShowButtonsPanel;
         PressToSkipToggle.gameObject.SetActive(true);
         winScreen.winGroup.blocksRaycasts = true;
         winScreen.winGroup.interactable = true;
     }
 
-    public void ShowButtonsPanel()
+    public void ShowButtonsPanel(int idx = -1)
     {
-        GameManager.Player1Ref.OnValidateInput -= ShowButtonsPanel;
+        PlayerInputsEvents.OnValidateButton -= ShowButtonsPanel;
 
         selfGroup.interactable = false;
         selfGroup.blocksRaycasts = false;

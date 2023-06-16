@@ -27,7 +27,7 @@ public class EventSystemSwitch : MonoBehaviour
 
         if (player1 == null) return;
 
-        InputActionMap targetMap = player1.Inputs.currentActionMap;
-        baseUIModule.move = InputActionReference.Create(targetMap.FindAction("Navigate"));
+        //InputActionMap targetMap = player1.Inputs.currentActionMap;
+        //baseUIModule.move = InputActionReference.Create(targetMap.FindAction("Navigate"));
     }
 }

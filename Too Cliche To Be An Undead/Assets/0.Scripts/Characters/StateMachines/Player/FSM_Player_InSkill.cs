@@ -184,8 +184,6 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
         owner.GetSkillHolder.Trigger.enabled = false;
 
-        owner.ForceUpdateMovementsInput();
-
         owner.OnSkillEnd?.Invoke(owner.GetSkill.holdSkillAudio);
     }
 

@@ -148,17 +148,14 @@ public class DialogueManager : MonoBehaviourEventsHandler
     /// <param name="dialogue"></param>
     public void StartDialogue(SCRPT_SingleDialogue dialogue)
     {
+        this.StartedDialogue();
+
         dialoguePortrait.enabled = false;
         speakerName.enabled = false;
 
         IsDialogueActive = true;
 
         onStartSkipWait_TIMER = onStartSkipWait_DURATION;
-        // Sets every player's control map to Dialogue
-        foreach (var item in GameManager.Instance.playersByName)
-        {
-            item.playerScript.SwitchControlMapToDialogue();
-        }
 
         dialogueText.text = "";
 

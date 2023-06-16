@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  <Input>k__BackingField: {fileID: 5828714865458637582}
 --- !u!114 &5828714865458637582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,6 +734,6 @@ MonoBehaviour:
     m_ActionName: Dialogue/SkipDialogue[/XInputControllerWindows/buttonWest,/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
-  m_DefaultActionMap: InGame
+  m_DefaultActionMap: UI
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

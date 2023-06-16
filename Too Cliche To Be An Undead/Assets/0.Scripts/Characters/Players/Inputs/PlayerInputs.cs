@@ -1,25 +1,129 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.Switch;
+using UnityEngine.InputSystem.XInput;
+using static PlayerInputsManager;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerInputs : MonoBehaviourEventsHandler
 {
-    [SerializeField] private PlayerCharacter owner;
+    [ReadOnly] [SerializeField] private PlayerCharacter owner;
+    [field: SerializeField] public PlayerInput Input { get; private set; }
+
+    public E_Devices currentDeviceType { get; private set; }
+    private string currentDeviceName = "";
+
+    [field: ReadOnly] [field: SerializeField] public int InputsID { get; private set; }
 
     private void Reset()
     {
-        owner = this.GetComponentInParent<PlayerCharacter>();
+        Input = this.GetComponent<PlayerInput>();
     }
 
     protected override void EventsSubscriber()
     {
+        UIManagerEvents.OnExitedUI += SwitchControlMapToInGame;
+        DialogueManagerEvents.OnStartDialogue += SwitchControlMapToDialogue;
+        DialogueManagerEvents.OnEndDialogue += SwitchControlMapToInGame;
     }
 
     protected override void EventsUnSubscriber()
     {
+        UIManagerEvents.OnExitedUI -= SwitchControlMapToInGame;
+        DialogueManagerEvents.OnStartDialogue -= SwitchControlMapToDialogue;
+        DialogueManagerEvents.OnEndDialogue += SwitchControlMapToInGame;
     }
 
+    protected override void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+        base.Awake();
+        CheckCurrentDevice();
+
+        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
+            SwitchControlMapToUI();
+        else
+            SwitchControlMapToInGame();
+        this.PlayerInputsCreated();
+    }
+
+    private void Update()
+    {
+        CheckCurrentDevice();
+    }
+
+    public void ChangeIndex(int newIndex)
+    {
+        int lastIdx = InputsID;
+        InputsID = newIndex;
+        this.gameObject.name = "PlayerInputs " + newIndex;
+        this.ChangedIndex(lastIdx, newIndex);
+    }
+
+    public bool IsOnKeyboard() => currentDeviceType == E_Devices.Keyboard;
+
+    #region ControlMaps
+
+    private void SwitchControlMap(string map) 
+        => Input.SwitchCurrentActionMap(map);
+    private void SwitchControlMapToInGame() =>
+        SwitchControlMap(ACTIONMAP_INGAME);
+    private void SwitchControlMapToUI() =>
+        SwitchControlMap(ACTIONMAP_UI);
+    private void SwitchControlMapToDialogue() =>
+        SwitchControlMap(ACTIONMAP_DIALOGUE);
+
+    #endregion
+
     #region Device
+
+    private void CheckCurrentDevice()
+    {
+        if (InputsID != 0) return;
+
+        InputDevice device = null;
+
+        double mostRecent = -1;
+        foreach (var item in Input.devices)
+        {
+            if (item.lastUpdateTime > mostRecent)
+            {
+                mostRecent = item.lastUpdateTime;
+                device = item.device;
+            }
+        }
+
+        if (device == null) return;
+        if (currentDeviceName == device.name) return;
+        currentDeviceName = device.name;
+
+        E_Devices newType;
+
+        switch (device)
+        {
+            case InputDevice d when device is XInputController:
+                newType = E_Devices.Xbox;
+                break;
+
+            case InputDevice d when device is DualShockGamepad:
+                newType = E_Devices.DualShock;
+                break;
+
+            case InputDevice d when device is SwitchProControllerHID:
+                newType = E_Devices.Switch;
+                break;
+
+            default:
+                newType = E_Devices.Keyboard;
+                break;
+        }
+
+        currentDeviceType = newType;
+        SetPlayer1Device(currentDeviceType);
+        this.DeviceChange(newType);
+    }
 
     public void OnDeviceLost(PlayerInput input)
     {
@@ -105,28 +209,27 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     public void OnArrowsLeft(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnHorizontalArrowInput?.Invoke(false, owner.PlayerIndex);
+        if (context.performed) this.HorizontalArrows(false, InputsID);
     }
 
     public void OnArrowsRight(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnHorizontalArrowInput?.Invoke(true, owner.PlayerIndex);
+        if (context.performed) this.HorizontalArrows(true, InputsID);
     }
 
     public void OnArrowsUp(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnVerticalArrowInput?.Invoke(true, owner.PlayerIndex);
+        if (context.performed) this.VerticalArrows(true, InputsID);
     }
 
     public void OnArrowsDown(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnVerticalArrowInput?.Invoke(false, owner.PlayerIndex);
+        if (context.performed) this.VerticalArrows(false, InputsID);
     }
 
     public void OnQuitLoby(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnQuitLobbyInput?.Invoke();
-        //owner.QuitLobby
+        if (context.performed) this.QuitLobby(InputsID);
     }
 
     public void OnSelect(InputAction.CallbackContext context)
@@ -136,12 +239,12 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     public void OnStart(InputAction.CallbackContext context)
     {
-
+        this.Start(context);
     }
 
     public void OnNavigate(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnNavigationArrowInput?.Invoke(context.ReadValue<Vector2>(), owner.PlayerIndex);
+        if (context.performed) this.Navigate(context.ReadValue<Vector2>(), InputsID);
     }
 
     public void OnSubmit(InputAction.CallbackContext context)
@@ -211,22 +314,22 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     public void OnValidateButton(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnValidateInput?.Invoke();
+        if (context.performed) this.ValidateButton(InputsID);
     }
 
     public void OnCancelButton(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnCancelInput?.Invoke();
+        if (context.performed) this.CancelButton(InputsID);
     }
 
     public void OnThirdAction(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnThirdActionButton?.Invoke();
+        if (context.performed) this.ThirdAction(InputsID);
     }
 
     public void OnFourthAction(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnFourthActionButton?.Invoke();
+        if (context.performed) this.FourthAction(InputsID);
     }
 
     #endregion
@@ -241,8 +344,14 @@ public class PlayerInputs : MonoBehaviourEventsHandler
     public void OnSkipDialogue(InputAction.CallbackContext context)
     {
         if (context.performed) this.SkipDialogueCall();
-    } 
+    }
 
     #endregion
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        this.PlayerInputsDestroyed(this.InputsID);
+    }
 
 }

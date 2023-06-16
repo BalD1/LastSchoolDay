@@ -2,21 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class #SCRIPTNAME# : MonoBehaviour
+public class #SCRIPTNAME# : Singleton<#SCRIPTNAME#>
 {
-	private static #SCRIPTNAME# instance;
-	public static #SCRIPTNAME# Instance
-	{
-		get
-		{
-			if (instance == null) Debug.LogError("#SCRIPTNAME# instance could not be found.");
 
-			return instance;
-		}
-	}
-	#NOTRIM#
-	private void Awake()
-	{
-		instance = this;
-	}
 }

@@ -36,7 +36,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
         owner.SetAllVelocity(Vector2.zero);
 
-        if (owner.Inputs.currentControlScheme.Equals(PlayerCharacter.SCHEME_KEYBOARD) && GameManager.OPTION_DashToMouse)
+        if (owner.GetPlayerInputs.IsOnKeyboard() && GameManager.OPTION_DashToMouse)
         {
             Vector2 mousePos = MousePosition.GetMouseWorldPosition();
             mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
@@ -80,7 +80,6 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         base.ExitState(stateManager);
 
         owner.SetAllVelocity(Vector2.zero);
-        owner.ForceUpdateMovementsInput();
 
         owner.AnimationController.FlipSkeleton(mouseDir.x > 0);
 

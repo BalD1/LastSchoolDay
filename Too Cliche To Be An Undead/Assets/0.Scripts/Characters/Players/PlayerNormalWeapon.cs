@@ -140,9 +140,6 @@ public class PlayerNormalWeapon : PlayerWeapon
         if (!successfulhit) owner.OnSwiff?.Invoke();
         if (connectedEntity) owner.OnSuccessfulAttack?.Invoke(hadBigHit);
 
-        if (isLastAttack) owner.StartGamepadShake(bigHitGamepadShake);
-        else owner.StartGamepadShake(bigHitGamepadShake);
-
         SetRotationTowardTarget(closestEnemy);
         closestEnemy = null;
         closestEnemyDist = -1;

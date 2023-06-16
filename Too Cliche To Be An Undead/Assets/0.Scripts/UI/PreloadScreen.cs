@@ -32,21 +32,19 @@ public class PreloadScreen : MonoBehaviour
         {
             canvasGroup.LeanAlpha(1, fadeDuration).setOnComplete(() =>
             {
-                p1 = GameManager.Player1Ref;
-
-                p1.OnValidateInput += PlayTutorial;
-                p1.OnFourthActionButton += SkipTutorial;
-                p1.OnCancelInput += Back;
+                PlayerInputsEvents.OnValidateButton += PlayTutorial;
+                PlayerInputsEvents.OnFourthAction += SkipTutorial;
+                PlayerInputsEvents.OnCancelButton += Back;
             });
         });
     }
 
-    public void PlayTutorial()
+    public void PlayTutorial(int idx)
     {
         AnimateButton(playTutoButton, false);
     }
 
-    public void SkipTutorial()
+    public void SkipTutorial(int idx)
     {
         AnimateButton(skipTutoButton, true);
     }
@@ -70,9 +68,9 @@ public class PreloadScreen : MonoBehaviour
         DataKeeper.Instance.alreadyPlayedTuto = skipTuto;
         DataKeeper.Instance.skipTuto = skipTuto;
 
-        p1.OnValidateInput -= PlayTutorial;
-        p1.OnFourthActionButton -= SkipTutorial;
-        p1.OnCancelInput -= Back;
+        PlayerInputsEvents.OnValidateButton -= PlayTutorial;
+        PlayerInputsEvents.OnFourthAction -= SkipTutorial;
+        PlayerInputsEvents.OnCancelButton -= Back;
 
         if (sceneArgs == null)
         {
@@ -85,13 +83,13 @@ public class PreloadScreen : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void Back()
+    public void Back(int idx)
     {
         PlayerPanelsManager ppm = panelsManager.GetComponent<PlayerPanelsManager>();
 
-        p1.OnValidateInput -= PlayTutorial;
-        p1.OnFourthActionButton -= SkipTutorial;
-        p1.OnCancelInput -= Back;
+        PlayerInputsEvents.OnValidateButton -= PlayTutorial;
+        PlayerInputsEvents.OnFourthAction -= SkipTutorial;
+        PlayerInputsEvents.OnCancelButton -= Back;
 
         canvasGroup.LeanAlpha(0, fadeDuration).setOnComplete(() =>
         {
@@ -99,7 +97,6 @@ public class PreloadScreen : MonoBehaviour
             ppm.CanvasGroup.LeanAlpha(1, fadeDuration).setOnComplete(() =>
             {
                 mainScreenImage.SetAlpha(1);
-                this.gameObject.SetActive(false);
                 ppm.Refocus();
                 GameManager.Instance.allowQuitLobby = true;
             });

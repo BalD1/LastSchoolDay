@@ -6,13 +6,14 @@ public class MainMenuOptionsPanel : MonoBehaviour
 
     public void Begin()
     {
-        GameManager.Player1Ref.OnCancelInput += Close;
+        PlayerInputsEvents.OnCancelButton += Close;
         mainButtons.SetActive(false);
     }
 
-    public void Close()
+    public void Close(int idx)
     {
-        GameManager.Player1Ref.OnCancelInput -= Close;
+        if (idx != 0) return;
+        PlayerInputsEvents.OnCancelButton -= Close;
         mainButtons.SetActive(true);
     }
 }

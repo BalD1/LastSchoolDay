@@ -24,7 +24,7 @@ public class ButtonsImageByDevice : MonoBehaviour
     [System.Serializable]
     public struct S_ImageByDevice
     {
-        public PlayerCharacter.E_Devices device;
+        public PlayerInputsManager.E_Devices device;
         public Sprite buttonImage;
     }
 
@@ -39,7 +39,7 @@ public class ButtonsImageByDevice : MonoBehaviour
         DialogeWholeSkip,
     }
 
-    public Sprite GetButtonImage(E_ButtonType buttonType, PlayerCharacter.E_Devices device)
+    public Sprite GetButtonImage(E_ButtonType buttonType, PlayerInputsManager.E_Devices device)
     {
         switch (buttonType)
         {
@@ -68,7 +68,7 @@ public class ButtonsImageByDevice : MonoBehaviour
         return null;
     }
 
-    private Sprite GetImageFromArray(PlayerCharacter.E_Devices device, S_ImageByDevice[] arr)
+    private Sprite GetImageFromArray(PlayerInputsManager.E_Devices device, S_ImageByDevice[] arr)
     {
         foreach (var item in arr)
         {

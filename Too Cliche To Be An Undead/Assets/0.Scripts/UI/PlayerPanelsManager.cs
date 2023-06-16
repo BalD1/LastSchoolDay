@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class PlayerPanelsManager : MonoBehaviour
@@ -23,8 +23,6 @@ public class PlayerPanelsManager : MonoBehaviour
     [SerializeField] private Toggle startButton;
 
     [SerializeField] private Button backButton;
-
-    private bool p1Joined = false;
 
     private int[] panelsCharacterIdx = new int[4] { -1, -1, -1, -1 };
 
@@ -54,9 +52,6 @@ public class PlayerPanelsManager : MonoBehaviour
         {
             playerPanels[i].Disable();
         }
-
-        DataKeeper.Instance.D_playerCreated += JoinPanel;
-        DataKeeper.Instance.D_playerDestroyed += QuitPanel;
     }
 
     private void PopulateTokensQueue()
@@ -69,13 +64,14 @@ public class PlayerPanelsManager : MonoBehaviour
         }
     }
 
-    private void OnValidateInput()
+    private void OnValidateInput(int idx)
     {
         AskForStartGame();
     }
 
-    private void OnBackInput()
+    private void OnBackInput(int idx)
     {
+        if (idx != 0) return;
         backButton.onClick?.Invoke();
     }
 
@@ -98,16 +94,15 @@ public class PlayerPanelsManager : MonoBehaviour
         }
 
         PopulateTokensQueue();
-        JoinPanel(0, GameManager.Player1Ref);
+        JoinPanel(PlayerInputsManager.Instance.GetPlayerInputs(0));
 
         CanvasGroup.alpha = 1;
         CanvasGroup.interactable = true;
 
         animationCoroutine = StartCoroutine(PanelsAnimation());
 
-        AttachInputsToP1();
-
-        PlayersManager.Instance.EnableActions();
+        AttachInputs();
+        AttachArrowsToPlayer();
     }
 
     private IEnumerator PanelsAnimation()
@@ -133,47 +128,41 @@ public class PlayerPanelsManager : MonoBehaviour
         }
     }
 
-    public void JoinPanel(int idx, PlayerCharacter player)
+    public void JoinPanel(PlayerInputs playerInputs)
     {
-        bool isP1 = player == GameManager.Player1Ref;
-
-        if (isP1 && p1Joined) return;
-
         foreach (var item in playerPanels)
         {
             if (item.IsEnabled == false)
             {
-                if (isP1) p1Joined = true;
-
                 panelsCharacterIdx[item.panelID] = 0;
 
-                item.JoinPanel(idx, player);
-                AttachArrowsToPlayer(player);
+                item.JoinPanel(playerInputs);
 
                 VerifyPanelsValidity();
+                return;
+            }
+            else if (item.CurrentInputsIdx == playerInputs.InputsID)
+            {
+                QuitPanel(playerInputs.InputsID);
                 return;
             }
         }
 
     }
 
-    public void QuitPanel(int idx, PlayerCharacter player)
+    public void QuitPanel(int idx)
     {
         foreach (var item in playerPanels)
         {
-            if (item.CurrentPlayerIdx == idx)
+            if (item.CurrentInputsIdx == idx)
             {
                 panelsCharacterIdx[item.panelID] = -1;
-
-                item.ChangeCharacter(ImagesByCharacter[0], 0);
-
                 item.QuitPanel(idx);
-                DetachArrowsToPlayer(player);
-
                 VerifyPanelsValidity();
-                return;
+                break;
             }
         }
+        RearrangePanels();
     }
 
     private void OnPlayerNavigationInput(Vector2 value, int playerIdx)
@@ -194,7 +183,7 @@ public class PlayerPanelsManager : MonoBehaviour
         int panelIdx = -1;
         for (int i = 0; i < playerPanels.Length; i++)
         {
-            if (playerPanels[i].CurrentPlayerIdx == playerIdx)
+            if (playerPanels[i].CurrentInputsIdx == playerIdx)
             {
                 panelIdx = i;
                 break;
@@ -253,36 +242,23 @@ public class PlayerPanelsManager : MonoBehaviour
 
     }
 
-    public void RemoveAllJoined()
-    {
-        while (DataKeeper.Instance.playersDataKeep.Count > 1) DataKeeper.Instance.RemoveData(1);
-        ResetPanels();
-    }
-
     public void ResetPanels()
     {
         if (animationCoroutine != null) StopCoroutine(animationCoroutine);
-
-        p1Joined = false;
 
         allowMovements = false;
 
         PopulateTokensQueue();
 
-        GameManager.Player1Ref.SwitchControlMapToUI();
-
-        DetachInputsToP1();
-
-        DetachOnArrowsToAllPlayers();
+        DetachInputs();
+        DetachArrowsToPlayer();
 
         playerPanels[0].SoftReset();
         for (int i = 1; i < playerPanels.Length; i++)
         {
             LeanTween.cancel(playerPanels[i].gameObject);
-            playerPanels[i].ChangeCharacter(ImagesByCharacter[0], 0);
-            playerPanels[i].ResetPanel(false);
+            playerPanels[i].QuitPanel(i);
         }
-        PlayersManager.Instance.DisableActions();
     }
 
     public Sprite GetCharacterSprite(int idx)
@@ -297,11 +273,9 @@ public class PlayerPanelsManager : MonoBehaviour
 
     public void Refocus()
     {
-        AttachInputsToP1();
+        AttachInputs();
 
-        PlayersManager.Instance.EnableActions();
-
-        AttachOnArrowsToAllPlayers();
+        AttachArrowsToPlayer();
     }
 
     public void AskForStartGame()
@@ -313,61 +287,59 @@ public class PlayerPanelsManager : MonoBehaviour
                 return;
             }
 
-        DetachOnArrowsToAllPlayers();
+        DetachArrowsToPlayer();
 
-        DetachInputsToP1();
+        DetachInputs();
 
         foreach (var item in playerPanels)
             if (item.IsEnabled) item.AssociateCharacterToPlayer();
 
         startButton.SetIsOnWithoutNotify(false);
 
-        PlayersManager.Instance.DisableActions();
-
         UIManager.Instance.SelectButton("None");
-        preLoadingScreen.SetActive(true);
         preLoadingScreen.GetComponent<PreloadScreen>().BeginScreen();
     }
 
-    private void AttachOnArrowsToAllPlayers()
+    private void AttachArrowsToPlayer()
     {
-        foreach (var item in GameManager.Instance.playersByName)
+        PlayerInputsEvents.OnNavigate += OnPlayerNavigationInput;
+    }
+    private void DetachArrowsToPlayer()
+    {
+        PlayerInputsEvents.OnNavigate -= OnPlayerNavigationInput;
+    }
+
+    private void RearrangePanels()
+    {
+        for (int i = 1; i < playerPanels.Length - 1; i++)
         {
-            AttachArrowsToPlayer(item.playerScript);
+            if (playerPanels[i].LinkedInputs != null) continue;
+
+            if (playerPanels[i + 1].LinkedInputs != null)
+            {
+                playerPanels[i].JoinPanel(playerPanels[i + 1].LinkedInputs);
+                playerPanels[i + 1].GetCharacter(out PlayerPanelsManager.S_ImageByCharacter character, out int characterIdx);
+                playerPanels[i].ChangeCharacter(character, characterIdx);
+                playerPanels[i + 1].QuitPanel(i + 1, false);
+            }
+            else playerPanels[i].ResetPanel();
         }
     }
 
-    private void DetachOnArrowsToAllPlayers()
+    private void AttachInputs()
     {
-        foreach (var item in GameManager.Instance.playersByName)
-        {
-            DetachArrowsToPlayer(item.playerScript);
-        }
+        this.PanelsActive();
+        PlayerInputsEvents.OnValidateButton += OnValidateInput;
+        PlayerInputsEvents.OnCancelButton += OnBackInput;
+        PlayerInputsEvents.OnPlayerInputsCreated += JoinPanel;
+        PlayerInputsEvents.OnPlayerInputsDestroyed += QuitPanel;
     }
-
-    private void AttachArrowsToPlayer(PlayerCharacter p)
+    private void DetachInputs()
     {
-         p.OnNavigationArrowInput += OnPlayerNavigationInput;
-    }
-    private void DetachArrowsToPlayer(PlayerCharacter p)
-    {
-        p.OnNavigationArrowInput -= OnPlayerNavigationInput;
-    }
-
-    private void AttachInputsToP1()
-    {
-        GameManager.Player1Ref.OnValidateInput += OnValidateInput;
-        GameManager.Player1Ref.OnCancelInput += OnBackInput;
-    }
-    private void DetachInputsToP1()
-    {
-        GameManager.Player1Ref.OnValidateInput -= OnValidateInput;
-        GameManager.Player1Ref.OnCancelInput -= OnBackInput;
-    }
-
-    private void OnDestroy()
-    {
-        DataKeeper.Instance.D_playerCreated -= JoinPanel;
-        DataKeeper.Instance.D_playerDestroyed -= QuitPanel;
+        this.PanelsInacative();
+        PlayerInputsEvents.OnValidateButton -= OnValidateInput;
+        PlayerInputsEvents.OnCancelButton -= OnBackInput;
+        PlayerInputsEvents.OnPlayerInputsCreated -= JoinPanel;
+        PlayerInputsEvents.OnPlayerInputsDestroyed -= QuitPanel;
     }
 }

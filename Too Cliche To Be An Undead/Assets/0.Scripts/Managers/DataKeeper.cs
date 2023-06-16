@@ -1,20 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Progress;
 
-public class DataKeeper : MonoBehaviour
+public class DataKeeper : PersistentSingleton<DataKeeper>
 {
-    private static DataKeeper instance;
-    public static DataKeeper Instance
-    {
-        get
-        {
-            return instance;
-        }
-    }
-
     [SerializeField] private CharactersSprites[] charactersSprites;
     public CharactersSprites[] GetCharactersSprites { get => charactersSprites; }
 
@@ -29,10 +19,10 @@ public class DataKeeper : MonoBehaviour
     public class PlayerDataKeep
     {
         public string playerName;
-        public PlayerInput playerInput;
+        public PlayerInputs playerInput;
         public GameManager.E_CharactersNames character;
 
-        public PlayerDataKeep(string _playerName, PlayerInput _playerInput, GameManager.E_CharactersNames _character)
+        public PlayerDataKeep(string _playerName, PlayerInputs _playerInput, GameManager.E_CharactersNames _character)
         {
             playerName = _playerName;
             playerInput = _playerInput;
@@ -59,11 +49,59 @@ public class DataKeeper : MonoBehaviour
 
     public bool allowGamepadShake = true;
 
+    protected override void EventsSubscriber()
+    {
+        base.EventsSubscriber();
+        PlayerInputsEvents.OnPlayerInputsCreated += CreateInput;
+        PlayerInputsEvents.OnPlayerInputsDestroyed += RemoveInput;
+        PlayerInputsEvents.OnChangedIndex += RenameSingle;
+        PlayerInputsManagerEvents.OnEndedChangingIndexes += RenameAllInList;
+        
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        base.EventsUnSubscriber();
+        PlayerInputsEvents.OnPlayerInputsCreated -= CreateInput;
+        PlayerInputsEvents.OnPlayerInputsDestroyed -= RemoveInput;
+        PlayerInputsEvents.OnChangedIndex -= RenameSingle;
+        PlayerInputsManagerEvents.OnEndedChangingIndexes -= RenameAllInList;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    private void RenameSingle(int lastIdx, int newIdx)
+    {
+        playersDataKeep[newIdx].playerName = "PlayerInputs " + newIdx;
+    }
+    private void RenameAllInList()
+    {
+        foreach (var item in playersDataKeep)
+        {
+            item.playerName = "PlayerInputs " + item.playerInput.InputsID; 
+        }
+    }
+
+    private void CreateInput(PlayerInputs newInput)
+    {
+        PlayerDataKeep pdk = new PlayerDataKeep("PlayerInputs " + newInput.InputsID, newInput, GameManager.E_CharactersNames.Shirley);
+        playersDataKeep.Add(pdk);
+    }
+
+    private void RemoveInput(int idx)
+    {
+        playersDataKeep.RemoveAt(idx);
+    }
+
+    /*
     public int CreateData(PlayerCharacter newPlayer)
     {
         foreach (var item in playersDataKeep)
         {
-            if (item.playerInput.Equals(newPlayer.Inputs)) return playersDataKeep.IndexOf(item) - 1;
+            if (item.playerInput.Equals(newPlayer.Get)) return playersDataKeep.IndexOf(item) - 1;
         }
         newPlayer.name = $"Player {playersDataKeep.Count}";
 
@@ -77,6 +115,7 @@ public class DataKeeper : MonoBehaviour
 
         return playerIdx;
     }
+    */
         
     public bool IsPlayerDataKeepSet() => (playersDataKeep != null && playersDataKeep.Count > 0);
 
@@ -99,64 +138,9 @@ public class DataKeeper : MonoBehaviour
         return -1;
     }
 
-    public void RemoveData(string _playerName)
-    {
-        for (int i = 0; i < playersDataKeep.Count; i++)
-        {
-            if (playersDataKeep[i].playerName.Equals(_playerName)) RemoveData(i);
-        }
-    }
-    public void RemoveData(PlayerInput _playerInput)
-    {
-        for (int i = 0; i < playersDataKeep.Count; i++)
-        {
-            if (playersDataKeep[i].playerInput.Equals(_playerInput)) RemoveData(i);
-        }
-    }
-    public void RemoveData(int idx)
-    {
-        if (GameManager.isAppQuitting) return;
-
-        if (idx < 0 || idx >= playersDataKeep.Count) return;
-
-        // Get the object's root
-        PlayerCharacter playerScript = playersDataKeep[idx].playerInput.GetComponentInParent<PlayerCharacter>();
-        GameObject player = playerScript.gameObject;
-        playersDataKeep.RemoveAt(idx);
-
-        D_playerDestroyed?.Invoke(idx, playerScript);
-
-        Destroy(player);
-        PlayersManager.Instance.CleanInputs();
-        GameManager.Instance.RemovePlayerAt(idx);
-
-        if (playersDataKeep.Count > 0)
-        {
-            for (int i = 0; i < playersDataKeep.Count; i++)
-            {
-                playersDataKeep[i].playerInput.GetComponentInParent<PlayerCharacter>().ForceSetIndex(i);
-            }
-        }
-    }
-
     public PlayerCharacter GetPlayerFromIndex(int idx)
     {
         PlayerDataKeep playerData = playersDataKeep[idx];
         return playerData.playerInput.GetComponentInParent<PlayerCharacter>();
-    }
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-
-            this.transform.SetParent(null);
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
     }
 }

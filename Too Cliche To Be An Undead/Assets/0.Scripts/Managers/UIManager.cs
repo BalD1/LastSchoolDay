@@ -153,9 +153,6 @@ public class UIManager : MonoBehaviourEventsHandler
     public delegate void D_CloseMenu();
     public D_CloseMenu D_closeMenu;
 
-    public delegate void D_ExitPause();
-    public D_ExitPause D_exitPause;
-
 #if UNITY_EDITOR
     [SerializeField] private List<GameObject> EDITOR_openMenusQueues;
 #endif
@@ -603,7 +600,7 @@ public class UIManager : MonoBehaviourEventsHandler
             {
                 case GameManager.E_GameState.Pause:
                     GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-                    D_exitPause?.Invoke();
+                    this.ExitedUI();
                     break;
 
                 case GameManager.E_GameState.InGame:

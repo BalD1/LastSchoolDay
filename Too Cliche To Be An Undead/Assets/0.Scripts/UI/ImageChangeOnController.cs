@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ImageChangeOnController : MonoBehaviour
+public class ImageChangeOnController : MonoBehaviourEventsHandler
 {
     [SerializeField] private PlayerCharacter targetPlayer;
 
@@ -9,23 +9,25 @@ public class ImageChangeOnController : MonoBehaviour
 
     [SerializeField] private ButtonsImageByDevice.E_ButtonType buttonType;
 
+    protected override void EventsSubscriber()
+    {
+        PlayerInputsEvents.OnDeviceChange += CheckDevice;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        PlayerInputsEvents.OnDeviceChange -= CheckDevice;
+    }
+
     private void Start()
     {
         if (targetPlayer == null) targetPlayer = GameManager.Player1Ref;
-
-        targetPlayer.OnDeviceChange += CheckDevice;
-
-        CheckDevice(targetPlayer.currentDeviceType);
+        CheckDevice(PlayerInputsManager.CurrentPlayer1Device);
     }
 
-    private void CheckDevice(PlayerCharacter.E_Devices device)
+    private void CheckDevice(PlayerInputsManager.E_Devices device)
     {
         image.sprite = ButtonsImageByDevice.Instance.GetButtonImage(buttonType, device);
-    }
-
-    private void OnDestroy()
-    {
-        targetPlayer.OnDeviceChange -= CheckDevice;
     }
 
     private void OnValidate()

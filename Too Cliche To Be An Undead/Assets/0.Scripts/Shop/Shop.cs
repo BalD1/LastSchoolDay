@@ -105,8 +105,8 @@ public class Shop : MonoBehaviour, IInteractable
         shopIsOpen = true;
         GameManager.Player1Ref.SetAllVelocity(Vector2.zero);
 
-        GameManager.Player1Ref.OnValidateInput += panelsManager.OnClickRelay;
-        GameManager.Player1Ref.OnCancelInput += CloseShop;
+        PlayerInputsEvents.OnValidateButton += panelsManager.OnClickRelay;
+        PlayerInputsEvents.OnCancelButton += CloseShop;
 
         foreach (var item in levels)
         {
@@ -114,7 +114,7 @@ public class Shop : MonoBehaviour, IInteractable
         }
     }
 
-    public void CloseShop()
+    public void CloseShop(int idx = -1)
     {
         GameManager.Instance.GameState = GameManager.E_GameState.InGame;
         UIManager.Instance.CloseShop();
@@ -130,8 +130,8 @@ public class Shop : MonoBehaviour, IInteractable
         UIManager.Instance.D_closeMenu -= CheckIfClosedMenuIsShop;
         shopIsOpen = false;
 
-        GameManager.Player1Ref.OnValidateInput -= panelsManager.OnClickRelay;
-        GameManager.Player1Ref.OnCancelInput -= CloseShop;
+        PlayerInputsEvents.OnValidateButton -= panelsManager.OnClickRelay;
+        PlayerInputsEvents.OnCancelButton -= CloseShop;
 
         D_closeShop?.Invoke();
 
