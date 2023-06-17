@@ -277,8 +277,7 @@ public class DebugConsole : MonoBehaviour
 
         SHOW_FPS = new DebugCommand("SHOW_FPS", "Shows or hides the FPS counter", "SHOW_FPS", () =>
         {
-            FPSDisplayer displayer = FindObjectOfType<FPSDisplayer>();
-            displayer.SetState(!displayer.IsRunning());
+            FPSDisplayer.Instance.SetState(!FPSDisplayer.Instance.IsRunning());
         });
     }
 
@@ -303,7 +302,7 @@ public class DebugConsole : MonoBehaviour
 
             if (0 < val && val < 4) desiredCharacter = (GameManager.E_CharactersNames)val;
 
-            PlayersManager.PlayerCharacterComponents newPCC = PlayersManager.Instance.GetCharacterComponents(desiredCharacter);
+            SO_CharactersComponents newPCC = GameAssets.Instance.CharactersComponentsHolder.GetComponents(desiredCharacter);
 
             foreach (var item in GameManager.Instance.playersByName)
             {

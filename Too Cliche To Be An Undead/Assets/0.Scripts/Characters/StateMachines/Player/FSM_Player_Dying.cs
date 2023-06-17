@@ -48,6 +48,7 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
         this.ExitedDying(owner);
         owner.SelfReviveText.enabled = false;
         isFake = false;
+        owner.PlayerInputsComponent.ForceReadMovements();
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

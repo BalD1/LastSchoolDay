@@ -55,6 +55,7 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     {
         base.ExitState(stateManager);
         owner.CancelAttackAnimation();
+        owner.PlayerInputsComponent.ForceReadMovements();
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
@@ -72,7 +73,6 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
-        owner.Weapon.D_nextAttack += NextAttack;
         owner.OnAttackInput += owner.Weapon.AskForAttack;
         owner.OnDashInput += stateManager.DashConditions;
         owner.OnAskForStun += stateManager.SwitchToStun;
@@ -81,7 +81,6 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
-        owner.Weapon.D_nextAttack -= NextAttack;
         owner.OnAttackInput -= owner.Weapon.AskForAttack;
         owner.OnDashInput -= stateManager.DashConditions;
         owner.OnAskForStun -= stateManager.SwitchToStun;
@@ -89,11 +88,6 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
     }
 
     private void OnAttackEnded() => stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
-
-    public void NextAttack(int currentAttackIndex)
-    {
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_ATTACKINDEX, currentAttackIndex);
-    }
 
     public override void Setup(FSM_Player_Manager stateManager)
     {

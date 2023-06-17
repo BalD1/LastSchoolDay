@@ -73,8 +73,8 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
 
     protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (!GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) return;
-        Initialize();
+        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) Initialize();
+        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainScene)) CheckIfP1Exist();
     }
 
     protected override void OnSceneUnloaded(Scene scene)
@@ -104,8 +104,16 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
                 Destroy(PlayerInputsList[i].gameObject);
             return;
         }
-        PlayerInputsList = new List<PlayerInputs>();
-        PlayerInputs p1Inputs = inputsPF?.Create();
+        CheckIfP1Exist();
+    }
+
+    private void CheckIfP1Exist()
+    {
+        if (P1Inputs == null)
+        {
+            PlayerInputsList = new List<PlayerInputs>();
+            PlayerInputs p1Inputs = inputsPF?.Create();
+        }
     }
 
     public void OnPlayerJoined(PlayerInput player)

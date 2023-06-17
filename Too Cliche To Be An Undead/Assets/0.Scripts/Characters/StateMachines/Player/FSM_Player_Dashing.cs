@@ -36,7 +36,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
         owner.SetAllVelocity(Vector2.zero);
 
-        if (owner.GetPlayerInputs.IsOnKeyboard() && GameManager.OPTION_DashToMouse)
+        if (owner.PlayerInputsComponent.IsOnKeyboard() && GameManager.OPTION_DashToMouse)
         {
             Vector2 mousePos = MousePosition.GetMouseWorldPosition();
             mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
@@ -48,9 +48,6 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         owner.SetSelfVelocity(mouseDir * owner.PlayerDash.DashSpeedCurve.Evaluate(0));
 
         Vector2 animatorMouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_HORIZONTAL, animatorMouseDir.x);
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_VERTICAL, animatorMouseDir.y);
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, true);
 
         owner.PlayerHUD.UpdateDashThumbnailFill(1);
     }
@@ -87,9 +84,8 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
         owner.PlayerDash.OnDashStop(owner);
 
-        owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_DASHING, false);
-
         owner.StartDashTimer();
+        owner.PlayerInputsComponent.ForceReadMovements();
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

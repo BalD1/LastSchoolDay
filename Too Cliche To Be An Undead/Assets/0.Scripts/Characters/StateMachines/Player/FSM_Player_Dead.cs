@@ -34,6 +34,7 @@ public class FSM_Player_Dead : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         base.ExitState(stateManager);
+        owner.PlayerInputsComponent.ForceReadMovements();
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

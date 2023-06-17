@@ -27,6 +27,8 @@ public class PlayerInputs : MonoBehaviourEventsHandler
         UIManagerEvents.OnExitedUI += SwitchControlMapToInGame;
         DialogueManagerEvents.OnStartDialogue += SwitchControlMapToDialogue;
         DialogueManagerEvents.OnEndDialogue += SwitchControlMapToInGame;
+
+        if (owner != null) owner.OnStateChange += OnOwnerStateChange;
     }
 
     protected override void EventsUnSubscriber()
@@ -34,6 +36,8 @@ public class PlayerInputs : MonoBehaviourEventsHandler
         UIManagerEvents.OnExitedUI -= SwitchControlMapToInGame;
         DialogueManagerEvents.OnStartDialogue -= SwitchControlMapToDialogue;
         DialogueManagerEvents.OnEndDialogue += SwitchControlMapToInGame;
+
+        if (owner != null) owner.OnStateChange += OnOwnerStateChange;
     }
 
     protected override void Awake()
@@ -49,6 +53,17 @@ public class PlayerInputs : MonoBehaviourEventsHandler
     private void Update()
     {
         CheckCurrentDevice();
+    }
+
+    private void OnOwnerStateChange(string newState)
+    {
+        return;
+        if (newState == owner.StateManager.IdleState.ToString() ||
+            newState == owner.StateManager.MovingState.ToString())
+        {
+            Input.enabled = false;
+            Input.enabled = true;
+        }
     }
 
     private void SetControlMap()
@@ -74,6 +89,15 @@ public class PlayerInputs : MonoBehaviourEventsHandler
         InputsID = newIndex;
         this.gameObject.name = "PlayerInputs " + newIndex;
         this.ChangedIndex(lastIdx, newIndex);
+    }
+
+    public void SetOwner(PlayerCharacter character)
+    {
+        if (owner != null) owner.OnStateChange -= OnOwnerStateChange;
+
+        owner = character;
+        SwitchControlMapToInGame();
+        owner.OnStateChange += OnOwnerStateChange;
     }
 
     public bool IsOnKeyboard() => currentDeviceType == E_Devices.Keyboard;
@@ -162,6 +186,11 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     #region InGame Actions
 
+    public void ForceReadMovements()
+    {
+        Input.actions.Disable();
+        Input.actions.Enable();
+    }
     public void OnMovements(InputAction.CallbackContext context)
     {
         owner.ReadMovementsInputs(context);

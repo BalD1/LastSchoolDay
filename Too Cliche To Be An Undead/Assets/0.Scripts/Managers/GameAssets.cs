@@ -6,6 +6,7 @@ using UnityEngine.Audio;
 [ExecuteInEditMode]
 public class GameAssets : Singleton<GameAssets>
 {
+    [field: SerializeField] public SO_PCCHolder CharactersComponentsHolder { get; private set; }
     [SerializeField] private GameObject playerPF;
     [SerializeField] private GameObject damagesPopupPF;
     [SerializeField] private GameObject textPopupPF;

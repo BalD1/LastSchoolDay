@@ -10,6 +10,12 @@ public class FSM_Player_Stunned : FSM_Entity_Stunned<FSM_Player_Manager>
         owner.canBePushed = true;
     }
 
+    public override void ExitState(FSM_Player_Manager stateManager)
+    {
+        base.ExitState(stateManager);
+        (owner as PlayerCharacter).PlayerInputsComponent.ForceReadMovements();
+    }
+
     public override void Conditions(FSM_Player_Manager stateManager)
     {
         base.Conditions(stateManager);

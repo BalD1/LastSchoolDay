@@ -4,23 +4,8 @@ using UnityEngine;
 
 public class CharacterSwitch : MonoBehaviour, IInteractable
 {
-    [SerializeField] private GameManager.E_CharactersNames character;
-
     [SerializeField] private SpriteRenderer spriteRenderer;
-
-    PlayersManager.PlayerCharacterComponents pcc = new PlayersManager.PlayerCharacterComponents();
-
-    private void Awake()
-    {
-        foreach (var item in PlayersManager.Instance.CharacterComponents)
-        {
-            if (item.character == character)
-            {
-                pcc = item;
-                break;
-            }
-        }
-    }
+    [SerializeField] SO_CharactersComponents pcc;
 
     public void EnteredInRange(GameObject interactor)
     {

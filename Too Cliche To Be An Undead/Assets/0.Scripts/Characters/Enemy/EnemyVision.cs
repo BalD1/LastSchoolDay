@@ -25,15 +25,15 @@ public class EnemyVision : MonoBehaviour
         PlayerCharacter closerTarget = null;
         float closerDistance = float.MaxValue;
 
-        foreach (var item in GameManager.Instance.playersByName)
+        foreach (var item in IGPlayersManager.Instance.PlayersList)
         {
-            if (item.playerScript.IsAlive() == false) continue;
+            if (item.IsAlive() == false) continue;
 
-            float currentDist = (owner.transform.position - item.playerScript.transform.position).sqrMagnitude;
+            float currentDist = (owner.transform.position - item.transform.position).sqrMagnitude;
             if (currentDist < closerDistance)
             {
                 closerDistance = currentDist;
-                closerTarget = item.playerScript;
+                closerTarget = item;
             }
         }
 

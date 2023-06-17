@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class IGPlayersManager : Singleton<IGPlayersManager>
 {
@@ -7,11 +8,20 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
 
     [field: SerializeField] public List<PlayerCharacter> PlayersList { get; private set; } = new List<PlayerCharacter>();
 
+    [field: SerializeField] public Transform[] tutoSpawnPoints;
+    [field: SerializeField] public Transform[] igSpawnPoints;
+
     private void Start()
     {
-        foreach (var item in PlayerInputsManager.Instance.PlayerInputsList)
+        List<PlayerInputs> inputs = new List<PlayerInputs>(PlayerInputsManager.Instance.PlayerInputsList);
+        bool playTuto = !DataKeeper.Instance.skipTuto && !DataKeeper.Instance.alreadyPlayedTuto;
+        for (int i = 0; i < inputs.Count; i++)
         {
-            //playerPF?.Create();
+            Vector2 spawnPos = playTuto ? tutoSpawnPoints[i].position : igSpawnPoints[i].position;
+            PlayerCharacter newPlayer = playerPF?.Create(spawnPos);
+            newPlayer.Setup(inputs[i]);
+            PlayersList.Add(newPlayer);
+            this.PlayerCreated(newPlayer);
         }
     }
 }

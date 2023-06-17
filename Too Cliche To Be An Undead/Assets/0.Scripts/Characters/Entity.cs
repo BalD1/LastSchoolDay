@@ -133,10 +133,6 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
     //************* MISC ****************
     //*********************************** 
 
-    public const string ANIMATOR_ARGS_VELOCITY = "Velocity";
-    public const string ANIMATOR_ARGS_HORIZONTAL = "Horizontal";
-    public const string ANIMATOR_ARGS_VERTICAL = "Vertical";
-
     [Header("Misc")]
 
     [SerializeField] protected bool invincible;
@@ -607,15 +603,6 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
         yield return new WaitForSeconds(flashOnHitTime);
         this.skeletonAnimation.Skeleton.SetColor(Color.white);
     }
-
-    #endregion
-
-    #region Set Animator
-
-    public void SetAnimatorTrigger(string trigger) => animator?.SetTrigger(trigger);
-    public void SetAnimatorArgs(string args, int value) => animator?.SetInteger(args, value);
-    public void SetAnimatorArgs(string args, float value) => animator?.SetFloat(args, value);
-    public void SetAnimatorArgs(string args, bool value) => animator?.SetBool(args, value);
 
     #endregion
 

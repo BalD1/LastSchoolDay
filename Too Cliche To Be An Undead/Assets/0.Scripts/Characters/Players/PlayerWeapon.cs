@@ -202,7 +202,7 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
     /// <returns></returns>
     public Quaternion GetRotationOnMouseOrGamepad()
     {
-        if (owner.GetPlayerInputs.IsOnKeyboard())
+        if (owner.PlayerInputsComponent.IsOnKeyboard())
         {
             return GetRotationOnMouse();
         }
@@ -219,7 +219,7 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
     /// </summary>
     public void RotateOnMouse()
     {
-        if (owner.GetPlayerInputs.IsOnKeyboard())
+        if (owner.PlayerInputsComponent.IsOnKeyboard())
             this.transform.rotation = GetRotationOnMouse();
     }
 
@@ -248,7 +248,7 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
     public void SetRotationTowardTarget(Transform target)
     {
         if (target == null) return;
-        if (owner.GetPlayerInputs.IsOnKeyboard()) return;
+        if (owner.PlayerInputsComponent.IsOnKeyboard()) return;
 
         Vector2 dir = (target.position - this.transform.position).normalized;
         lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -268,7 +268,7 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
     /// </summary>
     public void RotateOnAim()
     {
-        if (!owner.GetPlayerInputs.IsOnKeyboard())
+        if (!owner.PlayerInputsComponent.IsOnKeyboard())
         {
             lookAngle = Mathf.Atan2(aimGoal.y, aimGoal.x) * Mathf.Rad2Deg;
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * slerpSpeed);
@@ -278,7 +278,7 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
 
     public Vector2 GetPreciseDirectionOfMouseOrGamepad()
     {
-        if (owner.GetPlayerInputs.IsOnKeyboard())
+        if (owner.PlayerInputsComponent.IsOnKeyboard())
         {
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 5f;

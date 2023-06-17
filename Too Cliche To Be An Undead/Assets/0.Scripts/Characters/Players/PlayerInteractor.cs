@@ -33,7 +33,7 @@ public class PlayerInteractor : MonoBehaviourEventsHandler
 
     private void Start()
     {
-        CheckDevice(owner.GetPlayerInputs.currentDeviceType);
+        CheckDevice(owner.PlayerInputsComponent.currentDeviceType);
     }
 
     private void CheckDevice(PlayerInputsManager.E_Devices device)

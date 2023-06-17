@@ -3,28 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using BalDUtilities.MouseUtils;
 using TMPro;
-using UnityEngine.SceneManagement;
 using System.Text;
 using Spine.Unity;
-using UnityEngine.InputSystem.DualShock;
-using UnityEngine.InputSystem.Switch;
-using UnityEngine.InputSystem.XInput;
-using Unity.XR.OpenVR;
-using System.Data;
+using UnityEditor.Rendering.LookDev;
 
 public class PlayerCharacter : Entity, IInteractable
 {
-    #region Animator args
-
-    public const string ANIMATOR_ARGS_ATTACKING = "Attacking";
-    public const string ANIMATOR_ARGS_ATTACKINDEX = "AttackIndex";
-    public const string ANIMATOR_ARGS_INSKILL = "InSkill";
-    public const string ANIMATOR_ARGS_DASHING = "Dashing";
-
-    #endregion
-
     #region vars
     
     [SerializeField] public LayerMask feetsBaseLayer;
@@ -115,7 +100,7 @@ public class PlayerCharacter : Entity, IInteractable
 
     private Vector2 aimGoal;
 
-    [field: SerializeField] public PlayerInputs GetPlayerInputs { get; private set; }
+    [field: SerializeField] public PlayerInputs PlayerInputsComponent { get; private set; }
 
     public GameObject PivotOffset { get => pivotOffset; }
     public PlayerAnimationController AnimationController { get => animationController; }
@@ -141,14 +126,6 @@ public class PlayerCharacter : Entity, IInteractable
     [field: SerializeField] public int DamagesTaken { get; private set; }
 
     private float gamepadShake_TIMER;
-
-#if UNITY_EDITOR
-    public bool debugPush;
-    private Vector2 gizmosMouseDir;
-    private Ray gizmosPushRay;
-    private float gizmosPushEnd;
-    private float gizmosPushDrag;
-#endif
 
     #endregion
 
@@ -192,45 +169,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region A/S/U/F
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name.Equals(GameManager.E_ScenesNames.LoadingScreen.ToString())) return;
-        if (DataKeeper.Instance.playersDataKeep.Count <= 0) return;
-
-        GameManager.Instance._onSceneReload += OnSceneReload;
-
-        this.stateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Idle);
-
-        CancelInvoke(nameof(ClearAttackers));
-
-        selfInteractor.ResetOnLoad();
-
-        if (scene.name.Equals("MainMenu"))
-        {
-            ResetEndStats();
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            this.transform.position = GameManager.Instance.GetSpawnPoint(this.playerIndex).position;
-            if (this.playerIndex == 0) CameraManager.Instance.TeleportCamera(this.transform.position);
-            this.StatsModifiers.Clear();
-            ResetStats();
-            SetCharacter();
-        }
-
-        this.minimapMarker.SetActive(true);
-
-        if (this.playerIndex == 0) GameManager.Instance.SetPlayer1(this);
-
-        this.attackers.Clear();
-
-        GameManager.Instance.D_onPlayerIsSetup?.Invoke(this.playerIndex);
-        OnReset?.Invoke();
-
-        PlayerHUD.ForceHPUpdate();
-    }
-
     private void ResetEndStats()
     {
         KillsCount = 0;
@@ -238,69 +176,37 @@ public class PlayerCharacter : Entity, IInteractable
         DamagesTaken = 0;
     }
 
-    private void SetCharacter()
-    {
-        GameManager.E_CharactersNames character = DataKeeper.Instance.playersDataKeep[this.PlayerIndex].character;
-        PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
-
-        this.currentHP = MaxHP_M;
-        PlayerHUD = PlayerHUDManager.Instance.CreateNewHUD(this, this.minimapMarker.GetComponent<SpriteRenderer>(), this.GetCharacterName(), pcc.dash, pcc.skill);
-        PlayerHUD.ForceHPUpdate();
-
-        SwitchCharacter(pcc, false);
-        GetPlayerAudio.SetAudioClips();
-    }
-
     protected override void EventsSubscriber()
     {
         base.EventsSubscriber();
-        SceneManager.sceneLoaded += OnSceneLoaded;
         GameManager.Instance._onSceneReload += OnSceneReload;
     }
 
     protected override void EventsUnSubscriber()
     {
         base.EventsUnSubscriber();
-        SceneManager.sceneLoaded -= OnSceneLoaded;
         GameManager.Instance._onSceneReload -= OnSceneReload;
     }
 
     protected override void Awake()
     {
         base.Awake();
-
+        return;
         this.MaxSkillCD_M = skillHolder.Skill.Cooldown;
         this.MaxDashCD_M = playerDash.Dash_COOLDOWN;
     }
 
-    protected override void Start()
+    public void Setup(PlayerInputs inputs)
     {
-        DontDestroyOnLoad(this);
-        base.Start();
+        this.PlayerInputsComponent = inputs;
+        this.playerIndex = inputs.InputsID;
+        inputs.SetOwner(this);
 
-        if (!GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
-        {
-            GameManager.E_CharactersNames character = GameManager.E_CharactersNames.Shirley;
-
-            GameManager.Instance.SetPlayer1(this);
-            GameManager.Instance.playersByName = new List<GameManager.PlayersByName>();
-            GameManager.Instance.playersByName.Add(new GameManager.PlayersByName("soloP1", this));
-
-            PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(character);
-
-            PlayerHUD = PlayerHUDManager.Instance.CreateNewHUD(this, this.minimapMarker.GetComponent<SpriteRenderer>(), character, pcc.dash, pcc.skill);
-            PlayerHUD.ForceHPUpdate();
-
-            SwitchCharacter(pcc, false);
-
-            this.currentHP = MaxHP_M;
-        }
-
-        if (GameManager.Instance.playersByName.Count <= 0) GameManager.Instance.SetPlayersByNameList();
-
+        SO_CharactersComponents pcc = GameAssets.Instance.CharactersComponentsHolder.GetComponents(this.GetCharacterName());
+        PlayerHUD = PlayerHUDManager.Instance.CreateNewHUD(this, this.minimapMarker.GetComponent<SpriteRenderer>(), this.GetCharacterName(), pcc.Dash, pcc.Skill);
+        PlayerHUD.ForceHPUpdate();
+        this.SwitchCharacter(pcc);
         this.minimapMarker.SetActive(true);
-
-        GameManager.Instance.D_onPlayerIsSetup?.Invoke(this.playerIndex);
     }
 
     protected override void Update()
@@ -317,20 +223,6 @@ public class PlayerCharacter : Entity, IInteractable
         }
     }
 
-    protected override void LateUpdate()
-    {
-        base.LateUpdate();
-        Vector3 minScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
-        Vector3 maxScreenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
-
-        //transform.position = new Vector3(Mathf.Clamp(transform.position.x, minScreenBounds.x + 1, maxScreenBounds.x - 1), Mathf.Clamp(transform.position.y, minScreenBounds.y + 1, maxScreenBounds.y - 1), transform.position.z);
-    }
-
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
-
     #endregion
 
     #region Controls / Movements
@@ -344,8 +236,10 @@ public class PlayerCharacter : Entity, IInteractable
     }
 
     public void ReadMovementsInputs(InputAction.CallbackContext context)
+        => ReadMovementsInputs(context.ReadValue<Vector2>());
+    public void ReadMovementsInputs(Vector2 value)
     {
-        velocity = context.ReadValue<Vector2>();
+        velocity = value;
         if (velocity != Vector2.zero) lastDirection = velocity;
     }
 
@@ -501,16 +395,11 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Inputs
 
-    #region InGame
-
     public void StayStaticInput(InputAction.CallbackContext context)
     {
         if (context.started) stayStatic = true;
         else if (context.canceled) stayStatic = false;
     }
-
-    #endregion
-
 
     #endregion
 
@@ -572,7 +461,7 @@ public class PlayerCharacter : Entity, IInteractable
         //Vector3 rot = weapon.GetRotationOnMouseOrGamepad().eulerAngles;
         Quaternion rot = Quaternion.identity;
 
-        if (GetPlayerInputs.currentDeviceType != PlayerInputsManager.E_Devices.Keyboard)
+        if (PlayerInputsComponent.currentDeviceType != PlayerInputsManager.E_Devices.Keyboard)
         {
             float lookAngle = Mathf.Atan2(aimGoal.y, aimGoal.x) * Mathf.Rad2Deg;
             rot = Quaternion.Slerp(weapon.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * weapon.SlerpSpeed);
@@ -726,8 +615,8 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Switch & Set
 
-    public void SwitchCharacter(PlayersManager.PlayerCharacterComponents pcc, bool callDelegate = true)
-        => SwitchCharacter(pcc.dash, pcc.skill, pcc.stats, pcc.character, pcc.animData, pcc.audioClips, callDelegate);
+    public void SwitchCharacter(SO_CharactersComponents pcc, bool callDelegate = true)
+        => SwitchCharacter(pcc.Dash, pcc.Skill, pcc.Stats, pcc.Character, pcc.AnimData, pcc.AudioClips, callDelegate);
     public void SwitchCharacter(SCRPT_Dash newDash, SCRPT_Skill newSkill, SCRPT_EntityStats newStats, GameManager.E_CharactersNames character, SCRPT_PlayersAnimData animData, SCRPT_PlayerAudio audioData, bool callDelegate = true)
     {
         DataKeeper.Instance.playersDataKeep[this.playerIndex].character = character;
@@ -831,15 +720,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region Gizmos
 
-    protected override void OnDrawGizmos()
-    {
-#if UNITY_EDITOR
-        if (!debugMode) return;
-        base.OnDrawGizmos();
-        GizmosDrawDashPush();
-#endif
-    }
-
     private void OnGUI()
     {
 #if UNITY_EDITOR
@@ -868,46 +748,6 @@ public class PlayerCharacter : Entity, IInteractable
 
         Rect r = new Rect(10, posY, Screen.width, height);
         GUI.Label(r, sb.ToString());
-#endif
-    }
-
-    private void GizmosDrawDashPush()
-    {
-#if UNITY_EDITOR
-
-        if (stateManager.ToString().Equals("Dashing") == false)
-        {
-            gizmosMouseDir = Vector2.zero;
-            Vector2 mousPos = MousePosition.GetMouseWorldPosition();
-            gizmosMouseDir = (mousPos - (Vector2)this.transform.position).normalized;
-
-            gizmosPushEnd = 1;
-
-            gizmosPushEnd = CalculateAllKeys();
-            gizmosPushRay = new Ray(this.transform.position,gizmosMouseDir * gizmosPushEnd);
-        }
-
-        Gizmos.DrawRay(this.transform.position, gizmosMouseDir * gizmosPushEnd);
-
-        RaycastHit2D[] rh = Physics2D.RaycastAll(this.transform.position, gizmosMouseDir * gizmosPushEnd);
-        foreach (var item in rh)
-        {
-            if (item.collider.CompareTag("Enemy") == false) continue;
-
-            Vector2 origin = ((Vector2)item.collider.transform.position - item.point).normalized;
-
-            // we take the time needed to travel to the Point with the Dash Velocity,
-            // then multiply it by the max time of the Dash Speed Curve.
-            // this roughly simulates how much Dash Time would remain if we actually dashed. (current time / max time)
-            float currentDistanceByMax = (gizmosPushEnd - Vector2.Distance(this.transform.position, item.point)) * 2;
-            float maxTime = playerDash.DashSpeedCurve[playerDash.DashSpeedCurve.length - 1].time;
-            float dashVel = playerDash.DashSpeedCurve.Evaluate(0);
-
-            float remainingPushForce = playerDash.PushForce * (currentDistanceByMax / dashVel * maxTime);
-
-            float finalForce = remainingPushForce - item.collider.GetComponentInParent<Entity>().GetStats.Weight;
-            Gizmos.DrawRay(item.point, (origin * finalForce));
-        }
 #endif
     }
 

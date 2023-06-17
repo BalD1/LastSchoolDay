@@ -108,7 +108,7 @@ public class PlayerAnimationController : MonoBehaviourEventsHandler
 
     public void FlipSkeletonOnMouseOrGamepad()
     {
-        if (owner.GetPlayerInputs.IsOnKeyboard())
+        if (owner.PlayerInputsComponent.IsOnKeyboard())
         {
             Vector2 mousePos = MousePosition.GetMouseWorldPosition();
             Vector2 mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;

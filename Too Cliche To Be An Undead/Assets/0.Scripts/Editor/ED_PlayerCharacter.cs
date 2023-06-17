@@ -129,15 +129,15 @@ public class ED_PlayerCharacter : Editor
         SerializedProperty skillDurationIcon = serializedObject.FindProperty("skillDurationIcon");
         EditorGUILayout.PropertyField(skillDurationIcon);
 
-        SerializedProperty inputs = serializedObject.FindProperty("inputs");
-        EditorGUILayout.PropertyField(inputs);
+        SerializedProperty PlayerInputsComponent = serializedObject.FindProperty(string.Format("<{0}>k__BackingField", "PlayerInputsComponent"));
+        EditorGUILayout.PropertyField(PlayerInputsComponent);
 
         SerializedProperty onTakeDamagesGamepadShake = serializedObject.FindProperty("onTakeDamagesGamepadShake");
         EditorGUILayout.PropertyField(onTakeDamagesGamepadShake);
 
         GUI.enabled = false;
-        EditorGUILayout.TextField("Current Control Scheme", targetScript.GetPlayerInputs?.Input.currentControlScheme);
-        EditorGUILayout.TextField("Current Action Map", targetScript.GetPlayerInputs?.Input.currentActionMap?.name);
+        EditorGUILayout.TextField("Current Control Scheme", targetScript.PlayerInputsComponent?.Input.currentControlScheme);
+        EditorGUILayout.TextField("Current Action Map", targetScript.PlayerInputsComponent?.Input.currentActionMap?.name);
         GUI.enabled = true;
 
         SerializedProperty healthPopupOffset = serializedObject.FindProperty("healthPopupOffset");
@@ -210,7 +210,7 @@ public class ED_PlayerCharacter : Editor
 
         if (GUILayout.Button("Force new character", GUILayout.MaxWidth(150)))
         {
-            PlayersManager.PlayerCharacterComponents pcc = PlayersManager.Instance.GetCharacterComponents(characterToForce);
+            SO_CharactersComponents pcc = GameAssets.Instance.CharactersComponentsHolder.GetComponents(characterToForce);
             targetScript.SwitchCharacter(pcc);
         }
         characterToForce = (GameManager.E_CharactersNames)EditorGUILayout.EnumPopup(characterToForce, GUILayout.MaxWidth(100));

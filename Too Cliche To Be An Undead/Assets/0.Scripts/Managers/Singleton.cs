@@ -20,6 +20,8 @@ public abstract class Singleton<T> : MonoBehaviourEventsHandler
         }
     }
 
+    public bool IsCreated() => instance != null;
+
     protected override void Awake()
     {
         base.Awake();
@@ -30,4 +32,3 @@ public abstract class Singleton<T> : MonoBehaviourEventsHandler
 
     protected override void EventsUnSubscriber() { }
 }
-

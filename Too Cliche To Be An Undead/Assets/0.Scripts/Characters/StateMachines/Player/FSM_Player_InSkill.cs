@@ -72,8 +72,6 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
                 // start the skill
                 started = true;
 
-                owner.SetAnimatorArgs(PlayerCharacter.ANIMATOR_ARGS_INSKILL, true);
-
                 float animationSpeedScale = owner.GetSkill.AnimationSpeedScale;
 
                 // if the skill got 4D anims, set the anim depending on orientation
@@ -179,7 +177,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     {
         base.ExitState(stateManager);
         owner.GetSkill.StopSkill(owner);
-
+        owner.PlayerInputsComponent.ForceReadMovements();
         owner.SkillDurationIcon.fillAmount = 0;
 
         owner.GetSkillHolder.Trigger.enabled = false;

@@ -20,6 +20,7 @@ public class FSM_Player_Cinematic : FSM_Base<FSM_Player_Manager>
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         base.ExitState(stateManager);
+        stateManager.Owner.PlayerInputsComponent.ForceReadMovements();
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

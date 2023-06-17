@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Text;
-using TMPro;
+using UnityEngine.SceneManagement;
 
-public class FPSDisplayer : MonoBehaviour
+public class FPSDisplayer : PersistentSingleton<FPSDisplayer>
 {
     private float deltaTime;
     private int fps;
@@ -67,5 +67,13 @@ public class FPSDisplayer : MonoBehaviour
         sbContent.AppendLine(highestFPS.ToString());
 
         GUI.Label(new Rect(10, 150, 80, 100), sbContent.ToString());
+    }
+
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+    }
+
+    protected override void OnSceneUnloaded(Scene scene)
+    {
     }
 }

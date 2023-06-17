@@ -40,6 +40,7 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
     {
         base.ExitState(stateManager);
         playerOwner.Weapon.RemoveOnHitEffect(ONHIT_MODIFIER_ID);
+        playerOwner.PlayerInputsComponent.ForceReadMovements();
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)
