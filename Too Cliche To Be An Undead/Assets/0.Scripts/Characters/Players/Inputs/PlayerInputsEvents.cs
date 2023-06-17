@@ -56,6 +56,10 @@ public static class PlayerInputsEvents
     public static void FourthAction(this PlayerInputs playerInputs, int idx)
         => OnFourthAction?.Invoke(idx);
 
+    public static event Action<int> OnSecondContext;
+    public static void SecondContext(this PlayerInputs playerInputs, int idx)
+        => OnSecondContext?.Invoke(idx);
+
     public static event Action OnScrollCurrentVBDownCall;
     public static void ScrollCurrentVBDownCall(this PlayerInputs playerInputs) => OnScrollCurrentVBDownCall?.Invoke();
 

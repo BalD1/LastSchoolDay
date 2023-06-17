@@ -13,9 +13,28 @@ public class CameraAnims : MonoBehaviour
 
     private bool isVisible;
 
+    private Transform p1Transform;
+
+    private void Start()
+    {
+        if (PlayerInputsManager.P1Inputs == null)
+        {
+            PlayerInputsEvents.OnPlayerInputsCreated += WaitForP1Created;
+            return;
+        } 
+        p1Transform = PlayerInputsManager.P1Inputs.transform;
+    }
+
+    private void WaitForP1Created(PlayerInputs inputs)
+    {
+        PlayerInputsEvents.OnPlayerInputsCreated -= WaitForP1Created;
+        p1Transform = inputs.transform;
+    }
+
     private void Update()
     {
         if (!isVisible) return;
+        if (p1Transform == null) return;
 
         CheckAnimToPlay();
         SetAnimation();
@@ -23,7 +42,7 @@ public class CameraAnims : MonoBehaviour
 
     private void CheckAnimToPlay()
     {
-        float playerPosX = GameManager.Player1Ref.transform.position.x;
+        float playerPosX = p1Transform.position.x;
         float selfPosX = this.transform.position.x;
 
         if (selfPosX - xPosThreshold > playerPosX) animToPlay = leftAnim;
@@ -41,4 +60,9 @@ public class CameraAnims : MonoBehaviour
     private void OnBecameVisible() => isVisible = true;
 
     private void OnBecameInvisible() => isVisible = false;
+
+    private void OnDestroy()
+    {
+        PlayerInputsEvents.OnPlayerInputsCreated -= WaitForP1Created;
+    }
 }

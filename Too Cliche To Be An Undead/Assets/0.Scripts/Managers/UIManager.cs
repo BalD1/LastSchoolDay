@@ -274,9 +274,12 @@ public class UIManager : MonoBehaviourEventsHandler
 
     public void AddMakersInCollidersArray(BoxCollider2D[] collider2Ds)
     {
-        for (int i = GameManager.Instance.PlayersCount + 3; i < collider2Ds.Length + 4; i++)
+        int playersCount = PlayerInputsManager.PlayersCount;
+        if (playersCount <= 0) return;
+        for (int i = playersCount + 3; i < collider2Ds.Length + 4; i++)
         {
-            playersColliders[i] = collider2Ds[i - (GameManager.Instance.PlayersCount + 3)];
+            if (i >= collider2Ds.Length) return;
+            playersColliders[i] = collider2Ds[i - (playersCount)];
         }
     }
 

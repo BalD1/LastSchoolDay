@@ -55,9 +55,9 @@ public class PostproManager : MonoBehaviour
     {
         GameManager.Instance.D_onPlayerIsSetup -= SubscribeToPlayerEvents;
 
-        foreach (var item in GameManager.Instance.playersByName)
+        foreach (var item in IGPlayersManager.Instance.PlayersList)
         {
-            item.playerScript.D_onTakeDamagesFromEntity -= SetVignetteHurtColor_Event;
+            item.D_onTakeDamagesFromEntity -= SetVignetteHurtColor_Event;
         }
     }
 

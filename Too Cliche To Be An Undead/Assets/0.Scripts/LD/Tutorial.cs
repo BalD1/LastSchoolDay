@@ -61,11 +61,6 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        PlayersManager.Instance.SetAllPlayersControlMapToInGame();
-    }
-
     public void AnimateNextTutorial() => AnimateNextTutorial(null);
     public void AnimateNextTutorial(Action actionToPlayAtEnd)
     {

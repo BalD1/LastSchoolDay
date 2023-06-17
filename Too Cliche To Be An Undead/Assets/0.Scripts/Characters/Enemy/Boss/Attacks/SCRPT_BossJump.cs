@@ -85,7 +85,6 @@ public class SCRPT_BossJump : SCRPT_EnemyAttack
                     owner.GetAudioSource.PlayOneShot(audioClip.clip);
                     owner.GetAudioSource.pitch = 1;
 
-                    LogsManager.Log(this.GetType(), "Jump Ended", Time.timeSinceLevelLoad, owner.gameObject);
                     boss.CallJumpEnded();
 
                     if (owner.IsAlive())

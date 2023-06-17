@@ -4,19 +4,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 [ExecuteInEditMode]
-public class GameAssets : MonoBehaviour
+public class GameAssets : Singleton<GameAssets>
 {
-    private static GameAssets instance;
-    public static GameAssets Instance
-    {
-        get
-        {
-            if (instance == null) Debug.LogError("Could not find GameAssets instance.");
-
-            return instance;
-        }
-    }
-
     [SerializeField] private GameObject playerPF;
     [SerializeField] private GameObject damagesPopupPF;
     [SerializeField] private GameObject textPopupPF;
@@ -127,10 +116,9 @@ public class GameAssets : MonoBehaviour
     public Material OutlineMaterial { get => outlineMaterial; }
     public Material DefaultMaterial { get => defaultMaterial; }
 
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
-
+        base.Awake();
         zombiesTotalWeight = 0;
         foreach (S_ZombiesWithWeight zombie in zombiesWithWeights)
         {

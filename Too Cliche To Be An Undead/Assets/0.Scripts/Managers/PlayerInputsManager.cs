@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem.Users;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
 {
@@ -13,12 +14,22 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
     public const string SCHEME_KEYBOARD = "Keyboard&Mouse";
     public const string SCHEME_GAMEPAD = "Gamepad";
 
-    [field: SerializeField] public List<PlayerInputs> PlayerInputsList { get; private set; }
-    [field: SerializeField] public PlayerInputs P1Inputs
+    public static int PlayersCount
     {
         get
         {
-            if (PlayerInputsList.Count > 0) return PlayerInputsList[0];
+            if (instance == null) return -1;
+            if (instance.PlayerInputsList == null) return -1;
+            return instance.PlayerInputsList.Count;
+        }
+    }
+    [field: SerializeField] public List<PlayerInputs> PlayerInputsList { get; private set; }
+    public static PlayerInputs P1Inputs
+    {
+        get
+        {
+            if (instance == null) return null;
+            if (instance.PlayerInputsList.Count > 0) return instance.PlayerInputsList[0];
             else return null;
         }
     }
@@ -46,6 +57,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         PlayerPanelsManagerEvents.OnPanelsInactive += PanelsInactive;
         PlayerInputsEvents.OnPlayerInputsCreated += OnPlayerInputsCreated;
         PlayerInputsEvents.OnPlayerInputsDestroyed += OnPlayerInputsDestroyed;
+        GameManagerEvents.OnGameStateChange += OnGameStateChange;
     }
 
     protected override void EventsUnSubscriber()
@@ -56,18 +68,44 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         PlayerPanelsManagerEvents.OnPanelsInactive -= PanelsInactive;
         PlayerInputsEvents.OnPlayerInputsCreated -= OnPlayerInputsCreated;
         PlayerInputsEvents.OnPlayerInputsDestroyed -= OnPlayerInputsDestroyed;
+        GameManagerEvents.OnGameStateChange -= OnGameStateChange;
+    }
+
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (!GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) return;
+        Initialize();
+    }
+
+    protected override void OnSceneUnloaded(Scene scene)
+    {
     }
 
     protected override void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         base.Awake();
-        PlayerInputsList = new List<PlayerInputs>();
-        PlayerInputs p1Inputs = inputsPF?.Create();
     }
 
     private void Start()
     {
         GiveUnpairedDevicesToP1();
+    }
+
+    private void Initialize()
+    {
+        if (PlayerInputsList.Count > 1) 
+        {
+            for (int i = 1; i < PlayerInputsList.Count; i++)
+                Destroy(PlayerInputsList[i].gameObject);
+            return;
+        }
+        PlayerInputsList = new List<PlayerInputs>();
+        PlayerInputs p1Inputs = inputsPF?.Create();
     }
 
     public void OnPlayerJoined(PlayerInput player)
@@ -80,9 +118,65 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
 
     }
 
+    private void OnGameStateChange(GameManager.E_GameState state)
+    {
+        switch (state)
+        {
+            case GameManager.E_GameState.MainMenu:
+                P1Inputs.SwitchControlMapToUI();
+                break;
+
+            case GameManager.E_GameState.InGame:
+                SwitchAllControlMapsToIG();
+                break;
+
+            case GameManager.E_GameState.Pause:
+                SwitchAllControlMapsToUI();
+                break;
+
+            case GameManager.E_GameState.Restricted:
+                SwitchAllControlMapsToUI();
+                break;
+
+            case GameManager.E_GameState.Win:
+                SwitchAllControlMapsToUI();
+                break;
+
+            case GameManager.E_GameState.GameOver:
+                SwitchAllControlMapsToUI();
+                break;
+        }
+    }
+
+    #region ControlMaps
+
     private void PanelsActive() => PlayerInputsEvents.OnStart += OnAskedJoin;
     private void PanelsInactive() => PlayerInputsEvents.OnStart -= OnAskedJoin;
 
+    private void SwitchAllControlMapsToUI()
+    {
+        foreach (var item in PlayerInputsList)
+            item.SwitchControlMapToUI();
+    }
+    private void SwitchAllControlMapsToIG()
+    {
+        foreach (var item in PlayerInputsList)
+            item.SwitchControlMapToInGame();
+    }
+    private void SwitchAllControlMapsToDialogue()
+    {
+        foreach (var item in PlayerInputsList)
+            item.SwitchControlMapToDialogue();
+    }
+    private void SwitchAllControlMapsTo(string map)
+    {
+        foreach (var item in PlayerInputsList)
+            item.SwitchControlMap(map);
+    }
+
+    #endregion
+
+    #region PlayerInputsC&D
     private void OnPlayerInputsCreated(PlayerInputs inputs)
     {
         PlayerInputsList.Add(inputs);
@@ -90,6 +184,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
     }
     private void OnPlayerInputsDestroyed(int idx)
     {
+        if (PlayerInputsList.Count <= idx) return; 
         PlayerInputsList.RemoveAt(idx);
         for (int i = 0; i < PlayerInputsList.Count; i++)
         {
@@ -97,7 +192,8 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         }
         GiveUnpairedDevicesToP1();
         this.EndedChangingIndexes();
-    }
+    } 
+    #endregion
 
     private void OnAskedJoin(InputAction.CallbackContext context, PlayerInputs inputs)
     {
@@ -114,7 +210,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
             }
         }
         if (!context.performed) return;
-        if (PlayerInputsList.Count >= PlayerInputManager.instance.maxPlayerCount) return;
+        if (PlayerInputsList.Count >= PlayersManager.MAX_PLAYERS) return;
 
         if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
 
@@ -159,5 +255,9 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         }
     }
 
-    public PlayerInputs GetPlayerInputs(int idx) => PlayerInputsList[idx];
+    public PlayerInputs GetPlayerInputs(int idx)
+    {
+        if (PlayerInputsList.Count <= idx) return null;
+        return PlayerInputsList[idx];
+    }
 }

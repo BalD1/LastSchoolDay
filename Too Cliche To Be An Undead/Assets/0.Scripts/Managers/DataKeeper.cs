@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Progress;
+using UnityEngine.SceneManagement;
 
 public class DataKeeper : PersistentSingleton<DataKeeper>
 {
@@ -68,8 +68,21 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
         PlayerInputsManagerEvents.OnEndedChangingIndexes -= RenameAllInList;
     }
 
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+    }
+
+    protected override void OnSceneUnloaded(Scene scene)
+    {
+    }
+
     protected override void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         base.Awake();
     }
 

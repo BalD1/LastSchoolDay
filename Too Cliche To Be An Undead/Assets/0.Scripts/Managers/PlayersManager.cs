@@ -60,6 +60,8 @@ public class PlayersManager : MonoBehaviourEventsHandler
 
     public Transform LastDeadPlayerTransform { get; private set; }
 
+    public const int MAX_PLAYERS = 4;
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         deadPlayers = new List<PlayerCharacter>();

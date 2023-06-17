@@ -1,30 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameVerManager : MonoBehaviour
+public class GameVerManager : PersistentSingleton<GameVerManager>
 {
     private static bool showVersion;
 
-    private static GameVerManager instance;
-    public static GameVerManager Instance
+    protected override void Awake()
     {
-        get
-        {
-            return instance;
-        }
-    }
-
-    private void Awake()
-    {
-        if (instance != null)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        this.transform.parent = null;
-        DontDestroyOnLoad(this.gameObject);
-
+        base.Awake();
 #if UNITY_EDITOR
         SetShowVersion(true);
 #endif
@@ -44,5 +27,13 @@ public class GameVerManager : MonoBehaviour
         Rect r = new Rect(10, Screen.height - 40, Screen.width, 250);
         GUI.Label(r, Application.version);
         GUI.skin.label.fontSize = lastSize;
+    }
+
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+    }
+
+    protected override void OnSceneUnloaded(Scene scene)
+    {
     }
 }

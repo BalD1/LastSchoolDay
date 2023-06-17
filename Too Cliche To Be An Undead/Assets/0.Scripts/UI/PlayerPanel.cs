@@ -93,7 +93,8 @@ public class PlayerPanel : MonoBehaviour
         SetPTJTween();
 
         IsEnabled = false;
-        this.panelImage.color = DisabledColor;
+        if (this.panelImage != null)
+            this.panelImage.color = DisabledColor;
 
         if (pressToJoin != null)
             pressToJoin.alpha = 1;

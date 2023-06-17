@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Minimap : MonoBehaviour
+public class Minimap : MonoBehaviourEventsHandler
 {
     [SerializeField] private RectTransform selfRectTransform;
 
@@ -70,19 +68,22 @@ public class Minimap : MonoBehaviour
 
     [SerializeField] [ReadOnly]private bool isAtBaseScale = true;
 
+    protected override void EventsSubscriber()
+    {
+        PlayerInputsEvents.OnSecondContext += OnAskForScale;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        PlayerInputsEvents.OnSecondContext -= OnAskForScale;
+    }
+
     private void Start()
     {
         // Get the base Rect of the elements;
         selfRectScaleBase = new S_TargetRect(selfRectTransform.anchorMin, selfRectTransform.anchorMax);
         coinsRectScaleBase = new S_TargetRect(coinsRectTransform.anchorMin, coinsRectTransform.anchorMax);
         buttonTutoRectScaleBase = new S_TargetRect(buttonTutoRectTransform.anchorMin, buttonTutoRectTransform.anchorMax);
-
-        GameManager.Player1Ref.OnSecondContextInput += OnAskForScale;
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.Player1Ref.OnSecondContextInput -= OnAskForScale;
     }
 
     private void Reset()
@@ -90,7 +91,7 @@ public class Minimap : MonoBehaviour
         selfRectTransform = this.GetComponent<RectTransform>();
     }
 
-    private void OnAskForScale()
+    private void OnAskForScale(int idx)
     {
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         if (isTweening) return;

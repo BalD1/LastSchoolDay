@@ -3,19 +3,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviourEventsHandler
+public class CameraManager : Singleton<CameraManager>
 {
-    private static CameraManager instance;
-    public static CameraManager Instance
-    {
-        get
-        {
-            //if (instance == null) Debug.LogError("CameraManager not found.");
-
-            return instance;
-        }
-    }
-
     [SerializeField] private CinemachineVirtualCamera cam_followPlayers;
     [SerializeField] private CinemachineTargetGroup tg_players;
     private CinemachineBasicMultiChannelPerlin bmcp;
@@ -55,48 +44,27 @@ public class CameraManager : MonoBehaviourEventsHandler
 
     protected override void EventsSubscriber()
     {
-        GameManager.Instance._onSceneReload += OnSceneLoaded;
         FSM_Player_Events.OnEnteredDeath += OnPlayerDeath;
+        IGPlayersManagerEvents.OnPlayerCreated += AddPlayerToArray;
     }
 
     protected override void EventsUnSubscriber()
     {
-        GameManager.Instance._onSceneReload -= OnSceneLoaded;
         FSM_Player_Events.OnEnteredDeath -= OnPlayerDeath;
-    }
-
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-
-
-        if (cam_followPlayers != null)
-            Destroy(cam_followPlayers.gameObject);
-
-        if (tg_players != null)
-            Destroy(tg_players.gameObject);
+        IGPlayersManagerEvents.OnPlayerCreated -= AddPlayerToArray;
     }
 
     protected override void Awake()
     {
-        cam_followPlayers.transform.SetParent(null);
-        tg_players.transform.SetParent(null);
-
-        DontDestroyOnLoad(cam_followPlayers);
-        DontDestroyOnLoad(tg_players);
-
+        base.Awake();
         bmcp = cam_followPlayers.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-        instance = this;
     }
 
     private void Start()
     {
         SetArray();
         mainCam = this.GetComponent<Camera>();
-
         UIManager.Instance.AddMakersInCollidersArray(markersColliders);
-
         AttachMinimapCamera();
     }
 
@@ -147,28 +115,25 @@ public class CameraManager : MonoBehaviourEventsHandler
         playersToRemoveFromList.Clear();
     }
 
-    private void OnSceneLoaded()
-    {
-        SetArray();
-    }
-
     private void SetArray()
     {
-        Array.Clear(tg_players.m_Targets, 0, tg_players.m_Targets.Length);
-
-        List<GameManager.PlayersByName> pbn = GameManager.Instance.playersByName;
+        List<PlayerCharacter> players = IGPlayersManager.Instance.PlayersList;
 
         // add every alive players to the tg group
-        for (int i = 0; i < pbn.Count; i++)
+        for (int i = 0; i < players.Count; i++)
         {
-            if (pbn[i].playerScript.IsAlive() == false) continue;
+            if (players[i].IsAlive() == false) continue;
 
-            tg_players.AddMember(pbn[i].playerScript.transform, 1, 0);
+            tg_players.AddMember(players[i].transform, 1, 0);
         }
 
         // if we want to focus on P1, and if he is alive, increase it's weight
-        if (hardFocusOnP1 && pbn[0].playerScript.IsAlive())
+        if (hardFocusOnP1 && players[0].IsAlive())
             tg_players.m_Targets[0].weight++;
+    }
+    private void AddPlayerToArray(PlayerCharacter player)
+    {
+        tg_players.AddMember(player.transform, 1, 0);
     }
 
     public void PlayerBecameInvisible(PlayerCharacter playerScript)

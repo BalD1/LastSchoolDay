@@ -42,16 +42,30 @@ public class PlayerInputs : MonoBehaviourEventsHandler
         base.Awake();
         CheckCurrentDevice();
 
-        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
-            SwitchControlMapToUI();
-        else
-            SwitchControlMapToInGame();
+        SetControlMap();
         this.PlayerInputsCreated();
     }
 
     private void Update()
     {
         CheckCurrentDevice();
+    }
+
+    private void SetControlMap()
+    {
+        if (owner == null)
+        {
+            SwitchControlMapToUI();
+            return;
+        }
+
+        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainScene))
+        {
+            SwitchControlMapToInGame();
+            return;
+        }
+
+        SwitchControlMapToUI();
     }
 
     public void ChangeIndex(int newIndex)
@@ -66,13 +80,18 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     #region ControlMaps
 
-    private void SwitchControlMap(string map) 
-        => Input.SwitchCurrentActionMap(map);
-    private void SwitchControlMapToInGame() =>
+    public void SwitchControlMap(string map)
+    {
+        Input.SwitchCurrentActionMap(map);
+    }
+    public void SwitchControlMapToInGame()
+    {
+        if (owner == null) return;
         SwitchControlMap(ACTIONMAP_INGAME);
-    private void SwitchControlMapToUI() =>
+    }
+    public void SwitchControlMapToUI() =>
         SwitchControlMap(ACTIONMAP_UI);
-    private void SwitchControlMapToDialogue() =>
+    public void SwitchControlMapToDialogue() =>
         SwitchControlMap(ACTIONMAP_DIALOGUE);
 
     #endregion

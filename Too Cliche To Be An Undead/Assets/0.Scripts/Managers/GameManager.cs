@@ -171,12 +171,10 @@ public class GameManager : MonoBehaviourEventsHandler
             case E_GameState.InGame:
                 Time.timeScale = 1;
                 if (firstPassInGameStateFlag == false) firstPassInGameStateFlag = true;
-                else PlayersManager.Instance.SetAllPlayersControlMapToInGame();
                 break;
 
             case E_GameState.Pause:
                 Time.timeScale = 0;
-                PlayersManager.Instance.SetAllPlayersControlMapToUI();
                 break;
 
             case E_GameState.Restricted:
@@ -184,13 +182,10 @@ public class GameManager : MonoBehaviourEventsHandler
 
             case E_GameState.Win:
                 Time.timeScale = 0;
-                PlayersManager.Instance.SetAllPlayersControlMapToUI();
                 PlayerEndStatsManager.Instance.KeepScores();
                 break;
 
             case E_GameState.GameOver:
-                PlayersManager.Instance.SetAllPlayersControlMapToUI();
-
                 UIManager.Instance.FadeAllHUD(false);
                 UIManager.Instance.SetBlackBars(true, .2f);
                 gameoverCinematicTween = CameraManager.Instance.MoveCamera(PlayersManager.Instance.LastDeadPlayerTransform.position, () =>
@@ -203,6 +198,7 @@ public class GameManager : MonoBehaviourEventsHandler
                 Debug.LogError(newState + "not found in switch statement.");
                 break;
         }
+        this.GameStateChange(newState);
     }
 
     #endregion
@@ -358,9 +354,7 @@ public class GameManager : MonoBehaviourEventsHandler
     {
         if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto)
         {
-            // TODO : Replace by simply deactivating players inputs
-            if (!DialogueManager.IsDialogueActive && DataKeeper.Instance.runsCount != 2)
-                PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+            // TODO : Add exit cinematic mode
         }
     }
 
