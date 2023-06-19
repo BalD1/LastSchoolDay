@@ -128,8 +128,6 @@ public class DialogueManager : MonoBehaviourEventsHandler
 
         StartDialogue(dialogue);
 
-        GameManager.Instance.ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Cinematic);
-
         endDialogueAction = actionAtDialogueEnd;
         return true;
     }

@@ -66,7 +66,7 @@ public class PlayerAnimationController : MonoBehaviourEventsHandler
 
                 if (item.GetComponent<SkeletonAnimation>().skeletonDataAsset == jasonSkeletonDataAsset)
                 {
-                    SkeletonRendererCustomMaterials ovm = jasonMaterialOverride_PF.gameObject.Create(item).GetComponent<SkeletonRendererCustomMaterials>();
+                    SkeletonRendererCustomMaterials ovm = jasonMaterialOverride_PF.gameObject.Create<SkeletonRendererCustomMaterials>(item);
                     ovm.skeletonRenderer = item.GetComponent<SkeletonRenderer>();
                     JasonMaterialOverride = ovm;
                     JasonMaterialOverride.gameObject.SetActive(false);

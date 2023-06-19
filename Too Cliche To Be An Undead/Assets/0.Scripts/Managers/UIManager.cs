@@ -542,6 +542,9 @@ public class UIManager : MonoBehaviourEventsHandler
             case GameManager.E_GameState.GameOver:
                 break;
 
+            case GameManager.E_GameState.Cinematic:
+                break;
+
             default:
                 Debug.LogError(newState + "not found in switch statement.");
                 break;

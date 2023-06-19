@@ -25,6 +25,8 @@ public class Tutorial : MonoBehaviour
 
     [SerializeField] private float tutorialImagesAnimScaleMultiplier = 2;
 
+    private Cinematic cinematic;
+
     private int zombiesCount;
 
     private bool enteredInTriggerFlag = false;
@@ -59,6 +61,11 @@ public class Tutorial : MonoBehaviour
             item.alpha = 0;
             tutorialsQueue.Enqueue(item);
         }
+    }
+
+    private void Start()
+    {
+        cinematic = new Cinematic();
     }
 
     public void AnimateNextTutorial() => AnimateNextTutorial(null);
@@ -201,6 +208,7 @@ public class Tutorial : MonoBehaviour
         if (collision.GetComponentInParent<PlayerCharacter>() != null && enteredInTriggerFlag == false)
         {
             enteredInTriggerFlag = true;
+            //cinematic.MoveAllPlayersTo(onZombiesPlayersTeleportGoals);
             GameManager.Instance.MoveAllPlayers(onZombiesPlayersTeleportGoals, StartZombiesDialogue);
         }
     }

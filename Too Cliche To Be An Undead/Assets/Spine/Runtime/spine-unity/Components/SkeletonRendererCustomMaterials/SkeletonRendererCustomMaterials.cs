@@ -163,8 +163,9 @@ namespace Spine.Unity {
 		void OnEnable () {
 			if (skeletonRenderer == null)
 				skeletonRenderer = GetComponent<SkeletonRenderer>();
-
-			if (skeletonRenderer == null) {
+			if (skeletonRenderer == null)
+                skeletonRenderer = GetComponentInParent<SkeletonRenderer>();
+            if (skeletonRenderer == null) {
 				Debug.LogError("skeletonRenderer == null");
 				return;
 			}

@@ -143,6 +143,7 @@ public class GameManager : MonoBehaviourEventsHandler
         Restricted,
         Win,
         GameOver,
+        Cinematic,
         None,
     }
 
@@ -194,6 +195,9 @@ public class GameManager : MonoBehaviourEventsHandler
                 }, 1); 
                 break;
 
+            case E_GameState.Cinematic:
+                break;
+
             default:
                 Debug.LogError(newState + "not found in switch statement.");
                 break;
@@ -233,11 +237,13 @@ public class GameManager : MonoBehaviourEventsHandler
     protected override void EventsSubscriber()
     {
         PlayerInputsEvents.OnPauseCall += HandlePause;
+        CinematicManagerEvents.OnChangeCinematicState += OnChangeCinematicState;
     }
 
     protected override void EventsUnSubscriber()
     {
         PlayerInputsEvents.OnPauseCall -= HandlePause;
+        CinematicManagerEvents.OnChangeCinematicState += OnChangeCinematicState;
     }
 
     protected override void Awake()
@@ -291,6 +297,12 @@ public class GameManager : MonoBehaviourEventsHandler
                 DataKeeper.Instance.runsCount = 0;
             }
         }
+    }
+
+    private void OnChangeCinematicState(bool state)
+    {
+        GameState = state ? E_GameState.Cinematic : E_GameState.InGame;
+        LogsManager.Log($"Cinematic " + (state ? "Started" : "Ended"), Time.time, this.gameObject);
     }
 
     public void SetPlayersByNameList()
