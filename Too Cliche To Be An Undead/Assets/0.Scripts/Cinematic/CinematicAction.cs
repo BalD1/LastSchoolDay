@@ -3,7 +3,10 @@ using UnityEngine;
 
 public abstract class CinematicAction
 {
-    public event Action<CinematicAction> OnEnded;
-    protected virtual void EndAction(CinematicAction self) => OnEnded?.Invoke(self);
+    protected Cinematic owner;
+
+    public event Action<CinematicAction> OnActionEnded;
+    protected virtual void ActionEnded(CinematicAction action) => OnActionEnded?.Invoke(action);
+    public void SetOwner(Cinematic owner) => this.owner = owner;
     public abstract void Execute();
 }

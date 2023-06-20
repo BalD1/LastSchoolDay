@@ -1,43 +1,51 @@
 using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class CinematicPlayersMove : CinematicAction
 {
-    private List<PlayerCharacter> players;
     private List<Vector2> targetPositions;
+    private bool setToIdleAtEnd;
+
+    public List<Vector2> TargetPositions => targetPositions;
 
     private int animsToPlay;
 
-    public void Setup(List<PlayerCharacter> _players, List<Vector2> _positions)
+    public CinematicPlayersMove(List<Vector2> _targetPositions, bool _setToIdleAtEnd)
     {
-        this.players = _players;
+        Setup(_targetPositions, _setToIdleAtEnd);
+    }
+
+    public void Setup(List<Vector2> _positions, bool _setToIdleAtEnd)
+    {
         this.targetPositions = _positions;
-        animsToPlay = players.Count;
+        this.setToIdleAtEnd = _setToIdleAtEnd;
     }
     public override void Execute()
     {
+        animsToPlay = owner.Players.Count;
         if (animsToPlay <= 0)
         {
-            this.EndAction(this);
+            this.ActionEnded(this);
             return;
         }
-        if (targetPositions.Count > players.Count)
+        if (targetPositions.Count > owner.Players.Count)
         {
-            for (int i = 0; i < targetPositions.Count; i++)
-                MovePlayerTo(players[i % players.Count], targetPositions[i]);
+            for (int i = 0; i < owner.Players.Count; i++)
+                MovePlayerTo(owner.Players[i], targetPositions[i]);
             return;
         }
 
-        for (int i = 0; i < players.Count; i++)
-            MovePlayerTo(players[i], targetPositions[i % targetPositions.Count]);
+        for (int i = 0; i < owner.Players.Count; i++)
+            MovePlayerTo(owner.Players[i], targetPositions[i % targetPositions.Count]);
     }
 
     private void MovePlayerTo(PlayerCharacter player, Vector2 position)
     {
+        player.GetRb.simulated = false;
         AnimationReferenceAsset walkAnim = player.AnimationController.animationsData.WalkAnim;
         player.AnimationController.SetAnimation(walkAnim, true);
+        player.AnimationController.FlipSkeleton(position.x > player.transform.position.x);
 
         float travelTime = Vector2.Distance(player.transform.position, position) / player.MaxSpeed_M;
         LeanTween.move(player.gameObject, position, travelTime).setOnComplete(() =>
@@ -48,10 +56,14 @@ public class CinematicPlayersMove : CinematicAction
 
     private void OnPlayerReachedDestination(PlayerCharacter player)
     {
-        AnimationReferenceAsset idleAnim = player.AnimationController.animationsData.IdleAnim;
-        player.AnimationController.SetAnimation(idleAnim, true);
+        if (setToIdleAtEnd)
+        {
+            AnimationReferenceAsset idleAnim = player.AnimationController.animationsData.IdleAnim;
+            player.AnimationController.SetAnimation(idleAnim, true);
+        }
+        player.GetRb.simulated = true;
 
         animsToPlay--;
-        if (animsToPlay <= 0) this.EndAction(this);
+        if (animsToPlay <= 0) this.ActionEnded(this);
     }
 }

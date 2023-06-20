@@ -25,7 +25,7 @@ public class ShopTutorial : MonoBehaviour
         CameraManager.Instance.MoveCamera(shopPos, 
             () =>
             {
-                DialogueManager.Instance.TryStartDialogue(shopTutoDialogue, OnDialogueEnd);
+                DialogueManager.Instance.TryStartDialogue(shopTutoDialogue,true, OnDialogueEnd);
             });
         shop.D_closeShop += OnShopClosed;
     }

@@ -53,11 +53,11 @@ public class GymnasiumCinematic : MonoBehaviour
         UIManager.Instance.CoinsContainer.gameObject.SetActive(false);
         UIManager.Instance.StampTimer.SetActive(false);
 
-        DialogueManager.Instance.TryStartDialogue(entryDialogue, () =>
+        DialogueManager.Instance.TryStartDialogue(entryDialogue, true, () =>
         {
             CameraManager.Instance.MoveCamera(doorTarget.position, () =>
             {
-                DialogueManager.Instance.TryStartDialogue(bossHeardDialogue, () =>
+                DialogueManager.Instance.TryStartDialogue(bossHeardDialogue, true, () =>
                 {
                     CameraManager.Instance.MoveCamera(bossTarget.position, () =>
                     {
@@ -65,7 +65,7 @@ public class GymnasiumCinematic : MonoBehaviour
                         {
                             boss.GetComponent<BossZombie>().TargetClosestPlayer();
 
-                            DialogueManager.Instance.TryStartDialogue(bossSpawnDialogue, () =>
+                            DialogueManager.Instance.TryStartDialogue(bossSpawnDialogue, true, () =>
                             {
                                 UIManager.Instance.FadeScreen(true, () =>
                                 {

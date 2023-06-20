@@ -133,7 +133,12 @@ public class FSM_Player_Manager : FSM_ManagerBase
         if (owner.GetSkill.IsInUse) return;
 
         SwitchState<FSM_Player_InSkill>(E_PlayerState.InSkill).SetTimers(duration, transition, offset);
-    } 
+    }
+
+    public void CinematicStateChange(bool newState)
+    {
+        SwitchState(newState ? E_PlayerState.Cinematic : E_PlayerState.Idle);
+    }
 
     #endregion
 

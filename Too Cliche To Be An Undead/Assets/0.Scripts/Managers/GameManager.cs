@@ -238,12 +238,16 @@ public class GameManager : MonoBehaviourEventsHandler
     {
         PlayerInputsEvents.OnPauseCall += HandlePause;
         CinematicManagerEvents.OnChangeCinematicState += OnChangeCinematicState;
+        DialogueManagerEvents.OnStartDialogue += SetStateToCinematicIfNotAlready;
+        DialogueManagerEvents.OnEndDialogue += OnDialogueEnded;
     }
 
     protected override void EventsUnSubscriber()
     {
         PlayerInputsEvents.OnPauseCall -= HandlePause;
-        CinematicManagerEvents.OnChangeCinematicState += OnChangeCinematicState;
+        CinematicManagerEvents.OnChangeCinematicState -= OnChangeCinematicState;
+        DialogueManagerEvents.OnStartDialogue -= SetStateToCinematicIfNotAlready;
+        DialogueManagerEvents.OnEndDialogue -= OnDialogueEnded;
     }
 
     protected override void Awake()
@@ -302,7 +306,14 @@ public class GameManager : MonoBehaviourEventsHandler
     private void OnChangeCinematicState(bool state)
     {
         GameState = state ? E_GameState.Cinematic : E_GameState.InGame;
-        LogsManager.Log($"Cinematic " + (state ? "Started" : "Ended"), Time.time, this.gameObject);
+    }
+    private void SetStateToCinematicIfNotAlready()
+    {
+        if (GameState != E_GameState.Cinematic) GameState = E_GameState.Cinematic;
+    }
+    private void OnDialogueEnded(bool switchState)
+    {
+        if (switchState) GameState = E_GameState.InGame;
     }
 
     public void SetPlayersByNameList()

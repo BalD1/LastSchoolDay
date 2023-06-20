@@ -129,7 +129,7 @@ public class Tutorial : MonoBehaviour
     public void StartZombiesDialogue()
     {
         doorToCloseOnZombies.Close();
-        DialogueManager.Instance.TryStartDialogue(zombiesDialogue, EnableTutorialZombies);
+        DialogueManager.Instance.TryStartDialogue(zombiesDialogue, true,EnableTutorialZombies);
     }
 
     private void EnableTutorialZombies()
@@ -163,7 +163,7 @@ public class Tutorial : MonoBehaviour
             {
                 item.d_OnDeath -= OnZombieDeath;
             }
-            DialogueManager.Instance.TryStartDialogue(cleanedRoomDialogue, TeleportPlayersToInGameHUB);
+            DialogueManager.Instance.TryStartDialogue(cleanedRoomDialogue, true, TeleportPlayersToInGameHUB);
         }
     }
 

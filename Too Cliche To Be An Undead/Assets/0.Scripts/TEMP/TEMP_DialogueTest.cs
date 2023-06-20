@@ -26,6 +26,6 @@ public class TEMP_DialogueTest : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        DialogueManager.Instance.TryStartDialogue(dialogueToCall);
+        DialogueManager.Instance.TryStartDialogue(dialogueToCall, true);
     }
 }

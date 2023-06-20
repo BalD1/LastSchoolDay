@@ -29,10 +29,12 @@ public class FSM_Player_Cinematic : FSM_Base<FSM_Player_Manager>
 
     protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
+        CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
     }
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
+        CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
     }
 
     public override void Setup(FSM_Player_Manager stateManager)

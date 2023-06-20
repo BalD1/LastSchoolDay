@@ -58,6 +58,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         PlayerInputsEvents.OnPlayerInputsCreated += OnPlayerInputsCreated;
         PlayerInputsEvents.OnPlayerInputsDestroyed += OnPlayerInputsDestroyed;
         GameManagerEvents.OnGameStateChange += OnGameStateChange;
+        DialogueManagerEvents.OnStartDialogue += SwitchAllControlMapsToDialogue;
     }
 
     protected override void EventsUnSubscriber()
@@ -69,6 +70,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         PlayerInputsEvents.OnPlayerInputsCreated -= OnPlayerInputsCreated;
         PlayerInputsEvents.OnPlayerInputsDestroyed -= OnPlayerInputsDestroyed;
         GameManagerEvents.OnGameStateChange -= OnGameStateChange;
+        DialogueManagerEvents.OnStartDialogue -= SwitchAllControlMapsToDialogue;
     }
 
     protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -152,6 +154,9 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
 
             case GameManager.E_GameState.GameOver:
                 SwitchAllControlMapsToUI();
+                break;
+
+            case GameManager.E_GameState.Cinematic:
                 break;
         }
     }

@@ -49,6 +49,7 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
         owner.OnDashInput += stateManager.DashConditions;
         owner.OnAskForPush += stateManager.PushConditions;
         owner.OnAskForStun += stateManager.SwitchToStun;
+        CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
     }
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
@@ -61,6 +62,7 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
         owner.OnDashInput -= stateManager.DashConditions;
         owner.OnAskForPush -= stateManager.PushConditions;
         owner.OnAskForStun -= stateManager.SwitchToStun;
+        CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
     }
 
     public override void Setup(FSM_Player_Manager stateManager)

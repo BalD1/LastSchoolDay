@@ -30,7 +30,7 @@ public class ShopDialogueAfterFirstDeath : DialogueTrigger
 
     private void OnCameraEndedTravel()
     {
-        DialogueManager.Instance.TryStartDialogue(dialogueToStart, OnDialogueEnded);
+        DialogueManager.Instance.TryStartDialogue(dialogueToStart, true, OnDialogueEnded);
         Destroy(this.gameObject);
     }
 

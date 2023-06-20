@@ -106,6 +106,7 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
 
     private void RemoveInput(int idx)
     {
+        if (playersDataKeep.Count >= idx) return;
         playersDataKeep.RemoveAt(idx);
     }
 

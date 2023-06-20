@@ -77,6 +77,7 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
         owner.OnDashInput += stateManager.DashConditions;
         owner.OnAskForStun += stateManager.SwitchToStun;
         owner.OnAttackEnded += OnAttackEnded;
+        CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
     }
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
@@ -85,6 +86,7 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
         owner.OnDashInput -= stateManager.DashConditions;
         owner.OnAskForStun -= stateManager.SwitchToStun;
         owner.OnAttackEnded -= OnAttackEnded;
+        CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
     }
 
     private void OnAttackEnded() => stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);

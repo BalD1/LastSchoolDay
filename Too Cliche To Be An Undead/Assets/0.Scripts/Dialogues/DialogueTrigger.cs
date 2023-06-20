@@ -16,7 +16,7 @@ public class DialogueTrigger : MonoBehaviour
         if (collision.CompareTag("Player") && !triggerFlag)
         {
             triggerFlag = true;
-            DialogueManager.Instance.TryStartDialogue(dialogueToStart);
+            DialogueManager.Instance.TryStartDialogue(dialogueToStart, true);
             Destroy(this.gameObject);
         }
     }

@@ -63,6 +63,7 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
         playerOwner.OnAttackInput += playerOwner.Weapon.AskForAttack;
         playerOwner.OnSkillInput += playerOwner.GetSkillHolder.StartSkill;
         playerOwner.OnAskForStun += stateManager.SwitchToStun;
+        CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
     }
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
@@ -71,6 +72,7 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
         playerOwner.OnAttackInput -= playerOwner.Weapon.AskForAttack;
         playerOwner.OnSkillInput -= playerOwner.GetSkillHolder.StartSkill;
         playerOwner.OnAskForStun -= stateManager.SwitchToStun;
+        CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
     }
 
     public override string ToString() => StateName.ToString();

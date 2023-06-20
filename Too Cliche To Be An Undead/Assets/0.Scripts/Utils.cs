@@ -330,6 +330,12 @@ namespace BalDUtilities
                 EditorGUILayout.ObjectField("Script", MonoScript.FromMonoBehaviour(mono), scriptType, false);
                 GUI.enabled = true;
             }
+            public static void ScriptDraw(Type scriptType, ScriptableObject so, bool allowSceneObject = false)
+            {
+                GUI.enabled = false;
+                EditorGUILayout.ObjectField("Script", MonoScript.FromScriptableObject(so), scriptType, false);
+                GUI.enabled = true;
+            }
 
             public static void EditorScriptDraw(Type scriptType, ScriptableObject sO, bool allowSceneObject = false)
             {

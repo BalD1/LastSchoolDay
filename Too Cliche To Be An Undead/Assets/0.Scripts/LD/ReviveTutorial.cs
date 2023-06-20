@@ -77,9 +77,9 @@ public class ReviveTutorial : MonoBehaviour
 
                 UIManager.Instance.FadeScreen(fadeOut: false, () =>
                 {
-                    DialogueManager.Instance.TryStartDialogue(dialogueToPlay, () =>
+                    DialogueManager.Instance.TryStartDialogue(dialogueToPlay, true, () =>
                     {
-                        DialogueManager.Instance.TryStartDialogue(startDialogue);
+                        DialogueManager.Instance.TryStartDialogue(startDialogue, true);
                     });
                     door.OpenDoor();
                 });
@@ -92,7 +92,7 @@ public class ReviveTutorial : MonoBehaviour
         if (GameManager.Instance.PlayersCount > 1) return;
         if (!collision.gameObject.CompareTag("Player")) return;
 
-        DialogueManager.Instance.TryStartDialogue(startDialogue);
+        DialogueManager.Instance.TryStartDialogue(startDialogue, true);
         Destroy(this.gameObject);
     }
     private void OnDestroy()

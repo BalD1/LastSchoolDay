@@ -32,6 +32,7 @@ public class EndCinematic : MonoBehaviour, IInteractable
 
     private void SetCanBeOpened()
     {
+        /*
         UIManager.Instance.SetBlackBars(true);
 
         CameraManager.Instance.MoveCamera(boss.transform.position, () =>
@@ -40,7 +41,7 @@ public class EndCinematic : MonoBehaviour, IInteractable
             {
                 DialogueManager.Instance.TryStartDialogue(onBossKillDialogue,
                     () => CameraManager.Instance.MoveCamera(this.transform.position, 
-                        () => DialogueManager.Instance.TryStartDialogue(showExitDoorDialogue, () =>
+                        () => DialogueManager.Instance.TryStartDialogue(showExitDoorDialogue, true, () =>
                         {
                             CameraManager.Instance.MoveCamera(GameManager.Player1Ref.transform.position, StopCinematic);
                         }))
@@ -50,6 +51,7 @@ public class EndCinematic : MonoBehaviour, IInteractable
 
         canBeOpened = true;
         skeletonAnimation.AnimationState.SetAnimation(0, unlockedAnim, false);
+        */
     }
 
     private void StopCinematic()

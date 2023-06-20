@@ -7,6 +7,8 @@ public class CinematicTestr : MonoBehaviour
     [SerializeField] private List<Vector2> posTests = new List<Vector2>();
     [SerializeField] private List<Vector2> posTests2 = new List<Vector2>();
 
+    [SerializeField] private SCRPT_SingleDialogue dialogue;
+
     private Cinematic c;
 
     private void Start()
@@ -18,13 +20,13 @@ public class CinematicTestr : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            CinematicPlayersMove cpm = new CinematicPlayersMove();
-            cpm.Setup(IGPlayersManager.Instance.PlayersList, posTests);
+            CinematicPlayersMove cpm = new CinematicPlayersMove(posTests, true);
+            CinematicPlayersMove cpm2 = new CinematicPlayersMove(posTests2, true);
 
-            CinematicPlayersMove cpm2 = new CinematicPlayersMove();
-            cpm2.Setup(IGPlayersManager.Instance.PlayersList, posTests2);
+            CinematicDialoguePlayer cdp = new CinematicDialoguePlayer(dialogue);
 
-            c = new Cinematic(cpm, cpm2);
+            c = new Cinematic(cpm, cdp, cpm2);
+            c.SetPlayers(IGPlayersManager.Instance.PlayersList);
             c.StartCinematic();
         }
     }

@@ -24,19 +24,11 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     protected override void EventsSubscriber()
     {
-        UIManagerEvents.OnExitedUI += SwitchControlMapToInGame;
-        DialogueManagerEvents.OnStartDialogue += SwitchControlMapToDialogue;
-        DialogueManagerEvents.OnEndDialogue += SwitchControlMapToInGame;
-
         if (owner != null) owner.OnStateChange += OnOwnerStateChange;
     }
 
     protected override void EventsUnSubscriber()
     {
-        UIManagerEvents.OnExitedUI -= SwitchControlMapToInGame;
-        DialogueManagerEvents.OnStartDialogue -= SwitchControlMapToDialogue;
-        DialogueManagerEvents.OnEndDialogue += SwitchControlMapToInGame;
-
         if (owner != null) owner.OnStateChange += OnOwnerStateChange;
     }
 

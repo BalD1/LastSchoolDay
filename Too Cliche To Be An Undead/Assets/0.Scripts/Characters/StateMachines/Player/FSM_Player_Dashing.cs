@@ -98,12 +98,14 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
     {
         owner.OnEnteredBodyTrigger += TriggerEnter;
         owner.OnAskForStun += stateManager.SwitchToStun;
+        CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
     }
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
         owner.OnEnteredBodyTrigger -= TriggerEnter;
         owner.OnAskForStun -= stateManager.SwitchToStun;
+        CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
     }
 
     private void TriggerEnter(Collider2D collider)

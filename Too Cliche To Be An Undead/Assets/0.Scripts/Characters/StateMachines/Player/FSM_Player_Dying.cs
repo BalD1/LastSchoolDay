@@ -61,6 +61,7 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
         if (!isFake) owner.OnOtherInteract += Revive;
         owner.OnRevive += Revive;
         owner.OnSelfReviveInput += SelfRevive;
+        CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
     }
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
@@ -68,6 +69,7 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
         if (!isFake) owner.OnOtherInteract -= Revive;
         owner.OnRevive -= Revive;
         owner.OnSelfReviveInput -= SelfRevive;
+        CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
     }
 
     private void SelfRevive()

@@ -56,6 +56,8 @@ public class DialogueManager : MonoBehaviourEventsHandler
 
     private Coroutine revealCoroutine;
 
+    private bool switchStateAtEnd = true;
+
     private int unfinishedEffectsCount;
     private int UnfinishedEffectsCount
     {
@@ -107,13 +109,13 @@ public class DialogueManager : MonoBehaviourEventsHandler
     /// <param name="searchedID"></param>
     /// <param name="actionAtDialogueEnd"></param>
     /// <returns>Returns <see langword="true"/> if the dialogue was found,  <see langword="false"/> otherwise.</returns>
-    public bool TryStartDialogue(string searchedID, Action actionAtDialogueEnd = null)
+    public bool TryStartDialogue(string searchedID, bool _switchStateAtEnd, Action actionAtDialogueEnd = null)
     {
         foreach (var item in Dialogues)
         {
             if (item.ID == searchedID)
             {
-                return TryStartDialogue(item, actionAtDialogueEnd);
+                return TryStartDialogue(item, _switchStateAtEnd, actionAtDialogueEnd);
             }
         }
 
@@ -122,11 +124,11 @@ public class DialogueManager : MonoBehaviourEventsHandler
 #endif
         return false;
     }
-    public bool TryStartDialogue(SCRPT_SingleDialogue dialogue, Action actionAtDialogueEnd = null)
+    public bool TryStartDialogue(SCRPT_SingleDialogue dialogue, bool _switchStateAtEnd, Action actionAtDialogueEnd = null)
     {
         if (dialogue == null) return false;
 
-        StartDialogue(dialogue);
+        StartDialogue(dialogue, _switchStateAtEnd);
 
         endDialogueAction = actionAtDialogueEnd;
         return true;
@@ -144,10 +146,11 @@ public class DialogueManager : MonoBehaviourEventsHandler
     /// Starts the dialogue "<paramref name="dialogue"/>", activating "cinematic" mode.
     /// </summary>
     /// <param name="dialogue"></param>
-    public void StartDialogue(SCRPT_SingleDialogue dialogue)
+    public void StartDialogue(SCRPT_SingleDialogue dialogue, bool _switchStateAtEnd)
     {
         this.StartedDialogue();
 
+        switchStateAtEnd = _switchStateAtEnd;
         dialoguePortrait.enabled = false;
         speakerName.enabled = false;
 
@@ -162,7 +165,6 @@ public class DialogueManager : MonoBehaviourEventsHandler
         // Sets GameState and UI to a "cinematic" mode.
         if (currentDialogue.ignoreGameState == false)
         {
-            GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
             UIManager.Instance.SetBlackBars(true, .3f);
             UIManager.Instance.FadeAllHUD(false);
         }
@@ -310,9 +312,6 @@ public class DialogueManager : MonoBehaviourEventsHandler
             .setOnComplete(
             () =>
             {
-                if (currentDialogue?.ignoreGameState == false)
-                    GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-
                 if (GameManager.Instance.IsInTutorial) UIManager.Instance.FadeTutoHUD(true);
 
                 GameManager.Instance.ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Idle);
