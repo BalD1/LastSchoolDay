@@ -20,10 +20,10 @@ public class CinematicTestr : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            CinematicPlayersMove cpm = new CinematicPlayersMove(posTests, true);
-            CinematicPlayersMove cpm2 = new CinematicPlayersMove(posTests2, true);
+            CA_CinematicPlayersMove cpm = new CA_CinematicPlayersMove(posTests, true);
+            CA_CinematicPlayersMove cpm2 = new CA_CinematicPlayersMove(posTests2, true);
 
-            CinematicDialoguePlayer cdp = new CinematicDialoguePlayer(dialogue);
+            CA_CinematicDialoguePlayer cdp = new CA_CinematicDialoguePlayer(dialogue);
 
             c = new Cinematic(cpm, cdp, cpm2);
             c.SetPlayers(IGPlayersManager.Instance.PlayersList);

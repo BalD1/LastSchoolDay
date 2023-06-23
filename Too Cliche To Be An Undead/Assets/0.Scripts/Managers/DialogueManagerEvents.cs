@@ -2,9 +2,9 @@ using System;
 
 public static class DialogueManagerEvents
 {
-    public static event Action OnStartDialogue;
-    public static void StartedDialogue(this DialogueManager manager) => OnStartDialogue?.Invoke();
+    public static event Action<bool> OnStartDialogue;
+    public static void StartedDialogue(this DialogueManager manager, bool _fromCinematic) => OnStartDialogue?.Invoke(_fromCinematic);
 
     public static event Action<bool> OnEndDialogue;
-    public static void EndedDialogue(this DialogueManager manager, bool switchStates) => OnEndDialogue?.Invoke(switchStates);
+    public static void EndedDialogue(this DialogueManager manager, bool _fromCinematic) => OnEndDialogue?.Invoke(_fromCinematic);
 }

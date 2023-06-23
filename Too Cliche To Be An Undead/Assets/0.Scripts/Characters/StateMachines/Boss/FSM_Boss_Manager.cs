@@ -29,7 +29,6 @@ public class FSM_Boss_Manager : FSM_ManagerBase
 
     protected override void Start()
     {
-        base.Start();
         if (owner.isAppeared) OnStart();
     }
 

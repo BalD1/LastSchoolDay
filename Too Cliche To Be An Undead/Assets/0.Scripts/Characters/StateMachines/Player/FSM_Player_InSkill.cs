@@ -206,6 +206,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         owner.OnAskForPush += stateManager.PushConditions;
         owner.OnAskForStun += stateManager.SwitchToStun;
         CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
+        DialogueManagerEvents.OnStartDialogue += stateManager.DialogueStart;
+        DialogueManagerEvents.OnEndDialogue += stateManager.DialogueEnded;
     }
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
@@ -214,6 +216,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
         owner.OnAskForPush -= stateManager.PushConditions;
         owner.OnAskForStun -= stateManager.SwitchToStun;
         CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
+        DialogueManagerEvents.OnStartDialogue -= stateManager.DialogueStart;
+        DialogueManagerEvents.OnEndDialogue -= stateManager.DialogueEnded;
     }
 
     public FSM_Player_InSkill SetTimers(float _skillTimer, float _transitionTimer = -1, float _startOffset = -1)

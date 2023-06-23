@@ -30,11 +30,15 @@ public class FSM_Player_Cinematic : FSM_Base<FSM_Player_Manager>
     protected override void EventsSubscriber(FSM_Player_Manager stateManager)
     {
         CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
+        DialogueManagerEvents.OnStartDialogue += stateManager.DialogueStart;
+        DialogueManagerEvents.OnEndDialogue += stateManager.DialogueEnded;
     }
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
     {
         CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
+        DialogueManagerEvents.OnStartDialogue -= stateManager.DialogueStart;
+        DialogueManagerEvents.OnEndDialogue -= stateManager.DialogueEnded;
     }
 
     public override void Setup(FSM_Player_Manager stateManager)

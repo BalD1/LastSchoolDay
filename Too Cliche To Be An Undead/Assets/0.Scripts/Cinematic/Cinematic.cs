@@ -1,30 +1,39 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Cinematic
 {
-    private Queue<CinematicAction> actionQueue;
+    private Queue<CA_CinematicAction> actionQueue;
     public List<PlayerCharacter> Players { get; private set; } = new List<PlayerCharacter>();
 
     public Cinematic() 
     {
-        actionQueue = new Queue<CinematicAction>();
+        actionQueue = new Queue<CA_CinematicAction>();
     }
-    public Cinematic(Queue<CinematicAction> actionQueue)
+    public Cinematic(Queue<CA_CinematicAction> actionQueue)
     {
-        actionQueue = new Queue<CinematicAction>();
+        actionQueue = new Queue<CA_CinematicAction>();
         this.actionQueue = actionQueue;
         foreach (var item in actionQueue)
         {
             item.SetOwner(this);
         }
     }
-    public Cinematic(params CinematicAction[] action)
+    public Cinematic(params CA_CinematicAction[] action)
     {
-        actionQueue = new Queue<CinematicAction>(action);
+        actionQueue = new Queue<CA_CinematicAction>(action);
         foreach (var item in action)
         {
             item.SetOwner(this);
+        }
+    }
+    public Cinematic(SO_Cinematic cinematicSO)
+    {
+        actionQueue = new Queue<CA_CinematicAction>();
+        foreach (var item in cinematicSO.CinematicActions)
+        {
+            actionQueue.Enqueue(item.Action);
         }
     }
     public Cinematic SetPlayer(PlayerCharacter _player)
@@ -38,14 +47,14 @@ public class Cinematic
         return this;
     }
 
-    public void AddAction(CinematicAction action)
+    public void AddAction(CA_CinematicAction action)
     {
         actionQueue.Enqueue(action);
         action.SetOwner(this);
     }
-    public void AddActions(List<CinematicAction> actions)
+    public void AddActions(List<CA_CinematicAction> actions)
     {
-        foreach (CinematicAction action in actions)
+        foreach (CA_CinematicAction action in actions)
         {
             actionQueue.Enqueue(action);
             action.SetOwner(this);
@@ -58,7 +67,7 @@ public class Cinematic
         PlayNextAction(null);
     }
 
-    private void PlayNextAction(CinematicAction last)
+    private void PlayNextAction(CA_CinematicAction last)
     {
         if (last != null) last.OnActionEnded -= PlayNextAction;
         if (actionQueue.Count <= 0)
@@ -67,7 +76,7 @@ public class Cinematic
             return;
         }
 
-        CinematicAction next = actionQueue.Dequeue();
+        CA_CinematicAction next = actionQueue.Dequeue();
         next.OnActionEnded += PlayNextAction;
         next.Execute();
     }

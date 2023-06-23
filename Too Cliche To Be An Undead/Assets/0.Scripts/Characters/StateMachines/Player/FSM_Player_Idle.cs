@@ -45,6 +45,8 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
         playerOwner.OnAskForPush += stateManager.PushConditions;
         playerOwner.OnAskForStun += stateManager.SwitchToStun;
         CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
+        DialogueManagerEvents.OnStartDialogue += stateManager.DialogueStart;
+        DialogueManagerEvents.OnEndDialogue += stateManager.DialogueEnded;
     }
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
@@ -59,6 +61,8 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
         playerOwner.OnAskForPush -= stateManager.PushConditions;
         playerOwner.OnAskForStun -= stateManager.SwitchToStun;
         CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
+        DialogueManagerEvents.OnStartDialogue -= stateManager.DialogueStart;
+        DialogueManagerEvents.OnEndDialogue -= stateManager.DialogueEnded;
     }
 
     public override void Conditions(FSM_Player_Manager stateManager)

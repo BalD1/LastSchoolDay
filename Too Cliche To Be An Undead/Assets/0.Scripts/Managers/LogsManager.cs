@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class LogsManager
 {
+    public static void Log(this MonoBehaviour sender, object message, [CallerLineNumber] int atLine = -1)
+        => Log(message, sender.gameObject, atLine);
     public static void Log(object message, GameObject sender, [CallerLineNumber] int atLine = -1)
         => Log(sender.GetComponent<MonoBehaviour>().GetType(), message, sender, atLine);
     public static void Log(object message, float sendTime, GameObject sender, [CallerLineNumber] int atLine = -1)
@@ -13,9 +15,6 @@ public static class LogsManager
     }
     private static void Log(Type scriptType, object message, GameObject sender, int atLine)
     {
-#if !UNITY_EDITOR
-        return;
-#endif
         bool isManager = scriptType.ToString().Contains("Manager");
         string color = isManager ? "FF0000" : "0000FF";
         Debug.LogFormat(sender,
@@ -25,5 +24,16 @@ public static class LogsManager
             $", <b>{sender.gameObject.name}</b>]") +
             $" : {message}");
     }
-
+    public static void Log(this object sender, object message, [CallerLineNumber] int atLine = -1)
+    {
+        Type scriptType = sender.GetType();
+        bool isManager = scriptType.ToString().Contains("Manager");
+        string color = isManager ? "FF0000" : "0000FF";
+        Debug.LogFormat(
+            $"{atLine} : " +
+            $"[<color=#{color}><b>{scriptType}</b></color>" +
+            (isManager ? "]" :
+            $", <b>{sender}</b>]") +
+            $" : {message}");
+    }
 }

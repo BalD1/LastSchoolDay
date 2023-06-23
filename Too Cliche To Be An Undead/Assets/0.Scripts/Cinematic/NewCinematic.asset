@@ -12,3 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5450c740edfd11b4b82298ce11507cf6, type: 3}
   m_Name: NewCinematic
   m_EditorClassIdentifier: 
+  actions:
+  - idxInCinematicArray: 0
+    idxInSelfArray: 0
+  - idxInCinematicArray: 1
+    idxInSelfArray: 0
+  - idxInCinematicArray: 2
+    idxInSelfArray: 1
+  dialoguePlayers:
+  - action:
+      dialogueToPlay: {fileID: 11400000, guid: bab690a136f4c5f4686bfbd86b9b1967, type: 2}
+    idxInCinematicArray: 0
+    idxInSelfArray: 0
+  movePlayers:
+  - action:
+      targetPositions: []
+      setToIdleAtEnd: 0
+    idxInCinematicArray: 1
+    idxInSelfArray: 0
+  - action:
+      targetPositions: []
+      setToIdleAtEnd: 0
+    idxInCinematicArray: 2
+    idxInSelfArray: 1

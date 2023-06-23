@@ -34,6 +34,8 @@ public class FSM_Player_Stunned : FSM_Entity_Stunned<FSM_Player_Manager>
         base.EventsSubscriber(stateManager);
         owner.OnAskForPush += stateManager.PushConditions;
         CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
+        DialogueManagerEvents.OnStartDialogue += stateManager.DialogueStart;
+        DialogueManagerEvents.OnEndDialogue += stateManager.DialogueEnded;
     }
 
     protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
@@ -41,6 +43,8 @@ public class FSM_Player_Stunned : FSM_Entity_Stunned<FSM_Player_Manager>
         base.EventsUnsubscriber(stateManager);
         owner.OnAskForPush -= stateManager.PushConditions;
         CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
+        DialogueManagerEvents.OnStartDialogue -= stateManager.DialogueStart;
+        DialogueManagerEvents.OnEndDialogue -= stateManager.DialogueEnded;
     }
 
     public override string ToString() => StateName.ToString();

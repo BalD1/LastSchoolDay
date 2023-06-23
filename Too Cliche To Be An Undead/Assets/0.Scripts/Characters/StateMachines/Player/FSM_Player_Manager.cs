@@ -43,8 +43,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
     protected override void Start()
     {
-        base.Start();
-        SwitchState(E_PlayerState.Idle);
+        if (currentState == null) SwitchState(E_PlayerState.Idle);
     }
 
     protected override void Update()
@@ -138,6 +137,16 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public void CinematicStateChange(bool newState)
     {
         SwitchState(newState ? E_PlayerState.Cinematic : E_PlayerState.Idle);
+    }
+    public void DialogueStart(bool fromCinematic)
+    {
+        if (fromCinematic) return;
+        this.SwitchState(E_PlayerState.Cinematic);
+    }
+    public void DialogueEnded(bool fromCinematic)
+    {
+        if (fromCinematic) return;
+        this.SwitchState(E_PlayerState.Idle);
     }
 
     #endregion

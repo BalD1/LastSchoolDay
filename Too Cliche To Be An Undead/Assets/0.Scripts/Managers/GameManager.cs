@@ -307,13 +307,13 @@ public class GameManager : MonoBehaviourEventsHandler
     {
         GameState = state ? E_GameState.Cinematic : E_GameState.InGame;
     }
-    private void SetStateToCinematicIfNotAlready()
+    private void SetStateToCinematicIfNotAlready(bool fromCinematic)
     {
         if (GameState != E_GameState.Cinematic) GameState = E_GameState.Cinematic;
     }
-    private void OnDialogueEnded(bool switchState)
+    private void OnDialogueEnded(bool fromCinematic)
     {
-        if (switchState) GameState = E_GameState.InGame;
+        if (!fromCinematic) GameState = E_GameState.InGame;
     }
 
     public void SetPlayersByNameList()
@@ -496,6 +496,7 @@ public class GameManager : MonoBehaviourEventsHandler
 
     public void ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState newState)
     {
+        return;
         foreach (var item in playersByName)
         {
             item.playerScript.StateManager.ForceSetState(newState);

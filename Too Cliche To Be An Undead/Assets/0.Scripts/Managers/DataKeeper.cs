@@ -74,6 +74,7 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
 
     protected override void OnSceneUnloaded(Scene scene)
     {
+        CinematicManagerEvents.ForceSetIsInCinematic(false);
     }
 
     protected override void Awake()
@@ -85,6 +86,8 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
         }
         base.Awake();
     }
+
+    public bool ShouldSkipTuto() => skipTuto || alreadyPlayedTuto;
 
     private void RenameSingle(int lastIdx, int newIdx)
     {
@@ -110,27 +113,6 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
         playersDataKeep.RemoveAt(idx);
     }
 
-    /*
-    public int CreateData(PlayerCharacter newPlayer)
-    {
-        foreach (var item in playersDataKeep)
-        {
-            if (item.playerInput.Equals(newPlayer.Get)) return playersDataKeep.IndexOf(item) - 1;
-        }
-        newPlayer.name = $"Player {playersDataKeep.Count}";
-
-        PlayerDataKeep pdk = new PlayerDataKeep(newPlayer.name, newPlayer.Inputs, GameManager.E_CharactersNames.Shirley);
-        playersDataKeep.Add(pdk);
-
-        int playerIdx = playersDataKeep.Count - 1;
-
-        GameManager.Instance.AddPlayerToList(pdk);
-        D_playerCreated?.Invoke(playerIdx, newPlayer);
-
-        return playerIdx;
-    }
-    */
-        
     public bool IsPlayerDataKeepSet() => (playersDataKeep != null && playersDataKeep.Count > 0);
 
     public int GetIndex(string _playerName)

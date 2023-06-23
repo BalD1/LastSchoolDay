@@ -30,7 +30,6 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
     protected override void Start()
     {
-        base.Start();
         currentState = WanderingState;
         currentState.EnterState(this);
 

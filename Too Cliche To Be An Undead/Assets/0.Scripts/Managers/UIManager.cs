@@ -7,19 +7,8 @@ using UnityEngine.UI;
 using System.Text;
 using System;
 
-public class UIManager : MonoBehaviourEventsHandler
+public class UIManager : Singleton<UIManager>
 {
-    private static UIManager instance;
-    public static UIManager Instance
-    {
-        get
-        {
-            //if (instance == null) Debug.LogError("UIManager instance was not found.");
-
-            return instance;
-        }
-    }
-
     [SerializeField] private EventSystem eventSystem;
 
     #region Buttons & Menus
@@ -188,6 +177,8 @@ public class UIManager : MonoBehaviourEventsHandler
 
     private bool firstGameStatePassFlag = false;
 
+    private bool isInCinematic = false;
+
     #region Awake / Start / Updates
 
     protected override void EventsSubscriber()
@@ -197,6 +188,8 @@ public class UIManager : MonoBehaviourEventsHandler
         PlayerInputsEvents.OnScrollCurrentVBDownCall += ScrollCurrentVerticalBarDown;
         PlayerInputsEvents.OnScrollCurrentVBUpCall += ScrollCurrentVerticalBarUp;
         PlayerInputsEvents.OnCloseMenuCall += CloseYoungerMenu;
+        DialogueManagerEvents.OnStartDialogue += OnStartDialogue;
+        DialogueManagerEvents.OnEndDialogue += OnEndDialogue;
     }
 
     protected override void EventsUnSubscriber()
@@ -206,6 +199,8 @@ public class UIManager : MonoBehaviourEventsHandler
         PlayerInputsEvents.OnScrollCurrentVBDownCall -= ScrollCurrentVerticalBarDown;
         PlayerInputsEvents.OnScrollCurrentVBUpCall -= ScrollCurrentVerticalBarUp;
         PlayerInputsEvents.OnCloseMenuCall -= CloseYoungerMenu;
+        DialogueManagerEvents.OnStartDialogue -= OnStartDialogue;
+        DialogueManagerEvents.OnEndDialogue -= OnEndDialogue;
     }
 
     protected override void Awake()
@@ -245,9 +240,22 @@ public class UIManager : MonoBehaviourEventsHandler
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu) == false)
             CheckIfPlayerOrBossAreCoveredByHUD();
-    } 
+    }
 
     #endregion
+
+    private void OnStartDialogue(bool fromCinematic)
+    {
+        if (fromCinematic) return;
+        SetBlackBars(true, .3f);
+        FadeAllHUD(false);
+    }
+    private void OnEndDialogue(bool fromCinematic)
+    {
+        if (fromCinematic) return;
+        SetBlackBars(false, .3f);
+        FadeAllHUD(true);
+    }
 
     public void SetOptionsState()
     {

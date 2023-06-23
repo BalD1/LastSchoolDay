@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class IGPlayersManager : Singleton<IGPlayersManager>
 {
@@ -23,5 +22,7 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
             PlayersList.Add(newPlayer);
             this.PlayerCreated(newPlayer);
         }
+
+        this.AllPlayersCreated(PlayersList);
     }
 }

@@ -42,8 +42,6 @@ public class Tutorial : MonoBehaviour
             Destroy(reviveTutorial.gameObject);
             return;
         }
-        reviveTutorial.OnStart();
-
         foreach (var item in tutorialZombies)
         {
             item.d_OnDeath += OnZombieDeath;
