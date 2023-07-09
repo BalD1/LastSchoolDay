@@ -1,60 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopTutorial : MonoBehaviour
+public class ShopTutorial : MonoBehaviourEventsHandler
 {
-    [InspectorButton(nameof(DelegateUpdateNmaesOnList), ButtonWidth = 300)]
-    [SerializeField] private bool updateDialoguesNames;
-
-    [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
-    [SerializeField] private string shopTutoDialogue;
-
+    [SerializeField] private SCRPT_SingleDialogue shopTutoDialogue;
     [SerializeField] private Transform shopTransform;
+
+    private Cinematic shopTutoCinematic;
+    private Cinematic shopClosedCinematic;
 
     private Shop shop;
 
     private void Start()
     {
         shop = GameManager.Instance.GetShop;
+        BuildStartCinematic();
+        BuildShopClosedCinematic();
+    }
+
+    private void BuildStartCinematic()
+    {
+        shopTutoCinematic = new Cinematic().SetPlayers(IGPlayersManager.Instance.PlayersList);
+        shopTutoCinematic.AddActions(
+            new CA_CinematicCameraMove(Camera.main, shop.transform.position, 2),
+            new CA_CinematicDialoguePlayer(shopTutoDialogue),
+            new CA_CinematicCustomAction(shop.OpenShop)
+            );
+    }
+
+    private void BuildShopClosedCinematic()
+    {
+        shopClosedCinematic = new Cinematic().SetPlayers(IGPlayersManager.Instance.PlayersList);
+        shopTutoCinematic.AddActions(
+            new CA_CinematicCameraMove(Camera.main, IGPlayersManager.Instance.PlayersList[0].transform.position, 2)
+            );
+    }
+
+    protected override void EventsSubscriber()
+    {
+        TutorialEvents.OnTutorialEnded += StartTutorial;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        TutorialEvents.OnTutorialEnded -= StartTutorial;
+        ShopEvents.OnCloseShop -= OnShopClosed;
     }
 
     public void StartTutorial()
     {
-        Vector2 shopPos = shopTransform.position;
-        CameraManager.Instance.MoveCamera(shopPos, 
-            () =>
-            {
-                DialogueManager.Instance.TryStartDialogue(shopTutoDialogue,true, OnDialogueEnd);
-            });
-        shop.D_closeShop += OnShopClosed;
-    }
-
-    private void OnDialogueEnd()
-    {
-        GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
-
-        shop.OpenShop();
-        
+        ShopEvents.OnCloseShop += OnShopClosed;
+        shopTutoCinematic.StartCinematic();
     }
 
     private void OnShopClosed()
     {
-        GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
-        UIManager.Instance.FadeAllHUD(false, 0);
-        CameraManager.Instance.MoveCamera(GameManager.Player1Ref.transform.position, CameraTravelEnded);
-    }
-
-    private void CameraTravelEnded()
-    {
-        shop.D_closeShop -= OnShopClosed;
-        CameraManager.Instance.EndCinematic();
-        UIManager.Instance.FadeInGameHUD(true);
-        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-    }
-
-    private void DelegateUpdateNmaesOnList()
-    {
-        DialogueManager.SearchAndUpdateDialogueList();
+        ShopEvents.OnCloseShop -= OnShopClosed;
+        shopClosedCinematic.StartCinematic();
     }
 }

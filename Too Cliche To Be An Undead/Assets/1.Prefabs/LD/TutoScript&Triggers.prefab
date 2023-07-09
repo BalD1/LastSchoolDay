@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &160206264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 160206265}
+  m_Layer: 11
+  m_Name: ZombiesCinematicCameraGoal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &160206265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160206264}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.82, y: 0.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1389600611721218785}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &459786198
 GameObject:
   m_ObjectHideFlags: 0
@@ -14,7 +45,7 @@ GameObject:
   m_Layer: 11
   m_Name: ReviveDialogueTrigger
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -144,6 +175,7 @@ Transform:
   - {fileID: 3574238762408909157}
   - {fileID: 6520208579213708979}
   - {fileID: 459786199}
+  - {fileID: 160206265}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -160,8 +192,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateDialoguesNames: 0
-  zombiesDialogue: tuto_zombies
-  cleanedRoomDialogue: tuto_cleanedRoom
+  zombiesDialogue: {fileID: 11400000, guid: 64d4e665118c4cf4abb14bdfedcdd3af, type: 2}
+  cleanedRoomDialogue: {fileID: 11400000, guid: 995f8813c5b64eb469ccb906fd12a402, type: 2}
+  shopTutoDialogue: {fileID: 11400000, guid: f5379027c05f93a40bdd7e551de46e82, type: 2}
   doorToCloseOnZombies: {fileID: 0}
   tutorialZombies:
   - {fileID: 0}
@@ -173,6 +206,7 @@ MonoBehaviour:
   - {fileID: 7711858509444639781}
   - {fileID: 3574238762408909157}
   - {fileID: 6520208579213708979}
+  zombiesCinematicCameraGoal: {fileID: 160206265}
   tutorialsArray:
   - {fileID: 0}
   - {fileID: 0}

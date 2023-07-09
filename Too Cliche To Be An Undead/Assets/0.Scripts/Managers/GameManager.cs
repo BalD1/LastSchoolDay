@@ -40,22 +40,10 @@ public class GameManager : MonoBehaviourEventsHandler
     public Shop GetShop { get => shop; }
 
     private bool isInTutorial;
-    [SerializeField] public bool IsInTutorial
-    {   
-        get => isInTutorial;
-        set
-        {
-            isInTutorial = value;
-
-            D_tutorialState?.Invoke(value);
-        }
-    }
+    [SerializeField] public bool IsInTutorial { get; private set; }
 
     public delegate void D_OnPlayerIsSetup(int playerIdx);
     public D_OnPlayerIsSetup D_onPlayerIsSetup;
-
-    public delegate void D_TutorialState(bool isActive);
-    public D_TutorialState D_tutorialState;
 
     public delegate void D_BossFightStarted();
     public D_BossFightStarted D_bossFightStarted;
@@ -126,7 +114,7 @@ public class GameManager : MonoBehaviourEventsHandler
 
     private bool firstPassInGameStateFlag = false;
 
-    public bool allowQuitLobby = true;
+    public bool AllowQuitLobby { get; set; } = true;
 
     public event Action OnRunStarted;
     public void RunStarted() => OnRunStarted?.Invoke();
@@ -240,6 +228,12 @@ public class GameManager : MonoBehaviourEventsHandler
         CinematicManagerEvents.OnChangeCinematicState += OnChangeCinematicState;
         DialogueManagerEvents.OnStartDialogue += SetStateToCinematicIfNotAlready;
         DialogueManagerEvents.OnEndDialogue += OnDialogueEnded;
+
+        if (!CompareCurrentScene(E_ScenesNames.MainMenu))
+        {
+            UIManagerEvents.OnEnteredUI += OnEnteredUI;
+            UIManagerEvents.OnExitedUI += OnExitedUI;
+        }
     }
 
     protected override void EventsUnSubscriber()
@@ -248,7 +242,20 @@ public class GameManager : MonoBehaviourEventsHandler
         CinematicManagerEvents.OnChangeCinematicState -= OnChangeCinematicState;
         DialogueManagerEvents.OnStartDialogue -= SetStateToCinematicIfNotAlready;
         DialogueManagerEvents.OnEndDialogue -= OnDialogueEnded;
+
+        if (!CompareCurrentScene(E_ScenesNames.MainMenu))
+        {
+            UIManagerEvents.OnEnteredUI -= OnEnteredUI;
+            UIManagerEvents.OnExitedUI -= OnExitedUI;
+        }
     }
+
+    private void OnEnteredUI()
+    {
+        if (GameState == E_GameState.InGame) GameState = E_GameState.Pause;
+    }
+    private void OnExitedUI()
+        => GameState = E_GameState.InGame;
 
     protected override void Awake()
     {
@@ -383,12 +390,6 @@ public class GameManager : MonoBehaviourEventsHandler
 
     public void HandlePause()
     {
-        if (UIManager.Instance.OpenMenusQueues.Count > 0)
-        {
-            UIManager.Instance.CloseYoungerMenu();
-            return;
-        }
-
         if (GameState.Equals(E_GameState.InGame))
         {
             GameState = E_GameState.Pause;
@@ -492,15 +493,6 @@ public class GameManager : MonoBehaviourEventsHandler
         Vector3 pos = CameraManager.Instance.gameObject.transform.position;
         pos.z = 0;
         playersByName[playerIdx].playerScript.gameObject.transform.position = pos;
-    }
-
-    public void ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState newState)
-    {
-        return;
-        foreach (var item in playersByName)
-        {
-            item.playerScript.StateManager.ForceSetState(newState);
-        }
     }
 
     public Transform GetSpawnPoint(int playerId)

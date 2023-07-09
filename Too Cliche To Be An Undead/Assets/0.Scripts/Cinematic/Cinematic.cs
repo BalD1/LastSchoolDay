@@ -1,13 +1,17 @@
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 public class Cinematic
 {
     private Queue<CA_CinematicAction> actionQueue;
     public List<PlayerCharacter> Players { get; private set; } = new List<PlayerCharacter>();
+    public Cinematic CinematicChain { get; private set; }
 
-    public Cinematic() 
+    private bool askedPause;
+    private bool allowStateChangeAtEnd = true;
+
+    #region Constructors
+
+    public Cinematic()
     {
         actionQueue = new Queue<CA_CinematicAction>();
     }
@@ -36,6 +40,9 @@ public class Cinematic
             actionQueue.Enqueue(item.Action);
         }
     }
+
+    #endregion
+
     public Cinematic SetPlayer(PlayerCharacter _player)
     {
         Players.Add(_player);
@@ -46,19 +53,45 @@ public class Cinematic
         this.Players = _players;
         return this;
     }
+    public Cinematic SetPlayers(params PlayerCharacter[] _players)
+    {
+        this.Players.AddRange(_players);
+        return this;
+    }
+    public Cinematic SetChainCinematic(Cinematic chain)
+    {
+        this.CinematicChain = chain;
+        return this;
+    }
 
-    public void AddAction(CA_CinematicAction action)
+    public Cinematic AddAction(CA_CinematicAction action)
     {
         actionQueue.Enqueue(action);
         action.SetOwner(this);
+        return this;
     }
-    public void AddActions(List<CA_CinematicAction> actions)
+    public Cinematic AddActions(List<CA_CinematicAction> actions)
     {
         foreach (CA_CinematicAction action in actions)
         {
             actionQueue.Enqueue(action);
             action.SetOwner(this);
         }
+        return this;
+    }
+    public Cinematic AddActions(params CA_CinematicAction[] actions)
+    {
+        foreach (CA_CinematicAction action in actions)
+        {
+            actionQueue.Enqueue(action);
+            action.SetOwner(this);
+        }
+        return this;
+    }
+    public Cinematic AllowChangeCinematicStateAtEnd(bool allow)
+    {
+        allowStateChangeAtEnd = allow;
+        return this;
     }
 
     public void StartCinematic()
@@ -76,13 +109,32 @@ public class Cinematic
             return;
         }
 
+        if (askedPause) return;
+
         CA_CinematicAction next = actionQueue.Dequeue();
         next.OnActionEnded += PlayNextAction;
         next.Execute();
     }
 
+    public Cinematic PauseAtNextAction()
+    {
+        askedPause = true;
+        return this;
+    }
+    public Cinematic Resume()
+    {
+        askedPause = false;
+        PlayNextAction(null);
+        return this;
+    }
+
     public void EndCinematic()
     {
-        this.ChangeCinematicState(false);
+        if (CinematicChain != null)
+        {
+            CinematicChain.StartCinematic();
+            return;
+        }
+        if (allowStateChangeAtEnd) this.ChangeCinematicState(false);
     }
 }

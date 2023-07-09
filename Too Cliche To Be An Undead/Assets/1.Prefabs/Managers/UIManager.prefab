@@ -83,47 +83,12 @@ MonoBehaviour:
   coinsContainer: {fileID: 0}
   moneyCounter: {fileID: 0}
   stampTimer: {fileID: 0}
+  stampWorldTextSpawnPos: {fileID: 0}
   shopBar: {fileID: 0}
   optionButton_Pause: {fileID: 0}
   mainMenuButton_Pause: {fileID: 0}
-  playerHUDs:
-  - container: {fileID: 0}
-    rect: {fileID: 0}
-    portrait: {fileID: 0}
-    hpBar: {fileID: 0}
-    hpText: {fileID: 0}
-    skillContainer: {fileID: 0}
-    skillThumbnail: {fileID: 0}
-    dashContainer: {fileID: 0}
-    dashThumbnail: {fileID: 0}
-  - container: {fileID: 0}
-    rect: {fileID: 0}
-    portrait: {fileID: 0}
-    hpBar: {fileID: 0}
-    hpText: {fileID: 0}
-    skillContainer: {fileID: 0}
-    skillThumbnail: {fileID: 0}
-    dashContainer: {fileID: 0}
-    dashThumbnail: {fileID: 0}
-  - container: {fileID: 0}
-    rect: {fileID: 0}
-    portrait: {fileID: 0}
-    hpBar: {fileID: 0}
-    hpText: {fileID: 0}
-    skillContainer: {fileID: 0}
-    skillThumbnail: {fileID: 0}
-    dashContainer: {fileID: 0}
-    dashThumbnail: {fileID: 0}
-  - container: {fileID: 0}
-    rect: {fileID: 0}
-    portrait: {fileID: 0}
-    hpBar: {fileID: 0}
-    hpText: {fileID: 0}
-    skillContainer: {fileID: 0}
-    skillThumbnail: {fileID: 0}
-    dashContainer: {fileID: 0}
-    dashThumbnail: {fileID: 0}
   minimap: {fileID: 0}
+  minimapButton: {fileID: 0}
   blackBars:
   - {fileID: 0}
   - {fileID: 0}
@@ -133,10 +98,6 @@ MonoBehaviour:
   hudContainer: {fileID: 0}
   tutoHUD: {fileID: 0}
   dialogueContainer: {fileID: 0}
-  skillButton_active: {fileID: 997046631, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
-  skillButton_inactive: {fileID: -480677608, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
-  dashButton_active: {fileID: -907357381, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
-  dashButton_inactive: {fileID: 427296786, guid: b9deb43ad78cdab46b2473c822d74bbb, type: 3}
   characterPortrait:
   - characterName: 0
     characterPortraitsByHP:
@@ -211,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb19fb9717bb4443b73f14afcf2ac86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winGroup: {fileID: 0}
+  <winGroup>k__BackingField: {fileID: 0}
   videoPlayer: {fileID: 0}
   buttonsPanel: {fileID: 0}
   panelShowCount: 1

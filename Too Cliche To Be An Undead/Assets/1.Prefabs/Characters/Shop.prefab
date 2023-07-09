@@ -46,10 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc089da032f2f9428b66ac66aced22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shop: {fileID: 0}
-  panelsManager: {fileID: 0}
+  shopUIPF: {fileID: 8711327151160780510, guid: 9cbe242c619f73846bf0c6b7216740b7, type: 3}
   skeleton: {fileID: 1253458323119518998}
   outline: {fileID: 4745299811177859016}
+  <InteractionTrigger>k__BackingField: {fileID: 3064400819894964597}
   source: {fileID: 6462434119148954679}
   <ShopAudioData>k__BackingField: {fileID: 11400000, guid: 4fb5c254ccc1bb6498a9254e9898876e, type: 2}
   idle: Marchand_Idle
@@ -84,7 +84,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3756575536233590877}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.042, y: -0.008, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -174,7 +174,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11562
+  m_SortingOrder: 11570
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1253458323119518998
 MonoBehaviour:

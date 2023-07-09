@@ -87,8 +87,9 @@ public class ReviveTutorial : MonoBehaviourEventsHandler
     private void SetupVictimPlayer(List<PlayerCharacter> players)
     {
         IGPlayersManagerEvents.OnAllPlayersCreated -= SetupVictimPlayer;
-        victimPlayer = players.RandomElement();
+        if (players.Count <= 1) return;
 
+        victimPlayer = players.RandomElement();
         FSM_Player_Manager victimStateManager = victimPlayer.StateManager;
         victimPlayer.AnimationController.FlipSkeleton(false);
         victimStateManager.ForceSetState<FSM_Player_Dying>(FSM_Player_Manager.E_PlayerState.Dying).SetAsFakeState();
@@ -109,7 +110,7 @@ public class ReviveTutorial : MonoBehaviourEventsHandler
         if (GameManager.Instance.PlayersCount > 1) return;
         if (!collision.gameObject.CompareTag("Player")) return;
 
-        DialogueManager.Instance.TryStartDialogue(startDialogue, true);
+        DialogueManager.Instance.TryStartDialogue(startDialogue, false);
         Destroy(this.gameObject);
     }
 }

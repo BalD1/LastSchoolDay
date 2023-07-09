@@ -46,12 +46,14 @@ public class CameraManager : Singleton<CameraManager>
     {
         FSM_Player_Events.OnEnteredDeath += OnPlayerDeath;
         IGPlayersManagerEvents.OnPlayerCreated += AddPlayerToArray;
+        CinematicManagerEvents.OnChangeCinematicState += OnCinematicStateChange;
     }
 
     protected override void EventsUnSubscriber()
     {
         FSM_Player_Events.OnEnteredDeath -= OnPlayerDeath;
         IGPlayersManagerEvents.OnPlayerCreated -= AddPlayerToArray;
+        CinematicManagerEvents.OnChangeCinematicState -= OnCinematicStateChange;
     }
 
     protected override void Awake()
@@ -113,6 +115,25 @@ public class CameraManager : Singleton<CameraManager>
             if (invisiblePlayersTransform.Contains(item)) invisiblePlayersTransform.Remove(item);
         }
         playersToRemoveFromList.Clear();
+    }
+
+    private void OnCinematicStateChange(bool isInCinematic)
+    {
+        this.cinematicMode = isInCinematic;
+
+        if (!isInCinematic)
+        {
+            cam_followPlayers.Follow = tg_players.transform;
+            cam_followPlayers.enabled = true;
+            SetArray();
+        }
+        else
+        {
+            Array.Clear(tg_players.m_Targets, 0, tg_players.m_Targets.Length);
+            tg_players.m_Targets = new CinemachineTargetGroup.Target[0];
+            cam_followPlayers.Follow = null;
+            cam_followPlayers.enabled = false;
+        }
     }
 
     private void SetArray()

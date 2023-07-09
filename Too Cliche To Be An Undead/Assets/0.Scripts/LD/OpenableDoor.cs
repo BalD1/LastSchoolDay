@@ -21,6 +21,7 @@ public class OpenableDoor : MonoBehaviour
         else Open(true);
     }
 
+    public void Close() => Close(false);
     public void Close(bool force = false)
     {
         if (isClosed && !force) return;

@@ -24,6 +24,7 @@ public abstract class Singleton<T> : MonoBehaviourEventsHandler
 
     protected override void Awake()
     {
+        if (instance != null) Destroy(this.gameObject);
         base.Awake();
         instance = this as T;
     }

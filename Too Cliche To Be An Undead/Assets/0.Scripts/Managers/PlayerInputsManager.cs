@@ -60,6 +60,8 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         GameManagerEvents.OnGameStateChange += OnGameStateChange;
         DialogueManagerEvents.OnStartDialogue += OnDialogueStarted;
         DialogueManagerEvents.OnEndDialogue += OnDialogueEnded;
+        ShopEvents.OnOpenShop += OnOpenShop;
+        ShopEvents.OnCloseShop += OnClosedShop;
     }
 
     protected override void EventsUnSubscriber()
@@ -73,6 +75,8 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         GameManagerEvents.OnGameStateChange -= OnGameStateChange;
         DialogueManagerEvents.OnStartDialogue -= OnDialogueStarted;
         DialogueManagerEvents.OnEndDialogue -= OnDialogueEnded;
+        ShopEvents.OnOpenShop -= OnOpenShop;
+        ShopEvents.OnCloseShop -= OnClosedShop;
     }
 
     protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -129,6 +133,12 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
     {
 
     }
+
+    private void OnOpenShop()
+        => this.SwitchAllControlMapsToUI();
+
+    private void OnClosedShop()
+        => this.SwitchAllControlMapsToIG();
 
     private void OnGameStateChange(GameManager.E_GameState state)
     {
@@ -190,7 +200,10 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
     }
 
     private void OnDialogueStarted(bool fromCinematic) => SwitchAllControlMapsToDialogue();
-    private void OnDialogueEnded(bool fromCinematic) => SwitchAllControlMapsToIG();
+    private void OnDialogueEnded(bool fromCinematic)
+    {
+        if (!fromCinematic) SwitchAllControlMapsToIG();
+    }
 
     #endregion
 
@@ -240,7 +253,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
             PlayerInput playerInput = PlayerInput.all[i];
             if (playerInput.devices.Contains(usedDevice))
             {
-                if (GameManager.Instance.allowQuitLobby == false)
+                if (GameManager.Instance.AllowQuitLobby == false)
                 {
                     GiveUnpairedDevicesToP1();
                     return;

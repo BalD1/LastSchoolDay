@@ -10,6 +10,7 @@ public class WFP_BackButton : MonoBehaviour
 
     public void OnBack()
     {
+        return;
         videoPlayer.GetVideoPlayer.Stop();
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;

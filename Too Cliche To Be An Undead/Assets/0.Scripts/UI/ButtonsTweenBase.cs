@@ -13,6 +13,7 @@ public class ButtonsTweenBase : MonoBehaviour, ISelectHandler, IDeselectHandler,
 
     [SerializeField] private LeanTweenType inType = LeanTweenType.easeInSine;
     [SerializeField] private LeanTweenType outType = LeanTweenType.easeInOutSine;
+    private LTDescr currentTween = null;
 
 
     private void Start()
@@ -23,6 +24,7 @@ public class ButtonsTweenBase : MonoBehaviour, ISelectHandler, IDeselectHandler,
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (eventData.selectedObject == this.gameObject) return;
+        EventSystem.current.SetSelectedGameObject(this.gameObject);
         ScaleSelf(inType, maxScale, scaleTime);
     }
 
@@ -44,7 +46,11 @@ public class ButtonsTweenBase : MonoBehaviour, ISelectHandler, IDeselectHandler,
 
     private LTDescr ScaleSelf(LeanTweenType leanType, Vector3 goal, float time)
     {
+        if (currentTween != null) LeanTween.cancel(currentTween.uniqueId);
         if (rectTransform == null) rectTransform = this.GetComponent<RectTransform>();
-        return LeanTween.scale(rectTransform, goal, time).setEase(leanType).setIgnoreTimeScale(true);
+        return currentTween = LeanTween.scale(rectTransform, goal, time).setEase(leanType).setIgnoreTimeScale(true).setOnComplete(() =>
+        {
+            currentTween = null;
+        });
     }
 }

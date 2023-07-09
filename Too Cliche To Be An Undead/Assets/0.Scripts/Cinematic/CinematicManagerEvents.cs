@@ -12,9 +12,9 @@ public static class CinematicManagerEvents
         => OnPlayersAskMove?.Invoke(targetPos);
 
     public static event Action<bool> OnChangeCinematicState;
-    public static void ChangeCinematicState(this Cinematic cinematic, bool newState)
+    public static void ChangeCinematicState(this Cinematic cinematic, bool isInCinematic)
     {
-        OnChangeCinematicState?.Invoke(newState);
-        IsInCinematic = newState;
+        OnChangeCinematicState?.Invoke(isInCinematic);
+        IsInCinematic = isInCinematic;
     }
 }

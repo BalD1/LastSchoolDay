@@ -17,7 +17,7 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
         for (int i = 0; i < inputs.Count; i++)
         {
             Vector2 spawnPos = playTuto ? tutoSpawnPoints[i].position : igSpawnPoints[i].position;
-            PlayerCharacter newPlayer = playerPF?.Create(spawnPos);
+            PlayerCharacter newPlayer = playerPF?.Create(spawnPos); 
             newPlayer.Setup(inputs[i]);
             PlayersList.Add(newPlayer);
             this.PlayerCreated(newPlayer);

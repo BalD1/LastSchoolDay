@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PlayerPanelsManager : MonoBehaviour
+public class PlayerPanelsManager : UIScreenBase
 {
 
     [SerializeField] private PlayerPanel[] playerPanels;
@@ -16,8 +15,6 @@ public class PlayerPanelsManager : MonoBehaviour
     public Queue<Sprite> tokensQueue;
 
     [SerializeField] private UIVideoPlayer videoPlayer;
-
-    [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
 
     [SerializeField] private GameObject preLoadingScreen;
     [SerializeField] private Toggle startButton;
@@ -40,7 +37,7 @@ public class PlayerPanelsManager : MonoBehaviour
 
     private Coroutine animationCoroutine;
 
-    private bool allowMovements = false;
+    private bool allowClose = false;
 
     private void Start()
     {
@@ -75,15 +72,45 @@ public class PlayerPanelsManager : MonoBehaviour
         backButton.onClick?.Invoke();
     }
 
-    public void Begin()
+    public override void Open()
     {
+        foreach (var item in playerPanels) item.transform.localScale = Vector2.zero;
         videoPlayer.StartVideo();
+        this.OpenScreen();
         StartCoroutine(videoPlayer.WaitForAction(1.65f, WaitForAnimation));
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
+        DetachInputs();
+    }
+
+    public override void Show()
+    {
+        base.Show();
+        AttachInputs();
+    }
+
+    public override void Close()
+    {
+        if (!allowClose) return;
+        allowClose = false;
+        StopAllCoroutines();
+        foreach (var item in playerPanels)
+        {
+            LeanTween.cancel(item.gameObject);
+            item.transform.localScale = Vector2.zero;
+        }
+        DetachInputs();
+        ResetPanels();
+        videoPlayer.GetVideoPlayer.Stop();
+        videoPlayer.FadeVideo(false, 0);
+        base.Close();
     }
 
     public void WaitForAnimation()
     {
-        UIManager.Instance.SelectButton("Lobby");
         foreach (var item in playerPanels) item.panelsManager = this;
 
         foreach (var item in playerPanels)
@@ -96,11 +123,17 @@ public class PlayerPanelsManager : MonoBehaviour
         PopulateTokensQueue();
         JoinPanel(PlayerInputsManager.Instance.GetPlayerInputs(0));
 
-        CanvasGroup.alpha = 1;
-        CanvasGroup.interactable = true;
+        EventSystem.current.SetSelectedGameObject(ObjectToSelectOnOpen);
+        foreach (var item in screenTweens) item.StartTweenIn();
+
+        PlayerInputsEvents.OnCancelButton += Close;
+
+        if (ObjectToSelectOnOpen != null)
+            EventSystem.current.SetSelectedGameObject(ObjectToSelectOnOpen);
 
         animationCoroutine = StartCoroutine(PanelsAnimation());
 
+        allowClose = true;
         AttachInputs();
         AttachArrowsToPlayer();
     }
@@ -119,7 +152,6 @@ public class PlayerPanelsManager : MonoBehaviour
                 {
                     item.PanelButton.interactable = true;
                     item.ButtonText.raycastTarget = true;
-                    allowMovements = true;
                 });
 
             });
@@ -157,7 +189,7 @@ public class PlayerPanelsManager : MonoBehaviour
             if (item.CurrentInputsIdx == idx)
             {
                 panelsCharacterIdx[item.panelID] = -1;
-                item.QuitPanel(idx);
+                item.QuitPanel();
                 VerifyPanelsValidity();
                 break;
             }
@@ -246,8 +278,6 @@ public class PlayerPanelsManager : MonoBehaviour
     {
         if (animationCoroutine != null) StopCoroutine(animationCoroutine);
 
-        allowMovements = false;
-
         PopulateTokensQueue();
 
         DetachInputs();
@@ -257,7 +287,7 @@ public class PlayerPanelsManager : MonoBehaviour
         for (int i = 1; i < playerPanels.Length; i++)
         {
             LeanTween.cancel(playerPanels[i].gameObject);
-            playerPanels[i].QuitPanel(i);
+            playerPanels[i].QuitPanel();
         }
     }
 
@@ -271,13 +301,6 @@ public class PlayerPanelsManager : MonoBehaviour
         return null;
     }
 
-    public void Refocus()
-    {
-        AttachInputs();
-
-        AttachArrowsToPlayer();
-    }
-
     public void AskForStartGame()
     {
         foreach (var item in playerPanels)
@@ -288,7 +311,6 @@ public class PlayerPanelsManager : MonoBehaviour
             }
 
         DetachArrowsToPlayer();
-
         DetachInputs();
 
         foreach (var item in playerPanels)
@@ -297,7 +319,7 @@ public class PlayerPanelsManager : MonoBehaviour
         startButton.SetIsOnWithoutNotify(false);
 
         UIManager.Instance.SelectButton("None");
-        preLoadingScreen.GetComponent<PreloadScreen>().BeginScreen();
+        preLoadingScreen.GetComponent<PreloadScreen>().Open();
     }
 
     private void AttachArrowsToPlayer()
@@ -320,7 +342,7 @@ public class PlayerPanelsManager : MonoBehaviour
                 playerPanels[i].JoinPanel(playerPanels[i + 1].LinkedInputs);
                 playerPanels[i + 1].GetCharacter(out PlayerPanelsManager.S_ImageByCharacter character, out int characterIdx);
                 playerPanels[i].ChangeCharacter(character, characterIdx);
-                playerPanels[i + 1].QuitPanel(i + 1, false);
+                playerPanels[i + 1].QuitPanel(false);
             }
             else playerPanels[i].ResetPanel();
         }

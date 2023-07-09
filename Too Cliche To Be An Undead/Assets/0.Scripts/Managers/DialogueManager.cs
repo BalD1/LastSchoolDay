@@ -136,9 +136,9 @@ public class DialogueManager : MonoBehaviourEventsHandler
 
     public void TrySkip()
     {
+        if (onStartSkipWait_TIMER > 0) return;
         D_skipDialogue?.Invoke();
         D_skipDialogue = null;
-
         EndDialogue();
     }
 
@@ -304,6 +304,7 @@ public class DialogueManager : MonoBehaviourEventsHandler
             () =>
             {
                 ResetDialogue();
+                this.EndedDialogue(fromCinematic);
                 Action copyAction = endDialogueAction;
                 endDialogueAction = null;
                 copyAction?.Invoke();
@@ -317,6 +318,7 @@ public class DialogueManager : MonoBehaviourEventsHandler
 
         dialogueContainer.alpha = 0;
         ResetDialogue();
+        this.EndedDialogue(fromCinematic);
     }
 
     private void ResetDialogue()

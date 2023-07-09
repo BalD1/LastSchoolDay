@@ -82,12 +82,6 @@ public class ED_UIManager : Editor
 
         SerializedProperty firstSelectedButton_MainMenu = serializedObject.FindProperty("firstSelectedButton_MainMenu");
         EditorGUILayout.PropertyField(firstSelectedButton_MainMenu);
-
-        SerializedProperty firstSelectedButton_Options = serializedObject.FindProperty("firstSelectedButton_Options");
-        EditorGUILayout.PropertyField(firstSelectedButton_Options);
-
-        SerializedProperty firstSelectedButton_Lobby = serializedObject.FindProperty("firstSelectedButton_Lobby");
-        EditorGUILayout.PropertyField(firstSelectedButton_Lobby);
     }
 
     private void DrawInGameInspector()
@@ -102,12 +96,6 @@ public class ED_UIManager : Editor
 
         SerializedProperty gameoverMenu = serializedObject.FindProperty("gameoverMenu");
         EditorGUILayout.PropertyField(gameoverMenu);
-
-        SerializedProperty shopMenu = serializedObject.FindProperty("shopMenu");
-        EditorGUILayout.PropertyField(shopMenu);
-
-        SerializedProperty shopContentMenu = serializedObject.FindProperty("shopContentMenu");
-        EditorGUILayout.PropertyField(shopContentMenu);
 
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("References", EditorStyles.boldLabel);
@@ -168,24 +156,6 @@ public class ED_UIManager : Editor
 
         SerializedProperty winScreen = serializedObject.FindProperty("winScreen");
         EditorGUILayout.PropertyField(winScreen);
-
-        EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("Buttons Selection", EditorStyles.boldLabel);
-
-        SerializedProperty firstSelectedButton_Options = serializedObject.FindProperty("firstSelectedButton_Options");
-        EditorGUILayout.PropertyField(firstSelectedButton_Options);
-
-        SerializedProperty firstSelectedButton_Pause = serializedObject.FindProperty("firstSelectedButton_Pause");
-        EditorGUILayout.PropertyField(firstSelectedButton_Pause);
-
-        SerializedProperty firstSelectedButton_Win = serializedObject.FindProperty("firstSelectedButton_Win");
-        EditorGUILayout.PropertyField(firstSelectedButton_Win);
-
-        SerializedProperty firstSelectedButton_Gameover = serializedObject.FindProperty("firstSelectedButton_Gameover");
-        EditorGUILayout.PropertyField(firstSelectedButton_Gameover);
-
-        SerializedProperty firstSelectedButton_Shop = serializedObject.FindProperty("firstSelectedButton_Shop");
-        EditorGUILayout.PropertyField(firstSelectedButton_Shop);
 
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Misc Buttons", EditorStyles.boldLabel);

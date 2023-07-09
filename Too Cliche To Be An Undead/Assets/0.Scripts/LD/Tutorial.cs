@@ -2,21 +2,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tutorial : MonoBehaviour
+public class Tutorial : MonoBehaviourEventsHandler
 {
     [InspectorButton(nameof(DelegateUpdateNmaesOnList), ButtonWidth = 300)]
     [SerializeField] private bool updateDialoguesNames;
 
-    [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
-    [SerializeField] private string zombiesDialogue;
-
-    [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
-    [SerializeField] private string cleanedRoomDialogue;
+    [SerializeField] private SCRPT_SingleDialogue zombiesDialogue;
+    [SerializeField] private SCRPT_SingleDialogue cleanedRoomDialogue;
+    [SerializeField] private SCRPT_SingleDialogue shopTutoDialogue;
 
     [SerializeField] private OpenableDoor doorToCloseOnZombies;
     [SerializeField] private NormalZombie[] tutorialZombies;
 
     [SerializeField] private List<Transform> onZombiesPlayersTeleportGoals;
+    [SerializeField] private Transform zombiesCinematicCameraGoal;
 
     [SerializeField] private CanvasGroup[] tutorialsArray;
     private Queue<CanvasGroup> tutorialsQueue;
@@ -25,7 +24,11 @@ public class Tutorial : MonoBehaviour
 
     [SerializeField] private float tutorialImagesAnimScaleMultiplier = 2;
 
-    private Cinematic cinematic;
+    private Cinematic zombiesFightCinematic;
+    private Cinematic zombiesCleanedCinematic;
+
+    private Cinematic shopTutoCinematic;
+    private Cinematic shopClosedCinematic;
 
     private int zombiesCount;
 
@@ -33,9 +36,36 @@ public class Tutorial : MonoBehaviour
 
     private bool tutoFinished = false;
 
+    private Shop currentShop;
 
-    private void Awake()
+    protected override void EventsSubscriber()
     {
+        if (ShopEvents.CurrentShop != null) currentShop = ShopEvents.CurrentShop;
+        else ShopEvents.OnShopSetup += OnShopSetup;
+
+        ShopEvents.OnCloseShop += OnShopClosed;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        ShopEvents.OnCloseShop -= OnShopClosed;
+    }
+
+    private void OnShopClosed()
+    {
+        ShopEvents.OnCloseShop -= OnShopClosed;
+        shopClosedCinematic.StartCinematic();
+    }
+
+    private void OnShopSetup(Shop s)
+    {
+        currentShop = s;
+        ShopEvents.OnShopSetup -= OnShopSetup;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
         if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto)
         {
             Destroy(this.gameObject);
@@ -63,7 +93,61 @@ public class Tutorial : MonoBehaviour
 
     private void Start()
     {
-        cinematic = new Cinematic();
+        this.TutorialStated();
+        BuildZombiesFightCinematic();
+        BuildShopTutoCinematic();
+        BuildZombiesCleanedCinematic();
+        BuildShopClosedCinematic();
+    }
+
+    private void BuildZombiesFightCinematic()
+    {
+        zombiesFightCinematic = new Cinematic().SetPlayers(IGPlayersManager.Instance.PlayersList);
+        zombiesFightCinematic.AddActions(
+            new CA_CinematicPlayersMove(onZombiesPlayersTeleportGoals, true, false),
+            new CA_CinematicCustomAction(doorToCloseOnZombies.Close),
+            new CA_CinematicCustomAction(EnableTutorialZombies),
+            new CA_CinematicCameraMove(zombiesCinematicCameraGoal.position, false),
+            new CA_CinematicDialoguePlayer(zombiesDialogue),
+            new CA_CinematicCustomAction(() => UIManager.Instance.FadeTutoHUD(true)),
+            new CA_CinematicCustomAction(() => AnimateNextTutorialMultiple(2)),
+            new CA_CinematicWait(3)
+            );
+    }
+
+    private void BuildZombiesCleanedCinematic()
+    {
+        zombiesCleanedCinematic = new Cinematic().SetPlayers(IGPlayersManager.Instance.PlayersList);
+        zombiesCleanedCinematic.AddActions(
+            new CA_CinematicDialoguePlayer(cleanedRoomDialogue),
+            new CA_CinematicPlayMusic(SoundManager.E_MusicClipsTags.InLobby),
+            new CA_CinematicScreenFade(false, .75f),
+            new CA_CinematicCustomAction(() => currentShop.InteractionTrigger.enabled = false),
+            new CA_CinematicPlayersMove(IGPlayersManager.Instance.igSpawnPoints, true, true),
+            new CA_CinematicCameraMove(IGPlayersManager.Instance.PlayersList[0].transform, true),
+            new CA_CinematicWait(1),
+            new CA_CinematicScreenFade(true, .75f),
+            new CA_CinematicCustomAction(() => this.TutorialEnded())
+            ).SetChainCinematic(shopTutoCinematic);
+    }
+
+    private void BuildShopTutoCinematic()
+    {
+        shopTutoCinematic = new Cinematic().SetPlayers(IGPlayersManager.Instance.PlayersList);
+        shopTutoCinematic.AddActions(
+            new CA_CinematicCameraMove(Camera.main, currentShop.transform.position, 2),
+            new CA_CinematicDialoguePlayer(shopTutoDialogue),
+            new CA_CinematicCustomAction(currentShop.OpenShop),
+            new CA_CinematicCustomAction(() => currentShop.InteractionTrigger.enabled = true)
+            ).AllowChangeCinematicStateAtEnd(false);
+    }
+
+    private void BuildShopClosedCinematic()
+    {
+        shopClosedCinematic = new Cinematic().SetPlayers(IGPlayersManager.Instance.PlayersList);
+        shopClosedCinematic.AddActions(
+            new CA_CinematicCameraMove(Camera.main, IGPlayersManager.Instance.PlayersList[0].transform, 2)
+            );
     }
 
     public void AnimateNextTutorial() => AnimateNextTutorial(null);
@@ -124,36 +208,19 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    public void StartZombiesDialogue()
-    {
-        doorToCloseOnZombies.Close();
-        DialogueManager.Instance.TryStartDialogue(zombiesDialogue, true,EnableTutorialZombies);
-    }
-
     private void EnableTutorialZombies()
     {
-        GameManager.Instance.ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Cinematic);
-        GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
-
         foreach (var item in tutorialZombies)
         {
             item.gameObject.SetActive(true);
             item.Vision.TargetClosestPlayer();
         }
-
-        AnimateNextTutorialMultiple(2, () =>
-        {
-            GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-            GameManager.Instance.ForceSetAllPlayersStateTo(FSM_Player_Manager.E_PlayerState.Idle);
-        });
     }
 
     private void OnZombieDeath()
     {
         if (tutoFinished) return;
-
         zombiesCount--;
-
         if (zombiesCount <= 0)
         {
             tutoFinished = true;
@@ -161,53 +228,18 @@ public class Tutorial : MonoBehaviour
             {
                 item.d_OnDeath -= OnZombieDeath;
             }
-            DialogueManager.Instance.TryStartDialogue(cleanedRoomDialogue, true, TeleportPlayersToInGameHUB);
+            zombiesCleanedCinematic.StartCinematic();
         }
     }
 
-    private void TeleportPlayersToInGameHUB()
-    {
-        SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.InLobby);
-
-        // Wait for the screen to fade out
-        UIManager.Instance.FadeScreen(true, () =>
-        {
-            UIManager.Instance.TutoHUD.gameObject.SetActive(false);
-            // Teleport every players to the HUB
-            List<GameManager.PlayersByName> players = GameManager.Instance.playersByName;
-            Vector2 goalPos;
-
-            for (int i = 0; i < players.Count; i++)
-            {
-                PlayerCharacter player = players[i].playerScript;
-
-                player.SetAllVelocity(Vector2.zero);
-                player.StateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Idle);
-
-                goalPos = GameManager.Instance.IngameSpawnPoints[i].position;
-                player.transform.position = goalPos;
-            }
-
-            // Fade the screen in, then re-enable players controls
-            UIManager.Instance.FadeScreen(false, () =>
-            {
-                GameManager.Instance.IsInTutorial = false;
-                DataKeeper.Instance.alreadyPlayedTuto = true;
-
-                GameManager.Instance.ShopTuto.StartTutorial();
-            });
-        });
-    }
-
-    public void ForceEndTutorial() => TeleportPlayersToInGameHUB();
+    public void ForceEndTutorial() => zombiesCleanedCinematic.StartCinematic();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponentInParent<PlayerCharacter>() != null && enteredInTriggerFlag == false)
         {
             enteredInTriggerFlag = true;
-            //cinematic.MoveAllPlayersTo(onZombiesPlayersTeleportGoals);
-            GameManager.Instance.MoveAllPlayers(onZombiesPlayersTeleportGoals, StartZombiesDialogue);
+            zombiesFightCinematic.StartCinematic();
         }
     }
 

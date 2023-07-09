@@ -4,17 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpawnersManager : MonoBehaviour
+public class SpawnersManager : Singleton<SpawnersManager>
 {
-    private static SpawnersManager instance;
-    public static SpawnersManager Instance
-    {
-        get
-        {
-            return instance;
-        }
-    }
-
     [SerializeField] [Range(0, 10)] private int maxKeycardsToSpawn = 5;
     [SerializeField] [Range(0, 10)] private int minKeycardsToSpawn = 3;
 
@@ -96,19 +87,20 @@ public class SpawnersManager : MonoBehaviour
     [SerializeField] private bool debugMode;
 #endif
 
-    private void Awake()
+    protected override void EventsSubscriber()
     {
-        instance = this;
-
-        ManageStampsUIState(GameManager.Instance.IsInTutorial == false && spawnsAreAllowed);
-        GameManager.Instance.D_tutorialState += ManageStampsUIState;
+        TutorialEvents.OnTutorialStarted += OnTutorialStarted;
+        TutorialEvents.OnTutorialEnded += OnTutorialEnded;
     }
 
-    private void OnDestroy()
+    protected override void EventsUnSubscriber()
     {
-        GameManager.Instance.D_tutorialState -= ManageStampsUIState;
+        TutorialEvents.OnTutorialStarted -= OnTutorialStarted;
+        TutorialEvents.OnTutorialEnded -= OnTutorialEnded;
     }
 
+    private void OnTutorialStarted() => stampsCounter.alpha = 0;
+    private void OnTutorialEnded() => stampsCounter.alpha = 1;
     private void ManageStampsUIState(bool state) => stampsCounter.alpha = state ? 1 : 0;
 
     private void Update()

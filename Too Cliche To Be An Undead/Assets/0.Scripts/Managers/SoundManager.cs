@@ -1,24 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using BalDUtilities.Misc;
-using UnityEngine.SceneManagement;
 using System;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : Singleton<SoundManager>
 {
-    private static SoundManager instance;
-    public static SoundManager Instance
-    {
-        get
-        {
-            if (instance == null) Debug.LogError("SoundManager instance not found.");
-            return instance;
-        }
-    }
-
     [Header("Sources")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfx2DSource;
@@ -94,9 +81,16 @@ public class SoundManager : MonoBehaviour
 
     private bool isStopping = false;
 
-    private void Awake()
+    protected override void EventsSubscriber()
     {
-        instance = this;
+        UIScreenBaseEvents.OnOpenScreen += OnScreenStateChange;
+        UIScreenBaseEvents.OnCloseScreen += OnScreenStateChange;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        UIScreenBaseEvents.OnOpenScreen -= OnScreenStateChange;
+        UIScreenBaseEvents.OnCloseScreen -= OnScreenStateChange;
     }
 
     private void Start()
@@ -110,6 +104,11 @@ public class SoundManager : MonoBehaviour
         GameManager.Instance.D_bossFightEnded += TryEndBossMusic;
         if (SpawnersManager.Instance != null)
             SpawnersManager.Instance.D_stampChange += PlayStampChangeSoundEffect; 
+    }
+
+    private void OnScreenStateChange(UIScreenBase screen)
+    {
+        this.Play2DSFX(E_SFXClipsTags.Clic);
     }
 
     private void PlayStampChangeSoundEffect(int stamp)

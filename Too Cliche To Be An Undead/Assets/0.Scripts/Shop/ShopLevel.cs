@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
@@ -13,10 +14,9 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [SerializeField] private Image selfImage;
     [SerializeField] private Image halo;
 
-    [SerializeField] private ShopPanels panels;
-
     [SerializeField] private ShopLevel[] levelsToActivate;
     [SerializeField] private Image[] glowLiaisons;
+
 
     [field: SerializeField] public SCRPT_LevelData Data { get; private set; }
 
@@ -29,6 +29,10 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public int ID { get => Data.ID; }
 
     private bool isTweening = false;
+
+    public event Action<ShopLevel> OnSelectLevel;
+    public event Action<ShopLevel> OnDeselectLevel;
+    public event Action<ShopLevel> OnUnlock;
 
     [System.Serializable]
     public struct Modifier
@@ -62,15 +66,9 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         halo.sprite = selfImage.sprite;
     }
 
-    public void SetShop(Shop _s)
+    public void Setup(Shop _shop)
     {
-        shop = _s;
-    }
-
-    public void SetPlayersMoney()
-    {
-        StringBuilder sb = new StringBuilder("Cost ");
-        sb.AppendFormat("{0} / {1}", PlayerCharacter.GetMoney(), Data.Cost);
+        this.shop = _shop;
     }
 
     public void SetActive(bool active)
@@ -89,21 +87,51 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public bool TryUnlock()
     {
-        if (isUnlocked) return false;
-        if (!PlayerCharacter.HasEnoughMoney(Data.Cost)) return false;
+        if (isUnlocked)
+        {
+            OnTryUnlockFail();
+            return false;
+        }
+        if (!PlayerCharacter.HasEnoughMoney(Data.Cost))
+        {
+            OnTryUnlockFail();
+            return false;
+        }
 
         PlayerCharacter.RemoveMoney(Data.Cost, false);
+        BoughtUpgradeFeedback();
         Unlock();
 
         return true;
+    }
+
+    private void OnTryUnlockFail()
+    {
+        if (isUnlocked)
+        {
+            if (isTweening) return;
+            LeanTween.rotate(button.gameObject, new Vector3(0, 0, 5), .15f).setEase(LeanTweenType.easeInSine).setIgnoreTimeScale(true)
+            .setOnComplete(() =>
+            {
+                LeanTween.rotate(button.gameObject, new Vector3(0, 0, -5), .30f).setEase(LeanTweenType.easeInSine).setIgnoreTimeScale(true)
+                .setOnComplete(() =>
+                {
+                    LeanTween.rotate(button.gameObject, new Vector3(0, 0, 0), .15f).setEase(LeanTweenType.easeOutSine).setIgnoreTimeScale(true)
+                    .setOnComplete(() => isTweening = false);
+                }
+                );
+            });
+        }
+        else
+        {
+            CantUpgradeFeedback();
+        }
     }
 
     public void Unlock(bool reloadUnlock = false)
     {
         if (isUnlocked) return;
         isUnlocked = true;
-
-        shop.UpdateCostsMoney();
 
         if (Data.modifiers != null)
         {
@@ -118,7 +146,7 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         foreach (var item in glowLiaisons)
         {
             if (item.fillAmount != 0) continue;
-            LeanTween.value(item.fillAmount, 1, .7f).setOnUpdate((float val) => item.fillAmount = val);
+            LeanTween.value(item.fillAmount, 1, .7f).setOnUpdate((float val) => item.fillAmount = val).setIgnoreTimeScale(true);
         }
 
         LeanTween.delayedCall(.7f, () =>
@@ -129,7 +157,7 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
                 item.selfImage.sprite = item.Data.LevelSprites.UnlockedSprite;
                 item.halo.sprite = item.Data.LevelSprites.UnlockedSprite;
             }
-        });
+        }).setIgnoreTimeScale(true);
 
         this.selfImage.sprite = Data.LevelSprites.BoughedSprite;
         this.halo.sprite = Data.LevelSprites.BoughedSprite;
@@ -144,44 +172,11 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         PlayerCharacter.LevelUp();
     }
 
-    public void OnUnlockButtonClick()
-    {
-        if (isTweening) return;
-
-        isTweening = true;
-
-        // check if players had enough money to buy the upgrade
-        if (TryUnlock())
-        {
-            BoughtUpgradeFeedback();
-        }
-        else
-        {
-            // if the upgrade is already bought, do a little animation
-            if (isUnlocked)
-            {
-                LeanTween.rotate(button.gameObject, new Vector3(0, 0, 5), .15f).setEase(LeanTweenType.easeInSine)
-                .setOnComplete(() =>
-                {
-                    LeanTween.rotate(button.gameObject, new Vector3(0, 0, -5), .30f).setEase(LeanTweenType.easeInSine)
-                    .setOnComplete(() =>
-                    {
-                        LeanTween.rotate(button.gameObject, new Vector3(0, 0, 0), .15f).setEase(LeanTweenType.easeOutSine)
-                        .setOnComplete(() => isTweening = false);
-                    }
-                    );
-                });
-            }
-            else
-            {
-                CantUpgradeFeedback();
-            }
-        }
-    }
-
     private void BoughtUpgradeFeedback()
     {
-        LeanTween.scale(this.GetComponent<RectTransform>(), Vector3.one, .2f).setEase(LeanTweenType.easeInSine)
+        if (isTweening) return;
+        isTweening = true;
+        LeanTween.scale(this.GetComponent<RectTransform>(), Vector3.one, .2f).setEase(LeanTweenType.easeInSine).setIgnoreTimeScale(true)
         .setOnComplete(() =>
         {
             isTweening = false;
@@ -190,51 +185,34 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private void CantUpgradeFeedback()
     {
+        if (isTweening) return;
+        isTweening = true;
         shop.PlayAudio(shop.ShopAudioData.notEnoughMoneyAudio);
-        LeanTween.rotate(button.gameObject, new Vector3(0, 0, 5), .15f).setEase(LeanTweenType.easeInSine);
-        LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x + 10, .15f)
+        LeanTween.rotate(button.gameObject, new Vector3(0, 0, 5), .15f).setEase(LeanTweenType.easeInSine).setIgnoreTimeScale(true);
+        LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x + 10, .15f).setIgnoreTimeScale(true)
         .setOnComplete(() =>
         {
-            LeanTween.rotate(button.gameObject, new Vector3(0, 0, 0), .15f).setEase(LeanTweenType.easeInSine);
-            LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x - 20, .15f)
+            LeanTween.rotate(button.gameObject, new Vector3(0, 0, 0), .15f).setEase(LeanTweenType.easeInSine).setIgnoreTimeScale(true);
+            LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x - 20, .15f).setIgnoreTimeScale(true)
             .setOnComplete(() =>
             {
-                LeanTween.rotate(button.gameObject, new Vector3(0, 0, 0), .15f).setEase(LeanTweenType.easeInSine);
-                LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x + 10, .15f)
+                LeanTween.rotate(button.gameObject, new Vector3(0, 0, 0), .15f).setEase(LeanTweenType.easeInSine).setIgnoreTimeScale(true);
+                LeanTween.moveLocalX(this.gameObject, this.transform.localPosition.x + 10, .15f).setIgnoreTimeScale(true)
                 .setOnComplete(() => isTweening = false);
             });
         });
     }
 
-    public void OnClick() => OnSelect(null);
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        SetupPanels();
-
-        if (!button.interactable) return;
-
-        selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
-                                        Data.LevelSprites.UnlockedSprite;
-
-        halo.sprite = selfImage.sprite;
-    }
-
+    public void OnClick() => TryUnlock();
+    public void OnPointerEnter(PointerEventData eventData) => Select();
+    public void OnSelect(BaseEventData eventData) => Select();
     public void OnPointerExit(PointerEventData eventData)
-    {
-        SCRPT_LevelData selectedLevel = panels.currentSelectedLevelData;
+    { }
+    public void OnDeselect(BaseEventData eventData) => Deselect();
 
-        if (selectedLevel == null)
-        {
-            panels.SkillName.text = "";
-            panels.SkillDescription.text = "";
-            panels.SkillIcon.enabled = false;
-            panels.SkillIcon.sprite = null;
-        }
-        else
-        {
-            SetupPanels(selectedLevel);
-        }
+    public void Select()
+    {
+        OnSelectLevel?.Invoke(this);
 
         if (!button.interactable) return;
 
@@ -244,51 +222,14 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         halo.sprite = selfImage.sprite;
     }
 
-    public void OnSelect(BaseEventData eventData)
+    public void Deselect()
     {
-        panels.currentSelectedLevelData = this.Data;
-        panels.currentSelectedLevel = this;
-
-        SetupPanels();
+        OnDeselectLevel?.Invoke(this);
 
         if (!button.interactable) return;
 
         selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
                                         Data.LevelSprites.UnlockedSprite;
-
-        halo.sprite = selfImage.sprite;
-    }
-
-    private void SetupPanels(SCRPT_LevelData _data = null)
-    {
-        if (_data == null) _data = this.Data;
-
-        panels.SkillName.text = _data.LevelName;
-
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine(_data.LevelDescription);
-
-        sb.Append(PlayerCharacter.GetMoney().ToString());
-        sb.Append(" / ");
-        sb.Append(_data.Cost);
-
-        panels.SkillDescription.text = sb.ToString();
-        panels.SkillIcon.enabled = true;
-        panels.SkillIcon.sprite = _data.LevelSprites.BoughedSprite;
-    }
-
-    public void OnDeselect(BaseEventData eventData)
-    {
-        if (eventData.selectedObject.GetComponent<ShopLevel>() == null)
-        {
-            panels.currentSelectedLevelData = null;
-            panels.currentSelectedLevel = null;
-        }
-
-        if (!button.interactable) return;
-
-        selfImage.sprite = isUnlocked ? Data.LevelSprites.BoughedSprite :
-                                           Data.LevelSprites.UnlockedSprite;
 
         halo.sprite = selfImage.sprite;
     }

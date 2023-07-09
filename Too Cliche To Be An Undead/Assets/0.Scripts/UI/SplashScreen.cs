@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Coffee.UIEffects;
+using UnityEngine.EventSystems;
 
 public class SplashScreen : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class SplashScreen : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pressAnyKey;
     [SerializeField] private TextMeshProUGUI skipText;
 
-    [SerializeField] private CanvasGroup mainScreen;
+    [SerializeField] private UIScreenBase mainScreen;
     [SerializeField] private Image mainScreenBackground;
 
     [SerializeField] private GameObject raycastBlocker;
@@ -20,6 +21,8 @@ public class SplashScreen : MonoBehaviour
     [SerializeField] private UITransitionEffect title;
 
     [SerializeField] private SCRPT_MusicData titleScreenMusic;
+
+    [SerializeField] private GameObject buttonToSelectOnEnd;
 
     [SerializeField] private float allowMainMenu_DURATION = 1.5f;
     private float allowMainMenu_TIMER = -1;
@@ -37,13 +40,12 @@ public class SplashScreen : MonoBehaviour
         if (DataKeeper.Instance.firstPassInMainMenu == false)
         {
             OnFadeOutEnded();
-            mainScreen.alpha = 1;
-
+            mainScreen.Open();
             return;
         }
 
         panelsManager.gameObject.SetActive(false);
-        mainScreen.alpha = 0;
+        mainScreen.Hide();
         mainScreenBackground.SetAlpha(0);
         videoPlayer.SetNewVideo(UIVideoPlayer.E_VideoTag.SplashScreen);
         pressAnyKey.raycastTarget = false;
@@ -123,9 +125,10 @@ public class SplashScreen : MonoBehaviour
 
     private void OnFadeOutEnded()
     {
-        UIManager.Instance.SelectButton("MainMenu");
+        EventSystem.current.SetSelectedGameObject(buttonToSelectOnEnd);
         raycastBlocker.gameObject.SetActive(false);
         panelsManager.gameObject.SetActive(true);
+        mainScreen.Open();
         title.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
@@ -147,7 +150,6 @@ public class SplashScreen : MonoBehaviour
         videoPlayer.FadeVideo(false, 1, OnFadeOutEnded);
         pressAnyKey.gameObject.SetActive(false);
         skipText.gameObject.SetActive(false);
-        mainScreen.LeanAlpha(1, .5f).setIgnoreTimeScale(true);
         mainScreenBackground.LeanAlpha(1, .5f).setIgnoreTimeScale(true);
     }
 }

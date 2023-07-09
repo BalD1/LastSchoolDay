@@ -56,7 +56,7 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
         PlayerInputsEvents.OnPlayerInputsDestroyed += RemoveInput;
         PlayerInputsEvents.OnChangedIndex += RenameSingle;
         PlayerInputsManagerEvents.OnEndedChangingIndexes += RenameAllInList;
-        
+        TutorialEvents.OnTutorialEnded += OnTutorialEnded;
     }
 
     protected override void EventsUnSubscriber()
@@ -66,6 +66,7 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
         PlayerInputsEvents.OnPlayerInputsDestroyed -= RemoveInput;
         PlayerInputsEvents.OnChangedIndex -= RenameSingle;
         PlayerInputsManagerEvents.OnEndedChangingIndexes -= RenameAllInList;
+        TutorialEvents.OnTutorialEnded -= OnTutorialEnded;
     }
 
     protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -87,6 +88,7 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
         base.Awake();
     }
 
+    public void OnTutorialEnded() => alreadyPlayedTuto = true;
     public bool ShouldSkipTuto() => skipTuto || alreadyPlayedTuto;
 
     private void RenameSingle(int lastIdx, int newIdx)

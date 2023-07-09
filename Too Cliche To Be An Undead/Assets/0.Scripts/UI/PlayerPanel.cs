@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UnityEditor.Progress;
 
 public class PlayerPanel : MonoBehaviour
 {
@@ -99,8 +98,10 @@ public class PlayerPanel : MonoBehaviour
         if (pressToJoin != null)
             pressToJoin.alpha = 1;
 
-        cornersGroup.alpha = 0;
-        arrows.alpha = 0;
+        if (cornersGroup != null)
+            cornersGroup.alpha = 0;
+        if (arrows != null)
+            arrows.alpha = 0;
     }
 
     private void SetPTJTween()
@@ -143,9 +144,9 @@ public class PlayerPanel : MonoBehaviour
         Enable();
     }
 
-    public void QuitPanel(int id, bool destroy = true)
+    public void QuitPanel(bool destroy = true)
     {
-        if (destroy && LinkedInputs != null)
+        if (destroy && LinkedInputs != null && this.LinkedInputs.InputsID != 0)
             Destroy(LinkedInputs.gameObject);
         LinkedInputs = null;
         panelsManager.tokensQueue.Enqueue(playerToken.sprite);

@@ -11,7 +11,7 @@ public class TutorialDialogueTrigger : DialogueTrigger
         if (collision.CompareTag("Player") && !triggerFlag)
         {
             triggerFlag = true;
-            DialogueManager.Instance.TryStartDialogue(dialogueToStart, true, tutorial.AnimateNextTutorial);
+            DialogueManager.Instance.TryStartDialogue(dialogueToStart, false, tutorial.AnimateNextTutorial);
             Destroy(this.gameObject);
         }
     }

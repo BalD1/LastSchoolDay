@@ -13,20 +13,23 @@ public class UIManager : Singleton<UIManager>
 
     #region Buttons & Menus
 
-    [SerializeField] private Button firstSelectedButton_MainMenu;
-    [SerializeField] private Button firstSelectedButton_Pause;
-    [SerializeField] private Button firstSelectedButton_Win;
-    [SerializeField] private Button firstSelectedButton_Gameover;
-    [SerializeField] private Button firstSelectedButton_Shop;
-    [SerializeField] private Button firstSelectedButton_Lobby;
-    [SerializeField] private Slider firstSelectedButton_Options;
+    [field: SerializeField] public Canvas MainCanvas { get; private set; }
+    public static Canvas GetMainCanvas
+    {
+        get
+        {
+            if (Instance == null || Instance.MainCanvas == null) return GameObject.FindObjectOfType<Canvas>();
+            return Instance.MainCanvas;
+        }
+    }
+    public static Vector2 CanvasSize { get; private set; }
 
-    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private Button firstSelectedButton_MainMenu;
+
+    [SerializeField] private UIScreenBase pauseMenu;
     [SerializeField] private GameObject winMenu;
     [SerializeField] private WinScreen winScreen;
     [SerializeField] private GameObject gameoverMenu;
-    [SerializeField] private GameObject shopMenu;
-    [SerializeField] private GameObject shopContentMenu;
     [SerializeField] private GameObject localHUD;
     [SerializeField] private GameObject mainMenu_mainPanel;
 
@@ -137,13 +140,14 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField] private PlayerPanelsManager panelsManager;
 
-    private Stack<GameObject> openMenusQueues = new Stack<GameObject>();
+    private Stack<UIScreenBase> openMenusQueues = new Stack<UIScreenBase>();
+    private bool uiOpenedByExternalMenu = false;
 
     public delegate void D_CloseMenu();
     public D_CloseMenu D_closeMenu;
 
 #if UNITY_EDITOR
-    [SerializeField] private List<GameObject> EDITOR_openMenusQueues;
+    [SerializeField] private List<UIScreenBase> EDITOR_openMenusQueues;
 #endif
 
     private GameObject lastSelected;
@@ -155,11 +159,7 @@ public class UIManager : Singleton<UIManager>
 
     public PlayerPanelsManager PanelsManager { get => panelsManager; }
 
-    public GameObject ShopMenu { get => shopMenu; }
-
-    public GameObject ShopContentMenu { get => shopContentMenu; }
-
-    public Stack<GameObject> OpenMenusQueues { get => openMenusQueues; }
+    public Stack<UIScreenBase> OpenMenusQueues { get => openMenusQueues; }
 
     public GameObject KeycardContainer { get => keycardsContainer; }
 
@@ -176,8 +176,9 @@ public class UIManager : Singleton<UIManager>
     public const float scrollbarSensibility = .1f;
 
     private bool firstGameStatePassFlag = false;
+    private bool isInTuto;
 
-    private bool isInCinematic = false;
+    private LTDescr currentScreenFade;
 
     #region Awake / Start / Updates
 
@@ -187,9 +188,16 @@ public class UIManager : Singleton<UIManager>
         PlayerInputsEvents.OnScrollCurrentHBRightCall += ScrollCurrentHorizontalBarRight;
         PlayerInputsEvents.OnScrollCurrentVBDownCall += ScrollCurrentVerticalBarDown;
         PlayerInputsEvents.OnScrollCurrentVBUpCall += ScrollCurrentVerticalBarUp;
-        PlayerInputsEvents.OnCloseMenuCall += CloseYoungerMenu;
         DialogueManagerEvents.OnStartDialogue += OnStartDialogue;
         DialogueManagerEvents.OnEndDialogue += OnEndDialogue;
+        TutorialEvents.OnTutorialStarted += OnTutorialStarted;
+        TutorialEvents.OnTutorialEnded += OnTutorialEnded;
+        CinematicManagerEvents.OnChangeCinematicState += OnChangeCinamticState;
+        UIScreenBaseEvents.OnOpenScreen += OnScreenOpened;
+        UIScreenBaseEvents.OnCloseScreen += OnScreenClosed;
+        UIScreenBaseEvents.OnShowScreen += OnScreenShow;
+        UIScreenBaseEvents.OnHideScreen += OnScreenHide;
+        GameManagerEvents.OnGameStateChange += OnGameStateChange;
     }
 
     protected override void EventsUnSubscriber()
@@ -198,15 +206,36 @@ public class UIManager : Singleton<UIManager>
         PlayerInputsEvents.OnScrollCurrentHBRightCall -= ScrollCurrentHorizontalBarRight;
         PlayerInputsEvents.OnScrollCurrentVBDownCall -= ScrollCurrentVerticalBarDown;
         PlayerInputsEvents.OnScrollCurrentVBUpCall -= ScrollCurrentVerticalBarUp;
-        PlayerInputsEvents.OnCloseMenuCall -= CloseYoungerMenu;
         DialogueManagerEvents.OnStartDialogue -= OnStartDialogue;
         DialogueManagerEvents.OnEndDialogue -= OnEndDialogue;
+        TutorialEvents.OnTutorialStarted -= OnTutorialStarted;
+        TutorialEvents.OnTutorialEnded -= OnTutorialEnded;
+        CinematicManagerEvents.OnChangeCinematicState -= OnChangeCinamticState;
+        UIScreenBaseEvents.OnOpenScreen -= OnScreenOpened;
+        UIScreenBaseEvents.OnCloseScreen -= OnScreenClosed;
+        UIScreenBaseEvents.OnShowScreen -= OnScreenShow;
+        UIScreenBaseEvents.OnHideScreen -= OnScreenHide;
+        GameManagerEvents.OnGameStateChange -= OnGameStateChange;
+    }
+
+    private void OnGameStateChange(GameManager.E_GameState newState)
+    {
+        switch (newState)
+        {
+            case GameManager.E_GameState.Pause:
+                if (!uiOpenedByExternalMenu && openMenusQueues.Count == 0) pauseMenu.Open();
+                break;
+        }
     }
 
     protected override void Awake()
     {
         base.Awake();
         instance = this;
+
+        if (MainCanvas == null) MainCanvas = GameObject.FindObjectOfType<Canvas>();
+        RectTransform canvasTransform = MainCanvas.transform as RectTransform;
+        CanvasSize = new Vector2(canvasTransform.rect.width, canvasTransform.rect.height);
 
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainScene))
         {
@@ -244,17 +273,34 @@ public class UIManager : Singleton<UIManager>
 
     #endregion
 
+    private void OnTutorialStarted() => isInTuto = true;
+    private void OnTutorialEnded()
+    {
+        this.tutoHUD.gameObject.SetActive(false);
+        this.isInTuto = false;
+    }
+
     private void OnStartDialogue(bool fromCinematic)
     {
         if (fromCinematic) return;
-        SetBlackBars(true, .3f);
+        SetBlackBars(true, .15f);
         FadeAllHUD(false);
     }
     private void OnEndDialogue(bool fromCinematic)
     {
         if (fromCinematic) return;
-        SetBlackBars(false, .3f);
-        FadeAllHUD(true);
+        SetBlackBars(false, .15f);
+
+        if (isInTuto) this.FadeTutoHUD(!fromCinematic);
+        else this.FadeAllHUD(!fromCinematic);
+    }
+
+    private void OnChangeCinamticState(bool isInCinematic)
+    {
+        this.SetBlackBars(isInCinematic);
+        if (isInTuto) this.FadeTutoHUD(!isInCinematic);
+        else this.FadeAllHUD(!isInCinematic);
+
     }
 
     public void SetOptionsState()
@@ -430,6 +476,39 @@ public class UIManager : Singleton<UIManager>
 
     #region Menus Managers
 
+    private void OnScreenOpened(UIScreenBase openedScreen)
+    {
+        if (openMenusQueues.TryPeek(out UIScreenBase lastScreen))
+            lastScreen.Hide();
+        else
+        {
+            if (openedScreen != pauseMenu) uiOpenedByExternalMenu = true;
+            this.EnteredUI();
+        }
+        openMenusQueues.Push(openedScreen);
+    }
+    private void OnScreenClosed(UIScreenBase closedScreen)
+    {
+        if (openMenusQueues.TryPeek(out UIScreenBase currentScreen))
+            openMenusQueues.Pop();
+        if (openMenusQueues.TryPeek(out UIScreenBase lastScreen))
+            lastScreen.Show();
+        else
+        {
+            this.ExitedUI();
+            uiOpenedByExternalMenu = false;
+        }
+    }
+
+    private void OnScreenShow(UIScreenBase showedScreen)
+    {
+
+    }
+    private void OnScreenHide(UIScreenBase hidedScreen)
+    {
+
+    }
+
     /// <summary> <para>
     /// Handles the selection of buttons on menu changes. <paramref name="context"/> is used to decided which button should be selected. 
     /// </para> <para>
@@ -442,37 +521,9 @@ public class UIManager : Singleton<UIManager>
 
         switch (context)
         {
-            case "MainMenu":
-                firstSelectedButton_MainMenu?.Select();
-                break;
-
-            case "Options":
-                firstSelectedButton_Options?.Select();
-                break;
-
-            case "Pause":
-                firstSelectedButton_Pause?.Select();
-                break;
-
-            case "Win":
-                firstSelectedButton_Win?.Select();
-                break;
-
-            case "Gameover":
-                firstSelectedButton_Gameover?.Select();
-                break;
-
             case "Last":
                 if (lastSelected != null)
                     eventSystem.SetSelectedGameObject(lastSelected);
-                break;
-
-            case "Shop":
-                firstSelectedButton_Shop?.Select();
-                break;
-
-            case "Lobby":
-                firstSelectedButton_Lobby?.Select();
                 break;
 
             case "None":
@@ -534,10 +585,6 @@ public class UIManager : Singleton<UIManager>
             case GameManager.E_GameState.Pause:
                 FadeAllHUD(fadeIn: false);
                 PostproManager.Instance.SetBlurState(true);
-
-                OpenMenuInQueue(pauseMenu);
-                SelectButton("Pause");
-
                 break;
 
             case GameManager.E_GameState.Restricted:
@@ -586,77 +633,6 @@ public class UIManager : Singleton<UIManager>
         tutoHUD.LeanAlpha(fadeIn ? 1 : 0, time).setIgnoreTimeScale(true);
     }
 
-    public void OpenMenuInQueue(GameObject newMenu)
-    {
-        newMenu.SetActive(true);
-        openMenusQueues.Push(newMenu);
-    }
-    public void CloseYoungerMenu()
-    {
-        D_closeMenu?.Invoke();
-
-        GameObject closedMenu = null;
-        if (openMenusQueues.Count > 0)
-            closedMenu = openMenusQueues.Pop();
-        if (closedMenu != null)
-        {
-            if (closedMenu.Equals(shopMenu))
-                CloseShopFromBack();
-
-            closedMenu.SetActive(false);
-        }
-
-        if (openMenusQueues.Count > 0)
-            openMenusQueues.Peek().SetActive(true);
-        else
-        {
-            switch (GameManager.Instance.GameState)
-            {
-                case GameManager.E_GameState.Pause:
-                    GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-                    this.ExitedUI();
-                    break;
-
-                case GameManager.E_GameState.InGame:
-                    FadeAllHUD(fadeIn: true);
-                    PostproManager.Instance.SetBlurState(false);
-                    break;
-            }
-        }
-
-        SelectButton("Last");
-    }
-
-    public void OpenShop(bool makeFade = true)
-    {
-        OpenMenuInQueue(shopMenu);
-        SelectButton("Shop");
-
-        if (makeFade) FadeAllHUD(fadeIn: false);
-        PostproManager.Instance.SetBlurState(true);
-
-        //SetCurrentVerticalScrollbar(shopBar);
-
-        PlayersManager.Instance.SetAllPlayersControlMapToUI();
-    }
-
-    public void CloseShop()
-    {
-        CloseYoungerMenu();
-    } 
-    private void CloseShopFromBack()
-    {
-        FadeInGameHUD(fadeIn: true);
-        PostproManager.Instance.SetBlurState(false);
-
-        PlayersManager.Instance.SetAllPlayersControlMapToInGame();
-        //UnsetCurrentVerticalScrollbar();
-
-        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-
-        GameManager.Instance.GetShop.CloseShopFromUI();
-    }
-
     #endregion
 
     public void SetMinimapActiveState(bool active)
@@ -667,12 +643,22 @@ public class UIManager : Singleton<UIManager>
 
     public void FadeScreen(bool fadeOut, float time = .5f)
     {
+        if (currentScreenFade != null)
+        {
+            LeanTween.cancel(currentScreenFade.uniqueId);
+            currentScreenFade = null;
+        }
         if (fadeImage == null) return;
 
-        LeanTween.alpha(fadeImage.rectTransform, fadeOut ? 1 : 0, time).setIgnoreTimeScale(true);
+        currentScreenFade = LeanTween.alpha(fadeImage.rectTransform, fadeOut ? 1 : 0, time).setIgnoreTimeScale(true).setOnComplete(() => currentScreenFade = null);
     }
     public void FadeScreen(bool fadeOut, Action onCompleteAction, float time = .5f)
     {
+        if (currentScreenFade != null)
+        {
+            LeanTween.cancel(currentScreenFade.uniqueId);
+            currentScreenFade = null;
+        }
         if (fadeImage == null) return;
 
         if (onCompleteAction == null)
@@ -680,7 +666,8 @@ public class UIManager : Singleton<UIManager>
             FadeScreen(fadeOut, time);
             return;
         }
-        LeanTween.alpha(fadeImage.rectTransform, fadeOut ? 1 : 0, time).setIgnoreTimeScale(true).
+        onCompleteAction += () => currentScreenFade = null;
+        currentScreenFade = LeanTween.alpha(fadeImage.rectTransform, fadeOut ? 1 : 0, time).setIgnoreTimeScale(true).
             setOnComplete(onCompleteAction);
     }
     public void InstantFadeScreen(bool fadeOut)

@@ -1,4 +1,5 @@
 using System;
+using System.Data.SqlTypes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
@@ -34,6 +35,7 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     protected override void Awake()
     {
+        this.gameObject.transform.parent = null;
         DontDestroyOnLoad(this.gameObject);
         base.Awake();
         CheckCurrentDevice();
@@ -180,8 +182,8 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     public void ForceReadMovements()
     {
-        Input.actions.Disable();
-        Input.actions.Enable();
+        Input.currentActionMap.Disable();
+        Input.currentActionMap.Enable();
     }
     public void OnMovements(InputAction.CallbackContext context)
     {
