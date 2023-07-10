@@ -14,15 +14,15 @@ public class PausePanel : UIScreenBase
         base.Awake();
     }
 
-    public override void Open()
+    public override void Open(bool ignoreTweens = false)
     {
-        base.Open();
+        base.Open(ignoreTweens);
         LeanSkeletonPanel(0, 1);
     }
 
-    public override void Close()
+    public override void Close(bool ignoreTweens = false)
     {
-        base.Close();
+        base.Close(ignoreTweens);
         LeanSkeletonPanel(1, 0);
     }
 

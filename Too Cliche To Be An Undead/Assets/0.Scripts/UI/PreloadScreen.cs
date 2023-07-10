@@ -15,16 +15,16 @@ public class PreloadScreen : UIScreenBase
     [SerializeField] private RectTransform playTutoButton;
     [SerializeField] private RectTransform skipTutoButton;
 
-    protected override void OnScreenUp()
+    protected override void OnScreenUp(bool ignoreTweens = false)
     {
-        base.OnScreenUp();
+        base.OnScreenUp(ignoreTweens);
         GameManager.Instance.AllowQuitLobby = false;
         AttachInputsToTweens();
     }
 
-    protected override void OnScreenDown()
+    protected override void OnScreenDown(bool ignoreTweens = false)
     {
-        base.OnScreenDown();
+        base.OnScreenDown(ignoreTweens);
         DetachInputs();
     }
 

@@ -14,7 +14,7 @@ public class Tutorial : MonoBehaviourEventsHandler
     [SerializeField] private OpenableDoor doorToCloseOnZombies;
     [SerializeField] private NormalZombie[] tutorialZombies;
 
-    [SerializeField] private List<Transform> onZombiesPlayersTeleportGoals;
+    [SerializeField] private List<Transform> onZombiesPlayersMovementGoals;
     [SerializeField] private Transform zombiesCinematicCameraGoal;
 
     [SerializeField] private CanvasGroup[] tutorialsArray;
@@ -104,10 +104,13 @@ public class Tutorial : MonoBehaviourEventsHandler
     {
         zombiesFightCinematic = new Cinematic().SetPlayers(IGPlayersManager.Instance.PlayersList);
         zombiesFightCinematic.AddActions(
-            new CA_CinematicPlayersMove(onZombiesPlayersTeleportGoals, true, false),
+            new CA_CinematicActionMultiple(
+                            new CA_CinematicPlayersMove(onZombiesPlayersMovementGoals, true, false),
+                            new CA_CinematicCameraMove(zombiesCinematicCameraGoal.position, 1.5f).SetLeanType(LeanTweenType.easeOutSine)
+                ),
+
             new CA_CinematicCustomAction(doorToCloseOnZombies.Close),
             new CA_CinematicCustomAction(EnableTutorialZombies),
-            new CA_CinematicCameraMove(zombiesCinematicCameraGoal.position, false),
             new CA_CinematicDialoguePlayer(zombiesDialogue),
             new CA_CinematicCustomAction(() => UIManager.Instance.FadeTutoHUD(true)),
             new CA_CinematicCustomAction(() => AnimateNextTutorialMultiple(2)),

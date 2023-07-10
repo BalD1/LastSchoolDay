@@ -65,7 +65,7 @@ public class CA_CinematicCameraMove : CA_CinematicAction
         if (teleport) travelTime = 0;
 
         if (targetTransform != null) targetPosition = targetTransform.position;
-        LeanTween.move(cam.gameObject, targetPosition, travelTime).setEaseInOutQuart()
+        LeanTween.move(cam.gameObject, targetPosition, travelTime).setEase(leanType)
                                                                   .setOnComplete(() => this.ActionEnded(this));
     }
 }

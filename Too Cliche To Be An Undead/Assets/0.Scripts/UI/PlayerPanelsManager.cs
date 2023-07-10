@@ -72,7 +72,7 @@ public class PlayerPanelsManager : UIScreenBase
         backButton.onClick?.Invoke();
     }
 
-    public override void Open()
+    public override void Open(bool ignoreTweens = false)
     {
         foreach (var item in playerPanels) item.transform.localScale = Vector2.zero;
         videoPlayer.StartVideo();
@@ -80,19 +80,19 @@ public class PlayerPanelsManager : UIScreenBase
         StartCoroutine(videoPlayer.WaitForAction(1.65f, WaitForAnimation));
     }
 
-    public override void Hide()
+    public override void Hide(bool ignoreTweens = false)
     {
         base.Hide();
         DetachInputs();
     }
 
-    public override void Show()
+    public override void Show(bool ignoreTweens = false)
     {
         base.Show();
         AttachInputs();
     }
 
-    public override void Close()
+    public override void Close(bool ignoreTweens = false)
     {
         if (!allowClose) return;
         allowClose = false;

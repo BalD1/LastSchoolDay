@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class ShopScreen : UIScreenBase
 {
@@ -52,6 +48,12 @@ public class ShopScreen : UIScreenBase
         PlayerInputsEvents.OnValidateButton += OnValidateInput;
         base.Open();
         this.OpenUI();
+    }
+
+    public override void Open(bool ignoreTweens = false)
+    {
+        base.Open(ignoreTweens);
+        ShopLevels[0].Select();
     }
 
     private void CloseShop(int playerIdx)

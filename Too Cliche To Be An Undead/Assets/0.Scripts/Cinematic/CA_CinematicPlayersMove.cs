@@ -79,7 +79,7 @@ public class CA_CinematicPlayersMove : CA_CinematicAction
         player.AnimationController.FlipSkeleton(position.x > player.transform.position.x);
 
         float travelTime = Vector2.Distance(player.transform.position, position) / player.MaxSpeed_M;
-        LeanTween.move(player.gameObject, position, travelTime).setOnComplete(() =>
+        LeanTween.move(player.gameObject, position, travelTime).setEase(leanType).setOnComplete(() =>
         {
             OnPlayerReachedDestination(player);
         });
