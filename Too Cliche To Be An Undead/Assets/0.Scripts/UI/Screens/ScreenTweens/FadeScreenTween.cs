@@ -27,14 +27,16 @@ public class FadeScreenTween : BaseScreenTween
         if (ignoreTween)
         {
             canvasGroup.alpha = 1;
+            this.TweenEnded();
             return;
         }
         if (canvasGroup.alpha != 0) canvasGroup.alpha = 0;
         currentTween = canvasGroup.LeanAlpha(1, currentAlphaLeanTime).setEase(tweenType)
                             .setOnComplete(() =>
                             {
-                                currentTween = null;
                                 canvasGroup.interactable = canvasGroup.blocksRaycasts = true;
+                                currentTween = null;
+                                this.TweenEnded();
                             }).setIgnoreTimeScale(true);
     }
 
@@ -44,7 +46,7 @@ public class FadeScreenTween : BaseScreenTween
         if (ignoreTween)
         {
             canvasGroup.alpha = 0;
-            gameObject.SetActive(false);
+            this.TweenEnded();
             return;
         }
         if (canvasGroup.alpha != 1) canvasGroup.alpha = 1;

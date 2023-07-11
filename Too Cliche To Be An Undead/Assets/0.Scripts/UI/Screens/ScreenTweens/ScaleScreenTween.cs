@@ -28,7 +28,6 @@ public class ScaleScreenTween : BaseScreenTween
 
     private void TweenTo(bool targetIsMaxScale, bool ignoreTween)
     {
-        Debug.Log(targetIsMaxScale);
         Vector3 startScale = targetIsMaxScale ? minScale : maxScale;
         Vector3 targetScale = targetIsMaxScale ? maxScale : minScale;
         if (this.rectTransform.localScale != startScale)
@@ -37,6 +36,7 @@ public class ScaleScreenTween : BaseScreenTween
         if (ignoreTween)
         {
             this.rectTransform.localScale = maxScale;
+            this.TweenEnded();
             return;
         }
         currentTween = this.rectTransform.LeanScale(targetScale, scaleTime).setEase(tweenType).setOnComplete(() =>

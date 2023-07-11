@@ -76,7 +76,7 @@ public class PlayerPanelsManager : UIScreenBase
     {
         foreach (var item in playerPanels) item.transform.localScale = Vector2.zero;
         videoPlayer.StartVideo();
-        this.OpenScreen();
+        this.OpenScreen(ignoreTweens);
         StartCoroutine(videoPlayer.WaitForAction(1.65f, WaitForAnimation));
     }
 

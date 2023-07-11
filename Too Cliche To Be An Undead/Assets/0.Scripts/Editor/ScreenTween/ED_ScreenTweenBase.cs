@@ -64,7 +64,6 @@ public class ED_ScreenTweenBase : Editor
             EditorGUI.indentLevel++;
             if (CheckForNewTween<FadeScreenTween>("Fade")) return true;
             if (CheckForNewTween<SlideScreenTween>("Slide")) return true;
-            if (CheckForNewTween<SlideUpScreenTween>("Slide Up")) return true;
             if (CheckForNewTween<ScaleScreenTween>("Scale")) return true;
             if (GUILayout.Button("Remove"))
             {

@@ -7,26 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 4045687424660143286}
-    - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UIScreenBase, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 57275633438009834, guid: b32290a731630844caca0a4cc74af917, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
-      value: Context
-      objectReference: {fileID: 0}
     - target: {fileID: 57275633817134358, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -163,6 +143,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2192624295670192337, guid: b32290a731630844caca0a4cc74af917, type: 3}
+      propertyPath: screenTweens.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3338497949563155322, guid: b32290a731630844caca0a4cc74af917, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -198,14 +182,3 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 422374070276079701, guid: b32290a731630844caca0a4cc74af917, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b32290a731630844caca0a4cc74af917, type: 3}
---- !u!114 &4045687424660143286 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6035728333687277498, guid: b32290a731630844caca0a4cc74af917, type: 3}
-  m_PrefabInstance: {fileID: 7774934481757092620}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 929af875125dc194fbfc22bbfa430001, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

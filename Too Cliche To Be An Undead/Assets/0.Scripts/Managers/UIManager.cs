@@ -476,10 +476,10 @@ public class UIManager : Singleton<UIManager>
 
     #region Menus Managers
 
-    private void OnScreenOpened(UIScreenBase openedScreen)
+    private void OnScreenOpened(UIScreenBase openedScreen, bool ignoreTweens)
     {
         if (openMenusQueues.TryPeek(out UIScreenBase lastScreen))
-            lastScreen.Hide();
+            lastScreen.Hide(ignoreTweens);
         else
         {
             if (openedScreen != pauseMenu) uiOpenedByExternalMenu = true;
@@ -487,12 +487,12 @@ public class UIManager : Singleton<UIManager>
         }
         openMenusQueues.Push(openedScreen);
     }
-    private void OnScreenClosed(UIScreenBase closedScreen)
+    private void OnScreenClosed(UIScreenBase closedScreen, bool ignoreTweens)
     {
         if (openMenusQueues.TryPeek(out UIScreenBase currentScreen))
             openMenusQueues.Pop();
         if (openMenusQueues.TryPeek(out UIScreenBase lastScreen))
-            lastScreen.Show();
+            lastScreen.Show(ignoreTweens);
         else
         {
             this.ExitedUI();
@@ -500,11 +500,11 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    private void OnScreenShow(UIScreenBase showedScreen)
+    private void OnScreenShow(UIScreenBase showedScreen, bool ignoreTweens)
     {
 
     }
-    private void OnScreenHide(UIScreenBase hidedScreen)
+    private void OnScreenHide(UIScreenBase hidedScreen, bool ignoreTweens)
     {
 
     }

@@ -88,6 +88,7 @@ public class SlideScreenTween : BaseScreenTween
         if (ignoreTween)
         {
             ForceSetPos(targetPos);
+            this.TweenEnded();
             return;
         }
         else if (this.rectTransform.position.x != startPos.x ||

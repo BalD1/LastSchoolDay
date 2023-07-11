@@ -106,7 +106,7 @@ public class SoundManager : Singleton<SoundManager>
             SpawnersManager.Instance.D_stampChange += PlayStampChangeSoundEffect; 
     }
 
-    private void OnScreenStateChange(UIScreenBase screen)
+    private void OnScreenStateChange(UIScreenBase screen, bool ignoreTweens)
     {
         this.Play2DSFX(E_SFXClipsTags.Clic);
     }

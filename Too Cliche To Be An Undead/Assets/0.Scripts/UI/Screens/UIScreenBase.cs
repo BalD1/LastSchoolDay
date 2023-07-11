@@ -48,14 +48,14 @@ public class UIScreenBase : MonoBehaviourEventsHandler
 
     public virtual void Open(bool ignoreTweens = false)
     {
-        this.OpenScreen();
+        this.OpenScreen(ignoreTweens);
         OnScreenUp(ignoreTweens);
     }
 
     public virtual void Close() => Close(false);
     public virtual void Close(bool ignoreTweens = false)
     {
-        this.CloseScreen();
+        this.CloseScreen(ignoreTweens);
         OnScreenDown(ignoreTweens);
     }
     public virtual void Close(int playerIdx) => Close(playerIdx, false);
@@ -67,19 +67,16 @@ public class UIScreenBase : MonoBehaviourEventsHandler
     public virtual void Show(bool ignoreTweens = false)
     {
         OnScreenUp(ignoreTweens);
-        this.ShowScreen();
+        this.ShowScreen(ignoreTweens);
     }
     public virtual void Hide(bool ignoreTweens = false)
     {
         OnScreenDown(ignoreTweens);
-        this.HideScreen();
+        this.HideScreen(ignoreTweens);
     }
 
     public void ForceStartTweensIn()
     {
-        Debug.Log("force");
-        Debug.Log(screenTweens.Count);
-        Debug.Log(screenTweens[0]);
         foreach (var item in screenTweens) item.StartTweenIn();
     }
     public void ForceStartTweensOut()
@@ -89,8 +86,7 @@ public class UIScreenBase : MonoBehaviourEventsHandler
 
     protected virtual void OnScreenUp(bool ignoreTweens = false)
     {
-        if (!ignoreTweens) foreach (var item in screenTweens) item.StartTweenIn();
-        else this.OnTweensEnded?.Invoke();
+        foreach (var item in screenTweens) item.StartTweenIn(ignoreTweens);
         PlayerInputsEvents.OnCancelButton += Close;
         this.group.interactable = this.group.blocksRaycasts = true;
         remainingTweens = screenTweens.Count;
@@ -102,8 +98,7 @@ public class UIScreenBase : MonoBehaviourEventsHandler
 
     protected virtual void OnScreenDown(bool ignoreTweens = false)
     {
-        if (!ignoreTweens) foreach (var item in screenTweens) item.StartTweenOut();
-        else this.OnTweensEnded?.Invoke();
+        foreach (var item in screenTweens) item.StartTweenOut(ignoreTweens);
         PlayerInputsEvents.OnCancelButton -= Close;
         this.group.interactable = this.group.blocksRaycasts = false;
         remainingTweens = screenTweens.Count;
