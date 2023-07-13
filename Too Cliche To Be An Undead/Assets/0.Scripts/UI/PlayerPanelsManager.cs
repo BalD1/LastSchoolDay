@@ -69,7 +69,7 @@ public class PlayerPanelsManager : UIScreenBase
     private void OnBackInput(int idx)
     {
         if (idx != 0) return;
-        backButton.onClick?.Invoke();
+        Close(false);
     }
 
     public override void Open(bool ignoreTweens = false)
@@ -94,6 +94,7 @@ public class PlayerPanelsManager : UIScreenBase
 
     public override void Close(bool ignoreTweens = false)
     {
+        Debug.Log(allowClose);
         if (!allowClose) return;
         allowClose = false;
         StopAllCoroutines();
@@ -106,7 +107,7 @@ public class PlayerPanelsManager : UIScreenBase
         ResetPanels();
         videoPlayer.GetVideoPlayer.Stop();
         videoPlayer.FadeVideo(false, 0);
-        base.Close();
+        base.Close(false);
     }
 
     public void WaitForAnimation()
@@ -125,8 +126,6 @@ public class PlayerPanelsManager : UIScreenBase
 
         EventSystem.current.SetSelectedGameObject(ObjectToSelectOnOpen);
         foreach (var item in screenTweens) item.StartTweenIn();
-
-        PlayerInputsEvents.OnCancelButton += Close;
 
         if (ObjectToSelectOnOpen != null)
             EventSystem.current.SetSelectedGameObject(ObjectToSelectOnOpen);
@@ -352,7 +351,6 @@ public class PlayerPanelsManager : UIScreenBase
     {
         this.PanelsActive();
         PlayerInputsEvents.OnValidateButton += OnValidateInput;
-        PlayerInputsEvents.OnCancelButton += OnBackInput;
         PlayerInputsEvents.OnPlayerInputsCreated += JoinPanel;
         PlayerInputsEvents.OnPlayerInputsDestroyed += QuitPanel;
     }
@@ -360,7 +358,6 @@ public class PlayerPanelsManager : UIScreenBase
     {
         this.PanelsInacative();
         PlayerInputsEvents.OnValidateButton -= OnValidateInput;
-        PlayerInputsEvents.OnCancelButton -= OnBackInput;
         PlayerInputsEvents.OnPlayerInputsCreated -= JoinPanel;
         PlayerInputsEvents.OnPlayerInputsDestroyed -= QuitPanel;
     }

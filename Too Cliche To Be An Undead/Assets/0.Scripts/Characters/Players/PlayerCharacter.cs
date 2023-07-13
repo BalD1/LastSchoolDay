@@ -169,23 +169,18 @@ public class PlayerCharacter : Entity, IInteractable
 
     #region A/S/U/F
 
-    private void ResetEndStats()
-    {
-        KillsCount = 0;
-        DamagesDealt = 0;
-        DamagesTaken = 0;
-    }
-
     protected override void EventsSubscriber()
     {
         base.EventsSubscriber();
         GameManager.Instance._onSceneReload += OnSceneReload;
+        ShopEvents.OnBoughtNewLevel += ReceiveNewLevel; 
     }
 
     protected override void EventsUnSubscriber()
     {
         base.EventsUnSubscriber();
         GameManager.Instance._onSceneReload -= OnSceneReload;
+        ShopEvents.OnBoughtNewLevel -= ReceiveNewLevel;
     }
 
     protected override void Awake()
@@ -610,6 +605,15 @@ public class PlayerCharacter : Entity, IInteractable
     public static void LevelUp() => level++;
     public static void SetLevel(int newLevel) => level = newLevel;
     public static int GetLevel => PlayerCharacter.level;
+
+    private void ReceiveNewLevel(SCRPT_LevelData data)
+    {
+        foreach (var item in data.modifiers)
+        {
+            AddModifier(item.idName, item.amount, item.stat);
+        }
+        this.selfReviveCount += data.revivesToAdd;
+    }
 
     #endregion
 

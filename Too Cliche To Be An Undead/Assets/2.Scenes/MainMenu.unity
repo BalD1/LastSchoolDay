@@ -3434,6 +3434,8 @@ MonoBehaviour:
   - {fileID: 1110982982}
   <ObjectToSelectOnOpen>k__BackingField: {fileID: 0}
   <ObjectToSelectOnClose>k__BackingField: {fileID: 1566132254}
+  <AllowCloseOnBack>k__BackingField: 1
+  <AllowCloseOnStart>k__BackingField: 0
   playerPanels:
   - {fileID: 145537560}
   - {fileID: 550053183}
@@ -3468,7 +3470,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 0
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1110982982
 MonoBehaviour:
@@ -3831,6 +3833,8 @@ MonoBehaviour:
   - {fileID: 1192546679}
   <ObjectToSelectOnOpen>k__BackingField: {fileID: 0}
   <ObjectToSelectOnClose>k__BackingField: {fileID: 0}
+  <AllowCloseOnBack>k__BackingField: 1
+  <AllowCloseOnStart>k__BackingField: 1
   panelsManager: {fileID: 1110982980}
   sceneArgs: {fileID: 1192546677}
   mainScreenImage: {fileID: 597588670}
@@ -4250,6 +4254,8 @@ MonoBehaviour:
   - {fileID: 1450752699}
   <ObjectToSelectOnOpen>k__BackingField: {fileID: 0}
   <ObjectToSelectOnClose>k__BackingField: {fileID: 0}
+  <AllowCloseOnBack>k__BackingField: 0
+  <AllowCloseOnStart>k__BackingField: 0
 --- !u!1001 &1456852454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4312,6 +4318,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6849790439706139958, guid: c1884839fda030642be54ca9612254c5, type: 3}
   m_PrefabInstance: {fileID: 1456852454}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1474698198 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8461183679324282998, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
+  m_PrefabInstance: {fileID: 7767185944980197050}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a468bf691bd8b849a16310499fd7658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1542873266
 GameObject:
   m_ObjectHideFlags: 0
@@ -4521,7 +4538,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1110982980}
         m_TargetAssemblyTypeName: PlayerPanelsManager, Assembly-CSharp
         m_MethodName: Open
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5252,17 +5269,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 57275634603750948}
+      - m_Target: {fileID: 1474698198}
         m_TargetAssemblyTypeName: UIScreenBase, Assembly-CSharp
         m_MethodName: Open
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1820244030
 MonoBehaviour:
@@ -6058,17 +6075,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &57275634603750948 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4090072638277566237, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
-  m_PrefabInstance: {fileID: 7767185944980197050}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 929af875125dc194fbfc22bbfa430001, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1186712245481382277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6242,6 +6248,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7767185944628093068, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7767185944628093068, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7767185944628093068, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7767185944628093068, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -6289,9 +6307,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7767185944628093068, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7767185944628093071, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
       propertyPath: m_Name
       value: Options Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7767185944628093071, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7778388756510655787, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6305,6 +6331,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8461183679324282998, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
+      propertyPath: <ObjectToSelectOnClose>k__BackingField
+      value: 
+      objectReference: {fileID: 1820244027}
     - target: {fileID: 8881073388447167010, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -6313,8 +6343,7 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6790544634160179120, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbc0359956ed0c249a11535555866dcc, type: 3}
 --- !u!1001 &8097819444494705224
 PrefabInstance:

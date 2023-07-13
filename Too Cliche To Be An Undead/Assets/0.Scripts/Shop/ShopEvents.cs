@@ -29,4 +29,8 @@ public static class ShopEvents
     public static event Action OnCloseShop;
     public static void ClosedShop(this Shop shop)
         => OnCloseShop?.Invoke();
+
+    public static event Action<SCRPT_LevelData> OnBoughtNewLevel;
+    public static void BoughtNewLevel(this ShopLevel level, SCRPT_LevelData data)
+        => OnBoughtNewLevel?.Invoke(data);
 }

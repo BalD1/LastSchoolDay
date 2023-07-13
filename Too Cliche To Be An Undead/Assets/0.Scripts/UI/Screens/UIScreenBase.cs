@@ -25,6 +25,9 @@ public class UIScreenBase : MonoBehaviourEventsHandler
     [field: SerializeField] public GameObject ObjectToSelectOnOpen { get; private set; }
     [field: SerializeField] public GameObject ObjectToSelectOnClose { get; private set; }
 
+    [field: SerializeField] public bool AllowCloseOnBack { get; private set; } = true;
+    [field: SerializeField] public bool AllowCloseOnStart { get; private set; } = true;
+
     public event Action OnTweensEnded;
     private int remainingTweens;
 
@@ -87,7 +90,6 @@ public class UIScreenBase : MonoBehaviourEventsHandler
     protected virtual void OnScreenUp(bool ignoreTweens = false)
     {
         foreach (var item in screenTweens) item.StartTweenIn(ignoreTweens);
-        PlayerInputsEvents.OnCancelButton += Close;
         this.group.interactable = this.group.blocksRaycasts = true;
         remainingTweens = screenTweens.Count;
 
@@ -99,7 +101,6 @@ public class UIScreenBase : MonoBehaviourEventsHandler
     protected virtual void OnScreenDown(bool ignoreTweens = false)
     {
         foreach (var item in screenTweens) item.StartTweenOut(ignoreTweens);
-        PlayerInputsEvents.OnCancelButton -= Close;
         this.group.interactable = this.group.blocksRaycasts = false;
         remainingTweens = screenTweens.Count;
 

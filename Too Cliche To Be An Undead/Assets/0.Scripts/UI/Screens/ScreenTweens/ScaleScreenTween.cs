@@ -8,6 +8,12 @@ public class ScaleScreenTween : BaseScreenTween
     [SerializeField] private float scaleTime = .25f;
     [SerializeField] protected RectTransform rectTransform;
 
+    public override void Awake()
+    {
+        base.Awake();
+        rectTransform.localScale = minScale;
+    }
+
     public override void Reset()
     {
         base.Reset();
@@ -35,7 +41,7 @@ public class ScaleScreenTween : BaseScreenTween
 
         if (ignoreTween)
         {
-            this.rectTransform.localScale = maxScale;
+            this.rectTransform.localScale = targetScale;
             this.TweenEnded();
             return;
         }

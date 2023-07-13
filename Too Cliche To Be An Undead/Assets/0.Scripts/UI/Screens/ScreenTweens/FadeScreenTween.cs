@@ -11,14 +11,11 @@ public class FadeScreenTween : BaseScreenTween
     public override void Awake()
     {
         base.Awake();
-        if (UIManager.Instance == null)
-        {
-            currentAlphaLeanTime = customAlphaLeanTime;
-            return;
-        }
         currentAlphaLeanTime = useCustomAlphaLeanTime ?
                                customAlphaLeanTime :
                                BASE_ALPHA_LEAN_TIME;
+        canvasGroup.alpha = 0;
+        canvasGroup.blocksRaycasts = canvasGroup.interactable = false;
     }
 
     public override void StartTweenIn(bool ignoreTween = false)

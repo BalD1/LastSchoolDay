@@ -34,21 +34,6 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public event Action<ShopLevel> OnDeselectLevel;
     public event Action<ShopLevel> OnUnlock;
 
-    [System.Serializable]
-    public struct Modifier
-    {
-        public string idName;
-        public float amount;
-        public StatsModifier.E_StatType stat;
-
-        public Modifier(string _idName, float _amount, StatsModifier.E_StatType _stat)
-        {
-            idName = _idName;
-            amount = _amount;
-            stat = _stat;
-        }
-    }
-
     private void Awake()
     {
         if (DataKeeper.Instance.unlockedLevels.Contains(this.ID))
@@ -133,15 +118,7 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         if (isUnlocked) return;
         isUnlocked = true;
 
-        if (Data.modifiers != null)
-        {
-            foreach (var item in GameManager.Instance.playersByName)
-            {
-                foreach (var modif in Data.modifiers) item.playerScript.AddModifier(modif.idName, modif.amount, modif.stat);
-
-                item.playerScript.selfReviveCount += Data.revivesToAdd;
-            }
-        }
+        this.BoughtNewLevel(Data);
 
         foreach (var item in glowLiaisons)
         {

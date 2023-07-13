@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Text;
 using System;
+using Unity.VisualScripting;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -188,6 +189,9 @@ public class UIManager : Singleton<UIManager>
         PlayerInputsEvents.OnScrollCurrentHBRightCall += ScrollCurrentHorizontalBarRight;
         PlayerInputsEvents.OnScrollCurrentVBDownCall += ScrollCurrentVerticalBarDown;
         PlayerInputsEvents.OnScrollCurrentVBUpCall += ScrollCurrentVerticalBarUp;
+        PlayerInputsEvents.OnCancelButton += CloseLastMenu;
+        PlayerInputsEvents.OnPauseCall += OpenPauseMenu;
+        PlayerInputsEvents.OnStart += CloseLastMenu;
         DialogueManagerEvents.OnStartDialogue += OnStartDialogue;
         DialogueManagerEvents.OnEndDialogue += OnEndDialogue;
         TutorialEvents.OnTutorialStarted += OnTutorialStarted;
@@ -197,7 +201,6 @@ public class UIManager : Singleton<UIManager>
         UIScreenBaseEvents.OnCloseScreen += OnScreenClosed;
         UIScreenBaseEvents.OnShowScreen += OnScreenShow;
         UIScreenBaseEvents.OnHideScreen += OnScreenHide;
-        GameManagerEvents.OnGameStateChange += OnGameStateChange;
     }
 
     protected override void EventsUnSubscriber()
@@ -206,6 +209,9 @@ public class UIManager : Singleton<UIManager>
         PlayerInputsEvents.OnScrollCurrentHBRightCall -= ScrollCurrentHorizontalBarRight;
         PlayerInputsEvents.OnScrollCurrentVBDownCall -= ScrollCurrentVerticalBarDown;
         PlayerInputsEvents.OnScrollCurrentVBUpCall -= ScrollCurrentVerticalBarUp;
+        PlayerInputsEvents.OnCancelButton -= CloseLastMenu;
+        PlayerInputsEvents.OnPauseCall -= OpenPauseMenu;
+        PlayerInputsEvents.OnStart -= CloseLastMenu;
         DialogueManagerEvents.OnStartDialogue -= OnStartDialogue;
         DialogueManagerEvents.OnEndDialogue -= OnEndDialogue;
         TutorialEvents.OnTutorialStarted -= OnTutorialStarted;
@@ -215,17 +221,6 @@ public class UIManager : Singleton<UIManager>
         UIScreenBaseEvents.OnCloseScreen -= OnScreenClosed;
         UIScreenBaseEvents.OnShowScreen -= OnScreenShow;
         UIScreenBaseEvents.OnHideScreen -= OnScreenHide;
-        GameManagerEvents.OnGameStateChange -= OnGameStateChange;
-    }
-
-    private void OnGameStateChange(GameManager.E_GameState newState)
-    {
-        switch (newState)
-        {
-            case GameManager.E_GameState.Pause:
-                if (!uiOpenedByExternalMenu && openMenusQueues.Count == 0) pauseMenu.Open();
-                break;
-        }
     }
 
     protected override void Awake()
@@ -475,6 +470,28 @@ public class UIManager : Singleton<UIManager>
     #endregion
 
     #region Menus Managers
+
+    private void OpenPauseMenu()
+    {
+        if (openMenusQueues.Count == 0) pauseMenu.Open();
+    }
+    private void CloseLastMenu(InputAction.CallbackContext ctx, PlayerInputs input)
+    {
+        if (!ctx.performed) return;
+        if (openMenusQueues.TryPeek(out UIScreenBase currentScreen) && currentScreen.AllowCloseOnStart)
+        {
+            bool ignoreTween = openMenusQueues.Count > (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu) ? 2 : 1);
+            currentScreen.Close(ignoreTween);
+        }
+    }
+    private void CloseLastMenu(int playerIdx)
+    {
+        if (openMenusQueues.TryPeek(out UIScreenBase currentScreen) && currentScreen.AllowCloseOnBack)
+        {
+            bool ignoreTween = openMenusQueues.Count > (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu) ? 2 : 1);
+            currentScreen.Close(ignoreTween);
+        }
+    }
 
     private void OnScreenOpened(UIScreenBase openedScreen, bool ignoreTweens)
     {
