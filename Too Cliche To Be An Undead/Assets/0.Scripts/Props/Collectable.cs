@@ -28,6 +28,7 @@ public class Collectable : MonoBehaviour, IInteractable
     private bool isPicked = false;
 
     [SerializeField] private float speedAdditionRate = 25;
+    private float speedAddition = 0;
 
     [SerializeField] protected SpriteRenderer spriteRenderer;
 
@@ -61,7 +62,8 @@ public class Collectable : MonoBehaviour, IInteractable
             float playerAddedSpeed = detectedPlayer.MaxSpeed_M - detectedPlayer.GetStats.Speed;
             if (playerAddedSpeed != 0) stepp += (playerAddedSpeed / 90);
 
-            stepp += speedAdditionRate * Time.deltaTime;
+            stepp += speedAddition * Time.deltaTime;
+            speedAddition += speedAdditionRate;
 
             this.transform.position = Vector2.MoveTowards(transform.position, goalTarget.position, stepp);
         }

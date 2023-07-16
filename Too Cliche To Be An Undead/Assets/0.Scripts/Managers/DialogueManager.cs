@@ -5,14 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueManager : MonoBehaviourEventsHandler
+public class DialogueManager : Singleton<DialogueManager>
 {
-    private static DialogueManager instance;
-    public static DialogueManager Instance
-    {
-        get => instance;
-    }
-
     public static List<string> DialogueNamesList;
 
     [SerializeField] private CanvasGroup dialogueContainer;
@@ -91,8 +85,9 @@ public class DialogueManager : MonoBehaviourEventsHandler
         ResetDialogue();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         skipButton?.onClick.AddListener(TrySkip);
     }
 

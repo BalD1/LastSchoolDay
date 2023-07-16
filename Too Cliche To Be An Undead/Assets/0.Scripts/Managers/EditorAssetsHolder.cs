@@ -3,21 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class EditorAssetsHolder : MonoBehaviour
+public class EditorAssetsHolder : Singleton<EditorAssetsHolder>
 {
 #if UNITY_EDITOR
-    private static EditorAssetsHolder instance;
-    public static EditorAssetsHolder Instance
-    {
-        get
-        {
-            if (instance == null) Debug.LogError("EditorAssetsHolder could not be found.");
-
-            return instance;
-        }
-    }
-    public static bool exist => instance != null;
-
     [field: SerializeField] public CanvasGroup WaitForPlayersPanel { get; private set; }
     [field: SerializeField] public GameObject MainButtons { get; private set; }
 

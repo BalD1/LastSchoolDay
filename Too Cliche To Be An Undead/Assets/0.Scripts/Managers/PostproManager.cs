@@ -2,14 +2,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class PostproManager : MonoBehaviour
+public class PostproManager : Singleton<PostproManager>
 {
-    private static PostproManager instance;
-    public static PostproManager Instance
-    {
-        get => instance;
-    }
-
     [field: SerializeField] public Volume MainVolume { get; private set; }
 
     [InspectorButton(nameof(SearchForVolume))] public bool SetVolume;
@@ -25,10 +19,9 @@ public class PostproManager : MonoBehaviour
     private float DOF_baseFocalLength = 18;
 
 
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
-
+        base.Awake();
         GameManager.Instance.D_onPlayerIsSetup += SubscribeToPlayerEvents;
 
         if (MainVolume == null) SearchForVolume();
@@ -51,8 +44,9 @@ public class PostproManager : MonoBehaviour
             MainVolume_vignette = tmp_Vignette;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         GameManager.Instance.D_onPlayerIsSetup -= SubscribeToPlayerEvents;
 
         foreach (var item in IGPlayersManager.Instance.PlayersList)

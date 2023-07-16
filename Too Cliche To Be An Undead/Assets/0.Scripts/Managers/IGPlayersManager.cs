@@ -12,8 +12,9 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
 
     public static int PlayersCount { get => PlayerInputsManager.PlayersCount; }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         List<PlayerInputs> inputs = new List<PlayerInputs>(PlayerInputsManager.Instance.PlayerInputsList);
         bool playTuto = !DataKeeper.Instance.skipTuto && !DataKeeper.Instance.alreadyPlayedTuto;
         for (int i = 0; i < inputs.Count; i++)

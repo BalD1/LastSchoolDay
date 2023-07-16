@@ -1,21 +1,8 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerEndStatsManager : MonoBehaviourEventsHandler
+public class PlayerEndStatsManager : Singleton<PlayerEndStatsManager>
 {
-	private static PlayerEndStatsManager instance;
-	public static PlayerEndStatsManager Instance
-	{
-		get
-		{
-			if (instance == null) Debug.LogError("PlayerEndStatsManager instance could not be found.");
-
-			return instance;
-		}
-	}
-
     [System.Serializable]
     public class PlayerEndStats
     {
@@ -42,6 +29,7 @@ public class PlayerEndStatsManager : MonoBehaviourEventsHandler
 
     protected override void Awake()
 	{
+        base.Awake();
         if (instance == null)
         {
             instance = this;
@@ -60,8 +48,9 @@ public class PlayerEndStatsManager : MonoBehaviourEventsHandler
         SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
 #if UNITY_EDITOR
         if (!isValid) return;
 

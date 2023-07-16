@@ -14,8 +14,9 @@ public class FPSDisplayer : PersistentSingleton<FPSDisplayer>
 
     [SerializeField] private bool run;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
 #if UNITY_EDITOR
         run = true;
 #endif
@@ -69,11 +70,7 @@ public class FPSDisplayer : PersistentSingleton<FPSDisplayer>
         GUI.Label(new Rect(10, 150, 80, 100), sbContent.ToString());
     }
 
-    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-    }
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode) { }
 
-    protected override void OnSceneUnloaded(Scene scene)
-    {
-    }
+    protected override void OnSceneUnloaded(Scene scene) { }
 }

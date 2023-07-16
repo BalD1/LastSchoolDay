@@ -95,8 +95,9 @@ public class SoundManager : Singleton<SoundManager>
         GameManagerEvents.OnRunStarted -= PlayMainSceneMusic;
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         LoadSlidersValue();
 
         ChangeMainMixerPitch(1);

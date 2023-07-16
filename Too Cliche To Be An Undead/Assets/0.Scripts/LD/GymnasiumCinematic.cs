@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static GymnasiumCinematic;
 
 public class GymnasiumCinematic : MonoBehaviour
 {
@@ -23,6 +21,15 @@ public class GymnasiumCinematic : MonoBehaviour
 
     public delegate void D_CinematicEnded();
     public D_CinematicEnded D_cinematicEnded;
+
+    private Cinematic hubDoorCinematic;
+
+    private void Start()
+    {
+        hubDoorCinematic = new Cinematic(
+
+            ).SetPlayers(IGPlayersManager.Instance.PlayersList);
+    }
 
     public void Begin() => StartCoroutine(Cinematic());
 

@@ -62,11 +62,10 @@ public class CameraManager : Singleton<CameraManager>
         bmcp = cam_followPlayers.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
-    private void Start()
+    protected override void Start()
     {
-        SetArray();
+        base.Start();
         mainCam = this.GetComponent<Camera>();
-        UIManager.Instance.AddMakersInCollidersArray(markersColliders);
         AttachMinimapCamera();
     }
 
@@ -125,67 +124,17 @@ public class CameraManager : Singleton<CameraManager>
         {
             cam_followPlayers.Follow = tg_players.transform;
             cam_followPlayers.enabled = true;
-            SetArray();
         }
         else
         {
-            Array.Clear(tg_players.m_Targets, 0, tg_players.m_Targets.Length);
-            tg_players.m_Targets = new CinemachineTargetGroup.Target[0];
             cam_followPlayers.Follow = null;
             cam_followPlayers.enabled = false;
         }
     }
 
-    private void SetArray()
-    {
-        List<PlayerCharacter> players = IGPlayersManager.Instance.PlayersList;
-
-        // add every alive players to the tg group
-        for (int i = 0; i < players.Count; i++)
-        {
-            if (players[i].IsAlive() == false) continue;
-
-            tg_players.AddMember(players[i].transform, 1, 0);
-        }
-
-        // if we want to focus on P1, and if he is alive, increase it's weight
-        if (hardFocusOnP1 && players[0].IsAlive())
-            tg_players.m_Targets[0].weight++;
-    }
     private void AddPlayerToArray(PlayerCharacter player)
     {
         tg_players.AddMember(player.transform, 1, 0);
-    }
-
-    public void PlayerBecameInvisible(PlayerCharacter playerScript)
-    {
-        if (cinematicMode) return;
-        if (invisiblePlayersTransform.Contains(playerScript.PivotOffset.transform)) return;
-
-        invisiblePlayersTransform.Add(playerScript.PivotOffset.transform);
-        invisiblePlayers.Add(playerScript);
-        int idx = invisiblePlayersTransform.Count - 1;
-
-        GameManager.E_CharactersNames character = playerScript.GetCharacterName();
-
-        if (markers == null || ReferenceEquals(markers, null)) return;
-
-        markers[idx].localScale = Vector3.one;
-        markers[idx].GetComponent<SpriteRenderer>().sprite = UIManager.Instance.GetBasePortrait(character);
-        markers[idx].gameObject.SetActive(true);
-    }
-
-    public void PlayerBecameVisible(PlayerCharacter playerScript)
-    {
-        if (cinematicMode) return;
-        int indexOfPlayer = invisiblePlayersTransform.IndexOf(playerScript.PivotOffset.transform);
-
-        if (indexOfPlayer >= markers.Length) return;
-        if (indexOfPlayer < 0) return;
-
-        markers[indexOfPlayer].gameObject.SetActive(false);
-        playersToRemoveFromList.Add(playerScript.PivotOffset.transform);
-        invisiblePlayers.Remove(playerScript);
     }
 
     private void OnPlayerDeath(PlayerCharacter player)
@@ -206,11 +155,6 @@ public class CameraManager : Singleton<CameraManager>
         shake_TIMER = duration;
     }
 
-    public void TeleportCamera(Vector2 pos)
-    {
-        cam_followPlayers.transform.position = pos;
-    }
-
     public LTDescr MoveCamera(Vector2 pos, Action onCompleteAction, float duration = 2, LeanTweenType type = LeanTweenType.easeInOutQuart)
     {
         cinematicMode = true;
@@ -220,7 +164,6 @@ public class CameraManager : Singleton<CameraManager>
 
         return LeanTween.move(cam_followPlayers.gameObject, pos, duration).setEase(type).setOnComplete(onCompleteAction);
     }
-    public void MoveCamera(Vector2 pos, float duration = 2, LeanTweenType type = LeanTweenType.easeInOutQuart) => MoveCamera(pos, null, duration, type);
 
     public void ZoomCamera(float amount, float duration, Action onCompleteAction, LeanTweenType type = LeanTweenType.easeInOutQuart)
     {
@@ -259,16 +202,9 @@ public class CameraManager : Singleton<CameraManager>
         }).setEaseSpring();
     }
 
-    public void SetTriggerParent(Transform newParent)
-    {
-        volumeTrigger.parent = newParent;
-        volumeTrigger.localPosition = Vector3.zero;
-    }
-
     public void EndCinematic()
     {
         cinematicMode = false;
         cam_followPlayers.Follow = tg_players.transform;
-        SetArray();
     }
 }

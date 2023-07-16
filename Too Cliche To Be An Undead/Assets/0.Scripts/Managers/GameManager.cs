@@ -5,20 +5,8 @@ using BalDUtilities.Misc;
 using UnityEngine.InputSystem;
 using System;
 
-public class GameManager : MonoBehaviourEventsHandler
+public class GameManager : Singleton<GameManager>
 {
-
-    private static GameManager instance;
-    public static GameManager Instance
-    {
-        get
-        {
-            //if (instance == null) Debug.LogError("GameManager Instance not found.");
-
-            return instance;
-        }
-    }
-
     public enum E_CharactersNames
     {
         Shirley,
@@ -277,8 +265,9 @@ public class GameManager : MonoBehaviourEventsHandler
         SetPlayersByNameList();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         AcquiredCards = 0;
         NeededCards = 0;
 

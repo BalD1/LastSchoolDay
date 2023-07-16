@@ -1,19 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class AreaTransitorManager : MonoBehaviour
+public class AreaTransitorManager : Singleton<AreaTransitorManager>
 {
-    private static AreaTransitorManager instance;
-    public static AreaTransitorManager Instance
-    {
-        get
-        {
-            return instance;
-        }
-    }
-
     [field: SerializeField] public int playersInCorridorCount { get; private set; }
 
     [SerializeField] private Tilemap corridorHidder;
@@ -24,10 +13,9 @@ public class AreaTransitorManager : MonoBehaviour
     [field: SerializeField] public Color hiddenColor { get; private set; }
     [field: SerializeField] public Color transparentColor { get; private set; }
 
-    private int corridorTweenID;
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         instance = this;
     }
 

@@ -27,7 +27,6 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
             GameManager.Instance.CancelGameOver();
 
         SoundManager.Instance.ChangeMusicMixerPitch(1);
-        UIManager.Instance.RemoveBossCollider(owner.hudTrigger);
     }
 
     private void SetAnim() => owner.animationController.SetAnimation(owner.animationData.DeathAnim, false);

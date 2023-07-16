@@ -1,22 +1,10 @@
 using UnityEngine;
 
-public class PoolsManager : MonoBehaviour
+public class PoolsManager : Singleton<PoolsManager>
 {
-	private static PoolsManager instance;
-	public static PoolsManager Instance
+	protected override void Awake()
 	{
-		get
-		{
-			if (instance == null) Debug.LogError("PoolsManager instance could not be found.");
-
-			return instance;
-		}
-	}
-	
-	private void Awake()
-	{
-		instance = this;
-
+		base.Awake();
 		BloodParticles.CheckPool();
 		ProjectileBase.CheckPool();
 		SpawnersManager.CheckPool();

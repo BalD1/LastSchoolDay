@@ -1,21 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class ZombiesScalingManager : MonoBehaviour
+public class ZombiesScalingManager : Singleton<ZombiesScalingManager>
 {
-    private static ZombiesScalingManager instance;
-    public static ZombiesScalingManager Instance
-    {
-        get
-        {
-            return instance;
-        }
-    }
-
     [System.Serializable]
     public struct S_ModifiersByStamp
     {
@@ -63,18 +52,18 @@ public class ZombiesScalingManager : MonoBehaviour
     public delegate void D_OnSendModifiers();
     public D_OnSendModifiers D_onSendModifiers;
 
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
-
+        base.Awake();
         modifiersByStamp[4].Actions += (EnemyBase owner) =>
         {
             owner.enemiesBlocker.enabled = false;
         };
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         if (SpawnersManager.Instance == null) return;
 
         SpawnersManager.Instance.D_stampChange += OnStampChange;

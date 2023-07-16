@@ -308,7 +308,6 @@ public class BossZombie : EnemyBase
         isAppeared = true;
         OnStart();
         stateManager.OnStart();
-        UIManager.Instance.AddBossCollider(this.hudTrigger);
     }
 
 }

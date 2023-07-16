@@ -236,18 +236,14 @@ public class UIManager : Singleton<UIManager>
         RectTransform canvasTransform = MainCanvas.transform as RectTransform;
         CanvasSize = new Vector2(canvasTransform.rect.width, canvasTransform.rect.height);
 
-        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainScene))
-        {
-            GameManager.Instance.D_onPlayerIsSetup += SetPlayerColliderArray;
-        }
-
         if (hudContainer != null) hudContainer.alpha = 0;
 
         if (eventSystem == null) eventSystem = EventSystem.current;
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         FadeScreen(false);
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {   
@@ -265,12 +261,6 @@ public class UIManager : Singleton<UIManager>
 
             moneyCounter.text = "x " + 0;
         }
-    }
-
-    private void LateUpdate()
-    {
-        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu) == false)
-            CheckIfPlayerOrBossAreCoveredByHUD();
     }
 
     #endregion
@@ -312,113 +302,6 @@ public class UIManager : Singleton<UIManager>
     }
 
     #region Players HUD
-
-    private void SetPlayerColliderArray(int idx)
-    {
-        // TEMP
-        PlayerCharacter player = DataKeeper.Instance.GetPlayerFromIndex(idx);
-        playersColliders[idx] = player.HUDBoundsTrigger;
-    }
-
-    public void AddBossCollider(Collider2D collider)
-    {
-        bossesColliders.Add(collider);
-    }
-    public void RemoveBossCollider(Collider2D collider)
-    {
-        bossesColliders.Remove(collider);
-    }
-
-    public void AddMakersInCollidersArray(BoxCollider2D[] collider2Ds)
-    {
-        int playersCount = PlayerInputsManager.PlayersCount;
-        if (playersCount <= 0) return;
-        for (int i = playersCount + 3; i < collider2Ds.Length + 4; i++)
-        {
-            if (i >= collider2Ds.Length) return;
-            playersColliders[i] = collider2Ds[i - (playersCount)];
-        }
-    }
-
-    public float right = 1.3f;
-    public float top = 1;
-    public float bottom = 1.3f;
-
-    private void CheckIfPlayerOrBossAreCoveredByHUD()
-    {
-        CheckHUD(hudContainerRect, FadeHUD);
-
-        if (BossHUDManager.Instance.GetBossHUDsCount() > 0)
-            CheckHUD(BossHUDManager.Instance.hudFadeTarget, FadeBossHUD, right, top, bottom);
-    }
-
-    private void CheckHUD(RectTransform rt, Action<bool> fadeHUDAction, float rightOffsetMul = 1.3f, float topOffsetMul = 1, float bottomOffsetMul = 1.3f)
-    {
-        bool fadeHUD = false;
-        foreach (var item in playersColliders)
-        {
-            if (item == null) continue;
-            if (item.isActiveAndEnabled == false) continue;
-
-            fadeHUD = CheckCollider(item, rt, fadeHUDAction, rightOffsetMul, topOffsetMul, bottomOffsetMul);
-            if (fadeHUD) return;
-        }
-
-        if (GameManager.Instance.currentAliveBossesCount > 0)
-        {
-            foreach (var item in bossesColliders)
-            {
-                if (item == null) continue;
-                if (item.isActiveAndEnabled == false) continue;
-
-                fadeHUD = CheckCollider(item, rt, fadeHUDAction, rightOffsetMul, topOffsetMul, bottomOffsetMul);
-                if (fadeHUD) return;
-            }
-        }
-
-        if (!fadeHUD)
-            fadeHUDAction(false);
-    }
-
-    private bool CheckCollider(Collider2D collider, RectTransform rt, Action<bool> fadeHUDAction, float rightOffsetMul = 1.3f, float topOffsetMul = 1, float bottomOffsetMul = 1.3f)
-    {
-        Vector2 point = RectTransformUtility.WorldToScreenPoint(Camera.main, collider.transform.position);
-
-        Rect rect = rt.rect;
-
-        float leftSide = rt.anchoredPosition.x;
-        float rightSide = rt.anchoredPosition.x + (rect.width * rightOffsetMul);
-        float topSide = rt.anchoredPosition.y + (rect.height * topOffsetMul);
-        float bottomSide = rt.anchoredPosition.y - (rect.height * bottomOffsetMul);
-
-        if (point.x >= leftSide &&
-           point.x <= rightSide &&
-           point.y >= bottomSide &&
-           point.y <= topSide)
-        {
-            fadeHUDAction(true);
-            return true;
-        }
-
-        return false;
-    }
-
-    private void FadeHUD(bool makeTransparent)
-    {
-        if (isHUDTransparent == makeTransparent) return;
-        isHUDTransparent = makeTransparent;
-
-        LeanTween.alphaCanvas(localHUD.GetComponent<CanvasGroup>(), makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
-        LeanTween.alphaCanvas(keycardsContainer.GetComponent<CanvasGroup>(), makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
-    }
-
-    private void FadeBossHUD(bool makeTransparent)
-    {
-        if (isBossHUDTransparent == makeTransparent) return;
-        isBossHUDTransparent = makeTransparent;
-
-        LeanTween.alphaCanvas(BossHUDManager.Instance.hudContainer, makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
-    }
 
     private void SetupCard(Keycard card)
     {

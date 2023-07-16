@@ -99,8 +99,9 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         GiveUnpairedDevicesToP1();
     }
 

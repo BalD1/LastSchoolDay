@@ -216,7 +216,11 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     public void OnSecondContextual(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnSecondContextInput?.Invoke();
+        if (context.performed)
+        {
+            owner.OnSecondContextInput?.Invoke();
+            this.SecondContext(owner.PlayerIndex);
+        }
     }
 
     #endregion

@@ -1,20 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using BalDUtilities.Misc;
 
-public class SaveManager : MonoBehaviour
+public class SaveManager : Singleton<SaveManager>
 {
-    private static SaveManager instance;
-    public static SaveManager Instance
-    {
-        get
-        {
-            if (instance == null) Debug.LogError("SaveManager instance was not found.");
-            return instance;
-        }
-    }
-
     public enum E_SaveKeys
     {
         // floats
@@ -32,14 +20,15 @@ public class SaveManager : MonoBehaviour
         // strings
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
+        base.Awake();
         InitiateKeys();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         GameManager.OPTION_DashToMouse = GetSavedBoolKey(E_SaveKeys.B_DashOnMovements);
 
         UIManager.Instance.SetOptionsState();

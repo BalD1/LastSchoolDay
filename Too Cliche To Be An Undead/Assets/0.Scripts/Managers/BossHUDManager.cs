@@ -1,16 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class BossHUDManager : MonoBehaviour
+public class BossHUDManager : Singleton<BossHUDManager>
 {
-    private static BossHUDManager instance;
-    public static BossHUDManager Instance
-    {
-        get => instance;
-    }
-
     [field: SerializeField] public CanvasGroup hudContainer { get; private set; }
     [field: SerializeField] public RectTransform hudParent { get; private set; }
     [field: SerializeField] public RectTransform hudFadeTarget { get; private set; }
@@ -19,10 +11,9 @@ public class BossHUDManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> bossesHUD;
 
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
-
+        base.Awake();
         bossesHUD = new List<GameObject>();
     }
 

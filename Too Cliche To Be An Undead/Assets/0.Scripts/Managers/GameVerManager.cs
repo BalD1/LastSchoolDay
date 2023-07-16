@@ -29,11 +29,7 @@ public class GameVerManager : PersistentSingleton<GameVerManager>
         GUI.skin.label.fontSize = lastSize;
     }
 
-    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-    }
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode) { }
 
-    protected override void OnSceneUnloaded(Scene scene)
-    {
-    }
+    protected override void OnSceneUnloaded(Scene scene) { }
 }

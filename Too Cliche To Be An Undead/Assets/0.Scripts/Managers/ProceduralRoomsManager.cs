@@ -2,14 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProceduralRoomsManager : MonoBehaviour
+public class ProceduralRoomsManager : Singleton<ProceduralRoomsManager>
 {
-    private static ProceduralRoomsManager instance;
-    public static ProceduralRoomsManager Instance
-    {
-        get => instance;
-    }
-
     [SerializeField] private Transform anchorsHolder;
     public Transform AnchorsHolder { get => anchorsHolder; }
 
@@ -50,10 +44,9 @@ public class ProceduralRoomsManager : MonoBehaviour
         None,
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
-
+        base.Awake();
         PopulateLists();
 
         CleanAndSpawn();
