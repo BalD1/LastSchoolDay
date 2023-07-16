@@ -103,9 +103,6 @@ public class GameManager : MonoBehaviourEventsHandler
     public delegate void D_OnSceneReload();
     public D_OnSceneReload _onSceneReload;
 
-    public delegate void D_OnRunStarted();
-    public D_OnRunStarted _onRunStarted;
-
     public bool hasKey;
 
     public static int MaxAttackers = 5;
@@ -115,9 +112,6 @@ public class GameManager : MonoBehaviourEventsHandler
     private bool firstPassInGameStateFlag = false;
 
     public bool AllowQuitLobby { get; set; } = true;
-
-    public event Action OnRunStarted;
-    public void RunStarted() => OnRunStarted?.Invoke();
 
     private LTDescr gameoverCinematicTween;
 
@@ -228,6 +222,9 @@ public class GameManager : MonoBehaviourEventsHandler
         CinematicManagerEvents.OnChangeCinematicState += OnChangeCinematicState;
         DialogueManagerEvents.OnStartDialogue += SetStateToCinematicIfNotAlready;
         DialogueManagerEvents.OnEndDialogue += OnDialogueEnded;
+        SpawnersManagerEvents.OnSpawnedKeycardSingle += OnSpawnedSingleKeycard;
+        SpawnersManagerEvents.OnPickedupCard += OnPickedUpKeycard;
+        HUBDoorEventHandler.OnInteractedWithDoor += OnHubDoorOpened;
 
         if (!CompareCurrentScene(E_ScenesNames.MainMenu))
         {
@@ -242,6 +239,9 @@ public class GameManager : MonoBehaviourEventsHandler
         CinematicManagerEvents.OnChangeCinematicState -= OnChangeCinematicState;
         DialogueManagerEvents.OnStartDialogue -= SetStateToCinematicIfNotAlready;
         DialogueManagerEvents.OnEndDialogue -= OnDialogueEnded;
+        SpawnersManagerEvents.OnSpawnedKeycardSingle -= OnSpawnedSingleKeycard;
+        SpawnersManagerEvents.OnPickedupCard -= OnPickedUpKeycard;
+        HUBDoorEventHandler.OnInteractedWithDoor -= OnHubDoorOpened;
 
         if (!CompareCurrentScene(E_ScenesNames.MainMenu))
         {
@@ -250,6 +250,8 @@ public class GameManager : MonoBehaviourEventsHandler
         }
     }
 
+    private void OnHubDoorOpened()
+        => this.RunStarted();
     private void OnEnteredUI()
     {
         if (GameState == E_GameState.InGame) GameState = E_GameState.Pause;
@@ -285,7 +287,6 @@ public class GameManager : MonoBehaviourEventsHandler
         if (GameState == E_GameState.InGame)
         {
             DataKeeper.Instance.runsCount++;
-            UIManager.Instance.UpdateKeycardsCounter(-1);
 
             IsInTutorial = (DataKeeper.Instance.skipTuto == false && DataKeeper.Instance.alreadyPlayedTuto == false);
             if (!IsInTutorial)
@@ -353,16 +354,17 @@ public class GameManager : MonoBehaviourEventsHandler
         {
             GameState = E_GameState.MainMenu;
             Time.timeScale = 1;
-            UIManager.Instance.InstantFadeScreen(true);
         }
         else
         {
-            UIManager.Instance.InstantFadeScreen(true);
             GameState = E_GameState.InGame;
-
-            GameStartScreenFade();
         }
     }
+
+    private void OnSpawnedSingleKeycard(Keycard card)
+        => NeededCards++;
+    private void OnPickedUpKeycard(Keycard card)
+        => AcquiredCards++;
 
     public void CancelGameOver()
     {
@@ -373,19 +375,6 @@ public class GameManager : MonoBehaviourEventsHandler
         UIManager.Instance.SetBlackBars(false, .2f);
         CameraManager.Instance.EndCinematic();
         UIManager.Instance.HideGameOverScreen();
-    }
-
-    private void GameStartScreenFade()
-    {
-        UIManager.Instance.FadeScreen(fadeOut: false, onCompleteAction: ScreenFadeEnd, time: 2);
-    }
-
-    private void ScreenFadeEnd()
-    {
-        if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto)
-        {
-            // TODO : Add exit cinematic mode
-        }
     }
 
     public void HandlePause()
@@ -425,67 +414,6 @@ public class GameManager : MonoBehaviourEventsHandler
             if (!player.IsAlive()) continue;
             player.gameObject.transform.position = position;
         }
-    }
-    public void TeleportAllPlayers(List<Vector2> positions)
-    {
-        for (int i = 0; i < playersByName.Count; i++)
-        {
-            PlayerCharacter player = playersByName[i].playerScript;
-            Vector2 pos = positions[i % (positions.Count - 1)];
-
-            if (!player.IsAlive()) continue;
-
-            player.gameObject.transform.position = pos;
-        }
-    }
-    public void TeleportAllPlayers(List<Transform> transforms)
-    {
-        List<Vector2> positions = new List<Vector2>();
-        foreach (var item in transforms)
-        {
-            positions.Add(item.position);
-        }
-
-        TeleportAllPlayers(positions);
-    }
-
-    public void MoveAllPlayers(List<Vector2> positions, Action endAction = null)
-    {
-        int playersUnfinishedAnimations = playersByName.Count;
-        for (int i = 0; i < playersByName.Count; i++)
-        {
-            PlayerCharacter player = playersByName[i].playerScript;
-            player.StateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Cinematic);
-            PlayerAnimationController animationController = player.AnimationController;
-            animationController.SetAnimation(animationController.animationsData.WalkAnim, true);
-
-            Vector2 pos = positions[i % (positions.Count - 1)];
-
-            if (!player.IsAlive()) continue;
-
-            player.AnimationController.FlipSkeleton(pos.x > player.transform.position.x);
-
-            float travelTime = Vector2.Distance(player.transform.position, pos) / player.MaxSpeed_M;
-
-            player.gameObject.transform.LeanMove(pos, travelTime)
-                .setOnComplete(() =>
-                {
-                    playersUnfinishedAnimations--;
-                    player.StateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Idle);
-                    if (playersUnfinishedAnimations <= 0)
-                        endAction?.Invoke();
-                });
-        }
-    }
-    public void MoveAllPlayers(List<Transform> transforms, Action endAction = null)
-    {
-        List<Vector2> positions = new List<Vector2>();
-        foreach (var item in transforms)
-        {
-            positions.Add(item.position);
-        }
-
-        MoveAllPlayers(positions, endAction);
     }
 
     public void TeleportPlayerAtCameraCenter(int playerIdx)

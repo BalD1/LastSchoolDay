@@ -25,12 +25,10 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     protected override void EventsSubscriber()
     {
-        if (owner != null) owner.OnStateChange += OnOwnerStateChange;
     }
 
     protected override void EventsUnSubscriber()
     {
-        if (owner != null) owner.OnStateChange += OnOwnerStateChange;
     }
 
     protected override void Awake()
@@ -47,17 +45,6 @@ public class PlayerInputs : MonoBehaviourEventsHandler
     private void Update()
     {
         CheckCurrentDevice();
-    }
-
-    private void OnOwnerStateChange(string newState)
-    {
-        return;
-        if (newState == owner.StateManager.IdleState.ToString() ||
-            newState == owner.StateManager.MovingState.ToString())
-        {
-            Input.enabled = false;
-            Input.enabled = true;
-        }
     }
 
     private void SetControlMap()
@@ -87,11 +74,8 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     public void SetOwner(PlayerCharacter character)
     {
-        if (owner != null) owner.OnStateChange -= OnOwnerStateChange;
-
         owner = character;
         SwitchControlMapToInGame();
-        owner.OnStateChange += OnOwnerStateChange;
     }
 
     public bool IsOnKeyboard() => currentDeviceType == E_Devices.Keyboard;

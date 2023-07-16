@@ -201,6 +201,8 @@ public class UIManager : Singleton<UIManager>
         UIScreenBaseEvents.OnCloseScreen += OnScreenClosed;
         UIScreenBaseEvents.OnShowScreen += OnScreenShow;
         UIScreenBaseEvents.OnHideScreen += OnScreenHide;
+        SpawnersManagerEvents.OnSpawnedKeycards += UpdateKeycardsText;
+        SpawnersManagerEvents.OnSpawnedKeycardSingle += SetupCard;
     }
 
     protected override void EventsUnSubscriber()
@@ -221,6 +223,8 @@ public class UIManager : Singleton<UIManager>
         UIScreenBaseEvents.OnCloseScreen -= OnScreenClosed;
         UIScreenBaseEvents.OnShowScreen -= OnScreenShow;
         UIScreenBaseEvents.OnHideScreen -= OnScreenHide;
+        SpawnersManagerEvents.OnSpawnedKeycards -= UpdateKeycardsText;
+        SpawnersManagerEvents.OnSpawnedKeycardSingle -= SetupCard;
     }
 
     protected override void Awake()
@@ -244,6 +248,7 @@ public class UIManager : Singleton<UIManager>
 
     private void Start()
     {
+        FadeScreen(false);
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {   
         }
@@ -251,9 +256,11 @@ public class UIManager : Singleton<UIManager>
         {
             hudRect = localHUD.GetComponent<RectTransform>();
 
-            if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto) FadeAllHUD(true);
+            if (DataKeeper.Instance.skipTuto || DataKeeper.Instance.alreadyPlayedTuto)
+            {
+                FadeAllHUD(true);
+            }
             else tutoHUD.gameObject.SetActive(true);
-
             keycardsContainer.SetActive(false);
 
             moneyCounter.text = "x " + 0;
@@ -272,6 +279,7 @@ public class UIManager : Singleton<UIManager>
     private void OnTutorialEnded()
     {
         this.tutoHUD.gameObject.SetActive(false);
+        keycardsContainer.gameObject.SetActive(true);
         this.isInTuto = false;
     }
 
@@ -412,25 +420,28 @@ public class UIManager : Singleton<UIManager>
         LeanTween.alphaCanvas(BossHUDManager.Instance.hudContainer, makeTransparent ? hudTransparencyValue : 1, hudTransparencyTime);
     }
 
-    public void UpdateKeycardsCounter(int idx)
+    private void SetupCard(Keycard card)
     {
+        card.onAnimationEnded += () => UpdateKeycardsText();
+        for (int i = 0; i < HudKeycards.Length; i++)
+        {
+            Image uiImage = HudKeycards[i];
+            if (uiImage.color == Color.white)
+            {
+                card.Setup(uiImage, uiImage.transform as RectTransform);
+                break;
+            }
+        }
+    }
+
+    public void UpdateKeycardsText()
+    {
+        keycardsContainer.gameObject.SetActive(true);
         StringBuilder sb = new StringBuilder();
         sb.Append(GameManager.Instance.AcquiredCards);
         sb.Append(" / ");
         sb.Append(GameManager.Instance.NeededCards);
         KeycardsCounters.text = sb.ToString();
-
-        if (GameManager.Instance.AcquiredCards == 0 || idx < 0 || idx >= HudKeycards.Length) return;
-
-        Image keycard = HudKeycards[idx];
-        keycard.color = Color.white;
-
-        LeanTween.scale(keycard.rectTransform, new Vector2(1.6f, 1.6f), .5f).setEase(LeanTweenType.easeInSine);
-        LeanTween.rotate(keycard.rectTransform, new Vector3(0, 0, 3f), .5f).setEase(LeanTweenType.easeInSine).setOnComplete(() =>
-        {
-            LeanTween.scale(keycard.rectTransform, Vector2.one, .5f).setEase(LeanTweenType.easeOutSine);
-            LeanTween.rotate(keycard.rectTransform, new Vector3(0, 0, -3f), .5f).setEase(LeanTweenType.easeOutSine);
-        });
     }
 
     public void UpdateMoney()

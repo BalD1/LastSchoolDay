@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Keycard : MonoBehaviour
@@ -15,43 +17,32 @@ public class Keycard : MonoBehaviour
     [SerializeField] private GameObject minimapSprites;
 
     private RectTransform uiGoal;
+    private Image uiImage;
 
     private bool travel;
 
     private float travelStep;
 
-    public delegate void D_OnPickup();
-    public D_OnPickup D_onPickup;
-
-    private int idx;
+    public event Action onPickup;
+    public event Action onAnimationEnded;
 
     private void Awake()
     {
         Sprite randSprite = assets.KeycardSprites.RandomElement();
-
         this.spriteRenderer.sprite = randSprite;
     }
-
-    private void Start()
-    {
-        for (int i = 0; i < UIManager.Instance.HudKeycards.Length; i++)
-        {
-            Image uiImage = UIManager.Instance.HudKeycards[i];
-            if (uiImage.color == Color.white)
-            {
-                this.idx = i;
-                uiImage.sprite = this.spriteRenderer.sprite;
-                uiImage.color = Color.gray;
-
-                uiGoal = uiImage.rectTransform;
-                return;
-            }
-        }
-    }
-
     private void Update()
     {
         TravelToUI();
+    }
+
+    public void Setup(Image uiImage, RectTransform rectTransform)
+    {
+        this.uiImage = uiImage;
+        uiImage.sprite = this.spriteRenderer.sprite;
+        uiImage.color = Color.gray;
+        uiGoal = uiImage.rectTransform;
+        return;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -62,12 +53,9 @@ public class Keycard : MonoBehaviour
         {
             minimapSprites.SetActive(false);
             animator.SetTrigger("pickup");
-
             travel = true;
-
             isPicked = true;
-            GameManager.Instance.AcquiredCards += 1;
-            D_onPickup?.Invoke();
+            onPickup?.Invoke();
         }
     }
 
@@ -95,7 +83,14 @@ public class Keycard : MonoBehaviour
 
     public void OnPickAnimationEnd()
     {
-        UIManager.Instance.UpdateKeycardsCounter(idx);
+        uiImage.color = Color.white;
+        LeanTween.scale(uiGoal, new Vector2(1.6f, 1.6f), .5f).setEase(LeanTweenType.easeInSine);
+        LeanTween.rotate(uiGoal, new Vector3(0, 0, 3f), .5f).setEase(LeanTweenType.easeInSine).setOnComplete(() =>
+        {
+            LeanTween.scale(uiGoal, Vector2.one, .5f).setEase(LeanTweenType.easeOutSine);
+            LeanTween.rotate(uiGoal, new Vector3(0, 0, -3f), .5f).setEase(LeanTweenType.easeOutSine);
+        });
+        onAnimationEnded?.Invoke();
         Destroy(this.gameObject);
     }
 }

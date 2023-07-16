@@ -32,11 +32,6 @@ public class GymnasiumDoor : MonoBehaviour, IInteractable
     private int keycardsOfferedToDoor = 0;
     private int youngestActiveHolderIdx = 0;
 
-    private void Start()
-    {
-        GameManager.Instance._onRunStarted += InstantiateKeycardHolders;
-    }
-
     private void InstantiateKeycardHolders()
     {
         int neededCards = GameManager.Instance.NeededCards;

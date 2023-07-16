@@ -10,6 +10,8 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
     [field: SerializeField] public Transform[] tutoSpawnPoints;
     [field: SerializeField] public Transform[] igSpawnPoints;
 
+    public static int PlayersCount { get => PlayerInputsManager.PlayersCount; }
+
     private void Start()
     {
         List<PlayerInputs> inputs = new List<PlayerInputs>(PlayerInputsManager.Instance.PlayerInputsList);

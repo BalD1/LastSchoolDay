@@ -19,6 +19,9 @@ public class HUBDoor : MonoBehaviour, IInteractable
     [SerializeField] private Collider2D playerCounterTrigger;
 
     [SerializeField] private TextMeshPro playersCounter;
+
+    private Cinematic teleportToIGCinematic;
+
     private int currentCounter = 0;
     private int maxPlayers;
 
@@ -29,10 +32,10 @@ public class HUBDoor : MonoBehaviour, IInteractable
     private void Start()
     {
         targetTime = skeletonAnimation.skeleton.Data.FindAnimation(closeAnimation).Duration;
-
-        maxPlayers = GameManager.Instance.PlayersCount;
+        maxPlayers = PlayerInputsManager.PlayersCount;
         hasSpawnedKeys = false;
         UpdateText();
+        BuildCinematic();
     }
 
     private void Update()
@@ -50,6 +53,22 @@ public class HUBDoor : MonoBehaviour, IInteractable
         }
     }
 
+    private void BuildCinematic()
+    {
+        teleportToIGCinematic = new Cinematic(
+            new CA_CinematicActionMultiple(
+                new CA_CinematicScreenFade(_fadeIn: false, .5f),
+                new CA_CinematicCustomAction(() => skeletonAnimation.AnimationState.SetAnimation(0, openAnimation, false))
+            ),
+            new CA_CinematicWait(.25f),
+            new CA_CinematicCameraMove(Camera.main, (playerTPPos + (Vector2)this.transform.position)), 
+            new CA_CinematicPlayersMove((playerTPPos + (Vector2)this.transform.position), true, true),
+            new CA_CinematicScreenFade(_fadeIn: true, .5f),
+            new CA_CinematicWait(.5f),
+            new CA_CinematicCustomAction(() => this.InteractedWithDoor())
+            ).SetPlayers(IGPlayersManager.Instance.PlayersList);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (hasSpawnedKeys) return;
@@ -59,7 +78,7 @@ public class HUBDoor : MonoBehaviour, IInteractable
             if (currentCounter < maxPlayers)
             {
                 currentCounter++;
-
+                
                 UpdateText();
             }
 
@@ -115,59 +134,8 @@ public class HUBDoor : MonoBehaviour, IInteractable
         if (currentCounter < maxPlayers)
             return;
 
-        StartCoroutine(FadeAndTeleport());
+        teleportToIGCinematic.StartCinematic();
         outline.SetActive(false);
-    }
-
-    private IEnumerator FadeAndTeleport()
-    {
-        // Prevent players from moving
-        GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
-
-        // fade out screen
-        float fadeTime = .5f;
-        UIManager.Instance.FadeScreen(true, fadeTime);
-
-        skeletonAnimation.AnimationState.SetAnimation(0, openAnimation, false);
-
-        yield return new WaitForSeconds(fadeTime);
-
-        // Deactivate door's componenets
-        playerCounterTrigger.enabled = false;
-        playersCounter.gameObject.SetActive(false);
-
-        // Teleport every players
-        GameManager.Instance.TeleportAllPlayers(playerTPPos + (Vector2)this.transform.position);
-        foreach (var item in GameManager.Instance.playersByName)
-        {
-            FSM_Player_Manager stateManager = item.playerScript.StateManager;
-            stateManager.ForceSetState(FSM_Player_Manager.E_PlayerState.Idle);
-        }
-
-        // Setup Scene
-        SpawnersManager.Instance?.ManageKeycardSpawn();
-        hasSpawnedKeys = true;
-
-        UIManager.Instance.KeycardContainer.SetActive(true);
-
-        GameManager.Instance._onRunStarted?.Invoke();
-
-        yield return new WaitForSeconds(fadeTime);
-
-        // Fade in screen
-        UIManager.Instance.FadeScreen(false, fadeTime);
-        skeletonAnimation.AnimationState.SetAnimation(0, closeAnimation, false);
-
-        yield return new WaitForSeconds(fadeTime);
-
-        // Re-enable players controllers
-        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-        GameManager.Instance.RunStarted();
-        SpawnersManager.Instance?.AllowSpawns(true);
-
-        SoundManager.Instance.PlayMusic(SoundManager.E_MusicClipsTags.MainScene);
-
-        this.InteractedWithDoor();
     }
 
     public bool CanBeInteractedWith()

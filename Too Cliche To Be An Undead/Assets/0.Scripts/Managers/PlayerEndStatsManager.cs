@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerEndStatsManager : MonoBehaviour
+public class PlayerEndStatsManager : MonoBehaviourEventsHandler
 {
 	private static PlayerEndStatsManager instance;
 	public static PlayerEndStatsManager Instance
@@ -40,7 +40,7 @@ public class PlayerEndStatsManager : MonoBehaviour
 
     [field: SerializeField] public float GameTime { get; private set; }
 
-    private void Awake()
+    protected override void Awake()
 	{
         if (instance == null)
         {
@@ -78,6 +78,16 @@ public class PlayerEndStatsManager : MonoBehaviour
         GameTime += Time.deltaTime; 
     }
 
+    protected override void EventsSubscriber()
+    {
+        GameManagerEvents.OnRunStarted += OnRunStarted;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        GameManagerEvents.OnRunStarted -= OnRunStarted;
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) => SetupArray();
     private void SetupArray()
     {
@@ -98,8 +108,10 @@ public class PlayerEndStatsManager : MonoBehaviour
         }
 
         allowGameTimeIncrease = false;
-        GameManager.Instance.OnRunStarted += () => allowGameTimeIncrease = true;
     }
+
+    private void OnRunStarted()
+        => allowGameTimeIncrease = true;
 
     public void KeepScores()
     {
@@ -128,6 +140,4 @@ public class PlayerEndStatsManager : MonoBehaviour
 
         return null;
     }
-
-
 }

@@ -35,6 +35,11 @@ public class CA_CinematicPlayersMove : CA_CinematicAction
     {
         Setup(_targetPositions, _setToIdleAtEnd, _teleport);
     }
+    public CA_CinematicPlayersMove(Vector2 _targetPosition, bool _setToIdleAtEnd, bool _teleport)
+    {
+        List<Vector2> v = new List<Vector2>() { _targetPosition };
+        Setup(v, _setToIdleAtEnd, _teleport);
+    }
 
     public void Setup(List<Vector2> _positions, bool _setToIdleAtEnd, bool _teleport)
     {

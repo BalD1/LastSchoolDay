@@ -138,7 +138,7 @@ public class Tutorial : MonoBehaviourEventsHandler
     {
         shopTutoCinematic = new Cinematic().SetPlayers(IGPlayersManager.Instance.PlayersList);
         shopTutoCinematic.AddActions(
-            new CA_CinematicCameraMove(Camera.main, currentShop.transform.position, 2),
+            new CA_CinematicCameraMove(Camera.main, currentShop.transform.position, .5f),
             new CA_CinematicDialoguePlayer(shopTutoDialogue),
             new CA_CinematicCustomAction(currentShop.OpenShop),
             new CA_CinematicCustomAction(() => currentShop.InteractionTrigger.enabled = true)
@@ -149,7 +149,7 @@ public class Tutorial : MonoBehaviourEventsHandler
     {
         shopClosedCinematic = new Cinematic().SetPlayers(IGPlayersManager.Instance.PlayersList);
         shopClosedCinematic.AddActions(
-            new CA_CinematicCameraMove(Camera.main, IGPlayersManager.Instance.PlayersList[0].transform, 2)
+            new CA_CinematicCameraMove(Camera.main, IGPlayersManager.Instance.PlayersList[0].transform, .5f)
             );
     }
 

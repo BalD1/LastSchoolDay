@@ -27,7 +27,7 @@ public class RoomMinimap : MonoBehaviour
     {
         key = _key;
         hasKeycard = true;
-        key.D_onPickup += ValidateRoom;
+        key.onPickup += ValidateRoom;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

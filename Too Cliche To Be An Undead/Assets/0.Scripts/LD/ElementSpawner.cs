@@ -48,29 +48,32 @@ public class ElementSpawner : MonoBehaviour
         if (spawnAtStart) SpawnElement();
     }
 
-    public void SpawnElement()
+    public GameObject SpawnElement()
     {
+        GameObject res = null;
         switch (elementToSpawn)
         {
             case E_ElementToSpawn.RandomBaseZombie:
-                Spawn(GameAssets.Instance.GetRandomZombie, GameManager.Instance.InstantiatedEntitiesParent);
+                res = Spawn(GameAssets.Instance.GetRandomZombie, GameManager.Instance.InstantiatedEntitiesParent);
                 break;
 
             case E_ElementToSpawn.Keycard:
-                Keycard key = Spawn(GameAssets.Instance.KeycardPF, GameManager.Instance.InstantiatedKeycardsParent).GetComponent<Keycard>();
-                D_spawnedKeycard?.Invoke(key);
+                res = Spawn(GameAssets.Instance.KeycardPF, GameManager.Instance.InstantiatedKeycardsParent);
+                D_spawnedKeycard?.Invoke(res.GetComponent<Keycard>());
                 break;
 
             case E_ElementToSpawn.Coins:
-                Spawn(GameAssets.Instance.CoinPF, GameManager.Instance.InstantiatedMiscParent);
+                res = Spawn(GameAssets.Instance.CoinPF, GameManager.Instance.InstantiatedMiscParent);
                 break;
 
             case E_ElementToSpawn.IdleZombie:
-                NormalZombie.Create(this.transform.position, false).transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
+                res = NormalZombie.Create(this.transform.position, false).gameObject;
+                res.transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
                 break;
 
             case E_ElementToSpawn.GroundedZombie:
-                GroundedZombie.Create(this.transform.position, flipX).transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
+                res = GroundedZombie.Create(this.transform.position, flipX).gameObject;
+                res.transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
                 break;
 
             default:
@@ -88,6 +91,8 @@ public class ElementSpawner : MonoBehaviour
             }
             else SpawnersManager.Instance.ElementSpawners.Remove(this);
         }
+
+        return res;
     }
 
     private GameObject Spawn(GameObject objPF, Transform parent)

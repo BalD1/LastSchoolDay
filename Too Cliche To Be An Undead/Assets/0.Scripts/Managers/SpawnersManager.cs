@@ -91,12 +91,16 @@ public class SpawnersManager : Singleton<SpawnersManager>
     {
         TutorialEvents.OnTutorialStarted += OnTutorialStarted;
         TutorialEvents.OnTutorialEnded += OnTutorialEnded;
+        HUBDoorEventHandler.OnInteractedWithDoor += ManageKeycardSpawn;
+        GameManagerEvents.OnRunStarted += ActivateSpawns;
     }
 
     protected override void EventsUnSubscriber()
     {
         TutorialEvents.OnTutorialStarted -= OnTutorialStarted;
         TutorialEvents.OnTutorialEnded -= OnTutorialEnded;
+        HUBDoorEventHandler.OnInteractedWithDoor -= ManageKeycardSpawn;
+        GameManagerEvents.OnRunStarted -= ActivateSpawns;
     }
 
     private void OnTutorialStarted() => stampsCounter.alpha = 0;
@@ -154,6 +158,7 @@ public class SpawnersManager : Singleton<SpawnersManager>
         allPlayersAreInClassroom = false;
     }
 
+    private void ActivateSpawns() => AllowSpawns(true);
     public void AllowSpawns(bool allow)
     {
         spawnsAreAllowed = allow;
@@ -260,31 +265,25 @@ public class SpawnersManager : Singleton<SpawnersManager>
     public void ManageKeycardSpawn()
     {
         int keysToSpawn = Random.Range(minKeycardsToSpawn, maxKeycardsToSpawn + 1);
-
         SpawnSingleCard(keysToSpawn);
-
+        this.SpawnedKeycards();
         foreach (var item in keycardSpawners) Destroy(item.gameObject);
-
         keycardSpawners.Clear();
-
-        UIManager.Instance.UpdateKeycardsCounter(-1);
     }
 
     private void SpawnSingleCard(int remainingSpawns)
     {
         if (remainingSpawns <= 0) return;
-
         int randomSpawner = Random.Range(0, keycardSpawners.Count - 1);
-
         if (randomSpawner >= keycardSpawners.Count) return;
 
-        keycardSpawners[randomSpawner].SpawnElement();
-        GameManager.Instance.NeededCards += 1;
+        Keycard key = keycardSpawners[randomSpawner].SpawnElement().GetComponent<Keycard>();
+        key.onPickup += () => this.PickedupCard(key);
 
         Destroy(keycardSpawners[randomSpawner].gameObject);
-
         keycardSpawners.RemoveAt(randomSpawner);
 
+        this.SpawnedKeycardSingle(key);
         SpawnSingleCard(remainingSpawns - 1);
     }
 

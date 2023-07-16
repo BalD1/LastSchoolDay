@@ -85,12 +85,14 @@ public class SoundManager : Singleton<SoundManager>
     {
         UIScreenBaseEvents.OnOpenScreen += OnScreenStateChange;
         UIScreenBaseEvents.OnCloseScreen += OnScreenStateChange;
+        GameManagerEvents.OnRunStarted += PlayMainSceneMusic;
     }
 
     protected override void EventsUnSubscriber()
     {
         UIScreenBaseEvents.OnOpenScreen -= OnScreenStateChange;
         UIScreenBaseEvents.OnCloseScreen -= OnScreenStateChange;
+        GameManagerEvents.OnRunStarted -= PlayMainSceneMusic;
     }
 
     private void Start()
@@ -200,6 +202,8 @@ public class SoundManager : Singleton<SoundManager>
 
         Debug.LogError("Could not find " + key + " in sfxClipsByTag");
     }
+
+    private void PlayMainSceneMusic() => PlayMusic(E_MusicClipsTags.MainScene);
 
     public void PauseMusic() => FadeMusic(true, () => musicSource.Pause());
     public void ResumeMusic() => PlayActionAndFadeMusic(false, () => musicSource.UnPause());

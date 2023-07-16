@@ -101,8 +101,6 @@ public class TEMP_HubDoor : MonoBehaviour, IInteractable
         playersCounter.gameObject.SetActive(false);
 
         spriteRenderer.material = GameAssets.Instance.DefaultMaterial;
-
-        GameManager.Instance._onRunStarted?.Invoke();
     }
 
     public bool CanBeInteractedWith()
