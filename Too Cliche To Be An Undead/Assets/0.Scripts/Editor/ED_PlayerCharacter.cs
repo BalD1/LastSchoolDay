@@ -19,11 +19,7 @@ public class ED_PlayerCharacter : Editor
     private bool showMisc = true;
 
     private bool showSrptStats;
-    private bool showScrptAudio;
     private bool showTickDamages;
-    private bool showHurtAudio;
-    private bool showDeathAudio;
-    private bool showAttackAudio;
 
     private float damagesAmount = 50;
     private bool critDamages;
@@ -68,6 +64,9 @@ public class ED_PlayerCharacter : Editor
         if (!showComponents) return;
 
         EditorGUILayout.BeginVertical("GroupBox");
+
+        SerializedProperty pccHolder = serializedObject.FindProperty("pccHolder");
+        EditorGUILayout.PropertyField(pccHolder);
 
         SerializedProperty rb = serializedObject.FindProperty("rb");
         EditorGUILayout.PropertyField(rb);

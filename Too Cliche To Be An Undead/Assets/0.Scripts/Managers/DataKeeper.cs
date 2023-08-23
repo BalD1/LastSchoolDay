@@ -141,4 +141,9 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
         PlayerDataKeep playerData = playersDataKeep[idx];
         return playerData.playerInput.GetComponentInParent<PlayerCharacter>();
     }
+
+    public static bool StartInTutorial()
+    {
+        return (!Instance.skipTuto) && (!Instance.alreadyPlayedTuto);
+    }
 }

@@ -61,7 +61,7 @@ public class ED_GameManager : Editor
         EditorGUILayout.BeginHorizontal();                                          // S Hori 1
 
         GameManager.gameTimeSpeed = EditorGUILayout.FloatField("Gametime Speed", GameManager.gameTimeSpeed);
-        if (EditorAssetsHolder.exist)
+        if (EditorAssetsHolder.ST_InstanceExists())
         {
             EditorAssetsHolder.IconWithSize icon = EditorAssetsHolder.Instance.GetIconData(EditorAssetsHolder.E_IconNames.Back);
             if (GUILayout.Button(icon.image, GUILayout.MaxWidth(icon.maxWidth), GUILayout.MaxHeight(icon.maxHeight)))

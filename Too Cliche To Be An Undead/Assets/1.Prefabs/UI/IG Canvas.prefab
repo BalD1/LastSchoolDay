@@ -2056,6 +2056,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d84199ec25192149b0f21a6f9ba6744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dependecies: []
   hudGroup: {fileID: 340754341591742416}
   playerHUD_PF: {fileID: 5755895242808568474, guid: 60e47e63292191745abaaf2b36247409, type: 3}
 --- !u!1 &3528246807302845650
@@ -2245,6 +2246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e71378d564528409a11507de61fef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dependecies: []
   <hudContainer>k__BackingField: {fileID: 7476158611778479322}
   <hudParent>k__BackingField: {fileID: 2893967205864082538}
   <hudFadeTarget>k__BackingField: {fileID: 3897226173500015154}
@@ -2704,6 +2706,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPlayer: {fileID: 0}
   image: {fileID: 3454442325625717401}
+  imagesHolder: {fileID: 11400000, guid: b2467ea157c926248ac4487a52f43185, type: 2}
+  btnType: 6
   buttonType: 6
 --- !u!1 &4336006246913959032
 GameObject:
@@ -3456,6 +3460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be087a6c756a9041866bcb83998eb82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dependecies: []
   run: 0
 --- !u!222 &4647886571116072591
 CanvasRenderer:
@@ -3615,6 +3620,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPlayer: {fileID: 0}
   image: {fileID: 8432092519099960950}
+  imagesHolder: {fileID: 11400000, guid: b2467ea157c926248ac4487a52f43185, type: 2}
+  btnType: 4
   buttonType: 4
 --- !u!114 &8432092519099960950
 MonoBehaviour:
@@ -4100,6 +4107,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPlayer: {fileID: 0}
   image: {fileID: 2903551182903159909}
+  imagesHolder: {fileID: 11400000, guid: b2467ea157c926248ac4487a52f43185, type: 2}
+  btnType: 5
   buttonType: 5
 --- !u!1 &5397213246729363136
 GameObject:

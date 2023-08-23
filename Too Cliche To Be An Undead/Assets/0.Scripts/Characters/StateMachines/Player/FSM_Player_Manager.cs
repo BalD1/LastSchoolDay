@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static FSM_NZ_Manager;
 
 public class FSM_Player_Manager : FSM_ManagerBase
 {
@@ -48,14 +47,14 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
     protected override void Update()
     {
-        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
+        if (!GameManager.IsInGame) return;
         currentState.UpdateState(this);
         currentState.Conditions(this);
     }
 
     protected override void FixedUpdate()
     {
-        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
+        if (!GameManager.IsInGame) return;
         currentState.FixedUpdateState(this);
     }
 

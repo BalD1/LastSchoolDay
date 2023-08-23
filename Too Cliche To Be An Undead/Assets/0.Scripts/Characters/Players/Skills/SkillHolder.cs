@@ -81,9 +81,9 @@ public class SkillHolder : MonoBehaviour
         this.skill = newSkill;
         this.Skill.ResetSkill();
         skillCooldown = 0;
-        owner.PlayerHUD.SetSkillThumbnail(newSkill.Thumbnail);
 
-        owner.PlayerHUD.UpdateSkillThumbnailFill(0, false);
+        owner.PlayerHUD?.SetSkillThumbnail(newSkill.Thumbnail);
+        owner.PlayerHUD?.UpdateSkillThumbnailFill(0, false);
 
         owner.ResetSkillAnimator();
     }

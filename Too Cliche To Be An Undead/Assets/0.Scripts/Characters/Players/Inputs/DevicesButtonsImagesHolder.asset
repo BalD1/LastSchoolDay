@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 665b6c07a41c17d4bba1aeeffc785a99, type: 3}
+  m_Name: DevicesButtonsImagesHolder
+  m_EditorClassIdentifier: 
+  <BackButtonImagesByDevice>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: -896389696, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 1
+      Value: {fileID: 1347848581, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 2
+      Value: {fileID: -1897977173, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 3
+      Value: {fileID: 771911839, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+  <ValidateButtonImagesByDevice>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: -498592729, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 1
+      Value: {fileID: 771911839, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 2
+      Value: {fileID: -27296148, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 3
+      Value: {fileID: 1347848581, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+  <ThirdButtonImagesByDevice>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: -1396548028, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 1
+      Value: {fileID: 88596939, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 2
+      Value: {fileID: -988678335, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 3
+      Value: {fileID: -27296148, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+  <FourthButtonImagesByDevice>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: -2056915596, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 1
+      Value: {fileID: -1527091588, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 2
+      Value: {fileID: -1897977173, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 3
+      Value: {fileID: 88596939, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+  <SecondaryContextualImagesByDevice>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: -32745781, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 1
+      Value: {fileID: 21300000, guid: 1d87833a71b42a34aa2575a6f1bb2f5f, type: 3}
+    - Key: 2
+      Value: {fileID: 21300000, guid: 1d87833a71b42a34aa2575a6f1bb2f5f, type: 3}
+    - Key: 3
+      Value: {fileID: 21300000, guid: 1d87833a71b42a34aa2575a6f1bb2f5f, type: 3}
+  <DialogueLineSkipImagesByDevice>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: -2056915596, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 1
+      Value: {fileID: 771911839, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 2
+      Value: {fileID: -27296148, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 3
+      Value: {fileID: 1347848581, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+  <DialogueWholeSkipImagesByDevice>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: -896389696, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 1
+      Value: {fileID: 1347848581, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 2
+      Value: {fileID: 763620990, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}
+    - Key: 3
+      Value: {fileID: 771911839, guid: 4c7f234ec6da08644952b2eb9979a90c, type: 3}

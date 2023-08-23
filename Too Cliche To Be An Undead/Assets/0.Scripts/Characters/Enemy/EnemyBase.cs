@@ -115,10 +115,8 @@ public abstract class EnemyBase : Entity
         BaseMovementMass = movementMass;
     }
 
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
-
         distanceBeforeStop = distanceBeforeStop.Fluctuate();
     }
 

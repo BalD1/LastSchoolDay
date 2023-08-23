@@ -76,8 +76,8 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
     protected override void Start()
     {
-        if (tutorialZombie && !GameManager.Instance.IsInTutorial) Destroy(this.gameObject);
         base.Start();
+        if (tutorialZombie && !DataKeeper.StartInTutorial()) Destroy(this.gameObject);
         Pathfinding?.StartUpdatePath();
 
         if (ZombiesScalingManager.Instance != null)

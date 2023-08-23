@@ -209,13 +209,9 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
         ResetStats();
     }
 
-    protected virtual void Start()
-    {
-    }
-
     protected virtual void Update()
     {
-        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
+        if (!GameManager.IsInGame) return;
 
         // update every modifiers timers, and remove the outdated ones
         foreach (var item in StatsModifiers)
@@ -251,7 +247,7 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
 
     protected virtual void FixedUpdate()
     {
-        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
+        if (!GameManager.IsInGame) return;
         lastVelocity = this.GetRb.velocity;
     }
 

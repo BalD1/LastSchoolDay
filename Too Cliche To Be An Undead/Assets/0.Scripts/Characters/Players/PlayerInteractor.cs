@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInteractor : MonoBehaviourEventsHandler
+public class PlayerInteractor : ImageChangeOnController
 {
     [SerializeField] private CircleCollider2D trigger;
     [SerializeField] private GameObject interactPrompt;
@@ -10,8 +10,6 @@ public class PlayerInteractor : MonoBehaviourEventsHandler
 
     public SpriteRenderer PromptText { get => promptText; }
 
-    [SerializeField] private PlayerCharacter owner;
-
     private List<IInteractable> interactablesInRange = new List<IInteractable>();
     private List<IInteractable> interactablesToRemove = new List<IInteractable>();
 
@@ -19,36 +17,26 @@ public class PlayerInteractor : MonoBehaviourEventsHandler
 
     protected override void EventsSubscriber()
     {
-        if (owner.PlayerIndex == 0) PlayerInputsEvents.OnDeviceChange += CheckDevice;
-        owner.OnInteractInput += InteractWithClosest;
-        GameManager.Instance._onSceneReload += ResetOnLoad;
+        if (targetPlayer.PlayerIndex == 0) PlayerInputsEvents.OnDeviceChange += CheckDevice;
+        targetPlayer.OnInteractInput += InteractWithClosest;
     }
 
     protected override void EventsUnSubscriber()
     {
-        if (owner.PlayerIndex == 0) PlayerInputsEvents.OnDeviceChange -= CheckDevice;
-        owner.OnInteractInput -= InteractWithClosest;
-        GameManager.Instance._onSceneReload -= ResetOnLoad;
+        if (targetPlayer.PlayerIndex == 0) PlayerInputsEvents.OnDeviceChange -= CheckDevice;
+        targetPlayer.OnInteractInput -= InteractWithClosest;
     }
 
-    private void Start()
+    protected override void Start()
     {
-        CheckDevice(owner.PlayerInputsComponent.currentDeviceType);
+        base.Start();
+        CheckDevice(targetPlayer.PlayerInputsComponent.currentDeviceType);
     }
 
-    private void CheckDevice(PlayerInputsManager.E_Devices device)
+    protected override void CheckDevice(PlayerInputsManager.E_Devices device)
     {
-        promptText.sprite = ButtonsImageByDevice.Instance.GetButtonImage(ButtonsImageByDevice.E_ButtonType.Third, device);
-        promptGlow.sprite = ButtonsImageByDevice.Instance.GetButtonImage(ButtonsImageByDevice.E_ButtonType.Third, device);
-    }
-
-    public void ResetOnLoad()
-    {
-        interactablesInRange.Clear();
-        interactablesToRemove.Clear();
-
-        closestInteractable = null;
-        interactPrompt.SetActive(false);
+        promptText.sprite = imagesHolder.GetButtonImage(btnType, device);
+        promptGlow.sprite = imagesHolder.GetButtonImage(btnType, device);
     }
 
     private void InteractWithClosest()

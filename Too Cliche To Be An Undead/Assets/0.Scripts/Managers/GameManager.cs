@@ -105,6 +105,15 @@ public class GameManager : Singleton<GameManager>
 
     #region GameStates
 
+    public static bool IsInGame
+    {
+        get
+        {
+            if (Instance == null) return true;
+            return Instance.gameState == E_GameState.InGame;
+        }
+    }
+
     public enum E_GameState
     {
         MainMenu,

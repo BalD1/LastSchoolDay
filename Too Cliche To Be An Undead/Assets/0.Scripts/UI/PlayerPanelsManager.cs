@@ -84,17 +84,18 @@ public class PlayerPanelsManager : UIScreenBase
     {
         base.Hide();
         DetachInputs();
+        DetachArrowsToPlayer();
     }
 
     public override void Show(bool ignoreTweens = false)
     {
         base.Show();
         AttachInputs();
+        AttachArrowsToPlayer();
     }
 
     public override void Close(bool ignoreTweens = false)
     {
-        Debug.Log(allowClose);
         if (!allowClose) return;
         allowClose = false;
         StopAllCoroutines();
@@ -103,7 +104,6 @@ public class PlayerPanelsManager : UIScreenBase
             LeanTween.cancel(item.gameObject);
             item.transform.localScale = Vector2.zero;
         }
-        DetachInputs();
         ResetPanels();
         videoPlayer.GetVideoPlayer.Stop();
         videoPlayer.FadeVideo(false, 0);
@@ -309,8 +309,6 @@ public class PlayerPanelsManager : UIScreenBase
                 return;
             }
 
-        DetachArrowsToPlayer();
-        DetachInputs();
 
         foreach (var item in playerPanels)
             if (item.IsEnabled) item.AssociateCharacterToPlayer();

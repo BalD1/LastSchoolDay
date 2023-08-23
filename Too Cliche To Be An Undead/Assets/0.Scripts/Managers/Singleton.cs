@@ -58,9 +58,13 @@ public abstract class Singleton<T> : MonoBehaviourEventsHandler, IDependency
 
     protected override void EventsUnSubscriber() { }
 
+    public static bool ST_InstanceExists()
+    {
+        return instance != null;
+    }
     public bool InstanceExists()
     {
-        return Instance != null;
+        return instance != null;
     }
 
     public GameObject GetInstance()

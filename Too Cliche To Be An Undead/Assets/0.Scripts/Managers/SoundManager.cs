@@ -105,7 +105,7 @@ public class SoundManager : Singleton<SoundManager>
         ChangeSFXMixerPitch(1);
 
         GameManager.Instance.D_bossFightEnded += TryEndBossMusic;
-        if (SpawnersManager.Instance != null)
+        if (SpawnersManager.ST_InstanceExists())
             SpawnersManager.Instance.D_stampChange += PlayStampChangeSoundEffect; 
     }
 

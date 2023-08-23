@@ -373,11 +373,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea4b90628a681f4ea2931de0ae8403e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPlayer: {fileID: 8823656354733599271}
+  image: {fileID: 0}
+  imagesHolder: {fileID: 11400000, guid: b2467ea157c926248ac4487a52f43185, type: 2}
+  btnType: 2
+  buttonType: 2
   trigger: {fileID: 8515162924226576472}
   interactPrompt: {fileID: 3626208750627798440}
   promptText: {fileID: 3129096516213655563}
   promptGlow: {fileID: 5470601053077359753}
-  owner: {fileID: 8823656354733599271}
 --- !u!58 &8515162924226576472
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2454,6 +2458,7 @@ MonoBehaviour:
   playerAudio: {fileID: 9034290970493158934}
   animationController: {fileID: 8621487532268834906}
   minimapMarker: {fileID: 5962262701401338645}
+  pccHolder: {fileID: 11400000, guid: a225b2310880be140a1a8433e3cbea8a, type: 2}
   selfInteractor: {fileID: 3790402285985648515}
   weapon: {fileID: 8240629481785198393}
   skillHolder: {fileID: 426001256322179506}

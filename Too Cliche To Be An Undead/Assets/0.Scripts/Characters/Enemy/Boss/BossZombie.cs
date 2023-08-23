@@ -105,6 +105,7 @@ public class BossZombie : EnemyBase
 
     protected override void Start()
     {
+        base.Start();
         if (isAppeared) OnStart();
         else
         {
@@ -121,7 +122,6 @@ public class BossZombie : EnemyBase
     {
         attack_TIMER = onSpawnAttackCooldown;
         TargetClosestPlayer();
-        base.Start();
         Pathfinding?.StartUpdatePath();
 
         GameManager.Instance.D_bossFightStarted?.Invoke();

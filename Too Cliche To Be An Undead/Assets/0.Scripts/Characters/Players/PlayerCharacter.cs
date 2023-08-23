@@ -28,6 +28,9 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private PlayerAnimationController animationController;
     [SerializeField] private GameObject minimapMarker;
     public GameObject MinimapMarker { get => minimapMarker;}
+    public SpriteRenderer MinimapMarkerSprite { get => minimapMarker?.GetComponent<SpriteRenderer>(); }
+
+    [SerializeField] private SO_PCCHolder pccHolder;
     [SerializeField] private PlayerInteractor selfInteractor;
     [SerializeField] private PlayerWeapon weapon;
     [SerializeField] private SkillHolder skillHolder;
@@ -93,6 +96,8 @@ public class PlayerCharacter : Entity, IInteractable
     public float DashCooldown { get => dash_CD_TIMER; }
 
     private bool stayStatic;
+
+    private bool isInTutorial;
 
     private Vector2 velocity;
 
@@ -172,23 +177,17 @@ public class PlayerCharacter : Entity, IInteractable
     protected override void EventsSubscriber()
     {
         base.EventsSubscriber();
-        GameManager.Instance._onSceneReload += OnSceneReload;
-        ShopEvents.OnBoughtNewLevel += ReceiveNewLevel; 
+        ShopEvents.OnBoughtNewLevel += ReceiveNewLevel;
+        TutorialEvents.OnTutorialStarted += OnTutorialStarted;
+        TutorialEvents.OnTutorialEnded += OnTutorialEnded;
     }
 
     protected override void EventsUnSubscriber()
     {
         base.EventsUnSubscriber();
-        GameManager.Instance._onSceneReload -= OnSceneReload;
         ShopEvents.OnBoughtNewLevel -= ReceiveNewLevel;
-    }
-
-    protected override void Awake()
-    {
-        base.Awake();
-        return;
-        this.MaxSkillCD_M = skillHolder.Skill.Cooldown;
-        this.MaxDashCD_M = playerDash.Dash_COOLDOWN;
+        TutorialEvents.OnTutorialStarted -= OnTutorialStarted;
+        TutorialEvents.OnTutorialEnded -= OnTutorialEnded;
     }
 
     public void Setup(PlayerInputs inputs)
@@ -197,16 +196,17 @@ public class PlayerCharacter : Entity, IInteractable
         this.playerIndex = inputs.InputsID;
         inputs.SetOwner(this);
 
-        SO_CharactersComponents pcc = GameAssets.Instance.CharactersComponentsHolder.GetComponents(this.GetCharacterName());
-        PlayerHUD = PlayerHUDManager.Instance.CreateNewHUD(this, this.minimapMarker.GetComponent<SpriteRenderer>(), this.GetCharacterName(), pcc.Dash, pcc.Skill);
-        PlayerHUD.ForceHPUpdate();
-        this.SwitchCharacter(pcc);
+        this.SwitchCharacter(pccHolder.GetComponents(this.GetCharacterName()));
+        this.PlayerSetup();
         this.minimapMarker.SetActive(true);
     }
 
+    private void OnTutorialStarted() => isInTutorial = true;
+    private void OnTutorialEnded() => isInTutorial = false;
+
     protected override void Update()
     {
-        if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
+        if (!GameManager.IsInGame) return;
         base.Update();
 
         if (dash_CD_TIMER > 0)
@@ -217,6 +217,8 @@ public class PlayerCharacter : Entity, IInteractable
             PlayerHUD.UpdateDashThumbnailFill(fillAmount);
         }
     }
+
+    public void SetHUD(PlayerHUD newHUD) => this.PlayerHUD = newHUD;
 
     #endregion
 
@@ -262,7 +264,7 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (!IsAlive()) return false;
 
-        if (GameManager.Instance.IsInTutorial) fakeDamages = true;
+        if (isInTutorial) fakeDamages = true;
 
         bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
         if (res == false) return res;
@@ -520,22 +522,6 @@ public class PlayerCharacter : Entity, IInteractable
 
         OnIndexChange?.Invoke(idx);
     }
-
-    private void OnSceneReload()
-    {
-        this.StatsModifiers.Clear();
-        this.attackers.Clear();
-        this.skeletonAnimation.timeScale = 1;
-
-        this.currentHP = this.MaxHP_M;
-        PlayerHUD.ForceHPUpdate();
-
-        this.stateManager.ResetAll();
-
-        DataKeeper.Instance.money = PlayerCharacter.money;
-        DataKeeper.Instance.maxLevel = this.Level;
-    }
-
     #endregion
 
     #region Tweening

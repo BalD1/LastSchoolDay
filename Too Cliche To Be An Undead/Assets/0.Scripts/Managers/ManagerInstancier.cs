@@ -31,10 +31,10 @@ public class ManagerInstancier : MonoBehaviour
 
     private void CreateAnySceneManagers()
     {
-        if (PlayerInputsManager.Instance == null) inputsManagerPF?.Create(this.transform.parent);
-        if (GameAssets.Instance == null) gameAssetsPF?.Create(this.transform.parent);
-        if (FPSDisplayer.Instance == null) fpsDisplayerManagerPF?.Create(this.transform.parent);
-        if (GameVerManager.Instance == null) gameVerManagerPF?.Create(this.transform.parent);
+        if (!PlayerInputsManager.ST_InstanceExists()) inputsManagerPF?.Create(this.transform.parent);
+        if (!GameAssets.ST_InstanceExists()) gameAssetsPF?.Create(this.transform.parent);
+        if (!FPSDisplayer.ST_InstanceExists()) fpsDisplayerManagerPF?.Create(this.transform.parent);
+        if (!GameVerManager.ST_InstanceExists()) gameVerManagerPF?.Create(this.transform.parent);
     }
 
     private void CreateMainMenuManagers()
@@ -43,6 +43,6 @@ public class ManagerInstancier : MonoBehaviour
 
     private void CreateIGManagers()
     {
-        if (IGPlayersManager.Instance == null) igPlayersManagerPF?.Create(this.transform.parent);
+        if (!IGPlayersManager.ST_InstanceExists()) igPlayersManagerPF?.Create(this.transform.parent);
     }
 }

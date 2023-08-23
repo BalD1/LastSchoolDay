@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
@@ -57,6 +58,7 @@ public class PlayerHUD : MonoBehaviour
         SetupCharacterPortrait(character);
 
         SetDashThumbnail();
+        SetSkillThumbnail();
 
         owner.OnHealthChange += OnOwnerHealthChange;
         owner.OnSwitchCharacter += OnCharacterSwitch;
@@ -64,6 +66,8 @@ public class PlayerHUD : MonoBehaviour
         portraitRect = portrait.GetComponent<RectTransform>();
     }
 
+    public void SetSkillThumbnail()
+        => SetSkillThumbnail(owner.GetSkill.Thumbnail);
     public void SetSkillThumbnail(Sprite image)
     {
         skillThumbnail.sprite = image;

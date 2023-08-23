@@ -82,7 +82,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
     protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu)) Initialize();
-        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainScene)) CheckIfP1Exist();
+        else CheckIfP1Exist();
     }
 
     protected override void OnSceneUnloaded(Scene scene)
