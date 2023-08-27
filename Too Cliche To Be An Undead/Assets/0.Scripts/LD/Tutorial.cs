@@ -74,7 +74,7 @@ public class Tutorial : MonoBehaviourEventsHandler
         }
         foreach (var item in tutorialZombies)
         {
-            item.d_OnDeath += OnZombieDeath;
+            item.OnDeath += OnZombieDeath;
         }
 
         zombiesCount = tutorialZombies.Length;
@@ -229,7 +229,7 @@ public class Tutorial : MonoBehaviourEventsHandler
             tutoFinished = true;
             foreach (var item in tutorialZombies)
             {
-                item.d_OnDeath -= OnZombieDeath;
+                item.OnDeath -= OnZombieDeath;
             }
             zombiesCleanedCinematic.StartCinematic();
         }

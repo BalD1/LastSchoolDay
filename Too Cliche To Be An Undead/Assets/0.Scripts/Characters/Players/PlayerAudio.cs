@@ -25,7 +25,7 @@ public class PlayerAudio : MonoBehaviour
 
         owner.D_onTakeDamagesFromEntity += PlayHurtAudio;
 
-        owner.d_OnDeath += PlayDeathAudio;
+        owner.OnDeath += PlayDeathAudio;
 
         owner.OnAttack += PlayAttackAudio;
         owner.OnSuccessfulAttack += PlayAttackConnectedAudio;
@@ -49,7 +49,7 @@ public class PlayerAudio : MonoBehaviour
 
         owner.D_onTakeDamagesFromEntity -= PlayHurtAudio;
 
-        owner.d_OnDeath -= PlayDeathAudio;
+        owner.OnDeath -= PlayDeathAudio;
 
         owner.OnAttack -= PlayAttackAudio;
         owner.OnSuccessfulAttack -= PlayAttackConnectedAudio;

@@ -65,6 +65,12 @@ public class CA_CinematicCameraMove : CA_CinematicAction
         if (teleport) travelTime = 0;
 
         if (targetTransform != null) targetPosition = targetTransform.position;
+
+        if (cam == Camera.main && CameraManager.ST_InstanceExists())
+        {
+            CameraManager.Instance.MoveCamera(targetPosition, () => ActionEnded(this), teleport ? 0 : travelTime);
+            return;
+        }
         LeanTween.move(cam.gameObject, targetPosition, travelTime).setEase(leanType)
                                                                   .setOnComplete(() => this.ActionEnded(this));
     }

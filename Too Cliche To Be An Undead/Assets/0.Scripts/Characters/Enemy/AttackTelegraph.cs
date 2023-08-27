@@ -38,7 +38,7 @@ public class AttackTelegraph : MonoBehaviour
 
     private void Awake()
     {
-        owner.d_OnDeath += CancelTelegraph;
+        owner.OnDeath += CancelTelegraph;
     }
 
     public void Setup(TelegraphData newData, float time)

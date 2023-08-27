@@ -13,7 +13,7 @@ public class CA_CinematicWait : CA_CinematicAction
 
     public override void Execute()
     {
-        LeanTween.delayedCall(waitTime, ActionEnded);
+        LeanTween.delayedCall(waitTime, ActionEnded).setIgnoreTimeScale(true);
     }
 
     private void ActionEnded() => ActionEnded(this);

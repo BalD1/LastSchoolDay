@@ -3,6 +3,8 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using BalDUtilities.Misc;
 using System;
+using System.Collections;
+using AYellowpaper.SerializedCollections;
 
 public class SoundManager : Singleton<SoundManager>
 {
@@ -35,16 +37,14 @@ public class SoundManager : Singleton<SoundManager>
 
     private SCRPT_MusicData currentPlayingMusicData;
 
-    private LTDescr delayedMusicInvoke;
+    private Coroutine musicFadeCoroutine;
 
-    [System.Serializable]
     public enum E_SFXClipsTags
     {
         Clic,
         StampChange,
     }
 
-    [System.Serializable]
     public enum E_MusicClipsTags
     {
         MainMenu,
@@ -54,32 +54,16 @@ public class SoundManager : Singleton<SoundManager>
         TitleScreen,
     }
 
-    [System.Serializable]
-    public struct MusicClips
+    public enum E_MusicFadeBehaviour
     {
-#if UNITY_EDITOR
-        public string inEditorName;
-#endif
-        public E_MusicClipsTags tag;
-        public AudioClip clip;
+        FadeIn,
+        FadeOut,
+        Pause,
+        Resume
     }
 
-    [System.Serializable]
-    public struct SFXClips
-    {
-#if UNITY_EDITOR
-        public string inEditorName;
-#endif
-        public E_SFXClipsTags tag;
-        public AudioClip clip;
-    }
-
-    [SerializeField] private MusicClips[] musicClipsByTag;
-    [SerializeField] private SFXClips[] sfxClipsByTag;
-
-    [SerializeField] private SCRPT_MusicData bossSpawnMusic;
-
-    private bool isStopping = false;
+    [field: SerializeField] public SerializedDictionary<E_MusicClipsTags, AudioClip> MusicClipsWithTags { get; private set; }
+    [field: SerializeField] public SerializedDictionary<E_SFXClipsTags, AudioClip> SFXClipsWithTags { get; private set; }
 
     protected override void EventsSubscriber()
     {
@@ -174,155 +158,95 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="key"></param>
     public void Play2DSFX(E_SFXClipsTags key)
     {
-        foreach (var item in sfxClipsByTag)
+        if (!SFXClipsWithTags.TryGetValue(key, out AudioClip result))
         {
-            if (item.tag.Equals(key))
-            {
-                sfx2DSource.PlayOneShot(item.clip);
-                return;
-            }
+            this.Log($"Could not find {key} SFX in dictionnary.", LogsManager.E_LogType.Error);
+            return;
         }
-
-        Debug.LogError("Could not find " + EnumsExtension.EnumToString(key) + " in sfxClipsByTag");
-    }
-
-    /// <summary>
-    /// Plays the sound with <paramref name="key"/> as tag, stored in <seealso cref="sfxClipsByTag"/>.
-    /// </summary>
-    /// <param name="key"></param>
-    public void Play2DSFX(string key)
-    {
-        foreach (var item in sfxClipsByTag)
-        {
-            if (EnumsExtension.EnumToString(item.tag).Equals(key))
-            {
-                sfx2DSource.PlayOneShot(item.clip);
-                return;
-            }
-        }
-
-        Debug.LogError("Could not find " + key + " in sfxClipsByTag");
+        sfx2DSource.PlayOneShot(result);
     }
 
     private void PlayMainSceneMusic() => PlayMusic(E_MusicClipsTags.MainScene);
 
-    public void PauseMusic() => FadeMusic(true, () => musicSource.Pause());
-    public void ResumeMusic() => PlayActionAndFadeMusic(false, () => musicSource.UnPause());
-    public void StopMusic(Action endAction = null)
-    {
-        StopDelayedMusicPlay();
-        if (isStopping) return;
 
-        isStopping = true;
-
-        if (currentPlayingMusicData == null)
-        {
-            FadeMusic(true, () =>
-            {
-                musicSource.Stop();
-                endAction?.Invoke();
-                isStopping = false;
-            });
-            return;
-        }
-
-        musicSource.Stop();
-        AudioClip endClip = currentPlayingMusicData.EndClip;
-        if (endClip != null)
-        {
-            musicSource.PlayOneShot(endClip);
-            LeanTween.delayedCall(endClip.length, () =>
-            {
-                isStopping = false;
-                endAction?.Invoke();
-            });
-            return;
-        }
-        isStopping = false;
-        endAction?.Invoke();
-    }
     public void PlayMusic(E_MusicClipsTags musicTag)
     {
-        StopDelayedMusicPlay();
         if (musicSource.isPlaying)
         {
-            StopMusic(() => PlayMusic(musicTag));
+            FadeOutMusic(() => PlayMusic(musicTag));
             return;
         }
 
-        AudioClip musicToPlay = null;
-
-        foreach (var item in musicClipsByTag)
+        if (!MusicClipsWithTags.TryGetValue(musicTag, out AudioClip result))
         {
-            if (item.tag.Equals(musicTag))
-            {
-                musicToPlay = item.clip;
-                break;
-            }
-        }
-
-        musicSource.clip = musicToPlay;
-        FadeMusic(false);
-    }
-    public void PlayMusic(SCRPT_MusicData musicData)
-    {
-        if (musicData == null) return;
-        StopDelayedMusicPlay();
-
-        if (musicSource.isPlaying)
-        {
-            StopMusic(() => PlayMusic(musicData));
+            this.Log($"Could not find {musicTag} music in dictionnary.", LogsManager.E_LogType.Error);
             return;
         }
 
-        musicSource.volume = 1;
-        musicSource.PlayOneShot(musicData.StartClip);
-        delayedMusicInvoke = LeanTween.delayedCall(musicData.StartClip.length - musicStartLoopDelayModifier, () =>
-        {
-            musicSource.clip = musicData.LoopClip;
-            musicSource.Play();
-        }).setIgnoreTimeScale(true);
+        musicSource.clip = result;
+        FadeInMusic();
     }
-    public void PlayBossMusic() => PlayMusic(bossSpawnMusic);
-    public void PlayMusicWithFade(E_MusicClipsTags musicToPlay, bool fadeOut)
-    {
-        musicSource.volume = fadeOut ? 1 : 0;
+    public void StopMusic()
+        => FadeMusic(E_MusicFadeBehaviour.FadeOut, null);
+    public void StopMusic(Action endAction)
+        => FadeMusic(E_MusicFadeBehaviour.FadeOut, endAction);
 
-        LeanTween.value(musicSource.volume, fadeOut ? 0 : 1, musicFadeSpeed).setIgnoreTimeScale(true).setOnUpdate((float val) =>
+    public void PauseMusic()
+        => FadeMusic(E_MusicFadeBehaviour.Pause, null);
+    public void PauseMusic(Action endAction)
+        => FadeMusic(E_MusicFadeBehaviour.Pause, endAction);
+
+    public void ResumeMusic()
+        => FadeMusic(E_MusicFadeBehaviour.Resume, null);
+    public void ResumeMusic(Action endAction)
+        => FadeMusic(E_MusicFadeBehaviour.Resume, endAction);
+
+    private void FadeInMusic()
+        => FadeMusic(E_MusicFadeBehaviour.FadeIn, null);
+    private void FadeInMusic(Action endAction)
+        => FadeMusic(E_MusicFadeBehaviour.FadeIn, endAction);
+
+    private void FadeOutMusic()
+        => FadeMusic(E_MusicFadeBehaviour.FadeOut, null);
+    private void FadeOutMusic(Action endAction)
+        => FadeMusic(E_MusicFadeBehaviour.FadeOut, endAction);
+
+    private void FadeMusic(E_MusicFadeBehaviour behaviour, Action endAction)
+    {
+        if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
+        musicFadeCoroutine = StartCoroutine(FadeMusicCoroutine(behaviour, endAction));
+    }
+    private IEnumerator FadeMusicCoroutine(E_MusicFadeBehaviour behaviour, Action endAction)
+    {
+        bool fadeIn = false;
+        switch (behaviour)
         {
-            musicSource.volume = val;
-        });
-        foreach (var item in musicClipsByTag)
-        {
-            if (item.tag.Equals(musicToPlay))
-            {
-                musicSource.clip = item.clip;
+            case E_MusicFadeBehaviour.FadeIn:
+                fadeIn = true;
                 musicSource.Play();
                 break;
-            }
+            case E_MusicFadeBehaviour.Resume:
+                fadeIn = true;
+                musicSource.UnPause();
+                break;
         }
-    }
 
-    private void FadeMusic(bool fadeOut, Action onComplete = null)
-    {
-        if (!fadeOut) musicSource.Play();
-        LeanTween.value(musicSource.volume, fadeOut ? 0 : 1, musicFadeSpeed).setIgnoreTimeScale(true).setOnUpdate((float val) =>
+        while (fadeIn ? musicSource.volume < 1 : musicSource.volume > 0)
         {
-            musicSource.volume = val;
-        }).setOnComplete(onComplete);
-    }
-    private void PlayActionAndFadeMusic(bool fadeOut, Action beforeAction)
-    {
-        beforeAction?.Invoke();
-        LeanTween.value(musicSource.volume, fadeOut ? 0 : 1, musicFadeSpeed).setIgnoreTimeScale(true).setOnUpdate((float val) =>
-        {
-            musicSource.volume = val;
-        });
-    }
+            musicSource.volume += fadeIn ? Time.deltaTime * musicFadeSpeed : -(Time.deltaTime * musicFadeSpeed);
+            yield return null;
+        }
 
-    private void StopDelayedMusicPlay()
-    {
-        if (delayedMusicInvoke == null) return;
-        LeanTween.cancel(delayedMusicInvoke.uniqueId);
+        musicFadeCoroutine = null;
+        switch (behaviour)
+        {
+            case E_MusicFadeBehaviour.FadeOut:
+                musicSource.Stop();
+                break;
+            case E_MusicFadeBehaviour.Pause:
+                musicSource.Pause();
+                break;
+        }
+        endAction?.Invoke();
     }
 }

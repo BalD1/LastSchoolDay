@@ -12,6 +12,16 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
 
     public static int PlayersCount { get => PlayerInputsManager.PlayersCount; }
 
+    protected override void EventsSubscriber()
+    {
+        GymnasiumCinematicEvents.OnGymnasiumCinematicStarted += ReviveAllDyingPlayers;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        GymnasiumCinematicEvents.OnGymnasiumCinematicStarted -= ReviveAllDyingPlayers;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -27,5 +37,14 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
         }
 
         this.AllPlayersCreated(PlayersList);
+    }
+
+    public void ReviveAllDyingPlayers()
+    {
+        foreach (var player in PlayersList)
+        {
+            if (player.StateManager.CurrentState.ToString() == "Dying")
+                player.AskRevive();
+        }
     }
 }

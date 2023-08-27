@@ -18,6 +18,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public FSM_Player_Dead DeadState { get; private set; } = new FSM_Player_Dead();
     public FSM_Player_Stunned StunnedState { get; private set; } = new FSM_Player_Stunned();
     public FSM_Player_Cinematic CinematicState { get; private set; } = new FSM_Player_Cinematic();
+    public E_PlayerState CurrentStateName { get; private set; } = E_PlayerState.Idle;
 
     private Dictionary<E_PlayerState, FSM_Base<FSM_Player_Manager>> statesWithKey;
 

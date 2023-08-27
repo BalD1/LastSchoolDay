@@ -2,11 +2,12 @@ using Spine;
 using Spine.Unity;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossZombie : EnemyBase
 {
-    [SerializeField] private FSM_Boss_Manager stateManager;
+    [field: SerializeField] public FSM_Boss_Manager StateManager { get; private set; }
 
     [SerializeField] private SCRPT_EnemyAttack[] attacks;
 
@@ -70,6 +71,8 @@ public class BossZombie : EnemyBase
     public delegate void D_CurrentAttackEnded();
     public D_CurrentAttackEnded D_currentAttackEnded;
 
+    public Action OnAppearAnimationEnded;
+
     [field: SerializeField] public float HitStop_DURATION { get; private set; } = .3f;
     private float hitStop_TIMER;
     public float HitStop_TIMER { get => hitStop_TIMER; }
@@ -84,6 +87,7 @@ public class BossZombie : EnemyBase
         base.EventsSubscriber();
         OnJumpStarted += JumpStart;
         OnJumpEnded += JumpEnd;
+        CinematicManagerEvents.OnChangeCinematicState += OnChangeCinematicState;
     }
 
     protected override void EventsUnSubscriber()
@@ -91,6 +95,7 @@ public class BossZombie : EnemyBase
         base.EventsUnSubscriber();
         OnJumpStarted -= JumpStart;
         OnJumpEnded -= JumpEnd;
+        CinematicManagerEvents.OnChangeCinematicState -= OnChangeCinematicState;
     }
 
     private void JumpStart() => IsJumping = true;
@@ -115,15 +120,13 @@ public class BossZombie : EnemyBase
             goal.a = 0;
 
             sk.SetColor(goal);
+            this.StateManager.SwitchState(FSM_Boss_Manager.E_BossState.Appear);
         }
     }
 
     private void OnStart()
     {
         attack_TIMER = onSpawnAttackCooldown;
-        TargetClosestPlayer();
-        Pathfinding?.StartUpdatePath();
-
         GameManager.Instance.D_bossFightStarted?.Invoke();
     }
 
@@ -139,6 +142,15 @@ public class BossZombie : EnemyBase
         }
 
         base.Update();
+    }
+
+    private void OnChangeCinematicState(bool isInCinematic)
+    {
+        if (isInCinematic)
+        {
+            this.StateManager.SwitchState(FSM_Boss_Manager.E_BossState.Chasing);
+            TargetClosestPlayer();
+        }
     }
 
     public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
@@ -208,10 +220,8 @@ public class BossZombie : EnemyBase
     public override void Death(bool forceDeath = false)
     {
         if (deathFlag) return;
-
         deathFlag = true;
-
-        d_OnDeath?.Invoke();
+        CallOnDeath();
     }
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
@@ -236,58 +246,6 @@ public class BossZombie : EnemyBase
         this.SetTarget(closerTarget);
     }
 
-    public void PlayAppearAnimation(Action actionToPlayAtEnd)
-    {
-        skeletonAnimation.AnimationState.SetAnimation(0, animationData.JumpStartAnim, false);
-
-        this.SkeletonHolder.AddToLocalPositionY(5);
-        Skeleton sk = skeletonAnimation.skeleton;
-
-        Color goalColor = sk.GetColor();
-        goalColor.a = 1;
-        LeanTween.value(this.SkeletonAnimation.gameObject, sk.GetColor(), goalColor, .25f).setOnUpdate((Color c) =>
-        {
-            sk.SetColor(c);
-        }).setIgnoreTimeScale(true);
-
-        LeanTween.delayedCall(.4f, () =>
-        {
-            skeletonAnimation.AnimationState.SetAnimation(0, animationData.JumpEndAnim, false);
-            skeletonAnimation.AnimationState.AddAnimation(0, animationData.IdleAnim, true, animationData.JumpEndAnim.Animation.Duration + .2f);
-        });
-        LeanTween.moveLocalY(this.SkeletonHolder.gameObject, 0, .5f).setOnComplete(() =>
-        {
-            this.SkeletonHolder.SetLocalPositionY(0);
-            sk.SetColor(goalColor);
-
-            float cameraShakeDuration = 2;
-
-            SoundManager.Instance.PlayBossMusic();
-
-            CameraManager.Instance.ShakeCamera(2.5f, cameraShakeDuration);
-
-            GetAudioSource.PlayOneShot(fall);
-
-            LeanTween.delayedCall(cameraShakeDuration, () =>
-            {
-                actionToPlayAtEnd?.Invoke();
-                skeletonAnimation.AnimationState.SetAnimation(0, animationData.YellAnim, false);
-                skeletonAnimation.AnimationState.AddAnimation(0, animationData.IdleAnim, true, animationData.YellAnim.Animation.Duration + .2f);
-
-                BossHUDManager.Instance.AddBoss(this);
-                BossHUDManager.Instance.LeanContainer(true);
-
-                CameraManager.Instance.ZoomCamera(-.25f, .5f, () =>
-                {
-                    GetAudioSource.PlayOneShot(howl);
-                    CameraManager.Instance.ShakeCamera(2.5f, 1);
-                });
-            });
-
-            
-        }).setIgnoreTimeScale(true);
-    }
-
     public void OnMinionSpawned(Entity minion) => spawnedZombies.Add(minion);
     public void OnMinionDied(Entity minion)
     {
@@ -307,7 +265,6 @@ public class BossZombie : EnemyBase
     {
         isAppeared = true;
         OnStart();
-        stateManager.OnStart();
+        StateManager.OnStart();
     }
-
 }

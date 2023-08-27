@@ -4,80 +4,60 @@ using UnityEngine;
 using UnityEditor;
 using BalDUtilities.EditorUtils;
 
-[CustomEditor(typeof(TEST_AudioTest))]
+[CustomEditor(typeof(SoundManager))]
 public class ED_AudioTest : Editor
 {
-	private TEST_AudioTest targetScript;
+	private SoundManager targetScript;
     
     private bool showDefaultInspector = false;
     
 	private void OnEnable()
     {
-        targetScript = (TEST_AudioTest)target;
+        targetScript = (SoundManager)target;
     }
     
     public override void OnInspectorGUI()
     {
-        showDefaultInspector = EditorGUILayout.Toggle("Show Default Inspector", showDefaultInspector);
+        base.DrawDefaultInspector();
+        if (!EditorApplication.isPlaying) return;
+        SimpleDraws.HorizontalLine();
+
         ReadOnlyDraws.EditorScriptDraw(typeof(TEST_AudioTest), this);
-        if (showDefaultInspector)
+
+        EditorGUILayout.LabelField("Music");
+        EditorGUILayout.BeginVertical("GroupBox");
+
+        foreach (SoundManager.E_MusicClipsTags item in Enum.GetValues(typeof(SoundManager.E_MusicClipsTags)))
         {
-            base.DrawDefaultInspector();
-            return;
-        }
-        
-        ReadOnlyDraws.ScriptDraw(typeof(DebugSpawnables), targetScript);
-
-        SimpleDraws.HorizontalLine();
-
-        SerializedProperty musicClips = serializedObject.FindProperty("musicClips");
-        EditorGUILayout.PropertyField(musicClips);
-
-        SerializedProperty musicData = serializedObject.FindProperty("musicData");
-        EditorGUILayout.PropertyField(musicData);
-
-        if (EditorApplication.isPlaying)
-        {
-            EditorGUILayout.BeginVertical("GroupBox");
-
-            foreach (SoundManager.E_MusicClipsTags item in targetScript.MusicClips)
+            if (GUILayout.Button("Play " + item.ToString(), EditorStyles.miniButton))
             {
-                if (GUILayout.Button(item.ToString(), EditorStyles.miniButton))
-                {
-                    SoundManager.Instance.PlayMusic(item);
-                }
+                SoundManager.Instance.PlayMusic(item);
             }
-
-            foreach (SCRPT_MusicData item in targetScript.MusicData)
-            {
-                if (GUILayout.Button(item.name, EditorStyles.miniButton))
-                {
-                    SoundManager.Instance.PlayMusic(item);
-                }
-            }
-
-            EditorGUILayout.EndVertical();
         }
 
-        SimpleDraws.HorizontalLine();
+        EditorGUILayout.Space();
 
-        SerializedProperty sfxClips = serializedObject.FindProperty("sfxClips");
-        EditorGUILayout.PropertyField(sfxClips);
+        if (GUILayout.Button("Pause"))
+            SoundManager.Instance.PauseMusic();
+        if (GUILayout.Button("Resume"))
+            SoundManager.Instance.ResumeMusic();
+        if (GUILayout.Button("Stop"))
+            SoundManager.Instance.StopMusic();
 
-        if (EditorApplication.isPlaying)
+        EditorGUILayout.EndVertical();
+
+        EditorGUILayout.LabelField("SFX");
+        EditorGUILayout.BeginVertical("GroupBox");
+
+        foreach (SoundManager.E_SFXClipsTags item in Enum.GetValues(typeof(SoundManager.E_SFXClipsTags)))
         {
-            EditorGUILayout.BeginVertical("GroupBox");
-
-            foreach (SoundManager.E_SFXClipsTags item in targetScript.SFXClips)
+            if (GUILayout.Button(item.ToString(), EditorStyles.miniButton))
             {
-                if (GUILayout.Button(item.ToString(), EditorStyles.miniButton))
-                {
-                    SoundManager.Instance.Play2DSFX(item);
-                }
+                SoundManager.Instance.Play2DSFX(item);
             }
-
-            EditorGUILayout.EndVertical();
         }
+
+        EditorGUILayout.EndVertical();
 
         serializedObject.ApplyModifiedProperties();
     }

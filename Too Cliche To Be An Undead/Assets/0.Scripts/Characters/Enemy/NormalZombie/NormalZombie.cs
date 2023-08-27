@@ -74,6 +74,18 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         return res;
     }
 
+    protected override void EventsSubscriber()
+    {
+        base.EventsSubscriber();
+        GymnasiumCinematicEvents.OnGymnasiumCinematicStarted += ForceKill;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        base.EventsUnSubscriber();
+        GymnasiumCinematicEvents.OnGymnasiumCinematicStarted -= ForceKill;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -88,7 +100,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         targetClosest_TIMER = targetClosest_COOLDOWN;
 
         if (SpawnersManager.Instance != null)
-            d_OnDeath += SpawnersManager.Instance.RemoveZombie;
+            OnDeath += SpawnersManager.Instance.RemoveZombie;
 
         OnStartChasing += (PlayerCharacter target) => currentlyChasingZombiesCount++;
         OnStoppedChasing += () => currentlyChasingZombiesCount--;
@@ -182,14 +194,14 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         PlayerCharacter playerDamager = damager as PlayerCharacter;
 
         if (playerDamager != null)
-        d_OnDeath += playerDamager.AddKillCount;
+        OnDeath += playerDamager.AddKillCount;
 
         bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
 
         if (res) D_onHurt?.Invoke();
 
         if (playerDamager != null)
-            d_OnDeath -= playerDamager.AddKillCount;
+            OnDeath -= playerDamager.AddKillCount;
 
         return res;
     }
@@ -211,7 +223,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         {
             isIdle = false;
             if (SpawnersManager.Instance != null)
-                d_OnDeath += SpawnersManager.Instance.RemoveZombie;
+                OnDeath += SpawnersManager.Instance.RemoveZombie;
         }
         this.gameObject.SetActive(false);
         ResetAll();

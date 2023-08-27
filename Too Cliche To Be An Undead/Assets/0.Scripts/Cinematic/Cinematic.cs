@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class Cinematic
@@ -5,6 +6,8 @@ public class Cinematic
     private Queue<CA_CinematicAction> actionQueue;
     public List<PlayerCharacter> Players { get; private set; } = new List<PlayerCharacter>();
     public Cinematic CinematicChain { get; private set; }
+
+    public event Action OnCinematicEnded;
 
     private bool askedPause;
     private bool allowStateChangeAtEnd = true;
@@ -130,6 +133,7 @@ public class Cinematic
 
     public void EndCinematic()
     {
+        OnCinematicEnded?.Invoke();
         if (CinematicChain != null)
         {
             CinematicChain.StartCinematic();

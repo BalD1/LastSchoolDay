@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,13 @@ public class FSM_Boss_Manager : FSM_ManagerBase
     public FSM_Boss_Stun StunnedState { get; private set; } = new FSM_Boss_Stun();
     public FSM_Boss_Recovering RecoveringState { get; private set; } = new FSM_Boss_Recovering();
     public FSM_Boss_Dead DeadState { get; private set; } = new FSM_Boss_Dead();
+    public FSM_Boss_AppearCinematic AppearCinematic { get; private set; } = new FSM_Boss_AppearCinematic();
 
     private FSM_Base<FSM_Boss_Manager> currentState;
     public FSM_Base<FSM_Boss_Manager> CurrentState { get => currentState; }
 
     private Dictionary<E_BossState, FSM_Base<FSM_Boss_Manager>> statesWithKey;
+
 
     public enum E_BossState
     {
@@ -25,6 +28,7 @@ public class FSM_Boss_Manager : FSM_ManagerBase
         Stunned,
         Recovering,
         Dead,
+        Appear,
     }
 
     protected override void Start()
@@ -106,6 +110,7 @@ public class FSM_Boss_Manager : FSM_ManagerBase
             {E_BossState.Stunned, StunnedState },
             {E_BossState.Recovering, RecoveringState },
             {E_BossState.Dead, DeadState },
+            {E_BossState.Appear, AppearCinematic }
         };
         foreach (var item in statesWithKey)
         {

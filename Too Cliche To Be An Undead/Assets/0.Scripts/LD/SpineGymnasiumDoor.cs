@@ -38,7 +38,6 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
         animationsToPlay.Enqueue(secondKeyAnim);
         animationsToPlay.Enqueue(thirdKeyAnim);
 
-        cinematic.D_cinematicEnded += CloseDoor;
         SetMiniampGoalState(false);
     }
 
@@ -102,7 +101,7 @@ public class SpineGymnasiumDoor : MonoBehaviour, IInteractable
         SetMiniampGoalState(false);
     }
 
-    private void CloseDoor() => skeleton.AnimationState.SetAnimation(0, baseState, false);
+    public void CloseDoor() => skeleton.AnimationState.SetAnimation(0, baseState, false);
 
     private IEnumerator WaitForNextAnimation()
     {

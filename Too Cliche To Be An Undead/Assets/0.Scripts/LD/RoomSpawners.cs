@@ -32,7 +32,7 @@ public class RoomSpawners : MonoBehaviour
 
         foreach (var item in spawners) item.SpawnElement();
 
-        SpawnersManager.Instance.ForceBreakup();
+        this.EnteredRoomSpawner();
 
         Destroy(this);
     }

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-public class CA_CinematicAction
+public abstract class CA_CinematicAction
 {
     [SerializeField] protected LeanTweenType leanType = LeanTweenType.linear;
     protected Cinematic owner;
@@ -20,5 +20,5 @@ public class CA_CinematicAction
         return this;
     }
 
-    public virtual void Execute() { }
+    public abstract void Execute();
 }

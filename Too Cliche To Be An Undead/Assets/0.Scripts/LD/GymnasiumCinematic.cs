@@ -1,101 +1,60 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class GymnasiumCinematic : MonoBehaviour
 {
-    [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
-    [SerializeField] private string entryDialogue;
-
-    [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
-    [SerializeField] private string bossHeardDialogue;
-
-    [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
-    [SerializeField] private string bossSpawnDialogue;
+    [SerializeField] private SCRPT_SingleDialogue entryDialogue;
+    [SerializeField] private SCRPT_SingleDialogue bossHeardDialogue;
+    [SerializeField] private SCRPT_SingleDialogue bossSpawnDialogue;
+    [SerializeField] private EndCinematic afterBossDeathCinematic;
+    [SerializeField] private SpineGymnasiumDoor door;
 
     [SerializeField] private Transform doorTarget;
     [SerializeField] private Transform bossTarget;
 
     [SerializeField] private Transform playersTeleportPosition;
 
-    [SerializeField] private BossZombie boss;
+    [SerializeField] private BossZombie bossPF;
+    private BossZombie createdBoss;
 
-    public delegate void D_CinematicEnded();
-    public D_CinematicEnded D_cinematicEnded;
-
-    private Cinematic hubDoorCinematic;
+    private Cinematic doorOpenCinematic;
+    private Cinematic afterBossFallCinematic;
 
     private void Start()
     {
-        hubDoorCinematic = new Cinematic(
+        doorOpenCinematic = new Cinematic(
+                new CA_CinematicScreenFade(_fadeIn: false, .5f),
+                new CA_CinematicChangeMusicState(CA_CinematicChangeMusicState.E_State.Stop, false),
+                new CA_CinematicCustomAction(() => this.GymnasiumCinematicStarted()),
+                new CA_CinematicScreenFade(_fadeIn: true, .5f),
+                new CA_CinematicDialoguePlayer(entryDialogue),
+                new CA_CinematicCameraMove(doorTarget.position, 1.5f).SetLeanType(LeanTweenType.easeInOutQuad),
+                new CA_CinematicDialoguePlayer(bossHeardDialogue),
+                new CA_CinematicCameraMove(bossTarget.position, 1.5f).SetLeanType(LeanTweenType.easeInOutQuad),
+                new CA_CinematicCustomAction(() =>
+                {
+                    createdBoss = bossPF?.Create(bossTarget);
+                    createdBoss.OnAppearAnimationEnded += () => afterBossFallCinematic.StartCinematic();
+                    afterBossDeathCinematic.SetBoss(createdBoss);
+                })
+            ).SetPlayers(IGPlayersManager.Instance.PlayersList).AllowChangeCinematicStateAtEnd(false);
 
+        afterBossFallCinematic = new Cinematic( 
+                new CA_CinematicDialoguePlayer(bossSpawnDialogue),
+                new CA_CinematicScreenFade(_fadeIn: false, .5f),
+                new CA_CinematicCameraZoom(-1, 0),
+                new CA_CinematicPlayersMove(playersTeleportPosition.position, true, true),
+                new CA_CinematicCameraMove(IGPlayersManager.Instance.PlayersList[0].transform.position, _teleport: true),
+                new CA_CinematicCustomAction(() => AreaTransitorManager.Instance.ForceHideCorridor()),
+                new CA_CinematicScreenFade(_fadeIn: true, .5f)
             ).SetPlayers(IGPlayersManager.Instance.PlayersList);
+
     }
 
-    public void Begin() => StartCoroutine(Cinematic());
-
-    private IEnumerator Cinematic()
+    public void Begin()
     {
-        SpawnersManager.Instance.AllowSpawns(false);
-        GameManager.Instance.GameState = GameManager.E_GameState.Restricted;
-
-        foreach (var item in GameManager.Instance.playersByName)
-        {
-            if (item.playerScript.StateManager.ToString() == "Dying") item.playerScript.AskRevive();
-        }
-
-        UIManager.Instance.SetBlackBars(true);
-        UIManager.Instance.FadeAllHUD(false);
-        UIManager.Instance.FadeScreen(true);
-
-        yield return new WaitForSeconds(.7f);
-
-        GameManager.Instance.InstantiatedEntitiesParent.gameObject.SetActive(false);
-
-        UIManager.Instance.FadeScreen(false);
-
-        yield return new WaitForSeconds(.7f);
-
-        UIManager.Instance.SetMinimapActiveState(false);
-        UIManager.Instance.KeycardContainer.gameObject.SetActive(false);
-        UIManager.Instance.CoinsContainer.gameObject.SetActive(false);
-        UIManager.Instance.StampTimer.SetActive(false);
-
-        DialogueManager.Instance.TryStartDialogue(entryDialogue, true, () =>
-        {
-            CameraManager.Instance.MoveCamera(doorTarget.position, () =>
-            {
-                DialogueManager.Instance.TryStartDialogue(bossHeardDialogue, true, () =>
-                {
-                    CameraManager.Instance.MoveCamera(bossTarget.position, () =>
-                    {
-                        boss.PlayAppearAnimation(() =>
-                        {
-                            boss.GetComponent<BossZombie>().TargetClosestPlayer();
-
-                            DialogueManager.Instance.TryStartDialogue(bossSpawnDialogue, true, () =>
-                            {
-                                UIManager.Instance.FadeScreen(true, () =>
-                                {
-                                    GameManager.Instance.TeleportAllPlayers(playersTeleportPosition.position);
-                                    AreaTransitorManager.Instance.ForceHideCorridor();
-                                    CameraManager.Instance.EndCinematic();
-
-                                    UIManager.Instance.FadeScreen(false, () =>
-                                    {
-                                        UIManager.Instance.SetBlackBars(false);
-                                        UIManager.Instance.FadeAllHUD(true);
-                                        D_cinematicEnded?.Invoke();
-                                        GameManager.Instance.GameState = GameManager.E_GameState.InGame;
-                                        boss.SetIsAppeared();
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-
-            
-        });
+        afterBossFallCinematic.OnCinematicEnded += door.CloseDoor;
+        doorOpenCinematic.StartCinematic();
     }
 }

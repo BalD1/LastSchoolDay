@@ -11,7 +11,7 @@ public class YardDoorZombiesDetection : MonoBehaviour
         NormalZombie nz = collision.GetComponentInParent<NormalZombie>();
         if (nz == null) return;
 
-        nz.d_OnDeath += owner.OnZombieExitedDetecter;
+        nz.OnDeath += owner.OnZombieExitedDetecter;
         owner.OnZombieEnteredDetecter();
     }
 
@@ -20,7 +20,7 @@ public class YardDoorZombiesDetection : MonoBehaviour
         NormalZombie nz = collision.GetComponentInParent<NormalZombie>();
         if (nz == null) return;
 
-        nz.d_OnDeath -= owner.OnZombieExitedDetecter;
+        nz.OnDeath -= owner.OnZombieExitedDetecter;
         owner.OnZombieExitedDetecter();
     }
 }

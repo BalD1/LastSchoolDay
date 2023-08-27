@@ -76,13 +76,13 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
 
     protected override void EventsSubscriber()
     {
-        owner.d_OnDeath += OnOwnerDeath;
+        owner.OnDeath += OnOwnerDeath;
         owner.OnReset += OnOwnerReset;
     }
 
     protected override void EventsUnSubscriber()
     {
-        owner.d_OnDeath -= OnOwnerDeath;
+        owner.OnDeath -= OnOwnerDeath;
         owner.OnReset -= OnOwnerReset;
     }
 

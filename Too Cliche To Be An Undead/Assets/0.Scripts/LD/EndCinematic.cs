@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EndCinematic : MonoBehaviour, IInteractable
 {
-    [SerializeField] private BossZombie boss;
+    private BossZombie boss;
 
     [SerializeField] private SkeletonAnimation skeletonAnimation;
 
@@ -25,9 +25,14 @@ public class EndCinematic : MonoBehaviour, IInteractable
 
     private void Awake()
     {
-        boss.d_OnDeath += SetCanBeOpened;
-
         animDuration = openAnim.Animation.Duration;
+    }
+
+    public void SetBoss(BossZombie newBoss)
+    {
+        if (this.boss != null) this.boss.OnDeath -= SetCanBeOpened;
+        this.boss = newBoss;
+        boss.OnDeath += SetCanBeOpened;
     }
 
     private void SetCanBeOpened()

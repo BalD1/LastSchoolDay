@@ -93,6 +93,8 @@ public class SpawnersManager : Singleton<SpawnersManager>
         TutorialEvents.OnTutorialEnded += OnTutorialEnded;
         HUBDoorEventHandler.OnInteractedWithDoor += ManageKeycardSpawn;
         GameManagerEvents.OnRunStarted += ActivateSpawns;
+        RoomSpawnersEvents.OnEnteredRoomSpawner += ForceBreakup;
+        GymnasiumCinematicEvents.OnGymnasiumCinematicStarted += OnGymnasiumCinematicStarted;
     }
 
     protected override void EventsUnSubscriber()
@@ -101,6 +103,8 @@ public class SpawnersManager : Singleton<SpawnersManager>
         TutorialEvents.OnTutorialEnded -= OnTutorialEnded;
         HUBDoorEventHandler.OnInteractedWithDoor -= ManageKeycardSpawn;
         GameManagerEvents.OnRunStarted -= ActivateSpawns;
+        RoomSpawnersEvents.OnEnteredRoomSpawner -= ForceBreakup;
+        GymnasiumCinematicEvents.OnGymnasiumCinematicStarted -= OnGymnasiumCinematicStarted;
     }
 
     private void OnTutorialStarted() => stampsCounter.alpha = 0;
@@ -113,6 +117,11 @@ public class SpawnersManager : Singleton<SpawnersManager>
         ManageBreakups();
         TrySpawnZombies();
         EvaluateStamp();
+    }
+
+    private void OnGymnasiumCinematicStarted()
+    {
+        AllowSpawns(false);
     }
 
     public void ForceBreakup()

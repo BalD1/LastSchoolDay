@@ -302,6 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29583a24a2a44e045a93218b6983a968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dependecies: []
   musicSource: {fileID: 8939497524059029807}
   sfx2DSource: {fileID: 8939497523343314578}
   soundsSource: []
@@ -312,24 +313,21 @@ MonoBehaviour:
   volMultiplier: 30
   musicFadeSpeed: 1
   musicStartLoopDelayModifier: 0.05
-  musicClipsByTag:
-  - inEditorName: Main Menu
-    tag: 0
-    clip: {fileID: 8300000, guid: 331d97a8b8523124b83338e36e846403, type: 3}
-  - inEditorName: InGame
-    tag: 1
-    clip: {fileID: 8300000, guid: 3e6d8f41f379f9d4ab8dfe734a426e62, type: 3}
-  - inEditorName: BossMusic
-    tag: 2
-    clip: {fileID: 8300000, guid: 4e0779ce7bc809f499133a6540520f81, type: 3}
-  - inEditorName: InLobby
-    tag: 3
-    clip: {fileID: 8300000, guid: b3a122d11943b524fbc26af4c0f4159f, type: 3}
-  sfxClipsByTag:
-  - inEditorName: Clic
-    tag: 0
-    clip: {fileID: 8300000, guid: 32cb7e26ea8788545b84dba233b837dd, type: 3}
-  - inEditorName: SpawnStampChange
-    tag: 1
-    clip: {fileID: 8300000, guid: 8ef808b40361f114e91a52a48a601ee2, type: 3}
-  bossSpawnMusic: {fileID: 11400000, guid: 4c3d815074e6f554aadaf63602f1a80a, type: 2}
+  <MusicClipsWithTags>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 8300000, guid: 331d97a8b8523124b83338e36e846403, type: 3}
+    - Key: 1
+      Value: {fileID: 8300000, guid: 3e6d8f41f379f9d4ab8dfe734a426e62, type: 3}
+    - Key: 2
+      Value: {fileID: 8300000, guid: 4e0779ce7bc809f499133a6540520f81, type: 3}
+    - Key: 3
+      Value: {fileID: 8300000, guid: b3a122d11943b524fbc26af4c0f4159f, type: 3}
+    - Key: 4
+      Value: {fileID: 8300000, guid: 331d97a8b8523124b83338e36e846403, type: 3}
+  <SFXClipsWithTags>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 8300000, guid: 32cb7e26ea8788545b84dba233b837dd, type: 3}
+    - Key: 1
+      Value: {fileID: 8300000, guid: 8ef808b40361f114e91a52a48a601ee2, type: 3}

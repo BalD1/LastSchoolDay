@@ -24,7 +24,7 @@ public class BossHUD : MonoBehaviour
         fillImage.fillAmount = 1;
 
         relatedBoss.D_onTakeDamagesFromEntity += UpdateFillAmount;
-        relatedBoss.d_OnDeath += OnDeath;
+        relatedBoss.OnDeath += OnDeath;
         bossName_TXT.text = relatedBoss.GetStats.EntityName;
     }
 
@@ -36,7 +36,7 @@ public class BossHUD : MonoBehaviour
     public void OnDeath()
     {
         relatedBoss.D_onTakeDamagesFromEntity -= UpdateFillAmount;
-        relatedBoss.d_OnDeath -= OnDeath;
+        relatedBoss.OnDeath -= OnDeath;
 
         BossHUDManager.Instance.DeleteElement(this.gameObject);
 

@@ -175,6 +175,7 @@ public class GameManager : Singleton<GameManager>
                 break;
 
             case E_GameState.Cinematic:
+                Time.timeScale = 1;
                 break;
 
             default:

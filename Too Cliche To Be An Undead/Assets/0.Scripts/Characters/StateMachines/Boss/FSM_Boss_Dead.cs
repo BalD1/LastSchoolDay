@@ -2,7 +2,7 @@ using Spine.Unity;
 
 public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
 {
-    BossZombie owner;
+    private BossZombie owner;
 
     private bool wasJumping = false;
 

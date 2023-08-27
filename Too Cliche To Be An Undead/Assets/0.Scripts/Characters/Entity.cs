@@ -152,8 +152,9 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
     public delegate void D_EntityEnteredCollider(Entity entity);
     public D_EntityEnteredCollider D_entityEnteredCollider;
 
-    public delegate void D_onDeath();
-    public D_onDeath d_OnDeath;
+    public event Action OnDeath;
+    protected void CallOnDeath()
+        => OnDeath?.Invoke();
 
     public delegate void D_OnDeathOf(Entity e);
     public D_OnDeathOf D_onDeathOf;
@@ -584,7 +585,7 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
         if (invincible) return;
         if (!forceDeath && IsAlive()) return;
 
-        d_OnDeath?.Invoke();
+        OnDeath?.Invoke();
         D_onDeathOf?.Invoke(this);
 
         if (materialFlash != null) StopCoroutine(materialFlash);

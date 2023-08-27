@@ -16,6 +16,8 @@ public class CameraManager : Singleton<CameraManager>
 
     [SerializeField] private Transform volumeTrigger;
 
+    [SerializeField] private Transform customMovementTarget;
+
     private float shake_TIMER;
     private float shake_DURATION;
     private float shake_startingIntensity;
@@ -73,7 +75,7 @@ public class CameraManager : Singleton<CameraManager>
     {
         if (shake_TIMER > 0)
         {
-            shake_TIMER -= Time.deltaTime;
+            shake_TIMER -= Time.unscaledDeltaTime;
             bmcp.m_AmplitudeGain = Mathf.Lerp(shake_startingIntensity, 0f, 1 - (shake_TIMER / shake_DURATION));
         }
 
@@ -123,12 +125,10 @@ public class CameraManager : Singleton<CameraManager>
         if (!isInCinematic)
         {
             cam_followPlayers.Follow = tg_players.transform;
-            cam_followPlayers.enabled = true;
         }
         else
         {
             cam_followPlayers.Follow = null;
-            cam_followPlayers.enabled = false;
         }
     }
 
@@ -158,18 +158,16 @@ public class CameraManager : Singleton<CameraManager>
     public LTDescr MoveCamera(Vector2 pos, Action onCompleteAction, float duration = 2, LeanTweenType type = LeanTweenType.easeInOutQuart)
     {
         cinematicMode = true;
-        Array.Clear(tg_players.m_Targets, 0, tg_players.m_Targets.Length);
-        tg_players.m_Targets = new CinemachineTargetGroup.Target[0];
-        cam_followPlayers.Follow = null;
+        cam_followPlayers.Follow = customMovementTarget;
 
-        return LeanTween.move(cam_followPlayers.gameObject, pos, duration).setEase(type).setOnComplete(onCompleteAction);
+        return LeanTween.move(customMovementTarget.gameObject, pos, duration).setEase(type).setOnComplete(onCompleteAction);
     }
 
     public void ZoomCamera(float amount, float duration, Action onCompleteAction, LeanTweenType type = LeanTweenType.easeInOutQuart)
     {
         if (cinematicMode == false) return;
 
-        LeanTween.value(cam_followPlayers.gameObject, cam_followPlayers.m_Lens.OrthographicSize, cam_followPlayers.m_Lens.OrthographicSize + amount, duration).setEase(type).setOnUpdate((float val) =>
+        LeanTween.value(cam_followPlayers.gameObject, cam_followPlayers.m_Lens.OrthographicSize, cam_followPlayers.m_Lens.OrthographicSize - amount, duration).setEase(type).setOnUpdate((float val) =>
         {
             cam_followPlayers.m_Lens.OrthographicSize = val;
         }).setOnComplete(onCompleteAction);

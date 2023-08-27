@@ -31,7 +31,7 @@ public class ZombieAudio : MonoBehaviour
         ownerSource = owner.GetAudioSource;
 
         owner.D_onHurt += PlayHurtSound;
-        owner.d_OnDeath += PlayDeathSound;
+        owner.OnDeath += PlayDeathSound;
         owner.D_onAttack += PlayAttackSound;
         owner.D_onRespawn += ResetAudio;
         owner.OnStartChasing += OnStartChasing;
@@ -70,7 +70,7 @@ public class ZombieAudio : MonoBehaviour
     private void OnDestroy()
     {
         owner.D_onHurt -= PlayHurtSound; ;
-        owner.d_OnDeath -= PlayDeathSound;
+        owner.OnDeath -= PlayDeathSound;
         owner.D_onAttack -= PlayAttackSound;
         owner.D_onRespawn -= ResetAudio;
         owner.OnStartChasing -= OnStartChasing;

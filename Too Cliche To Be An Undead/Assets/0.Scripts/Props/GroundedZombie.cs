@@ -26,6 +26,19 @@ public class GroundedZombie : Entity
         return res;
     }
 
+    protected override void EventsSubscriber()
+    {
+        base.EventsSubscriber();
+        GymnasiumCinematicEvents.OnGymnasiumCinematicStarted += ForceKill;
+
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        base.EventsUnSubscriber();
+        GymnasiumCinematicEvents.OnGymnasiumCinematicStarted -= ForceKill;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -59,6 +72,7 @@ public class GroundedZombie : Entity
         attack_TIMER = MaxAttCD_M;
     }
 
+    public void ForceKill() => Death(true);
     public override void Death(bool forceDeath = false)
     {
         base.Death(forceDeath);
