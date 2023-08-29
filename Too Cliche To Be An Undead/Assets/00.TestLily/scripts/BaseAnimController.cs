@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BaseController))]
 public class BaseAnimController : MonoBehaviour
 {
-    private BaseController controller;
+    public BaseController controller;
 
-    private SkeletonAnimation skeletonAnimation;
+    public SkeletonAnimation skeletonAnimation;
 
-    public AnimationReferenceAsset idleAnim;
-    public AnimationReferenceAsset walkAnim;
+    public string idleAnim;
+    [SpineAnimation]
+    public string walkAnim;
     public AnimationReferenceAsset attackAnim;
 
     private bool isWalking = false;
@@ -19,9 +19,9 @@ public class BaseAnimController : MonoBehaviour
 
     private void Awake()
     {
-        controller = this.GetComponent<BaseController>();
-        skeletonAnimation = this.GetComponent<SkeletonAnimation>();
+        if (skeletonAnimation == null) skeletonAnimation = this.GetComponent<SkeletonAnimation>();
         if (skeletonAnimation == null) skeletonAnimation = this.GetComponentInChildren<SkeletonAnimation>();
+        if (skeletonAnimation == null) return;
         skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
     }
 
@@ -32,24 +32,24 @@ public class BaseAnimController : MonoBehaviour
         {
             if (!isWalking)
             {
-                skeletonAnimation.AnimationState.SetAnimation(0, walkAnim, true);
+                skeletonAnimation?.AnimationState.SetAnimation(0, walkAnim, true);
                 isWalking = true;
             }
-            Vector3 s = skeletonAnimation.transform.localScale;
+            Vector3 s = this.transform.localScale;
             s.x = controller.horizontal > 0 ? 1 : -1;
-            skeletonAnimation.transform.localScale = s;
+            this.transform.localScale = s;
         }
         else if (controller.body.velocity == Vector2.zero)
         {
             if (isWalking)
             {
-                skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
+                skeletonAnimation?.AnimationState.SetAnimation(0, idleAnim, true);
                 isWalking = false;
             }
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 s = skeletonAnimation.transform.localScale;
+            Vector3 s = this.transform.localScale;
             s.x = mousePos.x > this.transform.position.x ? 1 : -1;
-            skeletonAnimation.transform.localScale = s;
+            this.transform.localScale = s;
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -57,10 +57,10 @@ public class BaseAnimController : MonoBehaviour
             isAttacking = true;
             controller.canMove = false;
             controller.body.velocity = Vector2.zero;
-            skeletonAnimation.AnimationState.SetAnimation(0, attackAnim, false);
-            LeanTween.delayedCall(attackAnim.Animation.Duration, () =>
+            skeletonAnimation?.AnimationState.SetAnimation(0, attackAnim, false);
+            LeanTween.delayedCall(skeletonAnimation == null ? 1 : attackAnim.Animation.Duration, () =>
             {
-                skeletonAnimation.AnimationState.SetAnimation(0, idleAnim, true);
+                skeletonAnimation?.AnimationState.SetAnimation(0, idleAnim, true);
                 isAttacking = false;
                 controller.canMove = true;
             });
