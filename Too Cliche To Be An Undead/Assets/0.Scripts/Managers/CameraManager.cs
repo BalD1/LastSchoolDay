@@ -106,8 +106,8 @@ public class CameraManager : Singleton<CameraManager>
 
             if (dist > maxDistance)
             {
-                Vector2 newPos = GameManager.Instance.playersByName[0].playerScript.transform.position;
-                GameManager.Instance.TeleportPlayerAtCameraCenter(invisiblePlayers[i].PlayerIndex);
+                Vector2 newPos = IGPlayersManager.Instance.PlayersList[0].transform.position;
+                IGPlayersManager.Instance.TeleportPlayer(invisiblePlayers[i].PlayerIndex, cam_followPlayers.transform.position);
             }
         }
 
@@ -157,7 +157,8 @@ public class CameraManager : Singleton<CameraManager>
 
     public LTDescr MoveCamera(Vector2 pos, Action onCompleteAction, float duration = 2, LeanTweenType type = LeanTweenType.easeInOutQuart)
     {
-        cinematicMode = true;
+        customMovementTarget.position = cam_followPlayers.transform.position;
+        customMovementTarget.SetLocalPositionZ(0);
         cam_followPlayers.Follow = customMovementTarget;
 
         return LeanTween.move(customMovementTarget.gameObject, pos, duration).setEase(type).setOnComplete(onCompleteAction);

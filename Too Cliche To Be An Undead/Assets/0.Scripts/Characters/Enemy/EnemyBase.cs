@@ -106,9 +106,12 @@ public abstract class EnemyBase : Entity
     private Vector2 desiredVelocity;
     private Vector2 steering;
 
+    private EntityEvents.OnEntityDamagesData<EnemyBase> lastDamagesData;
+
     protected override void Awake()
     {
         base.Awake();
+        lastDamagesData = new(this, null, 0);
         basePosition = this.transform.position;
 
         BaseMaxForce = maxForce;
@@ -168,6 +171,18 @@ public abstract class EnemyBase : Entity
         else steeredVelocity = goalPosition * MaxSpeed * speedMultiplierOnDistance;
 
         this.GetRb.velocity = steeredVelocity * Time.fixedDeltaTime;
+    }
+
+    public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    {
+        bool res = false;
+        res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate, tickDamages);
+        if (!res || !callDelegate) return res;
+
+        lastDamagesData.SetDamagerAndDamagesAmount(damager, amount);
+        this.EnemyTookDamages(lastDamagesData);
+
+        return res;
     }
 
     public void ChooseRandomPosition()
@@ -235,6 +250,8 @@ public abstract class EnemyBase : Entity
         {
             dropTable.DropRandom(this.transform.position);
         }
+
+        this.EnemyDeath(lastDamagesData);
 
         attackedPlayer?.RemoveAttacker(this);
     }

@@ -10,6 +10,6 @@ public class BossScalerByPlayers : EnemyScalerByPlayers
     {
         base.Start();
 
-        (owner as BossZombie).recoverTimerModifier = recoverTimerModifier[GameManager.Instance.PlayersCount].value;
+        (owner as BossZombie).recoverTimerModifier = recoverTimerModifier[IGPlayersManager.PlayersCount].value;
     }
 }

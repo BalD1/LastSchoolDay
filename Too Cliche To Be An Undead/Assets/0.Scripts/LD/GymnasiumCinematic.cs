@@ -11,7 +11,8 @@ public class GymnasiumCinematic : MonoBehaviour
     [SerializeField] private SpineGymnasiumDoor door;
 
     [SerializeField] private Transform doorTarget;
-    [SerializeField] private Transform bossTarget;
+    [SerializeField] private Transform cameraShowBossTarget;
+    [SerializeField] private Transform bossSpawnTarget;
 
     [SerializeField] private Transform playersTeleportPosition;
 
@@ -31,10 +32,11 @@ public class GymnasiumCinematic : MonoBehaviour
                 new CA_CinematicDialoguePlayer(entryDialogue),
                 new CA_CinematicCameraMove(doorTarget.position, 1.5f).SetLeanType(LeanTweenType.easeInOutQuad),
                 new CA_CinematicDialoguePlayer(bossHeardDialogue),
-                new CA_CinematicCameraMove(bossTarget.position, 1.5f).SetLeanType(LeanTweenType.easeInOutQuad),
+                new CA_CinematicCameraMove(cameraShowBossTarget.position, 1.5f).SetLeanType(LeanTweenType.easeInOutQuad),
                 new CA_CinematicCustomAction(() =>
                 {
-                    createdBoss = bossPF?.Create(bossTarget);
+                    createdBoss = bossPF?.Create(bossSpawnTarget);
+                    createdBoss.Setup(withCinematic: true);
                     createdBoss.OnAppearAnimationEnded += () => afterBossFallCinematic.StartCinematic();
                     afterBossDeathCinematic.SetBoss(createdBoss);
                 })
@@ -48,7 +50,7 @@ public class GymnasiumCinematic : MonoBehaviour
                 new CA_CinematicCameraMove(IGPlayersManager.Instance.PlayersList[0].transform.position, _teleport: true),
                 new CA_CinematicCustomAction(() => AreaTransitorManager.Instance.ForceHideCorridor()),
                 new CA_CinematicScreenFade(_fadeIn: true, .5f)
-            ).SetPlayers(IGPlayersManager.Instance.PlayersList);
+            ).SetPlayers(IGPlayersManager.Instance.PlayersList).AllowChangeCinematicStateAtStart(false);
 
     }
 

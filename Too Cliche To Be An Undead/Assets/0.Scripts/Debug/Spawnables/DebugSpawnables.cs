@@ -144,7 +144,7 @@ public class DebugSpawnables : MonoBehaviour
                 break;
 
             case E_SpawnPos.SelfPosition:
-                pos = GameManager.Player1Ref.transform.position;
+                pos = IGPlayersManager.Instance.PlayersList[0].transform.position;
                 break;
 
             case E_SpawnPos.CustomPosition:

@@ -8,7 +8,7 @@ public class PlayersInRoom : MonoBehaviour
 
     private void Start()
     {
-        maxPlayers = GameManager.Instance.playersByName.Count;
+        maxPlayers = IGPlayersManager.PlayersCount;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

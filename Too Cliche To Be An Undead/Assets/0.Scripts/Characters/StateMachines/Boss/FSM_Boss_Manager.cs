@@ -33,22 +33,10 @@ public class FSM_Boss_Manager : FSM_ManagerBase
 
     protected override void Start()
     {
-        if (owner.isAppeared) OnStart();
-    }
-
-    public void OnStart()
-    {
-        currentState = ChasingState;
-        currentState.EnterState(this);
-
-#if UNITY_EDITOR
-        owner.currentStateDebug = this.ToString();
-#endif
     }
 
     protected override void Update()
     {
-        if (!owner.isAppeared) return;
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
         currentState.UpdateState(this);
         currentState.Conditions(this);
@@ -56,7 +44,6 @@ public class FSM_Boss_Manager : FSM_ManagerBase
 
     protected override void FixedUpdate()
     {
-        if (!owner.isAppeared) return;
         if (GameManager.Instance.GameState != GameManager.E_GameState.InGame) return;
 
         currentState.FixedUpdateState(this);

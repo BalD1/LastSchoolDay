@@ -1,19 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerEndStatsManager : Singleton<PlayerEndStatsManager>
+public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
 {
     [System.Serializable]
     public class PlayerEndStats
     {
-        public PlayerCharacter relatedPlayer;
         public int KillsCount;
-        public int DamagesDealt;
-        public int DamagesTaken;
+        public float DamagesDealt;
+        public float DamagesTaken;
 
-        public PlayerEndStats(PlayerCharacter _relatedPlayer)
+        public PlayerEndStats()
         {
-            relatedPlayer = _relatedPlayer;
             KillsCount = 0;
             DamagesDealt = 0;
             DamagesTaken = 0;
@@ -21,42 +20,16 @@ public class PlayerEndStatsManager : Singleton<PlayerEndStatsManager>
     }
 
     private bool allowGameTimeIncrease = false;
-    private bool isValid = false;
 
-    [field: SerializeField] public PlayerEndStats[] PlayersEndStatsArray { get; private set; }
+    [field: SerializeField] public Dictionary<PlayerCharacter, PlayerEndStats> PlayersStats { get; private set; } = new Dictionary<PlayerCharacter, PlayerEndStats>();
 
     [field: SerializeField] public float GameTime { get; private set; }
-
-    protected override void Awake()
-	{
-        base.Awake();
-        if (instance == null)
-        {
-            instance = this;
-
-            this.transform.SetParent(null);
-            DontDestroyOnLoad(this.gameObject);
-            isValid = true;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-            isValid = false;
-            return;
-        }
-            
-        SceneManager.sceneLoaded += OnSceneLoaded;
-	}
 
     protected override void Start()
     {
         base.Start();
-#if UNITY_EDITOR
-        if (!isValid) return;
-
-        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainScene))
-            SetupArray(); 
-#endif
+        PlayersStats = new Dictionary<PlayerCharacter, PlayerEndStats>();
+        SetupArray();
     }
 
     private void Update()
@@ -70,30 +43,51 @@ public class PlayerEndStatsManager : Singleton<PlayerEndStatsManager>
     protected override void EventsSubscriber()
     {
         GameManagerEvents.OnRunStarted += OnRunStarted;
+
+        EntityEvents.OnPlayerTookDamages += OnPlayerTookDamages;
+        EntityEvents.OnEnemyTookDamages += OnEnemyTookDamages;
+        EntityEvents.OnEnemyDeath += OnEnemyDeath;
     }
 
     protected override void EventsUnSubscriber()
     {
         GameManagerEvents.OnRunStarted -= OnRunStarted;
+
+        EntityEvents.OnPlayerTookDamages -= OnPlayerTookDamages;
+        EntityEvents.OnEnemyTookDamages -= OnEnemyTookDamages;
+        EntityEvents.OnEnemyDeath -= OnEnemyDeath;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) => SetupArray();
+    public void ResetScores()
+    {
+        foreach (var item in PlayersStats)
+        {
+            item.Value.DamagesDealt = 0;
+            item.Value.DamagesTaken = 0;
+            item.Value.KillsCount = 0;
+        }
+    }
+
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        => SetupArray();
+
+    protected override void OnSceneUnloaded(Scene scene) { }
+
     private void SetupArray()
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {
-            PlayersEndStatsArray = new PlayerEndStats[0];
+            PlayersStats.Clear();
             return;
         }
 
-        if (IsArrayInitialized()) return;
-
-        PlayersEndStatsArray = new PlayerEndStats[GameManager.Instance.PlayersCount];
+        if (PlayersStats.Count == IGPlayersManager.PlayersCount) return;
+        PlayersStats.Clear();
         GameTime = 0;
 
-        for (int i = 0; i < GameManager.Instance.PlayersCount; i++)
+        foreach (var item in IGPlayersManager.Instance.PlayersList)
         {
-            PlayersEndStatsArray[i] = new PlayerEndStats(GameManager.Instance.playersByName[i].playerScript);
+            PlayersStats.Add(item, new PlayerEndStats());
         }
 
         allowGameTimeIncrease = false;
@@ -102,31 +96,46 @@ public class PlayerEndStatsManager : Singleton<PlayerEndStatsManager>
     private void OnRunStarted()
         => allowGameTimeIncrease = true;
 
-    public void KeepScores()
+    private void OnPlayerTookDamages(EntityEvents.OnEntityDamagesData<PlayerCharacter> data)
     {
-        for (int i = 0; i < GameManager.Instance.PlayersCount; i++)
+        if (!PlayersStats.TryGetValue(data.DamagedEntity, out PlayerEndStats stats))
         {
-            PlayerEndStats playerStats = PlayersEndStatsArray[i];
-            PlayerCharacter player = GameManager.Instance.playersByName[i].playerScript;
-
-            playerStats.DamagesDealt += player.DamagesDealt;
-            playerStats.DamagesTaken += player.DamagesTaken;
-            playerStats.KillsCount += player.KillsCount;
-        }
-    }
-
-    private bool IsArrayInitialized()
-    {
-        return PlayersEndStatsArray != null && PlayersEndStatsArray.Length > 0;
-    }
-
-    public PlayerEndStats GetPlayerEndStats(PlayerCharacter player)
-    {
-        foreach (var item in PlayersEndStatsArray)
-        {
-            if (item.relatedPlayer == player) return item;
+            this.Log("Could not find player " + data.DamagedEntity + " in PlayerEndStats.", LogsManager.E_LogType.Error);
+            return;
         }
 
-        return null;
+        stats.DamagesTaken += data.TakenDamages;
+        //this.Log($"Added {data.TakenDamages} Taken D to {data.DamagedEntity.GetCharacterName()} - Total : {stats.DamagesTaken}");
+    }
+
+    private void OnEnemyTookDamages(EntityEvents.OnEntityDamagesData<EnemyBase> data)
+    {
+        PlayerCharacter player = data.Damager as PlayerCharacter;
+        if (player == null) return;
+
+        if (!PlayersStats.TryGetValue(player, out PlayerEndStats stats))
+        {
+            this.Log("Could not find player " + data.DamagedEntity + " in PlayerEndStats.", LogsManager.E_LogType.Error);
+            return;
+        }
+
+        stats.DamagesDealt += data.TakenDamages;
+
+        //this.Log($"Added {data.TakenDamages} Dealt D to {player.GetCharacterName()} - Total : {stats.DamagesDealt}");
+    }
+
+    private void OnEnemyDeath(EntityEvents.OnEntityDamagesData<EnemyBase> data)
+    {
+        PlayerCharacter player = data.Damager as PlayerCharacter;
+        if (player == null) return;
+
+        if (!PlayersStats.TryGetValue(player, out PlayerEndStats stats))
+        {
+            this.Log("Could not find player " + data.DamagedEntity + " in PlayerEndStats.", LogsManager.E_LogType.Error);
+            return;
+        }
+
+        stats.KillsCount++;
+        //this.Log($"Added 1 kill to {player.GetCharacterName()} - Total : {stats.KillsCount}");
     }
 }

@@ -51,15 +51,15 @@ public class PostproManager : Singleton<PostproManager>
 
         foreach (var item in IGPlayersManager.Instance.PlayersList)
         {
-            item.D_onTakeDamagesFromEntity -= SetVignetteHurtColor_Event;
+            item.OnTakeDamageFromEntity -= SetVignetteHurtColor_Event;
         }
     }
 
     private void SubscribeToPlayerEvents(int playerIdx)
     {
-        PlayerCharacter player = GameManager.Instance.playersByName[playerIdx].playerScript;
+        PlayerCharacter player = IGPlayersManager.Instance.PlayersList[playerIdx];
 
-        player.D_onTakeDamagesFromEntity += SetVignetteHurtColor_Event;
+        player.OnTakeDamageFromEntity += SetVignetteHurtColor_Event;
     }
 
     private void SetVignetteHurtColor_Event(bool c, Entity e, bool takeDamages = false) => SetVignetteHurtColor();

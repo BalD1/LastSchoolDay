@@ -8,6 +8,7 @@ public class BossHUD : MonoBehaviour
 {
     [field: SerializeField] public Image fillImage;
     [SerializeField] private TextMeshProUGUI bossName_TXT;
+    [SerializeField] private CanvasGroup hudGroup;
 
     private BossZombie relatedBoss;
 
@@ -23,23 +24,13 @@ public class BossHUD : MonoBehaviour
         relatedBoss = boss;
         fillImage.fillAmount = 1;
 
-        relatedBoss.D_onTakeDamagesFromEntity += UpdateFillAmount;
-        relatedBoss.OnDeath += OnDeath;
+        relatedBoss.OnTakeDamageFromEntity += UpdateFillAmount;
         bossName_TXT.text = relatedBoss.GetStats.EntityName;
+        hudGroup.LeanAlpha(1, .25f).setIgnoreTimeScale(true);
     }
 
     public void UpdateFillAmount(bool critDamages, Entity damager, bool tickDamages)
     {
         fillImage.fillAmount = relatedBoss.CurrentHP / relatedBoss.MaxHP_M;
-    }
-
-    public void OnDeath()
-    {
-        relatedBoss.D_onTakeDamagesFromEntity -= UpdateFillAmount;
-        relatedBoss.OnDeath -= OnDeath;
-
-        BossHUDManager.Instance.DeleteElement(this.gameObject);
-
-        Destroy(this.gameObject);
     }
 }

@@ -110,7 +110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.19988798, y: 0.2203027}
   m_AnchorMax: {x: 0.80032116, y: 0.34600002}
-  m_AnchoredPosition: {x: -0.02468872, y: 0.33102417}
+  m_AnchoredPosition: {x: -0.024719238, y: 0.3310547}
   m_SizeDelta: {x: -0.37305653, y: 0.35120577}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6236391696921968770
@@ -217,7 +217,7 @@ MonoBehaviour:
         m_MethodName: ChangeScene
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 219647189997431643}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: ButtonArgs_Scene, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -459,6 +459,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8718457190175968586}
   - component: {fileID: 2833631296366288713}
+  - component: {fileID: 2436223531402709608}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -486,7 +487,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.704592, y: 0.017176056}
   m_AnchorMax: {x: 0.98816955, y: 0.10362973}
-  m_AnchoredPosition: {x: 0.009338379, y: 0.018676758}
+  m_AnchoredPosition: {x: 0.009277344, y: 0.018676758}
   m_SizeDelta: {x: 0.13134335, y: -0.20088708}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2833631296366288713
@@ -537,6 +538,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &2436223531402709608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562325861522901157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9e73a3aa7ed6342b2b58ff00dd2648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 8718457190175968586}
+  maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  scaleTime: 0.4
+  inType: 14
+  outType: 16
 --- !u!1 &1573111464338691751
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,7 +591,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.24053778, y: 0}
   m_AnchorMax: {x: 0.40584606, y: 1}
-  m_AnchoredPosition: {x: 0.037002563, y: 0.30802917}
+  m_AnchoredPosition: {x: 0.036987305, y: 0.30802917}
   m_SizeDelta: {x: 0.4788527, y: -2.8936205}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7217004797082137645
@@ -649,7 +667,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.25556058, y: 0.28882372}
   m_AnchorMax: {x: 0.7435094, y: 0.7464289}
-  m_AnchoredPosition: {x: 0.12722778, y: -2.1263123}
+  m_AnchoredPosition: {x: 0.12719727, y: -2.1262817}
   m_SizeDelta: {x: -2.234382, y: -3.7863722}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8830260977783965234
@@ -814,7 +832,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.42050081, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.516098, y: -0.020523071}
+  m_AnchoredPosition: {x: 0.51608276, y: -0.020523071}
   m_SizeDelta: {x: -1.0241241, y: -0.041009426}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2980499250388967749
@@ -1073,6 +1091,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5454868367978839001}
   - component: {fileID: 5147047216485730575}
+  - component: {fileID: 8136819230327616437}
   m_Layer: 5
   m_Name: WinScreen
   m_TagString: Untagged
@@ -1118,6 +1137,26 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &8136819230327616437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390268860930432092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb19fb9717bb4443b73f14afcf2ac86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <winGroup>k__BackingField: {fileID: 5147047216485730575}
+  videoPlayer: {fileID: 2578199696108920833}
+  buttonsPanel: {fileID: 4124327633952178828}
+  panelShowCount: 1
+  scorePanel: {fileID: 174884205130368917}
+  scorePanelsController: {fileID: 5184896951621097119}
+  youSurvivedImage: {fileID: 5476664925218950166}
+  endButtonsScreen: {fileID: 6174342112892687278}
 --- !u!1 &6267940837453387428
 GameObject:
   m_ObjectHideFlags: 0
@@ -1154,7 +1193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.057141997, y: 0.047000002}
   m_AnchorMax: {x: 0.20515269, y: 0.9255358}
-  m_AnchoredPosition: {x: -0.19024658, y: 0.4768219}
+  m_AnchoredPosition: {x: -0.19018555, y: 0.4768219}
   m_SizeDelta: {x: 0.027746797, y: -1.1533871}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6600585813123737586
@@ -1179,6 +1218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPlayer: {fileID: 0}
   image: {fileID: 8504897747211454411}
+  imagesHolder: {fileID: 11400000, guid: b2467ea157c926248ac4487a52f43185, type: 2}
+  btnType: 1
   buttonType: 1
 --- !u!114 &8504897747211454411
 MonoBehaviour:
@@ -1245,7 +1286,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.04843749, y: 0.038000003}
   m_AnchorMax: {x: 0.5394792, y: 0.0915926}
-  m_AnchoredPosition: {x: -16.5, y: 4}
+  m_AnchoredPosition: {x: -16.500244, y: 4}
   m_SizeDelta: {x: -193.8252, y: -8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7366996619336787112
@@ -1356,6 +1397,8 @@ GameObject:
   - component: {fileID: 3896239710614701274}
   - component: {fileID: 8020301615980427765}
   - component: {fileID: 4124327633952178828}
+  - component: {fileID: 6174342112892687278}
+  - component: {fileID: 7434737399084663233}
   m_Layer: 5
   m_Name: End Buttons Panel
   m_TagString: Untagged
@@ -1383,7 +1426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.24522088, y: 0.11037289}
   m_AnchorMax: {x: 0.7487658, y: 0.8921756}
-  m_AnchoredPosition: {x: -0.000061035156, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.00024414, y: 0.000061035}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8020301615980427765
@@ -1406,6 +1449,42 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &6174342112892687278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8840978435080532555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 929af875125dc194fbfc22bbfa430001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ED_createTween: 0
+  group: {fileID: 4124327633952178828}
+  screenTweens:
+  - {fileID: 7434737399084663233}
+  <ObjectToSelectOnOpen>k__BackingField: {fileID: 8919284932362487608}
+  <ObjectToSelectOnClose>k__BackingField: {fileID: 0}
+  <AllowCloseOnBack>k__BackingField: 0
+  <AllowCloseOnStart>k__BackingField: 0
+--- !u!114 &7434737399084663233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8840978435080532555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39022076e7f1eae4c826a125c695dc6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 4124327633952178828}
+  tweenType: 1
+  useCustomAlphaLeanTime: 0
+  customAlphaLeanTime: 0.25
 --- !u!1 &8916450510185845221
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,7 +1551,7 @@ MonoBehaviour:
   playerPanel_PF: {fileID: 6058224891298476436, guid: 28ad49c3d3defac4b809029e9928e60c, type: 3}
   playerPanelsContainer: {fileID: 89210381928250493}
   completitionTime: {fileID: 5316802844213415606}
-  winScreen: {fileID: 0}
+  winScreen: {fileID: 8136819230327616437}
   blackFadeImg: {fileID: 1954105109093660676}
   selfGroup: {fileID: 174884205130368917}
   singleKillValue: 100
@@ -1505,8 +1584,8 @@ CanvasGroup:
   m_GameObject: {fileID: 8916450510185845221}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &8919284932362487608
 GameObject:

@@ -7,14 +7,26 @@ public class BossHUDManager : Singleton<BossHUDManager>
     [field: SerializeField] public RectTransform hudParent { get; private set; }
     [field: SerializeField] public RectTransform hudFadeTarget { get; private set; }
 
-    [SerializeField] private GameObject bossHUD_PF;
+    [SerializeField] private BossHUD bossHUD_PF;
 
-    [SerializeField] private List<GameObject> bossesHUD;
+    private Dictionary<BossZombie, BossHUD> bossesHUD = new Dictionary<BossZombie, BossHUD>();
+
+    protected override void EventsSubscriber()
+    {
+        BossZombieEvents.OnBossSpawn += AddBoss;
+        BossZombieEvents.OnBossDeath += DeleteElement;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        BossZombieEvents.OnBossSpawn -= AddBoss;
+        BossZombieEvents.OnBossDeath -= DeleteElement;
+    }
 
     protected override void Awake()
     {
         base.Awake();
-        bossesHUD = new List<GameObject>();
+        bossesHUD = new Dictionary<BossZombie, BossHUD>();
     }
 
     public void LeanContainer(bool leanIn, float leanTime = 1)
@@ -24,31 +36,23 @@ public class BossHUDManager : Singleton<BossHUDManager>
 
     public void AddBoss(BossZombie boss)
     {
-        GameObject gO = bossHUD_PF.Create(hudParent);
-
-        BossHUD bossHUD = gO.GetComponent<BossHUD>();
-
-        bossesHUD.Add(gO);
-
+        if (bossesHUD.ContainsKey(boss))
+        {
+            this.Log("Dictionary already contains " + boss.name, LogsManager.E_LogType.Error);
+            return;
+        }
+        BossHUD bossHUD = bossHUD_PF.Create(hudParent);
+        bossesHUD.Add(boss, bossHUD);
         bossHUD.Setup(boss);
     }
     
     public int GetBossHUDsCount() => bossesHUD.Count;
 
-    public void DeleteElement(GameObject gO)
+    public void DeleteElement(BossZombie boss)
     {
-        int idxToDelete = -1;
+        if (!bossesHUD.TryGetValue(boss, out BossHUD hud)) return;
 
-        for (int i = 0; i < bossesHUD.Count; i++)
-        {
-            if (bossesHUD[i] == gO)
-            {
-                idxToDelete = i;
-                break;
-            }
-        }
-
-        if (idxToDelete != -1)
-            bossesHUD.RemoveAt(idxToDelete);
+        bossesHUD.Remove(boss);
+        Destroy(hud.gameObject);
     }
 }

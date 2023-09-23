@@ -38,7 +38,7 @@ public class ShopDialogueAfterFirstDeath : DialogueTrigger
     {
             // TODO : Replace by simply deactivating players inputs
         PlayersManager.Instance.SetAllPlayersControlMapToDialogue();
-        CameraManager.Instance.MoveCamera(GameManager.Player1Ref.transform.position, EndCinematic);
+        CameraManager.Instance.MoveCamera(IGPlayersManager.Instance.PlayersList[0].transform.position, EndCinematic);
     }
 
     private void EndCinematic()

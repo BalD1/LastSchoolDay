@@ -17,7 +17,7 @@ public class BloodSpiller : MonoBehaviour
 
     protected virtual void Awake()
     {
-        owner.D_onTakeDamagesFromEntity += SpillBloodOnDamages;
+        owner.OnTakeDamageFromEntity += SpillBloodOnDamages;
         owner.OnDeath += SpillBloodOnDeath;
     }
 
@@ -59,7 +59,7 @@ public class BloodSpiller : MonoBehaviour
 
     private void OnDestroy()
     {
-        owner.D_onTakeDamagesFromEntity -= SpillBloodOnDamages;
+        owner.OnTakeDamageFromEntity -= SpillBloodOnDamages;
         owner.OnDeath -= SpillBloodOnDeath;
     }
 

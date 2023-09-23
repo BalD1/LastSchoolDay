@@ -23,7 +23,7 @@ public class EnemyScalerByPlayers : MonoBehaviour
 
     protected virtual void Start()
     {
-        int playersCount = GameManager.Instance.PlayersCount;
+        int playersCount = IGPlayersManager.PlayersCount;
 
         if (playersCount <= 1 || owner == null)
         {

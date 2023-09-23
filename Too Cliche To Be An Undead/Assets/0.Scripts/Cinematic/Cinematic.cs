@@ -11,6 +11,7 @@ public class Cinematic
 
     private bool askedPause;
     private bool allowStateChangeAtEnd = true;
+    private bool allowStateChangeAtStart = true;
 
     #region Constructors
 
@@ -63,7 +64,7 @@ public class Cinematic
     }
     public Cinematic SetChainCinematic(Cinematic chain)
     {
-        this.CinematicChain = chain;
+        this.CinematicChain = chain.AllowChangeCinematicStateAtStart(false);
         return this;
     }
 
@@ -96,10 +97,16 @@ public class Cinematic
         allowStateChangeAtEnd = allow;
         return this;
     }
+    public Cinematic AllowChangeCinematicStateAtStart(bool allow)
+    {
+        allowStateChangeAtStart = allow;
+        return this;
+    }
 
     public void StartCinematic()
     {
-        this.ChangeCinematicState(true);
+        if (allowStateChangeAtStart)
+            this.ChangeCinematicState(true);
         PlayNextAction(null);
     }
 

@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 using TMPro;
 using System.Text;
 using Spine.Unity;
-using UnityEditor.Rendering.LookDev;
 
 public class PlayerCharacter : Entity, IInteractable
 {
@@ -126,11 +125,9 @@ public class PlayerCharacter : Entity, IInteractable
     public List<EnemyBase> Attackers { get => attackers; }
     public Vector2 LastDirection { get => lastDirection; set => lastDirection = value; }
 
-    [field: SerializeField] public int KillsCount { get; private set; }
-    [field: SerializeField] public int DamagesDealt { get; private set; }
-    [field: SerializeField] public int DamagesTaken { get; private set; }
-
     private float gamepadShake_TIMER;
+
+    private EntityEvents.OnEntityDamagesData<PlayerCharacter> lastDamagesData;
 
     #endregion
 
@@ -173,6 +170,12 @@ public class PlayerCharacter : Entity, IInteractable
     #endregion
 
     #region A/S/U/F
+
+    protected override void Awake()
+    {
+        base.Awake();
+        lastDamagesData = new(this, null, 0);
+    }
 
     protected override void EventsSubscriber()
     {
@@ -269,12 +272,10 @@ public class PlayerCharacter : Entity, IInteractable
         bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
         if (res == false) return res;
 
-        if (!fakeDamages) DamagesTaken += (int)amount;
-
+        lastDamagesData.SetDamagerAndDamagesAmount(damager, amount);
+        this.PlayerTookDamages(lastDamagesData);
         return res;
     }
-
-    public void AddDealtDamages(int amount) => DamagesDealt += amount;
 
     protected override void ApplyModifier(StatsModifier m)
     {
@@ -324,7 +325,7 @@ public class PlayerCharacter : Entity, IInteractable
     public override void Death(bool forceDeath = false)
     {
         if (this.stateManager.ToString().Equals("Dying")) return;
-        
+        this.PlayerDeath(lastDamagesData);
         base.Death(forceDeath);
         this.selfInteractor.ResetCollider();
     }
@@ -351,11 +352,6 @@ public class PlayerCharacter : Entity, IInteractable
     public void ClearAttackers()
     {
         attackers.Clear();
-    }
-
-    public void AddKillCount()
-    {
-        KillsCount++;
     }
 
     #endregion
@@ -707,39 +703,4 @@ public class PlayerCharacter : Entity, IInteractable
     {
         d_ExitedCollider?.Invoke(collision);
     }
-
-    #region Gizmos
-
-    private void OnGUI()
-    {
-#if UNITY_EDITOR
-        if (!debugMode) return;
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.Append("Player ");
-        sb.AppendLine(playerIndex.ToString());
-
-        sb.Append("Kills Count : ");
-        sb.AppendLine(KillsCount.ToString());
-
-        sb.Append("Damages Dealt : ");
-        sb.AppendLine(DamagesDealt.ToString());
-
-        sb.Append("Damages Taken : ");
-        sb.AppendLine(DamagesTaken.ToString());
-
-        float height = 100;
-        int playersCount = GameManager.Instance.PlayersCount;
-
-        int posY = Screen.height / 2;
-
-        posY += (int)(height * (playerIndex - (playersCount / 2)));
-
-        Rect r = new Rect(10, posY, Screen.width, height);
-        GUI.Label(r, sb.ToString());
-#endif
-    }
-
-    #endregion
 }

@@ -192,17 +192,8 @@ public class NormalZombie : EnemyBase, IDistanceChecker
     public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         PlayerCharacter playerDamager = damager as PlayerCharacter;
-
-        if (playerDamager != null)
-        OnDeath += playerDamager.AddKillCount;
-
         bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
-
         if (res) D_onHurt?.Invoke();
-
-        if (playerDamager != null)
-            OnDeath -= playerDamager.AddKillCount;
-
         return res;
     }
 

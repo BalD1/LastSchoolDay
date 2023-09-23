@@ -154,9 +154,6 @@ public class ED_UIManager : Editor
         SerializedProperty blackBars = serializedObject.FindProperty("blackBars");
         EditorGUILayout.PropertyField(blackBars);
 
-        SerializedProperty winScreen = serializedObject.FindProperty("winScreen");
-        EditorGUILayout.PropertyField(winScreen);
-
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Misc Buttons", EditorStyles.boldLabel);
 

@@ -18,12 +18,6 @@ public class GameManager : Singleton<GameManager>
 
     public static bool isAppQuitting { get; private set; }
 
-    [SerializeField] private PlayerCharacter player1Ref;
-    public static PlayerCharacter Player1Ref { get => Instance.player1Ref; }
-
-    [SerializeField] private int playersCount;
-    public int PlayersCount { get => playersCount; }
-
     [SerializeField] private Shop shop;
     public Shop GetShop { get => shop; }
 
@@ -51,19 +45,6 @@ public class GameManager : Singleton<GameManager>
     public Transform InstantiatedMiscParent { get => instantiatedMiscParent; }
     public Transform InstantiatedProjectilesParent { get => instantiatedProjectilesParent; }
 
-    [System.Serializable]
-    public class PlayersByName
-    {
-        public string playerName;
-        public PlayerCharacter playerScript;
-
-        public PlayersByName(string _playerName, PlayerCharacter _playerScript)
-        {
-            this.playerName = _playerName;
-            this.playerScript = _playerScript;
-        }
-    }
-
     [SerializeField] private Transform[] tutoSpawnPoints;
     public Transform[] TutoSpawnPoints { get => tutoSpawnPoints; }
 
@@ -85,8 +66,6 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private SpineGymnasiumDoor gymnasiumDoor;
     public SpineGymnasiumDoor GymnasiumDoor { get => gymnasiumDoor; }
-
-    public List<PlayersByName> playersByName;
 
     public delegate void D_OnSceneReload();
     public D_OnSceneReload _onSceneReload;
@@ -162,7 +141,6 @@ public class GameManager : Singleton<GameManager>
 
             case E_GameState.Win:
                 Time.timeScale = 0;
-                PlayerEndStatsManager.Instance.KeepScores();
                 break;
 
             case E_GameState.GameOver:
@@ -223,6 +201,7 @@ public class GameManager : Singleton<GameManager>
         SpawnersManagerEvents.OnSpawnedKeycardSingle += OnSpawnedSingleKeycard;
         SpawnersManagerEvents.OnPickedupCard += OnPickedUpKeycard;
         HUBDoorEventHandler.OnInteractedWithDoor += OnHubDoorOpened;
+        EndCinematicEvents.OnDoorOpened += OnEndCinematic;
 
         if (!CompareCurrentScene(E_ScenesNames.MainMenu))
         {
@@ -240,6 +219,7 @@ public class GameManager : Singleton<GameManager>
         SpawnersManagerEvents.OnSpawnedKeycardSingle -= OnSpawnedSingleKeycard;
         SpawnersManagerEvents.OnPickedupCard -= OnPickedUpKeycard;
         HUBDoorEventHandler.OnInteractedWithDoor -= OnHubDoorOpened;
+        EndCinematicEvents.OnDoorOpened -= OnEndCinematic;
 
         if (!CompareCurrentScene(E_ScenesNames.MainMenu))
         {
@@ -257,6 +237,9 @@ public class GameManager : Singleton<GameManager>
     private void OnExitedUI()
         => GameState = E_GameState.InGame;
 
+    private void OnEndCinematic()
+        => GameState = E_GameState.Win;
+
     protected override void Awake()
     {
         base.Awake();
@@ -271,8 +254,6 @@ public class GameManager : Singleton<GameManager>
 
         D_bossFightStarted += () => currentAliveBossesCount++;
         D_bossFightEnded += () => currentAliveBossesCount--;
-
-        SetPlayersByNameList();
     }
 
     protected override void Start()
@@ -323,30 +304,6 @@ public class GameManager : Singleton<GameManager>
         if (!fromCinematic) GameState = E_GameState.InGame;
     }
 
-    public void SetPlayersByNameList()
-    {
-        if (DataKeeper.Instance.IsPlayerDataKeepSet())
-        {
-            foreach (var item in DataKeeper.Instance.playersDataKeep)
-            {
-                var p = new PlayersByName(item.playerName, item.playerInput.GetComponentInParent<PlayerCharacter>());
-                playersByName.Add(p);
-                playersCount++;
-            }
-        }
-    }
-    public void AddPlayerToList(DataKeeper.PlayerDataKeep data)
-    {
-        var p = new PlayersByName(data.playerName, data.playerInput.GetComponentInParent<PlayerCharacter>());
-        playersByName.Add(p);
-        playersCount++;
-    }
-    public void RemovePlayerAt(int idx)
-    {
-        playersByName.RemoveAt(idx);
-        playersCount--;
-    }
-
     private void InitState()
     {
         if (CompareCurrentScene(E_ScenesNames.MainMenu))
@@ -365,17 +322,6 @@ public class GameManager : Singleton<GameManager>
     private void OnPickedUpKeycard(Keycard card)
         => AcquiredCards++;
 
-    public void CancelGameOver()
-    {
-        CameraManager.Instance.TG_Players.AddMember(Player1Ref.transform, 1, 0);
-        LeanTween.cancel(gameoverCinematicTween.uniqueId);
-        PlayersManager.Instance.SetAllPlayersControlMapToInGame();
-        UIManager.Instance.FadeAllHUD(true);
-        UIManager.Instance.SetBlackBars(false, .2f);
-        CameraManager.Instance.EndCinematic();
-        UIManager.Instance.HideGameOverScreen();
-    }
-
     public void HandlePause()
     {
         if (GameState.Equals(E_GameState.InGame))
@@ -383,8 +329,6 @@ public class GameManager : Singleton<GameManager>
             GameState = E_GameState.Pause;
         }
     }
-
-    public void SetPlayer1(PlayerCharacter p1) => this.player1Ref = p1;
 
     public void SetActiveEveryEnemies(bool active)
     {
@@ -403,23 +347,6 @@ public class GameManager : Singleton<GameManager>
                 item.SetActive(active);
             }
         }
-    }
-
-    public void TeleportAllPlayers(Vector2 position)
-    {
-        foreach (var item in playersByName)
-        {
-            PlayerCharacter player = item.playerScript;
-            if (!player.IsAlive()) continue;
-            player.gameObject.transform.position = position;
-        }
-    }
-
-    public void TeleportPlayerAtCameraCenter(int playerIdx)
-    {
-        Vector3 pos = CameraManager.Instance.gameObject.transform.position;
-        pos.z = 0;
-        playersByName[playerIdx].playerScript.gameObject.transform.position = pos;
     }
 
     public Transform GetSpawnPoint(int playerId)
@@ -491,9 +418,6 @@ public class GameManager : Singleton<GameManager>
     public void ReloadScene()
     {
         _onSceneReload?.Invoke();
-
-        PlayerEndStatsManager.Instance.KeepScores();
-
         LoadScene(SceneManager.GetActiveScene().name);
     }
 

@@ -18,7 +18,7 @@ public class TEMP_HubDoor : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        maxPlayers = GameManager.Instance.PlayersCount;
+        maxPlayers = IGPlayersManager.PlayersCount;
         hasSpawnedKeys = false;
         UpdateText();
     }
@@ -89,9 +89,9 @@ public class TEMP_HubDoor : MonoBehaviour, IInteractable
         playerCounterTrigger.enabled = false;
         spriteRenderer.color = Color.red;
 
-        foreach (var item in GameManager.Instance.playersByName)
+        foreach (var item in IGPlayersManager.Instance.PlayersList)
         {
-            item.playerScript.gameObject.transform.position = playerTPPos;
+            item.transform.position = playerTPPos;
         }
 
         SpawnersManager.Instance.ManageKeycardSpawn();

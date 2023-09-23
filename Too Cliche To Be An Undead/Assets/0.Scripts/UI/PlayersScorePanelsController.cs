@@ -29,8 +29,6 @@ public class PlayersScorePanelsController : MonoBehaviour
 
     [field: SerializeField] public Toggle PressToSkipToggle { get; private set; }
 
-    private bool canSkipToNextScreen;
-
     private Queue<PlayerScorePanel> panelsQueue;
 
     private PlayerScorePanel[] panels;
@@ -49,7 +47,7 @@ public class PlayersScorePanelsController : MonoBehaviour
     public void Begin()
     {
         panelsQueue = new Queue<PlayerScorePanel>();
-        int playersCount = GameManager.Instance.PlayersCount;
+        int playersCount = IGPlayersManager.PlayersCount;
 
         blackFadeImg.LeanAlpha(1, .2f).setIgnoreTimeScale(true);
         panels = new PlayerScorePanel[playersCount];
@@ -66,7 +64,7 @@ public class PlayersScorePanelsController : MonoBehaviour
             scorePanel.D_animationEnded += PlayNextPanel;
 
             // get the i player
-            PlayerCharacter player = GameManager.Instance.playersByName[i].playerScript;
+            PlayerCharacter player = IGPlayersManager.Instance.PlayersList[0];
 
             // get the images of the player's character
             foreach (var item in PlayersImages)
@@ -96,6 +94,7 @@ public class PlayersScorePanelsController : MonoBehaviour
 
     private void AllowNextScreen()
     {
+        Debug.Log("cc");
         int maxScore = int.MinValue;
         int minScore = int.MaxValue;
 

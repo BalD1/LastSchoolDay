@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class WinScreen : MonoBehaviour
+public class WinScreen : MonoBehaviourEventsHandler
 {
     [field: SerializeField] public CanvasGroup winGroup { get; private set; }
 
@@ -18,48 +18,58 @@ public class WinScreen : MonoBehaviour
 
     [SerializeField] private Image youSurvivedImage;
 
-    public void Begin()
+    [SerializeField] private UIScreenBase endButtonsScreen;
+
+    private Cinematic showUIScreen;
+
+    protected override void Awake()
     {
-        PlayerEndStatsManager.Instance.KeepScores();
-        UIManager.Instance.FadeScreen(fadeOut: true, onCompleteAction: () =>
-        {
-            videoPlayer.Play();
+        base.Awake();
 
-            winGroup.LeanAlpha(1, .25f).setIgnoreTimeScale(true);
-
-            winGroup.interactable = true;
-            winGroup.blocksRaycasts = true;
-
-            StartCoroutine(Animation());
-        });
+        showUIScreen = new Cinematic(
+            new CA_CinematicScreenFade(false, .5f),
+            new CA_CinematicCustomAction(() => videoPlayer.Play()),
+            new CA_CinematicCustomAction(() =>
+            {
+                winGroup.alpha = 1.0f;
+                winGroup.interactable = true;
+                winGroup.blocksRaycasts = true;
+            }),
+            new CA_CinematicScreenFade(true, .5f),
+            new CA_CinematicWait(2),
+            new CA_CinematicFadeImage(youSurvivedImage, 1, .25f),
+            new CA_CinematicWait(2),
+            new CA_CinematicActionMultiple(
+                new CA_CinematicFadeImage(youSurvivedImage, 0, .25f),
+                new CA_CinematicFadeCanvasGroup(scorePanel, 1, .25f)
+                ),
+            new CA_CinematicCustomAction(() => GameManager.Instance.GameState = GameManager.E_GameState.Pause),
+            new CA_CinematicCustomAction(() => scorePanelsController.Begin())
+            );
+        showUIScreen.AllowChangeCinematicStateAtEnd(false);
     }
 
-    private IEnumerator Animation()
+    protected override void EventsSubscriber()
     {
-        float leanTime = .25f;
+        EndCinematicEvents.OnDoorOpened += Begin;
+        DebugConsoleEvents.OnForceWin += Begin;
+    }
 
-        UIManager.Instance.FadeScreen(false);
+    protected override void EventsUnSubscriber()
+    {
+        EndCinematicEvents.OnDoorOpened -= Begin;
+        DebugConsoleEvents.OnForceWin -= Begin;
+    }
 
-        yield return new WaitForSecondsRealtime(2);
-
-        youSurvivedImage.LeanAlpha(1, leanTime).setIgnoreTimeScale(true);
-
-        yield return new WaitForSecondsRealtime(2);
-
-        youSurvivedImage.LeanAlpha(0, leanTime).setIgnoreTimeScale(true);
-        scorePanel.LeanAlpha(1, leanTime).setIgnoreTimeScale(true);
-
-        scorePanelsController.Begin();
+    public void Begin()
+    {
+        showUIScreen.StartCinematic();
     }
 
     public void ShowButtonsPanel()
     {
         scorePanel.LeanAlpha(0, .25f).setIgnoreTimeScale(true);
-        buttonsPanel.LeanAlpha(1, .25f).setIgnoreTimeScale(true).setOnComplete(() =>
-        {
-            buttonsPanel.blocksRaycasts = true;
-            buttonsPanel.interactable = true;
-            UIManager.Instance.SelectButton("Win");
-        });
+        endButtonsScreen.gameObject.SetActive(true);
+        endButtonsScreen.Open();
     }
 }

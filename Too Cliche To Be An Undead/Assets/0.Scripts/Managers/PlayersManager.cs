@@ -77,24 +77,6 @@ public class PlayersManager : MonoBehaviourEventsHandler
     protected override void Awake()
     {
         this.enabled = false;
-        return;
-        base.Awake();
-        if (instance == null)
-            instance = this;
-        else
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-
-        if (GameManager.Player1Ref == null && !GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
-            CreateP1();
-
-
-        this.transform.SetParent(null);
-        DontDestroyOnLoad(this);
-
-        PopulateColorsQueue();
     }
 
     protected override void EventsSubscriber()
@@ -121,14 +103,6 @@ public class PlayersManager : MonoBehaviourEventsHandler
         {
             playersColorQueue.Enqueue(item);
         }
-    }
-
-    public void CreateP1()
-    {
-        Vector2 spawnPos = GameManager.Instance.GetSpawnPoint(0).position;
-        PlayerCharacter p1 = Instantiate(GameAssets.Instance.PlayerPF, spawnPos, Quaternion.identity).GetComponent<PlayerCharacter>();
-        player1 = p1;
-        GameManager.Instance.SetPlayer1(p1);
     }
 
     public void SetAllPlayersControlMapToInGame()
@@ -202,11 +176,6 @@ public class PlayersManager : MonoBehaviourEventsHandler
     {
         if (!deadPlayers.Contains(player)) deadPlayers.Add(player);
 
-        if (deadPlayers.Count >= GameManager.Instance.PlayersCount)
-        {
-            LastDeadPlayerTransform = player.transform;
-            GameManager.Instance.GameState = GameManager.E_GameState.GameOver;
-        }
     }
 
     public void DefinitiveDeath(PlayerCharacter player)

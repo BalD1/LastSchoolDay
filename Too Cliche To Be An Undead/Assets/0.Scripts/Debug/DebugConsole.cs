@@ -30,7 +30,6 @@ public class DebugConsole : MonoBehaviour
 
     private DebugCommand HELP;
 
-    private DebugCommand KILLSELF;
     private DebugCommand KILLALL;
     private DebugCommand<int> KILL;
 
@@ -41,34 +40,26 @@ public class DebugConsole : MonoBehaviour
     private DebugCommand FORCEWIN;
     private DebugCommand FORCEKILL_BOSS;
 
-    private DebugCommand<int> SWITCH_CHARACTER;
+    private DebugCommand<int, int> SWITCH_CHARACTER;
 
     private DebugCommand<int> ADD_KEYCARD;
 
-    private DebugCommand<float> HEAL_SELF;
-    private DebugCommand<float, bool> HEAL_SELF_C;
+    private DebugCommand<float, int> HEAL;
+    private DebugCommand<float, int> HEAL_CRITICAL;
 
-    private DebugCommand<float> DAMAGE_SELF;
-    private DebugCommand<float, bool> DAMAGE_SELF_C;
+    private DebugCommand<float, int> DAMAGE;
+    private DebugCommand<float, int> DAMAGE_CRITICAL;
 
-    private DebugCommand REMOVE_ALL_MODIFIERS;
+    private DebugCommand<int> REMOVE_ALL_MODIFIERS;
 
-    private DebugCommand<float> ADDM_SELF_HP;
-    private DebugCommand<float, float> ADDM_SELF_HP_T;
-    private DebugCommand<float> ADDM_SELF_DAMAGES;
-    private DebugCommand<float, float> ADDM_SELF_DAMAGES_T;
-    private DebugCommand<float> ADDM_SELF_ATTRANGE;
-    private DebugCommand<float, float> ADDM_SELF_ATTRANGE_T;
-    private DebugCommand<float> ADDM_SELF_ATTCD;
-    private DebugCommand<float, float> ADDM_SELF_ATTCD_T;
-    private DebugCommand<float> ADDM_SELF_SPEED;
-    private DebugCommand<float, float> ADDM_SELF_SPEED_T;
-    private DebugCommand<int> ADDM_SELF_CRIT;
-    private DebugCommand<int, float> ADDM_SELF_CRIT_T;
-    private DebugCommand<float> ADDM_SELF_DASHCD;
-    private DebugCommand<float, float> ADDM_SELF_DASHCD_T;
-    private DebugCommand<float> ADDM_SELF_SKILLCD;
-    private DebugCommand<float, float> ADDM_SELF_SKILLCD_T;
+    private DebugCommand<float, int> ADDM_HP;
+    private DebugCommand<float, int> ADDM_DAMAGES;
+    private DebugCommand<float, int> ADDM_ATTRANGE;
+    private DebugCommand<float, int> ADDM_ATTCD;
+    private DebugCommand<float, int> ADDM_SPEED;
+    private DebugCommand<int, int> ADDM_CRIT;
+    private DebugCommand<float, int> ADDM_DASHCD;
+    private DebugCommand<float, int> ADDM_SKILLCD;
 
     private DebugCommand GOLD_BAG;
     private DebugCommand PAYDAY;
@@ -115,7 +106,6 @@ public class DebugConsole : MonoBehaviour
         {
             HELP,
 
-            KILLSELF,
             KILLALL,
             KILL,
 
@@ -130,37 +120,29 @@ public class DebugConsole : MonoBehaviour
 
             ADD_KEYCARD,
 
-            HEAL_SELF,
-            HEAL_SELF_C,
+            HEAL,
+            HEAL_CRITICAL,
 
-            DAMAGE_SELF,
-            DAMAGE_SELF_C,
+            DAMAGE,
+            DAMAGE_CRITICAL,
 
             REMOVE_ALL_MODIFIERS,
 
-            ADDM_SELF_HP,
-            ADDM_SELF_HP_T,
+            ADDM_HP,
 
-            ADDM_SELF_DAMAGES,
-            ADDM_SELF_DAMAGES_T,
+            ADDM_DAMAGES,
 
-            ADDM_SELF_ATTRANGE,
-            ADDM_SELF_ATTRANGE_T,
+            ADDM_ATTRANGE,
 
-            ADDM_SELF_ATTCD,
-            ADDM_SELF_ATTCD_T,
+            ADDM_ATTCD,
 
-            ADDM_SELF_SPEED,
-            ADDM_SELF_SPEED_T,
+            ADDM_SPEED,
 
-            ADDM_SELF_CRIT,
-            ADDM_SELF_CRIT_T,
+            ADDM_CRIT,
 
-            ADDM_SELF_DASHCD,
-            ADDM_SELF_DASHCD_T,
+            ADDM_DASHCD,
 
-            ADDM_SELF_SKILLCD,
-            ADDM_SELF_SKILLCD_T,
+            ADDM_SKILLCD,
 
             ADD_MONEY,
             GOLD_BAG,
@@ -190,34 +172,29 @@ public class DebugConsole : MonoBehaviour
             showHelp = !showHelp;
         });
 
-        KILLSELF = new DebugCommand("KILL_SELF", "Kills the currently controlled character", "KILL_SELF", () =>
+        KILL = new DebugCommand<int>("KILL", "Kills the given character index", "KILL <int>", (int targetIdx) =>
         {
-            GameManager.Player1Ref.OnTakeDamages(GameManager.Player1Ref.MaxHP_M, null);
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out var player)) return;
+            player.OnTakeDamages(player.MaxHP_M, null, isCrit: true);
         });
 
         KILLALL = new DebugCommand("KILL_ALL", "Kills every players", "KILL_ALL", () =>
         {
-            foreach (var item in DataKeeper.Instance.playersDataKeep)
+            if (!IGPlayersManager.ST_InstanceExists()) return;
+            foreach (var item in IGPlayersManager.Instance.PlayersList)
             {
-                PlayerCharacter pc = item.playerInput.GetComponentInParent<PlayerCharacter>();
-                pc.OnTakeDamages(pc.MaxHP_M, null);
+                item.OnTakeDamages(item.MaxHP_M, null);
             }
         });
 
         FORCEWIN = new DebugCommand("FORCE_WIN", "Forces the win conditions", "FORCE_WIN", () =>
         {
-            allowGameChange = false;
-            GameManager.Instance.GameState = GameManager.E_GameState.Win;
+            this.ForceWin();
         });
 
         FORCEKILL_BOSS = new DebugCommand("FORCEKILL_BOSS", "Instantly kills the boss", "FORCEKILL_BOSS", () =>
         {
             FindObjectOfType<BossZombie>().OnTakeDamages(1000000, null);
-        });
-
-        REMOVE_ALL_MODIFIERS = new DebugCommand("REMOVE_ALL_MODIFIERS", "Removes every modifiers of self", "REMOVE_ALL_MODIFIERS", () =>
-        {
-            GameManager.Player1Ref.RemoveModifiersAll();
         });
 
         GOLD_BAG = new DebugCommand("GOLD_BAG", "Adds 50 gold", "GOLD_BAG", () =>
@@ -296,34 +273,28 @@ public class DebugConsole : MonoBehaviour
 
     private void CreateIntCommands()
     {
-        SWITCH_CHARACTER = new DebugCommand<int>("SWITCH_CHARACTER", "Switchs to the desired character \n 0 = Shirley \n 1 = Whitney \n 2 = Jason \n 3 = Nelson", "SWITCH_CHARACTER <int>", (val) =>
+        REMOVE_ALL_MODIFIERS = new DebugCommand<int>("REMOVE_ALL_MODIFIERS", "Removes every modifiers of character index", "REMOVE_ALL_MODIFIERS_TARGET", (targetIdx) =>
         {
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out var player)) return;
+            player.RemoveModifiersAll();
+        });
+
+        SWITCH_CHARACTER = new DebugCommand<int, int>("SWITCH_CHARACTER", "Switchs to the desired character for target \n 0 = Shirley \n 1 = Whitney \n 2 = Jason \n 3 = Nelson", "SWITCH_CHARACTER <int> <int>", (character, targetIdx) =>
+        {
+            if (!GameAssets.ST_InstanceExists() || !IGPlayersManager.ST_InstanceExists()) return;
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter targetPlayer)) return;
             GameManager.E_CharactersNames desiredCharacter = GameManager.E_CharactersNames.Shirley;
 
-            if (0 < val && val < 4) desiredCharacter = (GameManager.E_CharactersNames)val;
+            if (0 < character && character < 4) desiredCharacter = (GameManager.E_CharactersNames)character;
 
             SO_CharactersComponents newPCC = GameAssets.Instance.CharactersComponentsHolder.GetComponents(desiredCharacter);
-
-            foreach (var item in GameManager.Instance.playersByName)
-            {
-                item.playerScript.SwitchCharacter(newPCC);
-            }
+            targetPlayer.SwitchCharacter(newPCC);
         });
 
         KILL = new DebugCommand<int>("KILL", "Kills the given player index", "KILL <int>", (val) =>
         {
             PlayerCharacter pc = DataKeeper.Instance.playersDataKeep[val].playerInput.GetComponentInParent<PlayerCharacter>();
             pc.OnTakeDamages(pc.MaxHP_M, null);
-        });
-
-        ADDM_SELF_CRIT = new DebugCommand<int>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self", "ADDM_SELF_CRIT <float>", (val) =>
-        {
-            GameManager.Player1Ref.AddModifier(MODIF_CRIT_ID, val, StatsModifier.E_StatType.CritChances);
-        });
-
-        ADDM_SELF_CRIT_T = new DebugCommand<int, float>("ADDM_SELF_CRIT", "Adds a crit chances modifier of <int>% to self for <float>s", "ADDM_SELF_CRIT <int> <float>", (val_1, val_2) =>
-        {
-            GameManager.Player1Ref.AddModifier(MODIF_CRIT_ID, val_1, val_2, StatsModifier.E_StatType.CritChances);
         });
 
         ADD_MONEY = new DebugCommand<int>("ADD_MONEY", "Adds <int> money", "ADD_MONEY <int>", (val) =>
@@ -339,95 +310,77 @@ public class DebugConsole : MonoBehaviour
 
     private void CreateFloatCommands()
     {
-        HEAL_SELF = new DebugCommand<float>("HEAL_SELF", "Heals the currently played character", "HEAL_SELF <float>", (val) =>
+        HEAL = new DebugCommand<float, int>("HEAL", "Heals the targeted character", "HEAL <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.OnHeal(val);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.OnHeal(amount);
+        }, T2defaultValue: 0);
 
-        HEAL_SELF_C = new DebugCommand<float, bool>("HEAL_SELF", "Heals the currently played character", "HEAL_SELF <float> <bool>", (val_1, val_2) =>
+        HEAL_CRITICAL = new DebugCommand<float, int>("HEAL_CRITICAL", "Heals the targeted character", "HEAL_CRITICAL <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.OnHeal(val_1, val_2);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.OnHeal(amount, true);
+        }, T2defaultValue: 0);
 
-        DAMAGE_SELF = new DebugCommand<float>("DAMAGE_SELF", "Damages the currently played character", "DAMAGE_SELF <float>", (val) =>
+        DAMAGE = new DebugCommand<float, int>("DAMAGE", "Damages the targeted character", "DAMAGE <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.OnTakeDamages(val, null);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.OnTakeDamages(amount, null);
+        }, T2defaultValue: 0);
 
-        DAMAGE_SELF_C = new DebugCommand<float, bool>("DAMAGE_SELF", "Damages the currently played character", "DAMAGE_SELF <float> <bool>", (val_1, val_2) =>
+        DAMAGE_CRITICAL = new DebugCommand<float, int>("DAMAGE_CRITICAL", "Criticaly damages the targeted character", "DAMAGE_CRITICAL <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.OnTakeDamages(val_1, null, val_2);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.OnTakeDamages(amount, null, true);
+        }, T2defaultValue: 0);
 
-        ADDM_SELF_HP = new DebugCommand<float>("ADDM_SELF_HP", "Adds a HP modifier of <float> to self", "ADDM_SELF_HP <float>", (val) =>
+        ADDM_HP = new DebugCommand<float, int>("ADDM_HP", "Adds a HP modifier of <float> to <int>", "ADDM_HP <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.AddModifier(MODIF_HEALTH_ID, val, StatsModifier.E_StatType.MaxHP);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.AddModifier(MODIF_HEALTH_ID, amount, StatsModifier.E_StatType.MaxHP);
+        }, T2defaultValue: 0);
 
-        ADDM_SELF_HP_T = new DebugCommand<float, float>("ADDM_SELF_HP", "Adds a HP modifier of <float> to self for <float>s", "ADDM_SELF_HP <float> <float>", (val_1, val_2) =>
+        ADDM_DAMAGES = new DebugCommand<float, int>("ADDM_DAMAGES", "Adds a damages modifier of <float> to <int>", "ADDM_DAMAGES <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.AddModifier(MODIF_HEALTH_ID, val_1, val_2, StatsModifier.E_StatType.MaxHP);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.AddModifier(MODIF_DAMAGES_ID, amount, StatsModifier.E_StatType.Damages);
+        }, T2defaultValue: 0);
 
-        ADDM_SELF_DAMAGES = new DebugCommand<float>("ADDM_SELF_DAMAGES", "Adds a damages modifier of <float> to self", "ADDM_SELF_DAMAGES <float>", (val) =>
+        ADDM_ATTRANGE = new DebugCommand<float, int>("ADDM_ATTRANGE", "Adds a attack range modifier of <float> to <int>", "ADDM_ATTRANGE <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.AddModifier(MODIF_DAMAGES_ID, val, StatsModifier.E_StatType.Damages);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.AddModifier(MODIF_RANGE_ID, amount, StatsModifier.E_StatType.AttackRange);
+        }, T2defaultValue: 0);
 
-        ADDM_SELF_DAMAGES_T = new DebugCommand<float, float>("ADDM_SELF_DAMAGES", "Adds a damages modifier of <float> to self for <float>s", "ADDM_SELF_DAMAGES <float> <float>", (val_1, val_2) =>
+        ADDM_ATTCD = new DebugCommand<float, int>("ADDM_ATTCD", "Adds a attack cooldown modifier of <float> to <int>", "ADDM_ATTCD <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.AddModifier(MODIF_DAMAGES_ID, val_1, val_2, StatsModifier.E_StatType.Damages);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.AddModifier(MODIF_CD_ID, amount, StatsModifier.E_StatType.Attack_CD);
+        }, T2defaultValue: 0);
 
-        ADDM_SELF_ATTRANGE = new DebugCommand<float>("ADDM_SELF_ATTRANGE", "Adds a attack range modifier of <float> to self", "ADDM_SELF_ATTRANGE <float>", (val) =>
+        ADDM_SPEED = new DebugCommand<float, int>("ADDM_SPEED", "Adds a speed modifier of <float> to <int>", "ADDM_SPEED <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.AddModifier(MODIF_RANGE_ID, val, StatsModifier.E_StatType.AttackRange);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.AddModifier(MODIF_SPEED_ID, amount, StatsModifier.E_StatType.Speed);
+        }, T2defaultValue: 0);
 
-        ADDM_SELF_ATTRANGE_T = new DebugCommand<float, float>("ADDM_SELF_ATTRANGE", "Adds a attack range modifier of <float> to self for <float>s", "ADDM_SELF_ATTRANGE <float> <float>", (val_1, val_2) =>
+        ADDM_CRIT = new DebugCommand<int, int>("ADDM_CRIT", "Adds crit chances <int>% to <int>", "ADDM_CRIT <int> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.AddModifier(MODIF_RANGE_ID, val_1, val_2, StatsModifier.E_StatType.AttackRange);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.AddModifier(MODIF_CRIT_ID, amount, StatsModifier.E_StatType.CritChances);
+        }, T2defaultValue: 0);
 
-        ADDM_SELF_ATTCD = new DebugCommand<float>("ADDM_SELF_ATTCD", "Adds a attack cooldown modifier of <float> to self", "ADDM_SELF_ATTCD <float>", (val) =>
+        ADDM_DASHCD = new DebugCommand<float, int>("ADDM_DASHCD", "Adds a dash cooldown modifier of <float> to <int>", "ADDM_DASHCD <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.AddModifier(MODIF_CD_ID, val, StatsModifier.E_StatType.Attack_CD);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.AddModifier(MODIF_DASHCD_ID, amount, StatsModifier.E_StatType.DASH_CD);
+        }, T2defaultValue: 0);
 
-        ADDM_SELF_ATTCD_T = new DebugCommand<float, float>("ADDM_SELF_ATTCD", "Adds a attack cooldown modifier of <float> to self for <float>s", "ADDM_SELF_ATTCD <float> <float>", (val_1, val_2) =>
+        ADDM_SKILLCD = new DebugCommand<float, int>("ADDM_SKILLCD", "Adds a skill cooldown modifier of <float> to <int>", "ADDM_SKILLCD <float> <int>(default : 0)", (amount, targetIdx) =>
         {
-            GameManager.Player1Ref.AddModifier(MODIF_CD_ID, val_1, val_2, StatsModifier.E_StatType.Attack_CD);
-        });
-
-        ADDM_SELF_SPEED = new DebugCommand<float>("ADDM_SELF_SPEED", "Adds a speed modifier of <float> to self", "ADDM_SELF_SPEED <float>", (val) =>
-        {
-            GameManager.Player1Ref.AddModifier(MODIF_SPEED_ID, val, StatsModifier.E_StatType.Speed);
-        });
-
-        ADDM_SELF_SPEED_T = new DebugCommand<float, float>("ADDM_SELF_SPEED", "Adds a speed modifier of <float> to self for <float>s", "ADDM_SELF_SPEED <float> <float>", (val_1, val_2) =>
-        {
-            GameManager.Player1Ref.AddModifier(MODIF_SPEED_ID, val_1, val_2, StatsModifier.E_StatType.Speed);
-        });
-
-        ADDM_SELF_DASHCD = new DebugCommand<float>("ADDM_SELF_DASHCD", "Adds a dash cooldown modifier of <float> to self", "ADDM_SELF_DASHCD <float>", (val) =>
-        {
-            GameManager.Player1Ref.AddModifier(MODIF_DASHCD_ID, val, StatsModifier.E_StatType.DASH_CD);
-        });
-
-        ADDM_SELF_DASHCD_T = new DebugCommand<float, float>("ADDM_SELF_DASHCD_T", "Adds a dash cooldown modifier of <float> to self for <float>s", "ADDM_SELF_DASHCD_T <float> <float>", (val_1, val_2) =>
-        {
-            GameManager.Player1Ref.AddModifier(MODIF_DASHCD_ID, val_1, val_2, StatsModifier.E_StatType.DASH_CD);
-        });
-
-        ADDM_SELF_SKILLCD = new DebugCommand<float>("ADDM_SELF_SKILLCD", "Adds a skill cooldown modifier of <float> to self", "ADDM_SELF_SKILLCD <float>", (val) =>
-        {
-            GameManager.Player1Ref.AddModifier(MODIF_SKILLCD_ID, val, StatsModifier.E_StatType.SKILL_CD);
-        });
-
-        ADDM_SELF_SKILLCD_T = new DebugCommand<float, float>("ADDM_SELF_SKILLCD_T", "Adds a speed modifier of <float> to self for <float>s", "ADDM_SELF_SKILLCD_T <float> <float>", (val_1, val_2) =>
-        {
-            GameManager.Player1Ref.AddModifier(MODIF_SKILLCD_ID, val_1, val_2, StatsModifier.E_StatType.SKILL_CD);
-        });
+            if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
+            pc.AddModifier(MODIF_SKILLCD_ID, amount, StatsModifier.E_StatType.SKILL_CD);
+        }, T2defaultValue: 0);
     }
 
     private void Update()
@@ -514,35 +467,40 @@ public class DebugConsole : MonoBehaviour
 
                 else if (command as DebugCommand<bool> != null && proprieties.Length == 2)
                 {
-                    (command as DebugCommand<bool>).Invoke(ParseBool(proprieties[1]));
+                    DebugCommand<bool> cmd = command as DebugCommand<bool>;
+                    if (!TryParseBool(proprieties[1], cmd.AllowDefaultValue, cmd.DefaultValue, out bool result)) return;
+
+                    cmd.Invoke(result);
                     input = "";
                     return;
                 }
 
                 else if (command as DebugCommand<int> != null && proprieties.Length == 2)
                 {
-                    (command as DebugCommand<int>).Invoke(int.Parse(proprieties[1]));
+                    DebugCommand<int> cmd = command as DebugCommand<int>;
+                    if (!TryParseInt(proprieties[1], cmd.AllowDefaultValue, cmd.DefaultValue, out int result)) return;
+
+                    cmd.Invoke(result);
                     input = "";
                     return;
                 }
 
-                else if (command as DebugCommand<float, bool> != null && proprieties.Length == 3)
+                else if (command as DebugCommand<float, int> != null && proprieties.Length >= 2)
                 {
-                    (command as DebugCommand<float, bool>).Invoke(float.Parse(proprieties[1]), ParseBool(proprieties[2]));
+                    DebugCommand<float, int> cmd = command as DebugCommand<float, int>;
+                    if (!TryParseFloat(proprieties[1], cmd.AllowT1DefaultValue, cmd.T1DefaultValue, out float t1result)) return;
+                    if (!TryParseInt(proprieties.Length >= 3 ? proprieties[2] : "null", cmd.AllowT2DefaultValue, cmd.T2DefaultValue, out int t2result)) return;
+                    cmd.Invoke(t1result, t2result);
                     input = "";
                     return;
                 }
 
-                else if (command as DebugCommand<float, float> != null && proprieties.Length == 3)
+                else if (command as DebugCommand<int, int> != null && proprieties.Length >= 2)
                 {
-                    (command as DebugCommand<float, float>).Invoke(float.Parse(proprieties[1]), float.Parse(proprieties[2]));
-                    input = "";
-                    return;
-                }
-
-                else if (command as DebugCommand<float> != null && proprieties.Length == 2)
-                {
-                    (command as DebugCommand<float>).Invoke(float.Parse(proprieties[1]));
+                    DebugCommand<int, int> cmd = command as DebugCommand<int, int>;
+                    if (!TryParseInt(proprieties[1], cmd.AllowT1DefaultValue, cmd.T1DefaultValue, out int t1result)) return;
+                    if (!TryParseInt(proprieties.Length >= 3 ? proprieties[2] : "null", cmd.AllowT2DefaultValue, cmd.T2DefaultValue, out int t2result)) return;
+                    cmd.Invoke(t1result, t2result);
                     input = "";
                     return;
                 }
@@ -552,10 +510,51 @@ public class DebugConsole : MonoBehaviour
         input = "";
     }
 
-    private bool ParseBool(string propriety)
+    private bool TryParseFloat(string propriety, bool allowDefaultValue, float defaultValue, out float result)
     {
-        if (propriety.Equals("<bool>")) return true;
-        if (propriety.Equals("1") || propriety.Equals("TRUE")) return true;
+        result = -1;
+        if (float.TryParse(propriety, out result)) return true;
+        if (allowDefaultValue)
+        {
+            result = defaultValue;
+            return true;
+        }
+
+        this.Log("Could not parse " + propriety, LogsManager.E_LogType.Error);
+        return false;
+    }
+    private bool TryParseInt(string propriety, bool allowDefaultValue, int defaultValue, out int result)
+    {
+        result = -1;
+        if (int.TryParse(propriety, out result)) return true;
+        if (allowDefaultValue)
+        {
+            result = defaultValue;
+            return true;
+        }
+        this.Log("Could not parse " + propriety, LogsManager.E_LogType.Error);
+        return false;
+    }
+    private bool TryParseBool(string propriety, bool allowDefaultValue, bool defaultValue, out bool result)
+    {
+        result = false;
+        if (propriety.Equals("<bool>"))
+        {
+            result = true;
+            return true;
+        }
+        if (propriety.Equals("1") || propriety.Equals("TRUE"))
+        {
+            result = true;
+            return true;
+        }
+        if (allowDefaultValue)
+        {
+            result = defaultValue;
+            return true;
+        }
+
+        this.Log("Could not parse " + propriety, LogsManager.E_LogType.Error);
         return false;
     }
 
@@ -638,6 +637,11 @@ public class DebugConsole : MonoBehaviour
         {
             // if the current input starts with the i command ID, add it to the suggestions
             DebugCommandBase command = commandList[i] as DebugCommandBase;
+            if (command == null)
+            {
+                this.Log($"Command n°{i} ({command}) was not build.", LogsManager.E_LogType.Error); 
+                continue;
+            }
             if (command.CommandID.StartsWith(input) == false) continue;
 
             suggestions.Add(command.CommandFormat);
@@ -750,12 +754,14 @@ public class DebugConsole : MonoBehaviour
             editor.text = input;
    
             int textIdx = input.Length - 1;
-            while (textIdx >= 0 && input[textIdx] != '<')
+            int idxOfLastOpeningSymbol = 0;
+            while (textIdx >= 0)
             {
+                if (input[textIdx] == '<') idxOfLastOpeningSymbol = textIdx;
                 textIdx -= 1;
             }
 
-            editor.cursorIndex = textIdx;
+            editor.cursorIndex = idxOfLastOpeningSymbol;
             editor.selectIndex = input.Length;
         }
     }

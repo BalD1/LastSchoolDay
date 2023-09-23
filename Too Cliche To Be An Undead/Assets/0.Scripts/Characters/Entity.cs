@@ -137,20 +137,11 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
 
     [SerializeField] protected bool invincible;
 
-    public delegate void D_enteredTrigger(Collider2D collider);
-    public D_enteredTrigger OnEnteredBodyTrigger;
-
-    public delegate void D_exitedTrigger(Collider2D collider);
-    public D_exitedTrigger OnExitedBodyTrigger;
-
-    public delegate void D_enteredCollider(Collision2D collision);
-    public D_enteredCollider d_EnteredCollider;
-
-    public delegate void D_exitedCollider(Collision2D collision);
-    public D_exitedCollider d_ExitedCollider;
-
-    public delegate void D_EntityEnteredCollider(Entity entity);
-    public D_EntityEnteredCollider D_entityEnteredCollider;
+    public Action<Collider2D> OnEnteredBodyTrigger;
+    public Action<Collider2D> OnExitedBodyTrigger;
+    public Action<Collision2D> d_EnteredCollider;
+    public Action<Collision2D> d_ExitedCollider;
+    public Action<Entity> D_entityEnteredCollider;
 
     public event Action OnDeath;
     protected void CallOnDeath()
@@ -159,8 +150,7 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
     public delegate void D_OnDeathOf(Entity e);
     public D_OnDeathOf D_onDeathOf;
 
-    public delegate void D_OnTakeDamagesFromEntity(bool crit, Entity damager, bool tickDamage = false);
-    public D_OnTakeDamagesFromEntity D_onTakeDamagesFromEntity;
+    public event Action<bool, Entity, bool> OnTakeDamageFromEntity;
 
     public event Action<bool> OnHealthChange;
     private void HealthChange(bool tookDamages) => OnHealthChange?.Invoke(tookDamages);
@@ -527,22 +517,11 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
             if (damager.stats.Team != SCRPT_EntityStats.E_Team.Neutral 
              && damager.stats.Team == this.GetStats.Team) return false;
 
-        if (callDelegate) D_onTakeDamagesFromEntity?.Invoke(isCrit, damager, tickDamages);
-
         if (isCrit) amount *= 1.5f;
-
         amount = MathF.Round(amount);
 
-        if (!fakeDamages)
-        {
-            currentHP -= amount;
-
-            PlayerCharacter player = damager as PlayerCharacter;
-            if (player != null)
-            {
-                player.AddDealtDamages((int)amount);
-            }
-        }
+        if (!fakeDamages) currentHP -= amount;
+        if (callDelegate) OnTakeDamageFromEntity?.Invoke(isCrit, damager, tickDamages);
 
         if (amount > 0)
         {

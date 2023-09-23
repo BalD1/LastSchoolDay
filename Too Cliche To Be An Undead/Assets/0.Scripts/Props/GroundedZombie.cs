@@ -43,7 +43,7 @@ public class GroundedZombie : Entity
     {
         base.Awake();
 
-        this.D_onTakeDamagesFromEntity += (bool crit, Entity damager, bool tickDamages) => PlayAudio(audioData.GetRandomHurtClip());
+        this.OnTakeDamageFromEntity += (bool crit, Entity damager, bool tickDamages) => PlayAudio(audioData.GetRandomHurtClip());
     }
 
     private void PlayAudio(SCRPT_EntityAudio.S_AudioClips audio)

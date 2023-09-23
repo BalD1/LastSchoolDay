@@ -39,12 +39,15 @@ public class PlayerScorePanel : MonoBehaviour
         playerImage.sprite = playerImages.neutralImage;
         haloImage.sprite = playerImages.neutralImage;
 
-        PlayerEndStatsManager.PlayerEndStats playerEndStats = PlayerEndStatsManager.Instance.GetPlayerEndStats(_relatedPlayer);
-
+        PlayerEndStatsManager.PlayerEndStats playerEndStats = default;
+        if (!PlayerEndStatsManager.Instance.PlayersStats.TryGetValue(_relatedPlayer, out playerEndStats))
+        {
+            this.Log("Could not find player \"" + _relatedPlayer.GetCharacterName() + "\" in PlayerEndStats.", LogsManager.E_LogType.Error);
+            return;
+        }
         animQueue.Enqueue(AnimateValue(playerEndStats.KillsCount, controller.SingleKillValue, 1, killsCount));
         animQueue.Enqueue(AnimateValue(playerEndStats.DamagesDealt, controller.SingleDamageDealtValue, 1, dealtDamagesCount));
         animQueue.Enqueue(AnimateValue(playerEndStats.DamagesTaken, controller.SingleDamageTakenValue, 1, takenDamagesCount));
-        
     }
 
     public void SetImageToSad()
@@ -71,6 +74,8 @@ public class PlayerScorePanel : MonoBehaviour
         animQueue.Dequeue().resume();
     }
 
+    private LTDescr AnimateValue(float maxVal, int scoreMultiplier, float time, TextMeshProUGUI tmp)
+        => AnimateValue((int)maxVal, scoreMultiplier, time, tmp);
     private LTDescr AnimateValue(int maxVal, int scoreMultiplier, float time, TextMeshProUGUI tmp)
     {
         LTDescr tween;

@@ -42,8 +42,6 @@ public class BossZombie : EnemyBase
         new StatsModifier("2NDSTAGE_DAMAGES", 5, StatsModifier.E_StatType.Damages),
     };
 
-    [field: SerializeField] public bool isAppeared { get; private set; }
-
     [field: SerializeField] private float onSpawnAttackCooldown = 1.5f;
 
     [field: SerializeField] public bool IsAttacking = false;
@@ -108,12 +106,12 @@ public class BossZombie : EnemyBase
         D_currentAttackEnded += () => IsAttacking = false;
     }
 
-    protected override void Start()
+    public void Setup(bool withCinematic)
     {
-        base.Start();
-        if (isAppeared) OnStart();
+        if (!withCinematic) OnStart();
         else
         {
+            OnAppearAnimationEnded += OnAppearCinematicEnded;
             Skeleton sk = skeletonAnimation.skeleton;
 
             Color goal = sk.GetColor();
@@ -124,15 +122,22 @@ public class BossZombie : EnemyBase
         }
     }
 
+    private void OnAppearCinematicEnded()
+    {
+        OnAppearAnimationEnded -= OnAppearCinematicEnded;
+        this.BossSpawn();
+    }
+
     private void OnStart()
     {
+        this.BossSpawn();
         attack_TIMER = onSpawnAttackCooldown;
-        GameManager.Instance.D_bossFightStarted?.Invoke();
+        this.StateManager.SwitchState(FSM_Boss_Manager.E_BossState.Chasing);
+        TargetClosestPlayer();
     }
 
     protected override void Update()
     {
-        if (!isAppeared) return;
         if (!IsAlive()) return;
 
         if (hitStop_TIMER > 0)
@@ -146,7 +151,7 @@ public class BossZombie : EnemyBase
 
     private void OnChangeCinematicState(bool isInCinematic)
     {
-        if (isInCinematic)
+        if (!isInCinematic)
         {
             this.StateManager.SwitchState(FSM_Boss_Manager.E_BossState.Chasing);
             TargetClosestPlayer();
@@ -221,6 +226,7 @@ public class BossZombie : EnemyBase
     {
         if (deathFlag) return;
         deathFlag = true;
+        this.BossDeath();
         CallOnDeath();
     }
 
@@ -233,16 +239,15 @@ public class BossZombie : EnemyBase
     {
         PlayerCharacter closerTarget = null;
         float closerDistance = float.MaxValue;
-        foreach (var item in GameManager.Instance.playersByName)
+        foreach (var item in IGPlayersManager.Instance.PlayersList)
         {
-            float currentDist = Vector2.Distance(this.transform.position, item.playerScript.transform.position);
+            float currentDist = Vector2.Distance(this.transform.position, item.transform.position);
             if (currentDist < closerDistance)
             {
                 closerDistance = currentDist;
-                closerTarget = item.playerScript;
+                closerTarget = item;
             }
         }
-
         this.SetTarget(closerTarget);
     }
 
@@ -259,12 +264,5 @@ public class BossZombie : EnemyBase
     {
         this.SkeletonAnimation.timeScale = 0;
         hitStop_TIMER = duration;
-    }
-
-    public void SetIsAppeared()
-    {
-        isAppeared = true;
-        OnStart();
-        StateManager.OnStart();
     }
 }

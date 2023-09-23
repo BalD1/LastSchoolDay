@@ -29,7 +29,6 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField] private UIScreenBase pauseMenu;
     [SerializeField] private GameObject winMenu;
-    [SerializeField] private WinScreen winScreen;
     [SerializeField] private GameObject gameoverMenu;
     [SerializeField] private GameObject localHUD;
     [SerializeField] private GameObject mainMenu_mainPanel;
@@ -79,7 +78,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private GameObject minimap;
     [SerializeField] private GameObject minimapButton;
 
-    [SerializeField] private Image[] blackBars;
+    [SerializeField] private UIBlackBars blackBars;
 
     [SerializeField] private GameObject keycardsContainer;
     [SerializeField] private RectTransform keycardsContainerRect;
@@ -502,7 +501,6 @@ public class UIManager : Singleton<UIManager>
                 break;
 
             case GameManager.E_GameState.Win:
-                winScreen.Begin();
                 break;
 
             case GameManager.E_GameState.GameOver:
@@ -592,14 +590,7 @@ public class UIManager : Singleton<UIManager>
 
     public void SetBlackBars(bool appear, float time = 1f)
     {
-        foreach (var item in blackBars)
-        {
-            LeanTween.value(item.fillAmount, appear ? 1 : 0, time).setIgnoreTimeScale(true).setOnUpdate( 
-            (float val) =>
-            {
-                item.fillAmount = val;
-            });
-        }
+        blackBars?.SetBlackBars(appear, time);
     }
 
     public Sprite GetBasePortrait(GameManager.E_CharactersNames character)

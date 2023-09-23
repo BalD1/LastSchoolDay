@@ -344,6 +344,7 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     public void OnValidateButton(InputAction.CallbackContext context)
     {
+        Debug.Log("val");
         if (context.performed) this.ValidateButton(InputsID);
     }
 

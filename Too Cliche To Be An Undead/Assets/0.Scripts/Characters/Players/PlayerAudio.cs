@@ -23,7 +23,7 @@ public class PlayerAudio : MonoBehaviour
         SetAudioClips();
         owner.OnSwitchCharacter += SetAudioClips;
 
-        owner.D_onTakeDamagesFromEntity += PlayHurtAudio;
+        owner.OnTakeDamageFromEntity += PlayHurtAudio;
 
         owner.OnDeath += PlayDeathAudio;
 
@@ -47,7 +47,7 @@ public class PlayerAudio : MonoBehaviour
     {
         owner.OnSwitchCharacter -= SetAudioClips;
 
-        owner.D_onTakeDamagesFromEntity -= PlayHurtAudio;
+        owner.OnTakeDamageFromEntity -= PlayHurtAudio;
 
         owner.OnDeath -= PlayDeathAudio;
 

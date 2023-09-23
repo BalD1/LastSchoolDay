@@ -290,12 +290,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d75eea83f0d5245a1f5dab792ff239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boss: {fileID: 0}
   skeletonAnimation: {fileID: 7748439800475624999}
   unlockedAnim: {fileID: 11400000, guid: 74734a72b9bf36e4ebb203d4360ec6f5, type: 2}
   openAnim: {fileID: 11400000, guid: f69258c75f27b4b41a311025bfb6aecf, type: 2}
-  onBossKillDialogue: gym_bosskilled
-  showExitDoorDialogue: gym_showexitdoor
+  onBossKillDialogue: {fileID: 11400000, guid: e60fd3c646ef02c4693398d33e780fe7, type: 2}
+  showExitDoorDialogue: {fileID: 11400000, guid: 23fd10d9594da62448eeca045f38accb, type: 2}
 --- !u!58 &8296886262780796970
 CircleCollider2D:
   m_ObjectHideFlags: 0

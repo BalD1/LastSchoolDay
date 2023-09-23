@@ -47,4 +47,19 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
                 player.AskRevive();
         }
     }
+
+    public static bool ST_TryGetPlayer(int index, out PlayerCharacter player)
+    {
+        player = null;
+        if (!IGPlayersManager.ST_InstanceExists()) return false;
+        if (index < 0 || index >= Instance.PlayersList.Count) return false;
+
+        player = Instance.PlayersList[index];
+        return true;
+    }
+
+    public void TeleportPlayer(int playerIndex, Vector2 position)
+    {
+        PlayersList[playerIndex].transform.position = position;
+    }
 }

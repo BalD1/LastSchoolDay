@@ -18,13 +18,11 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
         }
         owner.SpawnedZombies.Clear();
 
-        foreach (var item in GameManager.Instance.playersByName)
+        foreach (var item in IGPlayersManager.Instance.PlayersList)
         {
-            if (item.playerScript.StateManager.ToString() == "Dying")
-                item.playerScript.AskRevive();
+            if (item.StateManager.ToString() == "Dying")
+                item.AskRevive();
         }
-        if (GameManager.Instance.GameState == GameManager.E_GameState.GameOver)
-            GameManager.Instance.CancelGameOver();
 
         SoundManager.Instance.ChangeMusicMixerPitch(1);
     }

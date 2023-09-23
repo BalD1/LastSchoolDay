@@ -32,7 +32,7 @@ public class ReviveTutorial : MonoBehaviourEventsHandler
     private void Start()
     {
         if (DataKeeper.Instance.ShouldSkipTuto()) return;
-        if (GameManager.Instance.PlayersCount <= 1)
+        if (IGPlayersManager.PlayersCount <= 1)
         {
             door.OpenDoor();
             return;
@@ -107,7 +107,7 @@ public class ReviveTutorial : MonoBehaviourEventsHandler
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (GameManager.Instance.PlayersCount > 1) return;
+        if (IGPlayersManager.PlayersCount > 1) return;
         if (!collision.gameObject.CompareTag("Player")) return;
 
         DialogueManager.Instance.TryStartDialogue(startDialogue, false);

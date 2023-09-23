@@ -41,7 +41,7 @@ public class FSM_Boss_AppearCinematic : FSM_Base<FSM_Boss_Manager>
                         new CA_CinematicCustomAction(() =>
                         {
                             owner.animationController.SetAnimation(owner.animationData.YellAnim, false);
-                            LeanTween.delayedCall(10, () =>
+                            LeanTween.delayedCall(owner.animationData.YellAnim.Animation.Duration, () =>
                             {
                                 owner.animationController.SetAnimation(owner.animationData.IdleAnim, true);
                             }).setIgnoreTimeScale(true);
@@ -50,7 +50,7 @@ public class FSM_Boss_AppearCinematic : FSM_Base<FSM_Boss_Manager>
                         new CA_CinematicCameraZoom(0.5f, .5f)
                         ),
                     new CA_CinematicPlayMusic(SoundManager.E_MusicClipsTags.BossMusic)
-                ).AllowChangeCinematicStateAtEnd(false);
+                ).AllowChangeCinematicStateAtEnd(false).AllowChangeCinematicStateAtStart(false);
             FallCinematic.OnCinematicEnded += () => owner.OnAppearAnimationEnded?.Invoke();
         }
         FallCinematic.StartCinematic();
