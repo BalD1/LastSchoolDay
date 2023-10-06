@@ -42,7 +42,7 @@ public class CameraManager : Singleton<CameraManager>
 
     private List<PlayerCharacter> invisiblePlayers = new List<PlayerCharacter>();
 
-    private bool cinematicMode = false;
+    public bool CinematicMode { get; private set; } = false;
 
     protected override void EventsSubscriber()
     {
@@ -82,45 +82,9 @@ public class CameraManager : Singleton<CameraManager>
         volumeTrigger.SetLocalPositionZ(this.transform.position.z * -1);
     }
 
-    private void LateUpdate()
-    {
-        if (cinematicMode) return;
-
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCam);
-
-        for (int i = 0; i < invisiblePlayersTransform.Count; i++)
-        {
-            Vector2 minScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(0, 0));
-            Vector2 maxScreenBounds = mainCam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));
-
-            markers[i].position = new Vector2(Mathf.Clamp(invisiblePlayersTransform[i].position.x, minScreenBounds.x + .5f, maxScreenBounds.x - .5f),
-                                              Mathf.Clamp(invisiblePlayersTransform[i].position.y, minScreenBounds.y + .5f, maxScreenBounds.y - .5f));
-
-            float dist = Vector2.Distance(invisiblePlayersTransform[i].position, markers[i].position);
-            float markerScale = Mathf.Clamp01(1 - (dist / maxDistance));
-
-            Vector2 v = markers[i].transform.localScale;
-            v.x = markerScale * scaleMultiplier;
-            v.y = markerScale * scaleMultiplier;
-            markers[i].transform.localScale = v;
-
-            if (dist > maxDistance)
-            {
-                Vector2 newPos = IGPlayersManager.Instance.PlayersList[0].transform.position;
-                IGPlayersManager.Instance.TeleportPlayer(invisiblePlayers[i].PlayerIndex, cam_followPlayers.transform.position);
-            }
-        }
-
-        foreach (var item in playersToRemoveFromList)
-        {
-            if (invisiblePlayersTransform.Contains(item)) invisiblePlayersTransform.Remove(item);
-        }
-        playersToRemoveFromList.Clear();
-    }
-
     private void OnCinematicStateChange(bool isInCinematic)
     {
-        this.cinematicMode = isInCinematic;
+        this.CinematicMode = isInCinematic;
 
         if (!isInCinematic)
         {
@@ -166,7 +130,7 @@ public class CameraManager : Singleton<CameraManager>
 
     public void ZoomCamera(float amount, float duration, Action onCompleteAction, LeanTweenType type = LeanTweenType.easeInOutQuart)
     {
-        if (cinematicMode == false) return;
+        if (CinematicMode == false) return;
 
         LeanTween.value(cam_followPlayers.gameObject, cam_followPlayers.m_Lens.OrthographicSize, cam_followPlayers.m_Lens.OrthographicSize - amount, duration).setEase(type).setOnUpdate((float val) =>
         {
@@ -203,7 +167,7 @@ public class CameraManager : Singleton<CameraManager>
 
     public void EndCinematic()
     {
-        cinematicMode = false;
+        CinematicMode = false;
         cam_followPlayers.Follow = tg_players.transform;
     }
 }

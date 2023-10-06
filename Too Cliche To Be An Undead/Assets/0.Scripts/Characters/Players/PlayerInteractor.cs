@@ -25,6 +25,19 @@ public class PlayerInteractor : ImageChangeOnController
     {
         if (targetPlayer.PlayerIndex == 0) PlayerInputsEvents.OnDeviceChange -= CheckDevice;
         targetPlayer.OnInteractInput -= InteractWithClosest;
+        PlayerCharacterEvents.OnPlayerSetup -= OnPlayerSetup;
+    }
+
+    private void OnPlayerSetup(PlayerCharacter player)
+    {
+        if (player != targetPlayer) return;
+
+        EventsSubscriber();
+    }
+
+    protected override void Awake()
+    {
+        PlayerCharacterEvents.OnPlayerSetup += OnPlayerSetup;
     }
 
     protected override void Start()

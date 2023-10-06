@@ -19,11 +19,13 @@ public class ReviveTutorial : MonoBehaviourEventsHandler
 
     protected override void EventsSubscriber()
     {
+        if (DataKeeper.Instance.ShouldSkipTuto()) return;
         IGPlayersManagerEvents.OnAllPlayersCreated += SetupVictimPlayer;
     }
 
     protected override void EventsUnSubscriber()
     {
+        if (DataKeeper.Instance.ShouldSkipTuto()) return;
         IGPlayersManagerEvents.OnAllPlayersCreated -= SetupVictimPlayer;
         if (victimPlayer == null) return;
         victimPlayer.OnOtherInteract -= StartDialogue;

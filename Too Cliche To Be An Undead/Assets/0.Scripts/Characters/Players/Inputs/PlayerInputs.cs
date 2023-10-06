@@ -1,17 +1,21 @@
 using System;
+using System.Collections.Generic;
 using System.Data.SqlTypes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
 using UnityEngine.InputSystem.Switch;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.InputSystem.XInput;
 using static PlayerInputsManager;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerInputs : MonoBehaviourEventsHandler
 {
-    [ReadOnly] [SerializeField] private PlayerCharacter owner;
+    [field: ReadOnly, SerializeField] public PlayerCharacter Owner { get; private set; }
     [field: SerializeField] public PlayerInput Input { get; private set; }
+
+    public InputDevice MainDevice { get; private set; }
 
     public E_Devices currentDeviceType { get; private set; }
     private string currentDeviceName = "";
@@ -49,7 +53,7 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     private void SetControlMap()
     {
-        if (owner == null)
+        if (Owner == null)
         {
             SwitchControlMapToUI();
             return;
@@ -74,8 +78,18 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     public void SetOwner(PlayerCharacter character)
     {
-        owner = character;
+        Owner = character;
         SwitchControlMapToInGame();
+    }
+
+    public void AddDevice(InputDevice device)
+    {
+        InputUser.PerformPairingWithDevice(device, Input.user);
+    }
+
+    public void SetMainDevice(InputDevice device)
+    {
+        MainDevice = device;
     }
 
     public bool IsOnKeyboard() => currentDeviceType == E_Devices.Keyboard;
@@ -88,7 +102,7 @@ public class PlayerInputs : MonoBehaviourEventsHandler
     }
     public void SwitchControlMapToInGame()
     {
-        if (owner == null) return;
+        if (Owner == null) return;
         SwitchControlMap(ACTIONMAP_INGAME);
     }
     public void SwitchControlMapToUI() =>
@@ -171,27 +185,27 @@ public class PlayerInputs : MonoBehaviourEventsHandler
     }
     public void OnMovements(InputAction.CallbackContext context)
     {
-        owner.ReadMovementsInputs(context);
+        Owner.ReadMovementsInputs(context);
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnAttackInput?.Invoke();
+        if (context.performed) Owner.OnAttackInput?.Invoke();
     }
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnDashInput?.Invoke();
+        if (context.performed) Owner.OnDashInput?.Invoke();
     }
 
     public void OnSkill(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnSkillInput?.Invoke();
+        if (context.performed) Owner.OnSkillInput?.Invoke();
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnInteractInput?.Invoke();
+        if (context.performed) Owner.OnInteractInput?.Invoke();
     }
 
     public void IG_OnPause(InputAction.CallbackContext context)
@@ -201,25 +215,25 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     public void OnStayStatic(InputAction.CallbackContext context)
     {
-        owner.StayStaticInput(context);
+        Owner.StayStaticInput(context);
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnAimInput?.Invoke(context.ReadValue<Vector2>());
+        if (context.performed) Owner.OnAimInput?.Invoke(context.ReadValue<Vector2>());
     }
 
     public void OnSelfRevive(InputAction.CallbackContext context)
     {
-        if (context.performed) owner.OnSelfReviveInput?.Invoke();
+        if (context.performed) Owner.OnSelfReviveInput?.Invoke();
     }
 
     public void OnSecondContextual(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            owner.OnSecondContextInput?.Invoke();
-            this.SecondContext(owner.PlayerIndex);
+            Owner.OnSecondContextInput?.Invoke();
+            this.SecondContext(Owner.PlayerIndex);
         }
     }
 
@@ -344,7 +358,6 @@ public class PlayerInputs : MonoBehaviourEventsHandler
 
     public void OnValidateButton(InputAction.CallbackContext context)
     {
-        Debug.Log("val");
         if (context.performed) this.ValidateButton(InputsID);
     }
 

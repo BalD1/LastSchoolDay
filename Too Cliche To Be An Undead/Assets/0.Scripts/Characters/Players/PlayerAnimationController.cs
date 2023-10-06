@@ -62,7 +62,6 @@ public class PlayerAnimationController : MonoBehaviourEventsHandler
             if (item.GetComponent<SkeletonAnimation>() != null)
             {
                 item.gameObject.AddComponent<RendererSorting>();
-                item.gameObject.AddComponent<VisibilityWatcher>().Setup(owner);
 
                 if (item.GetComponent<SkeletonAnimation>().skeletonDataAsset == jasonSkeletonDataAsset)
                 {

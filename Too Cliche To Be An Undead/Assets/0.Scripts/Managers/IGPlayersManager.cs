@@ -31,7 +31,7 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
         {
             Vector2 spawnPos = playTuto ? tutoSpawnPoints[i].position : igSpawnPoints[i].position;
             PlayerCharacter newPlayer = playerPF?.Create(spawnPos); 
-            newPlayer.Setup(inputs[i]);
+            newPlayer.Setup(inputs[i], i);
             PlayersList.Add(newPlayer);
             this.PlayerCreated(newPlayer);
         }

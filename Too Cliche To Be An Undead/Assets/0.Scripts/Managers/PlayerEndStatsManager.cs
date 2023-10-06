@@ -29,7 +29,7 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
     {
         base.Start();
         PlayersStats = new Dictionary<PlayerCharacter, PlayerEndStats>();
-        SetupArray();
+        ResetArray();
     }
 
     private void Update()
@@ -42,20 +42,26 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
 
     protected override void EventsSubscriber()
     {
+        base.EventsSubscriber();
         GameManagerEvents.OnRunStarted += OnRunStarted;
 
         EntityEvents.OnPlayerTookDamages += OnPlayerTookDamages;
         EntityEvents.OnEnemyTookDamages += OnEnemyTookDamages;
         EntityEvents.OnEnemyDeath += OnEnemyDeath;
+
+        IGPlayersManagerEvents.OnPlayerCreated += OnPlayerCreated;
     }
 
     protected override void EventsUnSubscriber()
     {
+        base.EventsUnSubscriber();
         GameManagerEvents.OnRunStarted -= OnRunStarted;
 
         EntityEvents.OnPlayerTookDamages -= OnPlayerTookDamages;
         EntityEvents.OnEnemyTookDamages -= OnEnemyTookDamages;
         EntityEvents.OnEnemyDeath -= OnEnemyDeath;
+
+        IGPlayersManagerEvents.OnPlayerCreated -= OnPlayerCreated;
     }
 
     public void ResetScores()
@@ -69,11 +75,11 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
     }
 
     protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        => SetupArray();
+        => ResetArray();
 
     protected override void OnSceneUnloaded(Scene scene) { }
 
-    private void SetupArray()
+    private void ResetArray()
     {
         if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
         {
@@ -85,12 +91,13 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
         PlayersStats.Clear();
         GameTime = 0;
 
-        foreach (var item in IGPlayersManager.Instance.PlayersList)
-        {
-            PlayersStats.Add(item, new PlayerEndStats());
-        }
-
         allowGameTimeIncrease = false;
+    }
+
+    private void OnPlayerCreated(PlayerCharacter player)
+    {
+        if (!PlayersStats.TryAdd(player, new PlayerEndStats()))
+            this.Log($"Could not add {player} ({player.GetCharacterName()}) in array.", LogsManager.E_LogType.Error);
     }
 
     private void OnRunStarted()
@@ -100,7 +107,7 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
     {
         if (!PlayersStats.TryGetValue(data.DamagedEntity, out PlayerEndStats stats))
         {
-            this.Log("Could not find player " + data.DamagedEntity + " in PlayerEndStats.", LogsManager.E_LogType.Error);
+            this.Log($"Could not find player {data.DamagedEntity} ({data.DamagedEntity.GetCharacterName()}) in PlayerEndStats.", LogsManager.E_LogType.Error);
             return;
         }
 
@@ -115,7 +122,7 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
 
         if (!PlayersStats.TryGetValue(player, out PlayerEndStats stats))
         {
-            this.Log("Could not find player " + data.DamagedEntity + " in PlayerEndStats.", LogsManager.E_LogType.Error);
+            this.Log($"Could not find player {player} ({player.GetCharacterName()}) in PlayerEndStats.", LogsManager.E_LogType.Error);
             return;
         }
 
@@ -131,7 +138,7 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
 
         if (!PlayersStats.TryGetValue(player, out PlayerEndStats stats))
         {
-            this.Log("Could not find player " + data.DamagedEntity + " in PlayerEndStats.", LogsManager.E_LogType.Error);
+            this.Log($"Could not find player {player} ({player.GetCharacterName()}) in PlayerEndStats.", LogsManager.E_LogType.Error);
             return;
         }
 

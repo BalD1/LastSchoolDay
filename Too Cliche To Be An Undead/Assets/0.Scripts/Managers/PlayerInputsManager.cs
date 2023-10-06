@@ -24,6 +24,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         }
     }
     [field: SerializeField] public List<PlayerInputs> PlayerInputsList { get; private set; }
+    private List<InputDevice> knownDevices = new List<InputDevice>();
     public static PlayerInputs P1Inputs
     {
         get
@@ -62,6 +63,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         DialogueManagerEvents.OnEndDialogue += OnDialogueEnded;
         ShopEvents.OnOpenShop += OnOpenShop;
         ShopEvents.OnCloseShop += OnClosedShop;
+        InputSystem.onDeviceChange += OnDeviceChange;
     }
 
     protected override void EventsUnSubscriber()
@@ -77,6 +79,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         DialogueManagerEvents.OnEndDialogue -= OnDialogueEnded;
         ShopEvents.OnOpenShop -= OnOpenShop;
         ShopEvents.OnCloseShop -= OnClosedShop;
+        InputSystem.onDeviceChange -= OnDeviceChange;
     }
 
     protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -85,9 +88,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         else CheckIfP1Exist();
     }
 
-    protected override void OnSceneUnloaded(Scene scene)
-    {
-    }
+    protected override void OnSceneUnloaded(Scene scene) { }
 
     protected override void Awake()
     {
@@ -103,6 +104,47 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
     {
         base.Start();
         GiveUnpairedDevicesToP1();
+    }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange changeState)
+    {
+        switch (changeState)
+        {
+            case InputDeviceChange.Added:
+                if (knownDevices.Contains(device)) return;
+                knownDevices.Add(device);
+                this.DeviceAdded(device);
+                P1Inputs.AddDevice(device);
+                this.Log($"Device {device} was added");
+                break;
+
+            case InputDeviceChange.Reconnected:
+                foreach (var item in PlayerInputsList)
+                {
+                    Debug.Log(item);
+                    if (item.MainDevice != device)
+                        continue;
+                    this.Log($"Device {device} was reconnected (owner : P{item.InputsID}, {item.Owner.GetCharacterName()})");
+
+                    return;
+                }
+                break;
+
+            case InputDeviceChange.Disconnected:
+                this.Log($"Device {device} was disconnected");
+                this.DeviceDisconnected(device);
+                break;
+
+            case InputDeviceChange.SoftReset: return;
+            case InputDeviceChange.HardReset: return;
+            case InputDeviceChange.Removed: return;
+            case InputDeviceChange.Enabled: return;
+            case InputDeviceChange.Disabled: return;
+
+            default:
+                this.Log($"Undefined device modification on {device} ({changeState})");
+                break;
+        }
     }
 
     private void Initialize()
@@ -268,6 +310,8 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
 
         PlayerInputs newInputs = inputsPF?.Create();
         InputUser.PerformPairingWithDevice(usedDevice, newInputs.Input.user, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
+        if (!knownDevices.Contains(usedDevice)) knownDevices.Add(usedDevice);
+        newInputs.SetMainDevice(usedDevice);
 
         GiveUnpairedDevicesToP1();
     }

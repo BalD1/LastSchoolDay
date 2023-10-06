@@ -195,8 +195,12 @@ public class PlayerCharacter : Entity, IInteractable
 
     public void Setup(PlayerInputs inputs)
     {
+        Setup(inputs, inputs.InputsID);
+    }
+    public void Setup(PlayerInputs inputs, int index)
+    {
         this.PlayerInputsComponent = inputs;
-        this.playerIndex = inputs.InputsID;
+        this.playerIndex = index;
         inputs.SetOwner(this);
 
         this.SwitchCharacter(pccHolder.GetComponents(this.GetCharacterName()));
