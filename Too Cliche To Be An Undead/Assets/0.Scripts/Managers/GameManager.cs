@@ -279,7 +279,6 @@ public class GameManager : Singleton<GameManager>
         }
         else if (CompareCurrentScene(E_ScenesNames.MainMenu))
         {
-            PlayerCharacter.SetMoney(0);
             PlayerCharacter.SetLevel(0);
             if (DataKeeper.Instance != null)
             {

@@ -360,36 +360,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     #endregion
 
-    #region Money
-
-    public static void AddMoney(int amount)
-    {
-        money += amount;
-        UIManager.Instance.UpdateMoney();
-    }
-    public static void RemoveMoney(int amount, bool canGoInDebt)
-    {
-        if (!canGoInDebt && money < 0) return;
-
-        money -= amount;
-        UIManager.Instance.UpdateMoney();
-
-        if (!canGoInDebt && money < 0) money = 0;
-    }
-    public static void SetMoney(int newMoney)
-    {
-        money = newMoney;
-#if UNITY_EDITOR == false
-        if (UIManager.Instance != null);
-        UIManager.Instance.UpdateMoney(); 
-#endif
-    }
-
-    public static int GetMoney() => money;
-    public static bool HasEnoughMoney(int price) => money >= price ? true : false;
-
-    #endregion
-
     #region Inputs
 
     public void StayStaticInput(InputAction.CallbackContext context)

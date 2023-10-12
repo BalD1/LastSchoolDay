@@ -451,8 +451,8 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.Vector2Field("RB Velocity", targetScript.GetRb.velocity);
         GUI.enabled = true;
 
-        int newMoney = EditorGUILayout.DelayedIntField("Money", PlayerCharacter.GetMoney());
-        PlayerCharacter.SetMoney(newMoney);
+        int newMoney = EditorGUILayout.DelayedIntField("Money", InventoryManager.Instance.MoneyAmount);
+        InventoryManager.Instance.ForceSetMoney(newMoney);
 
         SerializedProperty playerIndex = serializedObject.FindProperty("playerIndex");
         EditorGUILayout.PropertyField(playerIndex);

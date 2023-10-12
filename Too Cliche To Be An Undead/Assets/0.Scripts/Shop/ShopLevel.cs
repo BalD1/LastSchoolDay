@@ -77,13 +77,11 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             OnTryUnlockFail();
             return false;
         }
-        if (!PlayerCharacter.HasEnoughMoney(Data.Cost))
+        if (!InventoryManager.Instance.TryBuy(Data.Cost))
         {
             OnTryUnlockFail();
             return false;
         }
-
-        PlayerCharacter.RemoveMoney(Data.Cost, false);
         BoughtUpgradeFeedback();
         Unlock();
 

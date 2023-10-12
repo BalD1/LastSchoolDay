@@ -36,8 +36,8 @@ public class PlayerScorePanel : MonoBehaviour
 
         playerImages = _playerImages;
 
-        playerImage.sprite = playerImages.neutralImage;
-        haloImage.sprite = playerImages.neutralImage;
+        playerImage.sprite = playerImages.NeutralImage;
+        haloImage.sprite = playerImages.NeutralImage;
 
         PlayerEndStatsManager.PlayerEndStats playerEndStats = default;
         if (!PlayerEndStatsManager.Instance.PlayersStats.TryGetValue(_relatedPlayer, out playerEndStats))
@@ -52,15 +52,15 @@ public class PlayerScorePanel : MonoBehaviour
 
     public void SetImageToSad()
     {
-        playerImage.sprite = playerImages.sadImage;
-        haloImage.sprite = playerImages.sadImage;
+        playerImage.sprite = playerImages.SadImage;
+        haloImage.sprite = playerImages.SadImage;
         LeanTween.scale(playerImage.GetComponent<RectTransform>(), Vector3.one * 1.2f, .5f).setIgnoreTimeScale(true).setLoopPingPong(1).setIgnoreTimeScale(true);
     }
 
     public void SetImageToHappy()
     {
-        playerImage.sprite = playerImages.happyImage;
-        haloImage.sprite = playerImages.happyImage;
+        playerImage.sprite = playerImages.HappyImage;
+        haloImage.sprite = playerImages.HappyImage;
         haloImage.LeanAlpha(1, .2f).setIgnoreTimeScale(true).setOnComplete(() =>
         {
             haloImage.LeanAlpha(.75f, .5f).setLoopPingPong(-1).setIgnoreTimeScale(true);

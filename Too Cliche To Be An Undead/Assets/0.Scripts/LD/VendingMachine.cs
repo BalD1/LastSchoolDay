@@ -115,13 +115,11 @@ public class VendingMachine : MonoBehaviour, IInteractable
     {
         if (!isValid) return;
 
-        if (PlayerCharacter.HasEnoughMoney(price) == false)
+        if (InventoryManager.Instance.TryBuy(price) == false)
         {
             animator.SetTrigger("shake");
             return;
         }
-
-        PlayerCharacter.RemoveMoney(price, false);
 
         float animDuration = skeletonAnimation.skeleton.Data.FindAnimation(currentMachineStyle.vendingState).Duration;
 

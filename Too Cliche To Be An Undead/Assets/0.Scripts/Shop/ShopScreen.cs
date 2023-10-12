@@ -120,7 +120,7 @@ public class ShopScreen : UIScreenBase
 
     private void UpdatePlayerMoney()
     {
-        playerMoneyText.text = "x" + PlayerCharacter.GetMoney();
+        playerMoneyText.text = "x" + InventoryManager.Instance.MoneyAmount;
     }
     private void OnLevelUnlock(ShopLevel lvl) => UpdatePlayerMoney();
 }

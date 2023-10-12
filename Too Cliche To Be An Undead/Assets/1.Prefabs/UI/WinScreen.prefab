@@ -536,7 +536,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5184896951621097119}
+        m_TargetAssemblyTypeName: PlayersScorePanelsController, Assembly-CSharp
+        m_MethodName: ShowButtonsPanel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: -1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!114 &2436223531402709608
 MonoBehaviour:
@@ -1558,23 +1570,28 @@ MonoBehaviour:
   singleDamageDealtValue: 10
   singleDamageTakenValue: -5
   <PressToSkipToggle>k__BackingField: {fileID: 2833631296366288713}
-  <PlayersImages>k__BackingField:
-  - character: 0
-    happyImage: {fileID: -1637392522, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-    neutralImage: {fileID: 509603557, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-    sadImage: {fileID: 841688171, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-  - character: 1
-    happyImage: {fileID: -1438667026, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-    neutralImage: {fileID: -1249050380, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-    sadImage: {fileID: 52544482, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-  - character: 2
-    happyImage: {fileID: -152232260, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-    neutralImage: {fileID: -1115238418, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-    sadImage: {fileID: 1711772495, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-  - character: 3
-    happyImage: {fileID: 677741334, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-    neutralImage: {fileID: 1493282210, guid: d9f3053477982034aa8bc486b0383079, type: 3}
-    sadImage: {fileID: -1364822634, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+  playerImages:
+    _serializedList:
+    - Key: 0
+      Value:
+        <HappyImage>k__BackingField: {fileID: -1637392522, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+        <NeutralImage>k__BackingField: {fileID: 509603557, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+        <SadImage>k__BackingField: {fileID: 841688171, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+    - Key: 1
+      Value:
+        <HappyImage>k__BackingField: {fileID: -1438667026, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+        <NeutralImage>k__BackingField: {fileID: -1249050380, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+        <SadImage>k__BackingField: {fileID: 52544482, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+    - Key: 2
+      Value:
+        <HappyImage>k__BackingField: {fileID: -152232260, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+        <NeutralImage>k__BackingField: {fileID: -1115238418, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+        <SadImage>k__BackingField: {fileID: 1711772495, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+    - Key: 3
+      Value:
+        <HappyImage>k__BackingField: {fileID: 677741334, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+        <NeutralImage>k__BackingField: {fileID: 1493282210, guid: d9f3053477982034aa8bc486b0383079, type: 3}
+        <SadImage>k__BackingField: {fileID: -1364822634, guid: d9f3053477982034aa8bc486b0383079, type: 3}
 --- !u!225 &174884205130368917
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1725,43 +1742,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5984626928890697158}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OpenMenuInQueue
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: Play2DSFX
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Clic
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: SelectButton
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Options
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &8971673295700000030
 GameObject:
   m_ObjectHideFlags: 0

@@ -326,12 +326,6 @@ public class UIManager : Singleton<UIManager>
         KeycardsCounters.text = sb.ToString();
     }
 
-    public void UpdateMoney()
-    {
-        if (moneyCounter != null)
-            moneyCounter.text = "x " + PlayerCharacter.GetMoney();
-    }
-
     #endregion
 
     #region Scrollbars
@@ -431,35 +425,10 @@ public class UIManager : Singleton<UIManager>
 
         switch (context)
         {
-            case "Last":
-                if (lastSelected != null)
-                    eventSystem.SetSelectedGameObject(lastSelected);
-                break;
-
             case "None":
                 if (eventSystem != null)
                     eventSystem.SetSelectedGameObject(null);
                 break;
-
-            case "Context":
-
-                switch (GameManager.Instance.GameState)
-                {
-                    case GameManager.E_GameState.Pause:
-                        SelectButton("Pause");
-                        break;
-
-                    case GameManager.E_GameState.Win:
-                        SelectButton("Win");
-                        break;
-
-                    case GameManager.E_GameState.GameOver:
-                        SelectButton("Gameover");
-                        break;
-                }
-
-                break;
-
             default:
                 Debug.LogError(context + " was not found in switch statement.");
                 break;
@@ -488,8 +457,6 @@ public class UIManager : Singleton<UIManager>
                     if (GameManager.Instance.IsInTutorial) FadeTutoHUD(fadeIn: true);
                     else FadeInGameHUD(true);
                 }
-
-                PostproManager.Instance.SetBlurState(false);
                 break;
 
             case GameManager.E_GameState.Pause:
@@ -518,7 +485,6 @@ public class UIManager : Singleton<UIManager>
     public void ShowGameOverScreen()
     {
         gameoverMenu.SetActive(true);
-        SelectButton("Gameover");
     }
 
     public void HideGameOverScreen()

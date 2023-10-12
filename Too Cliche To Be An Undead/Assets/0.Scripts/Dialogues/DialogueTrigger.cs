@@ -6,8 +6,7 @@ public class DialogueTrigger : MonoBehaviour
     [InspectorButton(nameof(SearchAndUpdateDialogueListRepeter), ButtonWidth = 300)]
     [SerializeField] private bool updateDialoguesNames;
 
-    [ListToPopup(typeof(DialogueManager), nameof(DialogueManager.DialogueNamesList))]
-    [SerializeField] protected string dialogueToStart;
+    [SerializeField] protected SCRPT_SingleDialogue dialogueToStart;
 
     protected bool triggerFlag = false;
 

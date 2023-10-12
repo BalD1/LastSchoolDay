@@ -285,10 +285,9 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         }
         if (!context.performed) return;
         if (PlayerInputsList.Count >= PlayersManager.MAX_PLAYERS) return;
-
         if (GameManager.Instance.GameState != GameManager.E_GameState.MainMenu) return;
 
-        var usedDevice = context.control.device;
+        InputDevice usedDevice = context.control.device;
 
         P1Inputs.Input.user.UnpairDevices();
         for (int i = 1; i < PlayerInput.all.Count; i++)

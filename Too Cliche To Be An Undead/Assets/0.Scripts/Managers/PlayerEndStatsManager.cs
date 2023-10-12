@@ -30,12 +30,23 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
         base.Start();
         PlayersStats = new Dictionary<PlayerCharacter, PlayerEndStats>();
         ResetArray();
+
+#if UNITY_EDITOR
+        if (GameManager.CompareCurrentScene(GameManager.E_ScenesNames.MainMenu))
+            return;
+        if (PlayersStats.Count > 0) 
+            return;
+
+        ResetArray();
+        if (IGPlayersManager.ST_TryGetPlayer(0, out PlayerCharacter p1))
+            OnPlayerCreated(p1);
+#endif
     }
 
     private void Update()
     {
         if (!allowGameTimeIncrease) return;
-        if (!(GameManager.Instance.GameState == GameManager.E_GameState.InGame)) return;
+        if (! GameManager.ST_InstanceExists() || !(GameManager.Instance.GameState == GameManager.E_GameState.InGame)) return;
 
         GameTime += Time.deltaTime; 
     }

@@ -199,17 +199,17 @@ public class DebugConsole : MonoBehaviour
 
         GOLD_BAG = new DebugCommand("GOLD_BAG", "Adds 50 gold", "GOLD_BAG", () =>
         {
-            PlayerCharacter.AddMoney(50);
+            InventoryManager.Instance.AddedMoney(50);
         });
 
         PAYDAY = new DebugCommand("PAYDAY", "Adds 200 gold", "PAYDAY", () =>
         {
-            PlayerCharacter.AddMoney(200);
+            InventoryManager.Instance.AddedMoney(200);
         });
 
         RICH_AF = new DebugCommand("RICH_AF", "Adds 5000 gold", "RICH_AF", () =>
         {
-            PlayerCharacter.AddMoney(5000);
+            InventoryManager.Instance.AddedMoney(5000);
         });
 
         SKIP_TUTO = new DebugCommand("SKIP_TUTO", "Skips the tutorial", "SKIP_TUTO", () =>
@@ -299,7 +299,7 @@ public class DebugConsole : MonoBehaviour
 
         ADD_MONEY = new DebugCommand<int>("ADD_MONEY", "Adds <int> money", "ADD_MONEY <int>", (val) =>
         {
-            PlayerCharacter.AddMoney(val);
+            InventoryManager.Instance.AddedMoney(val);
         });
 
         ADD_KEYCARD = new DebugCommand<int>("ADD_KEYCARD", "Adds <int> keycards", "ADD_KEYCARD <int>", (val) =>

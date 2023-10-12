@@ -3,11 +3,28 @@ using UnityEngine;
 public class ShopDialogueAfterFirstDeath : DialogueTrigger
 {
     [SerializeField] private Shop shop;
+    private Cinematic deathCinematic;
+
     private void Start()
     {
-        if (DataKeeper.Instance.runsCount == 2) return;
-        Destroy(this.gameObject);
+        if (DataKeeper.Instance.runsCount != 2)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        Vector2 p1Position = Vector2.zero;
+        if (IGPlayersManager.ST_TryGetPlayer(0, out PlayerCharacter player))
+            p1Position = player.transform.position;
+
+        deathCinematic = new Cinematic(
+            new CA_CinematicWait(1),
+            new CA_CinematicCameraMove(shop.transform.position),
+            new CA_CinematicDialoguePlayer(dialogueToStart),
+            new CA_CinematicCameraMove(p1Position)
+            );
     }
+
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (DataKeeper.Instance.runsCount != 2) return;
@@ -15,35 +32,12 @@ public class ShopDialogueAfterFirstDeath : DialogueTrigger
         if (collision.CompareTag("Player") && !triggerFlag)
         {
             triggerFlag = true;
-            PlayersManager.Instance.SetAllPlayersControlMapToDialogue();
             StartCinematic();
         }
     }
 
     private void StartCinematic()
     {
-        LeanTween.delayedCall(1, () =>
-        {
-            CameraManager.Instance.MoveCamera(shop.transform.position, OnCameraEndedTravel);
-        });
-    }
-
-    private void OnCameraEndedTravel()
-    {
-        DialogueManager.Instance.TryStartDialogue(dialogueToStart, true, OnDialogueEnded);
-        Destroy(this.gameObject);
-    }
-
-    private void OnDialogueEnded()
-    {
-            // TODO : Replace by simply deactivating players inputs
-        PlayersManager.Instance.SetAllPlayersControlMapToDialogue();
-        CameraManager.Instance.MoveCamera(IGPlayersManager.Instance.PlayersList[0].transform.position, EndCinematic);
-    }
-
-    private void EndCinematic()
-    {
-        CameraManager.Instance.EndCinematic();
-        PlayersManager.Instance.SetAllPlayersControlMapToInGame();
+        deathCinematic.StartCinematic();
     }
 }

@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -36,13 +37,12 @@ public class PlayersScorePanelsController : MonoBehaviour
     [System.Serializable]
     public struct S_PlayerImages
     {
-        public GameManager.E_CharactersNames character;
-        public Sprite happyImage;
-        public Sprite neutralImage;
-        public Sprite sadImage;
+        [field: SerializeField] public Sprite HappyImage { get; private set; }
+        [field: SerializeField] public Sprite NeutralImage { get; private set; }
+        [field: SerializeField] public Sprite SadImage { get; private set; }
     }
 
-    [field: SerializeField] public S_PlayerImages[] PlayersImages { get; private set; }
+    [SerializeField] private SerializedDictionary<GameManager.E_CharactersNames, S_PlayerImages> playerImages;
 
     public void Begin()
     {
@@ -64,16 +64,14 @@ public class PlayersScorePanelsController : MonoBehaviour
             scorePanel.D_animationEnded += PlayNextPanel;
 
             // get the i player
-            PlayerCharacter player = IGPlayersManager.Instance.PlayersList[0];
+            PlayerCharacter player = IGPlayersManager.Instance.PlayersList[i];
 
-            // get the images of the player's character
-            foreach (var item in PlayersImages)
+            if (playerImages.TryGetValue(player.GetCharacterName(), out S_PlayerImages images))
+                scorePanel.Setup(images, player, this);
+            else
             {
-                if (item.character == player.GetCharacterName())
-                {
-                    scorePanel.Setup(item, player, this);
-                    break;
-                }
+                this.Log($"Could not find images for " + player.GetCharacterName());
+                scorePanel.Setup(playerImages[0], player, this);
             }
         }
 
@@ -94,7 +92,6 @@ public class PlayersScorePanelsController : MonoBehaviour
 
     private void AllowNextScreen()
     {
-        Debug.Log("cc");
         int maxScore = int.MinValue;
         int minScore = int.MaxValue;
 

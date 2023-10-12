@@ -7,7 +7,7 @@ public class Coins : Collectable
     protected override void TouchedPlayer(PlayerCharacter player)
     {
         if (!pickupOnCollision) return;
-        PlayerCharacter.AddMoney(coinValue);
+        InventoryManager.Instance.AddMoney(coinValue);
 
         PlayPickupSound();
     }
