@@ -7,6 +7,7 @@ public class UICoins : MonoBehaviourEventsHandler
 {
     [SerializeField] private ScaleTween coinsTween;
     [SerializeField] private TextMeshProUGUI coinsTMP;
+    [SerializeField] private bool tweenOnCoinsUpdate;
 
     protected override void EventsSubscriber()
     {
@@ -18,9 +19,17 @@ public class UICoins : MonoBehaviourEventsHandler
         InventoryManagerEvents.OnMoneyChange -= OnMoneyAmountChanged;
     }
 
-    private void OnMoneyAmountChanged(int newAmount)
+    public void UpdateUI()
+        => UpdateUI(InventoryManager.Instance.MoneyAmount);
+    public void UpdateUI(int newAmount)
     {
         coinsTMP.text = "x" + newAmount;
-        coinsTween.TryPlay();
+    }
+
+    private void OnMoneyAmountChanged(int newAmount)
+    {
+        UpdateUI(newAmount);
+        if (tweenOnCoinsUpdate)
+            coinsTween.TryPlay();
     }
 }

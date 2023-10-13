@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 3867337814473076819}
   - component: {fileID: 9136691039456627380}
   - component: {fileID: 8995626717641936375}
+  - component: {fileID: 5966022047223109203}
   m_Layer: 5
   m_Name: CoinGlow
   m_TagString: Untagged
@@ -258,7 +259,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 669978409357375803}
   m_Father: {fileID: 759105805742953702}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -324,6 +326,23 @@ MonoBehaviour:
   m_ColorMode: 0
   m_BlurMode: 3
   m_AdvancedBlur: 1
+--- !u!114 &5966022047223109203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270940477472932685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 784a4f009fb6ee247bb65941531929ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1070815281114849290}
+  tweenDuration: 0.5
+  tweenInType: 14
+  tweenOutType: 15
+  scaleTarget: {x: 1.5, y: 1.5}
 --- !u!1 &390194794737527829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,13 +1322,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 759105805742953702}
-  m_RootOrder: 1
+  m_Father: {fileID: 1070815281114849290}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.021315906, y: 0.059506904}
-  m_AnchorMax: {x: 0.3383026, y: 0.9401426}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.06382665, y: 0.059506904}
+  m_AnchorMax: {x: 0.9454356, y: 0.9401426}
+  m_AnchoredPosition: {x: -0.40344238, y: 0.00012207031}
+  m_SizeDelta: {x: 0.057136536, y: -0.00020599365}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &506779174850578627
 CanvasRenderer:
@@ -2782,6 +2801,7 @@ MonoBehaviour:
   <CurrentSelectedLevelData>k__BackingField: {fileID: 0}
   <CurrentSelectedLevel>k__BackingField: {fileID: 0}
   playerMoneyText: {fileID: 6727152963071262632}
+  uiCoins: {fileID: 7645294787565133238}
 --- !u!114 &6557261187351473458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3054,6 +3074,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 759105805742953702}
+  - component: {fileID: 7645294787565133238}
   m_Layer: 5
   m_Name: CoinsContainer
   m_TagString: Untagged
@@ -3074,7 +3095,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1070815281114849290}
-  - {fileID: 669978409357375803}
   - {fileID: 5764414379812082227}
   m_Father: {fileID: 6241610021615598227}
   m_RootOrder: 11
@@ -3084,6 +3104,21 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000022888184, y: 0}
   m_SizeDelta: {x: 0.000030518, y: 0.000030518}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7645294787565133238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6908742436180207559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da1de61c5aa40114d8d393731fc0e43c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinsTween: {fileID: 5966022047223109203}
+  coinsTMP: {fileID: 6727152963071262632}
+  tweenOnCoinsUpdate: 1
 --- !u!1 &7064530036537798870
 GameObject:
   m_ObjectHideFlags: 0
@@ -3495,7 +3530,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 759105805742953702}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.3660911, y: 0.2617833}
   m_AnchorMax: {x: 0.9999997, y: 0.7019496}

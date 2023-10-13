@@ -18,6 +18,8 @@ public class ShopScreen : UIScreenBase
 
     [SerializeField] private TextMeshProUGUI playerMoneyText;
 
+    [SerializeField] private UICoins uiCoins;
+
     protected override void Awake()
     {
         base.Awake();
@@ -54,6 +56,7 @@ public class ShopScreen : UIScreenBase
     {
         base.Open(ignoreTweens);
         ShopLevels[0].Select();
+        uiCoins.UpdateUI();
     }
 
     private void CloseShop(int playerIdx)
