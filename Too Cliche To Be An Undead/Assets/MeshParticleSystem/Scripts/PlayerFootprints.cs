@@ -78,7 +78,7 @@ public class PlayerFootprints : MonoBehaviourEventsHandler
             return;
         }
 
-        if (owner.Velocity == Vector2.zero) return;
+        if (owner.PlayerMotor.Velocity == Vector2.zero) return;
 
         SpawnFootprint();
         LeanTween.delayedCall(delayBetweenSteps, SpawnFootprint);
@@ -94,7 +94,7 @@ public class PlayerFootprints : MonoBehaviourEventsHandler
             return;
         }
 
-        if (owner.StateManager.CurrentState.ToString() == "Idle" || owner.Velocity == Vector2.zero) return;
+        if (owner.StateManager.CurrentState.ToString() == "Idle" || owner.PlayerMotor.Velocity == Vector2.zero) return;
 
         footSteps_TIMER = delayBetweenStepsAudio;
 
@@ -108,6 +108,6 @@ public class PlayerFootprints : MonoBehaviourEventsHandler
         pos.y += leftPrint ? yOffset : -yOffset;
         leftPrint = !leftPrint;
 
-        FootprintParticleSystemHandler.Instance.SpawnFootprint(pos, owner.LastDirection, footprints_LIFETIME);
+        FootprintParticleSystemHandler.Instance.SpawnFootprint(pos, owner.PlayerMotor.LastDirection, footprints_LIFETIME);
     }
 }

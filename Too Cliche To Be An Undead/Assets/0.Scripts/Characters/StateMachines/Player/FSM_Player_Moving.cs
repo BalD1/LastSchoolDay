@@ -19,7 +19,7 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
     {
-        owner.Movements();
+        owner.PlayerMotor?.Movements();
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)
@@ -30,7 +30,7 @@ public class FSM_Player_Moving : FSM_Base<FSM_Player_Manager>
     public override void Conditions(FSM_Player_Manager stateManager)
     {
         // Si la velocité du personnage est à 0, on le passe en Idle
-        if (owner.Velocity.Equals(Vector2.zero))
+        if (owner.PlayerMotor.Velocity.Equals(Vector2.zero))
             stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
 
         if (stateManager.OwnerWeapon.isAttacking)

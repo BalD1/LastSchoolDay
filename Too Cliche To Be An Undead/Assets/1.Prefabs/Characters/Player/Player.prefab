@@ -818,7 +818,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8823656354733599273}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &245795176153818915
 MonoBehaviour:
@@ -1662,6 +1662,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &4769053201354429238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1550585241210685350}
+  - component: {fileID: 6477537565165149901}
+  m_Layer: 7
+  m_Name: PlayerMotor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1550585241210685350
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769053201354429238}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8823656354733599273}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6477537565165149901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769053201354429238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b37dfc2b027bdc34dadc30a0a6dfc575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 8823656354733599271}
 --- !u!1 &5073548472099433838
 GameObject:
   m_ObjectHideFlags: 0
@@ -2014,7 +2059,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8823656354733599273}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2605544640695813191
 BoxCollider2D:
@@ -2113,7 +2158,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8823656354733599273}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8845471831171968631
 MonoBehaviour:
@@ -2400,7 +2445,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8823656354733599273}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5214223530262415798
 MonoBehaviour:
@@ -2574,6 +2619,7 @@ Transform:
   - {fileID: 2115303102819014780}
   - {fileID: 475216638903512320}
   - {fileID: 7701711035597185519}
+  - {fileID: 1550585241210685350}
   - {fileID: 7988471722059678481}
   - {fileID: 1934628544625858285}
   - {fileID: 6931235029272583381}
@@ -2624,6 +2670,7 @@ MonoBehaviour:
   skillDurationIcon: {fileID: 8843546095007425344}
   playerDash: {fileID: 11400000, guid: 5687414b9e30e6d499e7df1d67a5701d, type: 2}
   selfReviveText: {fileID: 7454060687585340113}
+  <PlayerMotor>k__BackingField: {fileID: 6477537565165149901}
   pivotOffset: {fileID: 6079729821347107844}
   <FarChecker>k__BackingField: {fileID: 6802691477398890797}
   <CloseChecker>k__BackingField: {fileID: 2136160299753046466}

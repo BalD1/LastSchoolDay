@@ -79,9 +79,9 @@ public class CA_CinematicPlayersMove : CA_CinematicAction
             return;
         }
         player.GetRb.simulated = false;
-        AnimationReferenceAsset walkAnim = player.AnimationController.animationsData.WalkAnim;
+        AnimationReferenceAsset walkAnim = player.AnimationController.AnimationsData.WalkAnim;
         player.AnimationController.SetAnimation(walkAnim, true);
-        player.AnimationController.FlipSkeleton(position.x > player.transform.position.x);
+        player.AnimationController.TryFlipSkeleton(position.x > player.transform.position.x);
 
         float travelTime = Vector2.Distance(player.transform.position, position) / player.MaxSpeed_M;
         LeanTween.move(player.gameObject, position, travelTime).setEase(leanType).setOnComplete(() =>
@@ -94,7 +94,7 @@ public class CA_CinematicPlayersMove : CA_CinematicAction
     {
         if (setToIdleAtEnd)
         {
-            AnimationReferenceAsset idleAnim = player.AnimationController.animationsData.IdleAnim;
+            AnimationReferenceAsset idleAnim = player.AnimationController.AnimationsData.IdleAnim;
             player.AnimationController.SetAnimation(idleAnim, true);
         }
         player.GetRb.simulated = true;

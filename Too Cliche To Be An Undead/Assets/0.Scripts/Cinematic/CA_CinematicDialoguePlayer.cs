@@ -32,7 +32,7 @@ public class CA_CinematicDialoguePlayer : CA_CinematicAction
         {
             foreach (var player in owner.Players)
             {
-                player.AnimationController.SetAnimation(player.AnimationController.animationsData.IdleAnim, true);
+                player.AnimationController.SetAnimation(player.AnimationController.AnimationsData.IdleAnim, true);
             }
         }
     }

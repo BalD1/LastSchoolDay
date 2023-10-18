@@ -46,7 +46,7 @@ public class SkillHolder : MonoBehaviour
         if (Skill.IsInUse || skillCooldown > 0) return;
 
         PlayerAnimationController animController = owner.AnimationController;
-        AnimationReferenceAsset transitionAnim = animController.animationsData.skillTransitionAnim;
+        AnimationReferenceAsset transitionAnim = owner.AnimationsData.SkillTransitionAnim;
 
         float transitionDuration = -1;
         float startOffset = -1;

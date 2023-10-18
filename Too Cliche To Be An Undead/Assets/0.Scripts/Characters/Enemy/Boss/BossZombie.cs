@@ -16,7 +16,7 @@ public class BossZombie : EnemyBase
     [field: SerializeField] public Collider2D hudTrigger { get; private set; }
 
     [field: SerializeField] public BossAnimationsController animationController { get; private set; }
-    [field: SerializeField] public SCRPT_BossAnimData animationData { get; private set; }
+    [field: SerializeField] public SCRPT_BossAnimData AnimationData { get; private set; }
 
     [SerializeField] private SCRPT_BossPatern.S_AttackAndCooldown currentAttack;
     public SCRPT_BossPatern.S_AttackAndCooldown CurrentAttack
@@ -70,6 +70,10 @@ public class BossZombie : EnemyBase
     public D_CurrentAttackEnded D_currentAttackEnded;
 
     public Action OnAppearAnimationEnded;
+
+    public event Action<FSM_Boss_Manager.E_BossState> OnBossStateChange;
+    public void CallStateChange(FSM_Boss_Manager.E_BossState newState)
+        => OnBossStateChange?.Invoke(newState);
 
     [field: SerializeField] public float HitStop_DURATION { get; private set; } = .3f;
     private float hitStop_TIMER;

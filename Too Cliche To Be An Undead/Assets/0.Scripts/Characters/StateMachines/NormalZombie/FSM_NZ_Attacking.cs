@@ -74,15 +74,15 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
                 // upside
                 case Vector2 v when upsideMinMargin < v.x && v.x < upsideMaxMargin:
                     attackOrientation = E_AttackOrientation.Up;
-                    attackAnimation = owner.animationData.GetAttackAnimUp(currentAttackIdx);
-                    owner.animationController.FlipSkeleton(true);
+                    attackAnimation = owner.AnimationData.GetAttackAnimUp(currentAttackIdx);
+                    owner.animationController.TryFlipSkeleton(true);
                     break;
 
                 // downside
                 case Vector2 v when downsideMinMargin < v.x && v.x < downsideMaxMargin:
                     attackOrientation = E_AttackOrientation.Down;
-                    attackAnimation = owner.animationData.GetAttackAnimDown(currentAttackIdx);
-                    owner.animationController.FlipSkeleton(true);
+                    attackAnimation = owner.AnimationData.GetAttackAnimDown(currentAttackIdx);
+                    owner.animationController.TryFlipSkeleton(true);
                     break;
 
                 // left & right
@@ -91,15 +91,15 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
                     if (orientation.y == leftAngleOrientation)
                     {
                         attackOrientation = E_AttackOrientation.Left;
-                        attackAnimation = owner.animationData.GetAttackAnimSide(currentAttackIdx);
-                        owner.animationController.FlipSkeleton(false);
+                        attackAnimation = owner.AnimationData.GetAttackAnimSide(currentAttackIdx);
+                        owner.animationController.TryFlipSkeleton(false);
                     }
                     // right
                     else
                     {
                         attackOrientation = E_AttackOrientation.Right;
-                        attackAnimation = owner.animationData.GetAttackAnimSide(currentAttackIdx);
-                        owner.animationController.FlipSkeleton(true);
+                        attackAnimation = owner.AnimationData.GetAttackAnimSide(currentAttackIdx);
+                        owner.animationController.TryFlipSkeleton(true);
                     }
                     break;
             }
@@ -132,23 +132,23 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
                 switch (attackOrientation)
                 {
                     case E_AttackOrientation.Down:
-                        attackAnimation = owner.animationData.GetAnticipAttackAnimDown(currentAttackIdx);
-                    owner.animationController.FlipSkeleton(true);
+                        attackAnimation = owner.AnimationData.GetAnticipAttackAnimDown(currentAttackIdx);
+                    owner.animationController.TryFlipSkeleton(true);
                         break;
 
                     case E_AttackOrientation.Right:
-                        attackAnimation = owner.animationData.GetAnticipAttackAnimSide(currentAttackIdx);
-                        owner.animationController.FlipSkeleton(true);
+                        attackAnimation = owner.AnimationData.GetAnticipAttackAnimSide(currentAttackIdx);
+                        owner.animationController.TryFlipSkeleton(true);
                         break;
 
                     case E_AttackOrientation.Up:
-                        attackAnimation = owner.animationData.GetAnticipAttackAnimUp(currentAttackIdx);
-                        owner.animationController.FlipSkeleton(true);
+                        attackAnimation = owner.AnimationData.GetAnticipAttackAnimUp(currentAttackIdx);
+                        owner.animationController.TryFlipSkeleton(true);
                         break;
 
                     default:
-                        attackAnimation = owner.animationData.GetAnticipAttackAnimDown(currentAttackIdx);
-                        owner.animationController.FlipSkeleton(false);
+                        attackAnimation = owner.AnimationData.GetAnticipAttackAnimDown(currentAttackIdx);
+                        owner.animationController.TryFlipSkeleton(false);
                         break;
                 }
 

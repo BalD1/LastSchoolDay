@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FSM_Boss_Recovering : FSM_Base<FSM_Boss_Manager>
+public class FSM_Boss_Recovering : FSM_Base<FSM_Boss_Manager, FSM_Boss_Manager.E_BossState>
 {
     private BossZombie owner;
 

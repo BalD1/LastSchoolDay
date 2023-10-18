@@ -36,6 +36,7 @@ public class PlayerCharacter : Entity, IInteractable
     [SerializeField] private Image skillDurationIcon;
     [SerializeField] private SCRPT_Dash playerDash;
     [SerializeField] private TextMeshPro selfReviveText;
+    [field: SerializeField] public PlayerMotor PlayerMotor { get; private set; }
     [SerializeField] private GameObject pivotOffset;
 
     [field: SerializeField] public Collider2D FarChecker { get; private set; }
@@ -98,10 +99,6 @@ public class PlayerCharacter : Entity, IInteractable
 
     private bool isInTutorial;
 
-    private Vector2 velocity;
-
-    private Vector2 lastDirection;
-
     private Vector2 aimGoal;
 
     [field: SerializeField] public PlayerInputs PlayerInputsComponent { get; private set; }
@@ -116,18 +113,18 @@ public class PlayerCharacter : Entity, IInteractable
     public Image SkillDurationIcon { get => skillDurationIcon; }
     public Animator SkillTutoAnimator { get => skillTutorialAnimator; }
     public TextMeshPro SelfReviveText { get => selfReviveText; }
-    public Vector2 Velocity { get => velocity; }
     public int Money { get => money; }
     public int PlayerIndex { get => playerIndex; }
     public int Level { get => level; }
     public float DyingState_DURATION { get => dyingState_DURATION; }
     public SCRPT_Dash PlayerDash { get => playerDash; }
     public List<EnemyBase> Attackers { get => attackers; }
-    public Vector2 LastDirection { get => lastDirection; set => lastDirection = value; }
 
     private float gamepadShake_TIMER;
 
     private EntityEvents.OnEntityDamagesData<PlayerCharacter> lastDamagesData;
+
+    [field: SerializeField] public SCRPT_PlayersAnimData AnimationsData { get; private set; }
 
     #endregion
 
@@ -167,6 +164,10 @@ public class PlayerCharacter : Entity, IInteractable
     public Action OnSecondContextInput;
 
     public Action<AudioClip> OnOverrideNextVoiceAttackAudio;
+
+    public event Action<FSM_Player_Manager.E_PlayerState> OnStateChange;
+    public void CallStateChange(FSM_Player_Manager.E_PlayerState newState)
+        => OnStateChange?.Invoke(newState);
     #endregion
 
     #region A/S/U/F
@@ -226,37 +227,6 @@ public class PlayerCharacter : Entity, IInteractable
     }
 
     public void SetHUD(PlayerHUD newHUD) => this.PlayerHUD = newHUD;
-
-    #endregion
-
-    #region Controls / Movements
-
-    public void SetSelfVelocity(Vector2 _velocity) => velocity = _velocity;
-    public void SetAllVelocity(Vector2 _velocity)
-    {
-        this.velocity = _velocity;
-        if (this.rb != null)
-            this.rb.velocity = _velocity;
-    }
-
-    public void ReadMovementsInputs(InputAction.CallbackContext context)
-        => ReadMovementsInputs(context.ReadValue<Vector2>());
-    public void ReadMovementsInputs(Vector2 value)
-    {
-        velocity = value;
-        if (velocity != Vector2.zero) lastDirection = velocity;
-    }
-
-    public void Movements()
-    {
-        if (stayStatic) return;
-        velocity = Vector2.ClampMagnitude(velocity, MaxSpeed_M);
-
-        if (velocity.x != 0)
-            animationController.FlipSkeleton(velocity.x > 0);
-
-        this.rb.MovePosition(this.rb.position + velocity * MaxSpeed_M * Time.fixedDeltaTime);
-    }
 
     #endregion
 
@@ -391,7 +361,7 @@ public class PlayerCharacter : Entity, IInteractable
     {
         if (boneToFollow != "")
             animationController.leftArmBone.SetBone(boneToFollow);
-        animationController.leftArmBone.SkeletonRenderer = animationController.GetSkeleton(skeletonIdx);
+        animationController.leftArmBone.SkeletonRenderer = animationController.GetSkeletonOf(skeletonIdx);
 
         if (animationController.IsLookingAtRight())
         {
@@ -407,7 +377,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         if (boneToFollow != "")
             animationController.rightArmBone.SetBone(boneToFollow);
-        animationController.rightArmBone.SkeletonRenderer = animationController.GetSkeleton(skeletonIdx);
+        animationController.rightArmBone.SkeletonRenderer = animationController.GetSkeletonOf(skeletonIdx);
         animationController.rightArmBone.offset = newOffset;
 
         animationController.rightArmBone.followXPosition = newOffset.x != 0;
@@ -433,7 +403,7 @@ public class PlayerCharacter : Entity, IInteractable
             float lookAngle = Mathf.Atan2(aimGoal.y, aimGoal.x) * Mathf.Rad2Deg;
             rot = Quaternion.Slerp(weapon.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * weapon.SlerpSpeed);
 
-            animationController.FlipSkeleton((rot.eulerAngles.z < 270) && (rot.eulerAngles.z > 90));
+            animationController.TryFlipSkeleton((rot.eulerAngles.z < 270) && (rot.eulerAngles.z > 90));
         }
         else rot = weapon.GetRotationOnMouse();
 
@@ -590,7 +560,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         animationController.Setup(animData);
 
-        this.animationController.SkeletonAnimation.CurrentSkeletonAnimation.Skeleton.SetColor(Color.white);
+        this.animationController.CurrentSkeletonAnimation.CurrentSkeletonAnimation.Skeleton.SetColor(Color.white);
 
         if (animData != null && animData.arms.Length > 0)
             this.leftArm.GetComponent<SpriteRenderer>().sprite = animData.arms[0];
@@ -606,7 +576,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         this.currentHP = this.MaxHP_M;
 
-        Spine.Animation attackAnim = animationController.animationsData.AttackAnim_side?.Animation;
+        Spine.Animation attackAnim = AnimationsData.AttackAnim_side?.Animation;
         if (attackAnim != null)
             weapon.attackDuration = attackAnim.Duration;
 

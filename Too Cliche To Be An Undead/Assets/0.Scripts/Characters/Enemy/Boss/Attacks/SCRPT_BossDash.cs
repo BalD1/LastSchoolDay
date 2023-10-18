@@ -27,7 +27,7 @@ public class SCRPT_BossDash : SCRPT_EnemyAttack
         }
         else
         {
-            if (dir.x < 0) boss.animationController.FlipSkeleton(false);
+            if (dir.x < 0) boss.animationController.TryFlipSkeleton(false);
             boss.animationController.SetAnimation(sideAnim,false);
         }
 

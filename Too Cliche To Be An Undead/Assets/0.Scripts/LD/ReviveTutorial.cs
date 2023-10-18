@@ -50,7 +50,7 @@ public class ReviveTutorial : MonoBehaviourEventsHandler
             () =>
             {
                 bool flipRight = interactor.transform.position.x > victimPlayer.transform.position.x;
-                victimPlayer.AnimationController.FlipSkeleton(flipRight);
+                victimPlayer.AnimationController.TryFlipSkeleton(flipRight);
             });
         CA_CinematicWait waitForRevive = new CA_CinematicWait(.25f);
         CA_CinematicScreenFade screenFadeIn = new CA_CinematicScreenFade(true, .5f);
@@ -93,7 +93,7 @@ public class ReviveTutorial : MonoBehaviourEventsHandler
 
         victimPlayer = players.RandomElement();
         FSM_Player_Manager victimStateManager = victimPlayer.StateManager;
-        victimPlayer.AnimationController.FlipSkeleton(false);
+        victimPlayer.AnimationController.TryFlipSkeleton(false);
         victimStateManager.ForceSetState<FSM_Player_Dying>(FSM_Player_Manager.E_PlayerState.Dying).SetAsFakeState();
         victimPlayer.transform.position = this.transform.position;
         victimPlayer.OnOtherInteract += StartDialogue;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
+public class FSM_Player_Attacking : FSM_PlayerState
 {
     public PlayerCharacter owner;
     private FSM_Player_Manager stateManager;
@@ -17,28 +17,28 @@ public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager>
 
         PlayerAnimationController ownerAnims = owner.AnimationController;
 
-        if (ownerAnims.animationsData == null) return;
+        if (ownerAnims.AnimationsData == null) return;
 
         switch (owner.Weapon.GetGeneralDirectionOfMouseOrGamepad())
         {
             case Vector2 v when v == Vector2.up:
-                ownerAnims.FlipSkeleton(false);
-                ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_up, false);
+                ownerAnims.TryFlipSkeleton(false);
+                ownerAnims.SetAnimation(ownerAnims.AnimationsData.AttackAnim_up, false);
                 break;
 
             case Vector2 v when v == Vector2.down:
-                ownerAnims.FlipSkeleton(true);
-                ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_down, false);
+                ownerAnims.TryFlipSkeleton(true);
+                ownerAnims.SetAnimation(ownerAnims.AnimationsData.AttackAnim_down, false);
                 break;
 
             case Vector2 v when v == Vector2.left:
-                ownerAnims.FlipSkeleton(false);
-                ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_side, false);
+                ownerAnims.TryFlipSkeleton(false);
+                ownerAnims.SetAnimation(ownerAnims.AnimationsData.AttackAnim_side, false);
                 break;
 
             case Vector2 v when v == Vector2.right:
-                ownerAnims.FlipSkeleton(true);
-                ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_side, false);
+                ownerAnims.TryFlipSkeleton(true);
+                ownerAnims.SetAnimation(ownerAnims.AnimationsData.AttackAnim_side, false);
                 break;
         }
     }

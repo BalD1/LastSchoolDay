@@ -447,12 +447,15 @@ public class ED_PlayerCharacter : Editor
 
         GUI.enabled = false;
         EditorGUILayout.Space(5);
-        EditorGUILayout.Vector2Field("Input Velocity", targetScript.Velocity);
+        EditorGUILayout.Vector2Field("Input Velocity", targetScript.PlayerMotor.Velocity);
         EditorGUILayout.Vector2Field("RB Velocity", targetScript.GetRb.velocity);
         GUI.enabled = true;
 
-        int newMoney = EditorGUILayout.DelayedIntField("Money", InventoryManager.Instance.MoneyAmount);
-        InventoryManager.Instance.ForceSetMoney(newMoney);
+        if (InventoryManager.ST_InstanceExists())
+        {
+            int newMoney = EditorGUILayout.DelayedIntField("Money", InventoryManager.Instance.MoneyAmount);
+            InventoryManager.Instance.ForceSetMoney(newMoney);
+        }
 
         SerializedProperty playerIndex = serializedObject.FindProperty("playerIndex");
         EditorGUILayout.PropertyField(playerIndex);

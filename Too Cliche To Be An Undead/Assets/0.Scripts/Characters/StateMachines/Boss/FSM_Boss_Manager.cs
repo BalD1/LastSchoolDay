@@ -15,11 +15,10 @@ public class FSM_Boss_Manager : FSM_ManagerBase
     public FSM_Boss_Dead DeadState { get; private set; } = new FSM_Boss_Dead();
     public FSM_Boss_AppearCinematic AppearCinematic { get; private set; } = new FSM_Boss_AppearCinematic();
 
-    private FSM_Base<FSM_Boss_Manager> currentState;
-    public FSM_Base<FSM_Boss_Manager> CurrentState { get => currentState; }
+    private FSM_Base<FSM_Boss_Manager, E_BossState> currentState;
+    public FSM_Base<FSM_Boss_Manager, E_BossState> CurrentState { get => currentState; }
 
-    private Dictionary<E_BossState, FSM_Base<FSM_Boss_Manager>> statesWithKey;
-
+    private Dictionary<E_BossState, FSM_Base<FSM_Boss_Manager, E_BossState>> statesWithKey;
 
     public enum E_BossState
     {
@@ -49,26 +48,26 @@ public class FSM_Boss_Manager : FSM_ManagerBase
         currentState.FixedUpdateState(this);
     }
 
-    public void SwitchState(FSM_Base<FSM_Boss_Manager> newState)
+    public void SwitchState(FSM_Base<FSM_Boss_Manager, E_BossState> newState)
     {
         currentState?.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
-        owner.CallStateChange(newState.ToString());
+        owner.CallStateChange(newState.GetKey());
 
 #if UNITY_EDITOR
         owner.currentStateDebug = this.ToString();
 #endif
     }
 
-    public T SwitchState<T>(E_BossState stateKey) where T : FSM_Base<FSM_Boss_Manager>
+    public T SwitchState<T>(E_BossState stateKey) where T : FSM_Base<FSM_Boss_Manager, E_BossState>
     {
         SwitchState(stateKey);
         return currentState as T;
     }
     public void SwitchState(E_BossState stateKey)
     {
-        statesWithKey.TryGetValue(stateKey, out FSM_Base<FSM_Boss_Manager> newState);
+        statesWithKey.TryGetValue(stateKey, out FSM_Base<FSM_Boss_Manager, E_BossState> newState);
         SwitchState(newState);
     }
 
@@ -90,7 +89,7 @@ public class FSM_Boss_Manager : FSM_ManagerBase
 
     public override void SetupStates()
     {
-        statesWithKey = new Dictionary<E_BossState, FSM_Base<FSM_Boss_Manager>>()
+        statesWithKey = new Dictionary<E_BossState, FSM_Base<FSM_Boss_Manager, E_BossState>>()
         {
             {E_BossState.Attacking, AttackingState },
             {E_BossState.Chasing, ChasingState },

@@ -185,7 +185,7 @@ public class PlayerInputs : MonoBehaviourEventsHandler
     }
     public void OnMovements(InputAction.CallbackContext context)
     {
-        Owner.ReadMovementsInputs(context);
+        Owner.PlayerMotor?.ReadMovementsInputs(context);
     }
 
     public void OnAttack(InputAction.CallbackContext context)

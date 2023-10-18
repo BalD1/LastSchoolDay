@@ -34,20 +34,18 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
 
         alreadyPushedEntities = new List<Collider2D>();
 
-        owner.SetAllVelocity(Vector2.zero);
+        owner.PlayerMotor?.SetAllVelocity(Vector2.zero);
 
         if (owner.PlayerInputsComponent.IsOnKeyboard() && GameManager.OPTION_DashToMouse)
         {
             Vector2 mousePos = MousePosition.GetMouseWorldPosition();
             mouseDir = (mousePos - (Vector2)owner.transform.position).normalized;
         }
-        else mouseDir = (owner.LastDirection).normalized;
+        else mouseDir = (owner.PlayerMotor.LastDirection).normalized;
 
         owner.PlayerDash.OnDashStart(owner, mouseDir);
 
-        owner.SetSelfVelocity(mouseDir * owner.PlayerDash.DashSpeedCurve.Evaluate(0));
-
-        Vector2 animatorMouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();
+        owner.PlayerMotor?.SetSelfVelocity(mouseDir * owner.PlayerDash.DashSpeedCurve.Evaluate(0));
 
         owner.PlayerHUD.UpdateDashThumbnailFill(1);
     }
@@ -63,22 +61,22 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
             return;
         }
         dash_dur_TIMER -= Time.deltaTime;
-        owner.SetSelfVelocity(mouseDir * owner.PlayerDash.DashSpeedCurve.Evaluate(-(dash_dur_TIMER - max_DURATION)));
+        owner.PlayerMotor?.SetSelfVelocity(mouseDir * owner.PlayerDash.DashSpeedCurve.Evaluate(-(dash_dur_TIMER - max_DURATION)));
         owner.PlayerDash.OnDashUpdate(owner);
     }
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
     {
-        owner.GetRb.MovePosition(owner.GetRb.position + owner.Velocity * Time.fixedDeltaTime);
+        owner.GetRb.MovePosition(owner.GetRb.position + owner.PlayerMotor.Velocity * Time.fixedDeltaTime);
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)
     {
         base.ExitState(stateManager);
 
-        owner.SetAllVelocity(Vector2.zero);
+        owner.PlayerMotor?.SetAllVelocity(Vector2.zero);
 
-        owner.AnimationController.FlipSkeleton(mouseDir.x > 0);
+        owner.AnimationController.TryFlipSkeleton(mouseDir.x > 0);
 
         (owner.BodyTrigger as BoxCollider2D).size /= 2;
 
@@ -140,7 +138,7 @@ public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
         }
 
         hitStopTimer = hitStopTimeBase;
-        owner.SetSelfVelocity(Vector2.zero);
+        owner.PlayerMotor?.SetSelfVelocity(Vector2.zero);
         owner.StartTimeStop();
         LeanTween.delayedCall(hitStopTimeBase, () => owner.StopTimeStop());
 

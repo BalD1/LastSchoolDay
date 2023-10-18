@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BossMinionsSpawn", menuName = "Scriptable/Entity/Enemy/Boss/Minions Spawn")]
 public class SCRPT_BossMinionsSpawn : SCRPT_EnemyAttack
 {
-    [field: SerializeField] public AnimationReferenceAsset AttackAnim;
+    [SerializeField] private AnimationControllerBase.S_AnimationSequenceSingle[] animatioSequence;
 
     [SerializeField] private IntMinMax amountToSpawn;
 
@@ -17,8 +17,9 @@ public class SCRPT_BossMinionsSpawn : SCRPT_EnemyAttack
         boss = owner as BossZombie;
         boss.attackStarted = true;
 
-        boss.animationController.SetAnimation(AttackAnim, false);
-        boss.animationController.AddAnimation(boss.animationData.IdleAnim, true, AttackAnim.Animation.Duration, 1);
+        boss.animationController.SetAnimationSequence(animatioSequence, true);
+        //boss.animationController.SetAnimation(AttackAnim, false);
+        //boss.animationController.AddAnimation(boss.animationController.AnimationData.IdleAnim, true, AttackAnim.Animation.Duration, 1);
 
         owner.GetAudioSource.pitch = Random.Range(1 - audioClip.pitchRange, 1 + audioClip.pitchRange);
         owner.GetAudioSource.PlayOneShot(audioClip.clip);

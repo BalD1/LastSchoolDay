@@ -40,7 +40,7 @@ public class PlayerNormalWeapon : PlayerWeapon
         float onAttackMovementSpeed = onAttackMovementForce;
 
         // If the player was moving, add its speed to the attack movements
-        if (owner.Velocity != Vector2.zero) speedModifier = owner.MaxSpeed_M * .5f;
+        if (owner.PlayerMotor.Velocity != Vector2.zero) speedModifier = owner.MaxSpeed_M * .5f;
         else speedModifier = 0;
 
         onAttackMovementSpeed += speedModifier;
@@ -151,29 +151,29 @@ public class PlayerNormalWeapon : PlayerWeapon
             {
                 inputStored = false;
 
-                PlayerAnimationController ownerAnims = owner.AnimationController;
+                PlayerAnimationController ownerAnimsCtrl = owner.AnimationController;
 
                 AskForAttack();
                 switch (owner.Weapon.GetGeneralDirectionOfMouseOrGamepad())
                 {
                     case Vector2 v when v == Vector2.up:
-                        ownerAnims.FlipSkeleton(false);
-                        ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_up, false);
+                        ownerAnimsCtrl.TryFlipSkeleton(false);
+                        ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_up, false);
                         break;
 
                     case Vector2 v when v == Vector2.down:
-                        ownerAnims.FlipSkeleton(true);
-                        ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_down, false);
+                        ownerAnimsCtrl.TryFlipSkeleton(true);
+                        ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_down, false);
                         break;
 
                     case Vector2 v when v == Vector2.left:
-                        ownerAnims.FlipSkeleton(false);
-                        ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_side, false);
+                        ownerAnimsCtrl.TryFlipSkeleton(false);
+                        ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
                         break;
 
                     case Vector2 v when v == Vector2.right:
-                        ownerAnims.FlipSkeleton(true);
-                        ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_side, false);
+                        ownerAnimsCtrl.TryFlipSkeleton(true);
+                        ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
                         break;
                 }
             }

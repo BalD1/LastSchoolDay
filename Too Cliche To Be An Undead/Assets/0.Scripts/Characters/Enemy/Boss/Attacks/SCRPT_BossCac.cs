@@ -16,7 +16,7 @@ public class SCRPT_BossCac : SCRPT_EnemyAttack
         boss.attackStarted = true;
 
         boss.animationController.SetAnimation(AttackAnim, false);
-        boss.animationController.AddAnimation(boss.animationData.IdleAnim, true);
+        boss.animationController.AddAnimation(boss.AnimationData.IdleAnim, true);
 
         Collider2D[] hitEntities = Physics2D.OverlapCircleAll((Vector2)owner.attackTelegraph.transform.position, AttackDistance, entitiesToAffect);
 

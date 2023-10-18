@@ -1,15 +1,24 @@
+using System;
+using UnityEngine;
 
-public abstract class FSM_Base<T>
+public abstract class FSM_Base<Manager, Key> where Key : Enum
+                                             where Manager : FSM_ManagerBase
 {
-    public virtual void EnterState(T stateManager) => EventsSubscriber(stateManager);
-    public abstract void UpdateState(T stateManager);
-    public abstract void FixedUpdateState(T stateManager);
-    public virtual void ExitState(T stateManager) => EventsUnsubscriber(stateManager);
-    public abstract void Conditions(T stateManager);
+    [field: SerializeField] public Key StateKey { get; private set; }
+    public virtual void EnterState(Manager stateManager) => EventsSubscriber(stateManager);
+    public abstract void UpdateState(Manager stateManager);
+    public abstract void FixedUpdateState(Manager stateManager);
+    public virtual void ExitState(Manager stateManager) => EventsUnsubscriber(stateManager);
+    public abstract void Conditions(Manager stateManager);
 
-    protected abstract void EventsSubscriber(T stateManager);
-    protected abstract void EventsUnsubscriber(T stateManager);
+    protected abstract void EventsSubscriber(Manager stateManager);
+    protected abstract void EventsUnsubscriber(Manager stateManager);
 
-    public abstract void Setup(T stateManager);
+    public abstract void Setup(Manager stateManager);
     public abstract override string ToString();
+
+    public Key GetKey()
+        => StateKey;
+    public void SetKey(Key key)
+        => StateKey = key;
 }

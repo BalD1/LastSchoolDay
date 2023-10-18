@@ -2,14 +2,11 @@ using Spine;
 using Spine.Unity;
 using UnityEngine;
 
-public class BossAnimationsController : MonoBehaviourEventsHandler
+public class BossAnimationsController : AnimationControllerSingle
 {
     [Header("Animations")]
 
     [SerializeField] private BossZombie owner;
-
-    [SerializeField] private SkeletonAnimation skeletonAnimation;
-    public SkeletonAnimation SkeletonAnimation { get => skeletonAnimation; }
 
     [SerializeField][ReadOnly] private string currentState = "N/A";
 
@@ -29,88 +26,31 @@ public class BossAnimationsController : MonoBehaviourEventsHandler
 
     protected override void EventsSubscriber()
     {
-        owner.OnStateChange += SetAnimationFromState;
+        owner.OnBossStateChange += SetAnimationFromState;
     }
 
     protected override void EventsUnSubscriber()
     {
-        owner.OnStateChange -= SetAnimationFromState;
+        owner.OnBossStateChange -= SetAnimationFromState;
     }
 
-    protected override void Awake()
+    protected override void Setup()
     {
-        base.Awake();
-        skeletonAnimation.AnimationState.SetAnimation(0, owner.animationData.WalkAnim, true);
+        base.Setup();
+        SetAnimation(owner.AnimationData.WalkAnim, true);
         isValid = true;
     }
 
-    private void Start()
+    private void SetAnimationFromState(FSM_Boss_Manager.E_BossState newState)
     {
-        Setup();
-    }
-
-    private void SetAnimationFromState(string stateKey)
-    {
-        foreach (var item in owner.animationData.StateAnimation)
+        if (!owner.AnimationData.StateAnimationData.TryGetValue(newState, out SCRPT_BossAnimData.S_StateAnimationData anim))
         {
-            if (item.Key.ToString() != stateKey) continue;
-
-            SetAnimation(item.Asset, item.Loop);
+            this.Log("Could not find " + newState + " in animation data " + owner.AnimationData.StateAnimationData, LogsManager.E_LogType.Error);
             return;
         }
+
+        SetAnimation(anim.Asset, anim.Loop);
     }
-
-    public void Setup()
-    {
-        SetAnimation(owner.animationData.WalkAnim, true);
-
-        isValid = true;
-    }
-
-    public void FlipSkeleton(bool lookAtRight)
-    {
-        if (skeletonAnimation == null) return;
-
-        if (lookAtRight && IsLookingAtRight()) return;
-        if (!lookAtRight && !IsLookingAtRight()) return;
-
-        Vector2 scale = skeletonAnimation.gameObject.transform.localScale;
-        scale.x *= -1;
-        skeletonAnimation.gameObject.transform.localScale = scale;
-    }
-
-    public void SetAnimation(string animation, bool loop, float timeScale = 1)
-    {
-        if (skeletonAnimation == null || animation == null) return;
-
-        skeletonAnimation.AnimationState.SetAnimation(0, animation, loop).TimeScale = timeScale;
-    }
-    public void SetAnimation(Spine.Animation animation, bool loop, float timeScale = 1)
-    {
-        if (skeletonAnimation == null || animation == null) return;
-        skeletonAnimation.AnimationState.SetAnimation(0, animation, loop).TimeScale = timeScale;
-    }
-
-    public void AddAnimation(string animation, bool loop, float timeScale = 1)
-    {
-        if (skeletonAnimation == null || animation == null) return;
-
-        skeletonAnimation.AnimationState.AddAnimation(0, animation, loop, .25f).TimeScale = timeScale;
-    }
-    public void AddAnimation(Spine.Animation animation, bool loop, float timeScale = 1)
-    {
-        if (skeletonAnimation == null || animation == null) return;
-
-        skeletonAnimation.AnimationState.AddAnimation(0, animation, loop, .25f).TimeScale = timeScale;
-    }
-    public void AddAnimation(Spine.Animation animation, bool loop, float delay, float timeScale = 1)
-    {
-        if (skeletonAnimation == null || animation == null) return;
-
-        skeletonAnimation.AnimationState.AddAnimation(0, animation, loop, delay).TimeScale = timeScale;
-    }
-
-    public bool IsLookingAtRight() => skeletonAnimation.gameObject.transform.localScale.x > 0;
 
     private void SetAnimationInspector()
     {

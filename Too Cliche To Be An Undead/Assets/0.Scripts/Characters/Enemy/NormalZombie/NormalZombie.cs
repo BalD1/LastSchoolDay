@@ -9,7 +9,7 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
     [field: SerializeField] public GameObject spineHolder { get; private set; }
     [field: SerializeField] public ZombiesAnimationController animationController { get; private set; }
-    [field: SerializeField] public SCRPT_ZombiesAnimDatga animationData { get; private set; }
+    [field: SerializeField] public SCRPT_ZombiesAnimData AnimationData { get; private set; }
 
     [field: SerializeField] public Transform lookAtObject { get; private set; }
 

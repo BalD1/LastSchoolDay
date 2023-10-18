@@ -1,5 +1,5 @@
 
-public class FSM_Boss_Stun : FSM_Entity_Stunned<FSM_Boss_Manager>
+public class FSM_Boss_Stun : FSM_Entity_Stunned<FSM_Boss_Manager, FSM_Boss_Manager.E_BossState>
 {
     public override void EnterState(FSM_Boss_Manager stateManager)
     {

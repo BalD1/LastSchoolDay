@@ -158,7 +158,9 @@ public abstract class EnemyBase : Entity
                 steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * multiplier;
             }
 
-            bool isTargetIdle = currentPlayerTarget != null && currentPlayerTarget.Velocity == Vector2.zero;
+            bool isTargetIdle = currentPlayerTarget.PlayerMotor != null && 
+                                currentPlayerTarget != null 
+                                && currentPlayerTarget.PlayerMotor.Velocity == Vector2.zero;
             if ((slowdownOnApproach && allowSlowdown) && isTargetIdle)
             {
                 float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
@@ -170,7 +172,8 @@ public abstract class EnemyBase : Entity
         }
         else steeredVelocity = goalPosition * MaxSpeed * speedMultiplierOnDistance;
 
-        this.GetRb.velocity = steeredVelocity * Time.fixedDeltaTime;
+        //this.GetRb.velocity = steeredVelocity * Time.fixedDeltaTime;
+        this.GetRb.MovePosition(this.GetRb.position + steeredVelocity * Time.fixedDeltaTime);
     }
 
     public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)

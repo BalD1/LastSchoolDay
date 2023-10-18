@@ -127,29 +127,29 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
                 {
                     inputStored = false;
 
-                    PlayerAnimationController ownerAnims = owner.AnimationController;
+                    PlayerAnimationController ownerAnimCtrl = owner.AnimationController;
 
                     AskForAttack();
                     switch (owner.Weapon.GetGeneralDirectionOfMouseOrGamepad())
                     {
                         case Vector2 v when v == Vector2.up:
-                            ownerAnims.FlipSkeleton(false);
-                            ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_up, false);
+                            ownerAnimCtrl.TryFlipSkeleton(false);
+                            ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_up, false);
                             break;
 
                         case Vector2 v when v == Vector2.down:
-                            ownerAnims.FlipSkeleton(true);
-                            ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_down, false);
+                            ownerAnimCtrl.TryFlipSkeleton(true);
+                            ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_down, false);
                             break;
 
                         case Vector2 v when v == Vector2.left:
-                            ownerAnims.FlipSkeleton(false);
-                            ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_side, false);
+                            ownerAnimCtrl.TryFlipSkeleton(false);
+                            ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
                             break;
 
                         case Vector2 v when v == Vector2.right:
-                            ownerAnims.FlipSkeleton(true);
-                            ownerAnims.SetAnimation(ownerAnims.animationsData.AttackAnim_side, false);
+                            ownerAnimCtrl.TryFlipSkeleton(true);
+                            ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
                             break;
                     }
                 }
@@ -208,7 +208,7 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
         }
         else
         {
-            Vector2 c = owner.LastDirection.normalized;
+            Vector2 c = owner.PlayerMotor.LastDirection.normalized;
             lookAngle = Mathf.Atan2(c.y, c.x) * Mathf.Rad2Deg;
             return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
         }
@@ -253,7 +253,7 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
         Vector2 dir = (target.position - this.transform.position).normalized;
         lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
-        owner.LastDirection = dir;
+        owner.PlayerMotor?.ForceSetLasDirection(dir);
     }
 
     public void SetAimGoal(Vector2 goal)
@@ -290,7 +290,7 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
 
             return mousePos;
         }
-        else return owner.LastDirection.normalized;
+        else return owner.PlayerMotor.LastDirection.normalized;
     }
 
     public Vector2 GetGeneralDirectionOfMouseOrGamepad()

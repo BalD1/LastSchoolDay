@@ -93,11 +93,13 @@ public class EnemyPathfinding : MonoBehaviour
     {
         PlayerCharacter target = owner.CurrentPlayerTarget;
 
-        // do not predict if the target is headed toward self
-        if (target.Velocity.x > 0 ^ (targetPosition.x - this.transform.position.x > 0)) return;
-        if (target.Velocity.y > 0 ^ (targetPosition.y - this.transform.position.y > 0)) return;
+        Vector2 playerVelocity = target.PlayerMotor == null ? Vector2.zero : target.PlayerMotor.Velocity;
 
-        Vector2 predictedPosition = targetPosition + target.Velocity * target.MaxSpeed_M * futureTimeToPredict;
+        // do not predict if the target is headed toward self
+        if (playerVelocity.x > 0 ^ (targetPosition.x - this.transform.position.x > 0)) return;
+        if (playerVelocity.y > 0 ^ (targetPosition.y - this.transform.position.y > 0)) return;
+
+        Vector2 predictedPosition = targetPosition + playerVelocity * target.MaxSpeed_M * futureTimeToPredict;
 
         RaycastHit2D raycast = Physics2D.Raycast(targetPosition, predictedPosition, futureTimeToPredict, predictRaycastMask);
         if (raycast.collider == null) targetPosition = predictedPosition;

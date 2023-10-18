@@ -37,10 +37,12 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
     {
         base.EnterState(stateManager);
 
+        owner.PlayerMotor?.SetAllVelocity(Vector2.zero);
+
         SkillHolderPosAtStart = owner.GetSkillHolder.transform.position;
 
-        idleAnim = ownerAnimationController.animationsData.skillIdleAnimSide;
-        walkAnim = ownerAnimationController.animationsData.skillWalkAnimSide;
+        idleAnim = ownerAnimationController.AnimationsData.SkillIdleAnimSide;
+        walkAnim = ownerAnimationController.AnimationsData.SkillWalkAnimSide;
 
         loopAnims = owner.GetSkill.LoopAnims;
 
@@ -80,26 +82,26 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
                     switch (initialDirection)
                     {
                         case Vector2 v when v == Vector2.up:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimUp, loopAnims, animationSpeedScale);
+                            ownerAnimationController.SetAnimation(ownerAnimationController.AnimationsData.SkillIdleAnimUp, loopAnims, animationSpeedScale);
                             break;
 
                         case Vector2 v when v == Vector2.down:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimDown, loopAnims, animationSpeedScale);
+                            ownerAnimationController.SetAnimation(ownerAnimationController.AnimationsData.SkillIdleAnimDown, loopAnims, animationSpeedScale);
                             break;
 
                         case Vector2 v when v == Vector2.left:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimSide, loopAnims, animationSpeedScale);
+                            ownerAnimationController.SetAnimation(ownerAnimationController.AnimationsData.SkillIdleAnimSide, loopAnims, animationSpeedScale);
                             break;
 
                         case Vector2 v when v == Vector2.right:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.animationsData.skillIdleAnimSide, loopAnims, animationSpeedScale);
+                            ownerAnimationController.SetAnimation(ownerAnimationController.AnimationsData.SkillIdleAnimSide, loopAnims, animationSpeedScale);
                             break;
                     }
                 }
                 else
                 {
                     // else, just check if player is idle or not
-                    if (owner.Velocity == Vector2.zero)
+                    if (owner.PlayerMotor.Velocity == Vector2.zero)
                     {
                         ownerAnimationController.SetAnimation(idleAnim, loopAnims, animationSpeedScale);
                         isPlayingIdle = isIdle = true;
@@ -142,8 +144,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
         owner.SkillDurationIcon.fillAmount = skill_Timer / skill_MaxTimer;
 
-        if (owner.GetSkill.canAim)
-            owner.AnimationController.FlipSkeletonOnMouseOrGamepad();
+        //if (owner.GetSkill.canAim)
+        //    owner.AnimationController.FlipSkeletonOnMouseOrGamepad();
 
         CheckAnimation();
 
@@ -152,7 +154,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
     private void CheckAnimation()
     {
-        isIdle = owner.Velocity == Vector2.zero;
+        isIdle = owner.PlayerMotor.Velocity == Vector2.zero;
 
         float animationSpeedScale = owner.GetSkill.AnimationSpeedScale;
 
@@ -170,7 +172,7 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
     public override void FixedUpdateState(FSM_Player_Manager stateManager)
     {
-        if (owner.GetSkill.CanMove && started) owner.Movements();
+        if (owner.GetSkill.CanMove && started) owner.PlayerMotor.Movements();
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)

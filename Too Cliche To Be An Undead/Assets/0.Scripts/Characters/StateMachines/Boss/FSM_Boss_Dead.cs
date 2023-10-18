@@ -4,8 +4,6 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
 {
     private BossZombie owner;
 
-    private bool wasJumping = false;
-
     public override void EnterState(FSM_Boss_Manager stateManager)
     {
         base.EnterState(stateManager);
@@ -27,8 +25,6 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
         SoundManager.Instance.ChangeMusicMixerPitch(1);
     }
 
-    private void SetAnim() => owner.animationController.SetAnimation(owner.animationData.DeathAnim, false);
-
     public override void UpdateState(FSM_Boss_Manager stateManager)
     {
     }
@@ -40,7 +36,6 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
     public override void ExitState(FSM_Boss_Manager stateManager)
     {
         base.ExitState(stateManager);
-        wasJumping = false;
     }
 
     public override void Conditions(FSM_Boss_Manager stateManager)
@@ -49,16 +44,10 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager>
 
     protected override void EventsSubscriber(FSM_Boss_Manager stateManager)
     {
-        if (owner.IsJumping)
-        {
-            owner.OnJumpEnded += SetAnim;
-            wasJumping = true;
-        }
     }
 
     protected override void EventsUnsubscriber(FSM_Boss_Manager stateManager)
     {
-        if (wasJumping) owner.OnJumpEnded -= SetAnim;
     }
 
     public override void Setup(FSM_Boss_Manager stateManager)

@@ -9,8 +9,7 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         base.EnterState(stateManager);
-        playerOwner.SetAllVelocity(Vector2.zero);
-
+        
         playerOwner.canBePushed = true;
     }
 
@@ -18,7 +17,6 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
     {
         stateManager.OwnerWeapon.SetRotation();
 
-        playerOwner.AnimationController.FlipSkeletonOnMouseOrGamepad();
     }
 
     public override void ExitState(FSM_Player_Manager stateManager)
@@ -70,7 +68,7 @@ public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
         // Si la vélocité du personnage n'est pas à 0, on le passe en Moving
         
         if (playerOwner.GetRb.velocity != Vector2.zero ||
-            playerOwner.Velocity != Vector2.zero)
+            playerOwner.PlayerMotor.Velocity != Vector2.zero)
         {
             stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Moving);
         }

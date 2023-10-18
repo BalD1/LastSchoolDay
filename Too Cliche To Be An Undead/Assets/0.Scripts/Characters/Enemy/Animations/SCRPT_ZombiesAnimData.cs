@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AnimationData", menuName = "Scriptable/Entity/AnimationData/Enemies/Base")]
-public class SCRPT_ZombiesAnimDatga : SCRPT_AnimationsData
+public class SCRPT_ZombiesAnimData : SCRPT_AnimationsData<FSM_NZ_Manager.E_NZState>
 {
     [field: Header("Zombies Animations")]
+    [field: SerializeField] public AnimationReferenceAsset IdleAnim { get; private set; }
+    [field: SerializeField] public AnimationReferenceAsset WalkAnim { get; private set; }
 
     [SerializeField] private AnimationReferenceAsset[] attackAnticip_Side;
     [SerializeField] private AnimationReferenceAsset[] attackAnticip_Up;
