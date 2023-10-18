@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FSM_Boss_AppearCinematic : FSM_Base<FSM_Boss_Manager>
+public class FSM_Boss_AppearCinematic : FSM_Base<FSM_Boss_Manager, FSM_Boss_Manager.E_BossState>
 {
     private BossZombie owner;
     public Cinematic FallCinematic { get; private set; } = new Cinematic();

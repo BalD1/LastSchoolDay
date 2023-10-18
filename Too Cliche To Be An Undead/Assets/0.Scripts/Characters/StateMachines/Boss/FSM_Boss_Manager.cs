@@ -101,6 +101,7 @@ public class FSM_Boss_Manager : FSM_ManagerBase
         foreach (var item in statesWithKey)
         {
             item.Value.Setup(this);
+            item.Value.SetKey(item.Key);
         }
     }
 
