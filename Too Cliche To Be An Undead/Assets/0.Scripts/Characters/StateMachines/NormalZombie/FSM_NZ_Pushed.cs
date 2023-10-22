@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager>
+public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager, FSM_NZ_Manager.E_NZState>
 {
     NormalZombie zombieOwner;
 

@@ -20,7 +20,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
     public FSM_Player_Cinematic CinematicState { get; private set; } = new FSM_Player_Cinematic();
     public E_PlayerState CurrentStateName { get; private set; } = E_PlayerState.Idle;
 
-    private Dictionary<E_PlayerState, FSM_Base<FSM_Player_Manager>> statesWithKey;
+    private Dictionary<E_PlayerState, FSM_Base<FSM_Player_Manager, E_PlayerState>> statesWithKey;
 
     public enum E_PlayerState
     {
@@ -36,8 +36,8 @@ public class FSM_Player_Manager : FSM_ManagerBase
         Cinematic
     }
 
-    private FSM_Base<FSM_Player_Manager> currentState;
-    public FSM_Base<FSM_Player_Manager> CurrentState { get => currentState; }
+    private FSM_Base<FSM_Player_Manager, E_PlayerState> currentState;
+    public FSM_Base<FSM_Player_Manager, E_PlayerState> CurrentState { get => currentState; }
 
     public bool allowChanges = true;
 
@@ -60,27 +60,27 @@ public class FSM_Player_Manager : FSM_ManagerBase
     }
 
     #region Switch
-    private void SwitchState(FSM_Base<FSM_Player_Manager> state)
+    private void SwitchState(FSM_Base<FSM_Player_Manager, E_PlayerState> state)
     {
         currentState?.ExitState(this);
         currentState = state;
         currentState.EnterState(this);
-        owner.CallStateChange(state.ToString());
+        owner.CallStateChange(state.StateKey);
     }
 
     public void SwitchState(E_PlayerState newStateKey)
     {
-        statesWithKey.TryGetValue(newStateKey, out FSM_Base<FSM_Player_Manager> newState);
+        statesWithKey.TryGetValue(newStateKey, out FSM_Base<FSM_Player_Manager, E_PlayerState> newState);
         SwitchState(newState);
     }
 
-    public T SwitchState<T>(T newState) where T : FSM_Base<FSM_Player_Manager>
+    public T SwitchState<T>(T newState) where T : FSM_Base<FSM_Player_Manager, E_PlayerState>
     {
-        SwitchState(newState as FSM_Base<FSM_Player_Manager>);
+        SwitchState(newState as FSM_Base<FSM_Player_Manager, E_PlayerState>);
         return currentState as T;
     }
 
-    public T SwitchState<T>(E_PlayerState newStateKey) where T : FSM_Base<FSM_Player_Manager>
+    public T SwitchState<T>(E_PlayerState newStateKey) where T : FSM_Base<FSM_Player_Manager, E_PlayerState>
     {
         SwitchState(newStateKey);
         return currentState as T;
@@ -88,10 +88,10 @@ public class FSM_Player_Manager : FSM_ManagerBase
     
     public void ForceSetState(E_PlayerState state)
     {
-        statesWithKey.TryGetValue(state, out FSM_Base<FSM_Player_Manager> newState);
+        statesWithKey.TryGetValue(state, out FSM_Base<FSM_Player_Manager, E_PlayerState> newState);
         SwitchState(newState);
     }
-    public T ForceSetState<T>(E_PlayerState state) where T : FSM_Base<FSM_Player_Manager>
+    public T ForceSetState<T>(E_PlayerState state) where T : FSM_Base<FSM_Player_Manager, E_PlayerState>
     {
         return SwitchState<T>(state) as T;
     }
@@ -153,7 +153,7 @@ public class FSM_Player_Manager : FSM_ManagerBase
 
     public override void SetupStates()
     {
-        statesWithKey = new Dictionary<E_PlayerState, FSM_Base<FSM_Player_Manager>>()
+        statesWithKey = new Dictionary<E_PlayerState, FSM_Base<FSM_Player_Manager, E_PlayerState>>()
         {
             {E_PlayerState.Idle, IdleState },
             {E_PlayerState.Moving, MovingState },

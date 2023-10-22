@@ -1,5 +1,5 @@
 
-public class FSM_NZ_Stun : FSM_Entity_Stunned<FSM_NZ_Manager>
+public class FSM_NZ_Stun : FSM_Entity_Stunned<FSM_NZ_Manager, FSM_NZ_Manager.E_NZState>
 {
     public override void EnterState(FSM_NZ_Manager stateManager)
     {

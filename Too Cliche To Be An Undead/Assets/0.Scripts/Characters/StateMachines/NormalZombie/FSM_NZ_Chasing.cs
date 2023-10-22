@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
+public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager, FSM_NZ_Manager.E_NZState>
 {
     private NormalZombie owner;
     private Vector2 goalPosition;
@@ -11,8 +11,8 @@ public class FSM_NZ_Chasing : FSM_Base<FSM_NZ_Manager>
         owner = stateManager.Owner;
         owner.ResetVelocity();
 
-        if (owner.animationController != null)
-            owner.animationController.SetAnimation(owner.AnimationData.WalkAnim, true);
+        //if (owner.animationController != null)
+         //   owner.animationController.SetAnimation(owner.AnimationData.WalkAnim, true);
 
         owner.Pathfinding.StopUpdatepath();
         owner.Pathfinding.StartUpdatePath();

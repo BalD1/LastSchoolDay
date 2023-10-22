@@ -1,11 +1,9 @@
 
-public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
+public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager, FSM_Player_Manager.E_PlayerState>
 {
     private PlayerCharacter playerOwner;
 
     private const string ONHIT_MODIFIER_ID = "PUSHED_";
-
-    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
@@ -54,7 +52,7 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
     {
         owner = stateManager.Owner;
         playerOwner = owner as PlayerCharacter;
-        StateName = FSM_Player_Manager.E_PlayerState.Pushed;
+        StateKey = FSM_Player_Manager.E_PlayerState.Pushed;
     }
 
     protected override void EventsSubscriber(FSM_Player_Manager stateManager)
@@ -79,5 +77,5 @@ public class FSM_Player_Pushed : FSM_Entity_Pushed<FSM_Player_Manager>
         DialogueManagerEvents.OnEndDialogue -= stateManager.DialogueEnded;
     }
 
-    public override string ToString() => StateName.ToString();
+    public override string ToString() => StateKey.ToString();
 }

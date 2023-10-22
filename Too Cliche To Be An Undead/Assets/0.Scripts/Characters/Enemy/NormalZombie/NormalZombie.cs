@@ -53,6 +53,10 @@ public class NormalZombie : EnemyBase, IDistanceChecker
 
     [SerializeField, ReadOnly] private int maxReceivedStamp;
 
+    public event Action<FSM_NZ_Manager.E_NZState> OnZombieStateChange;
+    public void CallStateChange(FSM_NZ_Manager.E_NZState newState)
+        => OnZombieStateChange?.Invoke(newState);
+
     public Vector2 AttackDirection { get; set; }
 
     [SerializeField] private float targetClosest_COOLDOWN = 3;

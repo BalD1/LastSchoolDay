@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FSM_NZ_Idle : FSM_Entity_Idle<FSM_NZ_Manager>
+public class FSM_NZ_Idle : FSM_Entity_Idle<FSM_NZ_Manager, FSM_NZ_Manager.E_NZState>
 { 
     private bool canSwitchToChase;
     private float waitBeforeNewPoint;

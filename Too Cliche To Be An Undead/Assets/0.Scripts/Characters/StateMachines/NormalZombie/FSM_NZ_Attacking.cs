@@ -1,7 +1,7 @@
 using Spine.Unity;
 using UnityEngine;
 
-public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
+public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager, FSM_NZ_Manager.E_NZState>
 {
     private NormalZombie owner;
 
@@ -50,9 +50,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
         attack_flag = false;
 
         SCRPT_EnemyAttack[] enemyAttacksArray = owner.AttacksArray;
-
         currentAttackIdx = Random.Range(0, enemyAttacksArray.Length);
-
         SCRPT_EnemyAttack enemyAttack = enemyAttacksArray[currentAttackIdx];
 
         Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
@@ -74,14 +72,14 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
                 // upside
                 case Vector2 v when upsideMinMargin < v.x && v.x < upsideMaxMargin:
                     attackOrientation = E_AttackOrientation.Up;
-                    attackAnimation = owner.AnimationData.GetAttackAnimUp(currentAttackIdx);
+                    attackAnimation = enemyAttack.AttackAnim.GetUpAnimation();
                     owner.animationController.TryFlipSkeleton(true);
                     break;
 
                 // downside
                 case Vector2 v when downsideMinMargin < v.x && v.x < downsideMaxMargin:
                     attackOrientation = E_AttackOrientation.Down;
-                    attackAnimation = owner.AnimationData.GetAttackAnimDown(currentAttackIdx);
+                    attackAnimation = enemyAttack.AttackAnim.GetDownAnimation();
                     owner.animationController.TryFlipSkeleton(true);
                     break;
 
@@ -91,14 +89,14 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
                     if (orientation.y == leftAngleOrientation)
                     {
                         attackOrientation = E_AttackOrientation.Left;
-                        attackAnimation = owner.AnimationData.GetAttackAnimSide(currentAttackIdx);
+                        attackAnimation = enemyAttack.AttackAnim.GetSideAnimation();
                         owner.animationController.TryFlipSkeleton(false);
                     }
                     // right
                     else
                     {
                         attackOrientation = E_AttackOrientation.Right;
-                        attackAnimation = owner.AnimationData.GetAttackAnimSide(currentAttackIdx);
+                        attackAnimation = enemyAttack.AttackAnim.GetSideAnimation();
                         owner.animationController.TryFlipSkeleton(true);
                     }
                     break;
@@ -132,27 +130,27 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager>
                 switch (attackOrientation)
                 {
                     case E_AttackOrientation.Down:
-                        attackAnimation = owner.AnimationData.GetAnticipAttackAnimDown(currentAttackIdx);
+                        //attackAnimation = owner.AnimationData.GetAnticipAttackAnimDown(currentAttackIdx);
                     owner.animationController.TryFlipSkeleton(true);
                         break;
 
                     case E_AttackOrientation.Right:
-                        attackAnimation = owner.AnimationData.GetAnticipAttackAnimSide(currentAttackIdx);
+                        //attackAnimation = owner.AnimationData.GetAnticipAttackAnimSide(currentAttackIdx);
                         owner.animationController.TryFlipSkeleton(true);
                         break;
 
                     case E_AttackOrientation.Up:
-                        attackAnimation = owner.AnimationData.GetAnticipAttackAnimUp(currentAttackIdx);
+                        //attackAnimation = owner.AnimationData.GetAnticipAttackAnimUp(currentAttackIdx);
                         owner.animationController.TryFlipSkeleton(true);
                         break;
 
                     default:
-                        attackAnimation = owner.AnimationData.GetAnticipAttackAnimDown(currentAttackIdx);
+                        //attackAnimation = owner.AnimationData.GetAnticipAttackAnimDown(currentAttackIdx);
                         owner.animationController.TryFlipSkeleton(false);
                         break;
                 }
 
-                owner.animationController.SetAnimation(attackAnimation, false);
+                //owner.animationController.SetAnimation(attackAnimation, false);
             }
 
             attack_flag = true;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FSM_Player_Attacking : FSM_PlayerState
+public class FSM_Player_Attacking : FSM_Base<FSM_Player_Manager, FSM_Player_Manager.E_PlayerState>
 {
     public PlayerCharacter owner;
     private FSM_Player_Manager stateManager;
@@ -17,28 +17,28 @@ public class FSM_Player_Attacking : FSM_PlayerState
 
         PlayerAnimationController ownerAnims = owner.AnimationController;
 
-        if (ownerAnims.AnimationsData == null) return;
+        if (owner.AnimationsData == null) return;
 
         switch (owner.Weapon.GetGeneralDirectionOfMouseOrGamepad())
         {
             case Vector2 v when v == Vector2.up:
                 ownerAnims.TryFlipSkeleton(false);
-                ownerAnims.SetAnimation(ownerAnims.AnimationsData.AttackAnim_up, false);
+                //ownerAnims.SetAnimation(owner.AnimationsData.AttackAnim_up, false);
                 break;
 
             case Vector2 v when v == Vector2.down:
                 ownerAnims.TryFlipSkeleton(true);
-                ownerAnims.SetAnimation(ownerAnims.AnimationsData.AttackAnim_down, false);
+                //ownerAnims.SetAnimation(owner.AnimationsData.AttackAnim_down, false);
                 break;
 
             case Vector2 v when v == Vector2.left:
                 ownerAnims.TryFlipSkeleton(false);
-                ownerAnims.SetAnimation(ownerAnims.AnimationsData.AttackAnim_side, false);
+                //ownerAnims.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
                 break;
 
             case Vector2 v when v == Vector2.right:
                 ownerAnims.TryFlipSkeleton(true);
-                ownerAnims.SetAnimation(ownerAnims.AnimationsData.AttackAnim_side, false);
+                //ownerAnims.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
                 break;
         }
     }

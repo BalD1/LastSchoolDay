@@ -9,6 +9,9 @@ public abstract class SCRPT_EnemyAttack : ScriptableObject
 
     [SerializeField] protected LayerMask entitiesToAffect;
 
+    [field: SerializeField] public SO_SpineAnimationData AnticipAnim { get; private set; }
+    [field: SerializeField] public SO_SpineAnimationData AttackAnim { get; private set; }
+
     [field: SerializeField] public float AttackDistance { get; private set; }
     [field: SerializeField] public float AttackDuration { get; private set; }
     [field: SerializeField] public float MinDurationBeforeAttack { get; private set; }

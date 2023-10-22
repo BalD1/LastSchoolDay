@@ -120,7 +120,7 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager, E_BossState>
         if (durationBeforeAttack > 0)
         {
         // Set the anticipation anim
-            owner.animationController.SetAnimation(owner.animationData.AttackAnticipAnim, true);
+            owner.animationController.SetAnimation(owner.AnimationData.AttackAnticipAnim, true);
 
             // Second feedback using the enemy scale
             LeanTween.scale(owner.SkeletonAnimation.gameObject, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(

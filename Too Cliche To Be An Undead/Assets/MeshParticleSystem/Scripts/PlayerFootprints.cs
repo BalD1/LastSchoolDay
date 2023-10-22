@@ -43,11 +43,12 @@ public class PlayerFootprints : MonoBehaviourEventsHandler
         owner.OnSteppedIntoTrigger -= OwnerSteppedInTrigger;
         owner.OnSuccessfulAttack -= OwnerAttacked;
         owner.OnStateChange -= OnOwnerStateChange;
-    }
+    }   
 
-    private void OnOwnerStateChange(string newState)
+    private void OnOwnerStateChange(FSM_Player_Manager.E_PlayerState newState)
     {
-        allowFootSteps = newState == "Moving" || newState == "InSkill";
+        allowFootSteps = newState == FSM_Player_Manager.E_PlayerState.Dashing ||
+                         newState == FSM_Player_Manager.E_PlayerState.InSkill;
     }
 
     private void OwnerSteppedInTrigger(Type triggerType)

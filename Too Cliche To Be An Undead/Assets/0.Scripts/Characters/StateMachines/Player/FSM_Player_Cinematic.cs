@@ -1,12 +1,12 @@
 
-public class FSM_Player_Cinematic : FSM_Base<FSM_Player_Manager>
+public class FSM_Player_Cinematic : FSM_Base<FSM_Player_Manager, FSM_Player_Manager.E_PlayerState>
 {
     public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
         base.EnterState(stateManager);
-        stateManager.Owner.AnimationController.SetAnimation(stateManager.Owner.AnimationController.AnimationsData.IdleAnim, true);
+        //stateManager.Owner.AnimationController.SetAnimation(stateManager.Owner.AnimationsData.IdleAnim, true);
     }
 
     public override void UpdateState(FSM_Player_Manager stateManager)

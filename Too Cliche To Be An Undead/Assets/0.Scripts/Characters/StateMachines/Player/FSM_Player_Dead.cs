@@ -1,10 +1,8 @@
 using UnityEngine;
 
-public class FSM_Player_Dead : FSM_Base<FSM_Player_Manager>
+public class FSM_Player_Dead : FSM_Base<FSM_Player_Manager, FSM_Player_Manager.E_PlayerState>
 {
     public PlayerCharacter owner;
-
-    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
 
     public override void EnterState(FSM_Player_Manager stateManager)
     {
@@ -52,8 +50,8 @@ public class FSM_Player_Dead : FSM_Base<FSM_Player_Manager>
     public override void Setup(FSM_Player_Manager stateManager)
     {
         owner = stateManager.Owner;
-        StateName = FSM_Player_Manager.E_PlayerState.Dead;
+        StateKey = FSM_Player_Manager.E_PlayerState.Dead;
     }
 
-    public override string ToString() => StateName.ToString();
+    public override string ToString() => StateKey.ToString();
 }

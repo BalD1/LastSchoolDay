@@ -18,7 +18,7 @@ public class FSM_Boss_Dead : FSM_Base<FSM_Boss_Manager, FSM_Boss_Manager.E_BossS
 
         foreach (var item in IGPlayersManager.Instance.PlayersList)
         {
-            if (item.StateManager.ToString() == "Dying")
+            if (item.StateManager.CurrentState.StateKey == FSM_Player_Manager.E_PlayerState.Dead)
                 item.AskRevive();
         }
 

@@ -79,8 +79,8 @@ public class CA_CinematicPlayersMove : CA_CinematicAction
             return;
         }
         player.GetRb.simulated = false;
-        AnimationReferenceAsset walkAnim = player.AnimationController.AnimationsData.WalkAnim;
-        player.AnimationController.SetAnimation(walkAnim, true);
+        //AnimationReferenceAsset walkAnim = player.AnimationsData.WalkAnim;
+        //player.AnimationController.SetAnimation(walkAnim, true);
         player.AnimationController.TryFlipSkeleton(position.x > player.transform.position.x);
 
         float travelTime = Vector2.Distance(player.transform.position, position) / player.MaxSpeed_M;
@@ -94,8 +94,8 @@ public class CA_CinematicPlayersMove : CA_CinematicAction
     {
         if (setToIdleAtEnd)
         {
-            AnimationReferenceAsset idleAnim = player.AnimationController.AnimationsData.IdleAnim;
-            player.AnimationController.SetAnimation(idleAnim, true);
+            //AnimationReferenceAsset idleAnim = player.AnimationsData.IdleAnim;
+            //player.AnimationController.SetAnimation(idleAnim, true);
         }
         player.GetRb.simulated = true;
 

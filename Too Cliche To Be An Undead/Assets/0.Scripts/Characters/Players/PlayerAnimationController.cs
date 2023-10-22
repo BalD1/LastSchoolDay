@@ -71,14 +71,7 @@ public class PlayerAnimationController : AnimationControllerMulti
 
         SetAnimation(anim.Asset, anim.Loop);
     }
-
-    public void Setup(SCRPT_PlayersAnimData animData)
-    {
-        SetAnimation(owner.AnimationsData.IdleAnim, true);
-
-        isValid = true;
-    }
-
+    
     public void SwitchSkeleton()
     {
         foreach (Transform arm in armsParent)

@@ -17,6 +17,7 @@ public abstract class AnimationControllerBase : MonoBehaviourEventsHandler
 
     public abstract void SetAnimation(string animation, bool loop, float timeScale = 1);
     public abstract void SetAnimation(Spine.Animation animation, bool loop, float timeScale = 1);
+
     public abstract void AddAnimation(string animation, bool loop, float timeScale = 1);
     public abstract void AddAnimation(Spine.Animation animation, bool loop, float timeScale = 1);
     public abstract bool IsLookingAtRight();

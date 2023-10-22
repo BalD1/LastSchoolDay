@@ -5,7 +5,7 @@ using UnityEngine.InputSystem.DualShock;
 using UnityEngine.InputSystem.Switch;
 using UnityEngine.InputSystem.XInput;
 
-public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager>
+public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager, FSM_Player_Manager.E_PlayerState>
 {
     public PlayerCharacter owner;
     private float dyingState_TIMER;

@@ -158,22 +158,22 @@ public class PlayerNormalWeapon : PlayerWeapon
                 {
                     case Vector2 v when v == Vector2.up:
                         ownerAnimsCtrl.TryFlipSkeleton(false);
-                        ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_up, false);
+                        //ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_up, false);
                         break;
 
                     case Vector2 v when v == Vector2.down:
                         ownerAnimsCtrl.TryFlipSkeleton(true);
-                        ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_down, false);
+                        //ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_down, false);
                         break;
 
                     case Vector2 v when v == Vector2.left:
                         ownerAnimsCtrl.TryFlipSkeleton(false);
-                        ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
+                        //ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
                         break;
 
                     case Vector2 v when v == Vector2.right:
                         ownerAnimsCtrl.TryFlipSkeleton(true);
-                        ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
+                        //ownerAnimsCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
                         break;
                 }
             }

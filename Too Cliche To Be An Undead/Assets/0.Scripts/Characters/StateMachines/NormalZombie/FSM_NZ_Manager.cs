@@ -13,10 +13,10 @@ public class FSM_NZ_Manager : FSM_ManagerBase
     public FSM_NZ_Stun StunnedState { get; private set; } = new FSM_NZ_Stun();
     public FSM_NZ_Attacking AttackingState { get; private set; } = new FSM_NZ_Attacking();
 
-    private FSM_Base<FSM_NZ_Manager> currentState;
-    public FSM_Base<FSM_NZ_Manager> CurrentState { get => currentState; }
+    private FSM_Base<FSM_NZ_Manager, E_NZState> currentState;
+    public FSM_Base<FSM_NZ_Manager, E_NZState> CurrentState { get => currentState; }
 
-    private Dictionary<E_NZState, FSM_Base<FSM_NZ_Manager>> statesWithKey;
+    private Dictionary<E_NZState, FSM_Base<FSM_NZ_Manager, E_NZState>> statesWithKey;
 
     public enum E_NZState
     {
@@ -51,26 +51,26 @@ public class FSM_NZ_Manager : FSM_ManagerBase
         currentState.FixedUpdateState(this);
     }
 
-    public void SwitchState(FSM_Base<FSM_NZ_Manager> newState)
+    public void SwitchState(FSM_Base<FSM_NZ_Manager, E_NZState> newState)
     {
         currentState?.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
-        owner.CallStateChange(newState.ToString());
+        owner.CallStateChange(newState.GetKey());
 
 #if UNITY_EDITOR
         owner.currentStateDebug = this.ToString(); 
 #endif
     }
 
-    public T SwitchState<T>(E_NZState stateKey) where T : FSM_Base<FSM_NZ_Manager>
+    public T SwitchState<T>(E_NZState stateKey) where T : FSM_Base<FSM_NZ_Manager, E_NZState>
     {
         SwitchState(stateKey);
         return currentState as T;
     }
     public void SwitchState(E_NZState stateKey)
     {
-        statesWithKey.TryGetValue(stateKey, out FSM_Base<FSM_NZ_Manager> newState);
+        statesWithKey.TryGetValue(stateKey, out FSM_Base<FSM_NZ_Manager, E_NZState> newState);
         SwitchState(newState);
     }
 
@@ -85,7 +85,7 @@ public class FSM_NZ_Manager : FSM_ManagerBase
     }
     public override void SetupStates()
     {
-        statesWithKey = new Dictionary<E_NZState, FSM_Base<FSM_NZ_Manager>>()
+        statesWithKey = new Dictionary<E_NZState, FSM_Base<FSM_NZ_Manager, E_NZState>>()
         {
             { E_NZState.Idle, IdleState },
             { E_NZState.Wandering, WanderingState },

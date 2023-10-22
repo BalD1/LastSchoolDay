@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class FSM_Base<Manager, Key> where Key : Enum
                                              where Manager : FSM_ManagerBase
 {
-    [field: SerializeField] public Key StateKey { get; private set; }
+    [field: SerializeField] public Key StateKey { get; protected set; }
     public virtual void EnterState(Manager stateManager) => EventsSubscriber(stateManager);
     public abstract void UpdateState(Manager stateManager);
     public abstract void FixedUpdateState(Manager stateManager);

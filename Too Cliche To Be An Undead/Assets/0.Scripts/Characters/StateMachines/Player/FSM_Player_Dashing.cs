@@ -2,7 +2,7 @@ using BalDUtilities.MouseUtils;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager>
+public class FSM_Player_Dashing : FSM_Base<FSM_Player_Manager, FSM_Player_Manager.E_PlayerState>
 {
     private PlayerCharacter owner;
     private float max_DURATION;

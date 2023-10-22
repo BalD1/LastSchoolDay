@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
+public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager, FSM_Player_Manager.E_PlayerState>
 {
     private PlayerCharacter owner;
 
@@ -41,8 +41,8 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
 
         SkillHolderPosAtStart = owner.GetSkillHolder.transform.position;
 
-        idleAnim = ownerAnimationController.AnimationsData.SkillIdleAnimSide;
-        walkAnim = ownerAnimationController.AnimationsData.SkillWalkAnimSide;
+        //idleAnim = owner.AnimationsData.SkillIdleAnimSide;
+        //walkAnim = owner.AnimationsData.SkillWalkAnimSide;
 
         loopAnims = owner.GetSkill.LoopAnims;
 
@@ -82,19 +82,19 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager>
                     switch (initialDirection)
                     {
                         case Vector2 v when v == Vector2.up:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.AnimationsData.SkillIdleAnimUp, loopAnims, animationSpeedScale);
+                            //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimUp, loopAnims, animationSpeedScale);
                             break;
 
                         case Vector2 v when v == Vector2.down:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.AnimationsData.SkillIdleAnimDown, loopAnims, animationSpeedScale);
+                            //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimDown, loopAnims, animationSpeedScale);
                             break;
 
                         case Vector2 v when v == Vector2.left:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.AnimationsData.SkillIdleAnimSide, loopAnims, animationSpeedScale);
+                            //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimSide, loopAnims, animationSpeedScale);
                             break;
 
                         case Vector2 v when v == Vector2.right:
-                            ownerAnimationController.SetAnimation(ownerAnimationController.AnimationsData.SkillIdleAnimSide, loopAnims, animationSpeedScale);
+                            //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimSide, loopAnims, animationSpeedScale);
                             break;
                     }
                 }

@@ -1707,6 +1707,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 8823656354733599271}
+  <Velocity>k__BackingField: {x: 0, y: 0}
+  <LastDirection>k__BackingField: {x: 0, y: 0}
 --- !u!1 &5073548472099433838
 GameObject:
   m_ObjectHideFlags: 0
@@ -2510,15 +2512,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d7c10a846c15f4da0048767ac4d5f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CurrentSkeletonAnimation>k__BackingField: {fileID: 6635921152579406509}
   owner: {fileID: 8823656354733599271}
-  skeletonAnimation: {fileID: 6635921152579406509}
   armsParent: {fileID: 1423488751546438909}
   <leftArmBone>k__BackingField: {fileID: 8658477632741702112}
   <rightArmBone>k__BackingField: {fileID: 3925588513764982553}
-  <animationsData>k__BackingField: {fileID: 11400000, guid: abf34e82765a5b34b83bc5c26c7c9393, type: 2}
   currentState: 
   <isValid>k__BackingField: 0
-  ForceAnimation: 0
   jasonSkeletonDataAsset: {fileID: 11400000, guid: 0e14f26cdceca8444ba707b192b655f8, type: 2}
   jasonMaterialOverride_PF: {fileID: 8520456932611464791, guid: c35426a58e98aee46b574e6ad4745314, type: 3}
   editor_AnimationToSet: IDLE
@@ -2697,6 +2697,7 @@ MonoBehaviour:
   <CurrentActiveTimestops>k__BackingField: 0
   selfReviveCount: 0
   <PlayerInputsComponent>k__BackingField: {fileID: 0}
+  <AnimationsData>k__BackingField: {fileID: 0}
 --- !u!114 &5207945969965588748
 MonoBehaviour:
   m_ObjectHideFlags: 0

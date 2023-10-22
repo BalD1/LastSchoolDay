@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BalDUtilities.VectorUtils;
+using System;
 
-public class FSM_Entity_Pushed<T> : FSM_Base<T>
+public class FSM_Entity_Pushed<Manager, StateName> : FSM_Base<Manager, StateName>
+                                                     where Manager : FSM_ManagerBase
+                                                     where StateName : Enum
 {
     protected Entity owner;
     private Entity pusher;
@@ -18,7 +21,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
 
     private const float forcePushTransmissionPercentage = .9f;
 
-    public override void EnterState(T stateManager)
+    public override void EnterState(Manager stateManager)
     {
         base.EnterState(stateManager);
         wallLayer = LayerMask.NameToLayer("Wall");
@@ -29,15 +32,15 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         owner.OnPushed?.Invoke();
     }
 
-    public override void UpdateState(T stateManager)
+    public override void UpdateState(Manager stateManager)
     {
     }
 
-    public override void FixedUpdateState(T stateManager)
+    public override void FixedUpdateState(Manager stateManager)
     {
     }
 
-    public override void ExitState(T stateManager)
+    public override void ExitState(Manager stateManager)
     {
         base.ExitState(stateManager);
         alreadyPushedEntities.Clear();
@@ -46,18 +49,18 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         originalPusher = null;
     }
 
-    public override void Conditions(T stateManager)
+    public override void Conditions(Manager stateManager)
     {
         if (VectorMaths.Vector2ApproximatlyEquals(owner.GetRb.velocity, Vector2.zero, 0.08f)) baseConditionChecked = true;
     }
 
-    protected override void EventsSubscriber(T stateManager)
+    protected override void EventsSubscriber(Manager stateManager)
     {
         owner.OnEnteredBodyTrigger += TriggerEnter;
         owner.d_EnteredCollider += ColliderEnter;
     }
 
-    protected override void EventsUnsubscriber(T stateManager)
+    protected override void EventsUnsubscriber(Manager stateManager)
     {
         owner.OnEnteredBodyTrigger -= TriggerEnter;
         owner.d_EnteredCollider -= ColliderEnter;
@@ -93,7 +96,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         e.AskPush(appliedForce, owner, originalPusher);
     }
 
-    public FSM_Entity_Pushed<T> SetForce(Vector2 _force, Entity _pusher, Entity _originalPusher)
+    public FSM_Entity_Pushed<Manager, StateName> SetForce(Vector2 _force, Entity _pusher, Entity _originalPusher)
     {
         force = _force;
         pusher = _pusher;
@@ -101,7 +104,7 @@ public class FSM_Entity_Pushed<T> : FSM_Base<T>
         return this;
     }
 
-    public override void Setup(T stateManager)
+    public override void Setup(Manager stateManager)
     {
         throw new System.NotImplementedException();
     }

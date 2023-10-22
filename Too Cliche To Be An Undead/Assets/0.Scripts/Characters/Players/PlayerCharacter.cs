@@ -558,7 +558,7 @@ public class PlayerCharacter : Entity, IInteractable
 
         this.audioClips = audioData;
 
-        animationController.Setup(animData);
+        this.AnimationsData = animData;
 
         this.animationController.CurrentSkeletonAnimation.CurrentSkeletonAnimation.Skeleton.SetColor(Color.white);
 
@@ -576,9 +576,9 @@ public class PlayerCharacter : Entity, IInteractable
 
         this.currentHP = this.MaxHP_M;
 
-        Spine.Animation attackAnim = AnimationsData.AttackAnim_side?.Animation;
-        if (attackAnim != null)
-            weapon.attackDuration = attackAnim.Duration;
+        bool foundAnim = AnimationsData.TryGetAnimationData(FSM_Player_Manager.E_PlayerState.Attacking, out SCRPT_PlayersAnimData.S_StateAnimationData data);
+        if (foundAnim)
+            weapon.attackDuration = data.AnimationDuration;
 
         CameraManager.Instance.Markers[this.playerIndex].gameObject.SetActive(false);
 

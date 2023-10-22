@@ -1,5 +1,5 @@
 
-public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager>
+public class FSM_NZ_Wandering : FSM_Base<FSM_NZ_Manager, FSM_NZ_Manager.E_NZState>
 {
     private NormalZombie owner;
     private bool canSwitchToChase = true;

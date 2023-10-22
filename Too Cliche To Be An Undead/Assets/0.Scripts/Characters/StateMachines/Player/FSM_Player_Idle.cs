@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager>
+public class FSM_Player_Idle : FSM_Entity_Idle<FSM_Player_Manager, FSM_Player_Manager.E_PlayerState>
 {
     private PlayerCharacter playerOwner;
 

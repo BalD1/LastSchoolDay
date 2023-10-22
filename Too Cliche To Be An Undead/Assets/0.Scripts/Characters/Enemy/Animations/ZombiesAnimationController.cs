@@ -9,6 +9,6 @@ public class ZombiesAnimationController : AnimationControllerSingle
 
     protected override void Setup()
     {
-        SetAnimation(owner.AnimationData.WalkAnim, true);
+        //SetAnimation(owner.AnimationData., true);
     }
 }

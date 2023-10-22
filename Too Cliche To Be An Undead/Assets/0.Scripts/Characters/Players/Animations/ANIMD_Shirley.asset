@@ -12,47 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe900726a8b295848b29242a20030c6e, type: 3}
   m_Name: ANIMD_Shirley
   m_EditorClassIdentifier: 
-  <character>k__BackingField: 0
-  <skeletonDataAsset>k__BackingField: {fileID: 11400000, guid: e037097d1e8179a4ea42589b51ada4a3, type: 2}
-  idleAnim:
-  - {fileID: 11400000, guid: 483a3408a17092f4b96cf763010ae1f9, type: 2}
-  walkAnim:
-  - {fileID: 11400000, guid: 98387c029465bdd4abb6d26b01db5924, type: 2}
-  attackAnim_side:
-  - {fileID: 11400000, guid: a3e934d984f958b45a8352a81c6eff49, type: 2}
-  attackAnim_up:
-  - {fileID: 11400000, guid: 01a03b1378619c34e9e29d8c275eb360, type: 2}
-  attackAnim_down:
-  - {fileID: 11400000, guid: 060613b87eb671e4abe09d64cdef0ee9, type: 2}
-  death:
-  - {fileID: 11400000, guid: bd6e5d2055407c044b5d43532c264e88, type: 2}
-  <dashAnim>k__BackingField: {fileID: 11400000, guid: 6a5dfde476aae5441a21852ff35b7a6e, type: 2}
-  <skillTransitionAnim>k__BackingField: {fileID: 11400000, guid: 3a24998b11d4337409871a8637f35c70, type: 2}
-  <skillIdleAnimSide>k__BackingField: {fileID: 11400000, guid: 60b1762db80ac114bbba35d71a4b9aa8, type: 2}
-  <skillWalkAnimSide>k__BackingField: {fileID: 11400000, guid: 4a0bb1f85280b6d469dbfd81cf41effe, type: 2}
-  <skillIdleAnimUp>k__BackingField: {fileID: 0}
-  <skillIdleAnimDown>k__BackingField: {fileID: 0}
-  <StateAnimation>k__BackingField:
-  - EDITOR_InspectorName: Idle
-    <Key>k__BackingField: 0
-    <Asset>k__BackingField: {fileID: 11400000, guid: 483a3408a17092f4b96cf763010ae1f9, type: 2}
-    <Loop>k__BackingField: 1
-  - EDITOR_InspectorName: Moving
-    <Key>k__BackingField: 1
-    <Asset>k__BackingField: {fileID: 11400000, guid: 98387c029465bdd4abb6d26b01db5924, type: 2}
-    <Loop>k__BackingField: 1
-  - EDITOR_InspectorName: Dashing
-    <Key>k__BackingField: 3
-    <Asset>k__BackingField: {fileID: 11400000, guid: 6a5dfde476aae5441a21852ff35b7a6e, type: 2}
-    <Loop>k__BackingField: 0
-  - EDITOR_InspectorName: Dying
-    <Key>k__BackingField: 6
-    <Asset>k__BackingField: {fileID: 11400000, guid: bd6e5d2055407c044b5d43532c264e88, type: 2}
-    <Loop>k__BackingField: 0
-  - EDITOR_InspectorName: Stun
-    <Key>k__BackingField: 8
-    <Asset>k__BackingField: {fileID: 11400000, guid: 483a3408a17092f4b96cf763010ae1f9, type: 2}
-    <Loop>k__BackingField: 1
+  <StateAnimationData>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value:
+        <Asset>k__BackingField: {fileID: 11400000, guid: 483a3408a17092f4b96cf763010ae1f9, type: 2}
+        <Loop>k__BackingField: 1
+    - Key: 1
+      Value:
+        <Asset>k__BackingField: {fileID: 11400000, guid: 98387c029465bdd4abb6d26b01db5924, type: 2}
+        <Loop>k__BackingField: 1
+    - Key: 6
+      Value:
+        <Asset>k__BackingField: {fileID: 11400000, guid: bd6e5d2055407c044b5d43532c264e88, type: 2}
+        <Loop>k__BackingField: 0
+    - Key: 8
+      Value:
+        <Asset>k__BackingField: {fileID: 11400000, guid: 483a3408a17092f4b96cf763010ae1f9, type: 2}
+        <Loop>k__BackingField: 1
+  <IdleAnim>k__BackingField: {fileID: 0}
+  <WalkAnim>k__BackingField: {fileID: 0}
+  <AttackAnim_side>k__BackingField: {fileID: 0}
+  <AttackAnim_up>k__BackingField: {fileID: 0}
+  <AttackAnim_down>k__BackingField: {fileID: 0}
+  <DashAnim>k__BackingField: {fileID: 0}
+  <SkillTransitionAnim>k__BackingField: {fileID: 0}
+  <SkillIdleAnimSide>k__BackingField: {fileID: 0}
+  <SkillWalkAnimSide>k__BackingField: {fileID: 0}
+  <SkillIdleAnimUp>k__BackingField: {fileID: 0}
+  <SkillIdleAnimDown>k__BackingField: {fileID: 0}
   <arms>k__BackingField:
   - {fileID: 833490206, guid: 3d8c55561e9c19a4780706000e7d6965, type: 3}
   - {fileID: -1818848475, guid: 3d8c55561e9c19a4780706000e7d6965, type: 3}

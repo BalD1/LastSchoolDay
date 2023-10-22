@@ -1,5 +1,5 @@
 
-public class FSM_Player_Stunned : FSM_Entity_Stunned<FSM_Player_Manager>
+public class FSM_Player_Stunned : FSM_Entity_Stunned<FSM_Player_Manager, FSM_Player_Manager.E_PlayerState>
 {
     public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
 

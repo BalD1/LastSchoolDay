@@ -134,22 +134,22 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
                     {
                         case Vector2 v when v == Vector2.up:
                             ownerAnimCtrl.TryFlipSkeleton(false);
-                            ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_up, false);
+                            //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_up, false);
                             break;
 
                         case Vector2 v when v == Vector2.down:
                             ownerAnimCtrl.TryFlipSkeleton(true);
-                            ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_down, false);
+                            //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_down, false);
                             break;
 
                         case Vector2 v when v == Vector2.left:
                             ownerAnimCtrl.TryFlipSkeleton(false);
-                            ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
+                            //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
                             break;
 
                         case Vector2 v when v == Vector2.right:
                             ownerAnimCtrl.TryFlipSkeleton(true);
-                            ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
+                            //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
                             break;
                     }
                 }
