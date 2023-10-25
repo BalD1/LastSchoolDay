@@ -24,6 +24,8 @@ public class GameManager : Singleton<GameManager>
     private bool isInTutorial;
     [SerializeField] public bool IsInTutorial { get; private set; }
 
+    public const float CRIT_MULTIPLIER = 1.5f; 
+
     public delegate void D_OnPlayerIsSetup(int playerIdx);
     public D_OnPlayerIsSetup D_onPlayerIsSetup;
 

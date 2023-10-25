@@ -384,7 +384,7 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
 
         ApplyModifier(m);
 
-        if (type == StatsModifier.E_StatType.MaxHP) this.OnHeal(value);
+        if (type == StatsModifier.E_StatType.MaxHP) this.Heal(value);
     }
     public void AddModifier(string id, float value, StatsModifier.E_StatType type)
     {
@@ -398,7 +398,7 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
 
         ApplyModifier(m);
 
-        if (type == StatsModifier.E_StatType.MaxHP) this.OnHeal(value);
+        if (type == StatsModifier.E_StatType.MaxHP) this.Heal(value);
     }
     public void AddModifier(string id, int value, StatsModifier.E_StatType type)
     {
@@ -504,7 +504,7 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
 
     #region Damages / Heal
 
-    public virtual bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    public virtual bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         if (invincible) return false;
         if (invincibility_TIMER > 0) return false;
@@ -540,7 +540,7 @@ public class Entity : MonoBehaviourEventsHandler, IDamageable
         return true;
     }
 
-    public virtual void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
+    public virtual void Heal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
     {
         if (!IsAlive() && !healFromDeath) return;
 

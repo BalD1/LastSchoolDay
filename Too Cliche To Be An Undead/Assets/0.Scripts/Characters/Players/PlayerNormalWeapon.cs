@@ -82,7 +82,7 @@ public class PlayerNormalWeapon : PlayerWeapon
             bool isCrit = owner.RollCrit();
 
             // If the entity can't be damaged, continue to the next hit entity
-            if (damageable.OnTakeDamages(damages, owner, isCrit) == false)
+            if (damageable.InflinctDamages(damages, owner, isCrit) == false)
                 continue;
 
             successfulhit = true;

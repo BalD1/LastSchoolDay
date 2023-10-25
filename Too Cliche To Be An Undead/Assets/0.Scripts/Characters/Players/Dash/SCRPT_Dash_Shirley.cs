@@ -44,7 +44,7 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
 
         if (!hitEntities.Contains(e))
         {
-            e.OnTakeDamages(finalDamages, player, Random.Range(0, 100) <= critChances);
+            e.InflinctDamages(finalDamages, player, Random.Range(0, 100) <= critChances);
             hitEntities.Add(e);
         }
     }

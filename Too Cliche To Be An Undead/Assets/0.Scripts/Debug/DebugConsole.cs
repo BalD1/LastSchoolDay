@@ -175,7 +175,7 @@ public class DebugConsole : MonoBehaviour
         KILL = new DebugCommand<int>("KILL", "Kills the given character index", "KILL <int>", (int targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out var player)) return;
-            player.OnTakeDamages(player.MaxHP_M, null, isCrit: true);
+            player.InflinctDamages(player.MaxHP_M, null, isCrit: true);
         });
 
         KILLALL = new DebugCommand("KILL_ALL", "Kills every players", "KILL_ALL", () =>
@@ -183,7 +183,7 @@ public class DebugConsole : MonoBehaviour
             if (!IGPlayersManager.ST_InstanceExists()) return;
             foreach (var item in IGPlayersManager.Instance.PlayersList)
             {
-                item.OnTakeDamages(item.MaxHP_M, null);
+                item.InflinctDamages(item.MaxHP_M, null);
             }
         });
 
@@ -194,7 +194,7 @@ public class DebugConsole : MonoBehaviour
 
         FORCEKILL_BOSS = new DebugCommand("FORCEKILL_BOSS", "Instantly kills the boss", "FORCEKILL_BOSS", () =>
         {
-            FindObjectOfType<BossZombie>().OnTakeDamages(1000000, null);
+            FindObjectOfType<BossZombie>().InflinctDamages(1000000, null);
         });
 
         GOLD_BAG = new DebugCommand("GOLD_BAG", "Adds 50 gold", "GOLD_BAG", () =>
@@ -294,7 +294,7 @@ public class DebugConsole : MonoBehaviour
         KILL = new DebugCommand<int>("KILL", "Kills the given player index", "KILL <int>", (val) =>
         {
             PlayerCharacter pc = DataKeeper.Instance.playersDataKeep[val].playerInput.GetComponentInParent<PlayerCharacter>();
-            pc.OnTakeDamages(pc.MaxHP_M, null);
+            pc.InflinctDamages(pc.MaxHP_M, null);
         });
 
         ADD_MONEY = new DebugCommand<int>("ADD_MONEY", "Adds <int> money", "ADD_MONEY <int>", (val) =>
@@ -313,25 +313,25 @@ public class DebugConsole : MonoBehaviour
         HEAL = new DebugCommand<float, int>("HEAL", "Heals the targeted character", "HEAL <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.OnHeal(amount);
+            pc.Heal(amount);
         }, T2defaultValue: 0);
 
         HEAL_CRITICAL = new DebugCommand<float, int>("HEAL_CRITICAL", "Heals the targeted character", "HEAL_CRITICAL <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.OnHeal(amount, true);
+            pc.Heal(amount, true);
         }, T2defaultValue: 0);
 
         DAMAGE = new DebugCommand<float, int>("DAMAGE", "Damages the targeted character", "DAMAGE <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.OnTakeDamages(amount, null);
+            pc.InflinctDamages(amount, null);
         }, T2defaultValue: 0);
 
         DAMAGE_CRITICAL = new DebugCommand<float, int>("DAMAGE_CRITICAL", "Criticaly damages the targeted character", "DAMAGE_CRITICAL <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.OnTakeDamages(amount, null, true);
+            pc.InflinctDamages(amount, null, true);
         }, T2defaultValue: 0);
 
         ADDM_HP = new DebugCommand<float, int>("ADDM_HP", "Adds a HP modifier of <float> to <int>", "ADDM_HP <float> <int>(default : 0)", (amount, targetIdx) =>

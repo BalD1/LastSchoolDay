@@ -237,13 +237,13 @@ public class PlayerCharacter : Entity, IInteractable
         weapon.ResetAttack();
     }
 
-    public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    public override bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         if (!IsAlive()) return false;
 
         if (isInTutorial) fakeDamages = true;
 
-        bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
+        bool res = base.InflinctDamages(amount, damager, isCrit, fakeDamages, callDelegate);
         if (res == false) return res;
 
         lastDamagesData.SetDamagerAndDamagesAmount(damager, amount);
@@ -289,9 +289,9 @@ public class PlayerCharacter : Entity, IInteractable
         }
     }
 
-    public override void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
+    public override void Heal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
     {
-        base.OnHeal(amount, isCrit, canExceedMaxHP, healFromDeath);
+        base.Heal(amount, isCrit, canExceedMaxHP, healFromDeath);
 
         D_OnHeal?.Invoke();
     }

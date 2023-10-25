@@ -427,7 +427,7 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Damage", GUILayout.MaxWidth(70)))
-            targetScript.OnTakeDamages(damagesAmount, null, critDamages);
+            targetScript.InflinctDamages(damagesAmount, null, critDamages);
         damagesAmount = EditorGUILayout.FloatField(damagesAmount, GUILayout.MaxWidth(200));
         critDamages = EditorGUILayout.Toggle(critDamages);
 
@@ -436,7 +436,7 @@ public class ED_PlayerCharacter : Editor
         EditorGUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Heal", GUILayout.MaxWidth(70)))
-            targetScript.OnHeal(healAmount, critHeal);
+            targetScript.Heal(healAmount, critHeal);
         healAmount = EditorGUILayout.FloatField(healAmount, GUILayout.MaxWidth(200));
         critHeal = EditorGUILayout.Toggle(critHeal);
 

@@ -15,7 +15,7 @@ public class SCRPT_NZ_CaCAttack : SCRPT_EnemyAttack
         {
             IDamageable damageable = item.transform.GetComponent<IDamageable>();
             if (damageable == null) continue;
-            damageable.OnTakeDamages(owner.MaxDamages_M.Fluctuate(.25f), owner, owner.RollCrit());
+            damageable.InflinctDamages(owner.MaxDamages_M.Fluctuate(.25f), owner, owner.RollCrit());
         }
     }
 

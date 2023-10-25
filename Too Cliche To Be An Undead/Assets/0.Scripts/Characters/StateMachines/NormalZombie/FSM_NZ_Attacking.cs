@@ -213,14 +213,14 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager, FSM_NZ_Manager.E_NZStat
         PlayerCharacter p = collision.gameObject.GetComponent<PlayerCharacter>();
         if (p == null) return;
 
-        p.OnTakeDamages(owner.MaxDamages_M.Fluctuate(), owner, owner.RollCrit());
+        p.InflinctDamages(owner.MaxDamages_M.Fluctuate(), owner, owner.RollCrit());
     }
     private void OnEntityCollision(Entity entity)
     {
         if (!owner.attackStarted) return;
         if (entity == null) return;
 
-        entity.OnTakeDamages(owner.MaxDamages_M.Fluctuate(), owner, owner.RollCrit());
+        entity.InflinctDamages(owner.MaxDamages_M.Fluctuate(), owner, owner.RollCrit());
     }
     private void OnTrigger(Collider2D collider)
     {
@@ -232,7 +232,7 @@ public class FSM_NZ_Attacking : FSM_Base<FSM_NZ_Manager, FSM_NZ_Manager.E_NZStat
 
         if (p == null) return;
 
-        p.OnTakeDamages(owner.MaxDamages_M.Fluctuate(), owner, owner.RollCrit());
+        p.InflinctDamages(owner.MaxDamages_M.Fluctuate(), owner, owner.RollCrit());
     }
 
     public override void Setup(FSM_NZ_Manager stateManager)

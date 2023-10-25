@@ -162,7 +162,7 @@ public class BossZombie : EnemyBase
         }
     }
 
-    public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    public override bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         CallReceiveAttack(damager, tickDamages);
 
@@ -172,7 +172,7 @@ public class BossZombie : EnemyBase
             return true;
         }
 
-        bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
+        bool res = base.InflinctDamages(amount, damager, isCrit, fakeDamages, callDelegate);
 
         if (this.currentHP <= (this.MaxHP_M * hpThresholdBeforeNextStage) && attacksPatern.currentStage == 0) AdvanceToNextStage();
 
@@ -184,7 +184,7 @@ public class BossZombie : EnemyBase
         Vector2 baseVel = this.GetRb.velocity;
         this.GetRb.velocity = Vector2.zero;
 
-        e.OnTakeDamages(this.MaxDamages_M, this, this.RollCrit());
+        e.InflinctDamages(this.MaxDamages_M, this, this.RollCrit());
         HitStop(e);
 
         foreach (var item in spawnedZombies)

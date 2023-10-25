@@ -90,7 +90,7 @@ public class ProjectileBase : MonoBehaviour
 
         bool isCrit = Random.Range(0, 100) <= critChances;
 
-        if (damageable.OnTakeDamages(damages, owner, isCrit))
+        if (damageable.InflinctDamages(damages, owner, isCrit))
         {
             CheckDestroySelf();
 

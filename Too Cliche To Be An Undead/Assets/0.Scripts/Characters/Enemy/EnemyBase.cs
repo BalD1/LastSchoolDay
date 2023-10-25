@@ -176,10 +176,10 @@ public abstract class EnemyBase : Entity
         this.GetRb.MovePosition(this.GetRb.position + steeredVelocity * Time.fixedDeltaTime);
     }
 
-    public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    public override bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         bool res = false;
-        res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate, tickDamages);
+        res = base.InflinctDamages(amount, damager, isCrit, fakeDamages, callDelegate, tickDamages);
         if (!res || !callDelegate) return res;
 
         lastDamagesData.SetDamagerAndDamagesAmount(damager, amount);
@@ -262,7 +262,7 @@ public abstract class EnemyBase : Entity
     public void SetAsZombifiedPlayer(Sprite playerSprite, float playerMaxHP, float playerDamages, float playerSpeed, int playerCrits)
     {
         this.MaxHP_M = playerMaxHP;
-        this.OnHeal(playerMaxHP);
+        this.Heal(playerMaxHP);
         this.MaxDamages_M = playerDamages;
         this.MaxSpeed_M = playerSpeed;
         this.MaxCritChances_M = playerCrits;

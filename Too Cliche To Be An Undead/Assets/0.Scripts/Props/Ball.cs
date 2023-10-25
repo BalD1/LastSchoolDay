@@ -31,11 +31,11 @@ public class Ball : MonoBehaviour, IDamageable
     {
     }
 
-    public void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
+    public void Heal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
     {
     }
 
-    public bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    public bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         Vector2 dir = Vector2.zero;
 
@@ -71,7 +71,7 @@ public class Ball : MonoBehaviour, IDamageable
 
             float finalDamages = body.velocity.magnitude * (damageable is PlayerCharacter ? damagesMultiplierOnPlayers : damagesMultiplierOnZombies);
 
-            damageable.OnTakeDamages(finalDamages, null);
+            damageable.InflinctDamages(finalDamages, null);
         }
     }
 }

@@ -91,7 +91,7 @@ public class PB_Drop : Collectable
         float exceedence = 0;
         if (player.CheckIfModifierWillExceed(bonusPower.StatType, val, out exceedence))
         {
-            player.OnHeal(bonusPower.HealAmountOnExceedence);
+            player.Heal(bonusPower.HealAmountOnExceedence);
         }
         player.AddModifier(bonusPower.ID, val, bonusPower.StatType);
 

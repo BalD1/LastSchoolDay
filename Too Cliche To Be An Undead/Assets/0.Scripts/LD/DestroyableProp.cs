@@ -48,14 +48,14 @@ public class DestroyableProp : MonoBehaviour, IDamageable, IDistanceChecker
     private void OnPlayerEnter(PlayerCharacter player)
     {
         if (player.StateManager.CurrentState.ToString() != "Dashing") return;
-        OnTakeDamages(currentHP, null);
+        InflinctDamages(currentHP, null);
     }
 
     public void DestroyObject()
     {
     }
 
-    public bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    public bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         currentHP -= amount;
 
@@ -88,7 +88,7 @@ public class DestroyableProp : MonoBehaviour, IDamageable, IDistanceChecker
         return true;
     }
 
-    public void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
+    public void Heal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
     {
         currentHP += amount;
     }

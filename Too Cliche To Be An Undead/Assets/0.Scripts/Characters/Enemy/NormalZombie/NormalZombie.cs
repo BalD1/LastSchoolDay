@@ -193,10 +193,10 @@ public class NormalZombie : EnemyBase, IDistanceChecker
         Death(true);
     }
 
-    public override bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    public override bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         PlayerCharacter playerDamager = damager as PlayerCharacter;
-        bool res = base.OnTakeDamages(amount, damager, isCrit, fakeDamages, callDelegate);
+        bool res = base.InflinctDamages(amount, damager, isCrit, fakeDamages, callDelegate);
         if (res) D_onHurt?.Invoke();
         return res;
     }

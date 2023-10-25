@@ -11,7 +11,7 @@ public class FSM_Player_Dead : FSM_Base<FSM_Player_Manager, FSM_Player_Manager.E
         if (owner.selfReviveCount > 0)
         {
             owner.selfReviveCount -= 1;
-            owner.OnHeal(owner.MaxHP_M * owner.ReviveHealthPercentage, false, false, healFromDeath: true);
+            owner.Heal(owner.MaxHP_M * owner.ReviveHealthPercentage, false, false, healFromDeath: true);
             owner.StateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
             return;
         }

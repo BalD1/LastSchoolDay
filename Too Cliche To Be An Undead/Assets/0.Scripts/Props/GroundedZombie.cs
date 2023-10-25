@@ -65,7 +65,7 @@ public class GroundedZombie : Entity
         SkeletonAnimation.AnimationState.AddAnimation(0, idleAnim, true, .25f);
 
         player.Stun(stunDuration, false, true);
-        player.OnTakeDamages(MaxDamages_M, this, RollCrit());
+        player.InflinctDamages(MaxDamages_M, this, RollCrit());
 
         PlayAudio(audioData.GetRandomAttackClip());
 

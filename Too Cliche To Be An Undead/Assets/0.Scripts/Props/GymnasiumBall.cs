@@ -19,11 +19,11 @@ public class GymnasiumBall : MonoBehaviour, IDamageable
     {
     }
 
-    public void OnHeal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
+    public void Heal(float amount, bool isCrit = false, bool canExceedMaxHP = false, bool healFromDeath = false)
     {
     }
 
-    public bool OnTakeDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    public bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         if (dir == Vector2.zero) return false;
 

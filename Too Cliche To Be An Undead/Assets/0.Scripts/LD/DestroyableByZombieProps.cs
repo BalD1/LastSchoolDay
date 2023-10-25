@@ -57,7 +57,7 @@ public class DestroyableByZombieProps : DestroyableProp
             if (zombiesDamagesTimer[i] <= 0)
             {
                 zombiesDamagesTimer[i] = collisionDamagesTimer;
-                OnTakeDamages(collisionDamages, zombiesInCollider[i]);
+                InflinctDamages(collisionDamages, zombiesInCollider[i]);
             }
         }
 

@@ -88,7 +88,7 @@ public class FSM_Player_Dying : FSM_Base<FSM_Player_Manager, FSM_Player_Manager.
     private void Revive(GameObject interactor) => Revive();
     private void Revive()
     {
-        owner.OnHeal(owner.MaxHP_M * owner.ReviveHealthPercentage, false, false, healFromDeath: true);
+        owner.Heal(owner.MaxHP_M * owner.ReviveHealthPercentage, false, false, healFromDeath: true);
         owner.StateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
     }
 
