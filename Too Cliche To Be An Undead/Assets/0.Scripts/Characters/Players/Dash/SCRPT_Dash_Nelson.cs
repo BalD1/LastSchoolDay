@@ -19,8 +19,8 @@ public class SCRPT_Dash_Nelson : SCRPT_Dash
 
         TrapBase tb = Instantiate(trapPF, owner.transform.position, Quaternion.identity).GetComponent<TrapBase>();
 
-        float finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
+        //float finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
 
-        tb.Setup(finalDamages, trapsDuration, owner, destroyTrapOnTrigger);
+        //tb.Setup(finalDamages, trapsDuration, owner, destroyTrapOnTrigger);
     }
 }

@@ -59,8 +59,8 @@ public class Collectable : MonoBehaviour, IInteractable
             float drawLerp = drawdistance > 0 ? drawdistance : baseDrawLerpAlpha;
             stepp = (animationCurve.Evaluate(1 - dist / drawLerp) / 90);
 
-            float playerAddedSpeed = detectedPlayer.MaxSpeed_M - detectedPlayer.GetStats.Speed;
-            if (playerAddedSpeed != 0) stepp += (playerAddedSpeed / 90);
+            //float playerAddedSpeed = detectedPlayer.MaxSpeed_M - detectedPlayer.GetStats.Speed;
+            //if (playerAddedSpeed != 0) stepp += (playerAddedSpeed / 90);
 
             stepp += speedAddition * Time.deltaTime;
             speedAddition += speedAdditionRate;

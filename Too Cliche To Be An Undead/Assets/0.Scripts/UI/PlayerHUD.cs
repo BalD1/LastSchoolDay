@@ -57,17 +57,18 @@ public class PlayerHUD : MonoBehaviour
 
         SetupCharacterPortrait(character);
 
-        SetDashThumbnail();
+        //SetDashThumbnail();
         SetSkillThumbnail();
 
-        owner.OnHealthChange += OnOwnerHealthChange;
+        //owner.OnHealthChange += OnOwnerHealthChange;
         owner.OnSwitchCharacter += OnCharacterSwitch;
 
         portraitRect = portrait.GetComponent<RectTransform>();
     }
 
     public void SetSkillThumbnail()
-        => SetSkillThumbnail(owner.GetSkill.Thumbnail);
+        //=> SetSkillThumbnail(owner.GetSkill.Thumbnail);
+        => SetSkillThumbnail(null);
     public void SetSkillThumbnail(Sprite image)
     {
         skillThumbnail.sprite = image;
@@ -80,7 +81,7 @@ public class PlayerHUD : MonoBehaviour
 
         if (skillTimerTXT == null) return;
 
-        skillTimerTXT.text = (fill * owner.MaxSkillCD_M).ToString("F0");
+        //skillTimerTXT.text = (fill * owner.MaxSkillCD_M).ToString("F0");
 
         if (fill <= 0)
         {
@@ -90,7 +91,7 @@ public class PlayerHUD : MonoBehaviour
         }
     }
 
-    private void SetDashThumbnail() => SetDashThumbnail(owner.PlayerDash.Thumbnail);
+    //private void SetDashThumbnail() => SetDashThumbnail(owner.PlayerDash.Thumbnail);
     public void SetDashThumbnail(Sprite image)
     {
         dashThumbnail.sprite = image;
@@ -100,7 +101,7 @@ public class PlayerHUD : MonoBehaviour
     {
         dashFill.fillAmount = fill;
 
-        dashTimerTXT.text = (owner.MaxDashCD_M * fill).ToString("F0");
+        //dashTimerTXT.text = (owner.MaxDashCD_M * fill).ToString("F0");
 
         if (fill <= 0)
         {
@@ -111,7 +112,7 @@ public class PlayerHUD : MonoBehaviour
 
     private void OnCharacterSwitch()
     {
-        SetDashThumbnail();
+        //SetDashThumbnail();
         ForceHPUpdate();
         SetupCharacterPortrait();
     }
@@ -139,12 +140,12 @@ public class PlayerHUD : MonoBehaviour
         if (portrait == null) return;
         if (portrait.rectTransform == null) return;
 
-        hpBar.fillAmount = (owner.CurrentHP / owner.MaxHP_M);
+        //hpBar.fillAmount = (owner.CurrentHP / owner.MaxHP_M);
 
         StringBuilder sb = new StringBuilder();
-        sb.Append(owner.CurrentHP);
-        sb.Append(" / ");
-        sb.Append(owner.MaxHP_M);
+        //sb.Append(owner.CurrentHP);
+        //sb.Append(" / ");
+        //sb.Append(owner.MaxHP_M);
         hpText.text = sb.ToString();
 
         LeanTween.color(portrait.rectTransform, leanCol, .2f).setEase(inType)
@@ -168,26 +169,26 @@ public class PlayerHUD : MonoBehaviour
     private bool SetPortrait(float currentMaxHP = -1)
     {
         if (currentMaxHP == -1)
-            currentMaxHP = owner.MaxHP_M;
+            //currentMaxHP = owner.MaxHP_M;
 
         if (currentPortraitIdx + 1 <= characterPortrait.characterPortraitsByHP.Length)
         {
-            if (owner.CurrentHP / currentMaxHP * 100 <= 100 * CurrentCharacterPortrait().percentage)
-            {
-                SetCharacterPortrait(currentPortraitIdx + 1);
-                SetPortrait(currentMaxHP);
-                return true;
-            }
+            //if (owner.CurrentHP / currentMaxHP * 100 <= 100 * CurrentCharacterPortrait().percentage)
+            //{
+            //    SetCharacterPortrait(currentPortraitIdx + 1);
+            //    SetPortrait(currentMaxHP);
+            //    return true;
+            //}
         }
 
         if (currentPortraitIdx > 0)
         {
-            if (owner.CurrentHP / currentMaxHP * 100 > 100 * LastCharacterPortrait().percentage)
-            {
-                SetCharacterPortrait(currentPortraitIdx - 1);
-                SetPortrait(currentMaxHP);
-                return true;
-            }
+            //if (owner.CurrentHP / currentMaxHP * 100 > 100 * LastCharacterPortrait().percentage)
+            //{
+            //    SetCharacterPortrait(currentPortraitIdx - 1);
+            //    SetPortrait(currentMaxHP);
+            //    return true;
+            //}
         }
 
         return false;
@@ -234,7 +235,7 @@ public class PlayerHUD : MonoBehaviour
 
     private void OnDestroy()
     {
-        owner.OnHealthChange -= OnOwnerHealthChange;
+        //owner.OnHealthChange -= OnOwnerHealthChange;
         owner.OnSwitchCharacter -= OnCharacterSwitch;
         LeanTween.cancel(this.gameObject);
     }

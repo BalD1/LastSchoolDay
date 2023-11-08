@@ -160,7 +160,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         if (!SFXClipsWithTags.TryGetValue(key, out AudioClip result))
         {
-            this.Log($"Could not find {key} SFX in dictionnary.", LogsManager.E_LogType.Error);
+            this.Log($"Could not find {key} SFX in dictionnary.", CustomLogger.E_LogType.Error);
             return;
         }
         sfx2DSource.PlayOneShot(result);
@@ -179,7 +179,7 @@ public class SoundManager : Singleton<SoundManager>
 
         if (!MusicClipsWithTags.TryGetValue(musicTag, out AudioClip result))
         {
-            this.Log($"Could not find {musicTag} music in dictionnary.", LogsManager.E_LogType.Error);
+            this.Log($"Could not find {musicTag} music in dictionnary.", CustomLogger.E_LogType.Error);
             return;
         }
 

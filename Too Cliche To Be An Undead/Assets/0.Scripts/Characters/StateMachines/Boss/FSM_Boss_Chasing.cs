@@ -9,18 +9,18 @@ public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager, E_BossState>
     public override void EnterState(FSM_Boss_Manager stateManager)
     {
         base.EnterState(stateManager);
-        owner.ResetVelocity();
+        //owner.ResetVelocity();
 
-        owner.Pathfinding.StopUpdatepath();
-        owner.Pathfinding.StartUpdatePath();
+        //owner.Pathfinding.StopUpdatepath();
+        //owner.Pathfinding.StartUpdatePath();
 
-        owner.canBePushed = true;
+        //owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_Boss_Manager stateManager)
     {
-        if (owner.Pathfinding != null)
-            goalPosition = owner.Pathfinding.CheckWayPoint();
+        //if (owner.Pathfinding != null)
+        //    goalPosition = owner.Pathfinding.CheckWayPoint();
     }
 
     public override void FixedUpdateState(FSM_Boss_Manager stateManager)
@@ -31,18 +31,18 @@ public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager, E_BossState>
     public override void ExitState(FSM_Boss_Manager stateManager)
     {
         base.ExitState(stateManager);
-        owner.GetRb.velocity = Vector2.zero;
+        //owner.GetRb.velocity = Vector2.zero;
     }
 
     public override void Conditions(FSM_Boss_Manager stateManager)
     {
-        if (owner.CurrentPlayerTarget == null) return;
+        //if (owner.CurrentPlayerTarget == null) return;
 
-        if (stateManager.AttackConditions())
-            stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Attacking);
+        //if (stateManager.AttackConditions())
+        //    stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Attacking);
 
-        if (owner.CurrentHP <= 0)
-            stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Dead);
+        //if (owner.CurrentHP <= 0)
+        //    stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Dead);
     }
 
     protected override void EventsSubscriber(FSM_Boss_Manager stateManager)
@@ -52,8 +52,6 @@ public class FSM_Boss_Chasing : FSM_Base<FSM_Boss_Manager, E_BossState>
     protected override void EventsUnsubscriber(FSM_Boss_Manager stateManager)
     {
     }
-
-    private bool WanderingConditions() => owner.CurrentPlayerTarget == null;
 
     public override void Setup(FSM_Boss_Manager stateManager)
     {

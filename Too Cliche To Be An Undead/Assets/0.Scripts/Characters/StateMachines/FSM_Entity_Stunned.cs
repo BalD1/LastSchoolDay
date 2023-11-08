@@ -11,7 +11,7 @@ public class FSM_Entity_Stunned<Manager, Key> : FSM_Base<Manager, Key> where Man
     public override void EnterState(Manager stateManager)
     {
         base.EnterState(stateManager);
-        owner.GetRb.velocity = Vector3.zero;
+        //owner.GetRb.velocity = Vector3.zero;
     }
 
     public override void UpdateState(Manager stateManager)
@@ -48,7 +48,7 @@ public class FSM_Entity_Stunned<Manager, Key> : FSM_Base<Manager, Key> where Man
     {
         if (showText) TextPopup.Create("Stunned", owner.transform);
         stun_TIMER += duration;
-        if (resetAttackTimer) owner.ResetAttackTimer();
+        //if (resetAttackTimer) owner.ResetAttackTimer();
     }
 
     public void SetOwner(Entity _owner) => owner = _owner;
@@ -56,7 +56,7 @@ public class FSM_Entity_Stunned<Manager, Key> : FSM_Base<Manager, Key> where Man
     public FSM_Entity_Stunned<Manager, Key> SetDuration(float duration, bool resetAttackTimer = false)
     {
         stun_TIMER = duration;
-        if (owner != null && resetAttackTimer) owner.ResetAttackTimer();
+        //if (owner != null && resetAttackTimer) owner.ResetAttackTimer();
         return this;
     }
 

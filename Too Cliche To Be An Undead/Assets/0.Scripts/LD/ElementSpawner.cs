@@ -67,7 +67,7 @@ public class ElementSpawner : MonoBehaviour
                 break;
 
             case E_ElementToSpawn.IdleZombie:
-                res = NormalZombie.Create(this.transform.position, false).gameObject;
+                //res = BaseZombie.Create(this.transform.position, false).gameObject;
                 res.transform.parent = GameManager.Instance.InstantiatedEntitiesParent;
                 break;
 

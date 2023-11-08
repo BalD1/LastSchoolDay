@@ -184,6 +184,7 @@ public class UIManager : Singleton<UIManager>
 
     protected override void EventsSubscriber()
     {
+        GameManagerEvents.OnGameStateChange += OnGameStateChange;
         PlayerInputsEvents.OnScrollCurrentHBLeftCall += ScrollCurrentHorizontalBarLeft;
         PlayerInputsEvents.OnScrollCurrentHBRightCall += ScrollCurrentHorizontalBarRight;
         PlayerInputsEvents.OnScrollCurrentVBDownCall += ScrollCurrentVerticalBarDown;
@@ -206,6 +207,7 @@ public class UIManager : Singleton<UIManager>
 
     protected override void EventsUnSubscriber()
     {
+        GameManagerEvents.OnGameStateChange -= OnGameStateChange;
         PlayerInputsEvents.OnScrollCurrentHBLeftCall -= ScrollCurrentHorizontalBarLeft;
         PlayerInputsEvents.OnScrollCurrentHBRightCall -= ScrollCurrentHorizontalBarRight;
         PlayerInputsEvents.OnScrollCurrentVBDownCall -= ScrollCurrentVerticalBarDown;
@@ -263,6 +265,47 @@ public class UIManager : Singleton<UIManager>
     }
 
     #endregion
+
+    private void OnGameStateChange(GameManager.E_GameState newState)
+    {
+        switch (newState)
+        {
+            case GameManager.E_GameState.MainMenu:
+                break;
+
+            case GameManager.E_GameState.InGame:
+                if (currentHorizontalScrollbar != null) UnsetCurrentHorizontalScrollbar();
+
+                if (!firstGameStatePassFlag) firstGameStatePassFlag = true;
+                else
+                {
+                    if (GameManager.Instance.IsInTutorial) FadeTutoHUD(fadeIn: true);
+                    else FadeInGameHUD(true);
+                }
+                break;
+
+            case GameManager.E_GameState.Pause:
+                FadeAllHUD(fadeIn: false);
+                PostproManager.Instance.SetBlurState(true);
+                break;
+
+            case GameManager.E_GameState.Restricted:
+                break;
+
+            case GameManager.E_GameState.Win:
+                break;
+
+            case GameManager.E_GameState.GameOver:
+                break;
+
+            case GameManager.E_GameState.Cinematic:
+                break;
+
+            default:
+                Debug.LogError(newState + "not found in switch statement.");
+                break;
+        }
+    }
 
     private void OnTutorialStarted() => isInTuto = true;
     private void OnTutorialEnded()
@@ -362,7 +405,7 @@ public class UIManager : Singleton<UIManager>
     {
         if (openMenusQueues.Count == 0) pauseMenu.Open();
     }
-    private void CloseLastMenu(InputAction.CallbackContext ctx, PlayerInputs input)
+    private void CloseLastMenu(InputAction.CallbackContext ctx, PlayerInputHandler input)
     {
         if (!ctx.performed) return;
         if (openMenusQueues.TryPeek(out UIScreenBase currentScreen) && currentScreen.AllowCloseOnStart)
@@ -435,51 +478,6 @@ public class UIManager : Singleton<UIManager>
         }
 
         lastSelected = currentSelected;
-    }
-
-    /// <summary>
-    /// Manages the windows display using <paramref name="newState"/>.
-    /// </summary>
-    /// <param name="newState"></param>
-    public void WindowsManager(GameManager.E_GameState newState)
-    {
-        switch (newState)
-        {
-            case GameManager.E_GameState.MainMenu:
-                break;
-
-            case GameManager.E_GameState.InGame:
-                if (currentHorizontalScrollbar != null) UnsetCurrentHorizontalScrollbar();
-
-                if (!firstGameStatePassFlag) firstGameStatePassFlag = true;
-                else
-                {
-                    if (GameManager.Instance.IsInTutorial) FadeTutoHUD(fadeIn: true);
-                    else FadeInGameHUD(true);
-                }
-                break;
-
-            case GameManager.E_GameState.Pause:
-                FadeAllHUD(fadeIn: false);
-                PostproManager.Instance.SetBlurState(true);
-                break;
-
-            case GameManager.E_GameState.Restricted:
-                break;
-
-            case GameManager.E_GameState.Win:
-                break;
-
-            case GameManager.E_GameState.GameOver:
-                break;
-
-            case GameManager.E_GameState.Cinematic:
-                break;
-
-            default:
-                Debug.LogError(newState + "not found in switch statement.");
-                break;
-        }
     }
 
     public void ShowGameOverScreen()

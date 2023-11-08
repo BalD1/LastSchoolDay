@@ -35,7 +35,7 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
     public override void EarlyStart(PlayerCharacter owner)
     {
-        owner.OnEarlySkillStart?.Invoke();
+        //owner.OnEarlySkillStart?.Invoke();
     }
 
     public override void StartSkill(PlayerCharacter owner)
@@ -43,25 +43,25 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
         _owner = owner;
         isInUse = true;
 
-        owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
+        //owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
 
-        owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
-        owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
-        owner.OffsetSkillHolder(offset);
+        //owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
+        //owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
+        //owner.OffsetSkillHolder(offset);
 
-        owner.OffsetChild(offset);
-        owner.SetArmsState(true, armsOffset, skeletonIdx, skeletonBoneToFollowName);
+        //owner.OffsetChild(offset);
+        //owner.SetArmsState(true, armsOffset, skeletonIdx, skeletonBoneToFollowName);
 
-        owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
+        //owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
-        finalDamages = _owner.MaxDamages_M * damagesPercentageModifier;
-        finalCrit = (int)(_owner.MaxCritChances_M * critModifier);
+        ////finalDamages = _owner.MaxDamages_M * damagesPercentageModifier;
+        ////finalCrit = (int)(_owner.MaxCritChances_M * critModifier);
 
-        fire_TIMER = 0;
+        //fire_TIMER = 0;
 
-        owner.OnAimInput += owner.Weapon.SetAimGoal;
+        //owner.OnAimInput += owner.Weapon.SetAimGoal;
 
-        skillHolderTransform = owner.GetSkillHolder.transform;
+        //skillHolderTransform = owner.GetSkillHolder.transform;
     }
 
     public override void UpdateSkill(PlayerCharacter owner) 
@@ -70,59 +70,59 @@ public class SCRPT_Skill_Nailgun : SCRPT_Skill
 
         Fire();
 
-        owner.Weapon.RotateOnAim();
-        owner.RotateSkillHolder();
-        owner.RotateArms();
+        //owner.Weapon.RotateOnAim();
+        //owner.RotateSkillHolder();
+        //owner.RotateArms();
     }
 
     public override void StopSkill(PlayerCharacter owner)
     {
         isInUse = false;
 
-        owner.OnAimInput -= owner.Weapon.SetAimGoal;
+        //owner.OnAimInput -= owner.Weapon.SetAimGoal;
 
-        owner.SetArmsState(false, Vector3.zero, skeletonIdx);
+        //owner.SetArmsState(false, Vector3.zero, skeletonIdx);
 
-        owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
-        owner.GetSkillHolder.AnimationEnded();
-        owner.GetSkillHolder.StartCooldown();
+        //owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
+        //owner.GetSkillHolder.AnimationEnded();
+        //owner.GetSkillHolder.StartCooldown();
 
-        owner.SkillTutoAnimator.SetTrigger("finish");
+        //owner.SkillTutoAnimator.SetTrigger("finish");
     }
 
     private void Fire()
     {
-        if (fire_TIMER > 0) return;
+        //if (fire_TIMER > 0) return;
 
-        _owner.TryPlayAudioclip(fireClip, pitchRange);
+        //_owner.TryPlayAudioclip(fireClip, pitchRange);
 
-        fire_TIMER = fire_COOLDOWN;
+        //fire_TIMER = fire_COOLDOWN;
 
-        Quaternion q = _owner.Weapon.transform.rotation;
-        Vector3 v = q.eulerAngles;
-        v.z += 90f;
+        //Quaternion q = _owner.Weapon.transform.rotation;
+        //Vector3 v = q.eulerAngles;
+        //v.z += 90f;
 
-        v.x += Random.Range(rotationMinRandom, rotationMaxRandom);
-        v.y += Random.Range(rotationMinRandom, rotationMaxRandom);
+        //v.x += Random.Range(rotationMinRandom, rotationMaxRandom);
+        //v.y += Random.Range(rotationMinRandom, rotationMaxRandom);
 
-        q.eulerAngles = v;
+        //q.eulerAngles = v;
 
-        Vector2 aimTargetPosition = _owner.Weapon.IndicatorHolder.transform.GetChild(0).position;
-        Vector2 aimerPosition = _owner.PivotOffset.transform.position;
+        //////Vector2 aimTargetPosition = _owner.Weapon.IndicatorHolder.transform.GetChild(0).position;
+        ////Vector2 aimerPosition = _owner.PivotOffset.transform.position;
 
-        Vector2 dir = (aimTargetPosition - aimerPosition);
+        ////Vector2 dir = (aimTargetPosition - aimerPosition);
 
-        float rand = Random.Range(rotationMinRandom, rotationMaxRandom);
+        //float rand = Random.Range(rotationMinRandom, rotationMaxRandom);
 
-        dir.x += rand;
-        dir.y += rand;
+        //dir.x += rand;
+        //dir.y += rand;
 
-        dir.Normalize();
+        //dir.Normalize();
 
-        ProjectileBase proj = ProjectileBase.GetProjectile(skillHolderTransform.position, q);
+        //ProjectileBase proj = ProjectileBase.GetProjectile(skillHolderTransform.position, q);
 
-        float damagesWithRandom = finalDamages * Random.Range(1 / damageRandomMultiplier, damageRandomMultiplier);
+        //float damagesWithRandom = finalDamages * Random.Range(1 / damageRandomMultiplier, damageRandomMultiplier);
 
-        proj.Fire(dir, damagesWithRandom, finalCrit, _owner);
+        //proj.Fire(dir, damagesWithRandom, finalCrit, _owner);
     }
 }

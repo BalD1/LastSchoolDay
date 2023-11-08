@@ -9,13 +9,13 @@ public class BossZombie : EnemyBase
 {
     [field: SerializeField] public FSM_Boss_Manager StateManager { get; private set; }
 
-    [SerializeField] private SCRPT_EnemyAttack[] attacks;
+    [SerializeField] private SO_EnemyAttack[] attacks;
 
     [field: SerializeField] public Transform SkeletonHolder { get; private set; }
 
     [field: SerializeField] public Collider2D hudTrigger { get; private set; }
 
-    [field: SerializeField] public BossAnimationsController animationController { get; private set; }
+    [field: SerializeField] public BossAnimationsController AnimationController { get; private set; }
     [field: SerializeField] public SCRPT_BossAnimData AnimationData { get; private set; }
 
     [SerializeField] private SCRPT_BossPatern.S_AttackAndCooldown currentAttack;
@@ -116,12 +116,8 @@ public class BossZombie : EnemyBase
         else
         {
             OnAppearAnimationEnded += OnAppearCinematicEnded;
-            Skeleton sk = skeletonAnimation.skeleton;
 
-            Color goal = sk.GetColor();
-            goal.a = 0;
-
-            sk.SetColor(goal);
+            AnimationController.SetSkeletonAlpha(0);
             this.StateManager.SwitchState(FSM_Boss_Manager.E_BossState.Appear);
         }
     }
@@ -135,22 +131,9 @@ public class BossZombie : EnemyBase
     private void OnStart()
     {
         this.BossSpawn();
-        attack_TIMER = onSpawnAttackCooldown;
+        //attack_TIMER = onSpawnAttackCooldown;
         this.StateManager.SwitchState(FSM_Boss_Manager.E_BossState.Chasing);
         TargetClosestPlayer();
-    }
-
-    protected override void Update()
-    {
-        if (!IsAlive()) return;
-
-        if (hitStop_TIMER > 0)
-        {
-            hitStop_TIMER -= Time.deltaTime;
-            if (hitStop_TIMER <= 0) this.skeletonAnimation.timeScale = 1;
-        }
-
-        base.Update();
     }
 
     private void OnChangeCinematicState(bool isInCinematic)
@@ -162,53 +145,36 @@ public class BossZombie : EnemyBase
         }
     }
 
-    public override bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
-    {
-        CallReceiveAttack(damager, tickDamages);
-
-        if (deathFlag)
-        {
-            StartCoroutine(MaterialFlash());
-            return true;
-        }
-
-        bool res = base.InflinctDamages(amount, damager, isCrit, fakeDamages, callDelegate);
-
-        if (this.currentHP <= (this.MaxHP_M * hpThresholdBeforeNextStage) && attacksPatern.currentStage == 0) AdvanceToNextStage();
-
-        return res;
-    }
-
     public void OnHitEntity(Entity e, bool hitStopSelf = true)
     {
-        Vector2 baseVel = this.GetRb.velocity;
-        this.GetRb.velocity = Vector2.zero;
+        //Vector2 baseVel = this.GetRb.velocity;
+        //this.GetRb.velocity = Vector2.zero;
 
-        e.InflinctDamages(this.MaxDamages_M, this, this.RollCrit());
-        HitStop(e);
+        //e.InflinctDamages(this.MaxDamages_M, this, this.RollCrit());
+        //HitStop(e);
 
-        foreach (var item in spawnedZombies)
-        {
-            HitStop(item, false);
-        }
+        //foreach (var item in spawnedZombies)
+        //{
+        //    HitStop(item, false);
+        //}
 
-        void HitStop(Entity e, bool pushAtEnd = true)
-        {
-            if (e is PlayerCharacter) (e as PlayerCharacter).SetTimedInvincibility(HitStop_DURATION);
-            e.Stun(this.HitStop_DURATION);
-            e.SkeletonAnimation.timeScale = 0;
-            LeanTween.delayedCall(this.HitStop_DURATION, () =>
-            {
-                e.SkeletonAnimation.timeScale = 1;
-                if (pushAtEnd)
-                    e.AskPush(10, this, this);
-                this.GetRb.velocity = baseVel;
-            });
-        }
+        //void HitStop(Entity e, bool pushAtEnd = true)
+        //{
+        //    if (e is PlayerCharacter) (e as PlayerCharacter).SetTimedInvincibility(HitStop_DURATION);
+        //    e.Stun(this.HitStop_DURATION);
+        //    e.SkeletonAnimation.timeScale = 0;
+        //    LeanTween.delayedCall(this.HitStop_DURATION, () =>
+        //    {
+        //        e.SkeletonAnimation.timeScale = 1;
+        //        if (pushAtEnd)
+        //            e.AskPush(10, this, this);
+        //        this.GetRb.velocity = baseVel;
+        //    });
+        //}
 
         LeanTween.delayedCall(this.HitStop_DURATION, () =>
         {
-            this.GetRb.velocity = baseVel;
+            //this.GetRb.velocity = baseVel;
         });
 
         BossHitFX.GetNext(e.transform.position);
@@ -222,21 +188,21 @@ public class BossZombie : EnemyBase
         attacksPatern.NextStage();
         foreach (var item in secondStageModifiers)
         {
-            AddModifier(item.IDName, item.Modifier, item.StatType);
+            //AddModifier(item.IDName, item.Modifier, item.StatType);
         }
     }
 
-    public override void Death(bool forceDeath = false)
-    {
-        if (deathFlag) return;
-        deathFlag = true;
-        this.BossDeath();
-        CallOnDeath();
-    }
+    //public override void Death(bool forceDeath = false)
+    //{
+    //    if (deathFlag) return;
+    //    deathFlag = true;
+    //    this.BossDeath();
+    //    CallOnDeath();
+    //}
 
     public override void Stun(float duration, bool resetAttackTimer = false, bool showStuntext = false)
     {
-        this.AddModifierUnique("SLOW", -1, duration, StatsModifier.E_StatType.Speed);
+        //this.AddModifierUnique("SLOW", -1, duration, StatsModifier.E_StatType.Speed);
     }
 
     public void TargetClosestPlayer()
@@ -252,21 +218,21 @@ public class BossZombie : EnemyBase
                 closerTarget = item;
             }
         }
-        this.SetTarget(closerTarget);
+        //this.SetTarget(closerTarget);
     }
 
     public void OnMinionSpawned(Entity minion) => spawnedZombies.Add(minion);
     public void OnMinionDied(Entity minion)
     {
-        minion.D_onDeathOf -= OnMinionDied;
+        //minion.D_onDeathOf -= OnMinionDied;
 
-        if (this.IsAlive())
-            spawnedZombies.Remove(minion);
+        //if (this.IsAlive())
+        //    spawnedZombies.Remove(minion);
     }
 
     public void HitStop(float duration)
     {
-        this.SkeletonAnimation.timeScale = 0;
+        //this.SkeletonAnimation.timeScale = 0;
         hitStop_TIMER = duration;
     }
 }

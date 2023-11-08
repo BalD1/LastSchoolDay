@@ -3,7 +3,7 @@ using Spine.Unity;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BossAnimData", menuName = "Scriptable/Entity/AnimationData/Enemies/Boss")]
-public class SCRPT_BossAnimData : SCRPT_AnimationsData<FSM_Boss_Manager.E_BossState>
+public class SCRPT_BossAnimData : SO_AnimationsData<FSM_Boss_Manager.E_BossState>
 {
     [field: SerializeField] public SerializedDictionary<FSM_Boss_Manager.E_BossState, S_StateAnimationData> StateAnimationData { get; private set;}
     [field: SerializeField] public SkeletonDataAsset SkeletonDataAsset { get; private set; }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CHEAT_Spawner : MonoBehaviour, IInteractable
 {
-    [SerializeField] private SCRPT_DropTable dropTable;
+    [SerializeField] private SO_DropTable dropTable;
 
     [SerializeField] private SpriteRenderer spriteRenderer;
 

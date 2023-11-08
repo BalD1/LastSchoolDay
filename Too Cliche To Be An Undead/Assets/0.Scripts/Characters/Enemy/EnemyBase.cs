@@ -2,32 +2,9 @@ using UnityEngine;
 
 public abstract class EnemyBase : Entity
 {
-    [Header("Base - Enemy")]
-
-    [Header("Components")]
-
-    [SerializeField] private SCRPT_DropTable dropTable;
-
-    [SerializeField] private SCRPT_EnemyAttack[] attack;
-    public SCRPT_EnemyAttack[] AttacksArray { get => attack; }
-    public SCRPT_EnemyAttack Attack { get => attack.RandomElement(); }
-
-    [SerializeField] private EnemyPathfinding pathfinding;
-    public EnemyPathfinding Pathfinding { get => pathfinding; }
+    [SerializeField] private SO_DropTable dropTable;
 
     [field: SerializeField] public Collider2D enemiesBlocker;
-
-    [field: SerializeField] public AttackTelegraph attackTelegraph { get; private set; }
-
-    [SerializeField] private Material attackMaterial;
-    public Material AttackMaterial { get => attackMaterial; }
-
-    [SerializeField] private LayerMask wallsMask;
-
-    [SerializeField] private Transform pivotOffset;
-    public Transform PivotOffset { get => pivotOffset; }
-
-    [Header("Stats", order = 0)]
 
     [SerializeField] private float speedMultiplier;
     public float SpeedMultiplier { get => speedMultiplier; }
@@ -40,30 +17,11 @@ public abstract class EnemyBase : Entity
     public float MovementMass { get => movementMass; }
     [field: SerializeField, ReadOnly] public float BaseMovementMass { get; protected set; }
 
-    private Vector2 steeredVelocity;
-
-    [SerializeField] private bool allowSlowdown = true;
-
-    public float MaxSpeed { get => this.MaxSpeed_M * this.SpeedMultiplier; }
-
-    [SerializeField] private float randomWanderPositionRadius = 5f;
-    public float RandomWanderPositionRadius { get => randomWanderPositionRadius; }
-
-    [SerializeField] private float minWaitBeforeNewWanderPoint = 1f;
-    public float MinWaitBeforeNewWanderPoint { get => minWaitBeforeNewWanderPoint; }
-
-    [SerializeField] private float maxWaitBeforeNewWanderPoint = 3f;
-    public float MaxWaitBeforeNewWanderPoint { get => maxWaitBeforeNewWanderPoint; }
-
     [SerializeField] private float distanceBeforeStop = 1f;
     public float DistanceBeforeStop { get => distanceBeforeStop; }
 
     [field: SerializeField] public int MinDistanceForNormalSpeed { get; private set; }
     protected float speedMultiplierOnDistance = 1;
-
-    public float MinDurationBeforeAttack { get => Attack.MinDurationBeforeAttack; }
-
-    public float MaxDurationBeforeAttack { get => Attack.MaxDurationBeforeAttack; }
 
     [SerializeField] private Vector2 maxScaleOnAttack = new Vector2(1.3f, 1.3f);
     [SerializeField] private LeanTweenType inType = LeanTweenType.easeInSine;
@@ -73,49 +31,18 @@ public abstract class EnemyBase : Entity
     public LeanTweenType InType { get => inType; }
     public LeanTweenType OutType { get => outType; }
 
-    [Header("Player Related")]
-
-
-    [SerializeField] protected PlayerCharacter attackedPlayer;
-    public PlayerCharacter AttackedPlayer { get => attackedPlayer; }
-
-    [SerializeField] private PlayerCharacter currentPlayerTarget;
-    [SerializeField] private Transform currentTransformTarget;
-    public PlayerCharacter CurrentPlayerTarget { get => currentPlayerTarget; }
-    public Transform CurrentTransformTarget { get => currentPlayerTarget == null ? currentTransformTarget : currentPlayerTarget.transform; }
-    public Vector2 CurrentPositionTarget { get => CurrentTransformTarget == null ? storedTargetPosition : CurrentTransformTarget.position; }
-    public Vector2 storedTargetPosition;
-
-    public delegate void D_LostPlayer();
-    public D_LostPlayer D_lostPlayer;
-
-    public delegate void D_ReceivedStampModifier();
-    public D_ReceivedStampModifier D_receivedStampModifier;
-
-    [field: SerializeField] public bool AllowScaleOnStamp { get; protected set; }
-
-    [Header("Misc")]
-
-#if UNITY_EDITOR
-    public string currentStateDebug = "N/A";
-#endif
-
-    private Vector2 basePosition;
-    public Vector2 BasePosition { get => basePosition; }
-
-    private Vector2 desiredVelocity;
-    private Vector2 steering;
-
-    private EntityEvents.OnEntityDamagesData<EnemyBase> lastDamagesData;
-
-    protected override void Awake()
+    protected override void EventsSubscriber()
     {
-        base.Awake();
-        lastDamagesData = new(this, null, 0);
-        basePosition = this.transform.position;
+        base.EventsSubscriber();
+        if (HolderTryGetComponent(IComponentHolder.E_Component.HealthSystem, out HealthSystem healthSystem) == IComponentHolder.E_Result.Success)
+            healthSystem.OnDeath += OnEnemyDeath;
+    }
 
-        BaseMaxForce = maxForce;
-        BaseMovementMass = movementMass;
+    protected override void EventsUnSubscriber()
+    {
+        base.EventsUnSubscriber();
+        if (HolderTryGetComponent(IComponentHolder.E_Component.HealthSystem, out HealthSystem healthSystem) == IComponentHolder.E_Result.Success)
+            healthSystem.OnDeath -= OnEnemyDeath;
     }
 
     protected virtual void Start()
@@ -123,185 +50,58 @@ public abstract class EnemyBase : Entity
         distanceBeforeStop = distanceBeforeStop.Fluctuate();
     }
 
-    protected override void Update()
+    private void OnEnemyDeath()
     {
-        base.Update();
-    }
-
-    public virtual void SetSpeedOnDistanceFromTarget()
-    {
-        float distanceFromTarget = Vector2.Distance(this.transform.position, CurrentPositionTarget);
-        if (distanceFromTarget < MinDistanceForNormalSpeed + Camera.main.orthographicSize)
-        {
-            speedMultiplierOnDistance = 1;
-            enemiesBlocker.enabled = true;
-            return;
-        }
-
-        enemiesBlocker.enabled = false;
-        speedMultiplierOnDistance = distanceFromTarget;
-    }
-
-    public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)
-    {
-        if (speedMultiplierOnDistance <= 1)
-        {
-            desiredVelocity = goalPosition * MaxSpeed;
-
-            steering = desiredVelocity - steeredVelocity;
-            steering = Vector3.ClampMagnitude(steering, this.MaxForce);
-            if (this.MovementMass != 0)
-                steering /= this.MovementMass;
-
-            void SteerVelocity(float multiplier = 1)
-            {
-                steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * multiplier;
-            }
-
-            bool isTargetIdle = currentPlayerTarget.PlayerMotor != null && 
-                                currentPlayerTarget != null 
-                                && currentPlayerTarget.PlayerMotor.Velocity == Vector2.zero;
-            if ((slowdownOnApproach && allowSlowdown) && isTargetIdle)
-            {
-                float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
-
-                if (distance < distanceBeforeStop) SteerVelocity(distance / distanceBeforeStop);
-                else SteerVelocity();
-            }
-            else SteerVelocity();
-        }
-        else steeredVelocity = goalPosition * MaxSpeed * speedMultiplierOnDistance;
-
-        //this.GetRb.velocity = steeredVelocity * Time.fixedDeltaTime;
-        this.GetRb.MovePosition(this.GetRb.position + steeredVelocity * Time.fixedDeltaTime);
-    }
-
-    public override bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
-    {
-        bool res = false;
-        res = base.InflinctDamages(amount, damager, isCrit, fakeDamages, callDelegate, tickDamages);
-        if (!res || !callDelegate) return res;
-
-        lastDamagesData.SetDamagerAndDamagesAmount(damager, amount);
-        this.EnemyTookDamages(lastDamagesData);
-
-        return res;
-    }
-
-    public void ChooseRandomPosition()
-    {
-        Vector2 randDir = (UnityEngine.Random.insideUnitCircle * this.transform.position).normalized;
-        float randDist = UnityEngine.Random.Range(distanceBeforeStop, randomWanderPositionRadius);
-
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, randDir, randDist, wallsMask);
-
-        Vector2 point = this.transform.position;
-
-        point = hit.point != Vector2.zero ? hit.point :
-                             (Vector2)this.transform.position + randDir * randDist;
-
-        SetTarget(point);
-    }
-
-    public void ResetVelocity()
-    {
-        steeredVelocity = Vector2.zero;
-    }
-
-    public virtual void SetAttackedPlayer(PlayerCharacter target)
-    {
-        if (target == null) return;
-        if (target.IsAlive() == false) return;
-
-        if (target.AddAttacker(this))
-            attackedPlayer = target;
-    }
-
-    public void UnsetAttackedPlayer()
-    {
-        if (attackedPlayer == null) return;
-        attackedPlayer.RemoveAttacker(this);
-        attackedPlayer = null;
-    }
-
-    public void SetTarget(Vector2 target)
-    {
-        storedTargetPosition = target;
-    }
-    public void SetTarget(Transform target)
-    {
-        currentTransformTarget = target;
-    }
-    public void SetTarget(PlayerCharacter playerTarget)
-    {
-        currentPlayerTarget = playerTarget;
-
-        if (playerTarget == null) currentTransformTarget = null;
-        else currentTransformTarget = playerTarget.transform;
-    }
-    public void ResetTarget()
-    {
-        currentPlayerTarget = null;
-        currentTransformTarget = null;
-    }
-
-    public override void Death(bool forceDeath = false)
-    {
-        base.Death(forceDeath);
-
-        if (dropTable != null && !forceDeath)
-        {
+        if (dropTable != null)
             dropTable.DropRandom(this.transform.position);
-        }
 
-        this.EnemyDeath(lastDamagesData);
-
-        attackedPlayer?.RemoveAttacker(this);
+        if (HolderTryGetComponent(IComponentHolder.E_Component.EnemyAI, out BaseEnemyAI ai) == IComponentHolder.E_Result.Success)
+            ai.CurrentTarget.RemoveAttacker(this);
     }
 
-    public void SetAsZombifiedPlayer(Sprite playerSprite, float playerMaxHP, float playerDamages, float playerSpeed, int playerCrits)
-    {
-        this.MaxHP_M = playerMaxHP;
-        this.Heal(playerMaxHP);
-        this.MaxDamages_M = playerDamages;
-        this.MaxSpeed_M = playerSpeed;
-        this.MaxCritChances_M = playerCrits;
-    }
+    //public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)
+    //{
+    //    if (speedMultiplierOnDistance <= 1)
+    //    {
+    //        desiredVelocity = goalPosition * MaxSpeed;
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-         d_EnteredCollider?.Invoke(collision);
-    }
+    //        steering = desiredVelocity - steeredVelocity;
+    //        steering = Vector3.ClampMagnitude(steering, this.MaxForce);
+    //        if (this.MovementMass != 0)
+    //            steering /= this.MovementMass;
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        d_ExitedCollider?.Invoke(collision);
-    }
+    //        void SteerVelocity(float multiplier = 1)
+    //        {
+    //            steeredVelocity = Vector3.ClampMagnitude(steeredVelocity + steering, MaxSpeed) * multiplier;
+    //        }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Player") || collision.CompareTag("Destroyable"))
-            OnEnteredBodyTrigger?.Invoke(collision);
-    }
+    //        bool isTargetIdle = currentPlayerTarget.PlayerMotor != null &&
+    //                            currentPlayerTarget != null
+    //                            && currentPlayerTarget.PlayerMotor.Velocity == Vector2.zero;
+    //        if ((slowdownOnApproach && allowSlowdown) && isTargetIdle)
+    //        {
+    //            float distance = Vector2.Distance(this.transform.position, CurrentPositionTarget);
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Player") || collision.CompareTag("Destroyable"))
-            OnExitedBodyTrigger?.Invoke(collision);
-    }
+    //            if (distance < distanceBeforeStop) SteerVelocity(distance / distanceBeforeStop);
+    //            else SteerVelocity();
+    //        }
+    //        else SteerVelocity();
+    //    }
+    //    else steeredVelocity = goalPosition * MaxSpeed * speedMultiplierOnDistance;
 
-    protected override void OnDrawGizmos()
-    {
-#if UNITY_EDITOR
-        if (!debugMode) return;
-        base.OnDrawGizmos();
+    //    //this.GetRb.velocity = steeredVelocity * Time.fixedDeltaTime;
+    //    this.GetRb.MovePosition(this.GetRb.position + steeredVelocity * Time.fixedDeltaTime);
+    //}
 
-        Gizmos.DrawWireSphere(this.transform.position, distanceBeforeStop);
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(this.transform.position, randomWanderPositionRadius);
-        Gizmos.color = Color.white;
+    //public override void Death(bool forceDeath = false)
+    //{
+    //    if (dropTable != null && !forceDeath)
+    //    {
+    //        dropTable.DropRandom(this.transform.position);
+    //    }
 
-        //Gizmos.DrawWireSphere()
-#endif
-    }
+    //    this.EnemyDeath(lastDamagesData);
+
+    //    attackedPlayer?.RemoveAttacker(this);
+    //}
 }

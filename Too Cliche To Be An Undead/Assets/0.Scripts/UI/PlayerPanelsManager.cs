@@ -159,7 +159,7 @@ public class PlayerPanelsManager : UIScreenBase
         }
     }
 
-    public void JoinPanel(PlayerInputs playerInputs)
+    public void JoinPanel(PlayerInputHandler playerInputs)
     {
         foreach (var item in playerPanels)
         {

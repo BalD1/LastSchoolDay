@@ -5,8 +5,12 @@ using UnityEngine;
 
 public abstract class AnimationControllerBase : MonoBehaviourEventsHandler
 {
+    [SerializeField] private GameObject ownerObj;
+    protected IComponentHolder owner;
+
     protected virtual void Start()
     {
+        owner = ownerObj.GetComponent<IComponentHolder>();
         Setup();
     }
 
@@ -23,6 +27,9 @@ public abstract class AnimationControllerBase : MonoBehaviourEventsHandler
     public abstract bool IsLookingAtRight();
 
     public abstract void SetAnimationSequence(S_AnimationSequenceSingle[] sequence, bool loopLast, float timeScale = 1);
+
+    public abstract void SetSkeletonColor(Color color);
+    public abstract void SetSkeletonAlpha(float alpha);
 
     [System.Serializable]
     public struct S_AnimationSequenceSingle

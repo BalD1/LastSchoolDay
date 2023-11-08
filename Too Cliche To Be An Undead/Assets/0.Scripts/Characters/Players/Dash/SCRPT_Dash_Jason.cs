@@ -8,12 +8,12 @@ public class SCRPT_Dash_Jason : SCRPT_Dash
     public override void OnDashStart(PlayerCharacter owner, Vector2 direction)
     {
         base.OnDashStart(owner, direction);
-        owner.SetInvincibility(true);
+        //owner.SetInvincibility(true);
     }
 
     public override void OnDashStop(PlayerCharacter owner)
     {
         base.OnDashStop(owner);
-        owner.SetInvincibility(false);
+        //owner.SetInvincibility(false);
     }
 }

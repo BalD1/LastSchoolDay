@@ -33,22 +33,22 @@ public class PlayerFootprints : MonoBehaviourEventsHandler
 
     protected override void EventsSubscriber()
     {
-        owner.OnSteppedIntoTrigger += OwnerSteppedInTrigger;
-        owner.OnSuccessfulAttack += OwnerAttacked;
-        owner.OnStateChange += OnOwnerStateChange;
+        //owner.OnSteppedIntoTrigger += OwnerSteppedInTrigger;
+        //owner.OnSuccessfulAttack += OwnerAttacked;
+        //owner.OnStateChange += OnOwnerStateChange;
     }
 
     protected override void EventsUnSubscriber()
     {
-        owner.OnSteppedIntoTrigger -= OwnerSteppedInTrigger;
-        owner.OnSuccessfulAttack -= OwnerAttacked;
-        owner.OnStateChange -= OnOwnerStateChange;
+        //owner.OnSteppedIntoTrigger -= OwnerSteppedInTrigger;
+        //owner.OnSuccessfulAttack -= OwnerAttacked;
+        //owner.OnStateChange -= OnOwnerStateChange;
     }   
 
-    private void OnOwnerStateChange(FSM_Player_Manager.E_PlayerState newState)
+    private void OnOwnerStateChange(FSM_Player.E_PlayerState newState)
     {
-        allowFootSteps = newState == FSM_Player_Manager.E_PlayerState.Dashing ||
-                         newState == FSM_Player_Manager.E_PlayerState.InSkill;
+        allowFootSteps = newState == FSM_Player.E_PlayerState.Dashing ||
+                         newState == FSM_Player.E_PlayerState.InSkill;
     }
 
     private void OwnerSteppedInTrigger(Type triggerType)
@@ -79,7 +79,7 @@ public class PlayerFootprints : MonoBehaviourEventsHandler
             return;
         }
 
-        if (owner.PlayerMotor.Velocity == Vector2.zero) return;
+        //if (owner.PlayerMotor.Velocity == Vector2.zero) return;
 
         SpawnFootprint();
         LeanTween.delayedCall(delayBetweenSteps, SpawnFootprint);
@@ -95,11 +95,11 @@ public class PlayerFootprints : MonoBehaviourEventsHandler
             return;
         }
 
-        if (owner.StateManager.CurrentState.ToString() == "Idle" || owner.PlayerMotor.Velocity == Vector2.zero) return;
+        //if (owner.StateManager.CurrentState.ToString() == "Idle" || owner.PlayerMotor.Velocity == Vector2.zero) return;
 
         footSteps_TIMER = delayBetweenStepsAudio;
 
-        owner.OnFootPrint?.Invoke();
+        //owner.OnFootPrint?.Invoke();
     }
 
     private void SpawnFootprint()
@@ -109,6 +109,6 @@ public class PlayerFootprints : MonoBehaviourEventsHandler
         pos.y += leftPrint ? yOffset : -yOffset;
         leftPrint = !leftPrint;
 
-        FootprintParticleSystemHandler.Instance.SpawnFootprint(pos, owner.PlayerMotor.LastDirection, footprints_LIFETIME);
+        //FootprintParticleSystemHandler.Instance.SpawnFootprint(pos, owner.PlayerMotor.LastDirection, footprints_LIFETIME);
     }
 }

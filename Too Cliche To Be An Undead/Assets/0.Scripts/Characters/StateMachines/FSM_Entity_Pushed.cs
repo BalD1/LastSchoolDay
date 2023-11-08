@@ -26,10 +26,10 @@ public class FSM_Entity_Pushed<Manager, StateName> : FSM_Base<Manager, StateName
         base.EnterState(stateManager);
         wallLayer = LayerMask.NameToLayer("Wall");
         alreadyPushedEntities = new List<Collider2D>();
-        owner.GetRb.velocity = Vector2.zero;
+        //owner.GetRb.velocity = Vector2.zero;
         PerformPush(pusher);
 
-        owner.OnPushed?.Invoke();
+        //owner.OnPushed?.Invoke();
     }
 
     public override void UpdateState(Manager stateManager)
@@ -51,32 +51,32 @@ public class FSM_Entity_Pushed<Manager, StateName> : FSM_Base<Manager, StateName
 
     public override void Conditions(Manager stateManager)
     {
-        if (VectorMaths.Vector2ApproximatlyEquals(owner.GetRb.velocity, Vector2.zero, 0.08f)) baseConditionChecked = true;
+        //if (VectorMaths.Vector2ApproximatlyEquals(owner.GetRb.velocity, Vector2.zero, 0.08f)) baseConditionChecked = true;
     }
 
     protected override void EventsSubscriber(Manager stateManager)
     {
-        owner.OnEnteredBodyTrigger += TriggerEnter;
-        owner.d_EnteredCollider += ColliderEnter;
+        //owner.OnEnteredBodyTrigger += TriggerEnter;
+        //owner.d_EnteredCollider += ColliderEnter;
     }
 
     protected override void EventsUnsubscriber(Manager stateManager)
     {
-        owner.OnEnteredBodyTrigger -= TriggerEnter;
-        owner.d_EnteredCollider -= ColliderEnter;
+        //owner.OnEnteredBodyTrigger -= TriggerEnter;
+        //owner.d_EnteredCollider -= ColliderEnter;
     }
 
     protected virtual void PerformPush(Entity pusher)
     {
-        owner.GetRb.AddForce(force, ForceMode2D.Impulse);
+        //owner.GetRb.AddForce(force, ForceMode2D.Impulse);
     }
 
     protected virtual void ColliderEnter(Collision2D collision)
     {
-        float damages = (owner.LastVelocity.magnitude + owner.GetStats.Weight) * wallHitDamagesModifier;
-        damages = Mathf.Round(damages);
+        //float damages = (owner.LastVelocity.magnitude + owner.GetStats.Weight) * wallHitDamagesModifier;
+        //damages = Mathf.Round(damages);
 
-        owner.InflinctDamages(damages, originalPusher);
+        //owner.InflinctDamages(damages, originalPusher);
     }
 
     protected virtual void TriggerEnter(Collider2D collider)
@@ -90,10 +90,10 @@ public class FSM_Entity_Pushed<Manager, StateName> : FSM_Base<Manager, StateName
         alreadyPushedEntities.Add(collider);
 
         // lessen the PushForce depending on the remaining push time
-        owner.GetRb.velocity *= forcePushTransmissionPercentage;
-        float appliedForce = owner.GetRb.velocity.magnitude + owner.GetStats.Weight;
+        //owner.GetRb.velocity *= forcePushTransmissionPercentage;
+        //float appliedForce = owner.GetRb.velocity.magnitude + owner.GetStats.Weight;
 
-        e.AskPush(appliedForce, owner, originalPusher);
+        //e.AskPush(appliedForce, owner, originalPusher);
     }
 
     public FSM_Entity_Pushed<Manager, StateName> SetForce(Vector2 _force, Entity _pusher, Entity _originalPusher)

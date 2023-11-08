@@ -16,8 +16,8 @@ public class EntityHitStop : MonoBehaviour
 
     protected virtual void Awake()
     {
-        owner.OnPushed += OnPushed;
-        owner.OnReset += OnReset;
+        //owner.OnPushed += OnPushed;
+        //owner.OnReset += OnReset;
     }
 
     protected virtual void OnReset()
@@ -36,8 +36,8 @@ public class EntityHitStop : MonoBehaviour
 
     protected virtual IEnumerator HitStop()
     {
-        owner.SkeletonAnimation.AnimationState.TimeScale = 0;
+        //owner.SkeletonAnimation.AnimationState.TimeScale = 0;
         yield return new WaitForSeconds(stopTime);
-        owner.SkeletonAnimation.AnimationState.TimeScale = 1;
+        //owner.SkeletonAnimation.AnimationState.TimeScale = 1;
     }
 }

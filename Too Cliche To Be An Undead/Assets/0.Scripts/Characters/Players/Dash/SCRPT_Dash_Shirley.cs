@@ -21,19 +21,19 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
         player = owner;
         base.OnDashStart(owner, direction);
 
-        finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
-        critChances = owner.MaxCritChances_M;
-        team = owner.GetStats.Team;
+        //finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
+        //critChances = owner.MaxCritChances_M;
+        //team = owner.GetStats.Team;
 
         hitEntities = new List<Entity>();
 
-        owner.OnEnteredBodyTrigger += EnteredTrigger;
+        //owner.OnEnteredBodyTrigger += EnteredTrigger;
     }
 
     public override void OnDashStop(PlayerCharacter owner)
     {
         base.OnDashStop(owner);
-        owner.OnEnteredBodyTrigger -= EnteredTrigger;
+        //owner.OnEnteredBodyTrigger -= EnteredTrigger;
     }
 
     private void EnteredTrigger(Collider2D c)
@@ -44,7 +44,7 @@ public class SCRPT_Dash_Shirley : SCRPT_Dash
 
         if (!hitEntities.Contains(e))
         {
-            e.InflinctDamages(finalDamages, player, Random.Range(0, 100) <= critChances);
+            //e.InflinctDamages(finalDamages, player, Random.Range(0, 100) <= critChances);
             hitEntities.Add(e);
         }
     }

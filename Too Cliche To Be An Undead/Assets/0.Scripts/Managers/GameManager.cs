@@ -16,6 +16,14 @@ public class GameManager : Singleton<GameManager>
         None,
     }
 
+    public enum E_Direction
+    {
+        Left,
+        Right,
+        Up,
+        Down
+    }
+
     public static bool isAppQuitting { get; private set; }
 
     [SerializeField] private Shop shop;
@@ -84,6 +92,8 @@ public class GameManager : Singleton<GameManager>
 
     private LTDescr gameoverCinematicTween;
 
+    public Vector2 MouseWorldPos { get; private set; }
+
     #region GameStates
 
     public static bool IsInGame
@@ -115,9 +125,6 @@ public class GameManager : Singleton<GameManager>
         {
             gameState = value;
             ProcessStateChange(value);
-
-            if (UIManager.Instance)
-                UIManager.Instance.WindowsManager(value);
         }
     }
 
@@ -281,7 +288,6 @@ public class GameManager : Singleton<GameManager>
         }
         else if (CompareCurrentScene(E_ScenesNames.MainMenu))
         {
-            PlayerCharacter.SetLevel(0);
             if (DataKeeper.Instance != null)
             {
                 DataKeeper.Instance.money = 0;
@@ -290,6 +296,11 @@ public class GameManager : Singleton<GameManager>
                 DataKeeper.Instance.runsCount = 0;
             }
         }
+    }
+
+    private void Update()
+    {
+        SetWorldMousePosition();
     }
 
     private void OnChangeCinematicState(bool state)
@@ -431,4 +442,9 @@ public class GameManager : Singleton<GameManager>
     }
 
     #endregion
+
+    private void SetWorldMousePosition()
+    {
+        MouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
 }

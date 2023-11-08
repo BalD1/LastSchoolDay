@@ -8,7 +8,7 @@ public class SCRPT_BossPatern : ScriptableObject
     [System.Serializable]
     public struct S_AttackAndCooldown
     {
-        [field: SerializeField] public SCRPT_EnemyAttack attack { get; private set; }
+        [field: SerializeField] public SO_EnemyAttack attack { get; private set; }
         [field: SerializeField] public float timeBeforeNext { get; private set; }
     }
     [System.Serializable]

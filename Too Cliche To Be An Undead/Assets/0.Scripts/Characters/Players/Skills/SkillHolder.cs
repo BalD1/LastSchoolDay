@@ -35,9 +35,9 @@ public class SkillHolder : MonoBehaviour
         {
             skillCooldown -= Time.deltaTime;
 
-            float fillAmount = skillCooldown / owner.MaxSkillCD_M;
-            if (owner.PlayerHUD != null)
-                owner.PlayerHUD.UpdateSkillThumbnailFill(fillAmount);
+            //float fillAmount = skillCooldown / owner.MaxSkillCD_M;
+            //if (owner.PlayerHUD != null)
+            //    owner.PlayerHUD.UpdateSkillThumbnailFill(fillAmount);
         }
     }
 
@@ -45,7 +45,7 @@ public class SkillHolder : MonoBehaviour
     {
         if (Skill.IsInUse || skillCooldown > 0) return;
 
-        PlayerAnimationController animController = owner.AnimationController;
+        //PlayerAnimationController animController = owner.AnimationController;
         //AnimationReferenceAsset transitionAnim = owner.AnimationsData.SkillTransitionAnim;
 
         float transitionDuration = -1;
@@ -60,12 +60,12 @@ public class SkillHolder : MonoBehaviour
         //    transitionDuration *= skill.TransitionDurationMultiplier;
         //}
 
-        owner.OnAskForSkill?.Invoke(skill.Duration, transitionDuration, startOffset);
+        //owner.OnAskForSkill?.Invoke(skill.Duration, transitionDuration, startOffset);
 
-        owner.PlayerHUD.UpdateSkillThumbnailFill(1);
+        //owner.PlayerHUD.UpdateSkillThumbnailFill(1);
     }
 
-    public void StartCooldown() => skillCooldown = owner.MaxSkillCD_M;
+    //public void StartCooldown() => skillCooldown = owner.MaxSkillCD_M;
     public void StartCooldown(float t)
     {
         skillCooldown = t;
@@ -82,10 +82,10 @@ public class SkillHolder : MonoBehaviour
         this.Skill.ResetSkill();
         skillCooldown = 0;
 
-        owner.PlayerHUD?.SetSkillThumbnail(newSkill.Thumbnail);
-        owner.PlayerHUD?.UpdateSkillThumbnailFill(0, false);
+        //owner.PlayerHUD?.SetSkillThumbnail(newSkill.Thumbnail);
+        //owner.PlayerHUD?.UpdateSkillThumbnailFill(0, false);
 
-        owner.ResetSkillAnimator();
+        //owner.ResetSkillAnimator();
     }
 
 

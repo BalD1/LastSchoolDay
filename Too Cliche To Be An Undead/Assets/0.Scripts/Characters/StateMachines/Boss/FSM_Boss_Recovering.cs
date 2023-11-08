@@ -34,7 +34,7 @@ public class FSM_Boss_Recovering : FSM_Base<FSM_Boss_Manager, FSM_Boss_Manager.E
     public override void Conditions(FSM_Boss_Manager stateManager)
     {
         if (recovering_TIMER <= 0) stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Chasing);
-        if (owner.CurrentHP <= 0)
+        //if (owner.CurrentHP <= 0)
             stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Dead);
     }
 

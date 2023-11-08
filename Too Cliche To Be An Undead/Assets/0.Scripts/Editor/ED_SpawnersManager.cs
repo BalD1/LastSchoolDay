@@ -37,7 +37,7 @@ public class ED_SpawnersManager : Editor
             GUI.enabled = false;
             float zombieTimer = -1;
 
-            NormalZombie[] arr = SpawnersManager.GetPool().ToArray();
+            BaseZombie[] arr = SpawnersManager.GetPool().ToArray();
             for (int i = 0; i < arr.Length; i++)
             {
                 EditorGUILayout.BeginHorizontal();

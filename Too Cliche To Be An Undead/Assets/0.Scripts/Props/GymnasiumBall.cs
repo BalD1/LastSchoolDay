@@ -23,7 +23,7 @@ public class GymnasiumBall : MonoBehaviour, IDamageable
     {
     }
 
-    public bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    public bool InflictDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         if (dir == Vector2.zero) return false;
 

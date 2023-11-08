@@ -22,18 +22,18 @@ public class SlowOnZombiesCollide : MonoBehaviour
 
     private void OnDestroy()
     {
-        owner.RemoveModifier(MODIFIER_ID);
+        //owner.RemoveModifier(MODIFIER_ID);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<NormalZombie>() == null) return;
+        if (collision.GetComponent<BaseZombie>() == null) return;
 
         if (slowdownPercentageAmount > 0)
         {
-            float slowDownAmount = owner.MaxSpeed_M * (slowdownPercentageAmount / 100);
+            //float slowDownAmount = owner.MaxSpeed_M * (slowdownPercentageAmount / 100);
 
-            if (collidingZombiesCount == 0) owner.AddModifierUnique(MODIFIER_ID, -slowDownAmount, StatsModifier.E_StatType.Speed);
+            //if (collidingZombiesCount == 0) owner.AddModifierUnique(MODIFIER_ID, -slowDownAmount, StatsModifier.E_StatType.Speed);
         }
 
         collidingZombiesCount++;
@@ -41,10 +41,10 @@ public class SlowOnZombiesCollide : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.GetComponent<NormalZombie>() == null) return;
+        if (collision.GetComponent<BaseZombie>() == null) return;
 
         collidingZombiesCount--;
 
-        if (collidingZombiesCount == 0 && slowdownPercentageAmount > 0) owner.RemoveModifier(MODIFIER_ID);
+        //if (collidingZombiesCount == 0 && slowdownPercentageAmount > 0) owner.RemoveModifier(MODIFIER_ID);
     }
 }

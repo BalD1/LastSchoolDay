@@ -13,10 +13,11 @@ public static class FSM_Entity_Extensions
         Vector2 dir = (selfPos - pusherPos).normalized;
         DashHitParticles.GetNext(pusherPos + (dist * dir));
 
-        float finalForce = force - self.GetStats.Weight;
-        if (finalForce <= 0) return Vector2.zero;
+        //float finalForce = force - self.GetStats.Weight;
+        //if (finalForce <= 0) return Vector2.zero;
 
-        Vector2 v = dir * finalForce;
-        return v;
+        //Vector2 v = dir * finalForce;
+        //return v;
+        return Vector2.zero;
     }
 }

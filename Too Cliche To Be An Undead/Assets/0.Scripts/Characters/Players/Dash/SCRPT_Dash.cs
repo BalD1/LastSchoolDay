@@ -39,7 +39,7 @@ public class SCRPT_Dash : ScriptableObject
 
         for (int i = 0; i < particlesPF.Length; i++)
         {
-            currentParticles.Add(particlesPF[i].Create(parent: owner.SkeletonAnimation.transform).GetComponent<ParticleSystem>());
+            //currentParticles.Add(particlesPF[i].Create(parent: owner.SkeletonAnimation.transform).GetComponent<ParticleSystem>());
             currentParticles[i].gameObject.transform.Rotate(particlesRotation, 0, 0);
         }
     }

@@ -175,7 +175,7 @@ public class DebugConsole : MonoBehaviour
         KILL = new DebugCommand<int>("KILL", "Kills the given character index", "KILL <int>", (int targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out var player)) return;
-            player.InflinctDamages(player.MaxHP_M, null, isCrit: true);
+            //player.InflinctDamages(player.MaxHP_M, null, isCrit: true);
         });
 
         KILLALL = new DebugCommand("KILL_ALL", "Kills every players", "KILL_ALL", () =>
@@ -183,7 +183,7 @@ public class DebugConsole : MonoBehaviour
             if (!IGPlayersManager.ST_InstanceExists()) return;
             foreach (var item in IGPlayersManager.Instance.PlayersList)
             {
-                item.InflinctDamages(item.MaxHP_M, null);
+                //item.InflinctDamages(item.MaxHP_M, null);
             }
         });
 
@@ -194,7 +194,7 @@ public class DebugConsole : MonoBehaviour
 
         FORCEKILL_BOSS = new DebugCommand("FORCEKILL_BOSS", "Instantly kills the boss", "FORCEKILL_BOSS", () =>
         {
-            FindObjectOfType<BossZombie>().InflinctDamages(1000000, null);
+            //FindObjectOfType<BossZombie>().InflinctDamages(1000000, null);
         });
 
         GOLD_BAG = new DebugCommand("GOLD_BAG", "Adds 50 gold", "GOLD_BAG", () =>
@@ -276,7 +276,7 @@ public class DebugConsole : MonoBehaviour
         REMOVE_ALL_MODIFIERS = new DebugCommand<int>("REMOVE_ALL_MODIFIERS", "Removes every modifiers of character index", "REMOVE_ALL_MODIFIERS_TARGET", (targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out var player)) return;
-            player.RemoveModifiersAll();
+            //player.RemoveModifiersAll();
         });
 
         SWITCH_CHARACTER = new DebugCommand<int, int>("SWITCH_CHARACTER", "Switchs to the desired character for target \n 0 = Shirley \n 1 = Whitney \n 2 = Jason \n 3 = Nelson", "SWITCH_CHARACTER <int> <int>", (character, targetIdx) =>
@@ -294,7 +294,7 @@ public class DebugConsole : MonoBehaviour
         KILL = new DebugCommand<int>("KILL", "Kills the given player index", "KILL <int>", (val) =>
         {
             PlayerCharacter pc = DataKeeper.Instance.playersDataKeep[val].playerInput.GetComponentInParent<PlayerCharacter>();
-            pc.InflinctDamages(pc.MaxHP_M, null);
+            //pc.InflinctDamages(pc.MaxHP_M, null);
         });
 
         ADD_MONEY = new DebugCommand<int>("ADD_MONEY", "Adds <int> money", "ADD_MONEY <int>", (val) =>
@@ -313,73 +313,73 @@ public class DebugConsole : MonoBehaviour
         HEAL = new DebugCommand<float, int>("HEAL", "Heals the targeted character", "HEAL <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.Heal(amount);
+            //pc.Heal(amount);
         }, T2defaultValue: 0);
 
         HEAL_CRITICAL = new DebugCommand<float, int>("HEAL_CRITICAL", "Heals the targeted character", "HEAL_CRITICAL <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.Heal(amount, true);
+            //pc.Heal(amount, true);
         }, T2defaultValue: 0);
 
         DAMAGE = new DebugCommand<float, int>("DAMAGE", "Damages the targeted character", "DAMAGE <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.InflinctDamages(amount, null);
+            //pc.InflinctDamages(amount, null);
         }, T2defaultValue: 0);
 
         DAMAGE_CRITICAL = new DebugCommand<float, int>("DAMAGE_CRITICAL", "Criticaly damages the targeted character", "DAMAGE_CRITICAL <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.InflinctDamages(amount, null, true);
+            //pc.InflinctDamages(amount, null, true);
         }, T2defaultValue: 0);
 
         ADDM_HP = new DebugCommand<float, int>("ADDM_HP", "Adds a HP modifier of <float> to <int>", "ADDM_HP <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.AddModifier(MODIF_HEALTH_ID, amount, StatsModifier.E_StatType.MaxHP);
+            //pc.AddModifier(MODIF_HEALTH_ID, amount, StatsModifier.E_StatType.MaxHP);
         }, T2defaultValue: 0);
 
         ADDM_DAMAGES = new DebugCommand<float, int>("ADDM_DAMAGES", "Adds a damages modifier of <float> to <int>", "ADDM_DAMAGES <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.AddModifier(MODIF_DAMAGES_ID, amount, StatsModifier.E_StatType.Damages);
+            //pc.AddModifier(MODIF_DAMAGES_ID, amount, StatsModifier.E_StatType.Damages);
         }, T2defaultValue: 0);
 
         ADDM_ATTRANGE = new DebugCommand<float, int>("ADDM_ATTRANGE", "Adds a attack range modifier of <float> to <int>", "ADDM_ATTRANGE <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.AddModifier(MODIF_RANGE_ID, amount, StatsModifier.E_StatType.AttackRange);
+            //pc.AddModifier(MODIF_RANGE_ID, amount, StatsModifier.E_StatType.AttackRange);
         }, T2defaultValue: 0);
 
         ADDM_ATTCD = new DebugCommand<float, int>("ADDM_ATTCD", "Adds a attack cooldown modifier of <float> to <int>", "ADDM_ATTCD <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.AddModifier(MODIF_CD_ID, amount, StatsModifier.E_StatType.Attack_CD);
+            //pc.AddModifier(MODIF_CD_ID, amount, StatsModifier.E_StatType.Attack_CD);
         }, T2defaultValue: 0);
 
         ADDM_SPEED = new DebugCommand<float, int>("ADDM_SPEED", "Adds a speed modifier of <float> to <int>", "ADDM_SPEED <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.AddModifier(MODIF_SPEED_ID, amount, StatsModifier.E_StatType.Speed);
+            //pc.AddModifier(MODIF_SPEED_ID, amount, StatsModifier.E_StatType.Speed);
         }, T2defaultValue: 0);
 
         ADDM_CRIT = new DebugCommand<int, int>("ADDM_CRIT", "Adds crit chances <int>% to <int>", "ADDM_CRIT <int> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.AddModifier(MODIF_CRIT_ID, amount, StatsModifier.E_StatType.CritChances);
+            //pc.AddModifier(MODIF_CRIT_ID, amount, StatsModifier.E_StatType.CritChances);
         }, T2defaultValue: 0);
 
         ADDM_DASHCD = new DebugCommand<float, int>("ADDM_DASHCD", "Adds a dash cooldown modifier of <float> to <int>", "ADDM_DASHCD <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.AddModifier(MODIF_DASHCD_ID, amount, StatsModifier.E_StatType.DASH_CD);
+            //pc.AddModifier(MODIF_DASHCD_ID, amount, StatsModifier.E_StatType.DASH_CD);
         }, T2defaultValue: 0);
 
         ADDM_SKILLCD = new DebugCommand<float, int>("ADDM_SKILLCD", "Adds a skill cooldown modifier of <float> to <int>", "ADDM_SKILLCD <float> <int>(default : 0)", (amount, targetIdx) =>
         {
             if (!IGPlayersManager.ST_TryGetPlayer(targetIdx, out PlayerCharacter pc)) return;
-            pc.AddModifier(MODIF_SKILLCD_ID, amount, StatsModifier.E_StatType.SKILL_CD);
+            //pc.AddModifier(MODIF_SKILLCD_ID, amount, StatsModifier.E_StatType.SKILL_CD);
         }, T2defaultValue: 0);
     }
 
@@ -520,7 +520,7 @@ public class DebugConsole : MonoBehaviour
             return true;
         }
 
-        this.Log("Could not parse " + propriety, LogsManager.E_LogType.Error);
+        this.Log("Could not parse " + propriety, CustomLogger.E_LogType.Error);
         return false;
     }
     private bool TryParseInt(string propriety, bool allowDefaultValue, int defaultValue, out int result)
@@ -532,7 +532,7 @@ public class DebugConsole : MonoBehaviour
             result = defaultValue;
             return true;
         }
-        this.Log("Could not parse " + propriety, LogsManager.E_LogType.Error);
+        this.Log("Could not parse " + propriety, CustomLogger.E_LogType.Error);
         return false;
     }
     private bool TryParseBool(string propriety, bool allowDefaultValue, bool defaultValue, out bool result)
@@ -554,7 +554,7 @@ public class DebugConsole : MonoBehaviour
             return true;
         }
 
-        this.Log("Could not parse " + propriety, LogsManager.E_LogType.Error);
+        this.Log("Could not parse " + propriety, CustomLogger.E_LogType.Error);
         return false;
     }
 
@@ -639,7 +639,7 @@ public class DebugConsole : MonoBehaviour
             DebugCommandBase command = commandList[i] as DebugCommandBase;
             if (command == null)
             {
-                this.Log($"Command n°{i} ({command}) was not build.", LogsManager.E_LogType.Error); 
+                this.Log($"Command n°{i} ({command}) was not build.", CustomLogger.E_LogType.Error); 
                 continue;
             }
             if (command.CommandID.StartsWith(input) == false) continue;

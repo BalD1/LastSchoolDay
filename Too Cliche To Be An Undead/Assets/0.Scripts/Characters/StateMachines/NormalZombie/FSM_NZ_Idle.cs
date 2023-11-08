@@ -9,9 +9,9 @@ public class FSM_NZ_Idle : FSM_Entity_Idle<FSM_NZ_Manager, FSM_NZ_Manager.E_NZSt
     {
         base.EnterState(stateManager);
 
-        waitBeforeNewPoint = Random.Range((owner as NormalZombie).MinWaitBeforeNewWanderPoint, (owner as NormalZombie).MaxWaitBeforeNewWanderPoint);
+        //waitBeforeNewPoint = Random.Range((owner as BaseZombie).MinWaitBeforeNewWanderPoint, (owner as BaseZombie).MaxWaitBeforeNewWanderPoint);
 
-        owner.canBePushed = true;
+        //owner.canBePushed = true;
     }
 
     public override void UpdateState(FSM_NZ_Manager stateManager)
@@ -40,14 +40,14 @@ public class FSM_NZ_Idle : FSM_Entity_Idle<FSM_NZ_Manager, FSM_NZ_Manager.E_NZSt
     {
         base.EventsSubscriber(stateManager);
         owner.OnAskForStun += stateManager.SwitchToStun;
-        owner.OnAskForPush += stateManager.SwitchToPushed;
+        //owner.OnAskForPush += stateManager.SwitchToPushed;
     }
 
     protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
     {
         base.EventsUnsubscriber(stateManager);
         owner.OnAskForStun -= stateManager.SwitchToStun;
-        owner.OnAskForPush -= stateManager.SwitchToPushed;
+        //owner.OnAskForPush -= stateManager.SwitchToPushed;
     }
 
     public override void Setup(FSM_NZ_Manager stateManager)

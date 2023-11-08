@@ -38,7 +38,7 @@ public class BossHUDManager : Singleton<BossHUDManager>
     {
         if (bossesHUD.ContainsKey(boss))
         {
-            this.Log("Dictionary already contains " + boss.name, LogsManager.E_LogType.Error);
+            this.Log("Dictionary already contains " + boss.name, CustomLogger.E_LogType.Error);
             return;
         }
         BossHUD bossHUD = bossHUD_PF.Create(hudParent);

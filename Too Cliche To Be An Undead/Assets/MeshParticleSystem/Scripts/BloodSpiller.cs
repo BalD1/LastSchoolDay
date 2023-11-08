@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BloodSpiller : MonoBehaviour
+public class BloodSpiller : MonoBehaviourEventsHandler
 {
-    [SerializeField] protected Entity owner;
+    [SerializeField] protected IComponentHolder owner;
 
     [SerializeField] private int minBloodSpill = 2;
     [SerializeField] private int maxBloodSpill = 4;
@@ -15,10 +15,32 @@ public class BloodSpiller : MonoBehaviour
 
     [SerializeField] private float onDamageDirectionRandomRange = 0.5f;
 
-    protected virtual void Awake()
+    protected override void EventsSubscriber()
     {
-        owner.OnTakeDamageFromEntity += SpillBloodOnDamages;
-        owner.OnDeath += SpillBloodOnDeath;
+        if (owner.HolderTryGetComponent(IComponentHolder.E_Component.HealthSystem, out HealthSystem healthSystem) == IComponentHolder.E_Result.Success)
+        {
+            healthSystem.OnTookDamages += OnOwnerTookDamages;
+            healthSystem.OnDeath += OnOwnerDeath;
+        }
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        if (owner.HolderTryGetComponent(IComponentHolder.E_Component.HealthSystem, out HealthSystem healthSystem) == IComponentHolder.E_Result.Success)
+        {
+            healthSystem.OnTookDamages -= OnOwnerTookDamages;
+            healthSystem.OnDeath -= OnOwnerDeath;
+        }
+    }
+
+    private void OnOwnerTookDamages(INewDamageable.DamagesData damagesData)
+    {
+        SpillBloodOnDamages(damagesData.IsCrit, damagesData.Origin);
+    }
+
+    private void OnOwnerDeath()
+    {
+
     }
 
     protected void SpillBloodOnDamages(bool isCrit, Entity damager, bool tickDamages = false)
@@ -55,20 +77,5 @@ public class BloodSpiller : MonoBehaviour
         {
             BloodParticleSystemHandler.Instance.SpawnBlood(this.transform.position, direction, spillLifetime);
         }
-    }
-
-    private void OnDestroy()
-    {
-        owner.OnTakeDamageFromEntity -= SpillBloodOnDamages;
-        owner.OnDeath -= SpillBloodOnDeath;
-    }
-
-    private void Reset()
-    {
-        Entity e = this.GetComponent<Entity>();
-
-        if (e == null) e = this.GetComponentInParent<Entity>();
-
-        owner = e;
     }
 }

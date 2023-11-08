@@ -7,11 +7,13 @@ public class NewTickDamages : ITickable
     [field: SerializeField, ReadOnly] public SO_TickDamagesData Data { get; private set; }
     [SerializeField, ReadOnly] private HealthSystem handler;
 
+    private INewDamageable.DamagesData damagesData;
+
     private int currentTicks;
 
-    private NewEntity origin;
+    private Entity origin;
 
-    public NewTickDamages(SO_TickDamagesData _data, HealthSystem _handler, NewEntity _origin)
+    public NewTickDamages(SO_TickDamagesData _data, HealthSystem _handler, Entity _origin)
     {
         this.Data = _data;
 
@@ -19,6 +21,9 @@ public class NewTickDamages : ITickable
         this.origin = _origin;
 
         TickManagerEvents.OnTick += OnTick;
+
+        origin.HolderTryGetComponent(IComponentHolder.E_Component.StatsHandler, out StatsHandler stats);
+        damagesData = new INewDamageable.DamagesData(stats.GetTeam(), Data.DamagesType, Data.Damages, false, origin);
     }
 
     public virtual void OnTick(int tick)
@@ -34,7 +39,8 @@ public class NewTickDamages : ITickable
 
     protected virtual void ApplyDamages()
     {
-        handler.InflictDamages(Data.Damages, RandomExtensions.PercentageChance(Data.CritChances));
+        damagesData.SetIsCrit(RandomExtensions.PercentageChance(Data.CritChances));
+        handler.InflictDamages(damagesData);
     }
 
     public void KillTick()

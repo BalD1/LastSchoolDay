@@ -29,7 +29,7 @@ public class SCRPT_AttackAmp : SCRPT_Skill
 
     public override void EarlyStart(PlayerCharacter owner)
     {
-        owner.OnEarlySkillStart?.Invoke();
+        //owner.OnEarlySkillStart?.Invoke();
     }
 
     public override void StartSkill(PlayerCharacter owner)
@@ -38,37 +38,37 @@ public class SCRPT_AttackAmp : SCRPT_Skill
 
         this.owner = owner;
 
-        owner.OnOverrideNextVoiceAttackAudio?.Invoke(voiceAttackClipOverride);
-        owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
+        //owner.OnOverrideNextVoiceAttackAudio?.Invoke(voiceAttackClipOverride);
+        //owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
 
-        owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
+        //owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
-        owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
-        owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
-        owner.OffsetSkillHolder(offset);
+        //owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
+        //owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
+        //owner.OffsetSkillHolder(offset);
 
-        TextPopup.Create("Super Strike", owner.transform.position + (Vector3)owner.GetHealthPopupOffset);
+        //TextPopup.Create("Super Strike", owner.transform.position + (Vector3)owner.GetHealthPopupOffset);
 
         particles?.Create(owner.transform);
 
-        Renderer skeletonRenderer = owner.SkeletonAnimation.GetComponent<Renderer>();
-        owner.AnimationController.JasonMaterialOverride.gameObject.SetActive(true);
-        skeletonRenderer.material.SetFloat("_FillPhase", 0);
-        colorTween = LeanTween.value(0, 1, .25f).setOnUpdate(
-            (float val) =>
-            {
-                skeletonRenderer.material.SetFloat("_FillPhase", val);
-            }).setOnComplete(() =>
-            {
-                LeanTween.value(1, 0, .25f).setOnUpdate(
-                (float val) =>
-                {
-                    skeletonRenderer.material.SetFloat("_FillPhase", val);
-                }).setOnComplete(() =>
-                {
-                    owner.AnimationController.JasonMaterialOverride.gameObject.SetActive(false);
-                });
-            });
+        //Renderer skeletonRenderer = owner.SkeletonAnimation.GetComponent<Renderer>();
+        //owner.AnimationController.JasonMaterialOverride.gameObject.SetActive(true);
+        //skeletonRenderer.material.SetFloat("_FillPhase", 0);
+        //colorTween = LeanTween.value(0, 1, .25f).setOnUpdate(
+        //    (float val) =>
+        //    {
+        //        skeletonRenderer.material.SetFloat("_FillPhase", val);
+        //    }).setOnComplete(() =>
+        //    {
+        //        LeanTween.value(1, 0, .25f).setOnUpdate(
+        //        (float val) =>
+        //        {
+        //            skeletonRenderer.material.SetFloat("_FillPhase", val);
+        //        }).setOnComplete(() =>
+        //        {
+        //            owner.AnimationController.JasonMaterialOverride.gameObject.SetActive(false);
+        //        });
+        //    });
     }
 
     public override void UpdateSkill(PlayerCharacter owner)
@@ -81,7 +81,7 @@ public class SCRPT_AttackAmp : SCRPT_Skill
 
         this.owner = owner;
 
-        owner.Weapon.AddOnHitEffect(onHitEffects);
+        //owner.Weapon.AddOnHitEffect(onHitEffects);
 
         if (onAnimEndedEffect != null)
         {
@@ -92,14 +92,14 @@ public class SCRPT_AttackAmp : SCRPT_Skill
             Destroy(effect, animDuration + .1f);
         }
 
-        owner.Weapon.performHitStop = true;
-        owner.OnAttack += StartSkillTimerOnHit;
+        //owner.Weapon.performHitStop = true;
+        //owner.OnAttack += StartSkillTimerOnHit;
     }
 
     private void StartSkillTimerOnHit(bool lastAttack)
     {
-        owner.GetSkillHolder.StartCooldown();
-        owner.OnAttack -= StartSkillTimerOnHit;
+        //owner.GetSkillHolder.StartCooldown();
+        //owner.OnAttack -= StartSkillTimerOnHit;
         isInUse = false;
     }
 }

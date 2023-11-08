@@ -23,7 +23,7 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
 
     public override void EarlyStart(PlayerCharacter owner)
     {
-        owner.OnEarlySkillStart?.Invoke();
+        //owner.OnEarlySkillStart?.Invoke();
     }
 
     public override void StartSkill(PlayerCharacter owner)
@@ -31,58 +31,58 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         player = owner;
         isInUse = true;
 
-        owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
+        //owner.OnSkillStart?.Invoke(owner.GetSkill.holdSkillAudio);
 
-        owner.GetSkillHolder.D_enteredTrigger += EnteredTrigger;
-        owner.GetSkillHolder.D_exitedTrigger += ExitedTrigger;
+        //owner.GetSkillHolder.D_enteredTrigger += EnteredTrigger;
+        //owner.GetSkillHolder.D_exitedTrigger += ExitedTrigger;
 
-        owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
-        owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
+        //owner.GetSkillHolder.GetComponent<SpriteRenderer>().sortingLayerName = layerName.ToString();
+        //owner.GetSkillHolder.GetAnimator.Play(animationToPlay);
 
-        owner.OffsetChild(offset);
-        owner.SetArmsState(true, armsOffset, skeletonIdx, skeletonBoneToFollowName);
+        //owner.OffsetChild(offset);
+        //owner.SetArmsState(true, armsOffset, skeletonIdx, skeletonBoneToFollowName);
 
-        playingParticles = Instantiate(particles, owner.GetSkillHolder.transform.GetChild(0));
+        //playingParticles = Instantiate(particles, owner.GetSkillHolder.transform.GetChild(0));
 
-        owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
+        //owner.SkillTutoAnimator.SetTrigger(skillTutoAnimatorName);
 
-        owner.OnAimInput += owner.Weapon.SetAimGoal;
+        //owner.OnAimInput += owner.Weapon.SetAimGoal;
 
-        finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
+        //finalDamages = owner.MaxDamages_M * damagesPercentageModifier;
         tickDamages = finalDamages * tickDamagesMultiplier;
     }
 
     public override void UpdateSkill(PlayerCharacter owner)
     {
-        owner.Weapon.RotateOnAim();
+        //owner.Weapon.RotateOnAim();
 
-        Quaternion weaponRot = owner.Weapon.transform.rotation;
+        //Quaternion weaponRot = owner.Weapon.transform.rotation;
 
-        Vector3 newRot = weaponRot.eulerAngles;
-        newRot.z -= 90f;
-        weaponRot.eulerAngles = newRot;
+        //Vector3 newRot = weaponRot.eulerAngles;
+        //newRot.z -= 90f;
+        //weaponRot.eulerAngles = newRot;
 
-        owner.GetSkillHolder.transform.rotation = weaponRot;
+        //owner.GetSkillHolder.transform.rotation = weaponRot;
 
-        //owner.RotateSkillHolder();
-        owner.RotateArms();
+        ////owner.RotateSkillHolder();
+        //owner.RotateArms();
     }
 
     public override void StopSkill(PlayerCharacter owner)
     {
-        owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
-        owner.GetSkillHolder.AnimationEnded();
-        owner.GetSkillHolder.StartCooldown();
-        isInUse = false;
+        //owner.GetSkillHolder.GetAnimator.SetTrigger("EndSkill");
+        //owner.GetSkillHolder.AnimationEnded();
+        //owner.GetSkillHolder.StartCooldown();
+        //isInUse = false;
 
-        owner.OnAimInput -= owner.Weapon.SetAimGoal;
+        //owner.OnAimInput -= owner.Weapon.SetAimGoal;
 
-        owner.GetSkillHolder.D_enteredTrigger -= EnteredTrigger;
-        owner.GetSkillHolder.D_exitedTrigger -= ExitedTrigger;
+        //owner.GetSkillHolder.D_enteredTrigger -= EnteredTrigger;
+        //owner.GetSkillHolder.D_exitedTrigger -= ExitedTrigger;
 
-        owner.SetArmsState(false, Vector3.zero);
+        //owner.SetArmsState(false, Vector3.zero);
 
-        owner.SkillTutoAnimator.SetTrigger("finish");
+        //owner.SkillTutoAnimator.SetTrigger("finish");
 
         Destroy(playingParticles);
     }
@@ -94,15 +94,15 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         if (entity as EnemyBase != null)
             entitiesInTrigger.Add(entity);
 
-        TickDamages appliedTickDamages = entity.GetAppliedTickDamages(inTriggerTickDamages_ID);
+        //TickDamages appliedTickDamages = entity.GetAppliedTickDamages(inTriggerTickDamages_ID);
 
-        if (appliedTickDamages == null)
-            entity.AddTickDamages(inTriggerTickDamages_ID, finalDamages, .5f, 3f, player, true);
-        else
-        {
-            appliedTickDamages.ResetTimer();
-            appliedTickDamages.ModifyDamages(finalDamages);
-        }
+        //if (appliedTickDamages == null)
+        //    entity.AddTickDamages(inTriggerTickDamages_ID, finalDamages, .5f, 3f, player, true);
+        //else
+        //{
+        //    appliedTickDamages.ResetTimer();
+        //    appliedTickDamages.ModifyDamages(finalDamages);
+        //}
     }
 
     public void ExitedTrigger(Entity entity)
@@ -112,12 +112,12 @@ public class SCRPT_Skill_Flamethrower : SCRPT_Skill
         if (entity as EnemyBase != null)
             entitiesInTrigger.Remove(entity);
 
-        TickDamages appliedTickDamages = entity.GetAppliedTickDamages(inTriggerTickDamages_ID);
+        //TickDamages appliedTickDamages = entity.GetAppliedTickDamages(inTriggerTickDamages_ID);
 
-        if (appliedTickDamages != null)
-        {
-            appliedTickDamages.ResetTimer();
-            appliedTickDamages.ModifyDamages(tickDamages);
-        }
+        //if (appliedTickDamages != null)
+        //{
+        //    appliedTickDamages.ResetTimer();
+        //    appliedTickDamages.ModifyDamages(tickDamages);
+        //}
     }
 }

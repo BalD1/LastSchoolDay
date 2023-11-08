@@ -21,9 +21,9 @@ public class PlayerHUDManager : Singleton<PlayerHUDManager>
 
     private void SetupPlayerHUD(PlayerCharacter player)
     {
-        PlayerHUD hud = CreateNewHUD(player, player.MinimapMarkerSprite, player.GetCharacterName(), player.PlayerDash, player.GetSkill);
-        player.SetHUD(hud);
-        hud.ForceHPUpdate();
+        //PlayerHUD hud = CreateNewHUD(player, player.MinimapMarkerSprite, player.GetCharacterName(), player.PlayerDash, player.GetSkill);
+        //player.SetHUD(hud);
+        //hud.ForceHPUpdate();
     }
 
     public PlayerHUD CreateNewHUD(PlayerCharacter _owner, SpriteRenderer _minimapRenderer, GameManager.E_CharactersNames character, SCRPT_Dash playerDash, SCRPT_Skill playerSkill)

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using static INewDamageable;
 
 [RequireComponent(typeof(StatsHandler))]
 public class HealthSystem : MonoBehaviourEventsHandler, INewDamageable
@@ -15,9 +16,18 @@ public class HealthSystem : MonoBehaviourEventsHandler, INewDamageable
     public Dictionary<string, NewTickDamages> UniqueTickDamages { get; private set; } = new Dictionary<string, NewTickDamages>();
     public Dictionary<string, List<NewTickDamages>> StackableTickDamages { get; private set; } = new Dictionary<string, List<NewTickDamages>>();
 
-    public event Action OnTookDamages;
+    [field: SerializeField] public Vector2 HealthPopupOffset { get; private set; }
+
+    [field: SerializeField, ReadOnly] public float InvincibilityTimer { get; protected set; }
+
+    public event Action<INewDamageable.DamagesData> OnTookDamages;
     public event Action OnHealed;
     public event Action OnDeath;
+
+    private void Reset()
+    {
+        Stats = this.GetComponent<StatsHandler>();
+    }
 
     protected override void EventsSubscriber()
     {
@@ -34,6 +44,11 @@ public class HealthSystem : MonoBehaviourEventsHandler, INewDamageable
         if (Stats == null) Stats = this.GetComponent<StatsHandler>();
         base.Awake();
         Setup();
+    }
+
+    protected virtual void Update()
+    {
+        if (InvincibilityTimer > 0) InvincibilityTimer -= Time.deltaTime;
     }
 
     private void OnStatChange(StatsHandler.StatChangeEventArgs args)
@@ -67,16 +82,24 @@ public class HealthSystem : MonoBehaviourEventsHandler, INewDamageable
         }
     }
 
-    public void InflictDamages(float amount, bool isCrit)
+    public virtual bool TryInflictDamages(DamagesData damagesData)
     {
-        if (!IsAlive()) return;
+        if (!IsAlive()) return false;
+        if (InvincibilityTimer > 0) return false;
+        if (this.Stats.GetTeam() != SO_BaseStats.E_Team.Neutral && 
+            this.Stats.GetTeam() == damagesData.DamagerTeam) return false;
 
-        float finalDamages = amount;
-        if (isCrit) finalDamages *= GameManager.CRIT_MULTIPLIER;
+        InflictDamages(damagesData);
+        return true;
+    }
+    public virtual void InflictDamages(DamagesData damagesData)
+    {
+        float finalDamages = damagesData.Damages;
+        if (damagesData.IsCrit) finalDamages *= GameManager.CRIT_MULTIPLIER;
 
         CurrentHealth -= finalDamages;
 
-        this.OnHealed?.Invoke();
+        this.OnTookDamages?.Invoke(damagesData);
     }
 
     public void Heal(float amount, bool isCrit)
@@ -94,12 +117,12 @@ public class HealthSystem : MonoBehaviourEventsHandler, INewDamageable
     public bool IsAlive()
         => CurrentHealth > 0;
 
-    public void Death()
+    public void Kill()
     {
         this.OnDeath?.Invoke();
     }
 
-    public bool TryAddTickDammages(SO_TickDamagesData data, NewEntity origin)
+    public bool TryAddTickDammages(SO_TickDamagesData data, Entity origin)
     {
         if (data.Stackable)
         {
@@ -130,4 +153,46 @@ public class HealthSystem : MonoBehaviourEventsHandler, INewDamageable
         Debug.Log("removed " + tick.Data.ID);
         UniqueTickDamages.Remove(tick.Data.ID);
     }
+
+    public void SetInvincibilityTimer(float time)
+        => InvincibilityTimer = time;
+
+    #region EDITOR
+
+#if UNITY_EDITOR
+    [SerializeField] protected bool ED_debugMode;
+#endif
+
+    protected virtual void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
+        if (!ED_debugMode) return;
+
+        Vector2 healthBordersSize = new Vector2(0.75f, 0.5f);
+        Gizmos.DrawWireCube((Vector2)this.transform.position + HealthPopupOffset, healthBordersSize);
+
+        Color c = UnityEditor.Handles.color;
+        UnityEditor.Handles.color = Color.red;
+
+        Vector2 centeredPosition = (Vector2)this.transform.position + HealthPopupOffset;
+
+        if (UnityEditor.SceneView.currentDrawingSceneView == null) return;
+
+        var view = UnityEditor.SceneView.currentDrawingSceneView;
+        Vector3 screenPos = view.camera.WorldToScreenPoint(centeredPosition);
+
+
+        Vector2 textOffset = new Vector2(-36, 7.5f);
+        Camera cam = UnityEditor.SceneView.currentDrawingSceneView.camera;
+        if (cam)
+            centeredPosition = cam.ScreenToWorldPoint((Vector2)cam.WorldToScreenPoint(centeredPosition) + textOffset);
+
+
+        UnityEditor.Handles.Label(centeredPosition, "Health Popup");
+
+        UnityEditor.Handles.color = c;
+#endif
+    } 
+
+    #endregion
 }

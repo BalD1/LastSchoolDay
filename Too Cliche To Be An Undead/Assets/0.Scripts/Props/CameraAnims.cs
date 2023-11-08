@@ -25,7 +25,7 @@ public class CameraAnims : MonoBehaviour
         p1Transform = PlayerInputsManager.P1Inputs.transform;
     }
 
-    private void WaitForP1Created(PlayerInputs inputs)
+    private void WaitForP1Created(PlayerInputHandler inputs)
     {
         PlayerInputsEvents.OnPlayerInputsCreated -= WaitForP1Created;
         p1Transform = inputs.transform;

@@ -108,7 +108,7 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
     private void OnPlayerCreated(PlayerCharacter player)
     {
         if (!PlayersStats.TryAdd(player, new PlayerEndStats()))
-            this.Log($"Could not add {player} ({player.GetCharacterName()}) in array.", LogsManager.E_LogType.Error);
+            this.Log($"Could not add {player} ({player.GetCharacterName()}) in array.", CustomLogger.E_LogType.Error);
     }
 
     private void OnRunStarted()
@@ -118,7 +118,7 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
     {
         if (!PlayersStats.TryGetValue(data.DamagedEntity, out PlayerEndStats stats))
         {
-            this.Log($"Could not find player {data.DamagedEntity} ({data.DamagedEntity.GetCharacterName()}) in PlayerEndStats.", LogsManager.E_LogType.Error);
+            this.Log($"Could not find player {data.DamagedEntity} ({data.DamagedEntity.GetCharacterName()}) in PlayerEndStats.", CustomLogger.E_LogType.Error);
             return;
         }
 
@@ -133,7 +133,7 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
 
         if (!PlayersStats.TryGetValue(player, out PlayerEndStats stats))
         {
-            this.Log($"Could not find player {player} ({player.GetCharacterName()}) in PlayerEndStats.", LogsManager.E_LogType.Error);
+            this.Log($"Could not find player {player} ({player.GetCharacterName()}) in PlayerEndStats.", CustomLogger.E_LogType.Error);
             return;
         }
 
@@ -149,7 +149,7 @@ public class PlayerEndStatsManager : PersistentSingleton<PlayerEndStatsManager>
 
         if (!PlayersStats.TryGetValue(player, out PlayerEndStats stats))
         {
-            this.Log($"Could not find player {player} ({player.GetCharacterName()}) in PlayerEndStats.", LogsManager.E_LogType.Error);
+            this.Log($"Could not find player {player} ({player.GetCharacterName()}) in PlayerEndStats.", CustomLogger.E_LogType.Error);
             return;
         }
 

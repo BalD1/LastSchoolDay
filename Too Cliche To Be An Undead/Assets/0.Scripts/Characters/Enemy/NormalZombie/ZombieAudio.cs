@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieAudio : MonoBehaviour
+public class ZombieAudio : AudioPlayer
 {
-    [SerializeField] private NormalZombie owner;
-    private AudioSource ownerSource;
-
     [SerializeField] private float delayBetweenHurtAudio_COOLDOWN = .2f;
     private float delayBetweenHurtAudio_TIMER;
 
@@ -22,19 +19,32 @@ public class ZombieAudio : MonoBehaviour
 
     private void Reset()
     {
-        owner = this.GetComponentInParent<NormalZombie>();
+        owner = this.GetComponentInParent<BaseZombie>();
+    }
+
+    protected override void EventsSubscriber()
+    {
+        base.EventsSubscriber();
+        //owner.D_onHurt += PlayHurtSound;
+        //owner.OnDeath += PlayDeathSound;
+        //owner.D_onAttack += PlayAttackSound;
+        //owner.D_onRespawn += ResetAudio;
+        //owner.OnStartChasing += OnStartChasing;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        base.EventsUnSubscriber();
+        //owner.D_onHurt -= PlayHurtSound; ;
+        //owner.OnDeath -= PlayDeathSound;
+        //owner.D_onAttack -= PlayAttackSound;
+        //owner.D_onRespawn -= ResetAudio;
+        //owner.OnStartChasing -= OnStartChasing;
     }
 
     private void Start()
     {
         delayBetweenHurtAudio_TIMER = 0;
-        ownerSource = owner.GetAudioSource;
-
-        owner.D_onHurt += PlayHurtSound;
-        owner.OnDeath += PlayDeathSound;
-        owner.D_onAttack += PlayAttackSound;
-        owner.D_onRespawn += ResetAudio;
-        owner.OnStartChasing += OnStartChasing;
     }
 
     private void ResetAudio()
@@ -62,28 +72,20 @@ public class ZombieAudio : MonoBehaviour
             if (miscAudioPlay_TIMER <= 0)
             {
                 miscAudioPlay_TIMER = GetMiscAudioCooldown();
-                PlayAudioWithPitch(owner.AudioData.GetRandomMiscAudio());
+                //PlayAudioWithPitch(owner.AudioData.GetRandomMiscAudio());
             }
         }
     }
 
-    private void OnDestroy()
-    {
-        owner.D_onHurt -= PlayHurtSound; ;
-        owner.OnDeath -= PlayDeathSound;
-        owner.D_onAttack -= PlayAttackSound;
-        owner.D_onRespawn -= ResetAudio;
-        owner.OnStartChasing -= OnStartChasing;
-    }
-
     private float GetMiscAudioCooldown()
     {
-        return miscAudioPlayByChasingZombies_COOLDOWN.Evaluate(NormalZombie.CurrentlyChasingZombiesCOunt, Random.value);
+        return -1;
+        //return miscAudioPlayByChasingZombies_COOLDOWN.Evaluate(BaseZombie.CurrentlyChasingZombiesCOunt, Random.value);
     }
 
     private void OnStartChasing(PlayerCharacter target)
     {
-        PlayAudioWithPitch(owner.AudioData.GetRandomMiscAudio());
+        //PlayAudioWithPitch(owner.AudioData.GetRandomMiscAudio());
         isChasing = true;
         miscAudioPlay_TIMER = GetMiscAudioCooldown();
     }
@@ -97,7 +99,7 @@ public class ZombieAudio : MonoBehaviour
 
         currentZombiesHurtCount++;
 
-        PlayAudioWithPitch(owner.AudioData.GetRandomHurtClip());
+        //PlayAudioWithPitch(owner.AudioData.GetRandomHurtClip());
     }
     private void PlayDeathSound()
     {
@@ -111,19 +113,19 @@ public class ZombieAudio : MonoBehaviour
             playedHurtAudio = false;
         }
 
-        AudioclipPlayer.Create(this.transform.position, owner.AudioData.GetRandomDeathClip());
+        //AudioclipPlayer.Create(this.transform.position, owner.AudioData.GetRandomDeathClip());
     }
-    private void PlayAttackSound() => PlayAudioWithPitch(owner.AudioData.GetRandomAttackClip());
-    private void PlayMiscSound() => PlayAudioWithPitch(owner.AudioData.GetRandomMiscAudio());
+    //private void PlayAttackSound() => PlayAudioWithPitch(owner.AudioData.GetRandomAttackClip());
+    //private void PlayMiscSound() => PlayAudioWithPitch(owner.AudioData.GetRandomMiscAudio());
 
     private void PlayAudioWithPitch(AudioClip clip, float pitchRange)
     {
-        ownerSource.pitch = Random.Range(1 - pitchRange, 1 + pitchRange);
-        ownerSource.PlayOneShot(clip);
+        //ownerSource.pitch = Random.Range(1 - pitchRange, 1 + pitchRange);
+        //ownerSource.PlayOneShot(clip);
     }
     private void PlayAudioWithPitch(SCRPT_PlayerAudio.S_AudioClips clipData)
     {
-        ownerSource.pitch = Random.Range(1 - clipData.pitchRange, 1 + clipData.pitchRange);
-        ownerSource.PlayOneShot(clipData.clip);
+        //ownerSource.pitch = Random.Range(1 - clipData.pitchRange, 1 + clipData.pitchRange);
+        //ownerSource.PlayOneShot(clipData.clip);
     }
 }

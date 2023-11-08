@@ -42,7 +42,7 @@ public class PlayerScorePanel : MonoBehaviour
         PlayerEndStatsManager.PlayerEndStats playerEndStats = default;
         if (!PlayerEndStatsManager.Instance.PlayersStats.TryGetValue(_relatedPlayer, out playerEndStats))
         {
-            this.Log("Could not find player \"" + _relatedPlayer.GetCharacterName() + "\" in PlayerEndStats.", LogsManager.E_LogType.Error);
+            this.Log("Could not find player \"" + _relatedPlayer.GetCharacterName() + "\" in PlayerEndStats.", CustomLogger.E_LogType.Error);
             return;
         }
         animQueue.Enqueue(AnimateValue(playerEndStats.KillsCount, controller.SingleKillValue, 1, killsCount));

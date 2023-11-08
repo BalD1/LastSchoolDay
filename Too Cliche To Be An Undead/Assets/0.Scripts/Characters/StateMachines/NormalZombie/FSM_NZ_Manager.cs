@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class FSM_NZ_Manager : FSM_ManagerBase
 {
-    [SerializeField] private NormalZombie owner;
-    public NormalZombie Owner { get => owner; }
+    [SerializeField] private BaseZombie owner;
+    public BaseZombie Owner { get => owner; }
 
     public FSM_NZ_Idle IdleState { get; private set; } = new FSM_NZ_Idle();
     public FSM_NZ_Wandering WanderingState { get; private set; } = new FSM_NZ_Wandering();
@@ -34,7 +34,7 @@ public class FSM_NZ_Manager : FSM_ManagerBase
         currentState.EnterState(this);
 
 #if UNITY_EDITOR
-        owner.currentStateDebug = this.ToString();
+        //owner.currentStateDebug = this.ToString();
 #endif
     }
 
@@ -56,10 +56,10 @@ public class FSM_NZ_Manager : FSM_ManagerBase
         currentState?.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
-        owner.CallStateChange(newState.GetKey());
+        //owner.CallStateChange(newState.GetKey());
 
 #if UNITY_EDITOR
-        owner.currentStateDebug = this.ToString(); 
+        //owner.currentStateDebug = this.ToString(); 
 #endif
     }
 
@@ -76,7 +76,7 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
     public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)
     {
-        owner.Movements(goalPosition, slowdownOnApproach);
+        //owner.Movements(goalPosition, slowdownOnApproach);
     }
 
     public void CheckStates()
@@ -109,14 +109,15 @@ public class FSM_NZ_Manager : FSM_ManagerBase
 
     public bool AttackConditions()
     {
-        if (owner.CurrentPlayerTarget.CurrentActiveTimestops > 0) return false;
-        float distanceFromTarget = Vector2.Distance(owner.transform.position, owner.CurrentPlayerTarget.transform.position);
+        return false;
+        //if (owner.CurrentPlayerTarget.CurrentActiveTimestops > 0) return false;
+        //float distanceFromTarget = Vector2.Distance(owner.transform.position, owner.CurrentPlayerTarget.transform.position);
 
-        bool isAtRightDistance = (distanceFromTarget <= owner.DistanceBeforeStop || distanceFromTarget <= owner.Attack.AttackDistance);
+        //bool isAtRightDistance = (distanceFromTarget <= owner.DistanceBeforeStop || distanceFromTarget <= owner.Attack.AttackDistance);
 
-        bool targetCanBeAttacked = owner.CurrentPlayerTarget?.Attackers.Count < GameManager.MaxAttackers;
+        //bool targetCanBeAttacked = owner.CurrentPlayerTarget?.Attackers.Count < GameManager.MaxAttackers;
 
-        return (isAtRightDistance && owner.Attack_TIMER <= 0 && targetCanBeAttacked && owner.isVisible);
+        //return (isAtRightDistance && owner.Attack_TIMER <= 0 && targetCanBeAttacked && owner.isVisible);
     }
 
     public void SwitchToStun(float _duration, bool _resetAttackTimer, bool _showText)

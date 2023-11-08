@@ -56,7 +56,7 @@ public class FSM_Boss_Manager : FSM_ManagerBase
         owner.CallStateChange(newState.GetKey());
 
 #if UNITY_EDITOR
-        owner.currentStateDebug = this.ToString();
+        //owner.currentStateDebug = this.ToString();
 #endif
     }
 
@@ -73,18 +73,19 @@ public class FSM_Boss_Manager : FSM_ManagerBase
 
     public void Movements(Vector2 goalPosition, bool slowdownOnApproach = true)
     {
-        owner.Movements(goalPosition, slowdownOnApproach);
+        //owner.Movements(goalPosition, slowdownOnApproach);
     }
 
     public bool AttackConditions()
     {
-        float distanceFromTarget = Vector2.Distance(owner.transform.position, owner.CurrentPlayerTarget.transform.position);
+        return false;
+        //float distanceFromTarget = Vector2.Distance(owner.transform.position, owner.CurrentPlayerTarget.transform.position);
 
-        bool isAtRightDistance = (distanceFromTarget <= owner.DistanceBeforeStop || distanceFromTarget <= owner.CurrentAttack.attack.AttackDistance);
+        //bool isAtRightDistance = (distanceFromTarget <= owner.DistanceBeforeStop || distanceFromTarget <= owner.CurrentAttack.attack.AttackDistance);
 
-        bool targetCanBeAttacked = owner.CurrentPlayerTarget?.Attackers.Count < GameManager.MaxAttackers;
+        //bool targetCanBeAttacked = owner.CurrentPlayerTarget?.Attackers.Count < GameManager.MaxAttackers;
 
-        return (isAtRightDistance && owner.Attack_TIMER <= 0 && targetCanBeAttacked);
+        //return (isAtRightDistance && owner.Attack_TIMER <= 0 && targetCanBeAttacked);
     }
 
     public override void SetupStates()

@@ -31,7 +31,7 @@ public class Locker : MonoBehaviour, IInteractable
 
     [SerializeField] private Transform lootSpawnPoint;
 
-    [SerializeField] private SCRPT_DropTable dropTable;
+    [SerializeField] private SO_DropTable dropTable;
 
     private bool isOpen = false;
 

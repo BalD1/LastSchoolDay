@@ -77,13 +77,13 @@ public class AreaSpawner : MonoBehaviourEventsHandler, IDistanceChecker
 
         for (int i = 0; i < count; i++)
         {
-            SpawnersManager.GetNextInPool().Reenable(GetRandomPositionInBounds());
+            //SpawnersManager.GetNextInPool().Reenable(GetRandomPositionInBounds());
         }
     }
 
-    public void TeleportZombieHere(NormalZombie zom)
+    public void TeleportZombieHere(BaseZombie zom)
     {
-        zom.Reenable(GetRandomPositionInBounds(), false);
+        //zom.Reenable(GetRandomPositionInBounds(), false);
     }
 
     private void OnEnable()

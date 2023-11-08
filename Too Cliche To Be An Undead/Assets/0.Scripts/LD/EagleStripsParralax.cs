@@ -17,7 +17,7 @@ public class EagleStripsParralax : MonoBehaviour
         if (e == null) return;
 
         AddEntity();
-        e.D_onDeathOf += OnEntityDeath;
+        //e.D_onDeathOf += OnEntityDeath;
 
         if (entitiesBehindCount > 1) return;
 
@@ -33,7 +33,7 @@ public class EagleStripsParralax : MonoBehaviour
     private void OnEntityDeath(Entity e)
     {
         RemoveEntity();
-        e.D_onDeathOf -= OnEntityDeath;
+        //e.D_onDeathOf -= OnEntityDeath;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -43,7 +43,7 @@ public class EagleStripsParralax : MonoBehaviour
         if (e == null) return;
 
         RemoveEntity();
-        e.D_onDeathOf -= OnEntityDeath;
+        //e.D_onDeathOf -= OnEntityDeath;
 
         if (entitiesBehindCount > 0) return;
 

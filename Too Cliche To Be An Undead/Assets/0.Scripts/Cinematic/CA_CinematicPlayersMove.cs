@@ -72,22 +72,22 @@ public class CA_CinematicPlayersMove : CA_CinematicAction
     {
         if (teleport)
         {
-            player.GetRb.simulated = false;
+            //player.GetRb.simulated = false;
             player.transform.position = position;
-            player.GetRb.simulated = true;
+            //player.GetRb.simulated = true;
             OnPlayerReachedDestination(player);
             return;
         }
-        player.GetRb.simulated = false;
+        //player.GetRb.simulated = false;
         //AnimationReferenceAsset walkAnim = player.AnimationsData.WalkAnim;
         //player.AnimationController.SetAnimation(walkAnim, true);
-        player.AnimationController.TryFlipSkeleton(position.x > player.transform.position.x);
+        //player.AnimationController.TryFlipSkeleton(position.x > player.transform.position.x);
 
-        float travelTime = Vector2.Distance(player.transform.position, position) / player.MaxSpeed_M;
-        LeanTween.move(player.gameObject, position, travelTime).setEase(leanType).setOnComplete(() =>
-        {
-            OnPlayerReachedDestination(player);
-        });
+        //float travelTime = Vector2.Distance(player.transform.position, position) / player.MaxSpeed_M;
+        //LeanTween.move(player.gameObject, position, travelTime).setEase(leanType).setOnComplete(() =>
+        //{
+            //OnPlayerReachedDestination(player);
+        //});
     }
 
     private void OnPlayerReachedDestination(PlayerCharacter player)
@@ -97,7 +97,7 @@ public class CA_CinematicPlayersMove : CA_CinematicAction
             //AnimationReferenceAsset idleAnim = player.AnimationsData.IdleAnim;
             //player.AnimationController.SetAnimation(idleAnim, true);
         }
-        player.GetRb.simulated = true;
+        //player.GetRb.simulated = true;
 
         animsToPlay--;
         if (animsToPlay <= 0) this.ActionEnded(this);

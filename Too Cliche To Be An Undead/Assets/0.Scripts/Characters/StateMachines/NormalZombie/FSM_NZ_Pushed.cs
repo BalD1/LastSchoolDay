@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager, FSM_NZ_Manager.E_NZState>
 {
-    NormalZombie zombieOwner;
+    BaseZombie zombieOwner;
 
     private float hitStopTimeBase = .10f;
     private bool hitStopWasPerformed = false;
@@ -13,10 +13,10 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager, FSM_NZ_Manager.E_
     {
         base.EnterState(stateManager);
         hitStopWasPerformed = false;
-        owner.canBePushed = false;
+        //owner.canBePushed = false;
 
-        zombieOwner.UnsetAttackedPlayer();
-        zombieOwner.attackTelegraph.CancelTelegraph();
+        //zombieOwner.UnsetAttackedPlayer();
+        //zombieOwner.attackTelegraph.CancelTelegraph();
         zombieOwner.enemiesBlocker.enabled = false;
     }
 
@@ -45,17 +45,17 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager, FSM_NZ_Manager.E_
 
     protected override void PerformPush(Entity pusher)
     {
-        if (pusher is NormalZombie)
+        if (pusher is BaseZombie)
         {
-            owner.GetRb.AddForce(force, ForceMode2D.Impulse);
+            //owner.GetRb.AddForce(force, ForceMode2D.Impulse);
             LeanTween.delayedCall(.1f, () => hitStopWasPerformed = true);
             return;
         }
 
         hitTween = LeanTween.delayedCall(hitStopTimeBase, () =>
         {
-            if (owner != null && owner.GetRb != null)
-            owner.GetRb.AddForce(force, ForceMode2D.Impulse);
+            //if (owner != null && owner.GetRb != null)
+            //owner.GetRb.AddForce(force, ForceMode2D.Impulse);
             LeanTween.delayedCall(.1f, () => hitStopWasPerformed = true);
         });
     }
@@ -68,23 +68,23 @@ public class FSM_NZ_Pushed : FSM_Entity_Pushed<FSM_NZ_Manager, FSM_NZ_Manager.E_
     protected override void EventsSubscriber(FSM_NZ_Manager stateManager)
     {
         base.EventsSubscriber(stateManager);
-        owner.OnReset += CancelTween;
+        //owner.OnReset += CancelTween;
         owner.OnAskForStun += stateManager.SwitchToStun;
-        owner.OnAskForPush += stateManager.SwitchToPushed;
+        //owner.OnAskForPush += stateManager.SwitchToPushed;
     }
 
     protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
     {
         base.EventsUnsubscriber(stateManager);
-        owner.OnReset -= CancelTween;
+        //owner.OnReset -= CancelTween;
         owner.OnAskForStun -= stateManager.SwitchToStun;
-        owner.OnAskForPush -= stateManager.SwitchToPushed;
+        //owner.OnAskForPush -= stateManager.SwitchToPushed;
     }
 
     public override void Setup(FSM_NZ_Manager stateManager)
     {
         owner = stateManager.Owner;
-        zombieOwner = owner as NormalZombie;
+        zombieOwner = owner as BaseZombie;
     }
 
     public override string ToString() => "Pushed";

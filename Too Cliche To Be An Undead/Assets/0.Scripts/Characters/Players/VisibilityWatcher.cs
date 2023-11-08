@@ -39,7 +39,7 @@ public class VisibilityWatcher : MonoBehaviour
         if (CameraManager.ST_InstanceExists() && CameraManager.Instance.CinematicMode) return;
 
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(targetCamera);
-        IsVisible = GeometryUtility.TestPlanesAABB(planes, owner.BodyTrigger.bounds);
+        //IsVisible = GeometryUtility.TestPlanesAABB(planes, owner.BodyTrigger.bounds);
 
         markerSprite.enabled = !IsVisible;
         if (IsVisible) return;

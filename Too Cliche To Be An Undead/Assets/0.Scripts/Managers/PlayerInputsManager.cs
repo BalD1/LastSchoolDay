@@ -23,9 +23,9 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
             return instance.PlayerInputsList.Count;
         }
     }
-    [field: SerializeField] public List<PlayerInputs> PlayerInputsList { get; private set; }
+    [field: SerializeField] public List<PlayerInputHandler> PlayerInputsList { get; private set; }
     private List<InputDevice> knownDevices = new List<InputDevice>();
-    public static PlayerInputs P1Inputs
+    public static PlayerInputHandler P1Inputs
     {
         get
         {
@@ -34,7 +34,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
             else return null;
         }
     }
-    [SerializeField] private PlayerInputs inputsPF;
+    [SerializeField] private PlayerInputHandler inputsPF;
 
 
     public enum E_Devices
@@ -124,7 +124,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
                     Debug.Log(item);
                     if (item.MainDevice != device)
                         continue;
-                    this.Log($"Device {device} was reconnected (owner : P{item.InputsID}, {item.Owner.GetCharacterName()})");
+                    this.Log($"Device {device} was reconnected (owner : P{item.InputsID})");
 
                     return;
                 }
@@ -162,8 +162,8 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
     {
         if (P1Inputs == null)
         {
-            PlayerInputsList = new List<PlayerInputs>();
-            PlayerInputs p1Inputs = inputsPF?.Create();
+            PlayerInputsList = new List<PlayerInputHandler>();
+            PlayerInputHandler p1Inputs = inputsPF?.Create();
         }
     }
 
@@ -251,7 +251,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
     #endregion
 
     #region PlayerInputsC&D
-    private void OnPlayerInputsCreated(PlayerInputs inputs)
+    private void OnPlayerInputsCreated(PlayerInputHandler inputs)
     {
         PlayerInputsList.Add(inputs);
         inputs.ChangeIndex(PlayerInputsList.Count - 1);
@@ -269,7 +269,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
     } 
     #endregion
 
-    private void OnAskedJoin(InputAction.CallbackContext context, PlayerInputs inputs)
+    private void OnAskedJoin(InputAction.CallbackContext context, PlayerInputHandler inputs)
     {
         if (inputs.InputsID > 0)
         {
@@ -307,7 +307,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
             }
         }
 
-        PlayerInputs newInputs = inputsPF?.Create();
+        PlayerInputHandler newInputs = inputsPF?.Create();
         InputUser.PerformPairingWithDevice(usedDevice, newInputs.Input.user, InputUserPairingOptions.UnpairCurrentDevicesFromUser);
         if (!knownDevices.Contains(usedDevice)) knownDevices.Add(usedDevice);
         newInputs.SetMainDevice(usedDevice);
@@ -330,7 +330,7 @@ public class PlayerInputsManager : PersistentSingleton<PlayerInputsManager>
         }
     }
 
-    public PlayerInputs GetPlayerInputs(int idx)
+    public PlayerInputHandler GetPlayerInputs(int idx)
     {
         if (PlayerInputsList.Count <= idx) return null;
         return PlayerInputsList[idx];

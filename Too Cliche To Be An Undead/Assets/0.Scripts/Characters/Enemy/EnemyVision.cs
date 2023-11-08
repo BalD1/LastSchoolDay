@@ -27,7 +27,7 @@ public class EnemyVision : MonoBehaviour
 
         foreach (var item in IGPlayersManager.Instance.PlayersList)
         {
-            if (item.IsAlive() == false) continue;
+            //if (item.IsAlive() == false) continue;
 
             float currentDist = (owner.transform.position - item.transform.position).sqrMagnitude;
             if (currentDist < closerDistance)
@@ -37,7 +37,7 @@ public class EnemyVision : MonoBehaviour
             }
         }
 
-        owner.SetTarget(closerTarget);
+        //owner.SetTarget(closerTarget);
     }
 
     

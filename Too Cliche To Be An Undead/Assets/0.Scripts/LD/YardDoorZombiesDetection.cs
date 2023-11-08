@@ -8,19 +8,19 @@ public class YardDoorZombiesDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        NormalZombie nz = collision.GetComponentInParent<NormalZombie>();
+        BaseZombie nz = collision.GetComponentInParent<BaseZombie>();
         if (nz == null) return;
 
-        nz.OnDeath += owner.OnZombieExitedDetecter;
+        //nz.OnDeath += owner.OnZombieExitedDetecter;
         owner.OnZombieEnteredDetecter();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        NormalZombie nz = collision.GetComponentInParent<NormalZombie>();
+        BaseZombie nz = collision.GetComponentInParent<BaseZombie>();
         if (nz == null) return;
 
-        nz.OnDeath -= owner.OnZombieExitedDetecter;
+        //nz.OnDeath -= owner.OnZombieExitedDetecter;
         owner.OnZombieExitedDetecter();
     }
 }

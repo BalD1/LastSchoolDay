@@ -9,10 +9,10 @@ public class SpawnersManager : Singleton<SpawnersManager>
     [SerializeField] [Range(0, 10)] private int maxKeycardsToSpawn = 5;
     [SerializeField] [Range(0, 10)] private int minKeycardsToSpawn = 3;
 
-    private static MonoPool<NormalZombie> zombiesPool;
+    private static MonoPool<BaseZombie> zombiesPool;
 
-    private Queue<NormalZombie> zombiesToTeleport = new Queue<NormalZombie>();
-    public Queue<NormalZombie> ZombiesToTeleport { get => zombiesToTeleport; }
+    private Queue<BaseZombie> zombiesToTeleport = new Queue<BaseZombie>();
+    public Queue<BaseZombie> ZombiesToTeleport { get => zombiesToTeleport; }
 
     [SerializeField] private CanvasGroup stampsCounter;
     [SerializeField] private Image uiFiller;
@@ -237,18 +237,18 @@ public class SpawnersManager : Singleton<SpawnersManager>
         validAreaSpawners[Random.Range(0, validAreaSpawners.Count)].SpawnObject();
     }
 
-    public static NormalZombie GetNextInPool() => zombiesPool.GetNext();
+    public static BaseZombie GetNextInPool() => zombiesPool.GetNext();
     public static void CheckPool()
     {
         if (zombiesPool == null)
-            zombiesPool = new MonoPool<NormalZombie>
-                (_createAction: () => GameAssets.Instance.GetRandomZombie.Create(Vector2.zero).GetComponent<NormalZombie>(),
+            zombiesPool = new MonoPool<BaseZombie>
+                (_createAction: () => GameAssets.Instance.GetRandomZombie.Create(Vector2.zero).GetComponent<BaseZombie>(),
                 _parentContainer: GameManager.Instance.InstantiatedEntitiesParent);
     }
-    public static void Enqueue(NormalZombie nz) => zombiesPool.Enqueue(nz);
-    public static MonoPool<NormalZombie> GetPool() => zombiesPool;
+    public static void Enqueue(BaseZombie nz) => zombiesPool.Enqueue(nz);
+    public static MonoPool<BaseZombie> GetPool() => zombiesPool;
 
-    public void TeleportZombie(NormalZombie zom)
+    public void TeleportZombie(BaseZombie zom)
     {
         if (validAreaSpawners.Count <= 0) return;
 

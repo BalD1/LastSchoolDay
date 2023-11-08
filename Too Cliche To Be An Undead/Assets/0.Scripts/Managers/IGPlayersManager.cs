@@ -25,7 +25,7 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
     protected override void Start()
     {
         base.Start();
-        List<PlayerInputs> inputs = new List<PlayerInputs>(PlayerInputsManager.Instance.PlayerInputsList);
+        List<PlayerInputHandler> inputs = new List<PlayerInputHandler>(PlayerInputsManager.Instance.PlayerInputsList);
         bool playTuto = !DataKeeper.Instance.skipTuto && !DataKeeper.Instance.alreadyPlayedTuto;
         for (int i = 0; i < inputs.Count; i++)
         {
@@ -43,8 +43,8 @@ public class IGPlayersManager : Singleton<IGPlayersManager>
     {
         foreach (var player in PlayersList)
         {
-            if (player.StateManager.CurrentState.ToString() == "Dying")
-                player.AskRevive();
+            //if (player.StateManager.CurrentState.ToString() == "Dying")
+                //player.AskRevive();
         }
     }
 

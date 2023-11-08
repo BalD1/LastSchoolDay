@@ -89,11 +89,11 @@ public class PB_Drop : Collectable
         else val = bonusPower.Amount;
 
         float exceedence = 0;
-        if (player.CheckIfModifierWillExceed(bonusPower.StatType, val, out exceedence))
-        {
-            player.Heal(bonusPower.HealAmountOnExceedence);
-        }
-        player.AddModifier(bonusPower.ID, val, bonusPower.StatType);
+        //if (player.CheckIfModifierWillExceed(bonusPower.StatType, val, out exceedence))
+        //{
+        //    player.Heal(bonusPower.HealAmountOnExceedence);
+        //}
+        //player.AddModifier(bonusPower.ID, val, bonusPower.StatType);
 
         if (exceedence > 0)
         {
@@ -109,6 +109,6 @@ public class PB_Drop : Collectable
     {
         string txt = bonusPower.AssociatedCharacter == detectedPlayer.GetCharacterName() ? bonusPower.AC_Description : bonusPower.Description;
 
-        TextPopup.Create(txt, (Vector2)detectedPlayer.transform.position + detectedPlayer.GetHealthPopupOffset, GameAssets.ItemComponents);
+        //TextPopup.Create(txt, (Vector2)detectedPlayer.transform.position + detectedPlayer.GetHealthPopupOffset, GameAssets.ItemComponents);
     }
 }

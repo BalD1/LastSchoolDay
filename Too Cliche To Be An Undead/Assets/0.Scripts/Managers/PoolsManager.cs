@@ -7,7 +7,7 @@ public class PoolsManager : Singleton<PoolsManager>
 		base.Awake();
 		BloodParticles.CheckPool();
 		ProjectileBase.CheckPool();
-		SpawnersManager.CheckPool();
+		//SpawnersManager.CheckPool();
 		TextPopup.CheckPool();
 		HealthPopup.CheckPool();
 		DashHitParticles.CheckPool();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static IStatContainer;
 
-public class StatsHandler : MonoBehaviour
+public class StatsHandler : MonoBehaviourEventsHandler
 {
     [field: SerializeField] public SO_BaseStats BaseStats { get; private set; }
     public Dictionary<E_StatType, float> PermanentBonusStats { get; protected set; } = new Dictionary<E_StatType, float>();
@@ -13,7 +13,7 @@ public class StatsHandler : MonoBehaviour
     public Dictionary<string, NewStatsModifier> UniqueStatsModifiers { get; protected set; } = new Dictionary<string, NewStatsModifier>();
     public Dictionary<string, List<NewStatsModifier>> StackableStatsModifiers { get; protected set; } = new Dictionary<string, List<NewStatsModifier>>();
 
-
+    public event Action OnAskReset;
 
     public enum E_ModifierAddResult
     {
@@ -36,8 +36,12 @@ public class StatsHandler : MonoBehaviour
         public float FinalValue { get; private set; }
     }
 
-    private void Awake()
+    protected override void EventsSubscriber() { }
+    protected override void EventsUnSubscriber() { }
+
+    protected override void Awake()
     {
+        base.Awake();
         SetupStats();
     }
 
@@ -166,4 +170,18 @@ public class StatsHandler : MonoBehaviour
         ModifyBrutFinalStat(modifier.Data.StatType, -modifier.Data.Amount);
         UniqueStatsModifiers.Remove(modifier.Data.ID);
     }
+
+    public void ChangeBaseStats(SO_BaseStats stats, bool resetModifiers)
+    {
+        BaseStats = stats;
+        if (resetModifiers) RemoveAllModifiers();
+    }
+
+    public void RemoveAllModifiers()
+    {
+        OnAskReset?.Invoke();
+    }
+
+    public SO_BaseStats.E_Team GetTeam()
+        => BaseStats.Team;
 }

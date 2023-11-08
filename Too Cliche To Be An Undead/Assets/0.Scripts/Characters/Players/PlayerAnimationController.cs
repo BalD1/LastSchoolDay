@@ -6,7 +6,12 @@ public class PlayerAnimationController : AnimationControllerMulti
 {
     [Header("Animations")]
 
-    [SerializeField] private PlayerCharacter owner;
+    private PlayerCharacter ownerCharacter;
+    private FSM_PlayerCharacter ownerFSM;
+    private WeaponHandler ownerWeaponhandler;
+    private AimDirection ownerAim;
+
+    private SO_PlayersAnimData currentAnimData;
 
     [SerializeField] private Transform armsParent;
 
@@ -31,18 +36,50 @@ public class PlayerAnimationController : AnimationControllerMulti
 
     protected override void EventsSubscriber()
     {
-        owner.OnStateChange += SetAnimationFromState;
+
+    }
+
+    private void DelayedEventsSubscriber()
+    {
+        if (owner.HolderTryGetComponent(IComponentHolder.E_Component.FSM, out ownerFSM) == IComponentHolder.E_Result.Success)
+            ownerFSM.OnStateChange += SetAnimationFromState;
+
+        ownerCharacter.OnCharacterSwitch += OnOwnerCharacterSwitch;
+
+        if (ownerWeaponhandler.CurrentWeapon != null)
+            OnOwnerNewWeapon(ownerWeaponhandler.CurrentWeapon);
+        ownerWeaponhandler.OnCreatedNewWeapon += OnOwnerNewWeapon;
     }
 
     protected override void EventsUnSubscriber()
     {
-        owner.OnStateChange -= SetAnimationFromState;
+        ownerFSM.OnStateChange -= SetAnimationFromState;
+        ownerCharacter.OnCharacterSwitch -= OnOwnerCharacterSwitch;
+        ownerWeaponhandler.CurrentWeapon.OnStartAttack -= SetDirectionalAnimationFromPlayerAim;
+        ownerWeaponhandler.OnCreatedNewWeapon -= OnOwnerNewWeapon;
     }
 
-    protected override void Start()
+    protected override void Setup()
     {
-        base.Start();
-        foreach (Transform item in CurrentSkeletonAnimation.transform)
+        base.Setup();
+        ownerCharacter = owner as PlayerCharacter;
+        owner.HolderTryGetComponent(IComponentHolder.E_Component.WeaponHandler, out ownerWeaponhandler);
+        owner.HolderTryGetComponent(IComponentHolder.E_Component.Aimer, out ownerAim);
+        SetupSkeletonsComponents();
+        DelayedEventsSubscriber();
+
+        currentAnimData = ownerCharacter.CurrentCharacterComponents.AnimData;
+        SetAnimationFromState(ownerFSM.BaseStateKey);
+    }
+
+    private void OnOwnerNewWeapon(PlayerWeaponBase newWeapon)
+    {
+        newWeapon.OnStartAttack += SetDirectionalAnimationFromPlayerAim;
+    }
+
+    private void SetupSkeletonsComponents()
+    {
+        foreach (Transform item in CurrentMultiSkeletonAnimation.transform)
         {
             if (item.GetComponent<SkeletonAnimation>() != null)
             {
@@ -57,33 +94,47 @@ public class PlayerAnimationController : AnimationControllerMulti
                 }
             }
         }
-
-        CurrentSkeletonAnimation._switchSkeleton += SwitchSkeleton;
     }
 
-    private void SetAnimationFromState(FSM_Player_Manager.E_PlayerState newState)
+    private void SetAnimationFromState(FSM_PlayerCharacter.E_PlayerStates newState)
     {
-        if (!owner.AnimationsData.StateAnimationData.TryGetValue(newState, out SCRPT_PlayersAnimData.S_StateAnimationData anim))
-        {
-            this.Log("Could not find " + newState + " in animation data " + owner.AnimationsData.StateAnimationData, LogsManager.E_LogType.Error);
-            return;
-        }
-
+        if (!currentAnimData.TryGetAnimationData(newState, out var anim)) return;
         SetAnimation(anim.Asset, anim.Loop);
     }
-    
-    public void SwitchSkeleton()
+
+    private void SetDirectionalAnimationFromPlayerAim(S_DirectionalAnimationData animations)
     {
+        switch (ownerAim.GetGeneralAimDirectionEnum())
+        {
+            case GameManager.E_Direction.Left:
+                SetAnimation(animations.SideAnimation, animations.Loop);
+                this.TryFlipSkeleton(false);
+                break;
+            case GameManager.E_Direction.Right:
+                SetAnimation(animations.SideAnimation, animations.Loop);
+                this.TryFlipSkeleton(true);
+                break;
+            case GameManager.E_Direction.Up:
+                SetAnimation(animations.BackAnimation, animations.Loop);
+                break;
+            case GameManager.E_Direction.Down:
+                SetAnimation(animations.FrontAnimation, animations.Loop);
+                break;
+        }
+    }
+
+    public override void SwitchSkeleton()
+    {
+        base.SwitchSkeleton();
         foreach (Transform arm in armsParent)
         {
-            arm.GetComponent<CustomBoneFollow>().skeletonRenderer = CurrentSkeletonAnimation.CurrentSkeletonAnimation;
+            arm.GetComponent<CustomBoneFollow>().skeletonRenderer = CurrentMultiSkeletonAnimation.CurrentSkeletonAnimation;
         }
-
-        owner.SkeletonAnimation = CurrentSkeletonAnimation.CurrentSkeletonAnimation;
     }
 
     public override void FlipSkeleton()
     {
+        base.FlipSkeleton();
         Vector3 v = leftArmBone.offset;
         v.x *= -1;
         leftArmBone.offset = v;
@@ -91,5 +142,10 @@ public class PlayerAnimationController : AnimationControllerMulti
         v = rightArmBone.offset;
         v.x *= -1;
         rightArmBone.offset = v;
+    }
+
+    private void OnOwnerCharacterSwitch(SO_CharactersComponents ccp)
+    {
+        this.currentAnimData = ccp.AnimData;
     }
 }

@@ -11,7 +11,7 @@ public class FeetsTrigger : MonoBehaviour
         PlayerCharacter player = collision.GetComponent<PlayerCharacter>();
         if (player == null) return;
 
-        owner.D_entityEnteredCollider?.Invoke(player);
+        //owner.D_entityEnteredCollider?.Invoke(player);
     }
 
     private void Reset()

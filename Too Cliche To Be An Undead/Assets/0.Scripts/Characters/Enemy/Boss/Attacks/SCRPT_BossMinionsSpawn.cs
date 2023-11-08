@@ -2,7 +2,7 @@ using Spine.Unity;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BossMinionsSpawn", menuName = "Scriptable/Entity/Enemy/Boss/Minions Spawn")]
-public class SCRPT_BossMinionsSpawn : SCRPT_EnemyAttack
+public class SCRPT_BossMinionsSpawn : SO_EnemyAttack
 {
     [SerializeField] private AnimationControllerBase.S_AnimationSequenceSingle[] animatioSequence;
 
@@ -17,19 +17,19 @@ public class SCRPT_BossMinionsSpawn : SCRPT_EnemyAttack
         boss = owner as BossZombie;
         boss.attackStarted = true;
 
-        boss.animationController.SetAnimationSequence(animatioSequence, true);
+        boss.AnimationController.SetAnimationSequence(animatioSequence, true);
         //boss.animationController.SetAnimation(AttackAnim, false);
         //boss.animationController.AddAnimation(boss.animationController.AnimationData.IdleAnim, true, AttackAnim.Animation.Duration, 1);
 
-        owner.GetAudioSource.pitch = Random.Range(1 - audioClip.pitchRange, 1 + audioClip.pitchRange);
-        owner.GetAudioSource.PlayOneShot(audioClip.clip);
+        //owner.GetAudioSource.pitch = Random.Range(1 - audioClip.pitchRange, 1 + audioClip.pitchRange);
+        //owner.GetAudioSource.PlayOneShot(audioClip.clip);
 
         int spawnAmount = amountToSpawn.Random();
         for (int i = 0; i < spawnAmount; i++)
         {
-            NormalZombie minion = NormalZombie.Create(owner.transform.position, true, false);
-            boss.OnMinionSpawned(minion);
-            minion.D_onDeathOf += boss.OnMinionDied;
+            //BaseZombie minion = BaseZombie.Create(owner.transform.position, true, false);
+            //boss.OnMinionSpawned(minion);
+            //minion.D_onDeathOf += boss.OnMinionDied;
         }
     }
 

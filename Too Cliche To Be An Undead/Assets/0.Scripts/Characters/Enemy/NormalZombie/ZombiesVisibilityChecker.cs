@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ZombiesVisibilityChecker : MonoBehaviour
 {
-    [SerializeField] private NormalZombie owner;
+    [SerializeField] private BaseZombie owner;
 
     private float visibilityTimer;
 
@@ -28,14 +28,14 @@ public class ZombiesVisibilityChecker : MonoBehaviour
             wasVisibleOnce = true;
             isVisible = true;
 
-            if (owner.isIdle)
-            {
-                if (owner.CurrentPlayerTarget == null)
-                    owner.Vision.TargetClosestPlayer();
+            //if (owner.isIdle)
+            //{
+            //    if (owner.CurrentPlayerTarget == null)
+            //        owner.Vision.TargetClosestPlayer();
 
-                Destroy(this);
-                return;
-            }
+            //    Destroy(this);
+            //    return;
+            //}
 
             return;
         }
@@ -48,7 +48,7 @@ public class ZombiesVisibilityChecker : MonoBehaviour
 
         if (!wasVisibleOnce) return;
 
-        if (visibilityTimer > 0) visibilityTimer -= Time.deltaTime;
-        else owner.ForceKill();
+        //if (visibilityTimer > 0) visibilityTimer -= Time.deltaTime;
+        //else owner.ForceKill();
     }
 }

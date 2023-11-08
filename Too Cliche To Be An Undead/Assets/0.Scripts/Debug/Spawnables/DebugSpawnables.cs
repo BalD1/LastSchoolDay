@@ -109,7 +109,7 @@ public class DebugSpawnables : MonoBehaviour
 
                     for (int i = 0; i < s.GetCount(); i++)
                     {
-                        NormalZombie.Create(pos, true);
+                        //BaseZombie.Create(pos, true);
                     }
                 });
                 break;

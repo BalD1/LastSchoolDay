@@ -3,7 +3,7 @@ using Spine.Unity;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AnimationData", menuName = "Scriptable/Entity/AnimationData/Enemies/Base")]
-public class SCRPT_ZombiesAnimData : SCRPT_AnimationsData<FSM_NZ_Manager.E_NZState>
+public class SCRPT_ZombiesAnimData : SO_AnimationsData<FSM_NZ_Manager.E_NZState>
 {
     [field: SerializeField] public SerializedDictionary<FSM_NZ_Manager.E_NZState, S_StateAnimationData> StateAnimationData { get; private set;}
     

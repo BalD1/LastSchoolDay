@@ -13,21 +13,21 @@ public class NelsonTrap : TrapBase
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        NormalZombie nz = collision.GetComponent<NormalZombie>();
+        BaseZombie nz = collision.GetComponent<BaseZombie>();
 
         if (nz == null) return;
 
-        nz.AddModifier(TRAP_MODIFIER_ID, speedModifier, StatsModifier.E_StatType.Speed);
-        nz.AddTickDamages(TRAP_TICK_ID, damages, timeBetweenTicks, 999, owner);
+        //nz.AddModifier(TRAP_MODIFIER_ID, speedModifier, StatsModifier.E_StatType.Speed);
+        //nz.AddTickDamages(TRAP_TICK_ID, damages, timeBetweenTicks, 999, owner);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        NormalZombie nz = collision.GetComponent<NormalZombie>();
+        BaseZombie nz = collision.GetComponent<BaseZombie>();
 
         if (nz == null) return;
 
-        nz.RemoveModifier(TRAP_MODIFIER_ID);
-        nz.RemoveTickDamages(TRAP_TICK_ID);
+        //nz.RemoveModifier(TRAP_MODIFIER_ID);
+        //nz.RemoveTickDamages(TRAP_TICK_ID);
     }
 }

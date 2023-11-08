@@ -15,21 +15,21 @@ public class FSM_Boss_AppearCinematic : FSM_Base<FSM_Boss_Manager, FSM_Boss_Mana
     public override void EnterState(FSM_Boss_Manager stateManager)
     {
         base.EnterState(stateManager);
-        owner.SkeletonAnimation.AnimationState.SetAnimation(0, owner.AnimationData.JumpStartAnim, false);
+        //owner.SkeletonAnimation.AnimationState.SetAnimation(0, owner.AnimationData.JumpStartAnim, false);
         owner.SkeletonHolder.AddToLocalPositionY(5);
-        Skeleton sk = owner.SkeletonAnimation.skeleton;
+        //Skeleton sk = owner.SkeletonAnimation.skeleton;
 
         if (!initialized)
         {
             initialized = true;
             FallCinematic = new Cinematic(
-                    new CA_CinematicFadeSkeleton(1, .5f, sk),
+                    //new CA_CinematicFadeSkeleton(1, .5f, sk),
                     new CA_CinematicActionMultiple(
                             new CA_CinematicMoveObject(owner.SkeletonHolder, Vector2.zero, .25f, true),
                             new CA_CinematicCustomAction(() =>
                             {
-                                owner.animationController.SetAnimation(owner.AnimationData.JumpEndAnim, false);
-                                owner.animationController.AddAnimation(owner.AnimationData.IdleAnim, true, owner.AnimationData.JumpEndAnim.Animation.Duration + .5f);
+                                owner.AnimationController.SetAnimation(owner.AnimationData.JumpEndAnim, false);
+                                owner.AnimationController.AddAnimation(owner.AnimationData.IdleAnim, true, owner.AnimationData.JumpEndAnim.Animation.Duration + .5f);
                             })
                         ),
                     new CA_CinematicActionMultiple(
@@ -40,10 +40,10 @@ public class FSM_Boss_AppearCinematic : FSM_Base<FSM_Boss_Manager, FSM_Boss_Mana
                     new CA_CinematicActionMultiple(
                         new CA_CinematicCustomAction(() =>
                         {
-                            owner.animationController.SetAnimation(owner.AnimationData.YellAnim, false);
+                            owner.AnimationController.SetAnimation(owner.AnimationData.YellAnim, false);
                             LeanTween.delayedCall(owner.AnimationData.YellAnim.Animation.Duration, () =>
                             {
-                                owner.animationController.SetAnimation(owner.AnimationData.IdleAnim, true);
+                                owner.AnimationController.SetAnimation(owner.AnimationData.IdleAnim, true);
                             }).setIgnoreTimeScale(true);
                         }),
                         new CA_CinematicPlaySFX(owner.howl, owner.transform.position),

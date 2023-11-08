@@ -19,10 +19,10 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
     public class PlayerDataKeep
     {
         public string playerName;
-        public PlayerInputs playerInput;
+        public PlayerInputHandler playerInput;
         public GameManager.E_CharactersNames character;
 
-        public PlayerDataKeep(string _playerName, PlayerInputs _playerInput, GameManager.E_CharactersNames _character)
+        public PlayerDataKeep(string _playerName, PlayerInputHandler _playerInput, GameManager.E_CharactersNames _character)
         {
             playerName = _playerName;
             playerInput = _playerInput;
@@ -103,7 +103,7 @@ public class DataKeeper : PersistentSingleton<DataKeeper>
         }
     }
 
-    private void CreateInput(PlayerInputs newInput)
+    private void CreateInput(PlayerInputHandler newInput)
     {
         PlayerDataKeep pdk = new PlayerDataKeep("PlayerInputs " + newInput.InputsID, newInput, GameManager.E_CharactersNames.Shirley);
         playersDataKeep.Add(pdk);

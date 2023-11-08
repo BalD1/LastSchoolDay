@@ -30,6 +30,6 @@ public class TrapBase : MonoBehaviour
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         IDamageable interactable = collision.GetComponent<IDamageable>();
-        if (interactable.InflinctDamages(damages, owner) && destroyOnTrigger) Destroy(this.gameObject); 
+        if (interactable.InflictDamages(damages, owner) && destroyOnTrigger) Destroy(this.gameObject); 
     }
 }

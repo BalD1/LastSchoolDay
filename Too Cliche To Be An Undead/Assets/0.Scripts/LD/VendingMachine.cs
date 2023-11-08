@@ -19,7 +19,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
     [SerializeField] private S_MachineAnimations blueMachineStyle;
     [SerializeField] private S_MachineAnimations yellowMachineStyle;
 
-    [SerializeField] private SCRPT_DropTable dropTable;
+    [SerializeField] private SO_DropTable dropTable;
 
     [SerializeField] private Vector2 dropPosition;
 

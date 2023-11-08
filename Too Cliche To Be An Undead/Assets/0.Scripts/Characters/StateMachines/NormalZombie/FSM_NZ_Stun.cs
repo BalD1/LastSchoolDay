@@ -5,8 +5,8 @@ public class FSM_NZ_Stun : FSM_Entity_Stunned<FSM_NZ_Manager, FSM_NZ_Manager.E_N
     {
         base.EnterState(stateManager);
 
-        owner.canBePushed = true;
-        (owner as NormalZombie).UnsetAttackedPlayer();
+        //owner.canBePushed = true;
+        //(owner as BaseZombie).UnsetAttackedPlayer();
     }
 
     public override void Conditions(FSM_NZ_Manager stateManager)
@@ -18,13 +18,13 @@ public class FSM_NZ_Stun : FSM_Entity_Stunned<FSM_NZ_Manager, FSM_NZ_Manager.E_N
     protected override void EventsSubscriber(FSM_NZ_Manager stateManager)
     {
         base.EventsSubscriber(stateManager);
-        owner.OnAskForPush += stateManager.SwitchToPushed;
+        //owner.OnAskForPush += stateManager.SwitchToPushed;
     }
 
     protected override void EventsUnsubscriber(FSM_NZ_Manager stateManager)
     {
         base.EventsUnsubscriber(stateManager);
-        owner.OnAskForPush -= stateManager.SwitchToPushed;
+        //owner.OnAskForPush -= stateManager.SwitchToPushed;
     }
 
     public override void Setup(FSM_NZ_Manager stateManager)

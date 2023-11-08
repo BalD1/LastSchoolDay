@@ -35,7 +35,7 @@ public class Ball : MonoBehaviour, IDamageable
     {
     }
 
-    public bool InflinctDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
+    public bool InflictDamages(float amount, Entity damager, bool isCrit = false, bool fakeDamages = false, bool callDelegate = true, bool tickDamages = false)
     {
         Vector2 dir = Vector2.zero;
 
@@ -71,7 +71,7 @@ public class Ball : MonoBehaviour, IDamageable
 
             float finalDamages = body.velocity.magnitude * (damageable is PlayerCharacter ? damagesMultiplierOnPlayers : damagesMultiplierOnZombies);
 
-            damageable.InflinctDamages(finalDamages, null);
+            damageable.InflictDamages(finalDamages, null);
         }
     }
 }

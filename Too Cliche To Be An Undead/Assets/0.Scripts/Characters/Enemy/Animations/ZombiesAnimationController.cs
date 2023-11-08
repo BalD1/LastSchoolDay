@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ZombiesAnimationController : AnimationControllerSingle
 {
-    [SerializeField] private NormalZombie owner;
+    [SerializeField] private BaseZombie owner;
 
     protected override void Setup()
     {

@@ -65,7 +65,7 @@ public class ProjectileBase : MonoBehaviour
         critChances = _critChances;
 
         owner = _owner;
-        Team = owner.GetStats.Team;
+        //Team = owner.GetStats.Team;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -90,11 +90,11 @@ public class ProjectileBase : MonoBehaviour
 
         bool isCrit = Random.Range(0, 100) <= critChances;
 
-        if (damageable.InflinctDamages(damages, owner, isCrit))
+        if (damageable.InflictDamages(damages, owner, isCrit))
         {
             CheckDestroySelf();
 
-            if (collision.GetComponentInParent<NormalZombie>() != null) PlayAudio(entityHitAudioData);
+            if (collision.GetComponentInParent<BaseZombie>() != null) PlayAudio(entityHitAudioData);
             else PlayAudio(objectHitAudioData);
         }
     }

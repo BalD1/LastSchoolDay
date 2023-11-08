@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Chest : MonoBehaviour, IInteractable
 {
-    [SerializeField] private SCRPT_DropTable dropTable;
+    [SerializeField] private SO_DropTable dropTable;
 
     [SerializeField] private List<PlayerInteractor> interactors = new List<PlayerInteractor>();
 

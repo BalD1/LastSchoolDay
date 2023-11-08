@@ -15,11 +15,11 @@ public abstract class Singleton<T> : MonoBehaviourEventsHandler, IDependency
             T[] objs = FindObjectOfType(typeof(T)) as T[];
             if (objs == null)
             {
-                LogsManager.Log(typeof(T), "There is none " + typeof(T) + " singleton found.", LogsManager.E_LogType.Error);
+                CustomLogger.Log(typeof(T), "There is none " + typeof(T) + " singleton found.", CustomLogger.E_LogType.Error);
                 return null;
             }
             if (objs.Length > 0) instance = objs[0];
-            if (objs.Length > 1) LogsManager.Log(typeof(T), "There is more than one " + typeof(T) + " object.", LogsManager.E_LogType.Error);
+            if (objs.Length > 1) CustomLogger.Log(typeof(T), "There is more than one " + typeof(T) + " object.", CustomLogger.E_LogType.Error);
 
             return instance;
         }
@@ -75,7 +75,7 @@ public abstract class Singleton<T> : MonoBehaviourEventsHandler, IDependency
     [Obsolete("Should use GetInstance instead, as there should not exist more than one Singleton Instance at once.")]
     public List<GameObject> GetInstances()
     {
-        this.Log("Should not be using GetInstances on Singleton. Use GetInstance instead.", LogsManager.E_LogType.Warning);
+        this.Log("Should not be using GetInstances on Singleton. Use GetInstance instead.", CustomLogger.E_LogType.Warning);
         return new List<GameObject>(GetInstances());
     }
 }

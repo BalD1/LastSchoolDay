@@ -43,7 +43,7 @@ public class PlayerInteractor : ImageChangeOnController
     protected override void Start()
     {
         base.Start();
-        CheckDevice(targetPlayer.PlayerInputsComponent.currentDeviceType);
+        //CheckDevice(targetPlayer.PlayerInputsComponent.currentDeviceType);
     }
 
     protected override void CheckDevice(PlayerInputsManager.E_Devices device)

@@ -76,14 +76,14 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
 
     protected override void EventsSubscriber()
     {
-        owner.OnDeath += OnOwnerDeath;
-        owner.OnReset += OnOwnerReset;
+        //owner.OnDeath += OnOwnerDeath;
+        //owner.OnReset += OnOwnerReset;
     }
 
     protected override void EventsUnSubscriber()
     {
-        owner.OnDeath -= OnOwnerDeath;
-        owner.OnReset -= OnOwnerReset;
+        //owner.OnDeath -= OnOwnerDeath;
+        //owner.OnReset -= OnOwnerReset;
     }
 
     protected override void Awake()
@@ -94,70 +94,70 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
 
     private void Update()
     {
-        foreach (var item in onHitEffects)
-        {
-            item.Update(Time.deltaTime);
-            if (item.IsFInished()) if (!effectsToRemove.Contains(item)) effectsToRemove.Add(item);
-        }
+        //foreach (var item in onHitEffects)
+        //{
+        //    item.Update(Time.deltaTime);
+        //    if (item.IsFInished()) if (!effectsToRemove.Contains(item)) effectsToRemove.Add(item);
+        //}
 
-        if (attacksComboReset_TIMER > 0)
-        {
-            attacksComboReset_TIMER -= Time.deltaTime;
-            if (attacksComboReset_TIMER <= 0) attackCount = 0;
-        }
+        //if (attacksComboReset_TIMER > 0)
+        //{
+        //    attacksComboReset_TIMER -= Time.deltaTime;
+        //    if (attacksComboReset_TIMER <= 0) attackCount = 0;
+        //}
 
-        if (attack_TIMER > 0)
-        {
-            attack_TIMER -= Time.deltaTime;
-            if (attack_TIMER <= 0)
-            {
-                isAttacking = false;
-                if (attackCount >= maxAttacksCombo)
-                {
-                    attackCount = 0;
-                    inputStored = false;
+        //if (attack_TIMER > 0)
+        //{
+        //    attack_TIMER -= Time.deltaTime;
+        //    if (attack_TIMER <= 0)
+        //    {
+        //        isAttacking = false;
+        //        if (attackCount >= maxAttacksCombo)
+        //        {
+        //            attackCount = 0;
+        //            inputStored = false;
 
-                    owner.OnAttackEnded?.Invoke();
+        //            owner.OnAttackEnded?.Invoke();
 
-                    afterCombo_TIMER = afterCombo_COOLDOWN;
-                    return;
-                }
+        //            afterCombo_TIMER = afterCombo_COOLDOWN;
+        //            return;
+        //        }
 
-                if (inputStored)
-                {
-                    inputStored = false;
+        //        if (inputStored)
+        //        {
+        //            inputStored = false;
 
-                    PlayerAnimationController ownerAnimCtrl = owner.AnimationController;
+        //            PlayerAnimationController ownerAnimCtrl = owner.AnimationController;
 
-                    AskForAttack();
-                    switch (owner.Weapon.GetGeneralDirectionOfMouseOrGamepad())
-                    {
-                        case Vector2 v when v == Vector2.up:
-                            ownerAnimCtrl.TryFlipSkeleton(false);
-                            //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_up, false);
-                            break;
+        //            AskForAttack();
+        //            switch (owner.Weapon.GetGeneralDirectionOfMouseOrGamepad())
+        //            {
+        //                case Vector2 v when v == Vector2.up:
+        //                    ownerAnimCtrl.TryFlipSkeleton(false);
+        //                    //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_up, false);
+        //                    break;
 
-                        case Vector2 v when v == Vector2.down:
-                            ownerAnimCtrl.TryFlipSkeleton(true);
-                            //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_down, false);
-                            break;
+        //                case Vector2 v when v == Vector2.down:
+        //                    ownerAnimCtrl.TryFlipSkeleton(true);
+        //                    //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_down, false);
+        //                    break;
 
-                        case Vector2 v when v == Vector2.left:
-                            ownerAnimCtrl.TryFlipSkeleton(false);
-                            //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
-                            break;
+        //                case Vector2 v when v == Vector2.left:
+        //                    ownerAnimCtrl.TryFlipSkeleton(false);
+        //                    //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
+        //                    break;
 
-                        case Vector2 v when v == Vector2.right:
-                            ownerAnimCtrl.TryFlipSkeleton(true);
-                            //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
-                            break;
-                    }
-                }
-                else if (!performHitStop) SetAttackEnded(true);
-            }
-        }
+        //                case Vector2 v when v == Vector2.right:
+        //                    ownerAnimCtrl.TryFlipSkeleton(true);
+        //                    //ownerAnimCtrl.SetAnimation(owner.AnimationsData.AttackAnim_side, false);
+        //                    break;
+        //            }
+        //        }
+        //        else if (!performHitStop) SetAttackEnded(true);
+        //    }
+        //}
 
-        if (afterCombo_TIMER > 0) afterCombo_TIMER -= Time.deltaTime;
+        //if (afterCombo_TIMER > 0) afterCombo_TIMER -= Time.deltaTime;
     }
 
     private void LateUpdate()
@@ -202,16 +202,17 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
     /// <returns></returns>
     public Quaternion GetRotationOnMouseOrGamepad()
     {
-        if (owner.PlayerInputsComponent.IsOnKeyboard())
-        {
-            return GetRotationOnMouse();
-        }
-        else
-        {
-            Vector2 c = owner.PlayerMotor.LastDirection.normalized;
-            lookAngle = Mathf.Atan2(c.y, c.x) * Mathf.Rad2Deg;
-            return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
-        }
+        //    if (owner.PlayerInputsComponent.IsOnKeyboard())
+        //    {
+        //        return GetRotationOnMouse();
+        //    }
+        //    else
+        //    {
+        //        Vector2 c = owner.PlayerMotor.LastDirection.normalized;
+        //        lookAngle = Mathf.Atan2(c.y, c.x) * Mathf.Rad2Deg;
+        //        return Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+        //    }
+        return Quaternion.identity;
     }
 
     /// <summary>
@@ -219,8 +220,8 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
     /// </summary>
     public void RotateOnMouse()
     {
-        if (owner.PlayerInputsComponent.IsOnKeyboard())
-            this.transform.rotation = GetRotationOnMouse();
+        //if (owner.PlayerInputsComponent.IsOnKeyboard())
+        //    this.transform.rotation = GetRotationOnMouse();
     }
 
     /// <summary>
@@ -245,16 +246,16 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
     /// Auto aims toward target
     /// </summary>
     /// <param name="target"></param>
-    public void SetRotationTowardTarget(Transform target)
-    {
-        if (target == null) return;
-        if (owner.PlayerInputsComponent.IsOnKeyboard()) return;
+    //public void SetRotationTowardTarget(Transform target)
+    //{
+    //    if (target == null) return;
+    //    if (owner.PlayerInputsComponent.IsOnKeyboard()) return;
 
-        Vector2 dir = (target.position - this.transform.position).normalized;
-        lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
-        owner.PlayerMotor?.ForceSetLasDirection(dir);
-    }
+    //    Vector2 dir = (target.position - this.transform.position).normalized;
+    //    lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+    //    this.transform.rotation = Quaternion.AngleAxis(lookAngle + 180, Vector3.forward);
+    //    owner.PlayerMotor?.ForceSetLasDirection(dir);
+    //}
 
     public void SetAimGoal(Vector2 goal)
     {
@@ -266,32 +267,32 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
     /// <summary>
     /// Use this if we should rotate depending on aim instead of movements
     /// </summary>
-    public void RotateOnAim()
-    {
-        if (!owner.PlayerInputsComponent.IsOnKeyboard())
-        {
-            lookAngle = Mathf.Atan2(aimGoal.y, aimGoal.x) * Mathf.Rad2Deg;
-            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * slerpSpeed);
-        }
-        else RotateOnMouse();
-    }
+    //public void RotateOnAim()
+    //{
+    //    if (!owner.PlayerInputsComponent.IsOnKeyboard())
+    //    {
+    //        lookAngle = Mathf.Atan2(aimGoal.y, aimGoal.x) * Mathf.Rad2Deg;
+    //        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.AngleAxis(lookAngle + 180, Vector3.forward), Time.deltaTime * slerpSpeed);
+    //    }
+    //    else RotateOnMouse();
+    //}
 
-    public Vector2 GetPreciseDirectionOfMouseOrGamepad()
-    {
-        if (owner.PlayerInputsComponent.IsOnKeyboard())
-        {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = 5f;
+    //public Vector2 GetPreciseDirectionOfMouseOrGamepad()
+    //{
+    //    if (owner.PlayerInputsComponent.IsOnKeyboard())
+    //    {
+    //        Vector3 mousePos = Input.mousePosition;
+    //        mousePos.z = 5f;
 
-            Vector3 selfPosByCam = Camera.main.WorldToScreenPoint(Owner.transform.position);
+    //        Vector3 selfPosByCam = Camera.main.WorldToScreenPoint(Owner.transform.position);
 
-            mousePos.x -= selfPosByCam.x;
-            mousePos.y -= selfPosByCam.y;
+    //        mousePos.x -= selfPosByCam.x;
+    //        mousePos.y -= selfPosByCam.y;
 
-            return mousePos;
-        }
-        else return owner.PlayerMotor.LastDirection.normalized;
-    }
+    //        return mousePos;
+    //    }
+    //    else return owner.PlayerMotor.LastDirection.normalized;
+    //}
 
     public Vector2 GetGeneralDirectionOfMouseOrGamepad()
     {
@@ -352,16 +353,16 @@ public class PlayerWeapon : MonoBehaviourEventsHandler
 
         GameObject hitEffect = Instantiate(hitParticles, effectObjectPos + (Vector3)(dist * dir), Quaternion.identity).gameObject;
 
-        float finalKnockback = (onHitKnockback - e.GetStats.Weight + speedModifier) * knockbackModifier_M;
-        if (finalKnockback > 0 && addKnockback && !performHitStop)
-        {
-            e.Stun(.1f, true);
+        //float finalKnockback = (onHitKnockback - e.GetStats.Weight + speedModifier) * knockbackModifier_M;
+        //if (finalKnockback > 0 && addKnockback && !performHitStop)
+        //{
+        //    e.Stun(.1f, true);
 
-            Vector2 dirToPlayer = (e.transform.position - owner.transform.position).normalized;
-            e.GetRb.AddForce(finalKnockback * dirToPlayer, ForceMode2D.Impulse);
-        }
+        //    Vector2 dirToPlayer = (e.transform.position - owner.transform.position).normalized;
+        //    e.GetRb.AddForce(finalKnockback * dirToPlayer, ForceMode2D.Impulse);
+        //}
 
-        foreach (var item in onHitTickDamages) e.AddTickDamages(item);
+        //foreach (var item in onHitTickDamages) e.AddTickDamages(item);
     }
 
     public void ResetAttack()

@@ -57,7 +57,7 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager, E_BossState>
         switchToRecover = false;
 
         owner.attacksPatern.StartNewPatern();
-        owner.UnsetAttackedPlayer();
+        //owner.UnsetAttackedPlayer();
     }
 
     public override void Conditions(FSM_Boss_Manager stateManager)
@@ -67,8 +67,8 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager, E_BossState>
             float recoveringTime = owner.attacksPatern.currentPatern.recoverTime;
             stateManager.SwitchState<FSM_Boss_Recovering>(FSM_Boss_Manager.E_BossState.Recovering).SetTimer(recoveringTime);
         }
-        if (owner.CurrentHP <= 0)
-            stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Dead);
+        //if (owner.CurrentHP <= 0)
+        //    stateManager.SwitchState(FSM_Boss_Manager.E_BossState.Dead);
     }
 
     protected override void EventsSubscriber(FSM_Boss_Manager stateManager)
@@ -78,12 +78,12 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager, E_BossState>
 
     protected override void EventsUnsubscriber(FSM_Boss_Manager stateManager)
     {
-        if (owner.CurrentAttack.attack.DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
-        if (owner.CurrentAttack.attack.DamageOnCollision)
-        {
-            owner.d_EnteredCollider -= OnCollision;
-            owner.D_entityEnteredCollider -= OnEntityCollision;
-        }
+        //if (owner.CurrentAttack.attack.DamageOnTrigger) owner.OnEnteredBodyTrigger -= OnTrigger;
+        //if (owner.CurrentAttack.attack.DamageOnCollision)
+        //{
+        //    owner.d_EnteredCollider -= OnCollision;
+        //    owner.D_entityEnteredCollider -= OnEntityCollision;
+        //}
 
         owner.attacksPatern.D_paterneEnded -= SwitchToRecover;
     }
@@ -95,62 +95,62 @@ public class FSM_Boss_Attacking : FSM_Base<FSM_Boss_Manager, E_BossState>
 
     private void SetupNextAttack()
     {
-        owner.OnEnteredBodyTrigger -= OnTrigger;
-        owner.d_EnteredCollider -= OnCollision;
-        owner.D_entityEnteredCollider -= OnEntityCollision;
+        //owner.OnEnteredBodyTrigger -= OnTrigger;
+        //owner.d_EnteredCollider -= OnCollision;
+        //owner.D_entityEnteredCollider -= OnEntityCollision;
 
-        if (!owner.IsAlive()) return;
+        //if (!owner.IsAlive()) return;
 
-        SCRPT_EnemyAttack enemyAttack = owner.CurrentAttack.attack;
+        //SO_EnemyAttack enemyAttack = owner.CurrentAttack.attack;
 
-        // if the attack uses enemy's collisions trigger
-        if (enemyAttack.DamageOnTrigger) owner.OnEnteredBodyTrigger += OnTrigger;
-        if (owner.CurrentAttack.attack.DamageOnCollision)
-        {
-            owner.d_EnteredCollider += OnCollision;
-            owner.D_entityEnteredCollider += OnEntityCollision;
-        }
+        //// if the attack uses enemy's collisions trigger
+        //if (enemyAttack.DamageOnTrigger) owner.OnEnteredBodyTrigger += OnTrigger;
+        //if (owner.CurrentAttack.attack.DamageOnCollision)
+        //{
+        //    owner.d_EnteredCollider += OnCollision;
+        //    owner.D_entityEnteredCollider += OnEntityCollision;
+        //}
 
-        // Create a text feedback
-        TextPopup.Create("!", owner.transform).transform.localPosition = (Vector3)owner.GetHealthPopupOffset;
+        //// Create a text feedback
+        //TextPopup.Create("!", owner.transform).transform.localPosition = (Vector3)owner.GetHealthPopupOffset;
 
-        // how long should the enemy wait before attacking ?
-        float durationBeforeAttack = Random.Range(enemyAttack.MinDurationBeforeAttack, enemyAttack.MaxDurationBeforeAttack);
+        //// how long should the enemy wait before attacking ?
+        //float durationBeforeAttack = Random.Range(enemyAttack.MinDurationBeforeAttack, enemyAttack.MaxDurationBeforeAttack);
 
-        if (durationBeforeAttack > 0)
-        {
-        // Set the anticipation anim
-            owner.animationController.SetAnimation(owner.AnimationData.AttackAnticipAnim, true);
+        //if (durationBeforeAttack > 0)
+        //{
+        //// Set the anticipation anim
+        //    owner.AnimationController.SetAnimation(owner.AnimationData.AttackAnticipAnim, true);
 
-            // Second feedback using the enemy scale
-            LeanTween.scale(owner.SkeletonAnimation.gameObject, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
-                () =>
-                {
-                    owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
-                    LeanTween.scale(owner.SkeletonAnimation.gameObject, Vector2.one, durationBeforeAttack / 2).setEase(owner.OutType);
-                });
-        }
+        //    // Second feedback using the enemy scale
+        //    LeanTween.scale(owner.SkeletonAnimation.gameObject, owner.MaxScaleOnAttack, durationBeforeAttack / 2).setEase(owner.InType).setOnComplete(
+        //        () =>
+        //        {
+        //            owner.SetAttackedPlayer(owner.CurrentPlayerTarget);
+        //            LeanTween.scale(owner.SkeletonAnimation.gameObject, Vector2.one, durationBeforeAttack / 2).setEase(owner.OutType);
+        //        });
+        //}
 
-        waitBeforeAttack_TIMER = durationBeforeAttack;
-        attack_TIMER = enemyAttack.MaxDurationBeforeAttack + enemyAttack.AttackDuration + owner.CurrentAttack.timeBeforeNext;
-        attack_flag = false;
+        //waitBeforeAttack_TIMER = durationBeforeAttack;
+        //attack_TIMER = enemyAttack.MaxDurationBeforeAttack + enemyAttack.AttackDuration + owner.CurrentAttack.timeBeforeNext;
+        //attack_flag = false;
 
-        // should we set the telegraph now or wait for the attack OnStart ?
-        if (enemyAttack.SetTelegraphOnStart == false)
-        {
-            Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
-            float lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            lookAngle += enemyAttack.telegraphRotationOffset;
-            Quaternion telegraphRotation = Quaternion.AngleAxis(lookAngle, Vector3.forward);
+        //// should we set the telegraph now or wait for the attack OnStart ?
+        //if (enemyAttack.SetTelegraphOnStart == false)
+        //{
+        //    Vector2 dir = (owner.PivotOffset.transform.position - owner.CurrentPlayerTarget.PivotOffset.transform.position).normalized;
+        //    float lookAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        //    lookAngle += enemyAttack.TelegraphRotationOffset;
+        //    Quaternion telegraphRotation = Quaternion.AngleAxis(lookAngle, Vector3.forward);
 
-            owner.AttackDirection = -dir;
+        //    owner.AttackDirection = -dir;
 
-            Vector2 telegraphSize = enemyAttack.telegraphVectorSize != Vector2.zero ? enemyAttack.telegraphVectorSize : new Vector2(enemyAttack.AttackDistance, enemyAttack.AttackDistance);
+        //    Vector2 telegraphSize = enemyAttack.TelegraphVectorSize != Vector2.zero ? enemyAttack.TelegraphVectorSize : new Vector2(enemyAttack.AttackDistance, enemyAttack.AttackDistance);
 
-            owner.attackTelegraph.Setup(telegraphSize, enemyAttack.attackOffset, telegraphRotation, enemyAttack.telegraphSprite, durationBeforeAttack);
-        }
+        //    owner.attackTelegraph.Setup(telegraphSize, enemyAttack.AttackOffset, telegraphRotation, enemyAttack.TelegraphSprite, durationBeforeAttack);
+        //}
 
-        owner.canBePushed = true;
+        //owner.canBePushed = true;
     }
 
     private void OnCollision(Collision2D collision)

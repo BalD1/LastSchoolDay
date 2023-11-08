@@ -5,13 +5,13 @@ using UnityEngine.Audio;
 
 public class DestroyableByZombieProps : DestroyableProp
 {
-    private List<NormalZombie> zombiesInCollider = new List<NormalZombie>();
+    private List<BaseZombie> zombiesInCollider = new List<BaseZombie>();
     private List<float> zombiesDamagesTimer = new List<float>();
 
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
-        NormalZombie nz = collision.gameObject.GetComponent<NormalZombie>();
+        BaseZombie nz = collision.gameObject.GetComponent<BaseZombie>();
         if (nz != null)
         {
             OnZombieEnter(nz);
@@ -23,7 +23,7 @@ public class DestroyableByZombieProps : DestroyableProp
     {
         base.OnCollisionExit2D(collision);
 
-        NormalZombie nz = collision.gameObject.GetComponent<NormalZombie>();
+        BaseZombie nz = collision.gameObject.GetComponent<BaseZombie>();
         if (nz != null)
         {
             OnZombieExit(nz);
@@ -31,13 +31,13 @@ public class DestroyableByZombieProps : DestroyableProp
         }
     }
 
-    private void OnZombieEnter(NormalZombie zombie)
+    private void OnZombieEnter(BaseZombie zombie)
     {
         zombiesInCollider.Add(zombie);
         zombiesDamagesTimer.Add(0);
     }
 
-    private void OnZombieExit(NormalZombie zombie)
+    private void OnZombieExit(BaseZombie zombie)
     {
         int zombieIdx = zombiesInCollider.IndexOf(zombie);
         if (zombieIdx < 0) return;
@@ -57,7 +57,7 @@ public class DestroyableByZombieProps : DestroyableProp
             if (zombiesDamagesTimer[i] <= 0)
             {
                 zombiesDamagesTimer[i] = collisionDamagesTimer;
-                InflinctDamages(collisionDamages, zombiesInCollider[i]);
+                InflictDamages(collisionDamages, zombiesInCollider[i]);
             }
         }
 

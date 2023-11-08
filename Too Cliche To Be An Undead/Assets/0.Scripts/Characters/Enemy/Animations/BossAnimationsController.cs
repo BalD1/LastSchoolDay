@@ -43,13 +43,13 @@ public class BossAnimationsController : AnimationControllerSingle
 
     private void SetAnimationFromState(FSM_Boss_Manager.E_BossState newState)
     {
-        if (!owner.AnimationData.StateAnimationData.TryGetValue(newState, out SCRPT_BossAnimData.S_StateAnimationData anim))
-        {
-            this.Log("Could not find " + newState + " in animation data " + owner.AnimationData.StateAnimationData, LogsManager.E_LogType.Error);
-            return;
-        }
+        //if (!owner.AnimationData.StateAnimationData.TryGetValue(newState, out SCRPT_BossAnimData.S_StateAnimationData anim))
+        //{
+        //    this.Log("Could not find " + newState + " in animation data " + owner.AnimationData.StateAnimationData, CustomLogger.E_LogType.Error);
+        //    return;
+        //}
 
-        SetAnimation(anim.Asset, anim.Loop);
+        //SetAnimation(anim.Asset, anim.Loop);
     }
 
     private void SetAnimationInspector()

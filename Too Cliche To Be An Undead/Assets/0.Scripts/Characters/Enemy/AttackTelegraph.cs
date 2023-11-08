@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackTelegraph : MonoBehaviour
+public class AttackTelegraph : MonoBehaviourEventsHandler
 {
+    [SerializeField] private IComponentHolder owner;
+
     [SerializeField] private Transform pivot;
 
     [SerializeField] private SpriteRenderer backgroundSprite;
     [SerializeField] private SpriteRenderer fillSprite;
-
-    [SerializeField] private EnemyBase owner;
-
-    private float rad;
 
     public struct TelegraphData
     {
@@ -36,9 +34,16 @@ public class AttackTelegraph : MonoBehaviour
         }
     }
 
-    private void Awake()
+    protected override void EventsSubscriber()
     {
-        owner.OnDeath += CancelTelegraph;
+        if (owner.HolderTryGetComponent(IComponentHolder.E_Component.HealthSystem, out HealthSystem healthSystem) == IComponentHolder.E_Result.Success)
+            healthSystem.OnDeath += CancelTelegraph;
+    }
+
+    protected override void EventsUnSubscriber()
+    {
+        if (owner.HolderTryGetComponent(IComponentHolder.E_Component.HealthSystem, out HealthSystem healthSystem) == IComponentHolder.E_Result.Success)
+            healthSystem.OnDeath -= CancelTelegraph;
     }
 
     public void Setup(TelegraphData newData, float time)
@@ -51,7 +56,6 @@ public class AttackTelegraph : MonoBehaviour
     }
     public void Setup(Vector2 _size, Vector2 _offset, Quaternion _rotation, Sprite _sprite, float time)
     {
-        rad = _size.x;
         backgroundSprite.sprite = _sprite;
         fillSprite.sprite = _sprite;
 

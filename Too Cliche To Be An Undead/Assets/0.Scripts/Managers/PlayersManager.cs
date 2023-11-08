@@ -48,7 +48,7 @@ public class PlayersManager : MonoBehaviourEventsHandler
         public SCRPT_Skill skill;
         public SCRPT_EntityStats stats;
         public SCRPT_PlayerAudio audioClips;
-        public SCRPT_PlayersAnimData animData;
+        public SO_PlayersAnimData animData;
     }
 
     [SerializeField] private PlayerCharacterComponents[] characterComponents;

@@ -27,7 +27,7 @@ public class PlayerPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pressToJoin;
 
     [field: SerializeField] public PlayerPanelsManager.S_ImageByCharacter currentCharacter { get; private set; }
-    [field: ReadOnly] [field: SerializeField] public PlayerInputs LinkedInputs { get; private set; }
+    [field: ReadOnly] [field: SerializeField] public PlayerInputHandler LinkedInputs { get; private set; }
     [field: SerializeField] [field: ReadOnly] public int CurrentInputsIdx { get; private set; }
 
     private int currentCharacterIdx;
@@ -128,7 +128,7 @@ public class PlayerPanel : MonoBehaviour
         this.panelImage.color = isValid ? Color.white : wrongColor;
     }
 
-    public void JoinPanel(PlayerInputs playerInputs)
+    public void JoinPanel(PlayerInputHandler playerInputs)
     {
         if (panelsManager.tokensQueue.Count > 0)
             playerToken.sprite = panelsManager.tokensQueue.Dequeue();

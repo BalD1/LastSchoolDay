@@ -27,9 +27,9 @@ public class EndCinematic : MonoBehaviour, IInteractable
 
     public void SetBoss(BossZombie newBoss)
     {
-        if (this.boss != null) this.boss.OnDeath -= SetCanBeOpened;
+        //if (this.boss != null) this.boss.OnDeath -= SetCanBeOpened;
         this.boss = newBoss;
-        boss.OnDeath += DelayedSetCanBeOpened;
+        //boss.OnDeath += DelayedSetCanBeOpened;
 
         if (!cinematicInitialized)
         {

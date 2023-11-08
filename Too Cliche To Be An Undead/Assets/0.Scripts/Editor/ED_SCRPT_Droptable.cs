@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(SCRPT_DropTable))]
+[CustomEditor(typeof(SO_DropTable))]
 public class ED_SCRPT_Droptable : Editor
 {
-    private SCRPT_DropTable targetScript;
+    private SO_DropTable targetScript;
     private bool showElementsPercentage;
 
     private void OnEnable()
     {
-        targetScript = (SCRPT_DropTable)target;
+        targetScript = (SO_DropTable)target;
     }
 
     public override void OnInspectorGUI()
@@ -50,7 +50,7 @@ public class ED_SCRPT_Droptable : Editor
     {
         targetScript.totalDrops = targetScript.DropTable.Length;
         targetScript.totalWeight = 0;
-        foreach (SCRPT_DropTable.DropWithWeight drop in targetScript.DropTable)
+        foreach (SO_DropTable.DropWithWeight drop in targetScript.DropTable)
         {
             targetScript.totalWeight += drop.weight;
         }

@@ -15,7 +15,7 @@ public class BodyTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
         {
-            owner.OnEnteredBodyTrigger?.Invoke(collision);
+            //owner.OnEnteredBodyTrigger?.Invoke(collision);
             return;
         }
     }
@@ -24,7 +24,7 @@ public class BodyTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
         {
-            owner.OnExitedBodyTrigger?.Invoke(collision);
+            //owner.OnExitedBodyTrigger?.Invoke(collision);
             return;
         }
     }

@@ -18,9 +18,9 @@ public class GroundedZombie : Entity
 
         if (reverse)
         {
-            Vector2 scale = res.skeletonAnimation.transform.localScale;
-            scale.x = -1;
-            res.skeletonAnimation.transform.localScale = scale;
+            //Vector2 scale = res.skeletonAnimation.transform.localScale;
+            //scale.x = -1;
+            //res.skeletonAnimation.transform.localScale = scale;
         }
 
         return res;
@@ -29,57 +29,57 @@ public class GroundedZombie : Entity
     protected override void EventsSubscriber()
     {
         base.EventsSubscriber();
-        GymnasiumCinematicEvents.OnGymnasiumCinematicStarted += ForceKill;
+        //GymnasiumCinematicEvents.OnGymnasiumCinematicStarted += ForceKill;
 
     }
 
     protected override void EventsUnSubscriber()
     {
         base.EventsUnSubscriber();
-        GymnasiumCinematicEvents.OnGymnasiumCinematicStarted -= ForceKill;
+        //GymnasiumCinematicEvents.OnGymnasiumCinematicStarted -= ForceKill;
     }
 
     protected override void Awake()
     {
         base.Awake();
 
-        this.OnTakeDamageFromEntity += (bool crit, Entity damager, bool tickDamages) => PlayAudio(audioData.GetRandomHurtClip());
+        //this.OnTakeDamageFromEntity += (bool crit, Entity damager, bool tickDamages) => PlayAudio(audioData.GetRandomHurtClip());
     }
 
     private void PlayAudio(SCRPT_EntityAudio.S_AudioClips audio)
     {
-        source.pitch = Random.Range(1 - audio.pitchRange, 1 + audio.pitchRange);
-        source.PlayOneShot(audio.clip);
+        //source.pitch = Random.Range(1 - audio.pitchRange, 1 + audio.pitchRange);
+        //source.PlayOneShot(audio.clip);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (attack_TIMER > 0) return;
+        //if (attack_TIMER > 0) return;
 
         PlayerCharacter player = collision.gameObject.GetComponent<PlayerCharacter>();
 
         if (player == null) return;
         if (player.StateManager.ToString() == "Pushed") return;
 
-        SkeletonAnimation.AnimationState.SetAnimation(0, attackAnim, false);
-        SkeletonAnimation.AnimationState.AddAnimation(0, idleAnim, true, .25f);
+        //SkeletonAnimation.AnimationState.SetAnimation(0, attackAnim, false);
+        //SkeletonAnimation.AnimationState.AddAnimation(0, idleAnim, true, .25f);
 
         player.Stun(stunDuration, false, true);
-        player.InflinctDamages(MaxDamages_M, this, RollCrit());
+        //player.InflinctDamages(MaxDamages_M, this, RollCrit());
 
         PlayAudio(audioData.GetRandomAttackClip());
 
-        attack_TIMER = MaxAttCD_M;
+        //attack_TIMER = MaxAttCD_M;
     }
 
-    public void ForceKill() => Death(true);
-    public override void Death(bool forceDeath = false)
-    {
-        base.Death(forceDeath);
+    //public void ForceKill() => Death(true);
+    //public override void Death(bool forceDeath = false)
+    //{
+    //    base.Death(forceDeath);
 
-        AudioclipPlayer.Create(this.transform.position, audioData.GetRandomDeathClip());
-        BloodParticles.GetNext(this.transform.position);
+    //    AudioclipPlayer.Create(this.transform.position, audioData.GetRandomDeathClip());
+    //    BloodParticles.GetNext(this.transform.position);
 
-        Destroy(this.gameObject);
-    }
+    //    Destroy(this.gameObject);
+    //}
 }

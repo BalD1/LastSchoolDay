@@ -15,7 +15,7 @@ public class Tree : MonoBehaviour
         if (player == null) return;
 
         AddEntity();
-        player.D_onDeathOf += OnEntityDeath;
+        //player.D_onDeathOf += OnEntityDeath;
 
         if (entitiesBehindCount <= 1)
             spineColor.SwitchToModifiedColor(.5f);
@@ -27,7 +27,7 @@ public class Tree : MonoBehaviour
     private void OnEntityDeath(Entity e)
     {
         RemoveEntity();
-        e.D_onDeathOf -= OnEntityDeath;
+        //e.D_onDeathOf -= OnEntityDeath;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -37,7 +37,7 @@ public class Tree : MonoBehaviour
         if (player == null) return;
 
         RemoveEntity();
-        player.D_onDeathOf -= OnEntityDeath;
+        //player.D_onDeathOf -= OnEntityDeath;
 
         if (entitiesBehindCount <= 0)
             spineColor.SwitchToBaseColor(.5f);

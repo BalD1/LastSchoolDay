@@ -13,7 +13,7 @@ public class ShopScreen : UIScreenBase
     [field: SerializeField] public TextMeshProUGUI SkillCost { get; private set; }
     [field: SerializeField] public Image SkillIcon { get; private set; }
 
-    [field: SerializeField, ReadOnly] public SCRPT_LevelData CurrentSelectedLevelData { get; private set; }
+    [field: SerializeField, ReadOnly] public SO_ShopUpgrade CurrentSelectedLevelData { get; private set; }
     [field: SerializeField, ReadOnly] public ShopLevel CurrentSelectedLevel { get; private set; }
 
     [SerializeField] private TextMeshProUGUI playerMoneyText;
@@ -102,7 +102,7 @@ public class ShopScreen : UIScreenBase
         SetupPanels(null);
     }
 
-    private void SetupPanels(SCRPT_LevelData _data = null)
+    private void SetupPanels(SO_ShopUpgrade _data = null)
     {
         if (_data == null)
         {
@@ -114,8 +114,8 @@ public class ShopScreen : UIScreenBase
             return;
         }
 
-        this.SkillName.text = _data.LevelName;
-        this.SkillDescription.text = _data.LevelDescription;
+        this.SkillName.text = _data.UpgradeName;
+        this.SkillDescription.text = _data.UpgradeDescription;
         this.SkillCost.text = "x " + _data.Cost;
         this.SkillIcon.enabled = true;
         this.SkillIcon.sprite = _data.LevelSprites.BoughedSprite;

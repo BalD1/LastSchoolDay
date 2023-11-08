@@ -12,8 +12,8 @@ public class FSM_Entity_Idle<Manager, KeyName> : FSM_Base<Manager, KeyName>
     {
         base.EnterState(stateManager);
 
-        if (owner.GetRb != null)
-            owner.GetRb.velocity = Vector2.zero;
+        //if (owner.GetRb != null)
+            //owner.GetRb.velocity = Vector2.zero;
     }
 
     public override void UpdateState(Manager stateManager)
@@ -32,7 +32,7 @@ public class FSM_Entity_Idle<Manager, KeyName> : FSM_Base<Manager, KeyName>
 
     public override void Conditions(Manager stateManager)
     {
-        if (owner.GetRb?.velocity != Vector2.zero) baseConditionChecked = true;
+        //if (owner.GetRb?.velocity != Vector2.zero) baseConditionChecked = true;
     }
 
     protected override void EventsSubscriber(Manager stateManager)

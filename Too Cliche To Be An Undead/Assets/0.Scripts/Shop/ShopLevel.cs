@@ -18,7 +18,7 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [SerializeField] private Image[] glowLiaisons;
 
 
-    [field: SerializeField] public SCRPT_LevelData Data { get; private set; }
+    [field: SerializeField] public SO_ShopUpgrade Data { get; private set; }
 
     private Shop shop;
 
@@ -143,8 +143,6 @@ public class ShopLevel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             DataKeeper.Instance.unlockedLevels.Add(this.ID);
             shop.PlayAudio(shop.ShopAudioData.buyAudio);
         }
-
-        PlayerCharacter.LevelUp();
     }
 
     private void BoughtUpgradeFeedback()

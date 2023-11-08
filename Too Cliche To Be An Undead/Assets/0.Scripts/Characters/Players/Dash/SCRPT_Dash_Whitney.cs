@@ -13,6 +13,6 @@ public class SCRPT_Dash_Whitney : SCRPT_Dash
     public override void OnDashStop(PlayerCharacter owner)
     {
         base.OnDashStop(owner);
-        owner.AddModifierUnique(MODIF_ID, critBoostValue, critBoostTime, StatsModifier.E_StatType.CritChances);
+        //owner.AddModifierUnique(MODIF_ID, critBoostValue, critBoostTime, StatsModifier.E_StatType.CritChances);
     }
 }

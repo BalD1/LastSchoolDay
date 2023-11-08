@@ -67,7 +67,7 @@ public class TickDamages
         damages_TIMER = timeBetweenDamages;
 
         bool isCrit = Random.Range(0, 100) <= critChances;
-        owner.InflinctDamages(damages, origin, isCrit, false, true, true);
+        //owner.InflinctDamages(damages, origin, isCrit, false, true, true);
     }
 
     public void ForceEnd(float delay = 0) => lifetime_TIMER = delay;

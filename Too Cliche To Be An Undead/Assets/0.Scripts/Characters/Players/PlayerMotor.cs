@@ -3,28 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMotor : MonoBehaviour
+public class PlayerMotor : EntityMotor<PlayerAnimationController>
 {
-    [SerializeField] private PlayerCharacter owner;
+    private PlayerInputHandler playerInputHandler;
 
-    private Rigidbody2D body;
-    [field: SerializeField, ReadOnly] public Vector2 Velocity { get; private set; }
-    [field: SerializeField, ReadOnly] public Vector2 LastDirection { get; private set; }
-
-    private bool stayStatic;
-
-    private void Awake()
+    protected override void SetComponents()
     {
-        body = owner.GetRb;
+        base.SetComponents();
+        if (owner.HolderTryGetComponent(IComponentHolder.E_Component.PlayerInputsComponent, out playerInputHandler) != IComponentHolder.E_Result.Success)
+        {
+            owner.OnComponentModified += WaitForOwnerInputsSetup;
+        }
     }
 
-    public void SetSelfVelocity(Vector2 velocity) => this.Velocity = velocity;
-    public void SetAllVelocity(Vector2 velocity)
+    private void WaitForOwnerInputsSetup(ComponentChangeEventArgs args)
     {
-        this.Velocity = velocity;
-        body.velocity = velocity;
+        if (args.ComponentType == IComponentHolder.E_Component.PlayerInputsComponent)
+        {
+            playerInputHandler = owner.HolderGetComponent<PlayerInputHandler>(IComponentHolder.E_Component.PlayerInputsComponent);
+            owner.OnComponentModified -= WaitForOwnerInputsSetup;
+        }
     }
 
+    public void ReadMovementsInputsFromComponent()
+    => ReadMovementsInputs(playerInputHandler.MovementsInput);
     public void ReadMovementsInputs(InputAction.CallbackContext context)
     => ReadMovementsInputs(context.ReadValue<Vector2>());
     public void ReadMovementsInputs(Vector2 value)
@@ -32,18 +34,4 @@ public class PlayerMotor : MonoBehaviour
         Velocity = value;
         if (Velocity != Vector2.zero) LastDirection = Velocity;
     }
-
-    public void Movements()
-    {
-        if (stayStatic) return;
-        Velocity = Vector2.ClampMagnitude(Velocity, owner.MaxSpeed_M);
-
-        if (Velocity.x != 0)
-            owner.AnimationController.TryFlipSkeleton(Velocity.x > 0);
-
-        this.body.MovePosition(this.body.position + Velocity * owner.MaxSpeed_M * Time.fixedDeltaTime);
-    }
-
-    public void ForceSetLasDirection(Vector2 direction)
-        => LastDirection = direction;
 }

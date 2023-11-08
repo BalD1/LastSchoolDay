@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager, FSM_Player_Manager.E_PlayerState>
+public class FSM_Player_InSkill : FSM_Base<FSM_Player, FSM_Player.E_PlayerState>
 {
     private PlayerCharacter owner;
 
     private PlayerAnimationController ownerAnimationController;
 
-    public FSM_Player_Manager.E_PlayerState StateName { get; private set; }
+    public FSM_Player.E_PlayerState StateName { get; private set; }
 
     private Spine.Animation idleAnim;
     private Spine.Animation walkAnim;
@@ -33,158 +33,158 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager, FSM_Player_Manage
 
     public Vector2 SkillHolderPosAtStart { get; private set; }
 
-    public override void EnterState(FSM_Player_Manager stateManager)
+    public override void EnterState(FSM_Player stateManager)
     {
         base.EnterState(stateManager);
 
-        owner.PlayerMotor?.SetAllVelocity(Vector2.zero);
+        //owner.PlayerMotor?.SetAllVelocity(Vector2.zero);
 
-        SkillHolderPosAtStart = owner.GetSkillHolder.transform.position;
+        //SkillHolderPosAtStart = owner.GetSkillHolder.transform.position;
 
         //idleAnim = owner.AnimationsData.SkillIdleAnimSide;
         //walkAnim = owner.AnimationsData.SkillWalkAnimSide;
 
-        loopAnims = owner.GetSkill.LoopAnims;
+        //loopAnims = owner.GetSkill.LoopAnims;
 
         started = false;
 
         timerForCancel = cooldownForCancel;
 
-        Vector2 mouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();
-        initialDirection = mouseDir;
+        //Vector2 mouseDir = stateManager.Owner.Weapon.GetGeneralDirectionOfMouseOrGamepad();
+        //initialDirection = mouseDir;
 
-        owner.canBePushed = true;
+        //owner.canBePushed = true;
 
-        owner.GetSkill.EarlyStart(owner);
+        //owner.GetSkill.EarlyStart(owner);
     }
 
-    public override void UpdateState(FSM_Player_Manager stateManager)
+    public override void UpdateState(FSM_Player stateManager)
     {
         // if the skill hasn't started yet
-        if (started == false)
-        {
-            // if we must wait for the transition
-            if (transition_Timer > 0)
-            {
-                transition_Timer -= Time.deltaTime;
-                return;
-            }
-            else
-            {
-                // start the skill
-                started = true;
+        //if (started == false)
+        //{
+        //    // if we must wait for the transition
+        //    if (transition_Timer > 0)
+        //    {
+        //        transition_Timer -= Time.deltaTime;
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        // start the skill
+        //        started = true;
 
-                float animationSpeedScale = owner.GetSkill.AnimationSpeedScale;
+        //        //float animationSpeedScale = owner.GetSkill.AnimationSpeedScale;
 
-                // if the skill got 4D anims, set the anim depending on orientation
-                if (owner.GetSkill.is4D)
-                {
-                    switch (initialDirection)
-                    {
-                        case Vector2 v when v == Vector2.up:
-                            //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimUp, loopAnims, animationSpeedScale);
-                            break;
+        //        // if the skill got 4D anims, set the anim depending on orientation
+        //        if (owner.GetSkill.is4D)
+        //        {
+        //            switch (initialDirection)
+        //            {
+        //                case Vector2 v when v == Vector2.up:
+        //                    //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimUp, loopAnims, animationSpeedScale);
+        //                    break;
 
-                        case Vector2 v when v == Vector2.down:
-                            //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimDown, loopAnims, animationSpeedScale);
-                            break;
+        //                case Vector2 v when v == Vector2.down:
+        //                    //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimDown, loopAnims, animationSpeedScale);
+        //                    break;
 
-                        case Vector2 v when v == Vector2.left:
-                            //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimSide, loopAnims, animationSpeedScale);
-                            break;
+        //                case Vector2 v when v == Vector2.left:
+        //                    //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimSide, loopAnims, animationSpeedScale);
+        //                    break;
 
-                        case Vector2 v when v == Vector2.right:
-                            //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimSide, loopAnims, animationSpeedScale);
-                            break;
-                    }
-                }
-                else
-                {
-                    // else, just check if player is idle or not
-                    if (owner.PlayerMotor.Velocity == Vector2.zero)
-                    {
-                        ownerAnimationController.SetAnimation(idleAnim, loopAnims, animationSpeedScale);
-                        isPlayingIdle = isIdle = true;
-                    }
-                    else
-                    {
-                        ownerAnimationController.SetAnimation(walkAnim, loopAnims, animationSpeedScale);
-                        isPlayingIdle = isIdle = false;
-                    }
-                }
+        //                case Vector2 v when v == Vector2.right:
+        //                    //ownerAnimationController.SetAnimation(owner.AnimationsData.SkillIdleAnimSide, loopAnims, animationSpeedScale);
+        //                    break;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            // else, just check if player is idle or not
+        //            if (owner.PlayerMotor.Velocity == Vector2.zero)
+        //            {
+        //                ownerAnimationController.SetAnimation(idleAnim, loopAnims, animationSpeedScale);
+        //                isPlayingIdle = isIdle = true;
+        //            }
+        //            else
+        //            {
+        //                ownerAnimationController.SetAnimation(walkAnim, loopAnims, animationSpeedScale);
+        //                isPlayingIdle = isIdle = false;
+        //            }
+        //        }
 
-                // if there is no offset timer for the skill, call it
-                if (skill_Start_Offset <= 0)
-                {
-                    owner.GetSkillHolder.Trigger.enabled = true;
-                    owner.GetSkill.StartSkill(owner);
-                }
-            }
-        }
-        else
-        {
-            // if the skill has started, but there is an offset still
-            if (skill_Start_Offset > 0 && !startOffsetFlag)
-            {
-                if (skill_Start_Timer >= 0) skill_Start_Timer -= Time.deltaTime;
-                else
-                {
-                    startOffsetFlag = true;
-                    owner.GetSkillHolder.Trigger.enabled = true;
-                    owner.GetSkill.StartSkill(owner);
-                }
-            }
-        }
+        //        // if there is no offset timer for the skill, call it
+        //        if (skill_Start_Offset <= 0)
+        //        {
+        //            owner.GetSkillHolder.Trigger.enabled = true;
+        //            owner.GetSkill.StartSkill(owner);
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    // if the skill has started, but there is an offset still
+        //    if (skill_Start_Offset > 0 && !startOffsetFlag)
+        //    {
+        //        if (skill_Start_Timer >= 0) skill_Start_Timer -= Time.deltaTime;
+        //        else
+        //        {
+        //            startOffsetFlag = true;
+        //            owner.GetSkillHolder.Trigger.enabled = true;
+        //            owner.GetSkill.StartSkill(owner);
+        //        }
+        //    }
+        //}
 
-        skill_Timer -= Time.deltaTime;
+        //skill_Timer -= Time.deltaTime;
 
-        if (timerForCancel > 0) timerForCancel -= Time.deltaTime;
+        //if (timerForCancel > 0) timerForCancel -= Time.deltaTime;
 
-        stateManager.OwnerWeapon.SetRotation(owner.GetSkill.AimAtMovements);
+        //stateManager.OwnerWeapon.SetRotation(owner.GetSkill.AimAtMovements);
 
-        owner.SkillDurationIcon.fillAmount = skill_Timer / skill_MaxTimer;
+        //owner.SkillDurationIcon.fillAmount = skill_Timer / skill_MaxTimer;
 
-        //if (owner.GetSkill.canAim)
-        //    owner.AnimationController.FlipSkeletonOnMouseOrGamepad();
+        ////if (owner.GetSkill.canAim)
+        ////    owner.AnimationController.FlipSkeletonOnMouseOrGamepad();
 
-        CheckAnimation();
+        //CheckAnimation();
 
-        owner.GetSkill.UpdateSkill(owner);
+        //owner.GetSkill.UpdateSkill(owner);
     }
 
     private void CheckAnimation()
     {
-        isIdle = owner.PlayerMotor.Velocity == Vector2.zero;
+        //isIdle = owner.PlayerMotor.Velocity == Vector2.zero;
 
-        float animationSpeedScale = owner.GetSkill.AnimationSpeedScale;
+        //float animationSpeedScale = owner.GetSkill.AnimationSpeedScale;
 
-        if (isIdle && !isPlayingIdle)
-        {
-            ownerAnimationController.SetAnimation(idleAnim, loopAnims, animationSpeedScale);
-            isPlayingIdle = true;
-        }
-        else if (!isIdle && isPlayingIdle)
-        {
-            ownerAnimationController.SetAnimation(walkAnim, loopAnims, animationSpeedScale);
-            isPlayingIdle = false;
-        }
+        //if (isIdle && !isPlayingIdle)
+        //{
+        //    ownerAnimationController.SetAnimation(idleAnim, loopAnims, animationSpeedScale);
+        //    isPlayingIdle = true;
+        //}
+        //else if (!isIdle && isPlayingIdle)
+        //{
+        //    ownerAnimationController.SetAnimation(walkAnim, loopAnims, animationSpeedScale);
+        //    isPlayingIdle = false;
+        //}
     }
 
-    public override void FixedUpdateState(FSM_Player_Manager stateManager)
+    public override void FixedUpdateState(FSM_Player stateManager)
     {
-        if (owner.GetSkill.CanMove && started) owner.PlayerMotor.Movements();
+        //if (owner.GetSkill.CanMove && started) owner.PlayerMotor.Movements();
     }
 
-    public override void ExitState(FSM_Player_Manager stateManager)
+    public override void ExitState(FSM_Player stateManager)
     {
-        base.ExitState(stateManager);
-        owner.GetSkill.StopSkill(owner);
-        owner.PlayerInputsComponent.ForceReadMovements();
-        owner.SkillDurationIcon.fillAmount = 0;
+        //base.ExitState(stateManager);
+        //owner.GetSkill.StopSkill(owner);
+        //owner.PlayerInputsComponent.ForceReadMovements();
+        //owner.SkillDurationIcon.fillAmount = 0;
 
-        owner.GetSkillHolder.Trigger.enabled = false;
+        //owner.GetSkillHolder.Trigger.enabled = false;
 
-        owner.OnSkillEnd?.Invoke(owner.GetSkill.holdSkillAudio);
+        //owner.OnSkillEnd?.Invoke(owner.GetSkill.holdSkillAudio);
     }
 
     private void StopSkill()
@@ -193,29 +193,29 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager, FSM_Player_Manage
 
         this.skill_Timer = 0;
 
-        owner.OnSkillEnd?.Invoke(owner.GetSkill.holdSkillAudio);
+        //owner.OnSkillEnd?.Invoke(owner.GetSkill.holdSkillAudio);
     }
 
-    public override void Conditions(FSM_Player_Manager stateManager)
+    public override void Conditions(FSM_Player stateManager)
     {
-        if (skill_Timer <= 0) stateManager.SwitchState(FSM_Player_Manager.E_PlayerState.Idle);
+        if (skill_Timer <= 0) stateManager.SwitchState(FSM_Player.E_PlayerState.Idle);
         this.CheckDying(stateManager);
     }
 
-    protected override void EventsSubscriber(FSM_Player_Manager stateManager)
+    protected override void EventsSubscriber(FSM_Player stateManager)
     {
-        owner.OnSkillInput += StopSkill;
-        owner.OnAskForPush += stateManager.PushConditions;
+        //owner.OnSkillInput += StopSkill;
+        //owner.OnAskForPush += stateManager.PushConditions;
         owner.OnAskForStun += stateManager.SwitchToStun;
         CinematicManagerEvents.OnChangeCinematicState += stateManager.CinematicStateChange;
         DialogueManagerEvents.OnStartDialogue += stateManager.DialogueStart;
         DialogueManagerEvents.OnEndDialogue += stateManager.DialogueEnded;
     }
 
-    protected override void EventsUnsubscriber(FSM_Player_Manager stateManager)
+    protected override void EventsUnsubscriber(FSM_Player stateManager)
     {
-        owner.OnSkillInput -= StopSkill;
-        owner.OnAskForPush -= stateManager.PushConditions;
+        //owner.OnSkillInput -= StopSkill;
+        //owner.OnAskForPush -= stateManager.PushConditions;
         owner.OnAskForStun -= stateManager.SwitchToStun;
         CinematicManagerEvents.OnChangeCinematicState -= stateManager.CinematicStateChange;
         DialogueManagerEvents.OnStartDialogue -= stateManager.DialogueStart;
@@ -234,11 +234,11 @@ public class FSM_Player_InSkill : FSM_Base<FSM_Player_Manager, FSM_Player_Manage
         return this;
     }
 
-    public override void Setup(FSM_Player_Manager stateManager)
+    public override void Setup(FSM_Player stateManager)
     {
         owner = stateManager.Owner;
-        ownerAnimationController = owner.AnimationController;
-        StateName = FSM_Player_Manager.E_PlayerState.InSkill;
+        //ownerAnimationController = owner.AnimationController;
+        StateName = FSM_Player.E_PlayerState.InSkill;
     }
 
     public override string ToString() => StateName.ToString();

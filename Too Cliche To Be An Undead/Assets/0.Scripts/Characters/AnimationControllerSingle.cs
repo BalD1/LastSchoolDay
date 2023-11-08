@@ -1,3 +1,4 @@
+using Spine;
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,9 @@ using UnityEngine;
 public class AnimationControllerSingle : AnimationControllerBase
 {
     [field: SerializeField] public SkeletonAnimation SkeletonAnimation { get; private set; }
+
+    public void SetSkeleton(SkeletonAnimation skeletonAnimation)
+        => SkeletonAnimation = skeletonAnimation;
 
     protected override void Setup() { }
 
@@ -68,6 +72,19 @@ public class AnimationControllerSingle : AnimationControllerBase
                 SkeletonAnimation.AnimationState.AddAnimation(0, sequence[i].Animation, loop, sequence[i].DelayBeforeNext).TimeScale = finalTimeScale;
             }
         }
+    }
+
+    public override void SetSkeletonColor(Color color)
+    {
+        this.SkeletonAnimation.Skeleton.SetColor(color);
+    }
+
+    public override void SetSkeletonAlpha(float alpha)
+    {
+        Skeleton sk = this.SkeletonAnimation.Skeleton;
+        Color currentColor = sk.GetColor();
+        currentColor.a = alpha;
+        sk.SetColor(currentColor);
     }
 
     protected override void EventsSubscriber()

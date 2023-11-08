@@ -19,7 +19,7 @@ public abstract class SimpleTweenBase<T> : MonoBehaviour where T : Component
     {
         if (target == null)
         {
-            this.Log("Tween target was null", LogsManager.E_LogType.Error);
+            this.Log("Tween target was null", CustomLogger.E_LogType.Error);
             return false;
         }
         if (isTweening) return false;

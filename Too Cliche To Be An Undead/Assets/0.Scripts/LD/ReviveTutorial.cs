@@ -45,12 +45,12 @@ public class ReviveTutorial : MonoBehaviourEventsHandler
     {
         CA_CinematicScreenFade screenFadeOut = new CA_CinematicScreenFade(false, .5f);
         CA_CinematicWait waitForFadeOut = new CA_CinematicWait(.5f);
-        CA_CinematicCustomAction reviveVictim = new CA_CinematicCustomAction(() => victimPlayer.AskRevive());
+        //CA_CinematicCustomAction reviveVictim = new CA_CinematicCustomAction(() => victimPlayer.AskRevive());
         CA_CinematicCustomAction checkVictimFlip = new CA_CinematicCustomAction(
             () =>
             {
                 bool flipRight = interactor.transform.position.x > victimPlayer.transform.position.x;
-                victimPlayer.AnimationController.TryFlipSkeleton(flipRight);
+                //victimPlayer.AnimationController.TryFlipSkeleton(flipRight);
             });
         CA_CinematicWait waitForRevive = new CA_CinematicWait(.25f);
         CA_CinematicScreenFade screenFadeIn = new CA_CinematicScreenFade(true, .5f);
@@ -82,8 +82,8 @@ public class ReviveTutorial : MonoBehaviourEventsHandler
         CA_CinematicDialoguePlayer revivedPlayerDialogue = new CA_CinematicDialoguePlayer(dialogueToPlay);
         CA_CinematicDialoguePlayer stDialogue = new CA_CinematicDialoguePlayer(startDialogue);
 
-        reviveCinematic = new Cinematic(screenFadeOut, waitForFadeOut, reviveVictim, checkVictimFlip, waitForRevive, screenFadeIn, openDoor,
-                                        revivedPlayerDialogue, stDialogue);
+        //reviveCinematic = new Cinematic(screenFadeOut, waitForFadeOut, reviveVictim, checkVictimFlip, waitForRevive, screenFadeIn, openDoor,
+        //                                revivedPlayerDialogue, stDialogue);
     }
 
     private void SetupVictimPlayer(List<PlayerCharacter> players)
@@ -92,11 +92,11 @@ public class ReviveTutorial : MonoBehaviourEventsHandler
         if (players.Count <= 1) return;
 
         victimPlayer = players.RandomElement();
-        FSM_Player_Manager victimStateManager = victimPlayer.StateManager;
-        victimPlayer.AnimationController.TryFlipSkeleton(false);
-        victimStateManager.ForceSetState<FSM_Player_Dying>(FSM_Player_Manager.E_PlayerState.Dying).SetAsFakeState();
-        victimPlayer.transform.position = this.transform.position;
-        victimPlayer.OnOtherInteract += StartDialogue;
+        //FSM_Player victimStateManager = victimPlayer.StateManager;
+        ////victimPlayer.AnimationController.TryFlipSkeleton(false);
+        //victimStateManager.ForceSetState<FSM_Player_Dying>(FSM_Player.E_PlayerState.Dying).SetAsFakeState();
+        //victimPlayer.transform.position = this.transform.position;
+        //victimPlayer.OnOtherInteract += StartDialogue;
     }
 
     private void StartDialogue(GameObject interactor)

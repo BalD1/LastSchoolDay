@@ -7,7 +7,7 @@ public class BossBloodSpiller : BloodSpiller
     protected override void Awake()
     {
         (owner as BossZombie).onReceiveAttack += ReceiveAttack;
-        owner.OnDeath += SpillBloodOnDeath;
+        //owner.OnDeath += SpillBloodOnDeath;
     }
 
     private void ReceiveAttack(Entity entity, bool tickDamages) => SpillBloodOnDamages(false, entity, tickDamages);

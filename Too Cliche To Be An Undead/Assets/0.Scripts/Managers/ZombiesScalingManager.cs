@@ -13,6 +13,8 @@ public class ZombiesScalingManager : Singleton<ZombiesScalingManager>
 
         public S_ModifierData[] Modifiers { get => modifiers; }
     }
+
+    [field: SerializeField] public SO_StatModifierData[][] ModifiersByStamp { get; private set; }
     [SerializeField] private S_ModifiersByStamp[] modifiersByStamp;
 
     public S_ModifiersByStamp[] ModifiersByStamps { get => modifiersByStamp; }
@@ -49,9 +51,6 @@ public class ZombiesScalingManager : Singleton<ZombiesScalingManager>
     [field: SerializeField] public float MaxSteeringMass { get; private set; }
     [field: SerializeField] public float MaxTargetPositionPredictTime { get; private set; }
 
-    public delegate void D_OnSendModifiers();
-    public D_OnSendModifiers D_onSendModifiers;
-
     protected override void Awake()
     {
         base.Awake();
@@ -87,7 +86,7 @@ public class ZombiesScalingManager : Singleton<ZombiesScalingManager>
 
         CurrentActiveModifiers.AddRange(modifList);
 
-        D_onSendModifiers?.Invoke();
+        this.SendModifiers(ModifiersByStamp[CurrentStamp]);
     }
 
 

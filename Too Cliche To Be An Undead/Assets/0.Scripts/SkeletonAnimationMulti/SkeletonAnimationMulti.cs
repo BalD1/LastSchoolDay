@@ -27,17 +27,13 @@
  * THE SPINE RUNTIMES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using Spine;
-using Spine.Unity;
+using System;
 
 namespace Spine.Unity {
 
 	using Animation = Spine.Animation;
-	using AnimationState = Spine.AnimationState;
 
 	public class SkeletonAnimationMulti : MonoBehaviour {
 		const int MainTrackIndex = 0;
@@ -56,8 +52,7 @@ namespace Spine.Unity {
 		//Stateful
 		SkeletonAnimation currentSkeletonAnimation;
 
-		public delegate void _SwitchSkeleton();
-		public _SwitchSkeleton _switchSkeleton;
+		public event Action SwitchSkeleton;
 
 		void Clear () {
 			foreach (var s in skeletonAnimations)
@@ -81,7 +76,7 @@ namespace Spine.Unity {
                 }
 
 				sa.gameObject.SetActive(true);
-                _switchSkeleton?.Invoke();
+                SwitchSkeleton?.Invoke();
             }
 
             currentSkeletonAnimation = skeletonAnimation;

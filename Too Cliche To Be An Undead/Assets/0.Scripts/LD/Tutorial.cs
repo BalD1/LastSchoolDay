@@ -12,7 +12,7 @@ public class Tutorial : MonoBehaviourEventsHandler
     [SerializeField] private SCRPT_SingleDialogue shopTutoDialogue;
 
     [SerializeField] private OpenableDoor doorToCloseOnZombies;
-    [SerializeField] private NormalZombie[] tutorialZombies;
+    [SerializeField] private BaseZombie[] tutorialZombies;
 
     [SerializeField] private List<Transform> onZombiesPlayersMovementGoals;
     [SerializeField] private Transform zombiesCinematicCameraGoal;
@@ -74,7 +74,7 @@ public class Tutorial : MonoBehaviourEventsHandler
         }
         foreach (var item in tutorialZombies)
         {
-            item.OnDeath += OnZombieDeath;
+            //item.OnDeath += OnZombieDeath;
         }
 
         zombiesCount = tutorialZombies.Length;
@@ -216,7 +216,7 @@ public class Tutorial : MonoBehaviourEventsHandler
         foreach (var item in tutorialZombies)
         {
             item.gameObject.SetActive(true);
-            item.Vision.TargetClosestPlayer();
+            //item.Vision.TargetClosestPlayer();
         }
     }
 
@@ -229,7 +229,7 @@ public class Tutorial : MonoBehaviourEventsHandler
             tutoFinished = true;
             foreach (var item in tutorialZombies)
             {
-                item.OnDeath -= OnZombieDeath;
+                //item.OnDeath -= OnZombieDeath;
             }
             zombiesCleanedCinematic.StartCinematic();
         }

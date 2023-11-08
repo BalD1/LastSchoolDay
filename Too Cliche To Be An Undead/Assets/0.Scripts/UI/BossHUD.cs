@@ -24,13 +24,13 @@ public class BossHUD : MonoBehaviour
         relatedBoss = boss;
         fillImage.fillAmount = 1;
 
-        relatedBoss.OnTakeDamageFromEntity += UpdateFillAmount;
-        bossName_TXT.text = relatedBoss.GetStats.EntityName;
+        //relatedBoss.OnTakeDamageFromEntity += UpdateFillAmount;
+        //bossName_TXT.text = relatedBoss.GetStats.EntityName;
         hudGroup.LeanAlpha(1, .25f).setIgnoreTimeScale(true);
     }
 
     public void UpdateFillAmount(bool critDamages, Entity damager, bool tickDamages)
     {
-        fillImage.fillAmount = relatedBoss.CurrentHP / relatedBoss.MaxHP_M;
+        //fillImage.fillAmount = relatedBoss.CurrentHP / relatedBoss.MaxHP_M;
     }
 }

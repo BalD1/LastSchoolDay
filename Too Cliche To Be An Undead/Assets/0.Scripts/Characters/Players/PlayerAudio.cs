@@ -2,69 +2,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAudio : MonoBehaviour
+public class PlayerAudio : AudioPlayer
 {
-    [SerializeField] protected PlayerCharacter owner;
-
     [SerializeField] private AudioSource skillSource;
     [SerializeField] private AudioSource feetsSource;
 
-    protected AudioSource ownerSource;
     protected SCRPT_PlayerAudio ownerAudioClips;
 
     private AudioClip nextVoiceAttackAudioOverride = null;
 
     private LTDescr onSkillAudioLoopPoint;
 
-    protected virtual void Awake()
+    protected override void EventsSubscriber()
     {
-        ownerSource = owner.GetAudioSource;
+        //owner.OnSwitchCharacter += SetAudioClips;
 
-        SetAudioClips();
-        owner.OnSwitchCharacter += SetAudioClips;
+        //owner.OnTakeDamageFromEntity += PlayHurtAudio;
 
-        owner.OnTakeDamageFromEntity += PlayHurtAudio;
+        //owner.OnDeath += PlayDeathAudio;
 
-        owner.OnDeath += PlayDeathAudio;
+        //owner.OnAttack += PlayAttackAudio;
+        //owner.OnSuccessfulAttack += PlayAttackConnectedAudio;
 
-        owner.OnAttack += PlayAttackAudio;
-        owner.OnSuccessfulAttack += PlayAttackConnectedAudio;
+        //owner.OnEarlySkillStart += PlayVoiceSkillStartAudio;
+        //owner.OnSkillStart += PlaySkillStartAudio;
+        //owner.OnSkillEnd += PlaySkillEndAudio;
+        //owner.OnSkillEnd += PlayVoiceSkillEndAudio;
 
-        owner.OnEarlySkillStart += PlayVoiceSkillStartAudio;
-        owner.OnSkillStart += PlaySkillStartAudio;
-        owner.OnSkillEnd += PlaySkillEndAudio;
-        owner.OnSkillEnd += PlayVoiceSkillEndAudio;
+        //owner.OnDashStarted += PlayDashAudio;
+        //owner.OnDashHit += PlayDashHitAudio;
 
-        owner.OnDashStarted += PlayDashAudio;
-        owner.OnDashHit += PlayDashHitAudio;
+        //owner.OnFootPrint += PlayFootPrintAudio;
 
-        owner.OnFootPrint += PlayFootPrintAudio;
-
-        owner.OnOverrideNextVoiceAttackAudio += OverrideNextAttackAudio;
+        //owner.OnOverrideNextVoiceAttackAudio += OverrideNextAttackAudio;
     }
 
-    private void OnDestroy()
+    protected override void EventsUnSubscriber()
     {
-        owner.OnSwitchCharacter -= SetAudioClips;
+        //owner.OnSwitchCharacter -= SetAudioClips;
 
-        owner.OnTakeDamageFromEntity -= PlayHurtAudio;
+        //owner.OnTakeDamageFromEntity -= PlayHurtAudio;
 
-        owner.OnDeath -= PlayDeathAudio;
+        //owner.OnDeath -= PlayDeathAudio;
 
-        owner.OnAttack -= PlayAttackAudio;
-        owner.OnSuccessfulAttack -= PlayAttackConnectedAudio;
+        //owner.OnAttack -= PlayAttackAudio;
+        //owner.OnSuccessfulAttack -= PlayAttackConnectedAudio;
 
-        owner.OnEarlySkillStart -= PlayVoiceSkillStartAudio;
-        owner.OnSkillStart -= PlaySkillStartAudio;
-        owner.OnSkillEnd -= PlaySkillEndAudio;
-        owner.OnSkillEnd -= PlayVoiceSkillEndAudio;
+        //owner.OnEarlySkillStart -= PlayVoiceSkillStartAudio;
+        //owner.OnSkillStart -= PlaySkillStartAudio;
+        //owner.OnSkillEnd -= PlaySkillEndAudio;
+        //owner.OnSkillEnd -= PlayVoiceSkillEndAudio;
 
-        owner.OnDashStarted -= PlayDashAudio;
-        owner.OnDashHit -= PlayDashHitAudio;
+        //owner.OnDashStarted -= PlayDashAudio;
+        //owner.OnDashHit -= PlayDashHitAudio;
 
-        owner.OnFootPrint -= PlayFootPrintAudio;
+        //owner.OnFootPrint -= PlayFootPrintAudio;
 
-        owner.OnOverrideNextVoiceAttackAudio -= OverrideNextAttackAudio;
+        //owner.OnOverrideNextVoiceAttackAudio -= OverrideNextAttackAudio;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        //SetAudioClips();
+
     }
 
     private void OverrideNextAttackAudio(AudioClip clip)
@@ -72,7 +73,7 @@ public class PlayerAudio : MonoBehaviour
         nextVoiceAttackAudioOverride = clip;
     }
 
-    public void SetAudioClips() => ownerAudioClips = owner.GetAudioClips;
+    //public void SetAudioClips() => ownerAudioClips = owner.GetAudioClips;
 
     private void PlayHurtAudio(bool isCrit)
     {
@@ -93,8 +94,8 @@ public class PlayerAudio : MonoBehaviour
 
         if (nextVoiceAttackAudioOverride != null)
         {
-            ownerSource.pitch = 1;
-            ownerSource.PlayOneShot(nextVoiceAttackAudioOverride);
+            audioSource.pitch = 1;
+            audioSource.PlayOneShot(nextVoiceAttackAudioOverride);
             nextVoiceAttackAudioOverride = null;
         }
         else
@@ -106,8 +107,8 @@ public class PlayerAudio : MonoBehaviour
 
         if (nextVoiceAttackAudioOverride != null)
         {
-            ownerSource.pitch = 1;
-            ownerSource.PlayOneShot(nextVoiceAttackAudioOverride);
+            audioSource.pitch = 1;
+            audioSource.PlayOneShot(nextVoiceAttackAudioOverride);
             nextVoiceAttackAudioOverride = null;
         }
         else
@@ -200,12 +201,12 @@ public class PlayerAudio : MonoBehaviour
 
     private void PlayAudioWithPitch(AudioClip clip, float pitchRange)
     {
-        ownerSource.pitch = Random.Range(1 - pitchRange, 1 + pitchRange);
-        ownerSource.PlayOneShot(clip);
+        audioSource.pitch = Random.Range(1 - pitchRange, 1 + pitchRange);
+        audioSource.PlayOneShot(clip);
     }
     private void PlayAudioWithPitch(SCRPT_PlayerAudio.S_AudioClips clipData)
     {
-        PlayAudioWithPitch(ownerSource, clipData);
+        //PlayAudioWithPitch(ownerSource, clipData);
     }
     private void PlayAudioWithPitch(AudioSource source, SCRPT_PlayerAudio.S_AudioClips clipData)
     {

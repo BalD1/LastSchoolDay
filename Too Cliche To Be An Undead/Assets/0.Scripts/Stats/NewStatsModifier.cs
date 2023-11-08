@@ -12,6 +12,8 @@ public class NewStatsModifier : ITickable
         this.Data = data;
         this.handler = handler;
 
+        handler.OnAskReset += ForceKill;
+
         if (Data.Temporary)
             TickManagerEvents.OnTick += OnTick;
     }
@@ -30,8 +32,12 @@ public class NewStatsModifier : ITickable
     {
         if (Data.Temporary)
             TickManagerEvents.OnTick -= OnTick;
+        handler.OnAskReset -= ForceKill;
         handler.RemoveStatModifier(this);
     }
+
+    public void ForceKill()
+        => OnEnd();
 
     public int RemainingTicks()
         => Data.TicksLifetime - currentTicks;
